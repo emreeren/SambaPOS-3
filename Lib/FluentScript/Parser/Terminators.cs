@@ -27,6 +27,17 @@ namespace ComLib.Lang.Parsing
         /// <summary>
         /// Used for end of expression;
         /// </summary>
+        public static readonly IDictionary<Token, bool> ExpStatementEnd2 = new Dictionary<Token, bool>()
+        {
+            { Tokens.NewLine, true },
+            { Tokens.Semicolon, true },
+            { Tokens.EndToken, true }
+        };
+
+
+        /// <summary>
+        /// Used for end of expression;
+        /// </summary>
         public static readonly IDictionary<Token, bool> ExpSemicolonEnd = new Dictionary<Token, bool>()
         {
             { Tokens.Semicolon, true },
@@ -59,6 +70,16 @@ namespace ComLib.Lang.Parsing
         public static readonly IDictionary<Token, bool> ExpParenthesisEnd = new Dictionary<Token, bool>()
         {
             { Tokens.RightParenthesis, true }
+        };
+
+
+        /// <summary>
+        /// Used for end of ( ) in if
+        /// </summary>
+        public static readonly IDictionary<Token, bool> ExpParenthesisNewLineEnd = new Dictionary<Token, bool>()
+        {
+            { Tokens.RightParenthesis, true },
+            { Tokens.NewLine, true },
         };
 
 

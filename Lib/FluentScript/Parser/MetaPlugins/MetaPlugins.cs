@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using ComLib.Lang.AST;
 using ComLib.Lang.Core;
 using ComLib.Lang.Helpers;
@@ -29,7 +30,12 @@ namespace ComLib.Lang.Parsing.MetaPlugins
     {
         private IDictionary<string, List<CompilerPlugin>> _pluginExprs;
         private IDictionary<string, List<CompilerPlugin>> _pluginTokens;
+        private IDictionary<string, List<CompilerPlugin>> _pluginLexTokens;
         private List<CompilerPlugin> _allPlugins;
+        private const string _typeDateToken = "$DateToken";
+        private const string _typeNumberToken = "$NumberToken";
+        private const string _typeIdentSymbolToken = "$IdentSymbolToken";
+
  
         private MatchResult _matchResult;
         private MatchResult _matchTokenResult;
@@ -40,9 +46,13 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         {
             _pluginExprs = new Dictionary<string, List<CompilerPlugin>>();
             _pluginTokens = new Dictionary<string, List<CompilerPlugin>>();
+            _pluginLexTokens = new Dictionary<string, List<CompilerPlugin>>();
             _allPlugins = new List<CompilerPlugin>();
         }
 
+        public Lexer Lex;
+        
+        public ExprParser Parser;        
 
         public TokenIterator TokenIt;
 
@@ -58,6 +68,9 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         public void Register(CompilerPlugin plugin)
         {
             _allPlugins.Add(plugin);
+            if (!plugin.IsEnabled)
+                return;
+
             if (plugin.PluginType == "expr" && plugin.StartTokens.Length > 0)
             {
                 foreach (var startToken in plugin.StartTokens)
@@ -67,6 +80,15 @@ namespace ComLib.Lang.Parsing.MetaPlugins
                                            : new List<CompilerPlugin>();
                     tokenPlugins.Add(plugin);
                     _pluginExprs[startToken] = tokenPlugins;
+                }
+            }
+            else if (plugin.PluginType == "lexer" && plugin.StartTokens.Length > 0)
+            {
+                var list = new List<CompilerPlugin>();
+                list.Add(plugin);
+                foreach (var startToken in plugin.StartTokens)
+                {
+                    _pluginLexTokens[startToken] = list;
                 }
             }
             else if(plugin.PluginType == "token" )
@@ -135,6 +157,16 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         }
 
 
+        /// <summary>
+        /// The total number of tokens.
+        /// </summary>
+        /// <returns></returns>
+        public int TotalLex()
+        {
+            return _pluginLexTokens == null ? 0 : _pluginLexTokens.Count;
+        }
+
+
         public bool ContainsTok(Token token, int tokenPos)
         {
             return this.CanHandleTok(token, tokenPos == 0);
@@ -164,7 +196,7 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             if(string.IsNullOrEmpty(plugin.PluginType))
                 errors.Add("Plugin type not supplied");
 
-            if(plugin.ParseExpr == null)
+            if(plugin.BuildExpr == null)
                 errors.Add("Plugin parse function not supplied");
 
             var success = errors.Count == 0;
@@ -190,13 +222,47 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             if (token.Kind == TokenKind.LiteralString)
                 return false;
 
-            // Start token exists to trigger plugin check?
-            if (!_pluginExprs.ContainsKey(token.Text))
-                return false;
+            List<CompilerPlugin> plugins = null;
 
+            // Start token exists to trigger plugin check?
+            if (_pluginExprs.ContainsKey(token.Text))
+            {
+                plugins = _pluginExprs[token.Text];
+            }
+            else if (token.Kind == TokenKind.LiteralNumber)
+            {
+                if (_pluginExprs.ContainsKey(_typeNumberToken))
+                    plugins = _pluginExprs[_typeNumberToken];
+            }
+            else if (token.Kind == TokenKind.Ident)
+            {
+                if (_pluginExprs.ContainsKey(_typeIdentSymbolToken))
+                {
+                    if (this.Symbols.Contains(token.Text))
+                    {
+                        plugins = _pluginExprs[_typeIdentSymbolToken];
+                    }
+                }
+            }
+            if (plugins == null)
+                return false;
+            
             _matchResult = EmtpyMatch;
-            _matchResult = IsMatch();
+            _matchResult = IsMatch(plugins);
             return _matchResult.Success;
+        }
+
+
+        public bool CanHandleLex(Token token)
+        {
+            if (!_pluginLexTokens.ContainsKey(token.Text))
+                return false;
+            var plugins = _pluginLexTokens[token.Text];
+            foreach(var plugin in plugins)
+            {
+                
+            }
+            return true;
         }
 
 
@@ -216,8 +282,8 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             // Case 3: General symbol e.g. $Ident $DateToken $Time
             else if(token.Kind == TokenKind.LiteralDate)
             {
-                if (_pluginTokens.ContainsKey("$DateToken"))
-                    plugins = _pluginTokens["$DateToken"];
+                if (_pluginTokens.ContainsKey(_typeDateToken))
+                    plugins = _pluginTokens[_typeDateToken];
             }
             if (plugins == null)
                 return false;
@@ -225,7 +291,7 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             _matchTokenResult = new MatchResult(false, null, null);
             foreach (var plugin in plugins)
             {
-                if (string.IsNullOrEmpty(plugin.Grammar))
+                if (string.IsNullOrEmpty(plugin.GrammarMatch))
                 {
                     var tokenPlugin = plugin.Handler as TokenReplacePlugin;
                     tokenPlugin.TokenIt = this.TokenIt;
@@ -238,7 +304,7 @@ namespace ComLib.Lang.Parsing.MetaPlugins
                 }
                 else
                 {
-                    var result = IsGrammarMatch(plugin);
+                    var result = IsGrammarMatchOnExpression(plugin);
                     if(result.Success)
                     {
                         _matchTokenResult = result;
@@ -255,16 +321,46 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         /// </summary>
         /// <param name="visitor"></param>
         /// <returns></returns>
-        public Expr Parse(IAstVisitor visitor)
+        public Expr ParseExp(IAstVisitor visitor)
         {
-            var expr = _matchResult.Plugin.ParseExpr as FunctionExpr;
+            var expr = _matchResult.Plugin.BuildExpr as FunctionExpr;
             var ctx = expr.Ctx;
+
+            // 1. Apply defaults
+            var defaults = _matchResult.Plugin.ParseDefaults;
+            if (defaults != null && defaults.Count > 0)
+            {
+                // 2. Go throug all defaults specified
+                foreach (var pair in defaults)
+                {
+                    // 3. Not there ? Apply default.
+                    if (!_matchResult.Args.ContainsKey(pair.Key))
+                    {
+                        _matchResult.Args[pair.Key] = pair.Value;
+                    }
+                }
+            }
+
+            // 2. Call the parse function on them metaplugin.
             var result = FunctionHelper.CallFunctionViaCSharpUsingLambda(ctx, expr, true, _matchResult.Args);
             var rexpr = ((LClass) result).Value as Expr;
 
             // Advance the tokens.
             this.TokenIt.Advance(_matchResult.TokenCount);
+
+            // 3. Was the last just for grammar matching ? now continue with expression parsing?
+            if (_matchResult.Plugin.MatchesForParse != null)
+            {
+                var plugin = _matchResult.Plugin;
+                rexpr = this.ParseExpressionGrammar(rexpr, plugin, plugin.MatchesForParse, 0);
+            }
             return rexpr;
+        }
+
+
+        public Token ParseLex(IAstVisitor visitor)
+        {
+            return null;
         }
 
 
@@ -275,10 +371,10 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         public Token ParseTokens()
         {
             var plugin = _matchTokenResult.Plugin;
-            if(!string.IsNullOrEmpty(plugin.Grammar))
+            if(!string.IsNullOrEmpty(plugin.GrammarMatch))
             {
-                var ctx = plugin.ParseExpr.Ctx;
-                var expr = plugin.ParseExpr as FunctionExpr;
+                var ctx = plugin.BuildExpr.Ctx;
+                var expr = plugin.BuildExpr as FunctionExpr;
                 var result = FunctionHelper.CallFunctionViaCSharpUsingLambda(ctx, expr, true, _matchTokenResult.Args);
                 var token = ((LClass) result).Value as Token;
                 this.TokenIt.Advance(_matchTokenResult.TokenCount -1);
@@ -303,7 +399,12 @@ namespace ComLib.Lang.Parsing.MetaPlugins
 
             // 2. Get matching plugin.
             var plugins = this._pluginExprs[token.Token.Text];
+            return IsMatch(plugins);
+        }
 
+
+        public MatchResult IsMatch(List<CompilerPlugin> plugins)
+        {
             // 3. Check for matching plugin.
             var result = this.EmtpyMatch;
             foreach (var plugin in plugins)
@@ -316,7 +417,7 @@ namespace ComLib.Lang.Parsing.MetaPlugins
                 }
 
                 // 5. Check Grammer.
-                result = IsGrammarMatch(plugin);
+                result = IsGrammarMatchOnExpression(plugin);
                 if (result.Success)
                 {
                     break;
@@ -326,90 +427,335 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         }
 
 
-        private MatchResult IsGrammarMatch(CompilerPlugin plugin)
+        private MatchResult IsGrammarMatchOnExpression(CompilerPlugin plugin)
         {
             // 5. Check Grammer.
             var args = new Dictionary<string, object>();
             var peekCount = 0;
-            var result = CheckMatches(plugin, plugin.Matches, args, peekCount);
+            var result = CheckExpressionMatches(plugin, plugin.Matches, args, peekCount, 0);
             result.Plugin = plugin;
             return result;
         }
 
 
-        private MatchResult CheckMatches(CompilerPlugin plugin, List<TokenMatch> matches, Dictionary<string, object> args, int peekCount)
+        private MatchResult CheckMatchesForLexer(CompilerPlugin plugin, List<TokenMatch> matches, Dictionary<string, object> args, int peekCount, int matchCount)
+        {
+            return null;
+        }
+
+
+        private MatchResult CheckExpressionMatches(CompilerPlugin plugin, List<TokenMatch> matches, Dictionary<string, object> args, int peekCount, int matchCount)
         {
             var isMatch = true;
             var token = peekCount == 0 ? this.TokenIt.NextToken : this.TokenIt.Peek(peekCount);
+            var totalMatched = matchCount;
+            
             foreach (var match in matches)
             {
-                var incrementPeek = false;
-                
+                var continueCheck = false;
+                var trackNamedArgs = true;
+                var valueMatched = false;
+
+                // Termninators
+                if (match.TokenType == "@exprTerminators" 
+                    && ( Terminators.ExpFlexibleEnd.ContainsKey(token.Token) || Terminators.ExpThenEnd.ContainsKey(token.Token) ) 
+                    )
+                {
+                    // Don't increment the peekcount
+                    isMatch = totalMatched >= plugin.TotalRequiredMatches;
+                    break;
+                }
+                // Check for ";" and EOF ( end of file/text )
+                if (token.Token == Tokens.Semicolon || token.Token == Tokens.EndToken)
+                {
+                    isMatch = totalMatched >= plugin.TotalRequiredMatches;
+                    break;
+                }
+
                 // Check 1: Group tokens ?
                 if(match.IsGroup)
                 {
                     var submatches = ((TokenGroup) match).Matches;
-                    var result = CheckMatches(plugin, submatches, args, peekCount);
+                    var result = CheckExpressionMatches(plugin, submatches, args, peekCount, totalMatched);
                     if(match.IsRequired && !result.Success)
                     {
                         isMatch = false;
                         break;
                     }
+                    if(result.Success)
+                    {
+                        peekCount = result.TokenCount;
+                        if(match.IsRequired)
+                            totalMatched += result.TotalMatched;
+                    }
                 }
                 // Check 2: starttoken?
                 else if (match.TokenType == "@starttoken")
                 {
-                    incrementPeek = true;
+                    continueCheck = true;
+                    totalMatched++;
+                }
+                // Check 2a: tokenmap1
+                else if (match.TokenType == "@tokenmap1")
+                {
+                    if (plugin.TokenMap1 == null || !plugin.TokenMap1.ContainsKey(token.Token.Text))
+                    {
+                        isMatch = false;
+                        break;
+                    }
+                    continueCheck = true;
+                    totalMatched++;
+                }
+                else if (match.TokenType == "@tokenmap2")
+                {
+                    if (plugin.TokenMap2 == null || !plugin.TokenMap2.ContainsKey(token.Token.Text))
+                    {
+                        isMatch = false;
+                        break;
+                    }
+                    continueCheck = true;
+                    totalMatched++;
+                }
+                // Check 2c: "identSymbol" must exist
+                else if (match.TokenType == "@identsymbol")
+                {
+                    var symbolExists = this.Symbols.Contains(token.Token.Text);
+                    continueCheck = symbolExists;
+                    if (!continueCheck)
+                    {
+                        isMatch = false;
+                        break;
+                    }
+                    totalMatched++;
+                }
+                // Check 2c: "identSymbol" must exist
+                else if (match.TokenType == "@singularsymbol")
+                {
+                    var plural = token.Token.Text + "s";
+                    var symbolExists = this.Symbols.Contains(plural);
+                    continueCheck = symbolExists;
+                    if (!continueCheck)
+                    {
+                        isMatch = false;
+                        break;
+                    }
+                    totalMatched++;
+                }
+                // Check 2d: paramlist = @word ( , @word )* parameter names
+                else if(match.TokenType == "@paramnames")
+                {
+                    var isvalidParamList = true;
+                    var maxParams = 10;
+                    var totalParams = 0;
+                    var paramList = new List<object>();
+
+                    while(totalParams <= maxParams)
+                    {
+                        var token2 = this.TokenIt.Peek(peekCount, false);
+                        if(token2.Token == Tokens.Comma)
+                        {
+                            peekCount++;
+                        }
+                        else if(token2.Token.Kind == TokenKind.Ident)
+                        {
+                            paramList.Add(token2.Token.Text);
+                            peekCount++;
+                        }
+                        else
+                        {
+                            peekCount--;
+                            break;
+                        }
+                        totalParams++;
+                    }
+                    isMatch = isvalidParamList;
+                    continueCheck = isMatch;
+                    if (continueCheck)
+                    {
+                        trackNamedArgs = false;
+                        if(!string.IsNullOrEmpty(match.Name))
+                        {
+                            args[match.Name] = token;
+                            args[match.Name + "Value"] = new LArray(paramList);
+                        }
+                        totalMatched++;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 // Check 3a: Optional words with text
                 else if (!match.IsRequired && match.Text != null && match.Text != token.Token.Text)
                 {
-                    incrementPeek = false;
+                    continueCheck = false;
                 }
                 // Check 3b: Optional words matched
                 else if (!match.IsRequired && match.IsMatchingValue(token.Token))
                 {
-                    incrementPeek = true;
+                    continueCheck = true;
                 }
                 // Check 4: Optional word not matched
                 else if (!match.IsRequired && !match.IsMatchingValue(token.Token))
                 {
-                    incrementPeek = false;
+                    continueCheck = false;
                 }
-                // Check 5: Expected word
+                // Check 5a: Expected word
                 else if (match.IsRequired && match.TokenType == null && match.Text == token.Token.Text)
                 {
-                    incrementPeek = true;
+                    continueCheck = true;
+                    totalMatched++;
+                }
+                // Check 5b: Expected word in list
+                else if (match.IsRequired && match.TokenType == null && match.Values != null)
+                {
+                    if (!match.IsMatchingValue(token.Token))
+                    {
+                        isMatch = false;
+                        break;
+                    }
+                    continueCheck = true;
+                    valueMatched = true;
+                    totalMatched++;
                 }
                 // Check 6: check the type of n1
                 else if (match.IsMatchingType(token.Token))
                 {
-                    incrementPeek = true;
+                    continueCheck = true;
+                    totalMatched++;
                 }
                 else
                 {
                     isMatch = false;
                     break;
                 }
-                if (incrementPeek)
+                if (continueCheck)
                 {
-                    if (!string.IsNullOrEmpty(match.Name))
+                    if (!string.IsNullOrEmpty(match.Name) && trackNamedArgs)
                     {
                         args[match.Name] = token; 
-                        if(match.TokenPropEnabled && match.TokenPropValue == "value")
+                        if(match.TokenPropEnabled)
                         {
-                            var startToken = token.Token.Text;
-                            args[match.Name + "-value"] = plugin.StartTokenMap[startToken];
+                            // 1. figure out which token map to use.
+                            var lookupmap = plugin.StartTokenMap;
+
+                            if (match.TokenType == "@tokenmap1")
+                                lookupmap = plugin.TokenMap1;
+                            else if (match.TokenType == "@tokenmap2")
+                                lookupmap = plugin.TokenMap2;
+
+                            // Case 1: Start token replacement value
+                            if (match.TokenPropValue == "value")
+                            {
+                                var startToken = token.Token.Text;
+                                args[match.Name + "Value"] = lookupmap[startToken];
+                            }
+                            // Case 2: Token value
+                            else if (match.TokenPropValue == "tvalue")
+                            {
+                                LObject val = LObjects.Null;
+                                if (match.TokenType == "@number")
+                                    val = new LNumber((double)token.Token.Value);
+                                else if (match.TokenType == "@time")
+                                    val = new LTime((TimeSpan)token.Token.Value);
+                                else if (match.TokenType == "@word")
+                                    val = new LString((string)token.Token.Value);
+                                else if (match.TokenType == "@starttoken")
+                                    val = new LString(token.Token.Text);
+                                args[match.Name + "Value"] = val;
+                            }
+                            // Case 2: Token value
+                            else if (match.TokenPropValue == "tvaluestring")
+                            {
+                                LObject val = LObjects.Null;
+                                if (match.TokenType == "@number")
+                                    val = new LString(((double)token.Token.Value).ToString(CultureInfo.InvariantCulture));
+                                else if (match.TokenType == "@time")
+                                    val = new LString(((TimeSpan)token.Token.Value).ToString());
+                                else if (match.TokenType == "@starttoken")
+                                    val = new LString(token.Token.Text);
+                                else if (match.TokenType == "@word")
+                                    val = new LString(token.Token.Text);
+                                else if (match.TokenType == "@singularsymbol")
+                                    val = new LString(token.Token.Text);
+                                args[match.Name + "Value"] = val;
+                            }
+                        }
+                        // matching values
+                        else if(valueMatched)
+                        {
+                            args[match.Name + "Value"] = token.Token.Text;
                         }
                     }
                     // Matched: increment.
                     peekCount++;
-                    token = this.TokenIt.Peek(peekCount);
+                    token = this.TokenIt.Peek(peekCount, false);
                 }
             }
             var res = new MatchResult(isMatch, null, args);
+            res.TotalMatched = totalMatched;
             res.TokenCount = peekCount;
             return res;
+        }
+
+
+        private Expr ParseExpressionGrammar(Expr buildexpr, CompilerPlugin plugin, List<TokenMatch> matches, int peekCount)
+        {
+            var isMatch = true;
+            var token = peekCount == 0 ? this.TokenIt.NextToken : this.TokenIt.Peek(peekCount);
+            
+            foreach (var match in matches)
+            {
+                if (match.TokenType == "@expr" && match.TokenPropValue == "block")
+                {
+                    if (match.Ref == "buildexpr")
+                    {
+                        var blockExp = buildexpr as IBlockExpr;
+                        this.Parser.ParseBlock(blockExp);
+                    }
+                }
+
+                // Matched: increment.
+                peekCount++;
+                token = this.TokenIt.Peek(peekCount, false);
+            }
+            return buildexpr;
+        }
+
+
+        class TokenFetcherParserLevel
+        {
+            private TokenIterator _tokenIt;
+
+
+            public virtual TokenData Curr()
+            {
+                return this._tokenIt.NextToken;
+            }
+
+
+            public virtual TokenData Peek(int count)
+            {
+                return this._tokenIt.Peek(count);
+            }
+        }
+
+
+        class TokenFetcherLexerLevel
+        {
+            private Lexer _lexer;
+
+
+            public virtual TokenData Curr()
+            {
+                return this._lexer.NextToken();
+            }
+
+
+            public virtual TokenData Peek(int count)
+            {
+                return this._lexer.PeekToken();
+            }
         }
     }
 
@@ -421,6 +767,8 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         public int TokenCount;
         public IDictionary<string, object> Args;
         public CompilerPlugin Plugin;
+        public int TotalMatched;
+
 
         public MatchResult(bool success, CompilerPlugin plugin, IDictionary<string, object> args)
         {

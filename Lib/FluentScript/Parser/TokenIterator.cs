@@ -93,7 +93,6 @@ namespace ComLib.Lang.Parsing
             _tokensFetcher = tokenFetcher;
             _resetPosExecutor = resetPosExecutor;
             _LLK = llK;
-            _isEnded = false; // Fix
 
             // Validate inputs
             if (llK < 4) 
@@ -123,6 +122,7 @@ namespace ComLib.Lang.Parsing
             CurrentBatchIndex = -1;
             _lastCharPosition = 0;
             _lastLineNumber = 0;
+            _isEnded = false;
             _marks = new Stack<int>();
             TokenList = _tokensFetcher(batchSize);
         }

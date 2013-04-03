@@ -110,7 +110,7 @@ namespace ComLib.Lang.Plugins
             plugin.TokenReplacements = new List<string[]>();
             plugin.TokenReplacements.Add(new string[] { stmt.Alias, stmt.Actual.Text });
             plugin.Precedence = 1;
-
+            plugin.IsEnabled = true;
             Ctx.PluginsMeta.Register(plugin);
         }
     }

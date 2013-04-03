@@ -94,7 +94,7 @@ namespace ComLib.Lang.Plugins
                     "run cleanup()",
                     "run 'clean up'",
                     "run 'clean up'()",
-                    "run function 'clean up'"
+                    "run cleanup('tempdir') on initialize()"
                 };
             }
         }
@@ -108,37 +108,76 @@ namespace ComLib.Lang.Plugins
         {
             _tokenIt.Expect(Tokens.Run);
 
-            // run function 'name';
-            // run function touser();
-            if (_tokenIt.NextToken.Token == Tokens.Function)
+            // 1. Expect run ( function | step  )
+            if (_tokenIt.NextToken.Token == Tokens.Function || _tokenIt.NextToken.Token.Text == "step")
                 _tokenIt.Advance();
 
-            // 'username'
+            // 2. Expect identifier for function name
             if (!(_tokenIt.NextToken.Token.IsLiteralAny() || _tokenIt.NextToken.Token.Kind == TokenKind.Ident))
                 _tokenIt.BuildSyntaxExpectedException("identifier or string");
 
+            // 3. get the name of the function to run.
             var name = _tokenIt.NextToken.Token.Text;
+            var nameToken = _tokenIt.NextToken;
+            var next = _tokenIt.Peek(1, false);
 
-            // Case 1: run 'step1';
-            // Case 2: run step1;
-            var next = _tokenIt.Peek();
-            if (next.Token != Tokens.LeftParenthesis && next.Token != Tokens.Dot)
+            // Case 1: run step cleanup ; | newline | eof
+            if (Terminators.ExpFlexibleEnd.ContainsKey(next.Token) || next.Token == Tokens.EndToken)
             {
-                var funcExp = new FunctionCallExpr();
-                funcExp.NameExp = Exprs.Ident(name, null);
-                _parser.State.FunctionCall++;
-                
-                //Ctx.Limits.CheckParserFuncCallNested(_tokenIt.NextToken, _parser.State.FunctionCall);
-                _parser.State.FunctionCall--;
+                var nameExp = Exprs.Ident(name, nameToken);
+                var funcExp = Exprs.FunctionCall(nameExp, null, nameToken);
 
-                // Move past this plugin
+                // Move past token
                 _tokenIt.Advance();
                 return funcExp;
             }
 
-            // Case 3: run step1();
-            Expr exp = _parser.ParseIdExpression(name);
-            return exp;
+            // Case 2: run step cleanup on <functioncall>
+            if (next.Token.Text == "on" || next.Token.Text == "after")
+            {
+                _tokenIt.Advance(1);
+                var runExp = ParseRunExpr(nameToken);
+                var nameExp = Exprs.Ident(name, nameToken);
+                var funcExp = Exprs.FunctionCall(nameExp, null, nameToken);
+                runExp.FuncCallOnAfterExpr = funcExp;
+                runExp.Mode = next.Token.Text;
+                return runExp;
+            }
+
+            // Case 3: run step cleanup('c:\tempdir') on <functioncall>
+            if(next.Token == Tokens.LeftParenthesis || next.Token == Tokens.Dot )
+            {
+                var funcExp = _parser.ParseIdExpression(name, null, false);
+
+                if (_tokenIt.NextToken.Token.Text == "on" || _tokenIt.NextToken.Token.Text == "after")
+                {
+                    var t = _tokenIt.NextToken;
+                    var runExp = ParseRunExpr(nameToken);
+                    runExp.FuncCallOnAfterExpr = funcExp;
+                    runExp.Mode = t.Token.Text;
+                    return runExp;
+                }
+                return funcExp;
+            }
+            // Some other token e.g. + - < etc.
+            var funcname = Exprs.Ident(name, nameToken);
+            var funcExp2 = Exprs.FunctionCall(funcname, null, nameToken);
+
+            // Move past token
+            _tokenIt.Advance();
+            return funcExp2;
+
+            //throw this.TokenIt.BuildSyntaxUnexpectedTokenException();
+        }
+
+
+        private RunExpr ParseRunExpr(TokenData startToken)
+        {
+            // Move past "on"
+            _tokenIt.Advance(1);            
+            var exp = _parser.ParseIdExpression(string.Empty, null, false);
+            var runexp = Exprs.Run(string.Empty, exp, startToken) as RunExpr;
+            return runexp;
         }
     }
 }

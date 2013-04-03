@@ -78,16 +78,17 @@ namespace ComLib.Lang.Parsing
             _sysMap["Plugin"]          =  new PluginPlugin();
 
             // Custom plugins - extended functionality.
+            _extMap["AnyOf"]           =  new AnyOfPlugin();
             _extMap["Aggregate"]       =  new AggregatePlugin();
             _extMap["Alias"]           =  new AliasPlugin();
             //_extMap["AndOr"]		   =  new AndOrPlugin();
             //_extMap["Bool"]      	   =  new BoolPlugin();
             //_extMap["Compare"]		   =  new ComparePlugin();
             _extMap["ConstCaps"]       =  new ConstCapsPlugin(); 
-            _extMap["Date"]      	   =  new DatePlugin();
+            //_extMap["Date"]      	   =  new DatePlugin();
             _extMap["DateNumber"]      =  new DateNumberPlugin();
             //_extMap["DateTimeCombiner"] = new DateTimeCombinerPlugin();
-            _extMap["Day"]      	   =  new DayPlugin();
+            //_extMap["Day"]      	   =  new DayPlugin();
             //_extMap["Def"]      	   =  new DefPlugin();
             _extMap["Enable"]      	   =  new EnablePlugin();
             _extMap["Email"]      	   =  new EmailPlugin();
@@ -103,10 +104,12 @@ namespace ComLib.Lang.Parsing
             _extMap["MachineInfo"]     =  new MachineInfoPlugin();
             _extMap["Marker"]      	   =  new MarkerPlugin();
             _extMap["MarkerLex"]       =  new MarkerLexPlugin();
-            _extMap["Money"]      	   =  new MoneyPlugin();
+            //_extMap["Money"]      	   =  new MoneyPlugin();
             _extMap["Module"]          =  new ModulePlugin();
             _extMap["NamedIndex"]      =  new NamedIndexPlugin();
             _extMap["Percent"]         =  new PercentPlugin();
+            _extMap["PhoneNumber"]     =  new PhoneNumberPlugin();
+            _extMap["Preprocessor"]    =  new PreprocessorPlugin();
             _extMap["Plugin"]          =  new PluginPlugin();            
             _extMap["Print"]      	   =  new PrintPlugin();
             _extMap["PrintExpression"] =  new PrintExpressionPlugin();
@@ -117,7 +120,7 @@ namespace ComLib.Lang.Parsing
             //_extMap["Set"]      	   =  new SetPlugin();
             _extMap["Sort"]      	   =  new SortPlugin();
             //_extMap["Step"]            =  new StepPlugin();
-            _extMap["StringLiteral"]   =  new StringLiteralPlugin();
+            //_extMap["StringLiteral"]   =  new StringLiteralPlugin();
             _extMap["Suffix"]      	   =  new SuffixPlugin();
             _extMap["Swap"]      	   =  new SwapPlugin();
             _extMap["Time"]      	   =  new TimePlugin();
@@ -242,6 +245,21 @@ namespace ComLib.Lang.Parsing
         public void RegisterAllCustom()
         {
             RegisterExtensionsByNames(_extMap.Keys, _extMap);
+        }
+
+
+        /// <summary>
+        /// Register all of the custom extensions
+        /// </summary>
+        public void RegisterAllCustomForDevice()
+        {
+            var plugins = new List<ILangPlugin>();
+            foreach (var key in _extMap.Keys)
+            {
+                if (key != "FluentMember" && key != "FuncWildCard")
+                    plugins.Add(_extMap[key]);
+            }
+            Register(plugins.ToArray());
         }
 
 

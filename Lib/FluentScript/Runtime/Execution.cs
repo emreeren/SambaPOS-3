@@ -2,14 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
-
-
 using ComLib.Lang.Core;
 using ComLib.Lang.Types;
 using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
-
+using ComLib.Lang.Runtime.Bindings;
 
 namespace ComLib.Lang.Runtime
 {
@@ -18,6 +16,29 @@ namespace ComLib.Lang.Runtime
     /// </summary>
     public class Execution : ComLib.Lang.AST.IAstVisitor
     {
+        private Dictionary<int, int> _daysInMonth;
+
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        public Execution()
+        {
+            _daysInMonth = new Dictionary<int, int>();
+            _daysInMonth[1] = 31;
+            _daysInMonth[2] = 28;
+            _daysInMonth[3] = 31;
+            _daysInMonth[4] = 30;
+            _daysInMonth[5] = 31;
+            _daysInMonth[6] = 30;
+            _daysInMonth[7] = 31;
+            _daysInMonth[8] = 31;
+            _daysInMonth[9] = 30;
+            _daysInMonth[10] = 31;
+            _daysInMonth[11] = 30;
+            _daysInMonth[12] = 31;
+        }
+
+
         /// <summary>
         /// The execution context.
         /// </summary>
@@ -135,6 +156,190 @@ namespace ComLib.Lang.Runtime
         /// <summary>
         /// Execute the continue.
         /// </summary>
+        public object VisitDate(DateExpr expr )
+        {
+            var year = expr.Year == -1 ? DateTime.Now.Year : expr.Year;
+            var date = new DateTime(year, expr.Month, expr.Day);
+            if(expr.Time != "0")
+            {
+                var t = TimeSpan.Parse(expr.Time);
+                date = date.AddMilliseconds(t.TotalMilliseconds);
+            }
+            return new LDate(date);
+        }
+
+
+        public object VisitDateRelative(DateRelativeExpr expr)
+        {
+            var year = DateTime.Now.Year;
+            var month = expr.Month;
+            var dayofWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), expr.DayOfTheWeek.ToString());
+
+            var date = new DateTime(year, month, 1);
+            
+            var DaysInWeek = 7;
+
+            // move to holiday day of week
+            var dayInc = 0;
+            while (date.DayOfWeek != dayofWeek && dayInc <= DaysInWeek)
+            {
+                date = date.AddDays(1);
+                dayInc++;
+            }
+
+            var relDay = expr.RelativeDay.ToLower();
+                
+            // Case 1: "last" <day> of <month>
+            if( relDay == "last")
+            {
+                // 1. Add 2 weeks at least
+                date = date.AddDays(14);
+
+                var i = 0;
+                var totalDaysInMonth = _daysInMonth[date.Month];
+                while (i < 2)
+                {
+                    // 2. feb check
+                    if (date.Month == 2 && (date.Day + 7) <= 28)
+                    {
+                        date = date.AddDays(7);
+                    }
+                    else if(date.Day + 7 <= totalDaysInMonth)
+                    {
+                        date = date.AddDays(7);
+                    }
+                    i++;
+                }
+            }
+            // Case 2: 
+            else
+            {
+                var weekCount = 0;
+                if (relDay == "first") weekCount = 1;
+                else if (relDay == "second") weekCount = 2;
+                else if (relDay == "third") weekCount = 3;
+                else if (relDay == "fourth") weekCount = 4;
+
+                // Case 2a: "first|second|third|fourth" of month
+                if (weekCount > 0)
+                {
+                    date = date.AddDays((weekCount - 1) * DaysInWeek);
+                }
+                // Case 2b: ( 1st | 2nd | 3rd| 4th ) of month 
+                else
+                {
+                    weekCount = Convert.ToInt32(expr.RelativeDay);
+                    date = date.AddDays((weekCount - 1) * DaysInWeek);
+                }
+            }            
+            return new LDate(date);
+        }
+
+
+        /// <summary>
+        /// Execute the continue.
+        /// </summary>
+        public object VisitDay(DayExpr expr)
+        {
+            var date = DateTime.Today;
+            var dayOfweek = DayOfWeek.Monday;
+            var isDayOfWeek = false;
+            var isTimeSpecified = expr.Time != "0";
+
+            var dayName = expr.Name.ToLower();
+
+            // 1. Determine date/day
+            if      (dayName == "today")     date = DateTime.Today;
+            else if (dayName == "yesterday") date = DateTime.Today.AddDays(-1);
+            else if (dayName == "tomorrow")  date = DateTime.Today.AddDays(1);
+            else if (dayName == "monday")    { isDayOfWeek = true; dayOfweek = DayOfWeek.Monday;   }
+            else if (dayName == "tuesday")   { isDayOfWeek = true; dayOfweek = DayOfWeek.Tuesday;   }
+            else if (dayName == "wednesday") { isDayOfWeek = true; dayOfweek = DayOfWeek.Wednesday; }  
+            else if (dayName == "thursday")  { isDayOfWeek = true; dayOfweek = DayOfWeek.Thursday;  }  
+            else if (dayName == "friday")    { isDayOfWeek = true; dayOfweek = DayOfWeek.Friday;    } 
+            else if (dayName == "saturday")  { isDayOfWeek = true; dayOfweek = DayOfWeek.Saturday;  }
+            else if (dayName == "sunday")    { isDayOfWeek = true; dayOfweek = DayOfWeek.Sunday;    }
+
+            // Case 1 -
+            if (isDayOfWeek)
+            {
+                // Case 1a: day of week only
+                if(!isTimeSpecified) 
+                    return new LDayOfWeek(dayOfweek);
+
+                // Case 1b: day of week ( with time )
+                var today = DateTime.Today;
+                var count = 0;
+                while (today.DayOfWeek != dayOfweek && count < 8)
+                {
+                    today = today.AddDays(1);
+                }                
+            }
+            
+            // 3. Finally - add the time to the day.
+            if(expr.Time != "0")
+            {
+                var t = TimeSpan.Parse(expr.Time);
+                date = date.AddMilliseconds(t.TotalMilliseconds);
+            }
+            var result = new LDate(date);
+            return result;
+        }
+
+
+        /// <summary>
+        /// Executes the days away expresssion to get a date x days away.
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public object VisitDuration(DurationExpr expr)
+        {
+            var name = expr.Duration;
+            var num = 0.0;
+
+            // Case 1: daysAhead days away
+            if(this.Ctx.Symbols.Contains(name))
+            {
+                var variable = this.Ctx.Memory.Get<object>(name) as LObject;
+                if(variable.Type != LTypes.Number)
+                {
+                    throw new LangException("TypeError", "Days away must of type of number", expr.Ref.ScriptName, expr.Ref.Line, expr.Ref.CharPos);
+                }
+                num = ((LNumber) variable).Value;
+            }
+
+            // Case 2: 3 days away
+            else
+            {
+                num = Convert.ToInt32(name);
+            }
+            
+            // Now convert to relative "days away".
+            TimeSpan duration = TimeSpan.MinValue;
+            var mode = expr.Mode.ToLower();
+            if (mode == "days")
+            {
+                duration = new TimeSpan(Convert.ToInt32(num), 0, 0, 0);
+            }
+            if (mode == "hours")
+            {
+                duration = new TimeSpan(0, Convert.ToInt32(num), 0, 0);
+            } 
+            if (mode == "minutes")
+            {
+                duration = new TimeSpan(0, 0, Convert.ToInt32(num), 0);
+            } 
+            if (mode == "seconds")
+            {
+                duration = new TimeSpan(0, 0, 0, Convert.ToInt32(num));
+            }
+            return new LTime(duration);
+        }
+
+
+        /// <summary>
+        /// Execute the continue.
+        /// </summary>
         public object VisitFunctionDeclare(FunctionDeclareExpr expr)
         {
             return LObjects.Null;
@@ -182,12 +387,17 @@ namespace ComLib.Lang.Runtime
 
             // for(user in users)
             // Push scope for var name 
-            var source = this.Ctx.Memory.Get<object>(expr.SourceName) as LObject;
+            var source = expr.SourceExpr.Evaluate(this) as LObject;
+            
+            // Check : 1. null object?
+            if (source == LObjects.Null)
+                return LObjects.Null;
 
             IEnumerator enumerator = null;
             if (source.Type == LTypes.Array) enumerator = ((IList)source.GetValue()).GetEnumerator();
             else if (source.Type == LTypes.Map) enumerator = ((IDictionary)source.GetValue()).GetEnumerator();
-
+            else if (source.Type == LTypes.Table) 
+                enumerator = ((IList) source.GetValue()).GetEnumerator();
             expr.DoContinueRunning = enumerator.MoveNext();
 
             while (expr.DoContinueRunning)
@@ -236,6 +446,40 @@ namespace ComLib.Lang.Runtime
             var func = new LFunction(expr.Expr);
             func.Type = funcType;
             return func;
+        }
+
+
+        /// <summary>
+        /// Convert the presense / count of the enumerable expression(list/map) into bool true/false.
+        /// </summary>
+        /// <param name="expr">The list check expression.</param>
+        /// <returns></returns>
+        public object VisitListCheck(ListCheckExpr expr)
+        {
+            var varExp = expr.NameExp.Evaluate(this) as LObject;
+            if (varExp == LObjects.Null)
+                return new LBool(false);
+
+            var count = 0;
+
+            // 1. Array type ? check count
+            if (varExp.Type == LTypes.Array)
+            {
+                count = ((LArray)varExp).Value.Count;
+            }
+            // 2 Table Map type 
+            else if (varExp.Type == LTypes.Map)
+            {
+                count = ((LMap)varExp).Value.Count;
+            }
+            // 3. Table type
+            else if (varExp.Type == LTypes.Table)
+            {
+                count = ((LTable) varExp).Value.Count;
+            }
+            // 3. Other type : keep count as 0 so we return false;
+            var result = count > 0 ? new LBool(true) : new LBool(false);
+            return result;
         }
 
 
@@ -422,6 +666,36 @@ namespace ComLib.Lang.Runtime
 
         #region Expressions
         /// <summary>
+        /// Visit the anyof expression.
+        /// </summary>
+        /// <param name="expr">AnyOf expression.</param>
+        /// <returns></returns>
+        public object VisitAnyOf(AnyOfExpr expr)
+        {
+            var result = false;
+            var leftExpr = expr.CompareExpr;
+            var leftResult = leftExpr.Evaluate(this) as LObject;
+            if (expr.ParamListExpressions == null || expr.ParamListExpressions.Count == 0)
+                return new LBool(result);
+
+            // Resolve the parameters.
+            ParamHelper.ResolveNonNamedParameters(expr.ParamListExpressions, expr.ParamList, this);
+
+            foreach (var rvalue in expr.ParamList)
+	        {
+	            var rightResult = rvalue as LObject;
+	            var compareResult = EvalHelper.Compare(expr, Operator.EqualEqual, leftResult, rightResult) as LObject;
+                if (compareResult != null && compareResult.Type == LTypes.Bool && ((LBool)compareResult).Value == true)
+		        {
+			        result = true;
+			        break;
+		        }
+	        }
+	        return new LBool( result );
+        }
+
+
+        /// <summary>
         /// Evaluates an array type declaration.
         /// </summary>
         /// <returns></returns>
@@ -441,7 +715,45 @@ namespace ComLib.Lang.Runtime
                 var array = new LArray(items);
                 return array;
             }
-            return LObjects.Null;
+            return new LArray(new List<object>());
+        }
+
+
+        public object VisitRun(RunExpr expr)
+        {
+            // 1. visit the function call
+            var result = expr.FuncCallExpr.Visit(this);
+            
+            // Case 1. Call something after?
+            if (expr.FuncCallOnAfterExpr != null && expr.Mode == "after")
+            {
+                result = expr.FuncCallOnAfterExpr.Visit(this);
+            }
+            // Case 2. Call something with the input from the first ?
+            else if (expr.FuncCallOnAfterExpr != null && expr.Mode == "on")
+            {
+                var funcCallExpr = expr.FuncCallOnAfterExpr as FunctionCallExpr;
+                funcCallExpr.RetainEvaluatedParams = true;
+                if(funcCallExpr.ParamList == null)
+                    funcCallExpr.ParamList = new List<object>();
+                funcCallExpr.ParamList.Add(result);
+                funcCallExpr.Visit(this);
+            }
+            return result;
+        }
+
+
+
+        /// <summary>
+        /// Evaluates a table declaration.
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public object VisitTable(TableExpr expr)
+        {
+            var table = new LTable(new List<object>());
+            table.Fields = expr.Fields;
+            return table;
         }
         
         
@@ -520,9 +832,44 @@ namespace ComLib.Lang.Runtime
             }
             else
             {
-                var st3 = left.GetValue().ToString() + right.GetValue().ToString();
+                // Check for null
+                var lStringVal = "";
+                var rStringVal = "";
+                if (left != LObjects.Null)
+                    lStringVal = left.GetValue().ToString();
+                if (right != LObjects.Null)
+                    rStringVal = right.GetValue().ToString();
+
+                var st3 = lStringVal + rStringVal;
                 result = new LString(st3);
             }
+            return result;
+        }
+
+
+        /// <summary>
+        /// Executes a call to a language binding class.
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public object VisitBindingCall(BindingCallExpr expr)
+        {
+            var method = expr.Name;
+
+            // 1. Resolve the parameters.
+            ParamHelper.ResolveParametersToHostLangValues(expr.ParamListExpressions, expr.ParamList, this);
+            
+            // 2. Push call into stack
+            expr.Ctx.State.Stack.Push(expr.FullName, null);
+
+            // 3. Call language binding method/function.
+            var binding = new MetaCompiler();
+            binding.Ctx = expr.Ctx;
+            var result = binding.ExecuteFunction(method, new object[] { expr });
+
+            result = FunctionHelper.CheckConvert(result);
+            // 4. Pop the call stack
+            expr.Ctx.State.Stack.Pop();
             return result;
         }
 
@@ -554,48 +901,21 @@ namespace ComLib.Lang.Runtime
         /// <returns></returns>
         public object VisitCompare(CompareExpr expr)
         {
-            // Validate
-            object result = null;
             var node = expr;
             var op = expr.Op;
-            var left = (LObject)expr.Left.Evaluate(this);
-            var right = (LObject)expr.Right.Evaluate(this);
 
+            // TODO: This should be here ( find a better solution )
+            //  e.g. allow expression to support comparable ??
+            if(expr.Right.Nodetype == NodeTypes.SysAnyOf)
+            {
+                var anyOf = ((AnyOfExpr) expr.Right);
+                anyOf.CompareExpr = expr.Left;
+                return this.VisitAnyOf(anyOf);
+            }
 
-            // Both double
-            if (left.Type == LTypes.Number && right.Type == LTypes.Number)
-                result = EvalHelper.CompareNumbers(node, (LNumber)left, (LNumber)right, op);
-
-            // Both strings
-            else if (left.Type == LTypes.String && right.Type == LTypes.String)
-                result = EvalHelper.CompareStrings(node, (LString)left, (LString)right, op);
-
-            // Both bools
-            else if (left.Type == LTypes.Bool && right.Type == LTypes.Bool)
-                result = EvalHelper.CompareBools(node, (LBool)left, (LBool)right, op);
-
-            // Both dates
-            else if (left.Type == LTypes.Date && right.Type == LTypes.Date)
-                result = EvalHelper.CompareDates(node, (LDate)left, (LDate)right, op);
-
-            // Both Timespans
-            else if (left.Type == LTypes.Time && right.Type == LTypes.Time)
-                result = EvalHelper.CompareTimes(node, (LTime)left, (LTime)right, op);
-
-            // 1 or both null
-            else if (left == LObjects.Null || right == LObjects.Null)
-                result = EvalHelper.CompareNull(left, right, op);
-
-            // Day of week ?
-            else if (left.Type == LTypes.DayOfWeek || right.Type == LTypes.DayOfWeek)
-                result = EvalHelper.CompareDays(node, left, right, op);
-
-            // Units
-            //else if (left.Type == LTypes.Unit || right.Type == LTypes.Unit)
-            else if (left.Type.Name == "LUnit" || right.Type.Name == "LUnit")
-                result = EvalHelper.CompareUnits(node, (LUnit)((LClass)left).Value, (LUnit)((LClass)right).Value, op);
-
-            return result;
+            var left = (LObject) expr.Left.Evaluate(this);
+            var right = (LObject) expr.Right.Evaluate(this);
+            return EvalHelper.Compare(node, op, left, right);
         }
 
 
@@ -702,8 +1022,13 @@ namespace ComLib.Lang.Runtime
         public object VisitMemberAccess(MemberAccessExpr expr)
         {
             var memberAccess = MemberHelper.GetMemberAccess(expr, this.Ctx, expr.VarExp, expr.MemberName, this);
+
             if (expr.IsAssignment)
                 return memberAccess;
+
+            if (memberAccess.MemberMissing)
+                throw expr.BuildRunTimeException("Member : " + expr.MemberName + " does not exist");
+
 
             // NOTES:
             // 1. If property on a built in type && not assignment then just return the value of the property
@@ -898,7 +1223,8 @@ namespace ComLib.Lang.Runtime
             if (maccess.Mode == MemberMode.FunctionScript && maccess.Expr != null)
             {
                 var fexpr = maccess.Expr as FunctionExpr;
-                result = FunctionHelper.CallFunctionInScript(this.Ctx, fexpr, fexpr.Meta.Name, expr.ParamListExpressions, expr.ParamList, true, this);
+                var resolveParams = !expr.RetainEvaluatedParams;
+                result = FunctionHelper.CallFunctionInScript(this.Ctx, this, fexpr.Meta.Name, fexpr, expr.ParamListExpressions, expr.ParamList, resolveParams);
             }
             // CASE 3: object "." method call from script is a external/internal function e.g log.error -> external c# callback.
             else if (maccess.IsInternalExternalFunctionCall())

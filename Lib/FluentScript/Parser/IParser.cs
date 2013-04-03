@@ -111,6 +111,9 @@ namespace ComLib.Lang.Parsing
         string[] StartTokens { get; }
 
 
+        Context Ctx { get; set; }
+
+
         /// <summary>
         /// Parses the expression.
         /// </summary>

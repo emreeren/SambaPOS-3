@@ -49,6 +49,12 @@ namespace ComLib.Lang.Parsing
 
 
         /// <summary>
+        /// The context of the environment.
+        /// </summary>
+        public Context Ctx { get; set; }
+
+
+        /// <summary>
         /// Initialize the combinator.
         /// </summary>
         /// <param name="lexer">The main lexer</param>

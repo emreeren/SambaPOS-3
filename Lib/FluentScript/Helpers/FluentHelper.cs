@@ -181,7 +181,7 @@ namespace ComLib.Lang.Helpers
                     if (next.Token.Kind == TokenKind.Symbol)
                         exp = parser.ParseExpression(endTokens, true, false, true, passNewLine, false);
                     else
-                        exp = parser.ParseIdExpression();
+                        exp = parser.ParseIdExpression(null, null, false);
                     args.Add(exp);
                 }
                 // CASE 3: Normal param

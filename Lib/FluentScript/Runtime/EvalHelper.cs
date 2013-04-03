@@ -230,6 +230,60 @@ namespace ComLib.Lang.Runtime
 
 
         /// <summary>
+        /// Visita a compare expression with the values evaluated.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="op"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static object Compare(AstNode node, Operator op, LObject left, LObject right)
+        {
+            object result = null;
+
+            // Both double
+            if (left.Type == LTypes.Number && right.Type == LTypes.Number)
+                result = EvalHelper.CompareNumbers(node, (LNumber)left, (LNumber)right, op);
+
+            // Both strings
+            else if (left.Type == LTypes.String && right.Type == LTypes.String)
+                result = EvalHelper.CompareStrings(node, (LString)left, (LString)right, op);
+
+            // Both bools
+            else if (left.Type == LTypes.Bool && right.Type == LTypes.Bool)
+                result = EvalHelper.CompareBools(node, (LBool)left, (LBool)right, op);
+
+            // Both dates
+            else if (left.Type == LTypes.Date && right.Type == LTypes.Date)
+                result = EvalHelper.CompareDates(node, (LDate)left, (LDate)right, op);
+
+            // Both Timespans
+            else if (left.Type == LTypes.Time && right.Type == LTypes.Time)
+                result = EvalHelper.CompareTimes(node, (LTime)left, (LTime)right, op);
+
+            // 1 or both null
+            else if (left == LObjects.Null || right == LObjects.Null)
+                result = EvalHelper.CompareNull(left, right, op);
+
+            // Day of week ?
+            else if (left.Type == LTypes.DayOfWeek || right.Type == LTypes.DayOfWeek)
+                result = EvalHelper.CompareDays(node, left, right, op);
+
+            // Date and time ?
+            else if ((left.Type == LTypes.Date && right.Type == LTypes.Time)
+                    || (left.Type == LTypes.Time && right.Type == LTypes.Date))
+                result = EvalHelper.CompareDayDifference(node, left, right, op);
+
+            // Units
+            //else if (left.Type == LTypes.Unit || right.Type == LTypes.Unit)
+            else if (left.Type.Name == "LUnit" || right.Type.Name == "LUnit")
+                result = EvalHelper.CompareUnits(node, (LUnit)((LClass)left).Value, (LUnit)((LClass)right).Value, op);
+
+            return result;
+        }
+
+
+        /// <summary>
         /// Evaluates a math expression of 2 time spans.
         /// </summary>
         /// <param name="node">The AST node the evaluation is a part of.</param>
@@ -304,6 +358,52 @@ namespace ComLib.Lang.Runtime
             else if (op == Operator.MoreThanEqual)   result = left >= right;
             else if (op == Operator.EqualEqual)      result = left == right;
             else if (op == Operator.NotEqual)        result = left != right;
+            return new LBool(result);
+        }
+
+
+        /// <summary>
+        /// Evaluates a math expression of 2 time spans.
+        /// </summary>
+        /// <param name="node">The AST node the evaluation is a part of.</param>
+        /// <param name="lhSide">The time on the left hand side</param>
+        /// <param name="rhSide">The time on the right hand side</param>
+        /// <param name="op">The math operator.</param>
+        /// <returns></returns>
+        public static LBool CompareDayDifference(AstNode node, LObject lhSide, LObject rhSide, Operator op)
+        {
+            var today = DateTime.Today;
+            var targetDate = DateTime.Today;
+            TimeSpan expectedDiff = TimeSpan.MinValue;
+            if(lhSide.Type == LTypes.Date)
+            {
+                targetDate = ((LDate)lhSide).Value;
+                expectedDiff = ((LTime)rhSide).Value;
+            }
+            else
+            {
+                targetDate = ((LDate)rhSide).Value;
+                expectedDiff = ((LTime)lhSide).Value;
+            }
+            // Normalized to dates.
+            var diff = targetDate - today;
+
+            // Now compare if days away.
+            var diffDays = diff.Days;
+            if (diffDays < 0)
+                return new LBool(false);
+
+            //if (diffDays < 0) diffDays = diffDays*-1;
+
+            // var diffHours = diff.Hours*-1;
+
+            var result = false;
+            if (op == Operator.LessThan)            result = diffDays <  expectedDiff.Days;
+            else if (op == Operator.LessThanEqual)  result = diffDays <= expectedDiff.Days;
+            else if (op == Operator.MoreThan)       result = diffDays >  expectedDiff.Days;
+            else if (op == Operator.MoreThanEqual)  result = diffDays >= expectedDiff.Days;
+            else if (op == Operator.EqualEqual)     result = diffDays == expectedDiff.Days;
+            else if (op == Operator.NotEqual)       result = diffDays != expectedDiff.Days;
             return new LBool(result);
         }
 
@@ -462,10 +562,11 @@ namespace ComLib.Lang.Runtime
         {
             object result = LObjects.Null;
             // Case 1: Array access users[0];
-            if (target.Type == LTypes.Array)
+            if (target.Type == LTypes.Array || target.Type.TypeVal == LTypes.Table.TypeVal)
             {
                 var ndx = ((LNumber)ndxObj).Value;
-                var methods = regmethods.Get(LTypes.Array);
+                var isArray = target.Type == LTypes.Array;
+                var methods = isArray ? regmethods.Get(LTypes.Array) : regmethods.Get(LTypes.Table);
 
                 // TODO: Make this generic.
                 var length = Convert.ToInt32(methods.ExecuteMethod(target, "length", null));

@@ -232,6 +232,7 @@ namespace ComLib.Lang.Core
 
         public static readonly Token EndToken = TokenBuilder.ToLiteralOther(TokenTypes.EndToken, "eof", "eof");
         public static readonly Token Unknown = TokenBuilder.ToLiteralOther(TokenTypes.Unknown, "unknown", "unknown");
+        public static readonly Token Ignore = TokenBuilder.ToLiteralOther(TokenTypes.Unknown, "ignore", "ignore");
 
         public static readonly Token True = TokenBuilder.ToLiteralBool(TokenTypes.True, "true", true);
         public static readonly Token False = TokenBuilder.ToLiteralBool(TokenTypes.False, "false", false);

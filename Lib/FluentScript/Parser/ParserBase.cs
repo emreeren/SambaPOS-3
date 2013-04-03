@@ -110,9 +110,8 @@ namespace ComLib.Lang.Parsing
         {
             _context = context;
             _parseErrors = new List<LangException>();
-            _lexer = new Lexer();
+            _lexer = new Lexer("");
             _lexer.SetContext(_context); 
-            _lexer.Init("");
         }
 
 
@@ -227,7 +226,7 @@ namespace ComLib.Lang.Parsing
         protected void Tokenize()
         {
             _lexer.IntepolatedStartChar = _settings.InterpolatedStartChar;
-            _tokenIt.Init((llk) => _lexer.GetTokenBatch(llk), 6, null);
+            _tokenIt.Init((llk) => _lexer.GetTokenBatch(llk), 12, null);
         }        
 
 
@@ -308,10 +307,18 @@ namespace ComLib.Lang.Parsing
         /// <param name="token"></param>
         protected void HandleComment(TokenData tokenData, Token token)
         {
-            if (token.Text.StartsWith("@summary") || token.Text.StartsWith(" @summary"))
+            var text = token.Text;
+            // Case 1: Summary tag for functions or scriptmeta tag for script info
+            if (text.Contains("@summary") || text.Contains(" @summary")
+                || text.Contains("@scriptmeta-start") || text.Contains(" @scriptmeta-start"))
             {
                 _hasSummaryComments = true;
                 _lastCommentToken = tokenData;
+            }
+            // Case 2: 
+            else if (text.Contains("@scriptmeta-end") || text.Contains(" @scriptmeta-end"))
+            {
+                this.ClearCommentHandling();
             }
             if (_hasSummaryComments)
                 _comments.Add(token);
@@ -347,22 +354,33 @@ namespace ComLib.Lang.Parsing
                     continue;
 
                 if (!func.Meta.ArgumentsLookup.ContainsKey(arg.Name))
-                    _tokenIt.BuildSyntaxException("Doc argument name : '" + arg.Name + "' does not exist in function : " + func.Meta.Name);
-
-                var funcArg = func.Meta.ArgumentsLookup[arg.Name];
-                funcArg.Alias = arg.Alias;
-                funcArg.Desc = arg.Desc;
-                funcArg.Examples = arg.Examples;
-                funcArg.Type = arg.Type;
-
-                // Now associate the alias to the arg names.
-                func.Meta.ArgumentsLookup[funcArg.Alias] = funcArg;
-                if (!string.IsNullOrEmpty(funcArg.Alias))
                 {
-                    func.Meta.ArgumentNames[funcArg.Alias] = funcArg.Alias;
+                    //_tokenIt.BuildSyntaxException("Doc argument name : '" + arg.Name + "' does not exist in function : " + func.Meta.Name);
+                    // TODO: Create warning.
+                }
+                else
+                {
+                    var funcArg = func.Meta.ArgumentsLookup[arg.Name];
+                    funcArg.Alias = arg.Alias;
+                    funcArg.Desc = arg.Desc;
+                    funcArg.Examples = arg.Examples;
+                    funcArg.Type = arg.Type;
+
+                    // Now associate the alias to the arg names.
+                    if (!string.IsNullOrEmpty(funcArg.Alias))
+                    {
+                        func.Meta.ArgumentsLookup[funcArg.Alias] = funcArg;
+                        func.Meta.ArgumentNames[funcArg.Alias] = funcArg.Alias;
+                    }
                 }
             }
 
+            this.ClearCommentHandling();
+        }
+
+
+        private void ClearCommentHandling()
+        {
             // Clear the comment state.
             _comments.Clear();
             _hasSummaryComments = false;

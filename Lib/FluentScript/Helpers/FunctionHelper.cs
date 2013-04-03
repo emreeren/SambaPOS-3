@@ -35,7 +35,7 @@ namespace ComLib.Lang.Helpers
             if (EvalHelper.Ctx == null)
                 EvalHelper.Ctx = context;
 
-            var result = FunctionHelper.CallFunctionInScript(context, expr, expr.Meta.Name, null, argsList, false, execution);
+            var result = FunctionHelper.CallFunctionInScript(context, execution, expr.Meta.Name, expr, null, argsList, false);
             return result;
         }
 
@@ -43,26 +43,18 @@ namespace ComLib.Lang.Helpers
         /// <summary>
         /// Call a fluent script function from c#.
         /// </summary>
+        /// <param name="context">The context of the call.</param>
         /// <param name="functionName">The name of the function to call</param>
         /// <param name="convertApplicableTypes">Whether or not to convert applicable c# types to fluentscript types, eg. ints and longs to double, List(object) to LArrayType and Dictionary(string, object) to LMapType</param>
         /// <param name="args"></param>
         public static object CallFunctionViaCSharp(Context context, string functionName, bool convertApplicableTypes, params object[] args)
         {
-            var argsList = args.ToList<object>();
-            if (convertApplicableTypes)
-                LangTypeHelper.ConvertToLangTypeValues(argsList);
             var exists = context.Symbols.IsFunc(functionName);
             if (!exists)
                 return null;
             var sym = context.Symbols.GetSymbol(functionName) as SymbolFunction;
             var expr = sym.FuncExpr as FunctionExpr;
-            var execution = new Execution();
-            execution.Ctx = context;
-            if (EvalHelper.Ctx == null)
-                EvalHelper.Ctx = context;
-
-            var result = FunctionHelper.CallFunctionInScript(context, expr, functionName, null, argsList, false, execution);
-            return result;
+            return FunctionHelper.CallFunctionViaCSharpUsingLambda(context, expr, convertApplicableTypes, args);
         }
 
 
@@ -95,15 +87,16 @@ namespace ComLib.Lang.Helpers
             object result = null;
             // Case 1: Custom C# function blog.create blog.*
             if (isExternFunc)
-                result = ctx.ExternalFunctions.Call(functionName, fexpr, visitor);
+                result = FunctionHelper.CallFunctionExternal(ctx, visitor, functionName, fexpr);
 
             // Case 2: Script functions "createUser('john');" 
             else
             {
                 var sym = fexpr.SymScope.GetSymbol(functionName) as SymbolFunction;
                 var func = sym.FuncExpr as FunctionExpr;
-                result = FunctionHelper.CallFunctionInScript(ctx, func, functionName, fexpr.ParamListExpressions,
-                                                             fexpr.ParamList, true, visitor);
+                var resolveParams = !fexpr.RetainEvaluatedParams;
+                result = FunctionHelper.CallFunctionInScript(ctx, visitor, functionName, func,  fexpr.ParamListExpressions,
+                                                             fexpr.ParamList, resolveParams);
             }
             // 3. Finnaly pop the call stact.
             if(pushCallStack)
@@ -199,7 +192,10 @@ namespace ComLib.Lang.Helpers
         /// resolveParams is false, the list is assumed to have the values for the paramters to the function.</param>
         /// <param name="resolveParams">Whether or not to resolve the list of parameter expression objects</param>
         /// <returns></returns>
-        public static object CallFunctionInScript(Context ctx, FunctionExpr function, string functionName, List<Expr> paramListExpressions, List<object> paramVals, bool resolveParams, IAstVisitor visitor)
+        public static object CallFunctionInScript(Context ctx, IAstVisitor visitor, 
+            string functionName, FunctionExpr function, 
+            List<Expr> paramListExpressions, List<object> paramVals, 
+            bool resolveParams)
         {
             // 1. Determine if any parameters provided.
             var hasParams = paramListExpressions != null && paramListExpressions.Count > 0;
@@ -218,6 +214,44 @@ namespace ComLib.Lang.Helpers
                 result = function.ReturnValue;
             else
                 result = LObjects.Null;
+            return result;
+        }
+
+
+        /// <summary>
+        /// Calls the custom function.
+        /// </summary>
+        /// <param name="name">Name of the function</param>
+        /// <param name="exp"></param>
+        /// <returns></returns>
+        public static object CallFunctionExternal(Context ctx, IAstVisitor visitor, string name, FunctionCallExpr exp )
+        {
+            var externalFuncs = ctx.ExternalFunctions;
+            var objectName = name;
+            var method = string.Empty;
+            Func<string, string, FunctionCallExpr, object> callback = null;
+
+            // Contains callback for full function name ? e.g. CreateUser
+            if (externalFuncs.Contains(name))
+                callback = externalFuncs.GetByName(name);
+
+            // Contains callback that handles multiple methods on a "object".
+            // e.g. Blog.Create, Blog.Delete etc.
+            if (name.Contains("."))
+            {
+                var ndxDot = name.IndexOf(".");
+                objectName = name.Substring(0, ndxDot);
+                method = name.Substring(ndxDot + 1);
+                if (externalFuncs.Contains(objectName + ".*"))
+                    callback = externalFuncs.GetByName(objectName + ".*");
+            }
+
+            if (callback == null)
+                return LObjects.Null;
+
+            // 1. Resolve parameter froms expressions into Lang values.
+            ParamHelper.ResolveParametersToHostLangValues(exp.ParamListExpressions, exp.ParamList, visitor);
+            object result = callback(objectName, method, exp);
             return result;
         }
 
@@ -291,7 +325,7 @@ namespace ComLib.Lang.Helpers
         }
 
 
-        private static object CheckConvert(object result)
+        public static object CheckConvert(object result)
         {
             // Finally, convert to fluentscript types.
             // Case 1: Aleady an LObject

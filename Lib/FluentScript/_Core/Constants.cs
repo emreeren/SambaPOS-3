@@ -64,7 +64,7 @@ namespace ComLib.Lang.Core
         /// Map type
         /// </summary>
         public const int Map      = 9;
-
+        
 
         /// <summary>
         /// Function type.
@@ -94,6 +94,12 @@ namespace ComLib.Lang.Core
         /// Day of week type.
         /// </summary>
         public const int DayOfWeek = 14;
+
+
+        /// <summary>
+        /// Table type.
+        /// </summary>
+        public const int Table = 15;
     }
 
 

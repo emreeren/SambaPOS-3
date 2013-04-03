@@ -175,8 +175,8 @@ namespace ComLib.Lang.Plugins
                 if(nexp.TypeName != "Date" && nexp.TypeName != "Time" )
                     throw _tokenIt.BuildSyntaxException("Const : " + constName + " must have a const value");
             }
-            else if (!(exp.IsNodeType(NodeTypes.SysConstant)))
-                throw _tokenIt.BuildSyntaxException("Const : " + constName + " must have a const value");                
+            //else if (!(exp.IsNodeType(NodeTypes.SysConstant)))
+            //    throw _tokenIt.BuildSyntaxException("Const : " + constName + " must have a const value");                
         }
 
 

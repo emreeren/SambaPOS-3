@@ -154,13 +154,13 @@ namespace ComLib.Lang.Plugins
                 _tokenIt.Advance();
                 _variableName = _tokenIt.ExpectId();
                 _tokenIt.Expect(Tokens.In);
-                _source = _parser.ParseIdExpression();
+                _source = _parser.ParseIdExpression(null, null, false);
                 return;
             }
 
             // 2. books where
             // In this case autocreate variable "book" using variable name.
-            _source = _parser.ParseIdExpression();
+            _source = _parser.ParseIdExpression(null, null, false);
             if (_source.IsNodeType(NodeTypes.SysVariable))
                 _variableName = ((VariableExpr)_source).Name;
             else if (_source.IsNodeType(NodeTypes.SysMemberAccess))
@@ -236,8 +236,20 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override object DoEvaluate(IAstVisitor visitor)
         {
-            var array = _source.Evaluate(visitor) as LObject;
-            var items = array.GetValue() as List<object>;
+            var sourceObj = _source.Evaluate(visitor) as LObject;
+            
+            // Check 1: null ?
+            if (sourceObj == null) 
+                throw BuildRunTimeException("Can not query the source list: it is null");
+
+            // 1. get the name for debugging reasons.
+            var name = _source.ToQualifiedName();
+
+            // Check 2: datatype
+            if (sourceObj.Type != LTypes.Array && sourceObj.Type != LTypes.Table)
+                throw BuildRunTimeException("Can not query item " + name + " : it is not a list or table");
+
+            var items = sourceObj.GetValue() as List<object>;
             var results = new List<object>();
 
             for (int ndx = 0; ndx < items.Count; ndx++)

@@ -19,6 +19,7 @@ namespace ComLib.Lang.Docs
         {
             Args = new List<ArgAttribute>();
             Examples = new List<Example>();
+            CustomTags = new List<CustomTag>();
         }
 
 
@@ -38,5 +39,11 @@ namespace ComLib.Lang.Docs
         /// List of all the examples of the function.
         /// </summary>        
         public List<Example> Examples { get; set; }
+
+
+        /// <summary>
+        /// Custom tags
+        /// </summary>
+        public List<CustomTag> CustomTags { get; set; } 
     }
 }

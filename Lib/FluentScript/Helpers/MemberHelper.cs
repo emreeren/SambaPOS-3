@@ -89,7 +89,7 @@ namespace ComLib.Lang.Helpers
             var symbol = symscope.GetSymbol(name);
 
             // Case 2: Module.
-            if (symbol.Category == SymbolCategory.CustomScope)
+            if (symbol.Category == SymbolCategory.Module)
             {
                 var msym = symbol as SymbolModule;
                 var mem = new MemberAccess(MemberMode.Module);
@@ -128,12 +128,25 @@ namespace ComLib.Lang.Helpers
             // e.g. string,  date,  time,  array , map
             // e.g. LStringType  LDateType, LTimeType, LArrayType, LMapType
             var typeMethods = methods.Get(type);
+            var memberExists = typeMethods.HasMember(obj, memberName);
 
-            // 1. Check that the member exists.
-            if (!typeMethods.HasMember(obj, memberName))
+            // 1. Can set non-existing map properties
+            if (type == LTypes.Map && !memberExists)
+            {
+                var nonExistMAccess = new MemberAccess(MemberMode.PropertyMember);
+                nonExistMAccess.Name = type.Name;
+                nonExistMAccess.Instance = obj;
+                nonExistMAccess.MemberName = memberName;
+                nonExistMAccess.Type = type;
+                nonExistMAccess.MemberMissing = true;
+                return nonExistMAccess;
+            }
+
+            // 2. Check that the member exists.
+            if (!memberExists)
                 throw ExceptionHelper.BuildRunTimeException(node, "Property or Member : " + memberName + " does not exist");
 
-            // 2. It's either a Property or method
+            // 3. It's either a Property or method
             var isProp = typeMethods.HasProperty(obj, memberName);
             var mode = isProp ? MemberMode.PropertyMember : MemberMode.MethodMember;
             var maccess = new MemberAccess(mode);

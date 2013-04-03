@@ -66,7 +66,10 @@ namespace ComLib.Lang.Core
         public override string ToString()
         {   
             string tokenType = Token.GetType().Name.Replace("Token", "");
-            string info = string.Format("Index: {0}, Line: {1}, CharPos: {2}, Pos: {3}, Type: {4}, Text: {5}", Index, Line, LineCharPos, Pos, tokenType, Token.Text);
+            string text = Token.Text;
+            if (Token.Kind == TokenKind.LiteralString)
+                text = "'" + text + "'";
+            string info = string.Format("Index: {0}, Line: {1}, CharPos: {2}, Pos: {3}, Type: {4}, Text: {5}", Index, Line, LineCharPos, Pos, tokenType, text);
             return info;
         }
     }

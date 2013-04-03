@@ -66,6 +66,19 @@ namespace ComLib.Lang.Helpers
                     Try(() => tags.Examples.Add(ParseExample(comment)), "example", comment, 1, warnings);
                     lastType = "ex";
                 }
+                else if(comment.StartsWith("@"))
+                {
+                    Try(() =>
+                            {
+                                var tag = ParseCustomTag(comment);
+                                tags.CustomTags.Add(tag);
+                                lastType = tag.Name;
+                            }, "custom tag", comment, 1, warnings);
+                }
+                else if(lastType != "sum" && string.IsNullOrEmpty(comment))
+                {
+                    continue;
+                }
                 else
                 {
                     if (lastType == "sum")
@@ -73,6 +86,26 @@ namespace ComLib.Lang.Helpers
                 }
             }
             return new Tuple<DocTags, List<string>>(tags, warnings);
+        }
+
+
+        /// <summary>
+        /// Parses an arg attribute
+        /// </summary>
+        /// <param name="tagLine">Parses a custom tag.</param>
+        /// <returns></returns>
+        private static CustomTag ParseCustomTag(string tagLine)
+        {
+            if (string.IsNullOrEmpty(tagLine))
+                return new CustomTag();
+
+            tagLine = tagLine.Trim();
+            var ndxColon = tagLine.IndexOf(':');
+            var tag = new CustomTag();
+            tag.Name = tagLine.Substring(1, ndxColon - 1);
+            tag.Content = tagLine.Substring(ndxColon + 1);
+            tag.Content = tag.Content.Trim();
+            return tag;
         }
 
 

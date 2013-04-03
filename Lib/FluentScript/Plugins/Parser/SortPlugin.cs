@@ -217,10 +217,16 @@ namespace ComLib.Lang.Plugins
         public override object DoEvaluate(IAstVisitor visitor)
         {
             var obj = _source.Evaluate(visitor);
-            ExceptionHelper.NotNullType(this, obj, "sort", LTypes.Array);
 
-            var array = obj as LArray;
-            var items = array.Value as List<object>;
+            // Check 1: not null
+            ExceptionHelper.NotNull(this, obj, "sort");
+
+            // Check 2: either array or table
+            var lobj = obj as LObject;
+            if (lobj.Type != LTypes.Array && lobj.Type != LTypes.Table)
+                ExceptionHelper.BuildRunTimeException(this, "Sort is only supported for lists(arrays) and tables");
+
+            var items = lobj.GetValue() as List<object>;
 
             // 1. Basic datatypes string, bool, number, date.
             if (!(_filter != null && _filter.IsNodeType(NodeTypes.SysMemberAccess)))
@@ -244,7 +250,7 @@ namespace ComLib.Lang.Plugins
                         result = CompareObjects(y, x);
                     return result;
                 });
-                return array;
+                return lobj;
             }
 
             // 2. Sort complex object
@@ -276,7 +282,7 @@ namespace ComLib.Lang.Plugins
                 return result;
             });
             Ctx.Memory.Remove(_varName);
-            return array;
+            return lobj;
         }
 
 

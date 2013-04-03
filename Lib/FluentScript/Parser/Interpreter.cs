@@ -12,7 +12,7 @@ using ComLib.Lang.Core;
 using ComLib.Lang.AST;
 using ComLib.Lang.Helpers;
 using ComLib.Lang.Parsing;
-using ComLib.Lang.Parsing.MetaPlugins;
+using ComLib.Lang.Runtime.Bindings;
 using ComLib.Lang.Types;
 using ComLib.Lang.Phases;
 using ComLib.Lang.Runtime;
@@ -45,14 +45,13 @@ namespace ComLib.Lang
         private bool _pluginsInitialized;
         private int _lastInitializationPluginCount = 0;
 
-
         /// <summary>
         /// Initialize
         /// </summary>
         public Interpreter()
         {            
             _settings = new LangSettings();
-            
+
             // Initialzie the context.
             _context = new Context();
             _context.Settings = _settings;
@@ -112,6 +111,17 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Registers all the plugins.
+        /// </summary>
+        public void RegisterAllPluginsForDevice()
+        {
+            this.Context.Plugins.RegisterAllSystem();
+            this.RegisterMetaPlugins();
+            this.Context.Plugins.RegisterAllCustomForDevice();
+        }
+
+
+        /// <summary>
         /// Load all the meta plugins from the plugins folders.
         /// </summary>
         public void RegisterMetaPlugins()
@@ -146,7 +156,7 @@ namespace ComLib.Lang
                 var enableFilter = true;
                 if (!enableFilter || ( enableFilter && fileInfo.Name.Contains("-")))
                 {
-                    var script = File.ReadAllText(file);
+                    var script = ReadFile(file);
                     this.Execute(script);
                 }
             }
@@ -242,50 +252,6 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Runs this instance of the interpreter in interactive mode.
-        /// </summary>
-        public void Interactive()
-        {
-            this.InitPlugins();
-
-            // 1. read line of code from console.
-            var script = Console.ReadLine();
-            script = script.Trim();
-            if (string.Compare(script, "exit", StringComparison.InvariantCultureIgnoreCase) == 0)
-                return;
-
-            this.Execute(script);
-            
-            // 2. Check success of line
-            if (!this._runResult.Success)
-                return;
-
-            while (true)
-            {
-                // Now keep looping
-                // 3. Read successive lines of code and append
-                script = Console.ReadLine();
-
-                // 4. Check for exit flag.
-                if (   string.Compare(script, "exit", StringComparison.InvariantCultureIgnoreCase) == 0
-                    || string.Compare(script, "Exit", StringComparison.InvariantCultureIgnoreCase) == 0
-                    || string.Compare(script, "EXIT", StringComparison.InvariantCultureIgnoreCase) == 0 )
-                    break;
-
-                // 5. Only process if not empty
-                if (!string.IsNullOrEmpty(script))
-                {
-                    this.AppendExecute(script);
-
-                    // 6. if error break;
-                    if (!_runResult.Success)
-                        break;
-                }
-            }
-        }
-
-
-        /// <summary>
         /// Executes the script
         /// </summary>
         /// <param name="script">Script text</param>
@@ -317,6 +283,17 @@ namespace ComLib.Lang
 
 
         /// <summary>
+        /// Append the script to the existing code and executes only the new code.
+        /// </summary>
+        /// <param name="scriptPath"></param>
+        public void AppendExecuteFile(string scriptPath)
+        {
+            var script = ReadFile(scriptPath);
+            this.Execute(script, false, true, new ParsePhase(_parser), new ExecutionPhase(false));
+        }
+
+
+        /// <summary>
         /// Executes the script
         /// </summary>
         /// <param name="script">Script text</param>
@@ -334,17 +311,56 @@ namespace ComLib.Lang
             var phaseExecutor = new PhaseExecutor();
 
             // 1. Create the execution phase
-            if (clearExistingCode)
+            if (clearExistingCode || _phaseCtx == null)
             {
                 _phaseCtx = new PhaseContext();
                 _phaseCtx.Ctx = _context;
             }
             if (resetScript)
+            {
                 _phaseCtx.ScriptText = script;
-
+            }
             var phasesList = phases.ToList();
             var result = phaseExecutor.Execute(script, _phaseCtx, _context, phasesList);
             this._runResult = result.Result;
+        }
+
+
+        /// <summary>
+        /// Loads the arguments supplied into the runtime.
+        /// </summary>
+        /// <param name="args">The metadata of the arguments.</param>
+        /// <param name="argValues">The argument values as strings</param>
+        public RunResult LoadArguments(List<ArgAttribute> args, List<string> argValues)
+        {
+            var errors = new List<ScriptError>();
+            var start = DateTime.Now;
+            for(var ndx = 0; ndx < args.Count; ndx++)
+            {
+                var arg = args[ndx];
+                var argVal = argValues[ndx];
+                try
+                {
+                    var langType = LangTypeHelper.ConvertToLangTypeFromLangTypeName(arg.Type);
+                    var langValueText = argVal;
+                    if (string.IsNullOrEmpty(argVal) && !arg.Required && arg.DefaultValue != null)
+                        langValueText = Convert.ToString(arg.DefaultValue);
+
+                    var langValue = LangTypeHelper.ConvertToLangValue(langType, langValueText);
+                    this.Context.Memory.SetValue(arg.Name, langValue, false);
+                    this.Context.Symbols.DefineVariable(arg.Name, langType);
+                }
+                catch (Exception)
+                {
+                    var error = new ScriptError();
+                    error.Message = "Unable to create variable : " + arg.Name + " with value : " + argVal;
+                    errors.Add(error);
+                    throw;
+                }
+            }
+            var end = DateTime.Now;
+            var result = new RunResult(start, end, errors.Count == 0, errors);
+            return result;
         }
 
 
@@ -404,15 +420,33 @@ namespace ComLib.Lang
             List<TokenData> tokens = null;
             if (isFile)
             {
-                script = File.ReadAllText(script);
+                script = ReadFile(script);
             }
-            var lexer = new Lexer(script);
-            lexer.SetContext(_context);
+
+            Lexer lexer = null;
+            if (_parser == null)
+            {
+                lexer = new Lexer(script);
+                lexer.SetContext(_context);
+            }
+            else
+            {
+                lexer = _parser.Lexer;
+                lexer.Init(script);
+            }
+
+            //lexer.DiagnosticData.Reset();
+
             Execute(() =>
             {
                 tokens = lexer.Tokenize();
             },
             () => string.Format("Last token: {0}, Line : {1}, Pos : {2} ", lexer.LastToken.Text, lexer.State.Line, lexer.State.LineCharPosition));
+
+
+            //Console.WriteLine("total : " + lexer.DiagnosticData.TotalTokens);
+            //Console.WriteLine("total white space: " + lexer.DiagnosticData.TotalWhiteSpaceTokens);
+            //Console.WriteLine("total new line   : " + lexer.DiagnosticData.TotalNewLineTokens);
             return tokens;
         }
 
@@ -435,44 +469,6 @@ namespace ComLib.Lang
 
 
         /// <summary>
-        /// Prints tokens to file supplied, if file is not supplied, prints to console.
-        /// </summary>
-        /// <param name="scriptFile">The source script file</param>
-        /// <param name="toFile">The file to write the token info to.</param>
-        public void PrintTokens(string scriptFile, string toFile)
-        {
-            var tokens = ToTokens(scriptFile, true);
-            using (var writer = new StreamWriter(toFile))
-            {
-                foreach (TokenData tokendata in tokens)
-                {
-                    writer.WriteLine(tokendata.ToString());
-                }
-                writer.Flush();
-            }
-        }
-
-
-        /// <summary>
-        /// Prints tokens to file supplied, if file is not supplied, prints to console.
-        /// </summary>
-        /// <param name="scriptFile">The source script file</param>
-        /// <param name="toFile">The file to write the statement info to.</param>
-        public void PrintStatements(string scriptFile, string toFile)
-        {
-            var statements = ToStatements(scriptFile, true);
-            using (var writer = new StreamWriter(toFile))
-            {
-                foreach (Expr stmt in statements)
-                {
-                    writer.Write(stmt.AsString());
-                }
-                writer.Flush();
-            }
-        }
-
-
-        /// <summary>
         /// Prints the run result to the file path specified.
         /// </summary>
         /// <param name="toFile"></param>
@@ -483,33 +479,6 @@ namespace ComLib.Lang
                 writer.Write(_runResult.ToString());
                 writer.Flush();
             }
-        }
-
-
-        /// <summary>
-        /// Prints all the meta plugins loaded.
-        /// </summary>
-        public void PrintPlugins()
-        {
-            var printer = new Printer();
-            printer.WriteHeader("Meta plugins ");
-            printer.WriteKeyValue(true, "Folder: ", false, this.Settings.PluginsFolder);
-            printer.WriteLines(2);
-
-            this.Context.PluginsMeta.EachPlugin( plugin =>
-            {
-                printer.WriteKeyValue(true, "Name: " , true, plugin.Name);
-                printer.WriteKeyValue(true, "Desc: " , false, plugin.Desc);
-                printer.WriteKeyValue(true, "Docs: " , false, plugin.Doc);
-                printer.WriteKeyValue(true, "Type: ",  false, plugin.PluginType);
-                printer.WriteKeyValue(true, "Examples: ", false, string.Empty);
-                for(var ndx = 0; ndx < plugin.Examples.Length; ndx++)
-                {
-                    var count = (ndx + 1).ToString(CultureInfo.InvariantCulture);
-                    printer.WriteLine(count + ". " + plugin.Examples[ndx]);
-                }
-                printer.WriteLines(3);
-            });
         }
 
 
@@ -555,7 +524,7 @@ namespace ComLib.Lang
         }
 
 
-        private void InitPlugins()
+        public void InitPlugins()
         {
             var totalPlugins = _context.Plugins.Total();
             var tokenIt = _parser.TokenIt;
@@ -572,6 +541,7 @@ namespace ComLib.Lang
                 _context.Methods.RegisterIfNotPresent(LTypes.String, new LJSStringMethods());
                 _context.Methods.RegisterIfNotPresent(LTypes.Time, new LJSTimeMethods());
                 _context.Methods.RegisterIfNotPresent(LTypes.Map, new LJSMapMethods());
+                _context.Methods.RegisterIfNotPresent(LTypes.Table, new LJSTableMethods());
             }
 
             if (!_pluginsInitialized || totalPlugins > _lastInitializationPluginCount)
@@ -579,6 +549,7 @@ namespace ComLib.Lang
                 // 3. Initialize the plugins.
                 var expParser = new ExprParser();
                 expParser._parser = _parser;
+                _context.PluginsMeta.Parser = expParser;
                 _context.Plugins.RegisterAllSystem();
                 _context.Plugins.ForEach<IExprPlugin>(plugin =>
                                                           {
@@ -588,9 +559,10 @@ namespace ComLib.Lang
                                                           });
 
                 _context.Plugins.ForEach<ITokenPlugin>(plugin => { plugin.Init(_parser, tokenIt); });
-                _context.Plugins.ForEach<ILexPlugin>(plugin => { plugin.Init(lexer); });
+                _context.Plugins.ForEach<ILexPlugin>(plugin => { plugin.Init(lexer); plugin.Ctx = _context; });
                 _context.Plugins.ExecuteSetupPlugins(_context);
 
+                PreprocessHelper.Ctx = _context;
                 _lastInitializationPluginCount = _context.Plugins.Total();
             }
             _pluginsInitialized = true;
@@ -607,92 +579,22 @@ namespace ComLib.Lang
         }
 
 
-
-        private object RunCompilerMethod(string objectName, string method, LangSettings settings, FunctionCallExpr ex)
+        /// <summary>
+        /// Runs the compiler hook/function call on the compiler languge binding class.
+        /// </summary>
+        /// <param name="objectName"></param>
+        /// <param name="method"></param>
+        /// <param name="settings"></param>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        private object RunCompilerMethod(string objectName, string method, LangSettings settings, FunctionCallExpr expr)
         {
-            var metaCompiler = new MetaCompiler();
-            metaCompiler.Ctx = ex.Ctx;
-
-            if(method == "ToConstDate")
-            {
-            
-            }
-            else if(method == "ToConstTime")
-            {
-                
-            }
-            else if(method == "ToConstDateTimeToken")
-            {
-                var dateToken = ex.ParamList[0] as TokenData;
-                var timeToken = ex.ParamList[1] as TokenData;
-                return metaCompiler.ToConstDateTimeToken(dateToken, timeToken);
-            }
-            else if (method == "ToConstDay")
-            {
-                var token = ex.ParamList[0] as TokenData;
-                var day = Convert.ToInt32(ex.ParamList[1]);
-                return metaCompiler.ToConstDay(day, token);
-            }
+            var binding = new MetaCompiler();
+            binding.Ctx = expr.Ctx;
+            binding.ExecuteFunction(method, new object[] {expr});
             return LObjects.Null;
         }
         #endregion
+        
     }
-
-
-
-    class Printer
-    {
-        /// <summary>
-        /// Writes out a header text
-        /// </summary>
-        /// <param name="text"></param>
-        public void WriteHeader(string text)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(text.ToUpper());
-        }
-
-
-        /// <summary>
-        /// Writest the text supplied on 1 line.
-        /// </summary>
-        /// <param name="text"></param>
-        public void WriteLine(string text)
-        {
-            Console.WriteLine(text);
-        }
-
-
-        /// <summary>
-        /// Writes out a key/value line.
-        /// </summary>
-        /// <param name="highlightKey"></param>
-        /// <param name="key"></param>
-        /// <param name="val"></param>
-        public void WriteKeyValue(bool highlightKey, string key, bool highlightVal, string val)
-        {
-            if (highlightKey)
-                Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(key);
-            Console.ResetColor();
-            if(highlightVal)
-                Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(val);
-            Console.ResetColor();
-        }
-
-
-        /// <summary>
-        /// Writes out lines
-        /// </summary>
-        /// <param name="count"></param>
-        public void WriteLines(int count)
-        {
-            for (int ndx = 0; ndx < count; ndx++)
-            {
-                Console.WriteLine();
-            }
-        }
-    }
-    
 }

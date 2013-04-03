@@ -121,19 +121,25 @@ namespace ComLib.Lang.Plugins
             // 4. token replacements ? or expression plugin?
             if(plugin.PluginType == "expr")
             {
-                plugin.ParseExpr = this.GetFunc("parse");
-                this.LoadStartTokensAsMap(plugin);
-                this.LoadGrammar(plugin);
+                plugin.TokenMap1 = this.GetTokenMap("tokenmap1");
+                plugin.TokenMap2 = this.GetTokenMap("tokenmap2");
+                this.LoadStartTokensAsMap(plugin);                
             }
             else if(plugin.PluginType == "token")
             {
-                this.LoadGrammar(plugin); 
                 this.LoadStartTokensAsList(plugin);
-                this.LoadTokenReplacements(plugin);
-                if(this.Ctx.Memory.Contains("parse"))
-                    plugin.ParseExpr = this.GetFunc("parse");
+                this.LoadTokenReplacements(plugin);                
+            }
+            else if (plugin.PluginType == "lexer")
+            {
+                this.LoadStartTokensAsList(plugin);
             }
 
+            // 5. Load the grammar and build functions.
+            this.LoadGrammar(plugin);                
+            if (this.Ctx.Memory.Contains("build"))
+                plugin.BuildExpr = this.GetFunc("build");
+            
             // 5. Finally register the plugin.
             this.Ctx.PluginsMeta.Register(plugin);
         }
@@ -150,12 +156,17 @@ namespace ComLib.Lang.Plugins
             plugin.Url2 = this.GetOrDefaultString("url2", "http://fluentscript.codeplex.com");
             plugin.Doc = this.GetOrDefaultString("doc", "http://fluentscript.codeplex.com/documentation");
             plugin.Version = this.GetOrDefaultString("version", "0.9.8.10");
-            plugin.IsStatement = this.GetOrDefaultBool("isStatement", true);
-            plugin.IsEndOfStatementRequired = this.GetOrDefaultBool("isEOSRequired", true);
+            plugin.IsStatement = this.GetOrDefaultBool("isStatement", false);
+            plugin.IsEndOfStatementRequired = this.GetOrDefaultBool("isEOSRequired", false);
             plugin.IsEnabled = this.GetOrDefaultBool("isEnabled", true);
             plugin.IsSystemLevel = this.GetOrDefaultBool("isSystemLevel", false);
             plugin.IsAutoMatched = this.GetOrDefaultBool("isAutoMatched", false);
             plugin.IsAssignmentSupported = this.GetOrDefaultBool("isAssignmentSupported", false);
+            if (this.Ctx.Memory.Contains("defaults"))
+            {
+                var map = this.Ctx.Memory["defaults"] as LMap;
+                plugin.ParseDefaults = map.Value;
+            }
         }
 
 
@@ -181,17 +192,39 @@ namespace ComLib.Lang.Plugins
         {
             // 4. Setup the start tokens.
             var tokens = new List<string>();
-            var map = this.Ctx.Memory.Get<object>("start_tokens") as LMap;
+            var stokenMap = this.Ctx.Memory.Get<object>("start_tokens") as LObject;
 
-            // 5. Not start tokens supplied ?
-            if (map != null && map.Value.Count != 0)
+            if (stokenMap.Type == LTypes.Array)
             {
-                plugin.StartTokenMap = map.Value;
-                foreach (var keyval in map.Value)
+                var list = stokenMap as LArray;
+
+                // 5. Not start tokens supplied ?
+                if (list != null && list.Value.Count != 0)
                 {
-                    tokens.Add(keyval.Key);
+                    plugin.StartTokenMap = new Dictionary<string, object>();
+                    for (var ndx = 0; ndx < list.Value.Count; ndx++)
+                    {
+                        var val = list.Value[ndx] as LString;
+                        tokens.Add(val.Value);
+                        plugin.StartTokenMap[val.Value] = val;
+                    }
+                    plugin.StartTokens = tokens.ToArray();
                 }
-                plugin.StartTokens = tokens.ToArray();
+            }
+            else if (stokenMap.Type == LTypes.Map)
+            {
+                var map = stokenMap as LMap;
+
+                // 5. Start tokens supplied ?
+                if (map != null && map.Value.Count != 0)
+                {
+                    plugin.StartTokenMap = map.Value;
+                    foreach (var keyval in map.Value)
+                    {
+                        tokens.Add(keyval.Key);
+                    }
+                    plugin.StartTokens = tokens.ToArray();
+                }
             }
         }
 
@@ -224,12 +257,21 @@ namespace ComLib.Lang.Plugins
             // 6. Parse the grammar
             plugin.Grammar = this.GetOrDefaultString("grammar_parse", "");
 
+            var parser = new GrammerParser();            
+                
+            // 7. Parse grammar match ( if present )
+            plugin.GrammarMatch = this.GetOrDefaultString("grammar_match", "");
+            if (!string.IsNullOrEmpty(plugin.GrammarMatch))
+            {
+                plugin.Matches = parser.Parse(plugin.GrammarMatch);
+                plugin.TotalRequiredMatches = parser.TotalRequired(plugin.Matches);
+            }
+            
             // 7a. check for empty
             if (!string.IsNullOrEmpty(plugin.Grammar))
             {
-                var parser = new GrammerParser();
-                plugin.Matches = parser.Parse(plugin.Grammar);
-            }
+                plugin.MatchesForParse = parser.Parse(plugin.Grammar);                
+            }            
         }
 
 
@@ -298,6 +340,21 @@ namespace ComLib.Lang.Plugins
 
             var val = this.Ctx.Memory.Get<object>(key) as LBool;
             return val.Value;
+        }
+
+
+        private IDictionary<string, object> GetTokenMap(string key)
+        {
+            if (!this.Ctx.Memory.Contains(key))
+                return null;
+
+            var map = this.Ctx.Memory.Get<object>(key) as LMap;
+
+            if (map != null && map.Value.Count != 0)
+            {
+                return map.Value;
+            }
+            return null;
         }
     }
 }

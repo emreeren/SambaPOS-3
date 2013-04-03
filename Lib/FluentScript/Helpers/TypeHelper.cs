@@ -43,7 +43,7 @@ namespace ComLib.Lang.Helpers
             
             if (type == typeof(int))       
                 return new LNumber(Convert.ToDouble(val));
-           
+            
             if (type == typeof(double))
                 return new LNumber((double)val);
             
@@ -76,6 +76,36 @@ namespace ComLib.Lang.Helpers
             return LangTypeHelper.ConvertToLangClass(val);
         }
 
+
+        /// <summary>
+        /// Converts from c# datatypes to fluentscript datatypes inside
+        /// </summary>
+        /// <param name="val"></param>
+        public static LObject ConvertToLangValue(LType ltype, object val)
+        {
+            if (val == null) return LObjects.Null;
+
+            if (ltype == LTypes.Number)
+                return new LNumber(Convert.ToDouble(val));
+
+            if (ltype == LTypes.String)
+                return new LString(Convert.ToString(val));
+
+            if (ltype == LTypes.Date)
+                return new LDate(Convert.ToDateTime(val));
+
+            if (ltype == LTypes.Time)
+            {
+                var valText = Convert.ToString(val);
+                var result = DateTimeTypeHelper.ParseTime(valText);
+                var time = result.Item1;
+                return new LTime(time);
+            }
+            if (ltype == LTypes.Bool)
+                return new LBool(Convert.ToBoolean(val));
+
+            return LObjects.Null;
+        }
         
         /// <summary>
         /// Converts a Type object from the host language to a fluentscript type.
@@ -94,6 +124,22 @@ namespace ComLib.Lang.Helpers
             if (hostLangType == typeof(IList)) return LTypes.Array;
             if (hostLangType == typeof(IDictionary)) return LTypes.Map;
             
+            return LTypes.Object;
+        }
+
+
+        /// <summary>
+        /// Converts a Type object from the host language to a fluentscript type.
+        /// </summary>
+        /// <param name="langTypeName"></param>
+        /// <returns></returns>
+        public static LType ConvertToLangTypeFromLangTypeName(string langTypeName)
+        {
+            if (langTypeName == LTypes.Bool.Name   ) return LTypes.Bool;
+            if (langTypeName == LTypes.Date.Name   ) return LTypes.Date;
+            if (langTypeName == LTypes.Time.Name   ) return LTypes.Time;
+            if (langTypeName == LTypes.Number.Name ) return LTypes.Number;
+            if (langTypeName == LTypes.String.Name ) return LTypes.String;
             return LTypes.Object;
         }
 

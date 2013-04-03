@@ -70,6 +70,12 @@ namespace ComLib.Lang.AST
 
 
         /// <summary>
+        /// Whether or not the member exists.
+        /// </summary>
+        public bool MemberMissing;
+
+
+        /// <summary>
         /// The datatype of the member being accessed.
         /// </summary>
         public Type DataType;

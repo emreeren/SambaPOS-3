@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using ComLib.Lang.Core;
-using ComLib.Lang.Types;
 
 namespace ComLib.Lang.Types
 {
@@ -12,7 +11,7 @@ namespace ComLib.Lang.Types
     ///			features like control-flow e..g if, while, for, try, break, continue, return etc.
     /// version: 0.9.8.10
     /// author:  kishore reddy
-    /// date:	01/15/13 02:12:02 PM
+    /// date:	02/14/13 10:03:37 AM
     /// ------------------------------------------------------------------------------------------------
 
     /// <summary>Datatype for array</summary>
@@ -459,6 +458,48 @@ namespace ComLib.Lang.Types
     }
 
 
+    /// <summary>Datatype for table</summary>
+    public class LTable : LObject
+    {
+        public LTable(IList val)
+        {
+            this.Value = val;
+            this.Type = LTypes.Table;
+        }
+
+
+        public IList Value;
+
+
+        public override object GetValue()
+        {
+            return this.Value;
+        }
+
+
+        public override object Clone()
+        {
+            return new LTable(this.Value);
+        }
+
+
+        public List<string> Fields;
+
+    }
+
+    public class LTableType : LObjectType
+    {
+        public LTableType()
+        {
+            this.Name = "table";
+            this.FullName = "sys.table";
+            this.TypeVal = TypeConstants.Table;
+            this.IsSystemType = true;
+        }
+
+    }
+
+
     /// <summary>Datatype for time</summary>
     public class LTime : LObject
     {
@@ -595,6 +636,10 @@ namespace ComLib.Lang.Types
 
         /// Single instance of the String type
         public static LObjectType String = new LStringType();
+
+
+        /// Single instance of the Table type
+        public static LObjectType Table = new LTableType();
 
 
         /// Single instance of the Time type

@@ -28,6 +28,7 @@ namespace ComLib.Lang.Parsing
         private static TokenIterator _tokenIt;
         private static Context _ctx;
         private static string _scriptName;
+        private static Stack<string> _withStack;
 
 
         /// <summary>
@@ -40,6 +41,46 @@ namespace ComLib.Lang.Parsing
             _tokenIt = tk;
             _ctx = ctx;
             _scriptName = scriptName;
+            _withStack = new Stack<string>();
+        }
+
+
+        /// <summary>
+        /// Pushes the name on the with stack to use in "with" expressions.
+        /// </summary>
+        /// <param name="name"></param>
+        public static void WithPush(string name)
+        {
+            _withStack.Push(name);           
+        }
+
+
+        /// <summary>
+        /// Pops the last variable on the with stack for use in "with" expressions.
+        /// </summary>
+        public static void WithPop()
+        {
+            if (_withStack.Count > 0)
+                _withStack.Pop();
+        }
+
+
+        /// <summary>
+        /// The total number of items on the with stack.
+        /// </summary>
+        public static int WithCount()
+        {
+            return _withStack.Count;
+        }
+
+
+        /// <summary>
+        /// Gets the name on the with stack.
+        /// </summary>
+        /// <returns></returns>
+        public static string WithName()
+        {
+            return _withStack.Peek();
         }
 
 
@@ -52,6 +93,20 @@ namespace ComLib.Lang.Parsing
         {            
             var exp = new VariableExpr();
             exp.Name = name;
+            SetupContext(exp, token);
+            return exp;
+        }
+
+
+        /// <summary>
+        /// Creates a variable expression with symbol scope, context, script refernce set.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Expr IdentWith(TokenData token)
+        {
+            var exp = new VariableExpr();
+            exp.Name = _withStack.Peek();
             SetupContext(exp, token);
             return exp;
         }
@@ -91,6 +146,78 @@ namespace ComLib.Lang.Parsing
 
 
         /// <summary>
+        /// Creates a date expression with symbol scope, context, script refernce set.
+        /// The date expression can handle relative dates: 'today', 'yesterday', 'tomorrow'
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Expr Day(string name, string time, TokenData token)
+        {
+            var exp = new DayExpr();
+            exp.Name = name;
+            exp.Time = time;
+            SetupContext(exp, token);
+            return exp;
+        }
+
+
+        /// <summary>
+        /// Creates a date expression.
+        /// </summary>
+        /// <param name="month">The month from 1 - 12</param>
+        /// <param name="day">The day. required</param>
+        /// <param name="year">The year ( can be -1 ) to get current year</param>
+        /// <param name="time">The time in minutes as string e.g. "450" minutes = 7:30 am.</param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static Expr Date(int month, int day, int year, string time, TokenData token)
+        {
+            var exp = new DateExpr();
+            exp.Month = month;
+            exp.Day = day;
+            exp.Year = year;
+            exp.Time = time;
+            SetupContext(exp, token);
+            return exp;
+        }
+
+
+        /// <summary>
+        /// Creates a relative date expression with symbol scope, context, script refernce set.
+        /// The date expression can handle relative dates: 3rd monday of january
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static Expr DateRelative(string relativeDay, int dayOfWeek, int month, TokenData token)
+        {
+            var exp = new DateRelativeExpr();
+            exp.RelativeDay = relativeDay;
+            exp.Month = month;
+            exp.DayOfTheWeek = dayOfWeek;
+            SetupContext(exp, token);
+            return exp;
+        }
+
+
+        /// <summary>
+        /// Creates a relative date expression with symbol scope, context, script refernce set.
+        /// The date expression can handle relative dates: 3rd monday of january
+        /// </summary>
+        /// <param name="daysAway">The number of days away.</param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static Expr Duration(string duration, string mode, TokenData token)
+        {
+            var exp = new DurationExpr();
+            exp.Duration = duration;
+            exp.Mode = mode;
+            SetupContext(exp, token);
+            return exp;
+        }
+
+
+        /// <summary>
         /// Creates an array expression from the parameters supplied.
         /// </summary>
         /// <param name="items"></param>
@@ -100,6 +227,37 @@ namespace ComLib.Lang.Parsing
         {
             var exp = new ArrayExpr();
             exp.Exprs = items;
+            SetupContext(exp, token);
+            return exp;
+        }
+
+
+        /// <summary>
+        /// Creates an array expression from the parameters supplied.
+        /// </summary>
+        /// <param name="fields"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static Expr Run(string funcName, Expr funcCallExpr, TokenData token)
+        {
+            var exp = new RunExpr();
+            exp.FuncName = funcName;
+            exp.FuncCallExpr = funcCallExpr;
+            SetupContext(exp, token);
+            return exp;
+        }
+        
+        
+        /// <summary>
+        /// Creates an array expression from the parameters supplied.
+        /// </summary>
+        /// <param name="fields"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static Expr Table(List<string> fields, TokenData token)
+        {
+            var exp = new TableExpr();
+            exp.Fields = fields;
             SetupContext(exp, token);
             return exp;
         }
@@ -200,13 +358,13 @@ namespace ComLib.Lang.Parsing
         /// Creates a unary expression with symbol scope, context, script refernce set.
         /// </summary>
         /// <param name="varname"></param>
-        /// <param name="sourceName"></param>
+        /// <param name="sourceExpr"></param>
         /// <returns></returns>
-        public static Expr ForEach(string varname, string sourceName, TokenData token)
+        public static Expr ForEach(string varname, Expr sourceExpr, TokenData token)
         {
             var exp = new ForEachExpr();
             exp.VarName = varname;
-            exp.SourceName = sourceName;
+            exp.SourceExpr = sourceExpr;
             SetupContext(exp, token);
             return exp;
         }
@@ -264,6 +422,21 @@ namespace ComLib.Lang.Parsing
 
 
         /// <summary>
+        /// Creates an expr that checks if the list variable supplied has any items.
+        /// </summary>
+        /// <param name="varName"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static Expr ListCheck(TokenData name, TokenData token)
+        {
+            var exp = new ListCheckExpr();
+            exp.NameExp = Ident(name.Token.Text, name);
+            SetupContext(exp, token);
+            return exp;
+        }
+
+
+        /// <summary>
         /// Creates a unary expression with symbol scope, context, script refernce set.
         /// </summary>
         /// <param name="name"></param>
@@ -294,6 +467,17 @@ namespace ComLib.Lang.Parsing
             funcExp.ParamList = new List<object>();
             SetupContext(funcExp, token);
             return funcExp;
+        }
+
+
+        public static Expr BindingCall(string bindingName, string functionName, TokenData token)
+        {
+            var bexpr = new BindingCallExpr();
+            bexpr.Name = functionName;
+            bexpr.FullName = "sys." + bindingName + "." + functionName;
+            bexpr.ParamListExpressions = new List<Expr>();
+            bexpr.ParamList = new List<object>();
+            return bexpr;
         }
 
 

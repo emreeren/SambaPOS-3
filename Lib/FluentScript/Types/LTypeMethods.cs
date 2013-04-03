@@ -50,6 +50,12 @@ namespace ComLib.Lang.Types
             /// Whether or not this supports a setter property if this is a property
             /// </summary>
             public bool AllowSet;
+
+
+            /// <summary>
+            /// Whether or not convert the parameters from lang type to host type.
+            /// </summary>
+            public bool ConvertParameters;
         }
 
 
@@ -91,7 +97,21 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public FunctionMetaData AddMethod(string name, string implementationMethod, Type returnType, string description)
         {            
-            return this.AddMethodInfo(MemberTypes.Method, name, implementationMethod, returnType, description);
+            return this.AddMethodInfo(MemberTypes.Method, name, implementationMethod, returnType, description, true);
+        }
+
+
+        /// <summary>
+        /// Creates functionmetadata object with the supplied inputs.
+        /// </summary>
+        /// <param name="name">The name of the function</param>
+        /// <param name="implementationMethod">The method that implements the funcion in the methods implementation class.</param>
+        /// <param name="returnType">The return values type</param>
+        /// <param name="description">Description of the function.</param>
+        /// <returns></returns>
+        public FunctionMetaData AddMethodRaw(string name, string implementationMethod, Type returnType, string description)
+        {
+            return this.AddMethodInfo(MemberTypes.Method, name, implementationMethod, returnType, description, false);
         }
 
 
@@ -104,7 +124,7 @@ namespace ComLib.Lang.Types
         /// <param name="description">A description of the property</param>
         public void AddProperty(bool allowGet, bool allowSet, string name, string implementationMethod, Type returnType, string description)
         {            
-            this.AddMethodInfo(MemberTypes.Property, name, implementationMethod, returnType, description);
+            this.AddMethodInfo(MemberTypes.Property, name, implementationMethod, returnType, description, true);
         }
 
 
@@ -343,6 +363,7 @@ namespace ComLib.Lang.Types
             {
                 var ndx = 0;
                 var totalParamsGiven = parameters.Length;
+                var convertArgs = mappedMethod.ConvertParameters;
 
                 // Go through all the argument definitions.
                 foreach (var arg in funcDef.Arguments)
@@ -355,7 +376,7 @@ namespace ComLib.Lang.Types
                         if (arg.Type != "params")
                         {
                             var param = parameters[ndx];
-                            var val = ConvertToProperType(arg, param);
+                            var val = convertArgs ? ConvertToProperType(arg, param) : param;
                             methodArgs.Add(val);
                         }
                         // End of list arguments.
@@ -365,7 +386,7 @@ namespace ComLib.Lang.Types
                             while (ndx < totalParamsGiven)
                             {
                                 var param = parameters[ndx];
-                                var val = ConvertToProperType(arg, param);
+                                var val = convertArgs ? ConvertToProperType(arg, param) : param;
                                 remainder.Add(val);
                                 ndx++;
                             }
@@ -376,7 +397,7 @@ namespace ComLib.Lang.Types
                     else if (!isRequired && ndx < parameters.Length)
                     {
                         var param = parameters[ndx];
-                        var val = ConvertToProperType(arg, param);
+                        var val = convertArgs ? ConvertToProperType(arg, param) : param;
                         methodArgs.Add(val);
                     }
                     // 3. Not required but there is a default.
@@ -417,7 +438,7 @@ namespace ComLib.Lang.Types
         /// <param name="returnType">The return values type</param>
         /// <param name="description">Description of the function.</param>
         /// <returns></returns>
-        private FunctionMetaData AddMethodInfo(MemberTypes memberType, string name, string implementationMethod, Type returnType, string description)
+        private FunctionMetaData AddMethodInfo(MemberTypes memberType, string name, string implementationMethod, Type returnType, string description, bool convertParams)
         {
             var funcdef = new FunctionMetaData(name, null);
             funcdef.Doc = new Docs.DocTags();
@@ -429,7 +450,8 @@ namespace ComLib.Lang.Types
             var mappedMethod = new MappedMethod();
             mappedMethod.DataTypeMethod = name;
             mappedMethod.HostLanguageMethod = implementationMethod;
-            mappedMethod.FuncDef = funcdef;              
+            mappedMethod.FuncDef = funcdef;
+            mappedMethod.ConvertParameters = convertParams;
             _methodMap[name] = mappedMethod;
 
             _allMembersMap[name] = memberType;

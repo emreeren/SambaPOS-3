@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 // <lang:using>
+using ComLib.Lang.AST;
 using ComLib.Lang.Core;
 using ComLib.Lang.Helpers;
 
@@ -12,6 +12,21 @@ using ComLib.Lang.Helpers;
 
 namespace ComLib.Lang.Parsing
 {
+    public class LexerDiagnosticData
+    {
+        public int TotalWhiteSpaceTokens;
+        public int TotalNewLineTokens;
+        public int TotalTokens;
+
+        public void Reset()
+        {
+            TotalNewLineTokens = 0;
+            TotalTokens = 0;
+            TotalWhiteSpaceTokens = 0;
+        }
+    }
+
+
     /// <summary>
     /// Converts script from a series of characters into a series of tokens.
     /// Main method is NextToken(), PeekToken(), it internally uses and exposes 
@@ -32,34 +47,9 @@ namespace ComLib.Lang.Parsing
     ///  "kishore"   literal
     ///  ;           operator
     /// </summary>
-    public class Lexer 
+    public class Lexer
     {
-        enum TokenLengthCalcMode
-        {
-            /// <summary>
-            /// Use the size the token text
-            /// </summary>
-            Direct,
-
-
-            /// <summary>
-            /// Use the length of whitespace
-            /// </summary>
-            WhiteSpace,
-
-
-            /// <summary>
-            /// Use the length of the token plus 2 chars for string literal
-            /// </summary>
-            String,
-
-
-            /// <summary>
-            /// MUltiline comment.
-            /// </summary>
-            MultilineComment
-        }
-
+        public LexerDiagnosticData DiagnosticData = new LexerDiagnosticData();
 
         #region Private members
         private Context _ctx;      
@@ -91,16 +81,7 @@ namespace ComLib.Lang.Parsing
         };
         #endregion
 
-
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="text">The text to parse</param>
-        public Lexer()
-        {
-        }
-
-
+        
         /// <summary>
         /// Initialize
         /// </summary>
@@ -108,18 +89,6 @@ namespace ComLib.Lang.Parsing
         public Lexer(string text)
         {
             this._ctx = new Context();
-            this.Init(text);
-        }
-
-
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="ctx">The context containing plugins among other core integration components.</param>
-        /// <param name="text">The source code text to lex</param>
-        public Lexer(Context ctx, string text)
-        {
-            this._ctx = ctx;
             this.Init(text);
         }
 
@@ -160,6 +129,9 @@ namespace ComLib.Lang.Parsing
         /// The instance of the scanner for public use
         /// </summary>
         public Scanner Scanner;
+
+
+        public IAstVisitor OnDemandEvaluator;
 
         
         /// <summary>
@@ -243,11 +215,15 @@ namespace ComLib.Lang.Parsing
             _tokenIndex = -1;
             _tokens = new List<TokenData>();
             var hasPlugins = _ctx.Plugins.TotalLexical > 0;
+            var hasJsPlugins = _ctx.PluginsMeta.TotalLex() > 0;
+            
 
             TokenData last = null;
             while (true)
             {               
                 var token = NextToken();
+
+                //PerformDiagnostics(token);
 
                 // Set the index position of the token in the script.
                 if (token.Token != Tokens.WhiteSpace)
@@ -270,8 +246,16 @@ namespace ComLib.Lang.Parsing
                 // Avoid storing white space tokens.
                 if (token.Token != Tokens.WhiteSpace)
                 {
-                    // 3. Plugins? 
-                    if (hasPlugins && _ctx.Plugins.CanHandleLex(token.Token))
+                    var isNewLine = token.Token == Tokens.NewLine;
+
+                    // 3a. Plugins? 
+                    if (!isNewLine && hasJsPlugins && _ctx.PluginsMeta.CanHandleLex(token.Token))
+                    {
+                        var visitor = this.OnDemandEvaluator;
+                        var parsedToken = _ctx.PluginsMeta.ParseLex(visitor);
+                    }
+                    // 3b. Plugins? 
+                    else if (!isNewLine && hasPlugins && _ctx.Plugins.CanHandleLex(token.Token))
                     {
                         var plugin = _ctx.Plugins.LastMatchedLexPlugin;
                         plugin.Parse();
@@ -432,6 +416,10 @@ namespace ComLib.Lang.Parsing
             else if (c == '#')
             {
                 _lastToken = Tokens.Pound;
+            }
+            else if ( c== '?')
+            {
+                _lastToken = Tokens.Question;
             }
             else if (c == '\\')
             {
@@ -643,7 +631,7 @@ namespace ComLib.Lang.Parsing
             var result = _scanner.ScanToNewLine(false, true);
             var token = TokenBuilder.ToLiteralString(result.Text);
             return token;
-        }        
+        }
 
 
         /// <summary>
@@ -751,6 +739,12 @@ namespace ComLib.Lang.Parsing
             }
             return TokenBuilder.ToInterpolated(string.Empty, allTokens);
         }
+
+
+        public void SkipUntilPrefixedWord(char prefix, string word)
+        {
+            _scanner.SkipUntilPrefixedWord(false, prefix, word);
+        }
         #endregion
 
 
@@ -842,6 +836,16 @@ namespace ComLib.Lang.Parsing
                 n = _scanner.PeekChar();
             }
             return tokens;
+        }
+
+
+        private void PerformDiagnostics(TokenData tokenData)
+        {
+            this.DiagnosticData.TotalTokens++;
+            if (tokenData.Token == Tokens.NewLine)
+                this.DiagnosticData.TotalNewLineTokens++;
+            else if (tokenData.Token == Tokens.WhiteSpace)
+                this.DiagnosticData.TotalWhiteSpaceTokens++;
         }
         #endregion
     }

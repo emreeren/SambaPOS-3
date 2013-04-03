@@ -11,6 +11,7 @@
     <AssemblyName>Fluentscript</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AST\Core\BindingCallExpr.cs" />
     <Compile Include="AST\Core\BlockExpr.cs" />
     <Compile Include="AST\Core\ConditionalBlockExpr.cs" />
     <Compile Include="AST\Core\EmptyExpr.cs" />
@@ -63,9 +65,10 @@
     <Compile Include="AST\ScriptRef.cs" />
     <Compile Include="AST\Stmts.cs" />
     <Compile Include="AST\NodeTypes.cs" />
-    <Compile Include="AST\TokenDefs.cs" />
     <Compile Include="Helpers\ArgsFetcher.cs" />
     <Compile Include="Helpers\ConversionHelper.cs" />
+    <Compile Include="Helpers\PreprocessHelper.cs" />
+    <Compile Include="Helpers\Printer.cs" />
     <Compile Include="Helpers\SymbolHelper.cs" />
     <Compile Include="Helpers\TokenHelper.cs" />
     <Compile Include="Helpers\DocHelper.cs" />
@@ -80,11 +83,11 @@
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Parser\ExprParser.cs" />
     <Compile Include="Parser\Exprs.cs" />
+    <Compile Include="Parser\Integration\RegisteredDirectives.cs" />
     <Compile Include="Parser\MetaPlugins\CompilerPlugin.cs" />
+    <Compile Include="Parser\MetaPlugins\TokenGroupOr.cs" />
     <Compile Include="Parser\MetaPlugins\MetaPluginConstants.cs" />
     <Compile Include="Parser\MetaPlugins\GrammarParser.cs" />
-    <Compile Include="Parser\MetaPlugins\MetaCompiler.cs" />
-    <Compile Include="Parser\MetaPlugins\MetaCompilerData.cs" />
     <Compile Include="Parser\MetaPlugins\MetaPlugins.cs" />
     <Compile Include="Parser\MetaPlugins\TokenGroup.cs" />
     <Compile Include="Parser\MetaPlugins\TokenMatch.cs" />
@@ -134,13 +137,12 @@
     <Compile Include="Plugins\Parser\AggregatePlugin.cs" />
     <Compile Include="Plugins\Parser\AliasPlugin.cs" />
     <Compile Include="Plugins\Parser\ConstCapsPlugin.cs" />
+    <Compile Include="Plugins\Parser\AnyOfPlugin.cs" />
+    <Compile Include="Plugins\Parser\PhoneNumberPlugin.cs" />
+    <Compile Include="Plugins\Parser\PreprocessorPlugin.cs" />
     <Compile Include="Plugins\Parser\PluginPlugin.cs" />
     <Compile Include="Plugins\Parser\NamedIndexPlugin.cs" />
     <Compile Include="Plugins\Parser\DateNumberPlugin.cs" />
-    <Compile Include="Plugins\Parser\DatePlugin.cs" />
-    <Compile Include="Plugins\Parser\DateTimeCombinerPlugin.cs" />
-    <Compile Include="Plugins\Parser\DayPlugin.cs" />
-    <Compile Include="Plugins\Parser\DefPlugin.cs" />
     <Compile Include="Plugins\Parser\EmailPlugin.cs" />
     <Compile Include="Plugins\Parser\EnablePlugin.cs" />
     <Compile Include="Plugins\Parser\EnvPlugin.cs" />
@@ -158,7 +160,6 @@
     <Compile Include="Plugins\Parser\MachineInfoPlugin.cs" />
     <Compile Include="Plugins\Parser\MarkerPlugin.cs" />
     <Compile Include="Plugins\Parser\ModulePlugin.cs" />
-    <Compile Include="Plugins\Parser\MoneyPlugin.cs" />
     <Compile Include="Plugins\Parser\PercentPlugin.cs" />
     <Compile Include="Plugins\Parser\PrintPlugin.cs" />
     <Compile Include="Plugins\Parser\RecordsPlugin.cs" />
@@ -166,7 +167,6 @@
     <Compile Include="Plugins\Parser\RoundPlugin.cs" />
     <Compile Include="Plugins\Parser\RunPlugin.cs" />
     <Compile Include="Plugins\Parser\SortPlugin.cs" />
-    <Compile Include="Plugins\Parser\StringLiteralPlugin.cs" />
     <Compile Include="Plugins\Parser\SuffixPlugin.cs" />
     <Compile Include="Plugins\Parser\SwapPlugin.cs" />
     <Compile Include="Plugins\Parser\TimePlugin.cs" />
@@ -185,14 +185,30 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Runtime\AssignHelper.cs" />
+    <Compile Include="Runtime\Bindings\LanguageBinding.cs" />
+    <Compile Include="Runtime\Bindings\MetaCompiler.cs" />
+    <Compile Include="Runtime\Bindings\PrintFunctions.cs" />
     <Compile Include="Runtime\EvalHelper.cs" />
     <Compile Include="Runtime\Execution.cs" />
     <Compile Include="Runtime\ExecutionContext.cs" />
     <Compile Include="Runtime\ExecutionSettings.cs" />
+    <Compile Include="Runtime\MetaCompilerData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Runtime\Switches\ExecuteFilesSwitch.cs" />
+    <Compile Include="Runtime\Switches\DirectiveSwitch.cs" />
+    <Compile Include="Runtime\Switches\InteractiveSwitch.cs" />
+    <Compile Include="Runtime\Switches\ExecuteSwitch.cs" />
+    <Compile Include="Runtime\Switches\LintSwitch.cs" />
+    <Compile Include="Runtime\Switches\NodesSwitch.cs" />
+    <Compile Include="Runtime\Switches\Switch.cs" />
+    <Compile Include="Runtime\Switches\TokensSwitch.cs" />
+    <Compile Include="Runtime\Switches\ListPluginsSwitch.cs" />
     <Compile Include="Templating\ITemplateEngine.cs" />
     <Compile Include="Templating\TemplateEngineDefault.cs" />
     <Compile Include="Templating\Templater.cs" />
     <Compile Include="Types\ConvertSpec.cs" />
+    <Compile Include="Types\Javascript\LJSTableMethods.cs" />
     <Compile Include="Types\ITypeMethods.cs" />
     <Compile Include="Types\Javascript\LJSArrayMethods.cs" />
     <Compile Include="Types\Javascript\LJSDateMethods.cs" />
@@ -220,7 +236,6 @@
     <Compile Include="_Core\FunctionLookupResult.cs" />
     <Compile Include="_Core\Grammar\FSGrammar.cs" />
     <Compile Include="_Core\IFunction.cs" />
-    <Compile Include="_Core\IFunctionStore.cs" />
     <Compile Include="_Core\LangException.cs" />
     <Compile Include="_Core\LangSettings.cs" />
     <Compile Include="_Core\MemberMode.cs" />
@@ -228,6 +243,7 @@
     <Compile Include="_Core\Meta\Docs\DocTags.cs" />
     <Compile Include="_Core\Meta\Docs\Example.cs" />
     <Compile Include="_Core\Meta\Types\Arg.cs" />
+    <Compile Include="_Core\Meta\Types\CustomTag.cs" />
     <Compile Include="_Core\Meta\Types\FunctionMeta.cs" />
     <Compile Include="_Core\Operator.cs">
       <SubType>Code</SubType>

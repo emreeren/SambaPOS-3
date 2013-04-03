@@ -17,7 +17,7 @@ namespace ComLib.Lang.Parsing
     /// <summary>
     /// Helper class for calling functions
     /// </summary>
-    public class ExternalFunctions : IFunctionLookup
+    public class ExternalFunctions
     {
         private Dictionary<string, Func<string, string, FunctionCallExpr, object>> _customCallbacks;
         private Dictionary<string, string> _lcaseToFormaNameMap;
@@ -92,43 +92,6 @@ namespace ComLib.Lang.Parsing
                     return _customCallbacks[prefix + ".*"];
             }
             return null;
-        }
-
-
-        /// <summary>
-        /// Calls the custom function.
-        /// </summary>
-        /// <param name="name">Name of the function</param>
-        /// <param name="exp"></param>
-        /// <returns></returns>
-        public object Call(string name, FunctionCallExpr exp, IAstVisitor visitor)
-        {
-            var objectName = name;
-            var method = string.Empty;
-            Func<string, string, FunctionCallExpr, object> callback = null;
-
-            // Contains callback for full function name ? e.g. CreateUser
-            if (_customCallbacks.ContainsKey(name))
-                callback = _customCallbacks[name];
-
-            // Contains callback that handles multiple methods on a "object".
-            // e.g. Blog.Create, Blog.Delete etc.
-            if (name.Contains("."))
-            {
-                var ndxDot = name.IndexOf(".");
-                objectName = name.Substring(0, ndxDot);
-                method = name.Substring(ndxDot + 1);
-                if (_customCallbacks.ContainsKey(objectName + ".*"))
-                    callback = _customCallbacks[objectName + ".*"];
-            }
-
-            if (callback == null)
-                return LObjects.Null;
-            
-            // 1. Resolve parameter froms expressions into Lang values.
-            ParamHelper.ResolveParametersToHostLangValues(exp.ParamListExpressions, exp.ParamList, visitor);
-            object result = callback(objectName, method, exp);
-            return result;
-        }
+        }   
     }
 }

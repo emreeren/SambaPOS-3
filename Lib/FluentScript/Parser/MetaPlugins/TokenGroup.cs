@@ -15,5 +15,28 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             this.Matches = new List<TokenMatch>();
             this.IsGroup = true;
         }
+
+
+        /// <summary>
+        /// Gets the total number of required plugins.
+        /// </summary>
+        /// <returns></returns>
+        public override int TotalRequired()
+        {
+            if (!this.IsRequired) 
+                return 0;
+
+            if (this.Matches == null || this.Matches.Count == 0)
+                return 0;
+
+            var totalReq = 0;
+            for (var ndx = 0; ndx < this.Matches.Count; ndx++)
+            {
+                var match = this.Matches[ndx];                
+                totalReq += match.TotalRequired();
+                
+            }
+            return totalReq;
+        }
     }
 }

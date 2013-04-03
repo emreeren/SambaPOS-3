@@ -15,6 +15,12 @@ namespace ComLib.Lang.AST
     public class BlockExpr : Expr, IBlockExpr
     {
         /// <summary>
+        /// Whether or not to enable auto variables ( used in for each loops )
+        /// </summary>
+        public bool EnableAutoVariable { get; set; }
+
+
+        /// <summary>
         /// List of statements
         /// </summary>
         protected List<Expr> _statements = new List<Expr>();

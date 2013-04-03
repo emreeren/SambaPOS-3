@@ -87,7 +87,7 @@ namespace ComLib.Lang.Plugins
             // 1. Create the symbol to represent module
             var symbol = new SymbolModule();
             symbol.Name = name;
-            symbol.Category = SymbolCategory.CustomScope;
+            symbol.Category = SymbolCategory.Module;
             symbol.DataType = new LModuleType();
             symbol.DataType.Name = name;
             symbol.DataType.FullName = name;

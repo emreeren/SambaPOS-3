@@ -14,7 +14,9 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         private string _grammar;
         private List<string> _errors;
         private List<TokenMatch> _matches;
+        private List<string> _operatorStack; 
         private int _groupCount;
+        private int _orCount;
 
 
         public List<TokenMatch> Parse(string grammar)
@@ -23,8 +25,38 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             _pos = 0;
             _grammar = grammar;
             _errors = new List<string>();
+            _operatorStack = new List<string>();
             END = _grammar.Length;
             _matches = new List<TokenMatch>();
+            this.DoParse();
+            if(_groupCount > 0)
+                throw new ArgumentException("Grammar contains extra parenthesis : " + grammar);
+            if (_orCount > 0)
+                throw new ArgumentException("Grammar contains extra 'or(|)' condition : " + grammar);
+
+            return _matches;
+        }
+
+
+        public int TotalRequired(List<TokenMatch> matches)
+        {
+            if (matches == null || matches.Count == 0)
+                return 0;
+
+            if (matches.Count == 1)
+                return matches[0].TotalRequired();
+
+            var total = 0;
+            for (var ndx = 0; ndx < matches.Count; ndx++)
+            {
+                total += matches[ndx].TotalRequired();
+            }
+            return total;
+        }
+
+
+        private void DoParse()
+        {
             while (_pos < END)
             {
                 var c = _grammar[_pos];
@@ -35,12 +67,22 @@ namespace ComLib.Lang.Parsing.MetaPlugins
                     var match = ReadToken();
                     AddMatch(match);
                 }
-                // Case 2: Move past white space.
+                // Case 2: '@' specific type of word/identifier
+                else if ( c == '@')
+                {
+                    _pos++;
+                    var tokenType = ReadWord();
+                    var match = new TokenMatch(); 
+                    match.TokenType = "@" + tokenType;
+                    match.IsRequired = true;
+                    AddMatch(match);
+                }
+                // Case 3: Move past white space.
                 else if (c == '\t' || c == ' ')
                 {
                     _pos++;
                 }
-                // Case 3: Last token was optional
+                // Case 4: Last token was optional
                 else if (c == '?')
                 {
                     _pos++;
@@ -52,7 +94,7 @@ namespace ComLib.Lang.Parsing.MetaPlugins
                     }
                     last.IsRequired = false;
                 }
-                // Case 4: "(" starts a grouping of token matches
+                // Case 5: "(" starts a grouping of token matches
                 else if( c == '(')
                 {
                     _pos++;
@@ -63,7 +105,7 @@ namespace ComLib.Lang.Parsing.MetaPlugins
                     _pos++;
                     CloseGroup();
                 }
-                // Case 5: word
+                // Case 6: word
                 else if (char.IsLetter(c))
                 {
                     var word = ReadWord();
@@ -72,38 +114,102 @@ namespace ComLib.Lang.Parsing.MetaPlugins
                     match.IsRequired = true;
                     AddMatch(match);
                 }
+                // Case 7: |
+                else if( c == '|')
+                {
+                    _orCount++;
+                    _operatorStack.Add("|");
+                    _pos++;
+                }
+                // Case 8: escape \
+                else if( c == '\\')
+                {
+                    _pos++;
+                    var escapedChar = _grammar[_pos];
+                    var match = new TokenMatch();
+                    match.Text = escapedChar.ToString();
+                    match.IsRequired = true;
+                    AddMatch(match);
+
+                    // Move past escaped char
+                    _pos++;
+                }
+                // Case 9: #reference
+                else if (c == '#')
+                {                    
+                    var match = ReadToken();
+                    match.Ref = match.Name;
+                    match.Name = null;
+                    AddMatch(match);
+                }
                 else
                     _pos++;
             }
-            return _matches;
+        }
+
+
+        private string LastOperator()
+        {
+            var lastIndex = _operatorStack.Count - 1;
+            if (lastIndex < 0) return string.Empty;
+
+            var lastOp = _operatorStack[lastIndex];
+            return lastOp;
+        }
+
+
+        private void RemoveLastOperator()
+        {
+            var lastIndex = _operatorStack.Count - 1;
+            _operatorStack.RemoveAt(lastIndex);
         }
 
 
         private void BeginGroup()
         {
-            _matches.Add(new TokenGroup());
+            var group = new TokenGroup();
+            group.IsRequired = true;
+            _matches.Add(group);
             _groupCount++;
+            _operatorStack.Add("(");
         }
 
         
         private void CloseGroup()
         {
             _groupCount--;
+            this.ProcessOperatorForGroup();
+            this.ProcessOperatorForOr();
         }
 
 
         private void AddMatch(TokenMatch match)
         {
+            var matches = this.GetMatchCollection();
+            if(matches != null)
+                matches.Add(match);
+            this.ProcessOperatorForOr();
+        }
+
+
+        private List<TokenMatch> GetMatchCollection()
+        {
             var last = Last();
-            if(_groupCount > 0 && last != null && last.IsGroup)
+            List<TokenMatch> matchCollection = null;
+
+            // Case 1: Last one is a group.
+            if (_groupCount > 0 && last != null && last.IsGroup)
             {
-                ((TokenGroup) last).Matches.Add(match);
+                matchCollection = ((TokenGroup) last).Matches;
             }
+            // Case 2: Root level list of matches.
             else
             {
-                _matches.Add(match);
+                matchCollection = _matches;
             }
+            return matchCollection;
         }
+
 
         private TokenMatch Last()
         {
@@ -112,6 +218,45 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         }
 
 
+        private void ProcessOperatorForGroup()
+        {
+            if (this.LastOperator() == "(")
+            {
+                this.RemoveLastOperator();
+            }
+        }
+
+
+        private void ProcessOperatorForOr()
+        {
+            if (this._orCount == 0 || this.LastOperator() != "|")
+            {
+                return;
+            }
+
+            var matches = this.GetMatchCollection();
+            if (matches.Count >= 2)
+            {
+                // 1. Get last 2
+                var lastIndex = matches.Count - 1;
+                var right = matches[lastIndex];
+                var left = matches[lastIndex - 1];
+
+                // 2. Create a or group
+                var groupOr = new TokenGroupOr(left, right);
+
+                // 3. Remove last 2
+                matches.RemoveAt(lastIndex);
+                matches.RemoveAt(lastIndex - 1);
+                matches.Add(groupOr);
+
+                _orCount--;
+                this.RemoveLastOperator();
+            }
+        }
+
+
+        #region Read methods
         /// <summary>
         /// Reads a token e.g. usually begins with "$"
         /// </summary>
@@ -126,7 +271,7 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             {
                 var c = _grammar[_pos];
                 // Case 1: Begin a token match.
-                if (c == '$')
+                if (c == '$' || c == '#')
                 {
                     _pos++;
                     var word = ReadWord();
@@ -176,11 +321,8 @@ namespace ComLib.Lang.Parsing.MetaPlugins
                     {
                         _pos++;
                         var val = ReadWord();
-                        if (val == "value")
-                        {
-                            match.TokenPropEnabled = true;
-                            match.TokenPropValue = val;
-                        }
+                        match.TokenPropEnabled = true;
+                        match.TokenPropValue = val;
                     }
                 }
             }
@@ -190,10 +332,14 @@ namespace ComLib.Lang.Parsing.MetaPlugins
                 var words = ReadList();
                 match.Values = words;
             }
-            else if (c == ':')
+            else if (c == ':' || c == '$')
             {
                 _pos++;
-                match.Text = ":";
+                match.Text = c.ToString();
+            }
+            else if (char.IsLetter(c))
+            {
+                match.Text = ReadWord();
             }
         }
 
@@ -206,7 +352,7 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         {
             var c = _grammar[_pos];
             var start = _pos;
-            while (Char.IsLetter(c) && _pos < END)
+            while (_pos < END && ( Char.IsLetter(c)) || ( _pos > start && Char.IsNumber(c) ))
             {
                 _pos++;
                 if (_pos >= END)
@@ -261,6 +407,7 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             }
             return words.ToArray();
         }
+        #endregion
 
 
         private void Expect(char expectChar)

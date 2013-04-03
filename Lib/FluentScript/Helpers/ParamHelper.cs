@@ -72,15 +72,17 @@ namespace ComLib.Lang.Helpers
                     paramList.Add(val);
             }
         }
-        
+
 
         /// <summary>
         /// Resolves the parameter expressions to actual values.
         /// </summary>
-        /// <param name="totalParams"></param>
-        /// <param name="paramListExpressions"></param>
-        /// <param name="paramList"></param>
-        /// <param name="indexLookup"></param>
+        /// <param name="totalParams">The total number of paramters possible</param>
+        /// <param name="paramListExpressions">The list of expressions that should be evaulated first to pass as parameters</param>
+        /// <param name="paramList">The list of parameters to a populate from paramListExpressions</param>
+        /// <param name="indexLookup">The lookup callback to get the index position for named parameters</param>
+        /// <param name="containsLookup">The lookup callback to determine if the namedparameter exists in the function. </param>
+        /// <param name="visitor">The visitor that will evaulate the expressions.</param>
         public static void ResolveParameters(int totalParams, List<Expr> paramListExpressions, List<object> paramList, Func<NamedParameterExpr, int> indexLookup, 
             Func<NamedParameterExpr, bool> containsLookup, IAstVisitor visitor)
         {
@@ -138,6 +140,10 @@ namespace ComLib.Lang.Helpers
         /// <summary>
         /// Resolve the parameters in the function call.
         /// </summary>
+        /// <param name="meta">The function metadata</param>
+        /// <param name="paramListExpressions">The list of expressions that should be evaulated first to pass as parameters</param>
+        /// <param name="paramList">The list of parameters to a populate from paramListExpressions</param>
+        /// <param name="visitor">The visitor that will evaulate the expressions.</param>
         public static void ResolveParametersForScriptFunction(FunctionMetaData meta, List<Expr> paramListExpressions, List<object> paramList, IAstVisitor visitor)
         {
             int totalParams = meta.Arguments == null ? 0 : meta.Arguments.Count;
@@ -150,6 +156,10 @@ namespace ComLib.Lang.Helpers
         /// <summary>
         /// Resolve the parameters in the function call.
         /// </summary>
+        /// <param name="method">The method that is being called. </param>
+        /// <param name="paramListExpressions">The list of expressions that should be evaulated first to pass as parameters</param>
+        /// <param name="paramList">The list of parameters to a populate from paramListExpressions</param>
+        /// <param name="visitor">The visitor that will evaulate the expressions.</param>
         public static void ResolveParametersForMethodCall(MethodInfo method, List<Expr> paramListExpressions, List<object> paramList, IAstVisitor visitor)
         {
             var parameters = method.GetParameters();

@@ -27,7 +27,7 @@ namespace ComLib.Lang.Parsing
     /// 1. AssignStmt ( "var name = "kishore"; )
     /// 2. IfStmt ( "if (name == "kishore" ) { print ("true"); }
     /// </summary>
-    public class Parser : ParserBase, ILangParser
+    public class Parser : ParserBase
     {
         /// <summary>
         /// Initialize the context.
@@ -124,8 +124,10 @@ namespace ComLib.Lang.Parsing
                 if (nexttoken == Tokens.EndToken || nexttoken == Tokens.RightBrace)
                     break;
 
+                var isNewLineOrComment = nexttoken == Tokens.NewLine || nexttoken.Kind == TokenKind.Comment;
+
                 // Token replacements                
-                if (hasTokenReplacePlugins && (nexttoken.Kind == TokenKind.Ident) && _context.PluginsMeta.CanHandleTok(nexttoken, true))
+                if (!isNewLineOrComment && hasTokenReplacePlugins && (nexttoken.Kind == TokenKind.Ident) && _context.PluginsMeta.CanHandleTok(nexttoken, true))
                 {
                     var plugin = _context.PluginsMeta.LastMatchedTokenPlugin;
                     nexttoken = plugin.Parse();
@@ -133,12 +135,17 @@ namespace ComLib.Lang.Parsing
                 }
 
                 // 1. System statements.
-                if (_context.Plugins.CanHandleSysStmt(nexttoken))
+                if (!isNewLineOrComment &&_context.Plugins.CanHandleSysStmt(nexttoken))
                 {
                     stmt = ParseSystemStatement();
                 }
-                // 2. Custom expressions/statements.
-                else if (_context.Plugins.CanHandleStmt(nexttoken))
+                // 2a. Custom expressions/statements at metaplugin level
+                else if (!isNewLineOrComment && _context.PluginsMeta.CanHandleExp(nexttoken))
+                {                    
+                    stmt = _context.PluginsMeta.ParseExp(this.OnDemandEvaluator);
+                }
+                // 2b. Custom expressions/statements.
+                else if (!isNewLineOrComment && _context.Plugins.CanHandleStmt(nexttoken))
                 {
                     stmt = ParseExtensionStatement();
                 }
@@ -269,15 +276,15 @@ namespace ComLib.Lang.Parsing
 
                 // META-PLUGINS-START
                 // 1. TEMP: Handle metaplugins first.
-                //if(okToCheckPlugins && enablePlugins && hasMetaPlugins && _context.PluginsMeta.CanHandleExp(token))
-                //{
-                //    var visitor = this.OnDemandEvaluator;
-                //    exp = _context.PluginsMeta.Parse(visitor);
-                //    _state.ExpressionCount++;
-                //}
+                if(okToCheckPlugins && enablePlugins && hasMetaPlugins && _context.PluginsMeta.CanHandleExp(token))
+                {
+                    var visitor = this.OnDemandEvaluator;
+                    exp = _context.PluginsMeta.ParseExp(visitor);
+                    _state.ExpressionCount++;
+                }
                 // META-PLUGINS-END
                 // 1. Check for combinators.
-                if (okToCheckPlugins && enablePlugins && hasPlugins && _context.Plugins.CanHandleExp(token))
+                else if (okToCheckPlugins && enablePlugins && hasPlugins && _context.Plugins.CanHandleExp(token))
                 {
                     var combinator = _context.Plugins.LastMatchedExpressionPlugin;
                     exp = combinator.Parse();
@@ -350,7 +357,7 @@ namespace ComLib.Lang.Parsing
                 // examples: name, user.isactive, user.activate(), getuser()
                 else if (token.Kind == TokenKind.Ident)
                 {
-                    exp = ParseIdExpression();
+                    exp = ParseIdExpression(null, null, false);
                     _state.ExpressionCount++;                    
                 }
                 // CASE: List 
@@ -686,7 +693,7 @@ namespace ComLib.Lang.Parsing
         {
             var tokenData = _tokenIt.NextToken;
             var name = tokenData.Token.Text;
-            var exp = ParseIdExpression();
+            var exp = ParseIdExpression(null, null, false);
             if (exp.IsNodeType(NodeTypes.SysFunctionCall))
             {
                 _tokenIt.ExpectEndOfStmt();
@@ -1101,7 +1108,7 @@ namespace ComLib.Lang.Parsing
                     
                     // module ?
                     var sym = symScope.GetSymbol(member);
-                    if( sym.Category == SymbolCategory.CustomScope)
+                    if( sym.Category == SymbolCategory.Module)
                     {
                         symScope = ((SymbolModule)sym).Scope;
                     }
@@ -1140,23 +1147,46 @@ namespace ComLib.Lang.Parsing
         /// <param name="existing"></param>
         /// <param name="isCurrentTokenAMember">Whether or not the current token is a '[', '(' or a '.'</param>
         /// <returns></returns>
-        public Expr ParseIdExpression(string name = null, Expr existing = null, bool isCurrentTokenAMember = false)
+        public Expr ParseIdExpression(string name, Expr existing, bool isCurrentTokenAnOperator)
         {
-            Expr exp = existing;
-            var aheadToken = isCurrentTokenAMember ? _tokenIt.NextToken : _tokenIt.Peek();
+            var exp = existing;
+            var aheadToken = isCurrentTokenAnOperator ? _tokenIt.NextToken : _tokenIt.Peek();
             var currentName = "";
+            var withEnabled = Exprs.WithCount() > 0;
+            
+            // NOT coming in from ParseExpression
+            // e.g. [1, 2].length;
             if (existing == null)
             {
                 currentName = string.IsNullOrEmpty(name) ? _tokenIt.NextToken.Token.Text : name;
                 exp = Exprs.Ident(currentName, _tokenIt.NextToken);
             }
-            if(!isCurrentTokenAMember)
+            if (!isCurrentTokenAnOperator)
                 _tokenIt.Advance();   
              
             int memberAccess = 0;
-            bool isFunction = (exp.IsNodeType(NodeTypes.SysVariable) && _context.Symbols.IsFunc(((VariableExpr)exp).Name));
+
+            // 1. Get whether the variable is either a function/variable/module.
+            var isVarType = exp.IsNodeType(NodeTypes.SysVariable);
+            bool isFunction = false, isVariable = false, isModule = false, isExternalFunc = false;
+            var varName = isVarType ? ((VariableExpr) exp).Name : string.Empty;
+            if (isVarType)
+            {                
+                isFunction = _context.Symbols.IsFunc(varName);
+                isVariable = _context.Symbols.IsVar (varName);
+                isModule =   _context.Symbols.IsMod (varName);
+                isExternalFunc = _context.ExternalFunctions.Contains(varName);
+            }            
             
-            // CASE 1: function call without out parenthesis.
+            // CASE 1: Binding function call ( only for compiler right now )
+            //         Only supporting compiler bindings right now. e.g. sys.compiler language bindings
+            var n1 = _tokenIt.Peek(1);
+            if(currentName == "sys" && _tokenIt.NextToken.Token == Tokens.Dot && n1.Token.Text == "compiler" )
+            {
+                return this.ParseBindingCallExpr("sys", "compiler");
+            }
+
+            // CASE 2: function call without out parenthesis.
             if (isFunction && aheadToken.Token != Tokens.LeftParenthesis)
             {
                 exp = ParseFuncExpression(exp, null);
@@ -1164,15 +1194,23 @@ namespace ComLib.Lang.Parsing
                 return exp;
             }
 
-            // CASE 2: Simple variable expression - e.g. result + 2
+            // CASE 3: Simple variable expression - e.g. result + 2
             bool isMemberAccessAhead = ( aheadToken.Token == Tokens.LeftParenthesis || aheadToken.Token == Tokens.LeftBracket || aheadToken.Token == Tokens.Dot );
-            if( !isFunction && !isMemberAccessAhead )
+            if (isVariable && !isMemberAccessAhead)
             {
                 exp.Ctx = _context;
                 return exp;
             }
+
+            // CASE 4: Using with block and variable not existing
+            //         e.g. with each contact {  print( birthday ) => print( contact.birthday ).
+            if (withEnabled && !isFunction && !isVariable && !isModule && !isExternalFunc && varName != Exprs.WithName())
+            {                
+                var objectNameExp = Exprs.IdentWith(exp.Token);
+                exp = Exprs.MemberAccess(objectNameExp, exp.ToQualifiedName(), false, exp.Token);
+            }
            
-            // CASE 3: Member access of some sort using either "." | "[]" | "()"
+            // CASE 5: Member access of some sort using either "." | "[]" | "()"
             // 1. result.total  : Dot access
             // 2. result[0]     : Array access
             // 3. add( 2, 3 )   : Function access/call
@@ -1180,7 +1218,6 @@ namespace ComLib.Lang.Parsing
             var token = _tokenIt.NextToken.Token;
             var members = new List<string>();
             members.Add(exp.ToQualifiedName());
-
             while (token == Tokens.LeftParenthesis || token == Tokens.LeftBracket || token == Tokens.Dot)
             {
                 // Case 2: "("- function call
@@ -1231,6 +1268,35 @@ namespace ComLib.Lang.Parsing
                 token = tokenData.Token;
             }
             return exp;
+        }
+
+
+        /// <summary>
+        /// Parses a binding function call expression to hook into language bindings from the scripts.
+        /// </summary>
+        /// <param name="root"></param>
+        /// <param name="n1"></param>
+        /// <returns></returns>
+        public BindingCallExpr ParseBindingCallExpr(string root, string n1)
+        {
+            var startToken = _tokenIt.LastToken;
+            
+            // 1. Move past the "." after "sys".
+            _tokenIt.Advance();
+
+            // 2. "compiler" after "sys."
+            var bindingName = _tokenIt.ExpectId();
+            
+            // 3. Expect "." for function name after the dot.
+            _tokenIt.Expect(Tokens.Dot);
+
+            // 4. function name
+            var functionName = _tokenIt.ExpectId();
+
+            var bexpr = Exprs.BindingCall(bindingName, functionName, startToken) as BindingCallExpr;
+            FluentHelper.ParseFuncParameters(bexpr.ParamListExpressions, _tokenIt, this, true, false, null);
+            this.SetupContext(bexpr, startToken);
+            return bexpr;
         }
 
 

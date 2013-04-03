@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using ComLib.Lang.Core;
-
 
 namespace ComLib.Lang.AST
 {
@@ -12,7 +10,7 @@ namespace ComLib.Lang.AST
     ///			features like control-flow e..g if, while, for, try, break, continue, return etc.
     /// version: 0.9.8.10
     /// author:  kishore reddy
-    /// date:	01/11/13 04:02:40 PM
+    /// date:	02/25/13 05:13:07 PM
     /// ------------------------------------------------------------------------------------------------
 
 
@@ -44,7 +42,39 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>2: AST class for AssignExpr</summary>
+    /// <summary>2: AST class for AnyOfExpr</summary>
+    public class AnyOfExpr : Expr, IParameterExpression
+    {
+        public AnyOfExpr()
+        {
+            this.Nodetype = NodeTypes.SysAnyOf;
+        }
+
+
+        public Expr CompareExpr;
+
+        public List<Expr> ParamListExpressions { get; set; }
+
+        public List<object> ParamList { get; set; }
+
+        public override object DoVisit(IAstVisitor visitor)
+        {
+            return visitor.VisitAnyOf(this);
+        }
+
+        public override object DoEvaluate(IAstVisitor visitor)
+        {
+            return visitor.VisitAnyOf(this);
+        }
+
+        public override string ToQualifiedName()
+        {
+            return string.Empty;
+        }
+    }
+
+
+    /// <summary>3: AST class for AssignExpr</summary>
     public class AssignExpr : Expr
     {
         public AssignExpr()
@@ -76,7 +106,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>3: AST class for AssignMultiExpr</summary>
+    /// <summary>4: AST class for AssignMultiExpr</summary>
     public class AssignMultiExpr : Expr
     {
         public AssignMultiExpr()
@@ -104,7 +134,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>4: AST class for BinaryExpr</summary>
+    /// <summary>5: AST class for BinaryExpr</summary>
     public class BinaryExpr : Expr
     {
         public BinaryExpr()
@@ -134,7 +164,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>5: AST class for CompareExpr</summary>
+    /// <summary>6: AST class for CompareExpr</summary>
     public class CompareExpr : Expr
     {
         public CompareExpr()
@@ -164,7 +194,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>6: AST class for ConditionExpr</summary>
+    /// <summary>7: AST class for ConditionExpr</summary>
     public class ConditionExpr : Expr
     {
         public ConditionExpr()
@@ -194,7 +224,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>7: AST class for ConstantExpr</summary>
+    /// <summary>8: AST class for ConstantExpr</summary>
     public class ConstantExpr : ValueExpr
     {
         public ConstantExpr()
@@ -220,7 +250,133 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>8: AST class for FunctionCallExpr</summary>
+    /// <summary>9: AST class for DayExpr</summary>
+    public class DayExpr : ValueExpr
+    {
+        public DayExpr()
+        {
+            this.Nodetype = NodeTypes.SysDay;
+        }
+
+
+        public string Name;
+
+        public string Time;
+
+        public override object DoVisit(IAstVisitor visitor)
+        {
+            return visitor.VisitDay(this);
+        }
+
+        public override object DoEvaluate(IAstVisitor visitor)
+        {
+            return visitor.VisitDay(this);
+        }
+
+        public override string ToQualifiedName()
+        {
+            return string.Empty;
+        }
+    }
+
+
+    /// <summary>10: AST class for DurationExpr</summary>
+    public class DurationExpr : ValueExpr
+    {
+        public DurationExpr()
+        {
+            this.Nodetype = NodeTypes.SysDuration;
+        }
+
+
+        public string Duration;
+
+        public string Mode;
+
+        public override object DoVisit(IAstVisitor visitor)
+        {
+            return visitor.VisitDuration(this);
+        }
+
+        public override object DoEvaluate(IAstVisitor visitor)
+        {
+            return visitor.VisitDuration(this);
+        }
+
+        public override string ToQualifiedName()
+        {
+            return string.Empty;
+        }
+    }
+
+
+    /// <summary>11: AST class for DateExpr</summary>
+    public class DateExpr : Expr
+    {
+        public DateExpr()
+        {
+            this.Nodetype = NodeTypes.SysDate;
+        }
+
+
+        public int Month;
+
+        public int Day;
+
+        public int Year;
+
+        public string Time;
+
+        public override object DoVisit(IAstVisitor visitor)
+        {
+            return visitor.VisitDate(this);
+        }
+
+        public override object DoEvaluate(IAstVisitor visitor)
+        {
+            return visitor.VisitDate(this);
+        }
+
+        public override string ToQualifiedName()
+        {
+            return string.Empty;
+        }
+    }
+
+
+    /// <summary>12: AST class for DateRelativeExpr</summary>
+    public class DateRelativeExpr : Expr
+    {
+        public DateRelativeExpr()
+        {
+            this.Nodetype = NodeTypes.SysDateRelative;
+        }
+
+
+        public int Month;
+
+        public int DayOfTheWeek;
+
+        public string RelativeDay;
+
+        public override object DoVisit(IAstVisitor visitor)
+        {
+            return visitor.VisitDateRelative(this);
+        }
+
+        public override object DoEvaluate(IAstVisitor visitor)
+        {
+            return visitor.VisitDateRelative(this);
+        }
+
+        public override string ToQualifiedName()
+        {
+            return string.Empty;
+        }
+    }
+
+
+    /// <summary>13: AST class for FunctionCallExpr</summary>
     public class FunctionCallExpr : Expr, IParameterExpression
     {
         public FunctionCallExpr()
@@ -236,6 +392,8 @@ namespace ComLib.Lang.AST
         public List<object> ParamList { get; set; }
 
         public FunctionExpr Function;
+
+        public bool RetainEvaluatedParams;
 
         public bool IsScopeVariable;
 
@@ -256,7 +414,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>9: AST class for FunctionExpr</summary>
+    /// <summary>14: AST class for FunctionExpr</summary>
     public class FunctionExpr : BlockExpr
     {
         public FunctionExpr()
@@ -296,7 +454,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>10: AST class for IndexExpr</summary>
+    /// <summary>15: AST class for IndexExpr</summary>
     public class IndexExpr : Expr
     {
         public IndexExpr()
@@ -328,7 +486,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>11: AST class for InterpolatedExpr</summary>
+    /// <summary>16: AST class for InterpolatedExpr</summary>
     public class InterpolatedExpr : Expr
     {
         public InterpolatedExpr()
@@ -356,7 +514,35 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>12: AST class for MapExpr</summary>
+    /// <summary>17: AST class for ListCheckExpr</summary>
+    public class ListCheckExpr : Expr
+    {
+        public ListCheckExpr()
+        {
+            this.Nodetype = NodeTypes.SysListCheck;
+        }
+
+
+        public Expr NameExp;
+
+        public override object DoVisit(IAstVisitor visitor)
+        {
+            return visitor.VisitListCheck(this);
+        }
+
+        public override object DoEvaluate(IAstVisitor visitor)
+        {
+            return visitor.VisitListCheck(this);
+        }
+
+        public override string ToQualifiedName()
+        {
+            return string.Empty;
+        }
+    }
+
+
+    /// <summary>18: AST class for MapExpr</summary>
     public class MapExpr : IndexableExpr
     {
         public MapExpr()
@@ -384,7 +570,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>13: AST class for MemberAccessExpr</summary>
+    /// <summary>19: AST class for MemberAccessExpr</summary>
     public class MemberAccessExpr : Expr
     {
         public MemberAccessExpr()
@@ -416,7 +602,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>14: AST class for NamedParameterExpr</summary>
+    /// <summary>20: AST class for NamedParameterExpr</summary>
     public class NamedParameterExpr : Expr
     {
         public NamedParameterExpr()
@@ -448,7 +634,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>15: AST class for NegateExpr</summary>
+    /// <summary>21: AST class for NegateExpr</summary>
     public class NegateExpr : VariableExpr
     {
         public NegateExpr()
@@ -476,7 +662,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>16: AST class for NewExpr</summary>
+    /// <summary>22: AST class for NewExpr</summary>
     public class NewExpr : Expr, IParameterExpression
     {
         public NewExpr()
@@ -508,7 +694,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>17: AST class for ParameterExpr</summary>
+    /// <summary>23: AST class for ParameterExpr</summary>
     public class ParameterExpr : Expr, IParameterExpression
     {
         public ParameterExpr()
@@ -540,7 +726,69 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>18: AST class for UnaryExpr</summary>
+    /// <summary>24: AST class for RunExpr</summary>
+    public class RunExpr : Expr
+    {
+        public RunExpr()
+        {
+            this.Nodetype = NodeTypes.SysRun;
+        }
+
+
+        public string FuncName;
+
+        public string Mode;
+
+        public Expr FuncCallOnAfterExpr;
+
+        public Expr FuncCallExpr;
+
+        public override object DoVisit(IAstVisitor visitor)
+        {
+            return visitor.VisitRun(this);
+        }
+
+        public override object DoEvaluate(IAstVisitor visitor)
+        {
+            return visitor.VisitRun(this);
+        }
+
+        public override string ToQualifiedName()
+        {
+            return string.Empty;
+        }
+    }
+
+
+    /// <summary>25: AST class for TableExpr</summary>
+    public class TableExpr : IndexableExpr
+    {
+        public TableExpr()
+        {
+            this.Nodetype = NodeTypes.SysTable;
+        }
+
+
+        public List<string> Fields;
+
+        public override object DoVisit(IAstVisitor visitor)
+        {
+            return visitor.VisitTable(this);
+        }
+
+        public override object DoEvaluate(IAstVisitor visitor)
+        {
+            return visitor.VisitTable(this);
+        }
+
+        public override string ToQualifiedName()
+        {
+            return string.Empty;
+        }
+    }
+
+
+    /// <summary>26: AST class for UnaryExpr</summary>
     public class UnaryExpr : VariableExpr
     {
         public UnaryExpr()
@@ -572,7 +820,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>30: AST class for VariableExpr</summary>
+    /// <summary>38: AST class for VariableExpr</summary>
     public class VariableExpr : Expr
     {
         public VariableExpr()

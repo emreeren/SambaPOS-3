@@ -137,7 +137,7 @@ namespace ComLib.Lang.AST
         /// Build a language exception due to the current token being invalid.
         /// </summary>
         /// <returns></returns>
-        protected LangException BuildRunTimeException(string message)
+        public LangException BuildRunTimeException(string message)
         {
             return new LangException("Runtime Error", message, this.Ref.ScriptName, this.Ref.Line, this.Ref.CharPos);
         }

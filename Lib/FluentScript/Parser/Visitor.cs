@@ -24,17 +24,7 @@ namespace ComLib.Lang.Parsing
         private Action<AstNode> _callBackOnNodeStart;
         private Action<AstNode> _callBackOnNodeEnd;
 
-
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        public AstVisitor()
-        {
-            _callBackOnNodeStart = null;
-            _callBackOnNodeEnd = null;
-        }
-
-
+        
         /// <summary>
         /// Initialize
         /// </summary>
@@ -120,7 +110,24 @@ namespace ComLib.Lang.Parsing
         }
 
 
+        public object VisitAnyOf( AnyOfExpr expr )
+        {
+            return null;
+        }
+
+
         public object VisitArray(ArrayExpr expr)
+        {
+            return null;
+        }
+
+
+        /// <summary>
+        /// Evaluates a table declaration.
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public object VisitTable(TableExpr expr)
         {
             return null;
         }
@@ -139,7 +146,7 @@ namespace ComLib.Lang.Parsing
         /// <summary>
         /// Visits the var statement tree.
         /// </summary>
-        /// <param name="assignExpr"></param>
+        /// <param name="expr"></param>
         public object VisitAssign(AssignExpr expr)
         {
             _callBackOnNodeStart(expr);
@@ -150,10 +157,17 @@ namespace ComLib.Lang.Parsing
         }
 
 
+
+        public object VisitBindingCall(BindingCallExpr expr)
+        {
+            return null;
+        }
+
+
         /// <summary>
         /// Visits the var statement tree.
         /// </summary>
-        /// <param name="assignExpr"></param>
+        /// <param name="expr"></param>
         public object VisitBreak(BreakExpr expr)
         {
             _callBackOnNodeStart(expr);
@@ -164,10 +178,56 @@ namespace ComLib.Lang.Parsing
         /// <summary>
         /// Visits the var statement tree.
         /// </summary>
-        /// <param name="assignExpr"></param>
+        /// <param name="expr"></param>
         public object VisitContinue(ContinueExpr expr)
         {
             _callBackOnNodeStart(expr);
+            return null;
+        }
+
+
+        /// <summary>
+        /// Check the date expr.
+        /// </summary>
+        public object VisitDate(DateExpr expr)
+        {
+            return null;
+        }
+
+
+        /// <summary>
+        /// Check the day expression.
+        /// </summary>
+        public object VisitDay(DayExpr expr)
+        {
+            return null;
+        }
+
+
+        public object VisitDuration(DurationExpr expr)
+        {
+            return null;
+        }
+
+
+        /// <summary>
+        /// Visit the relative date expression.
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public object VisitDateRelative(DateRelativeExpr expr)
+        {
+            return null;
+        }
+
+
+        /// <summary>
+        /// Check the epxr which checks the presense / count of the enumerable expression(list/map) into bool true/false.
+        /// </summary>
+        /// <param name="expr">The list check expression.</param>
+        /// <returns></returns>
+        public object VisitListCheck(ListCheckExpr expr)
+        {
             return null;
         }
 
@@ -456,6 +516,12 @@ namespace ComLib.Lang.Parsing
         /// </summary>
         /// <returns></returns>
         public object VisitNegate(NegateExpr expr)
+        {
+            return null;
+        }
+
+
+        public object VisitRun(RunExpr expr)
         {
             return null;
         }

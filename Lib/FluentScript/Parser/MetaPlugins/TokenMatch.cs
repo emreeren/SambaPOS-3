@@ -35,6 +35,9 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             return this;
         }
 
+        // Reference to another component.
+        public string Ref;
+
 
         // Named token. can be @starttoken, @n1, @n2, @n3
         public string Name;
@@ -117,6 +120,18 @@ namespace ComLib.Lang.Parsing.MetaPlugins
             if (this.Values == null || this.Values.Length == 0)
                 return true;
             return this.Values.Contains(token.Text);
+        }
+
+
+        /// <summary>
+        /// Gets the total number of required plugins.
+        /// </summary>
+        /// <returns></returns>
+        public virtual int TotalRequired()
+        {
+            if (this.IsRequired && this.TokenType != "@exprTerminators") 
+                return 1;
+            return 0;
         }
     }
 }

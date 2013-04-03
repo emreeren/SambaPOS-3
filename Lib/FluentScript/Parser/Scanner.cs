@@ -18,31 +18,7 @@ namespace ComLib.Lang.Parsing
         /// Initialize
         /// </summary>
         /// <param name="success"></param>
-        /// <param name="text"></param>
-        public ScanResult(bool success, string text)
-            : this(success, text, 0)
-        {
-        }
-
-
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="success"></param>
-        /// <param name="text">The parsed text</param>
-        /// <param name="totalNewLines">The total number of new lines</param>
-        public ScanResult(bool success, string text, int totalNewLines)
-        {
-            this.Success = success;
-            this.Text = text;
-            this.Lines = totalNewLines;
-        }
-
-
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="success"></param>
+        /// <param name="start">The starting position.</param>
         /// <param name="text">The parsed text</param>
         /// <param name="totalNewLines">The total number of new lines</param>
         public ScanResult(bool success, int start, string text, int totalNewLines)
@@ -175,6 +151,12 @@ namespace ComLib.Lang.Parsing
         /// Tab
         /// </summary>
         protected const char TAB = '\t';
+
+
+        protected const char CARRIAGERETURN = '\r';
+
+
+        protected const char NEWLINE = '\n';
 
 
         /// <summary>
@@ -690,7 +672,7 @@ namespace ComLib.Lang.Parsing
             var text = _pos.ExtractInclusive(start, _pos.Pos - 1);
             if (!setPosAfterToken) this.MoveChars(-1);
             this.UpdateLineState(start);
-            var result = new ScanResult(true, text, 0);
+            var result = new ScanResult(true, start, text, 0);
             return result;
         }
 
@@ -707,6 +689,7 @@ namespace ComLib.Lang.Parsing
         {
             // "name" 'name' "name\"s" 'name\'"
             var text = "";
+            var start = _pos.Pos;
             var initialLineNum = _pos.Line;
             var matched = false;
             if(advanceFirst) this.ReadChar();
@@ -742,7 +725,7 @@ namespace ComLib.Lang.Parsing
 
             if (setPosAfterToken) this.MoveChars(1);
             var totalNewLines = _pos.Line - initialLineNum;            
-            return new ScanResult(matched, text, totalNewLines);
+            return new ScanResult(matched, start, text, totalNewLines);
         }
 
 
@@ -985,6 +968,66 @@ namespace ComLib.Lang.Parsing
             }
             return is2CharNewLine;
         }
+
+
+        public ScanResult SkipUntilPrefixedWord(bool advanceFirst, char prefix, string word)
+        {
+            if (advanceFirst) this.ReadChar();
+            var start = _pos.Pos;
+            var checkWord = false;
+            var lastWord = string.Empty;
+            var buffer = string.Empty;
+            var success = false;
+            while (_pos.Pos <= LAST_POSITION)
+            {
+                var ch = _pos.Text[_pos.Pos];
+                if (ch == prefix)
+                {
+                    checkWord = true;
+                    _pos.Pos++;
+                }
+                else if(checkWord )
+                {
+                    // Case 1: letter
+                    if (char.IsLetter(ch))
+                        buffer += ch;
+                    
+                    // Case 2: not a letter after prefix ( so turn off checking word )
+                    else if(string.IsNullOrEmpty(buffer))
+                        checkWord = false;
+                    
+                    // Case 3: buffer has letters but current char is not a letter so end.
+                    else
+                    {
+                        checkWord = false;
+                        lastWord = buffer;
+                        buffer = string.Empty;
+                        if(ch == '\r')
+                        {
+                            var nextchar = this.PeekChar();
+                            this.IncrementLine(nextchar == '\n');
+                        }
+                        if(lastWord == word)
+                        {
+                            break;
+                        }
+                    }
+                    _pos.Pos++;
+                }
+                else if (ch == '\r')
+                {
+                    var nextchar = this.PeekChar();
+                    this.IncrementLine(nextchar == '\n');
+                }
+                else
+                {
+                    _pos.Pos++;
+                }
+            }
+            success = lastWord == word;
+            return new ScanResult(success, start, lastWord, 0);
+        }
+
         #endregion
 
 

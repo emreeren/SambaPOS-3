@@ -113,6 +113,7 @@ namespace ComLib.Lang.Plugins
             _tokenIt.Advance();
 
             return Exprs.Index(identExpr, indexExpr, false, startToken);
+
         }
     }
 }

@@ -39,7 +39,13 @@ namespace ComLib.Lang.Core
         /// <summary>
         /// Module level scope.
         /// </summary>
-        public const string CustomScope = "scope";
+        public const string Module = "module";
+
+
+        /// <summary>
+        /// Module level scope.
+        /// </summary>
+        public const string CustomScope1 = "customscope";
     }
 
 
@@ -493,14 +499,6 @@ namespace ComLib.Lang.Core
 
 
         /// <summary>
-        /// Initialize
-        /// </summary>
-        public SymbolsNested(string name, ISymbols parentScope) : base(name, parentScope)
-        {
-        }
-
-
-        /// <summary>
         /// Get the symbol associated with the supplied name
         /// </summary>
         /// <param name="name">Name of the symbol</param>
@@ -541,7 +539,7 @@ namespace ComLib.Lang.Core
         /// Initialize
         /// </summary>
         /// <param name="name">The name of the symbol scope</param>
-        public SymbolsFunction(string name) : base(name, null)
+        public SymbolsFunction(string name) : base(name)
         {
         }
 
@@ -551,8 +549,9 @@ namespace ComLib.Lang.Core
         /// </summary>
         /// <param name="name">The name of the symbol scope</param>
         /// <param name="parentScope">The parent scope</param>
-        public SymbolsFunction(string name, ISymbols parentScope) : base(name, parentScope)
+        public SymbolsFunction(string name, ISymbols parentScope) : base(name)
         {
+            this.ParentScope = parentScope;
         }
     }
 
@@ -663,6 +662,17 @@ namespace ComLib.Lang.Core
         public bool IsVar(string name)
         {
             return IsCategory(name, SymbolCategory.Var);
+        }
+
+
+        /// <summary>
+        /// Whether or not the symbol supplied is a module
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool IsMod(string name)
+        {
+            return IsCategory(name, SymbolCategory.Module);
         }
 
 

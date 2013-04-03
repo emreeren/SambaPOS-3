@@ -20,5 +20,8 @@ namespace ComLib.Lang.AST
         /// List of expressions representing the parameters.
         /// </summary>
         List<Expr> ParamListExpressions { get; set; }
+
+
+        string ToQualifiedName();
     }
 }

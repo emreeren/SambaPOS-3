@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ComLib.Lang.Core;
 
 namespace ComLib.Lang.AST
@@ -9,11 +10,11 @@ namespace ComLib.Lang.AST
     ///			features like control-flow e..g if, while, for, try, break, continue, return etc.
     /// version: 0.9.8.10
     /// author:  kishore reddy
-    /// date:	12/23/12 03:06:25 PM
+    /// date:	02/21/13 04:16:59 PM
     /// ------------------------------------------------------------------------------------------------
 
 
-    /// <summary>18: AST class for BreakExpr</summary>
+    /// <summary>26: AST class for BreakExpr</summary>
     public class BreakExpr : Expr
     {
         public BreakExpr()
@@ -39,7 +40,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>19: AST class for ContinueExpr</summary>
+    /// <summary>27: AST class for ContinueExpr</summary>
     public class ContinueExpr : Expr
     {
         public ContinueExpr()
@@ -65,7 +66,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>20: AST class for ForEachExpr</summary>
+    /// <summary>28: AST class for ForEachExpr</summary>
     public class ForEachExpr : WhileExpr
     {
         public ForEachExpr()
@@ -75,6 +76,8 @@ namespace ComLib.Lang.AST
 
 
         public string VarName;
+
+        public Expr SourceExpr;
 
         public string SourceName;
 
@@ -95,7 +98,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>21: AST class for ForExpr</summary>
+    /// <summary>29: AST class for ForExpr</summary>
     public class ForExpr : WhileExpr
     {
         public ForExpr()
@@ -125,7 +128,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>22: AST class for FunctionDeclareExpr</summary>
+    /// <summary>30: AST class for FunctionDeclareExpr</summary>
     public class FunctionDeclareExpr : Expr
     {
         public FunctionDeclareExpr()
@@ -153,7 +156,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>23: AST class for IfExpr</summary>
+    /// <summary>31: AST class for IfExpr</summary>
     public class IfExpr : ConditionalBlockExpr
     {
         public IfExpr()
@@ -181,7 +184,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>24: AST class for LambdaExpr</summary>
+    /// <summary>32: AST class for LambdaExpr</summary>
     public class LambdaExpr : Expr
     {
         public LambdaExpr()
@@ -209,7 +212,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>25: AST class for ReturnExpr</summary>
+    /// <summary>33: AST class for ReturnExpr</summary>
     public class ReturnExpr : Expr
     {
         public ReturnExpr()
@@ -237,7 +240,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>26: AST class for ThrowExpr</summary>
+    /// <summary>34: AST class for ThrowExpr</summary>
     public class ThrowExpr : Expr
     {
         public ThrowExpr()
@@ -265,7 +268,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>27: AST class for TryCatchExpr</summary>
+    /// <summary>35: AST class for TryCatchExpr</summary>
     public class TryCatchExpr : Expr, IBlockExpr
     {
         public TryCatchExpr()
@@ -297,7 +300,7 @@ namespace ComLib.Lang.AST
     }
 
 
-    /// <summary>28: AST class for WhileExpr</summary>
+    /// <summary>36: AST class for WhileExpr</summary>
     public class WhileExpr : ConditionalBlockExpr, ILoop
     {
         public WhileExpr()

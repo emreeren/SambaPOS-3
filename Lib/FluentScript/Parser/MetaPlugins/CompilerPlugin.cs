@@ -12,11 +12,10 @@ namespace ComLib.Lang.Parsing.MetaPlugins
     public class CompilerPlugin
     {
         public List<TokenMatch> Matches;
-
+        public List<TokenMatch> MatchesForParse;
 
         public CompilerPlugin()
-        {
-            this.Matches = new List<TokenMatch>();
+        {            
         }
 
 
@@ -158,9 +157,27 @@ namespace ComLib.Lang.Parsing.MetaPlugins
 
 
         /// <summary>
+        /// A token map for representing another set of allowed tokens not part of the start tokens.
+        /// </summary>
+        public IDictionary<string, object> TokenMap1 { get; set; }
+
+
+        /// <summary>
+        /// The secondary token map for representing another set of allowed tokens
+        /// </summary>
+        public IDictionary<string, object> TokenMap2 { get; set; }
+
+
+        /// <summary>
+        /// Default arguments for parse method
+        /// </summary>
+        public IDictionary<string, object> ParseDefaults { get; set; }
+
+
+        /// <summary>
         /// Expression to parse
         /// </summary>
-        public Expr ParseExpr;
+        public Expr BuildExpr;
 
         
         /// <summary>
@@ -169,16 +186,37 @@ namespace ComLib.Lang.Parsing.MetaPlugins
         public string Grammar { get; set; }
 
 
+        /// <summary>
+        /// The total # of required matches - calculated based on matches.
+        /// </summary>
+        public int TotalRequiredMatches;
+
+
         public void AddStartTokens(params string[] tokens)
         {
             this.StartTokens = tokens;
         }
 
 
-        public void AddMatch(TokenMatch m)
+        public string GetFullGrammar()
         {
-            this.Matches.Add(m);
+            var grammar = "";
+            if (string.IsNullOrEmpty(this.Grammar))
+                grammar = this.GrammarMatch;
+            else
+            {
+                var ndxRef = this.Grammar.IndexOf("#grammarmatch");
+                if (ndxRef >= 0)
+                    grammar = this.GrammarMatch + " " + this.Grammar.Substring(ndxRef + 13);
+            }
+            return grammar;
         }
+
+
+        //public void AddMatch(TokenMatch m)
+        //{
+        //    this.Matches.Add(m);
+        //}
 
 
         /// <summary>

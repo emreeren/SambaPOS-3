@@ -60,6 +60,7 @@ namespace ComLib.Lang.Types
         public bool IsBuiltInType()
         {
             if (this.TypeVal == TypeConstants.Null) return true;
+            if (this.TypeVal == TypeConstants.Table) return true;
             return this.TypeVal >= TypeConstants.Bool 
                 && this.TypeVal <= TypeConstants.Map;
         }

@@ -145,9 +145,10 @@ namespace ComLib.Lang.Parsing
 
             var varname = tokenIt.ExpectId();
             tokenIt.Expect(Tokens.In);
-            var sourcename = tokenIt.ExpectId();
+
+		    var sourceExpr = _parser.ParseExpression(Terminators.ExpParenthesisNewLineEnd, true, false, true, false, false);
             tokenIt.Expect(Tokens.RightParenthesis);
-            var expr = Exprs.ForEach(varname, sourcename, initiatorToken) as BlockExpr;
+            var expr = Exprs.ForEach(varname, sourceExpr, initiatorToken) as BlockExpr;
             this.ParseBlock(expr);
             
             // </codeForEach>
@@ -522,8 +523,22 @@ namespace ComLib.Lang.Parsing
         {
             this._parser.Context.Symbols.Push(new SymbolsNested(string.Empty), true);
             expr.SymScope = this._parser.Context.Symbols.Current;
+            var withPush = false;
+
+            if (expr is ForEachExpr)
+            {
+                var foreachExpr = expr as ForEachExpr;
+                if (foreachExpr.EnableAutoVariable)
+                {
+                    var name = foreachExpr.VarName;
+                    Exprs.WithPush(name);
+                    withPush = true;
+                }
+            }
             this._parser.ParseBlock(expr);
             this._parser.Context.Symbols.Pop();
+            if (withPush)
+                Exprs.WithPop();
         }
 
 

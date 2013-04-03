@@ -18,6 +18,7 @@ namespace ComLib.Lang.Types
         {
             DataType = LTypes.Map;
             AddProperty(true, true,     "length",       "Length",           typeof(double),     "Sets or returns the number of elements in an array");
+            AddMethod("toString", "ToItemString", typeof(string), "Converts an array to a string, and returns the result");            
         }
 
 
@@ -29,7 +30,11 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public override bool HasMember(LObject obj, string memberName)
         {
-            return HasProperty(obj, memberName);
+            if (HasMethod(obj, memberName))
+                return true;
+            if (HasProperty(obj, memberName))
+                return true;
+            return false;
         }
 
 
@@ -41,7 +46,11 @@ namespace ComLib.Lang.Types
         /// <returns></returns>
         public override bool HasMethod(LObject obj, string methodName)
         {
-            return HasProperty(obj, methodName);
+            if (HasProperty(obj, methodName))
+                return true;
+            if (_allMembersMap.ContainsKey(methodName))
+                return true;
+            return false;
         }
 
 
@@ -96,6 +105,36 @@ namespace ComLib.Lang.Types
         {
             var map = target.GetValue() as IDictionary;
             return map.Count;
+        }
+
+
+        /// <summary>
+        /// Converts an the map to a string of keyvalue pairs.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public LObject ToItemString(LObject target)
+        {
+            if (target == null) return LObjects.Null;
+            var map = target.GetValue() as IDictionary<string, object>;
+            var text = "";
+            var count = map.Count;
+            var total = 0;
+            var prefix = "";
+            foreach (var pair in map)
+            {
+                var val = pair.Value as LObject;
+                var rawval = "";
+                prefix = "";
+                if(val != LObjects.Null)
+                    rawval = val.GetValue().ToString();
+
+                if (total != 0 && total < count)
+                    prefix = ", ";
+                text += prefix + pair.Key + " : " + rawval;
+                total++;                
+            }
+            return new LString(text);
         }
         #endregion
 
