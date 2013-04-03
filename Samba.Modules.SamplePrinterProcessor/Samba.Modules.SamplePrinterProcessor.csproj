@@ -31,10 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\Samba.Presentation\bin\Debug\Microsoft.Practices.Prism.dll</HintPath>
+      <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.MefExtensions">
-      <HintPath>..\Samba.Presentation\bin\Debug\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
+      <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

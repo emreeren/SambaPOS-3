@@ -52,7 +52,6 @@ namespace Samba.Modules.LoginModule
                 x =>
                 {
                     if (x.Topic == EventTopicNames.ShellInitialized) Activate();
-
                 });
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<string>>().Subscribe(
