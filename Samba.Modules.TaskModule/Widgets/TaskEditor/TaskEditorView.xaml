@@ -52,7 +52,7 @@
                                 </Border.Resources>
                                 <DockPanel>
                                     <Button Command="{Binding ToggleCompletedCommand}" Margin="3" VerticalAlignment="Center" Content="{Binding IsCompletedCaption}" 
-                                            FontFamily="wingdings 2">
+                                            FontFamily="wingdings">
                                     </Button>
                                     <TextBlock Margin="3,3,3,5" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" Text="{Binding Description}"/>
                                     

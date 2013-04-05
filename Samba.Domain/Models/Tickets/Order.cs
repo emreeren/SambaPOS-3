@@ -471,5 +471,12 @@ namespace Samba.Domain.Models.Tickets
         {
             return TaxValues;
         }
+
+        public TaxValue GetTaxValue(string taxTemplateName)
+        {
+            return TaxValues.Any(x => x.TaxTemplateName == taxTemplateName)
+                ? GetTaxValues().SingleOrDefault(x => x.TaxTemplateName == taxTemplateName)
+                : TaxValue.Empty;
+        }
     }
 }

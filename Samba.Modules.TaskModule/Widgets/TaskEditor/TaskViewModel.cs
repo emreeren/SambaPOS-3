@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Tasks;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Messaging;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
@@ -20,7 +19,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         {
             _widget = widget;
             Model = model;
-            ToggleCompletedCommand = new CaptionCommand<string>("�", OnToggleCompleted);
+            ToggleCompletedCommand = new CaptionCommand<string>("¨", OnToggleCompleted);
         }
 
         private void OnToggleCompleted(string obj)
@@ -35,7 +34,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
             AppServices.MessagingService.SendMessage(Messages.WidgetRefreshMessage, _widget.CreatorName);
         }
 
-        public string IsCompletedCaption { get { return IsCompleted ? "R" : "�"; } }
+        public string IsCompletedCaption { get { return IsCompleted ? "þ" : "¨"; } }
         public bool IsCompleted
         {
             get { return Model.Completed; }

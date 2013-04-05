@@ -3,7 +3,7 @@
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="300"
      d:DesignWidth="300">
     <Grid>
-        <TextBlock Text="{LocText DontForgetEndingWorkPeriod}"
+        <TextBlock Text="{LocText DontForgetEndingWorkPeriod}" VerticalAlignment="Center"
              Name="tbWorkPeriodStatus" FontSize="18" Foreground="Red" FontWeight="Bold" Margin="7,2,0,0"
              Visibility="Collapsed" />
     </Grid>

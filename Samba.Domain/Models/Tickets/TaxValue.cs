@@ -7,6 +7,7 @@ namespace Samba.Domain.Models.Tickets
     [DataContract]
     public class TaxValue
     {
+
         public TaxValue()
         {
 
@@ -28,6 +29,12 @@ namespace Samba.Domain.Models.Tickets
         public int TaxTemplateId { get; set; }
         [DataMember(Name = "AT")]
         public int TaxTempleteAccountTransactionTypeId { get; set; }
+
+        private static TaxValue _empty;
+        public static TaxValue Empty
+        {
+            get { return _empty ?? (_empty = new TaxValue()); }
+        }
 
         public decimal GetTax(bool taxIncluded, decimal price, decimal totalRate)
         {

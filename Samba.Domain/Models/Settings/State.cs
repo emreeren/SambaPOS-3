@@ -13,6 +13,5 @@ namespace Samba.Domain.Models.Settings
         {
             get { return _default ?? (_default = new State { Color = "Gainsboro" }); }
         }
-
     }
 }
