@@ -64,7 +64,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Order>("{ORDER TAX RATE:([^}]+)}", (x, d) => x.GetTaxValue(d).TaxRate.ToString(LocalSettings.QuantityFormat), "Order Tax Rate");
             RegisterFunction<Order>("{ORDER TAX TEMPLATE NAMES}", (x, d) => string.Join(", ", x.GetTaxValues().Select(y => y.TaxTemplateName)), "Order Tax Template Names");
 
-
             //ORDER TAG VALUES
             RegisterFunction<OrderTagValue>(TagNames.OrderTagPrice, (x, d) => x.AddTagPriceToOrderPrice ? "" : x.Price.ToString(LocalSettings.CurrencyFormat), Resources.OrderTagPrice, x => x.Price != 0);
             RegisterFunction<OrderTagValue>(TagNames.OrderTagQuantity, (x, d) => x.Quantity.ToString(LocalSettings.QuantityFormat), Resources.OrderTagQuantity);

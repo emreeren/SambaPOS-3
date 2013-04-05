@@ -210,7 +210,14 @@ namespace Samba.Modules.PosModule
                 obj.CommandContainer.AutomationCommand.PublishEvent(EventTopicNames.SelectAutomationCommandValue);
             else
             {
-                _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Name, Value = obj.SelectedValue });
+                _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
+                                                                                             {
+                                                                                                 Ticket = SelectedTicket,
+                                                                                                 Order = SelectedOrder,
+                                                                                                 Orders = SelectedOrders,
+                                                                                                 AutomationCommandName = obj.Name,
+                                                                                                 Value = obj.SelectedValue
+                                                                                             });
                 _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
                 ClearSelectedItems();
                 ClearSelection = true;

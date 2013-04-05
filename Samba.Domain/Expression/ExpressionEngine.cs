@@ -48,10 +48,15 @@ namespace Samba.Domain.Expression
             return (Convert.ToDouble(s)).ToString(fmt);
         }
 
-        public static string Eval(string expression)
+        public static string Eval(string expression, object dataObject = null)
         {
             try
             {
+                if (dataObject != null)
+                {
+                    TicketAccessor.Model = GetDataValue<Ticket>(dataObject);
+                    OrderAccessor.Model = GetDataValue<Order>(dataObject);
+                }
                 Interpreter.Execute("result = " + expression);
                 return Interpreter.Result.Success ? Interpreter.Memory.Get<string>("result") : "";
             }
@@ -87,6 +92,7 @@ namespace Samba.Domain.Expression
                 var match = Regex.Match(result, template);
                 var tag = match.Groups[0].Value;
                 var expression = match.Groups[1].Value.Trim();
+                expression = Regex.Unescape(expression);
                 if (expression.StartsWith("$") && !expression.Trim().Contains(" ") && Interpreter.Memory.Contains(expression.Trim('$')))
                 {
                     result = result.Replace(tag, Interpreter.Memory.Get<string>(expression.Trim('$')));
@@ -103,6 +109,24 @@ namespace Samba.Domain.Expression
             if (property != null)
                 return property.GetValue(dataObject, null) as T;
             return null;
+        }
+
+        public static string ReplaceExpressionValues(string data, object dataObject, string template = "\\[=([^\\]]+)\\]")
+        {
+            var result = data;
+            while (Regex.IsMatch(result, template, RegexOptions.Singleline))
+            {
+                var match = Regex.Match(result, template);
+                var tag = match.Groups[0].Value;
+                var expression = match.Groups[1].Value.Trim();
+                expression = Regex.Unescape(expression);
+                if (expression.StartsWith("$") && !expression.Trim().Contains(" ") && Interpreter.Memory.Contains(expression.Trim('$')))
+                {
+                    result = result.Replace(tag, Interpreter.Memory.Get<string>(expression.Trim('$')));
+                }
+                else result = result.Replace(tag, Eval(expression, dataObject));
+            }
+            return result;
         }
     }
 }

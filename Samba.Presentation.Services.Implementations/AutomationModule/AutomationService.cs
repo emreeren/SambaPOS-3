@@ -61,8 +61,8 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                     clonedAction.Parameter = _settingService.ReplaceSettingValues(clonedAction.Parameter);
                     containerParameterValues = _settingService.ReplaceSettingValues(containerParameterValues);
                     containerParameterValues = ReplaceParameterValues(containerParameterValues, dataObject);
-                    clonedAction.Parameter = _expressionService.ReplaceExpressionValues(clonedAction.Parameter);
-                    containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues);
+                    clonedAction.Parameter = _expressionService.ReplaceExpressionValues(clonedAction.Parameter, dataObject);
+                    containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues, dataObject);
 
                     IActionData data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
                     data.PublishEvent(EventTopicNames.ExecuteEvent, true);

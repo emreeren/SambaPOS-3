@@ -51,5 +51,19 @@ namespace Samba.Services.Tests
             Assert.AreEqual(1.15m, result);
         }
 
+        [Test]
+        public void CanDivideValues()
+        {
+            var result = ExpressionService.Eval("10 / 2");
+            Assert.AreEqual("5", result);
+        }
+
+        [Test]
+        public void CanDivideOrderPrice()
+        {
+            var order = new Order { Price = 10, Quantity = 1 };
+            ExpressionService.Eval("Order.Price = Order.Price / 2", new { Order = order }, 0);
+            Assert.AreEqual(5, order.Price);
+        }
     }
 }

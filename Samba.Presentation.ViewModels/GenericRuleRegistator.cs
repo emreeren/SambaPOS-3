@@ -36,7 +36,6 @@ namespace Samba.Presentation.ViewModels
         private static readonly IEntityService EntityService = ServiceLocator.Current.GetInstance<IEntityService>();
         private static readonly IMethodQueue MethodQueue = ServiceLocator.Current.GetInstance<IMethodQueue>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
-        private static readonly IExpressionService ExpressionService = ServiceLocator.Current.GetInstance<IExpressionService>();
         private static readonly IEmailService EmailService = ServiceLocator.Current.GetInstance<IEmailService>();
 
         private static bool _registered;

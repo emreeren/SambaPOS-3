@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Omu.ValueInjecter;
 using Samba.Domain.Models.Tasks;
 using Samba.Infrastructure.Data;
@@ -57,6 +58,7 @@ namespace Samba.Presentation.Services.Implementations.TaskModule
             _taskDao.SaveTask(task);
         }
 
+        [MethodImplAttribute(MethodImplOptions.Synchronized)]
         public IEnumerable<Task> SaveTasks(int taskTypeId, IEnumerable<Task> tasks, int timeDelta = 0)
         {
             tasks.Where(x => x.LastUpdateTime > _lastReadTime).ToList().ForEach(SaveTask);

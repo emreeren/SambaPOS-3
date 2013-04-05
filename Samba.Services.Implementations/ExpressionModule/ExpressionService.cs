@@ -56,6 +56,11 @@ namespace Samba.Services.Implementations.ExpressionModule
             return ExpressionEngine.ReplaceExpressionValues(data, template);
         }
 
+        public string ReplaceExpressionValues(string data, object dataObject, string template = "\\[=([^\\]]+)\\]")
+        {
+            return ExpressionEngine.ReplaceExpressionValues(data,dataObject, template);
+        }
+
         private string GetScript(string functionName, string entityName)
         {
             if (Scripts.ContainsKey(functionName + entityName))
