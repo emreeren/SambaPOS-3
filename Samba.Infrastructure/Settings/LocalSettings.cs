@@ -149,6 +149,7 @@ html
         public static string QuantityFormat { get; set; }
         public static string ReportCurrencyFormat { get; set; }
         public static string ReportQuantityFormat { get; set; }
+        public static string PrintoutCurrencyFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
         public static int DbVersion { get { return 3; } }

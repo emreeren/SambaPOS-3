@@ -916,6 +916,7 @@ namespace Samba.Presentation.Services.Common
             LocalSettings.ReportQuantityFormat = "#.##;-#.##;-";
             LocalSettings.CurrencyFormat = "#,#0.00";
             LocalSettings.QuantityFormat = "#,##.##";
+            LocalSettings.PrintoutCurrencyFormat = "#,#0.00;-#,#0.00;";
         }
 
         private ParameterBuilder Params()
