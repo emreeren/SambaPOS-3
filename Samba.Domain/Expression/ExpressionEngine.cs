@@ -16,6 +16,7 @@ namespace Samba.Domain.Expression
             Interpreter = new Interpreter();
             Interpreter.SetFunctionCallback("F", FormatFunction);
             Interpreter.SetFunctionCallback("TN", ToNumberFunction);
+            Interpreter.SetFunctionCallback("FF",FixFormatFunction);
 
             Interpreter.LexReplace("Ticket", "TicketAccessor");
             Interpreter.LexReplace("Order", "OrderAccessor");
@@ -46,6 +47,14 @@ namespace Samba.Domain.Expression
         {
             var fmt = arg3.ParamList.Count > 1 ? arg3.ParamList[1].ToString() : "#,#0.00";
             return (Convert.ToDouble(arg3.ParamList[0])).ToString(fmt);
+        }
+
+        private static object FixFormatFunction(string s,string s1,FunctionCallExpr args)
+        {
+            double d;
+            double.TryParse(args.ParamList[0].ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out d);
+            var fmt = args.ParamList.Count > 1 ? args.ParamList[1].ToString() : "#,#0.00";
+            return d.ToString(fmt);
         }
 
         public static string Eval(string expression, object dataObject = null)

@@ -84,6 +84,10 @@ namespace Samba.Services.Tests
             result = ExpressionService.Eval("F(TN('11,00')/2)");
             const double expected4 = 5.5;
             Assert.AreEqual(expected4.ToString("#,#0.00"), result);
+
+            result = ExpressionService.Eval("FF('11,0')");
+            const double expected5 = 11;
+            Assert.AreEqual(expected5.ToString("#,#0.00"), result);
         }
     }
 }
