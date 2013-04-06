@@ -65,5 +65,25 @@ namespace Samba.Services.Tests
             ExpressionService.Eval("Order.Price = Order.Price / 2", new { Order = order }, 0);
             Assert.AreEqual(5, order.Price);
         }
+
+        [Test]
+        public void CanFormatNumbers()
+        {
+            var result = ExpressionService.Eval("F('10')");
+            const int expected = 10;
+            Assert.AreEqual(expected.ToString("#,#0.00"), result);
+
+            result = ExpressionService.Eval("F('1000')");
+            const int expected2 = 1000;
+            Assert.AreEqual(expected2.ToString("#,#0.00"), result);
+
+            result = ExpressionService.Eval("F(TN('5.000')*2)");
+            const int expected3 = 10000;
+            Assert.AreEqual(expected3.ToString("#,#0.00"), result);       
+            
+            result = ExpressionService.Eval("F(TN('11,00')/2)");
+            const double expected4 = 5.5;
+            Assert.AreEqual(expected4.ToString("#,#0.00"), result);
+        }
     }
 }

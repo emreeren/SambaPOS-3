@@ -38,14 +38,14 @@ namespace Samba.Domain.Expression
         private static object ToNumberFunction(string s, string s1, FunctionCallExpr arg3)
         {
             double d;
-            double.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, out d);
+            double.TryParse(arg3.ParamList[0].ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out d);
             return d;
         }
 
         private static object FormatFunction(string s, string s1, FunctionCallExpr arg3)
         {
-            var fmt = !string.IsNullOrEmpty(s1) ? s1 : "#,#0.00";
-            return (Convert.ToDouble(s)).ToString(fmt);
+            var fmt = arg3.ParamList.Count > 1 ? arg3.ParamList[1].ToString() : "#,#0.00";
+            return (Convert.ToDouble(arg3.ParamList[0])).ToString(fmt);
         }
 
         public static string Eval(string expression, object dataObject = null)
