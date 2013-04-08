@@ -63,7 +63,6 @@ namespace Samba.Presentation.Services.Implementations.AutomationModule
                     containerParameterValues = ReplaceParameterValues(containerParameterValues, dataObject);
                     clonedAction.Parameter = _expressionService.ReplaceExpressionValues(clonedAction.Parameter, dataObject);
                     containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues, dataObject);
-
                     IActionData data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
                     data.PublishEvent(EventTopicNames.ExecuteEvent, true);
                 }

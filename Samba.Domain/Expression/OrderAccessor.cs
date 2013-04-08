@@ -12,8 +12,8 @@ namespace Samba.Domain.Expression
             set { _model = value; }
         }
 
-        public static decimal Quantity { get { return _model.Quantity; } set { _model.Quantity = value; } }
-        public static decimal Price { get { return _model.GetTotal(); } set { _model.UpdatePrice(value, ""); } }
+        public static decimal Quantity { get { return Model.Quantity; } set { Model.Quantity = value; } }
+        public static decimal Price { get { return Model.GetPrice(); } set { Model.UpdatePrice(value, ""); } }
         public static string Name { get { return Model.MenuItemName; } set { Model.MenuItemName = value; } }
     }
 }
