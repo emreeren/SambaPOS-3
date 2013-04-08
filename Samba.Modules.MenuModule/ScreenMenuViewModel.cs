@@ -60,7 +60,11 @@ namespace Samba.Modules.MenuModule
 
         private void OnAddCategory(string value)
         {
-            string[] values = InteractionService.UserIntraction.GetStringFromUser(Resources.Categories, Resources.AddCategoryHint);
+            var values =
+                InteractionService.UserIntraction
+                    .GetStringFromUser(Resources.Categories, Resources.AddCategoryHint)
+                    .Where(x => !Categories.Select(y => y.Name).Contains(x)).Distinct().ToList();
+            
             foreach (string val in values)
             {
                 Categories.Add(new ScreenMenuCategoryViewModel(Model.AddCategory(val)));
