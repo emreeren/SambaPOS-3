@@ -60,7 +60,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.RemoveOrderTag, Resources.RemoveOrderTag, new { OrderTagName = "" });
             AutomationService.RegisterActionType(ActionNames.MoveTaggedOrders, Resources.MoveTaggedOrders, new { OrderTagName = "", OrderTagValue = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateOrder, Resources.UpdateOrder, new { Quantity = 0m, Price = 0m, IncreaseInventory = false, DecreaseInventory = false, CalculatePrice = false, Locked = false, AccountTransactionType = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateOrder, Resources.UpdateOrder, new { Quantity = 0m, Price = 0m, PortionName = "", PriceTag = "", IncreaseInventory = false, DecreaseInventory = false, CalculatePrice = false, Locked = false, AccountTransactionType = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateEntityState, Resources.UpdateEntityState, new { EntityTypeName = "", EntityStateName = "", CurrentState = "", EntityState = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateProgramSetting, Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
@@ -215,10 +215,15 @@ namespace Samba.Presentation.ViewModels
                                 order.CalculatePrice = x.Value.GetAsBoolean("CalculatePrice");
                             if (!string.IsNullOrEmpty(x.Value.GetAsString("AccountTransactionType")))
                                 TicketService.ChangeOrdersAccountTransactionTypeId(ticket, new List<Order> { order },
-                                                                                   CacheService.
-                                                                                       GetAccountTransactionTypeIdByName
-                                                                                       (x.Value.GetAsString(
-                                                                                           "AccountTransactionType")));
+                                                                                   CacheService.GetAccountTransactionTypeIdByName
+                                                                                       (x.Value.GetAsString("AccountTransactionType")));
+
+                            if (!string.IsNullOrEmpty(x.Value.GetAsString("PortionName")) || !string.IsNullOrEmpty(x.Value.GetAsString("PriceTag")))
+                            {
+                                var portionName = x.Value.GetAsString("PortionName");
+                                var priceTag = x.Value.GetAsString("PriceTag");
+                                TicketService.UpdateOrderPrice(order, portionName, priceTag);
+                            }
                         }
                     }
                 }

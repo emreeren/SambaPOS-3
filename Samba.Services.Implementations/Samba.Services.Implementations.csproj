@@ -63,8 +63,6 @@
     <Compile Include="DepartmentModule\DepartmentService.cs" />
     <Compile Include="EMailService.cs" />
     <Compile Include="ExpressionModule\Accessors\LocatorAccessor.cs" />
-    <Compile Include="ExpressionModule\Accessors\OrderAccessor.cs" />
-    <Compile Include="ExpressionModule\Accessors\TicketAccessor.cs" />
     <Compile Include="ExpressionModule\ExpressionService.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="MenuModule\MenuService.cs" />

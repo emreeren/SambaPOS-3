@@ -590,6 +590,18 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             return result;
         }
 
+        public void UpdateOrderPrice(Order order, string portionName, string priceTag)
+        {
+            var mi = _cacheService.GetMenuItem(x => x.Id == order.MenuItemId);
+            if (mi != null)
+            {
+                var portion = !string.IsNullOrEmpty(portionName)
+                                  ? mi.Portions.FirstOrDefault(x => x.Name == portionName)
+                                  : mi.Portions.First();
+                order.UpdatePortion(portion, priceTag, null);
+            }
+        }
+
         public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
         {
             if (ticket.IsLocked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;
