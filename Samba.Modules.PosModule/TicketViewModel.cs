@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
@@ -210,7 +211,7 @@ namespace Samba.Modules.PosModule
                 obj.CommandContainer.AutomationCommand.PublishEvent(EventTopicNames.SelectAutomationCommandValue);
             else
             {
-                if(SelectedOrders.Any())
+                if (SelectedOrders.Any())
                 {
                     foreach (var selectedOrder in SelectedOrders)
                     {
@@ -264,6 +265,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanSelectEntity(EntityType arg)
         {
+            Debug.Assert(SelectedTicket != null);
             return !SelectedTicket.IsLocked && SelectedTicket.CanSubmit && _applicationState.GetTicketEntityScreens().Any(x => x.EntityTypeId == arg.Id);
         }
 

@@ -69,6 +69,7 @@ namespace Samba.Modules.EntityModule
             }
             Widgets.Where(x => x.AutoRefresh).ToList().ForEach(x => x.Refresh());
             RaisePropertyChanged(() => Widgets);
+            RaisePropertyChanged(() => SelectedEntityScreen);
         }
 
         public void AddWidget(string creatorName)
