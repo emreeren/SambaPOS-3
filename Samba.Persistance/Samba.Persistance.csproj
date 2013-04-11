@@ -83,10 +83,10 @@
     <Compile Include="DaoClasses\IWorkPeriodDao.cs" />
     <Compile Include="Data\CachedDao.cs" />
     <Compile Include="Data\Dao.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="Specification\NonDuplicateSaveValidator.cs" />
     <Compile Include="Data\SambaContext.cs" />
     <Compile Include="Data\WorkspaceFactory.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="ITicketExplorerFilter.cs" />
     <Compile Include="MenuItemData.cs" />
     <Compile Include="OpenTicketData.cs" />
