@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using ComLib.Lang.Core;
+using Fluentscript.Lib._Core;
 
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// ------------------------------------------------------------------------------------------------
     /// remarks: This file is auto-generated from the FSGrammar specification and should not be modified.

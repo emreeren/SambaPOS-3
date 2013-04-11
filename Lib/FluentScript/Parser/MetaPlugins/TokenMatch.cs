@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ComLib.Lang.Core;
-using ComLib.Lang.Parsing;
+﻿using System.Linq;
+using Fluentscript.Lib._Core;
 
-
-namespace ComLib.Lang.Parsing.MetaPlugins
+namespace Fluentscript.Lib.Parser.MetaPlugins
 {
 
     // Used to represent a token match for the grammer check in a plugin.

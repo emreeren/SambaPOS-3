@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Parsing;
+
 // </lang:using>
 
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.Parser
 {
 
     /* *************************************************************************
@@ -104,14 +104,14 @@ namespace ComLib.Lang.Plugins
             if (token.Text == "." && !Char.IsLetter(curr)) return false;
 
             // *.
-            if (token == ComLib.Lang.Core.Tokens.Multiply && curr == '.')
+            if (token == Tokens.Multiply && curr == '.')
             {
                 var result = _lexer.Scanner.PeekWord(true);
                 if (!result.Success) return false;
                 if (_extLookup.ContainsKey(result.Text))
                     return true;
             }
-            else if (token == ComLib.Lang.Core.Tokens.Dot)
+            else if (token == Tokens.Dot)
             {
                 var result = _lexer.Scanner.PeekWord(false);
                 if (!result.Success) return false;

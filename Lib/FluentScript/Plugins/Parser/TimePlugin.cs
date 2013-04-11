@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Types;
+
 // </lang:using>
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.Parser
 {
 
     /* *************************************************************************
@@ -310,12 +309,12 @@ namespace ComLib.Lang.Plugins
             var nextTokenText = nextToken.Token.Text.ToLower();
 
             // Check 2: End token?
-            if (nextToken.Token == ComLib.Lang.Core.Tokens.EndToken)
+            if (nextToken.Token == Tokens.EndToken)
                 return false;
                         
             // Check 3: Time format is 9:30 am or 930 am
             // So if next token is not ':' then it has to be "am" or "pm"
-            if (nextTokenText != ComLib.Lang.Core.Tokens.Colon.Text
+            if (nextTokenText != Tokens.Colon.Text
                 && nextTokenText != "am" && nextTokenText != "pm")
                 return false;
 

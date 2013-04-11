@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Types;
-using ComLib.Lang.Parsing;
+
 // </lang:using>
 
-namespace ComLib.Lang.Runtime
+namespace Fluentscript.Lib.Runtime
 {
     /// <summary>
     /// Helper class for calling functions in the script.
@@ -45,7 +46,7 @@ namespace ComLib.Lang.Runtime
                     if (lobj != null && lobj.Type.TypeVal == TypeConstants.Function)
                     {
                         // 1. Define the function in global symbol scope
-                        ComLib.Lang.Helpers.SymbolHelper.ResetSymbolAsFunction(varExp.SymScope, varname, lobj);
+                        SymbolHelper.ResetSymbolAsFunction(varExp.SymScope, varname, lobj);
                     }
                 }
                 // CHECK_LIMIT:
@@ -77,7 +78,7 @@ namespace ComLib.Lang.Runtime
             // 3. Evaluate expression to get index info.
             var memAccess = varExp.Evaluate(visitor) as MemberAccess;
             if (memAccess == null)
-                throw ComLib.Lang.Helpers.ExceptionHelper.BuildRunTimeException(node, "Value to assign is null");
+                throw ExceptionHelper.BuildRunTimeException(node, "Value to assign is null");
 
             // Case 1: Set member on basic type
             if (memAccess.Type != null)
@@ -122,7 +123,7 @@ namespace ComLib.Lang.Runtime
             // 3. Evaluate expression to get index info.
             var indexExp = varExp.Evaluate(visitor) as IndexAccess;
             if (indexExp == null)
-                throw ComLib.Lang.Helpers.ExceptionHelper.BuildRunTimeException(node, "Value to assign is null");
+                throw ExceptionHelper.BuildRunTimeException(node, "Value to assign is null");
 
             // 4. Get the target of the index access and the name / number to set.
             var target = indexExp.Instance;

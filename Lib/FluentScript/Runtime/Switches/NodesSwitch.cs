@@ -1,8 +1,8 @@
-﻿
-using System.IO;
-using ComLib.Lang.AST;
+﻿using System.IO;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Parser;
 
-namespace ComLib.Lang.Runtime.Switches
+namespace Fluentscript.Lib.Runtime.Switches
 {
     public class NodesSwitch : Switch
     {

@@ -1,10 +1,7 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Fluentscript.Lib._Core;
 
-using ComLib.Lang.Core;
-
-
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// Base type for all data types.

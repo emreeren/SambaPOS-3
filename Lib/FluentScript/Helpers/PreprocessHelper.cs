@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-
+using Fluentscript.Lib.Parser.Core;
 // <lang:using>
-using ComLib.Lang.Parsing;
 
 // </lang:using>
 
 
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// The results of a preprocess conditions

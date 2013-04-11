@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper class for time types.

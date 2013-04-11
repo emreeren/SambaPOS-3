@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ComLib.Lang.AST;
-using ComLib.Lang.Types;
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.Types;
 
-namespace ComLib.Lang.Runtime.Bindings
+namespace Fluentscript.Lib.Runtime.Bindings
 {
     /// <summary>
     /// Bindings for print functions.

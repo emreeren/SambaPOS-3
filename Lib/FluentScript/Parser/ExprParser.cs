@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
-using ComLib.Lang.Core;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Types;
-using ComLib.Lang.AST;
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
+using Fluentscript.Lib._Core.Meta.Types;
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser
 {
 /// ------------------------------------------------------------------------------------------------
 /// remarks: This file is auto-generated from the FSGrammar specification and should not be modified.

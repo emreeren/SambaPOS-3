@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-
-
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib._Core;
+using Fluentscript.Lib._Core.Meta.Types;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
+
 // </lang:using>
 
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper class for "fluent" operations
@@ -117,7 +119,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="meta">The function meta for checking parameters</param>
         /// <param name="expectParenthesis">Whether or not to expect parenthis to designate the start of the parameters.</param>
         /// <param name="enableNewLineAsEnd">Whether or not to treat a newline as end</param>
-        public static void ParseFuncParameters(List<Expr> args, TokenIterator tokenIt, Parser parser, bool expectParenthesis, bool enableNewLineAsEnd, FunctionMetaData meta)
+        public static void ParseFuncParameters(List<Expr> args, TokenIterator tokenIt, Parser.Parser parser, bool expectParenthesis, bool enableNewLineAsEnd, FunctionMetaData meta)
         {
             int totalParameters = 0;
             if (tokenIt.NextToken.Token == Tokens.LeftParenthesis)

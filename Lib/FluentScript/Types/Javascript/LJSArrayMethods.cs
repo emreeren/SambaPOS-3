@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using ComLib.Lang.Helpers;
+using Fluentscript.Lib.Helpers;
 
-
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types.Javascript
 {
     /// <summary>
     /// Array datatype

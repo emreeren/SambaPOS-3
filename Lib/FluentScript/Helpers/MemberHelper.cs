@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Reflection;
-using ComLib.Lang.Core;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Types;
-using ComLib.Lang.AST;
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Parser.Integration;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 
-
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper class for member access on internal fluentscript types and external c# types.

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ComLib.Lang.Core
+﻿namespace Fluentscript.Lib._Core
 {
     /// <summary>
     /// The result of searching for a function that is either internal/external

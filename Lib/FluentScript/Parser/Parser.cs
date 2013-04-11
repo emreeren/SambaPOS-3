@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Plugins.System;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
+using Fluentscript.Lib._Core.Meta.Types;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Types;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Plugins;
+
 // </lang:using>
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser
 {
     /// <summary>
     /// Uses the Lexer to parse script in terms of sequences of Statements and Expressions;

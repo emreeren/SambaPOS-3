@@ -1,14 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core.Meta.Types;
 
-using ComLib.Lang.AST;
-using ComLib.Lang.Core;
-using ComLib.Lang.Types;
-
-
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper class for function parameters.

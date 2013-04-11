@@ -1,10 +1,7 @@
-﻿
-using System.Collections.Generic;
-using ComLib.Lang.AST;
-using ComLib.Lang.Core;
+﻿using System.Collections.Generic;
+using Fluentscript.Lib.AST.Core;
 
-
-namespace ComLib.Lang.Parsing.MetaPlugins
+namespace Fluentscript.Lib.Parser.MetaPlugins
 {
     /// <summary>
     /// Represents a compiler plugin developed in javascript/fluentscript ( bootstrapped plugin ).

@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 
-namespace System.Linq.Dynamic
+namespace DataGridFilterLibrary.Support
 {
     public static class DynamicQueryable
     {

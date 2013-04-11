@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
+
 // </lang:using>
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser.Core
 {
     /// <summary>
     /// Used for callbacks to external methods after execution of expressions/statements.

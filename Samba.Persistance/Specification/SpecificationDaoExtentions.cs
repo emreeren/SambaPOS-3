@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Samba.Infrastructure.Data;
+﻿using Samba.Infrastructure.Data;
+using Samba.Persistance.Data;
 
-namespace Samba.Persistance.Data
+namespace Samba.Persistance.Specification
 {
     public static class SpecificationDaoExtentions
     {

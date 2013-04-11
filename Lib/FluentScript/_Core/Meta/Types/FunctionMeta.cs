@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core.Meta.Docs;
 
-using ComLib.Lang.Docs;
-using ComLib.Lang.Types;
-
-
-namespace ComLib.Lang.Core
+namespace Fluentscript.Lib._Core.Meta.Types
 {
     /// <summary>
     /// Meta data about function.

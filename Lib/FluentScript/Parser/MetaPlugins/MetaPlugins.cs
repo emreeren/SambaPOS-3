@@ -1,15 +1,15 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using ComLib.Lang.AST;
-using ComLib.Lang.Core;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Plugins;
-using ComLib.Lang.Types;
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Plugins.Core;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 
-
-namespace ComLib.Lang.Parsing.MetaPlugins
+namespace Fluentscript.Lib.Parser.MetaPlugins
 {
     /*
      *  1. check for empty grammar

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Reflection;
-
+﻿using System.IO;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Types;
-using ComLib.Lang.Parsing;
+
 // </lang:using>
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.Parser
 {
 
     /* *************************************************************************
@@ -188,11 +185,11 @@ namespace ComLib.Lang.Plugins
                     throw new FileNotFoundException("File : " + source + " does not exist");
             }
 
-            var script = System.IO.File.ReadAllText(source);
+            var script = global::System.IO.File.ReadAllText(source);
             Context ctx = null;
-            var scriptParser = new Parser(ctx);
+            var scriptParser = new Lib.Parser.Parser(ctx);
             scriptParser.Parse(script);
-            Parser parser = null;
+            Lib.Parser.Parser parser = null;
             parser.Statements.AddRange(scriptParser.Statements);
             return LObjects.Null;
         }        

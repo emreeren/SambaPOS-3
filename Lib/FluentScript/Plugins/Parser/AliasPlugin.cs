@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib.Parser.MetaPlugins;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Parsing.MetaPlugins;
-using ComLib.Lang.Types;
-using ComLib.Lang.Parsing;
+
 // </lang:using>
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.Parser
 {
 
     /* *************************************************************************

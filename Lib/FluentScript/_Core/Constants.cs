@@ -1,5 +1,5 @@
 ﻿
-namespace ComLib.Lang.Core
+namespace Fluentscript.Lib._Core
 {
     /// <summary>
     /// Type constants.

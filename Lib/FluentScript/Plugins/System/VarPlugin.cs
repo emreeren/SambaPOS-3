@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Types;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Helpers;
+
 // </lang:using>
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.System
 {
     /// <summary>
     /// Plugin for throwing errors from the script.

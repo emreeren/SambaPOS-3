@@ -1,10 +1,8 @@
 ﻿#pragma warning disable 1591
-using System;
 using System.Collections.Generic;
-using ComLib.Lang.Helpers;
+using Fluentscript.Lib.Helpers;
 
-
-namespace ComLib.Lang.Core
+namespace Fluentscript.Lib._Core
 {
     /// ------------------------------------------------------------------------------------------------
     /// remarks: This file is auto-generated from the FSGrammar specification and should not be modified.

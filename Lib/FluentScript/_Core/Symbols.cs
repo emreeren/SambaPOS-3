@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core.Meta.Types;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.Types;
-using ComLib.Lang.Helpers;
+
 // </lang:using>
 
-namespace ComLib.Lang.Core
+namespace Fluentscript.Lib._Core
 {
     /// <summary>
     /// Constants for various symbol type names

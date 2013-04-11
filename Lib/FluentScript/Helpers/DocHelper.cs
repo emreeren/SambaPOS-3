@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib._Core;
+using Fluentscript.Lib._Core.Meta.Docs;
+using Fluentscript.Lib._Core.Meta.Types;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.Docs;
+
 // </lang:using>
 
 
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper class for processing doctags.

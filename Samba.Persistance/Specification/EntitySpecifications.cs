@@ -1,7 +1,6 @@
 ﻿using Samba.Infrastructure.Data;
-using Samba.Persistance.Data.Specification;
 
-namespace Samba.Persistance.Data
+namespace Samba.Persistance.Specification
 {
     public static class EntitySpecifications
     {

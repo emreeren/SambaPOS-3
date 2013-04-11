@@ -1,11 +1,10 @@
 ﻿using System;
-
-
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
+
 // </lang:using>
 
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// Error class for exceptions in the language.

@@ -5,17 +5,13 @@
 // author:  kishore reddy
 // date:	Wednesday, December 19, 2012
 // ------------------------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Collections;
 
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Types;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Parsing;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib._Core;
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Plugins
 {
         // Plugin: 15 - NewExpr
         public class NewPlugin : ExprPlugin

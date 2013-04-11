@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using Fluentscript.Lib._Core.Meta.Types;
 
-using ComLib.Lang.Core;
-
-namespace ComLib.Lang.Docs
+namespace Fluentscript.Lib._Core.Meta.Docs
 {
     /// <summary>
     /// A collection of all the doc tags for a function.

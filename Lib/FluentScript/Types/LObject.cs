@@ -1,11 +1,7 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using ComLib.Lang.Core;
+﻿using System;
+using Fluentscript.Lib._Core;
 
-
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// Used to store/wrap a value of either a basic type or instance of a class.

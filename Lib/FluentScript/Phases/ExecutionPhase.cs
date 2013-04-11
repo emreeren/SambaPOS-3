@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.Integration;
+using Fluentscript.Lib.Runtime;
 
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Runtime;
-
-
-namespace ComLib.Lang.Phases
+namespace Fluentscript.Lib.Phases
 {
     /// <summary>
     /// Executes the code represented as an AST.

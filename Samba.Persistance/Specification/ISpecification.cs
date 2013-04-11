@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Samba.Persistance.Data
+namespace Samba.Persistance.Specification
 {
     public interface ISpecification<TEntity>
         where TEntity : class

@@ -1,10 +1,8 @@
-﻿
+﻿using System.Globalization;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser;
 
-using System;
-using System.Globalization;
-using ComLib.Lang.Helpers;
-
-namespace ComLib.Lang.Runtime.Switches
+namespace Fluentscript.Lib.Runtime.Switches
 {
     /// <summary>
     /// Class to handle the command line switch parameter for displaying plugins.

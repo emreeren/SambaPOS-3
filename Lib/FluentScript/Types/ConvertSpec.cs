@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// Internal class for specifying what conversions can take place.

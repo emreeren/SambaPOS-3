@@ -1,5 +1,4 @@
 ﻿using System;
-using Samba.Services.Common;
 
 namespace Samba.Infrastructure.Data
 {

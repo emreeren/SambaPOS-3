@@ -1,9 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-
-
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types.Javascript
 {
 
     /// <summary>

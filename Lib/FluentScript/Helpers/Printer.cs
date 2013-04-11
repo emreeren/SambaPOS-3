@@ -1,7 +1,6 @@
 ﻿using System;
 
-
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     public class Printer
     {

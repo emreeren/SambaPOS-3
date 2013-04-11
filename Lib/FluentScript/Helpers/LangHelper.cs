@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Types;
+
 // </lang:using>
 
 
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper class
@@ -74,7 +75,7 @@ namespace ComLib.Lang.Helpers
         /// <param name="parser"></param>
         /// <param name="stack"></param>
         /// <returns></returns>
-        public static Expr ProcessShuntingYardList(Context context, Parser parser, List<object> stack)
+        public static Expr ProcessShuntingYardList(Context context, Parser.Parser parser, List<object> stack)
         {
             int index = 0;
             Expr finalExp = null;

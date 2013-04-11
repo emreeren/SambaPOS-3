@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
+
 // </lang:using>
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser
 {
     /// <summary>
     /// Iterates over a series of tokens in a script using a lexer.

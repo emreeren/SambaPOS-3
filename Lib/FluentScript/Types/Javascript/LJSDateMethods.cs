@@ -1,8 +1,7 @@
 ﻿#pragma warning disable 1591
 using System;
 
-
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types.Javascript
 {
     /// <summary>
     /// Array type.

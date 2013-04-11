@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.AST;
-using ComLib.Lang.Core;
-using ComLib.Lang.Helpers;
 
 // </lang:using>
 
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser
 {
     public class LexerDiagnosticData
     {

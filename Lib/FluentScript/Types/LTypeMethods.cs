@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
-
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib._Core;
+using Fluentscript.Lib._Core.Meta.Docs;
+using Fluentscript.Lib._Core.Meta.Types;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.Helpers;
+
 // </lang:using>
 
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// Base class for methods on types.
@@ -264,7 +264,7 @@ namespace ComLib.Lang.Types
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public virtual ComLib.Lang.Core.BoolMsgObj ValidateCall(LObject obj, string methodName, object[] parameters)
+        public virtual BoolMsgObj ValidateCall(LObject obj, string methodName, object[] parameters)
         {
             // 1. Valid method/member name?
             if (!this._methodMap.ContainsKey(methodName))
@@ -441,7 +441,7 @@ namespace ComLib.Lang.Types
         private FunctionMetaData AddMethodInfo(MemberTypes memberType, string name, string implementationMethod, Type returnType, string description, bool convertParams)
         {
             var funcdef = new FunctionMetaData(name, null);
-            funcdef.Doc = new Docs.DocTags();
+            funcdef.Doc = new DocTags();
 
             // Todo: 
             funcdef.ReturnType = LangTypeHelper.ConvertToLangType(returnType);

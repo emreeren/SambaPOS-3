@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
+
 // </lang:using>
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.Core
 {
     
     /// <summary>
@@ -223,7 +219,7 @@ namespace ComLib.Lang.Plugins
                 if (_matchedAdvanceCount > 1)
                     _tokenIt.Advance(_matchedAdvanceCount - 1);
             }
-            var token = ComLib.Lang.Core.Tokens.AllTokens[_replacementToken];
+            var token = Tokens.AllTokens[_replacementToken];
             return token;
         }
 
@@ -234,7 +230,7 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public override Token Peek()
         {
-            var token = ComLib.Lang.Core.Tokens.AllTokens[_replacementToken];
+            var token = Tokens.AllTokens[_replacementToken];
             return token;
         }
 

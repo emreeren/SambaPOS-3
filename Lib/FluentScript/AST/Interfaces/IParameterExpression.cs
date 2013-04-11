@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using Fluentscript.Lib.AST.Core;
 
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST.Interfaces
 {
     /// <summary>
     /// Interface for expression that uses parameters. right now "new" and "function".

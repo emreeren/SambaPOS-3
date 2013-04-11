@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Types;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Plugins;
-using ComLib.Lang.Types;
+
 // </lang:using>
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser
 {
     public enum SemanticCheckResult
     {

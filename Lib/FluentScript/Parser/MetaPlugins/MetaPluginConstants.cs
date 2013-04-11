@@ -1,13 +1,6 @@
-﻿
-using System.Collections.Generic;
-using ComLib.Lang.AST;
-using ComLib.Lang.Core;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Plugins;
-using ComLib.Lang.Types;
+﻿using System.Collections.Generic;
 
-
-namespace ComLib.Lang.Parsing.MetaPlugins
+namespace Fluentscript.Lib.Parser.MetaPlugins
 {
     public class MetaPluginConstants
     {

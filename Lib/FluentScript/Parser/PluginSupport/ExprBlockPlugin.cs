@@ -1,10 +1,12 @@
 ﻿
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
+
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib._Core;
+
 // </lang:using>
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser.PluginSupport
 {
     /// <summary>
     /// A combinator to extend the parser

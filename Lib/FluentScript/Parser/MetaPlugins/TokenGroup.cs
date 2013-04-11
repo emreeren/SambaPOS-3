@@ -1,8 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-
-namespace ComLib.Lang.Parsing.MetaPlugins
+namespace Fluentscript.Lib.Parser.MetaPlugins
 {
     // Used to represent a token match for the grammer check in a plugin.
     public class TokenGroup : TokenMatch

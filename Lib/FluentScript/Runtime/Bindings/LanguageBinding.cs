@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using ComLib.Lang.Parsing;
+using Fluentscript.Lib.Parser.Core;
 
-namespace ComLib.Lang.Runtime.Bindings
+namespace Fluentscript.Lib.Runtime.Bindings
 {
     public class LanguageBinding
     {

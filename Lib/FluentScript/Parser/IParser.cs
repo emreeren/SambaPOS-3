@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
+
 // </lang:using>
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser
 {
     /// <summary>
     /// Interface for the language parser. This is reused for combinators and the core parser.

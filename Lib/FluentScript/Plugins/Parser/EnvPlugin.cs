@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Types;
+
 // </lang:using>
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.Parser
 {
 
     /* *************************************************************************
@@ -230,13 +228,13 @@ namespace ComLib.Lang.Plugins
             // Case 2: $env.user.systemroot            
             if (string.IsNullOrEmpty(_scope))
             {
-                val = System.Environment.GetEnvironmentVariable(_varName);
+                val = global::System.Environment.GetEnvironmentVariable(_varName);
                 return new LString(val);
             }
             EnvironmentVariableTarget target = (_scope == "sys")
                                                 ? EnvironmentVariableTarget.Machine
                                                 : EnvironmentVariableTarget.User;
-            val = System.Environment.GetEnvironmentVariable(_varName, target);
+            val = global::System.Environment.GetEnvironmentVariable(_varName, target);
             return new LString(val);
         }
     }

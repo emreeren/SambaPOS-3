@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Specialized;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib.Types;
 // <lang:using>
-using ComLib.Lang.Types;
+
 // </lang:using>
 
-namespace ComLib.Lang.Core
+namespace Fluentscript.Lib._Core
 {
     /// <summary>
     /// Block scope.

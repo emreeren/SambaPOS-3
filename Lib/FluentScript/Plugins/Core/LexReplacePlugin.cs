@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
+
 // </lang:using>
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.Core
 {
     /// <summary>
     /// Combinator for handling comparisons.
@@ -62,9 +58,9 @@ namespace ComLib.Lang.Plugins
         {
             var tokenText = _replaceMap[_lexer.LastTokenData.Token.Text];
             Token replacement = null;
-            if(ComLib.Lang.Core.Tokens.AllTokens.ContainsKey(tokenText))
+            if(Tokens.AllTokens.ContainsKey(tokenText))
             {
-                replacement = ComLib.Lang.Core.Tokens.AllTokens[tokenText];
+                replacement = Tokens.AllTokens[tokenText];
                 _lexer.LastTokenData.Token = replacement;
             }
             _lexer.ParsedTokens.Add(_lexer.LastTokenData);

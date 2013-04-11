@@ -1,5 +1,5 @@
 ﻿
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST
 {
     /// ------------------------------------------------------------------------------------------------
     /// remarks: This file is auto-generated from the FSGrammar specification and should not be modified.

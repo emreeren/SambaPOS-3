@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Fluentscript.Lib.Types;
 
-using ComLib.Lang.Types;
-
-
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper class to convert types from one to another type ( only used for internal fluentscript types )

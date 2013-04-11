@@ -1,6 +1,6 @@
 ﻿
 
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// Holder for "singleton" like object such as empty string, null.

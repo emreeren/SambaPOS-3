@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections;
-
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.Types;
-using ComLib.Lang.Parsing;
+
 // </lang:using>
 
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST.Core
 {
     /// <summary>
     /// Base class for Expressions

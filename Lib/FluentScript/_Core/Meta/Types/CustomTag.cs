@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-
-namespace ComLib.Lang.Core
+﻿namespace Fluentscript.Lib._Core.Meta.Types
 {
     public class CustomTag
     {

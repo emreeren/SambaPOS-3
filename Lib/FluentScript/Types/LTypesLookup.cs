@@ -1,9 +1,7 @@
-﻿
-using System.Collections.Generic;
-using ComLib.Lang.Core;
+﻿using System.Collections.Generic;
+using Fluentscript.Lib._Core;
 
-
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// A lookup class for types.

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Samba.Persistance.Data.Specification
+namespace Samba.Persistance.Specification
 {
     public static class ExpressionBuilder
     {

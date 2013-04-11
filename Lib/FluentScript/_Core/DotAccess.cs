@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace ComLib.Lang.Core
+namespace Fluentscript.Lib._Core
 {
     /// <summary>
     /// Dot access for representing member access fields. e.g. "abc.def.hi"

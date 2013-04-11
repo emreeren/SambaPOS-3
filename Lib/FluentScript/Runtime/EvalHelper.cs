@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Collections;
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 
-using ComLib.Lang.Types;
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Helpers;
-
-namespace ComLib.Lang.Runtime
+namespace Fluentscript.Lib.Runtime
 {
     /// <summary>
     /// Helper class for datatypes.
@@ -505,7 +502,7 @@ namespace ComLib.Lang.Runtime
             }
 
             // 1. Calculate the unary value
-            val = ComLib.Lang.Runtime.EvalHelper.CalcUnary(val, expr.Op, inc);
+            val = EvalHelper.CalcUnary(val, expr.Op, inc);
 
             // 2. Set the value back into scope
             expr.Ctx.Memory.SetValue(expr.Name, val);

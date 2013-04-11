@@ -73,10 +73,6 @@
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
-      <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
-      <Name>Samba.Persistance.Data</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

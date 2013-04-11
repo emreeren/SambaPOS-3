@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib.Plugins;
+using Fluentscript.Lib.Plugins.Parser;
+using Fluentscript.Lib.Plugins.System;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.Plugins;
+
 // </lang:using>
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser.Integration
 {    
     /// <summary>
     /// Stores all the combinators.

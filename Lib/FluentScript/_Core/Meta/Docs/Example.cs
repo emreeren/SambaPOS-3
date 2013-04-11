@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ComLib.Lang.Docs
+﻿namespace Fluentscript.Lib._Core.Meta.Docs
 {
     /// <summary>
     /// An example call for a function

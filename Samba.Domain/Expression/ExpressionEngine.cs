@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using ComLib.Lang;
-using ComLib.Lang.AST;
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.Parser;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Domain.Expression

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ComLib.Lang.Core
+﻿namespace Fluentscript.Lib.AST
 {
     /// <summary>
     /// References to the script name, line number, char position.

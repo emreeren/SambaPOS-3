@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 
-using ComLib.Lang.AST;
-using ComLib.Lang.Core;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Types;
-
-namespace ComLib.Lang.Runtime.Bindings
+namespace Fluentscript.Lib.Runtime.Bindings
 {
     /// <summary>
     /// Binding class exposed to the scripting environment to hook into the compiler process.

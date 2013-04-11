@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ComLib.Lang.Core.Grammar
+namespace Fluentscript.Lib._Core.Grammar
 {
     public class ExtendedPropsHelper
     {

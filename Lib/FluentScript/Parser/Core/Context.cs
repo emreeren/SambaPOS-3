@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using Fluentscript.Lib.Parser.Integration;
+using Fluentscript.Lib.Parser.MetaPlugins;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.Parsing.MetaPlugins;
-using ComLib.Lang.Types;
+
 // </lang:using>
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser.Core
 {
     /// <summary>
     /// Context information for the script.

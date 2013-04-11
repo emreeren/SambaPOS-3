@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser
 {
     /// <summary>
     /// Holds information about an error/warning etc.

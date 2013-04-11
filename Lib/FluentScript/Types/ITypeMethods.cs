@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Fluentscript.Lib._Core;
 
-using ComLib.Lang.Core;
-
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// Interface for supporting different methods on a datatype.

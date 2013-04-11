@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
+
 // </lang:using>
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser
 {
     /// <summary>
     /// The result of a scan for a specific token
@@ -249,8 +246,8 @@ namespace ComLib.Lang.Parsing
         /// <param name="handleNewLine"></param>
         public void ResetPos(int pos, bool handleNewLine)
         {
-            if (pos > LAST_POSITION) throw new Lang.Core.LangException("Lexical Error", "Can not set position to : " + pos, "", -1, -1);
-            if (pos < 0) throw new Lang.Core.LangException("Lexical Error", "Can not set position before 0 : " + pos, "", -1, -1);
+            if (pos > LAST_POSITION) throw new LangException("Lexical Error", "Can not set position to : " + pos, "", -1, -1);
+            if (pos < 0) throw new LangException("Lexical Error", "Can not set position before 0 : " + pos, "", -1, -1);
 
             _pos.Pos = pos;
             _pos.CurrentChar = _pos.Text[pos];

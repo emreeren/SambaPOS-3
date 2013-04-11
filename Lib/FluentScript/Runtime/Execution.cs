@@ -1,20 +1,21 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using ComLib.Lang.Core;
-using ComLib.Lang.Types;
-using ComLib.Lang.AST;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Runtime.Bindings;
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Runtime.Bindings;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 
-namespace ComLib.Lang.Runtime
+namespace Fluentscript.Lib.Runtime
 {
     /// <summary>
     /// Helper class for datatypes.
     /// </summary>
-    public class Execution : ComLib.Lang.AST.IAstVisitor
+    public class Execution : IAstVisitor
     {
         private Dictionary<int, int> _daysInMonth;
 
@@ -1178,17 +1179,17 @@ namespace ComLib.Lang.Runtime
         {
             // Logical not?
             if (expr.Op == Operator.LogicalNot)
-                return ComLib.Lang.Runtime.EvalHelper.HandleLogicalNot(expr, this);
+                return EvalHelper.HandleLogicalNot(expr, this);
 
             var valobj = (LObject)expr.Ctx.Memory.Get<object>(expr.Name);
 
             // Double ? 
             if (valobj.Type == LTypes.Number)
-                return ComLib.Lang.Runtime.EvalHelper.IncrementNumber(expr, (LNumber)valobj, this);
+                return EvalHelper.IncrementNumber(expr, (LNumber)valobj, this);
 
             // String ?
             if (valobj.Type == LTypes.String)
-                return ComLib.Lang.Runtime.EvalHelper.IncrementString(expr, (LString)valobj, this);
+                return EvalHelper.IncrementString(expr, (LString)valobj, this);
 
             throw new LangException("Syntax Error", "Unexpected operation", expr.Ref.ScriptName, expr.Ref.Line, expr.Ref.CharPos);
         }

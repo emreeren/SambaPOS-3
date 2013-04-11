@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Types;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Parsing;
+
 // </lang:using>
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.Parser
 {
 
     /* *************************************************************************
@@ -85,7 +83,7 @@ namespace ComLib.Lang.Plugins
         /// <param name="contents"></param>
         public static void Create(string path, string contents)
         {
-            System.IO.File.WriteAllText(path, contents);
+            global::System.IO.File.WriteAllText(path, contents);
         }
 
 
@@ -96,7 +94,7 @@ namespace ComLib.Lang.Plugins
         /// <param name="contents"></param>
         public static void Write(string path, string contents)
         {
-            System.IO.File.WriteAllText(path, contents);
+            global::System.IO.File.WriteAllText(path, contents);
         }
 
 
@@ -107,7 +105,7 @@ namespace ComLib.Lang.Plugins
         /// <param name="contents"></param>
         public static void Append(string path, string contents)
         {
-            System.IO.File.AppendAllText(path, contents);
+            global::System.IO.File.AppendAllText(path, contents);
         }
 
 
@@ -119,7 +117,7 @@ namespace ComLib.Lang.Plugins
         /// <param name="overwrite">Whether or not to overwrite any existing files</param>
         public static void Copy(string path, string to, bool overwrite)
         {
-            System.IO.File.Copy(path, to, overwrite);
+            global::System.IO.File.Copy(path, to, overwrite);
         }
 
 
@@ -133,7 +131,7 @@ namespace ComLib.Lang.Plugins
         {
             var dirpath = Path.GetDirectoryName(path);
             var newpath = dirpath + Path.DirectorySeparatorChar + to;
-            System.IO.File.Move(path, newpath);
+            global::System.IO.File.Move(path, newpath);
         }
 
 
@@ -144,7 +142,7 @@ namespace ComLib.Lang.Plugins
         /// <param name="to">The new location of the file</param>
         public static void Move(string path, string to)
         {
-            System.IO.File.Move(path, to);
+            global::System.IO.File.Move(path, to);
         }
 
 
@@ -155,7 +153,7 @@ namespace ComLib.Lang.Plugins
         public static void Delete(string path)
         {
             if(File.Exists(path))
-                System.IO.File.Delete(path);
+                global::System.IO.File.Delete(path);
         }
 
 
@@ -166,7 +164,7 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public static bool Exists(string path)
         {
-            return System.IO.File.Exists(path);
+            return global::System.IO.File.Exists(path);
         }
 
 
@@ -178,7 +176,7 @@ namespace ComLib.Lang.Plugins
         public static LVersion GetVersion(string path)
         {
             // ? This is a problem. Do not have the debug/source code information here.
-            if (!System.IO.File.Exists(path))
+            if (!global::System.IO.File.Exists(path))
                 throw new LangException("File not found", "File : " + path + " not found", string.Empty, 0, 0);
 
             // Throw exception?
@@ -206,7 +204,7 @@ namespace ComLib.Lang.Plugins
         /// <param name="path"></param>
         public static void Create(string path)
         {
-            System.IO.Directory.CreateDirectory(path);
+            global::System.IO.Directory.CreateDirectory(path);
         }
 
 
@@ -216,7 +214,7 @@ namespace ComLib.Lang.Plugins
         /// <param name="path"></param>
         public static void Make(string path)
         {
-            System.IO.Directory.CreateDirectory(path);
+            global::System.IO.Directory.CreateDirectory(path);
         }
 
 
@@ -236,7 +234,7 @@ namespace ComLib.Lang.Plugins
             {
                 string name = Path.GetFileName( file );
                 string dest = Path.Combine(to, name);
-                System.IO.File.Copy( file, dest );
+                global::System.IO.File.Copy( file, dest );
             }
             string[] folders = Directory.GetDirectories(path);
             foreach (string folder in folders)
@@ -299,7 +297,7 @@ namespace ComLib.Lang.Plugins
         {
             var dirpath = Path.GetDirectoryName(path);
             var newpath = dirpath + Path.DirectorySeparatorChar + to;
-            System.IO.Directory.Move(path, newpath);
+            global::System.IO.Directory.Move(path, newpath);
         }
 
 
@@ -310,7 +308,7 @@ namespace ComLib.Lang.Plugins
         /// <param name="to">The new location of the directory</param>
         public static void Move(string path, string to)
         {
-            System.IO.Directory.Move(path, to);
+            global::System.IO.Directory.Move(path, to);
         }
 
 
@@ -323,14 +321,14 @@ namespace ComLib.Lang.Plugins
             string[] files = Directory.GetFiles(path);
             foreach (string file in files)
             {
-                System.IO.File.Delete(file);
+                global::System.IO.File.Delete(file);
             }
             string[] folders = Directory.GetDirectories(path);
             foreach (string folder in folders)
             {
                 Delete(folder);
             }
-            System.IO.Directory.Delete(path);
+            global::System.IO.Directory.Delete(path);
         }
 
 
@@ -341,7 +339,7 @@ namespace ComLib.Lang.Plugins
         /// <returns></returns>
         public static bool Exists(string path)
         {
-            return System.IO.Directory.Exists(path);
+            return global::System.IO.Directory.Exists(path);
         }
 
 
@@ -392,7 +390,7 @@ namespace ComLib.Lang.Plugins
             if (files.Count == 0) return;
 
             foreach (var file in files)
-                System.IO.File.Delete((string)file);
+                global::System.IO.File.Delete((string)file);
         }        
 
 
@@ -459,7 +457,7 @@ namespace ComLib.Lang.Plugins
             if (files.Count == 0) return;
 
             foreach (var file in files)
-                System.IO.File.Delete((string)file);
+                global::System.IO.File.Delete((string)file);
         }
 
 

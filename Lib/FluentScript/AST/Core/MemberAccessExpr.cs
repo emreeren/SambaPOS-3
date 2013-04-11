@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
-
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Types;
+
 // </lang:using>
 
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST.Core
 {   
     /// <summary>
     /// Information for an index access operation.

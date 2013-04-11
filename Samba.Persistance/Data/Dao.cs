@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Samba.Infrastructure.Data;
+using Samba.Persistance.Specification;
 
 namespace Samba.Persistance.Data
 {

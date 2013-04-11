@@ -1,9 +1,7 @@
-﻿
-using System;
-using System.IO;
-using ComLib.Lang.Core;
+﻿using System;
+using Fluentscript.Lib.Parser;
 
-namespace ComLib.Lang.Runtime.Switches
+namespace Fluentscript.Lib.Runtime.Switches
 {
     public class InteractiveSwitch : Switch
     {

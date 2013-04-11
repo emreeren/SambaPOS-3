@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections;
-
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Helpers;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Parser.Integration;
+using Fluentscript.Lib.Phases;
+using Fluentscript.Lib.Runtime;
+using Fluentscript.Lib.Runtime.Bindings;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib.Types.Javascript;
+using Fluentscript.Lib._Core;
+using Fluentscript.Lib._Core.Meta.Types;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Helpers;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Runtime.Bindings;
-using ComLib.Lang.Types;
-using ComLib.Lang.Phases;
-using ComLib.Lang.Runtime;
+
 // </lang:using>
 
-namespace ComLib.Lang
+namespace Fluentscript.Lib.Parser
 {
     /// <summary>
     /// Light version of javascript with some "sandbox" features coming up.

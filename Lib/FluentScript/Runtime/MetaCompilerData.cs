@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ComLib.Lang.Runtime
+namespace Fluentscript.Lib.Runtime
 {
     public class MetaCompilerData
     {

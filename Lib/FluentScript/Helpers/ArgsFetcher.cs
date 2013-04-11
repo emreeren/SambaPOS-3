@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helps to get argument values ( from array )

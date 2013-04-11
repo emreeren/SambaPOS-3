@@ -1,7 +1,6 @@
 ﻿using System;
 
-
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// Used to represent a version number e.g. 0.9.8.7

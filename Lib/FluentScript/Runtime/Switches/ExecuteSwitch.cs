@@ -1,8 +1,6 @@
-﻿
-using System.IO;
-using ComLib.Lang.Core;
+﻿using Fluentscript.Lib.Parser;
 
-namespace ComLib.Lang.Runtime.Switches
+namespace Fluentscript.Lib.Runtime.Switches
 {
     public class ExecuteSwitch : Switch
     {

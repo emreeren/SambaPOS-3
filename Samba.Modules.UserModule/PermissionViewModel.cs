@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
+using Samba.Presentation.Services.Common;
 using Samba.Services;
 
 namespace Samba.Modules.UserModule

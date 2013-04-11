@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Samba.Services.Common
+namespace Samba.Infrastructure.Data
 {
     public class DictionaryByType
     {

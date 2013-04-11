@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Samba.Persistance.Data.Specification
+namespace Samba.Persistance.Specification
 {
     public abstract class Specification<TEntity>
          : ISpecification<TEntity>

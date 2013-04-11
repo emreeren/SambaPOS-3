@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Fluentscript.Lib.Parser.Core;
 
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser.Integration
 {
     /// <summary>
     /// A phase of execution after the parsing.

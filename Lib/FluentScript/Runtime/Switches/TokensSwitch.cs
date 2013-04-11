@@ -1,9 +1,9 @@
-﻿
-using System.IO;
+﻿using System.IO;
 using System.Collections.Generic;
-using ComLib.Lang.Core;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib._Core;
 
-namespace ComLib.Lang.Runtime.Switches
+namespace Fluentscript.Lib.Runtime.Switches
 {
     public class TokensSwitch : Switch
     {

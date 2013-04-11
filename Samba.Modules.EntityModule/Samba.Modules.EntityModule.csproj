@@ -171,9 +171,9 @@
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Persistance.Data\Samba.Persistance.Data.csproj">
-      <Project>{FEDA2199-91CD-4AF1-B571-4AA2E8371A18}</Project>
-      <Name>Samba.Persistance.Data</Name>
+    <ProjectReference Include="..\Samba.Persistance\Samba.Persistance.csproj">
+      <Project>{9ACA7797-5C2A-4435-B991-E59462ACDAF6}</Project>
+      <Name>Samba.Persistance</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Presentation.Common\Samba.Presentation.Common.csproj">
       <Project>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</Project>

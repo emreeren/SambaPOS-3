@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ComLib.Lang.Templating
+﻿namespace Fluentscript.Lib.Templating
 {
     /// <summary>
     /// Interface for a Template engine.

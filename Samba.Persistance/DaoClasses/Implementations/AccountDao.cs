@@ -9,7 +9,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Persistance.Data.Specification;
+using Samba.Persistance.Specification;
 
 namespace Samba.Persistance.DaoClasses.Implementations
 {

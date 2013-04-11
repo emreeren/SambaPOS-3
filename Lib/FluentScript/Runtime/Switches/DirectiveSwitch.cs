@@ -1,8 +1,6 @@
-﻿
-using System.IO;
-using ComLib.Lang.AST;
+﻿using Fluentscript.Lib.Parser;
 
-namespace ComLib.Lang.Runtime.Switches
+namespace Fluentscript.Lib.Runtime.Switches
 {
     public class DirectiveSwitch : Switch
     {

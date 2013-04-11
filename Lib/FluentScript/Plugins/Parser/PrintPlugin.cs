@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Fluentscript.Lib.AST;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib.Parser.PluginSupport;
+using Fluentscript.Lib.Plugins.Core;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
-using ComLib.Lang.Types;
+
 // </lang:using>
 
-namespace ComLib.Lang.Plugins
+namespace Fluentscript.Lib.Plugins.Parser
 {
 
     /* *************************************************************************
@@ -48,7 +48,7 @@ namespace ComLib.Lang.Plugins
         public override bool CanHandle(Token current)
         {
             var nextToken = _lexer.PeekToken();
-            if (nextToken.Token == ComLib.Lang.Core.Tokens.LeftParenthesis || nextToken.Token.Text == "\"")
+            if (nextToken.Token == Tokens.LeftParenthesis || nextToken.Token.Text == "\"")
                 return false;
             return true;
         }

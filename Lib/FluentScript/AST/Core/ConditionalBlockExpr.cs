@@ -1,8 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST.Core
 {
     /// <summary>
     /// Conditional based block statement used in ifs/elses/while

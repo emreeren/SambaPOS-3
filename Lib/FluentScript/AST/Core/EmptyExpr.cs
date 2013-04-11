@@ -1,11 +1,10 @@
-﻿using System;
-
+﻿using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib.Types;
 // <lang:using>
-using ComLib.Lang.Types;
-using ComLib.Lang.Helpers;
+
 // </lang:using>
 
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST.Core
 {
     /// <summary>
     /// Variable expression data

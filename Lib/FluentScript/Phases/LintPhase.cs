@@ -1,8 +1,8 @@
 ﻿using System;
+using Fluentscript.Lib.Parser;
+using Fluentscript.Lib.Parser.Integration;
 
-using ComLib.Lang.Parsing;
-
-namespace ComLib.Lang.Phases
+namespace Fluentscript.Lib.Phases
 {
     /// <summary>
     /// Does a semantic check to validate the AST.

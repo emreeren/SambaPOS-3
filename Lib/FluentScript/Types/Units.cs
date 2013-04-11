@@ -1,8 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-
-namespace ComLib.Lang.Types
+namespace Fluentscript.Lib.Types
 {
     /// <summary>
     /// Helper class for calling functions

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 
-using ComLib.Lang.Types;
-using ComLib.Lang.Core;
-
-
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper class for datatypes.
@@ -166,7 +162,7 @@ namespace ComLib.Lang.Helpers
         public static Token ToLiteralVersion(string text)
         {
             var val = Version.Parse(text);
-            var lv = new ComLib.Lang.Types.LVersion(val);
+            var lv = new LVersion(val);
             return new Token(TokenKind.LiteralOther, TokenTypes.LiteralVersion, text, lv);
         }
 

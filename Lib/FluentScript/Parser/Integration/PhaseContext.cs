@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.Parser.Core;
 
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-
-
-namespace ComLib.Lang.Parsing
+namespace Fluentscript.Lib.Parser.Integration
 {
     /// <summary>
     /// Contextual information for phases in the interpreter.

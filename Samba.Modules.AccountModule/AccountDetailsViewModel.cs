@@ -11,7 +11,7 @@ using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Persistance.Data;
-using Samba.Persistance.Data.Specification;
+using Samba.Persistance.Specification;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;

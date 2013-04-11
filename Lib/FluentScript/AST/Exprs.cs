@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using ComLib.Lang.Core;
+using Fluentscript.Lib.AST.Core;
+using Fluentscript.Lib.AST.Interfaces;
+using Fluentscript.Lib._Core;
+using Fluentscript.Lib._Core.Meta.Types;
 
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST
 {
     /// ------------------------------------------------------------------------------------------------
     /// remarks: This file is auto-generated from the FSGrammar specification and should not be modified.

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
-
+using Fluentscript.Lib._Core;
 // <lang:using>
-using ComLib.Lang.Core;
+
 // </lang:using>
 
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST.Core
 {    
 
     /// <summary>

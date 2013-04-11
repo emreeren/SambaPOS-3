@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib.Parser.Integration;
 
-using ComLib.Lang.Core;
-using ComLib.Lang.AST;
-using ComLib.Lang.Parsing;
-
-
-namespace ComLib.Lang.Phases
+namespace Fluentscript.Lib.Phases
 {
     /// <summary>
     /// Executes the different phases of the interpreter.

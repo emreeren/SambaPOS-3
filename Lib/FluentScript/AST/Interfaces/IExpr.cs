@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Fluentscript.Lib.Parser.Core;
+using Fluentscript.Lib._Core;
 
-using ComLib.Lang.Core;
-using ComLib.Lang.Parsing;
-
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST.Interfaces
 {
     public interface IExpr
     {

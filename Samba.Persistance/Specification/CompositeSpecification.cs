@@ -1,4 +1,4 @@
-﻿namespace Samba.Persistance.Data.Specification
+﻿namespace Samba.Persistance.Specification
 {
     public abstract class CompositeSpecification<TEntity> : Specification<TEntity> where TEntity : class
     {

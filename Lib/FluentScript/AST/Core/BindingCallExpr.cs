@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Fluentscript.Lib.AST.Interfaces;
 
-namespace ComLib.Lang.AST
+namespace Fluentscript.Lib.AST.Core
 {
     /// <summary>10: AST class for FunctionCallExpr</summary>
     public class BindingCallExpr : Expr, IParameterExpression

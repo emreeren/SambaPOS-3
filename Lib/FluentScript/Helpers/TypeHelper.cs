@@ -2,12 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 
-using ComLib.Lang.Types;
-using ComLib.Lang.Core;
-
-
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper class for datatypes.

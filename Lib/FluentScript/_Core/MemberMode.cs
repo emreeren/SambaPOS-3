@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ComLib.Lang.Core
+﻿namespace Fluentscript.Lib._Core
 {
     /// <summary>
     /// Represents the member access mode

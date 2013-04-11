@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ComLib.Lang.AST;
-using ComLib.Lang.Core;
-using ComLib.Lang.Types;
+﻿using Fluentscript.Lib.AST;
+using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     public class SymbolHelper
     {

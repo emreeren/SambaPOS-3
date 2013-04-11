@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Samba.Services
+namespace Samba.Presentation.Services.Common
 {
     public static class PermissionRegistry
     {

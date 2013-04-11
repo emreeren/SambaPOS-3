@@ -1,8 +1,7 @@
-﻿
-using ComLib.Lang.Core;
-using ComLib.Lang.Types;
+﻿using Fluentscript.Lib.Types;
+using Fluentscript.Lib._Core;
 
-namespace ComLib.Lang.Helpers
+namespace Fluentscript.Lib.Helpers
 {
     /// <summary>
     /// Helper classs for throwing language exceptions
