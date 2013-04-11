@@ -62,6 +62,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -70,6 +71,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionReporter\Disposable.cs" />
+    <Compile Include="ExceptionReporter\ExceptionReportBuilder.cs" />
+    <Compile Include="ExceptionReporter\ExceptionReportGenerator.cs" />
+    <Compile Include="ExceptionReporter\ExceptionReportInfo.cs" />
+    <Compile Include="ExceptionReporter\Logger.cs" />
+    <Compile Include="ExceptionReporter\SystemInfo\SysInfoQueries.cs" />
+    <Compile Include="ExceptionReporter\SystemInfo\SysInfoQuery.cs" />
+    <Compile Include="ExceptionReporter\SystemInfo\SysInfoResult.cs" />
+    <Compile Include="ExceptionReporter\SystemInfo\SysInfoResultMapper.cs" />
+    <Compile Include="ExceptionReporter\SystemInfo\SysInfoRetriever.cs" />
     <Compile Include="Helpers\AlphanumComparator.cs" />
     <Compile Include="Cron\CronBuilder.cs" />
     <Compile Include="Cron\CronEntryBase.cs" />

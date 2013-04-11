@@ -96,10 +96,6 @@
       <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
       <Name>Samba.Infrastructure.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Infrastructure.ExceptionReporter\Samba.Infrastructure.ExceptionReporter.csproj">
-      <Project>{A3CCA406-C125-4261-8B6B-FD3DAF423050}</Project>
-      <Name>Samba.Infrastructure.ExceptionReporter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
       <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
       <Name>Samba.Infrastructure</Name>
