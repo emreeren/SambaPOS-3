@@ -83,7 +83,6 @@ Source: src\Microsoft.Practices.ServiceLocation.dll; DestDir: {app}
 Source: src\PropertyTools.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\PropertyTools.Wpf.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Domain.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Infrastructure.ExceptionReporter.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Infrastructure.Data.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Infrastructure.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.MessagingServer.exe; DestDir: {app}; Flags: ignoreversion
@@ -109,7 +108,6 @@ Source: src\Samba.Modules.UserModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.WorkperiodModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Persistance.DBMigration.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Persistance.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Persistance.Data.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.Common.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.Controls.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.exe; DestDir: {app}; Flags: ignoreversion

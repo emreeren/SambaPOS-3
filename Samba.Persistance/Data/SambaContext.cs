@@ -118,6 +118,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Entity>().Property(x => x.CustomData).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.TicketStates).IsMaxLength();
+            modelBuilder.Entity<Ticket>().Property(x => x.Note).IsMaxLength();
             modelBuilder.Entity<PrinterTemplate>().Property(x => x.Template).IsMaxLength();
             modelBuilder.Entity<TicketEntity>().Property(x => x.EntityCustomData).IsMaxLength();
             modelBuilder.Entity<ActionContainer>().Property(x => x.ParameterValues).IsMaxLength();
@@ -174,7 +175,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<ChangePayment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Ticket>().HasMany(p => p.ChangePayments).WithRequired().HasForeignKey(x => x.TicketId);
 
-            modelBuilder.Entity<EntityScreenItem>().HasKey(p => new {p.Id, p.EntityScreenId});
+            modelBuilder.Entity<EntityScreenItem>().HasKey(p => new { p.Id, p.EntityScreenId });
             modelBuilder.Entity<EntityScreenItem>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<EntityScreen>().HasMany(p => p.ScreenItems).WithRequired().HasForeignKey(x => x.EntityScreenId);
 
