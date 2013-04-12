@@ -48,10 +48,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutomationCommandData.cs" />
+    <Compile Include="IActionData.cs" />
+    <Compile Include="IParameterValue.cs" />
     <Compile Include="IProgramSetting.cs" />
     <Compile Include="IProgramSettings.cs" />
+    <Compile Include="IRuleConstraint.cs" />
     <Compile Include="OrderTagData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuleActionType.cs" />
+    <Compile Include="RuleEvent.cs" />
     <Compile Include="SerialPortService.cs" />
     <Compile Include="TicketStateData.cs" />
     <Compile Include="TicketTagData.cs" />

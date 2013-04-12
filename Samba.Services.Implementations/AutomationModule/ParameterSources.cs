@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Samba.Presentation.Services.Implementations.AutomationModule
+namespace Samba.Services.Implementations.AutomationModule
 {
     internal static class ParameterSources
     {

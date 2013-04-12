@@ -7,7 +7,9 @@ using Samba.Domain.Models.Entities;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.AutomationModule.WidgetCreators
 {
@@ -15,11 +17,13 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
     class AutomationButtonWidgetCreator : IWidgetCreator
     {
         private readonly IAutomationService _automationService;
+        private readonly IAutomationServiceBase _automationServiceBase;
 
         [ImportingConstructor]
-        public AutomationButtonWidgetCreator(IAutomationService automationService)
+        public AutomationButtonWidgetCreator(IAutomationService automationService,IAutomationServiceBase automationServiceBase)
         {
             _automationService = automationService;
+            _automationServiceBase = automationServiceBase;
         }
 
         public string GetCreatorName()
@@ -71,7 +75,7 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new AutomationButtonWidgetViewModel(widget, applicationState, _automationService);
+            return new AutomationButtonWidgetViewModel(widget, applicationState, _automationService,_automationServiceBase);
         }
     }
 }

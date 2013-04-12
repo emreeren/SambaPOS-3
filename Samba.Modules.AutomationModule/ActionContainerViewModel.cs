@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Automation;
 using Samba.Presentation.Common;
-using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.AutomationModule
 {
@@ -38,7 +38,7 @@ namespace Samba.Modules.AutomationModule
     public class ActionContainerViewModel : ObservableObject
     {
 
-        public ActionContainerViewModel(ActionContainer model, RuleViewModel ruleViewModel, IAutomationService automationService)
+        public ActionContainerViewModel(ActionContainer model, RuleViewModel ruleViewModel, IAutomationServiceBase automationService)
         {
             Model = model;
             _ruleViewModel = ruleViewModel;
@@ -46,7 +46,7 @@ namespace Samba.Modules.AutomationModule
         }
 
         private readonly RuleViewModel _ruleViewModel;
-        private readonly IAutomationService _automationService;
+        private readonly IAutomationServiceBase _automationService;
 
         private AppAction _action;
         public AppAction Action { get { return _action ?? (_action = _automationService.GetActionById(Model.AppActionId)); } set { _action = value; } }

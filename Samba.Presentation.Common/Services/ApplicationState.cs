@@ -39,7 +39,7 @@ namespace Samba.Presentation.Common.Services
             _settingService = settingService;
             _cacheService = cacheService;
             _expressionService = expressionService;
-
+            SetCurrentDepartment(Department.Default);
             CurrentTicketType = TicketType.Default;
         }
 

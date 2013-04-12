@@ -5,6 +5,7 @@ using Samba.Domain.Models.Tasks;
 using Samba.Infrastructure.Messaging;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
+using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services.Common;
 
 namespace Samba.Modules.TaskModule.Widgets.TaskEditor

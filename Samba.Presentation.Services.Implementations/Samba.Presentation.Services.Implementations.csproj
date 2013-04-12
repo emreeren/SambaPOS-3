@@ -57,13 +57,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutomationModule\ActionData.cs" />
     <Compile Include="AutomationModule\AutomationService.cs" />
-    <Compile Include="AutomationModule\OperatorConstants.cs" />
-    <Compile Include="AutomationModule\ParameterSources.cs" />
-    <Compile Include="AutomationModule\ParameterValue.cs" />
-    <Compile Include="AutomationModule\RuleActionTypeRegistry.cs" />
-    <Compile Include="AutomationModule\RuleConstraint.cs" />
     <Compile Include="AutomationModule\TriggerService.cs" />
     <Compile Include="InventoryModule\InventoryService.cs" />
     <Compile Include="MethodQueue.cs" />

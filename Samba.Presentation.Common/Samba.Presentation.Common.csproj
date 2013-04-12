@@ -101,7 +101,7 @@
   <ItemGroup>
     <Compile Include="Commands\CustomCommand.cs" />
     <Compile Include="ElementSpy.cs" />
-    <Compile Include="IWidgetCreator.cs" />
+    <Compile Include="Widgets\IWidgetCreator.cs" />
     <Compile Include="ModelBase\AbstractMapViewModel.cs" />
     <Compile Include="ModelBase\EntityViewModelBaseWithMap.cs" />
     <Compile Include="ModelBase\GenericEntityView.xaml.cs">
@@ -127,7 +127,7 @@
     <Compile Include="ErrorReport\ExceptionReporter.cs" />
     <Compile Include="ExtensionServices.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="IDiagram.cs" />
+    <Compile Include="Widgets\IDiagram.cs" />
     <Compile Include="IModuleInitializationService.cs" />
     <Compile Include="Services\InteractionService.cs" />
     <Compile Include="Commands\ICaptionCommand.cs" />
@@ -153,7 +153,7 @@
     <Compile Include="VisibleModuleBase.cs" />
     <Compile Include="Widgets\DefaultWidgetCreator.cs" />
     <Compile Include="Widgets\WidgetCreatorRegistry.cs" />
-    <Compile Include="WidgetViewModel.cs" />
+    <Compile Include="Widgets\WidgetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\DataGridFilterLibrary\DataGridFilterLibrary.csproj">
@@ -242,6 +242,8 @@ copy "$(TargetDir)System.Windows.Interactivity.dll" "$(SolutionDir)SambaSetup\sr
 copy "$(TargetDir)FluentValidation.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)Omu.ValueInjecter.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)ICSharpCode.AvalonEdit.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)FluentMigrator.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)FluentMigrator.Runner.dll" "$(SolutionDir)SambaSetup\src"
 
 :End</PostBuildEvent>
   </PropertyGroup>

@@ -59,6 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountModule\AccountService.cs" />
+    <Compile Include="AutomationModule\ActionData.cs" />
+    <Compile Include="AutomationModule\AutomationServiceBase.cs" />
+    <Compile Include="AutomationModule\OperatorConstants.cs" />
+    <Compile Include="AutomationModule\ParameterSources.cs" />
+    <Compile Include="AutomationModule\ParameterValue.cs" />
+    <Compile Include="AutomationModule\RuleActionTypeRegistry.cs" />
+    <Compile Include="AutomationModule\RuleConstraint.cs" />
     <Compile Include="CacheService.cs" />
     <Compile Include="DepartmentModule\DepartmentService.cs" />
     <Compile Include="EMailService.cs" />

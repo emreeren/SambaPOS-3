@@ -7,9 +7,9 @@ using Samba.Domain.Models.Automation;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.AutomationModule
 {
@@ -19,7 +19,7 @@ namespace Samba.Modules.AutomationModule
         private readonly IExpressionService _expressionService;
 
         [ImportingConstructor]
-        public AutomationModule(IExpressionService expressionService, IAutomationService automationService)
+        public AutomationModule(IExpressionService expressionService, IAutomationServiceBase automationService)
         {
             _expressionService = expressionService;
             AddDashboardCommand<EntityCollectionViewModelBase<RuleActionViewModel, AppAction>>(Resources.RuleActions, Resources.Automation, 45);

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Samba.Presentation.Services.Common;
+using Samba.Services.Common;
 
-namespace Samba.Presentation.Services.Implementations.AutomationModule
+namespace Samba.Services.Implementations.AutomationModule
 {
     public class RuleActionTypeRegistry
     {

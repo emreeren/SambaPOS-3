@@ -6,18 +6,18 @@ using Samba.Domain.Models.Automation;
 using Samba.Infrastructure.Helpers;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Services;
-using Samba.Presentation.Services.Common;
+using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.AutomationModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class RuleActionViewModel : EntityViewModelBase<AppAction>
     {
-        private readonly IAutomationService _automationService;
+        private readonly IAutomationServiceBase _automationService;
 
         [ImportingConstructor]
-        public RuleActionViewModel(IAutomationService automationService)
+        public RuleActionViewModel(IAutomationServiceBase automationService)
         {
             _automationService = automationService;
         }

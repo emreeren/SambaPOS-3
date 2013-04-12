@@ -3,6 +3,7 @@ using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 
 namespace Samba.Modules.SettingsModule.Widgets.HtmlViewer

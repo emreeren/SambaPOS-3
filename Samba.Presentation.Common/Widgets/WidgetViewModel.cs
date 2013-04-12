@@ -10,7 +10,7 @@ using Samba.Localization;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 
-namespace Samba.Presentation.Common
+namespace Samba.Presentation.Common.Widgets
 {
     public abstract class WidgetViewModel : ObservableObject, IDiagram
     {

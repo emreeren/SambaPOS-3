@@ -10,18 +10,18 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
-using Samba.Presentation.Services;
-using Samba.Presentation.Services.Common;
+using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.AutomationModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class RuleViewModel : EntityViewModelBaseWithMap<AppRule, AppRuleMap, AbstractMapViewModel<AppRuleMap>>
     {
-        private readonly IAutomationService _automationService;
+        private readonly IAutomationServiceBase _automationService;
 
         [ImportingConstructor]
-        public RuleViewModel(IAutomationService automationService)
+        public RuleViewModel(IAutomationServiceBase automationService)
         {
             _automationService = automationService;
             SelectActionsCommand = new CaptionCommand<string>(Resources.SelectActions, OnSelectActions);

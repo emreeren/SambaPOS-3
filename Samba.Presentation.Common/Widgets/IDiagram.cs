@@ -1,9 +1,8 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 using Samba.Domain.Models.Entities;
 
-namespace Samba.Presentation.Common
+namespace Samba.Presentation.Common.Widgets
 {
     public interface IDiagram
     {

@@ -12,6 +12,7 @@ using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {
@@ -32,7 +33,7 @@ namespace Samba.Modules.AccountModule
 
         [ImportingConstructor]
         public AccountModule(IRegionManager regionManager,
-            IAutomationService automationService,
+            IAutomationServiceBase automationService,
             IUserService userService,
             IAccountService accountService,
             ITicketService ticketService,

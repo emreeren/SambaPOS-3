@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Samba.Localization.Properties;
-using Samba.Presentation.Services.Common;
+using Samba.Services.Common;
 
-namespace Samba.Presentation.Services.Implementations.AutomationModule
+namespace Samba.Services.Implementations.AutomationModule
 {
     internal class ParameterValue : IParameterValue
     {

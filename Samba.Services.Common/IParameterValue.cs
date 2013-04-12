@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Samba.Presentation.Services.Common
+namespace Samba.Services.Common
 {
     public interface IParameterValue
     {

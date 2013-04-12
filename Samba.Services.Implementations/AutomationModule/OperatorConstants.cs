@@ -1,4 +1,4 @@
-﻿namespace Samba.Presentation.Services.Implementations.AutomationModule
+﻿namespace Samba.Services.Implementations.AutomationModule
 {
     public static class OperatorConstants
     {
