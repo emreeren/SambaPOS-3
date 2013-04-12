@@ -54,7 +54,11 @@ namespace Samba.Modules.EntityModule
         public bool IsDesignModeActive
         {
             get { return _isDesignModeActive; }
-            set { _isDesignModeActive = value; RaisePropertyChanged(() => IsDesignModeActive); }
+            set
+            {
+                _isDesignModeActive = value;
+                RaisePropertyChanged(() => IsDesignModeActive);
+            }
         }
 
         public ObservableCollection<IDiagram> Widgets { get; set; }

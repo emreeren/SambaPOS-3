@@ -164,7 +164,7 @@ namespace Samba.Modules.EntityModule
                 if (_applicationState.SelectedEntityScreen != null)
                 {
                     var ticketType = _cacheService.GetTicketTypeById(_applicationState.SelectedEntityScreen.TicketTypeId);
-                    return ticketType.EntityTypeAssignments.Any(x => x.EntityTypeId == SelectedEntityType.Id);
+                    return SelectedEntityType != null && ticketType.EntityTypeAssignments.Any(x => x.EntityTypeId == SelectedEntityType.Id);
                 }
                 return false;
             }

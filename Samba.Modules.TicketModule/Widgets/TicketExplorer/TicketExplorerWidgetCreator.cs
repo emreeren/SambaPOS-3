@@ -51,7 +51,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
             var viewModel = widgetViewModel as TicketExplorerWidgetViewModel;
             Debug.Assert(viewModel != null);
 
-            var ret = new TicketExplorerView { DataContext = viewModel.TicketExplorerViewModel, ContextMenu = contextMenu };
+            var ret = new TicketExplorerView { DataContext = viewModel.TicketExplorerViewModel, ContextMenu = contextMenu,Tag = viewModel};
 
             var heightBinding = new Binding("Height") { Source = viewModel, Mode = BindingMode.TwoWay };
             var widthBinding = new Binding("Width") { Source = viewModel, Mode = BindingMode.TwoWay };
