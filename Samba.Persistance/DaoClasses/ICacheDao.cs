@@ -39,5 +39,7 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<TaxTemplate> GetTaxTemplates();
         IEnumerable<Warehouse> GetWarehouses();
         IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes();
+        IEnumerable<AppRule> GetRules();
+        IEnumerable<AppAction> GetActions();
     }
 }

@@ -6,10 +6,8 @@ using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
-using Samba.Services;
 
 namespace Samba.Modules.NavigationModule
 {
@@ -19,17 +17,17 @@ namespace Samba.Modules.NavigationModule
         private readonly IRegionManager _regionManager;
         private readonly NavigationView _navigationView;
         private readonly IUserService _userService;
-        private readonly IAutomationService _automationService;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
         public NavigationModule(IRegionManager regionManager, NavigationView navigationView, IUserService userService,
-            IAutomationService automationService)
+            IApplicationState applicationState)
             : base(regionManager, AppScreens.Navigation)
         {
             _regionManager = regionManager;
             _navigationView = navigationView;
             _userService = userService;
-            _automationService = automationService;
+            _applicationState = applicationState;
 
             PermissionRegistry.RegisterPermission(PermissionNames.OpenNavigation, PermissionCategories.Navigation, Resources.CanOpenNavigation);
 
@@ -52,7 +50,7 @@ namespace Samba.Modules.NavigationModule
                 {
                     if (x.Topic == EventTopicNames.Changed)
                     {
-                        _automationService.NotifyEvent(RuleEventNames.ApplicationScreenChanged,
+                        _applicationState.NotifyEvent(RuleEventNames.ApplicationScreenChanged,
                             new
                                 {
                                     PreviousScreen = Enum.GetName(typeof(AppScreens), x.Value.PreviousScreen),

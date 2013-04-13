@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Automation;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Common;
 using Samba.Services;
 
@@ -37,19 +38,20 @@ namespace Samba.Modules.AutomationModule
 
     public class ActionContainerViewModel : ObservableObject
     {
-
-        public ActionContainerViewModel(ActionContainer model, RuleViewModel ruleViewModel, IAutomationServiceBase automationService)
+        public ActionContainerViewModel(ActionContainer model, RuleViewModel ruleViewModel, IAutomationService automationService,IAutomationDao automationDao)
         {
             Model = model;
             _ruleViewModel = ruleViewModel;
             _automationService = automationService;
+            _automationDao = automationDao;
         }
 
         private readonly RuleViewModel _ruleViewModel;
-        private readonly IAutomationServiceBase _automationService;
+        private readonly IAutomationService _automationService;
+        private readonly IAutomationDao _automationDao;
 
         private AppAction _action;
-        public AppAction Action { get { return _action ?? (_action = _automationService.GetActionById(Model.AppActionId)); } set { _action = value; } }
+        public AppAction Action { get { return _action ?? (_action = _automationDao.GetActionById(Model.AppActionId)); } set { _action = value; } }
 
         public ActionContainer Model { get; set; }
 

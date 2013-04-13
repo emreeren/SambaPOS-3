@@ -50,6 +50,7 @@
     <Compile Include="AutomationCommandData.cs" />
     <Compile Include="IActionData.cs" />
     <Compile Include="IParameterValue.cs" />
+    <Compile Include="IPrinterProcessor.cs" />
     <Compile Include="IProgramSetting.cs" />
     <Compile Include="IProgramSettings.cs" />
     <Compile Include="IRuleConstraint.cs" />

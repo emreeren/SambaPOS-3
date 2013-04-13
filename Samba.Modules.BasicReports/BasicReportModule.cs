@@ -22,7 +22,7 @@ namespace Samba.Modules.BasicReports
         public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView,
             IWorkPeriodService workPeriodService, IPrinterService printerService,
             IInventoryService inventoryService, IUserService userService,
-            IApplicationState applicationState, IAutomationServiceBase automationService, ILogService logService)
+            IApplicationState applicationState, IAutomationService automationService, ILogService logService)
             : base(regionManager, AppScreens.ReportView)
         {
             ReportContext.PrinterService = printerService;

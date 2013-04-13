@@ -4,6 +4,7 @@ using System.IO;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.SamplePrinterProcessor
 {

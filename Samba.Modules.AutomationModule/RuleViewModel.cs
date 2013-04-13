@@ -6,6 +6,7 @@ using System.Linq;
 using Samba.Domain.Models.Automation;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
@@ -18,12 +19,14 @@ namespace Samba.Modules.AutomationModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class RuleViewModel : EntityViewModelBaseWithMap<AppRule, AppRuleMap, AbstractMapViewModel<AppRuleMap>>
     {
-        private readonly IAutomationServiceBase _automationService;
+        private readonly IAutomationService _automationService;
+        private readonly IAutomationDao _automationDao;
 
         [ImportingConstructor]
-        public RuleViewModel(IAutomationServiceBase automationService)
+        public RuleViewModel(IAutomationService automationService, IAutomationDao automationDao)
         {
             _automationService = automationService;
+            _automationDao = automationDao;
             SelectActionsCommand = new CaptionCommand<string>(Resources.SelectActions, OnSelectActions);
             Constraints = new ObservableCollection<IRuleConstraint>();
         }
@@ -49,7 +52,7 @@ namespace Samba.Modules.AutomationModule
 
             Model.Actions.Clear();
             choosenValues.Cast<ActionContainer>().ToList().ForEach(x => Model.Actions.Add(x));
-            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService)));
+            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService, _automationDao)));
 
             RaisePropertyChanged(() => Actions);
 
@@ -112,7 +115,7 @@ namespace Samba.Modules.AutomationModule
         {
             MapController = new MapController<AppRuleMap, AbstractMapViewModel<AppRuleMap>>(Model.AppRuleMaps, Workspace);
 
-            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService)));
+            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService, _automationDao)));
 
             if (!string.IsNullOrEmpty(Model.EventConstraints))
             {

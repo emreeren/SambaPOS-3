@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.Composition;
-using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
@@ -14,15 +13,15 @@ namespace Samba.Modules.PaymentModule
     public class ReturningAmountViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
-        private readonly IAutomationService _automationService;
+        private readonly IApplicationState _applicationState;
         private readonly PaymentEditor _paymentEditor;
 
         [ImportingConstructor]
-        public ReturningAmountViewModel(ICacheService cacheService, IAutomationService automationService,
+        public ReturningAmountViewModel(ICacheService cacheService, IApplicationState applicationState,
              PaymentEditor paymentEditor)
         {
             _cacheService = cacheService;
-            _automationService = automationService;
+            _applicationState = applicationState;
             _paymentEditor = paymentEditor;
         }
 
@@ -57,7 +56,7 @@ namespace Samba.Modules.PaymentModule
 
             if (returningAmount != 0)
             {
-                _automationService.NotifyEvent(RuleEventNames.ChangeAmountChanged,
+                _applicationState.NotifyEvent(RuleEventNames.ChangeAmountChanged,
                                                new
                                                {
                                                    Ticket = _paymentEditor.SelectedTicket,

@@ -30,7 +30,6 @@ namespace Samba.Modules.PosModule
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
         private readonly IExpressionService _expressionService;
-        private readonly IAutomationService _automationService;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
         private readonly TicketTotalsViewModel _totals;
 
@@ -159,7 +158,7 @@ namespace Samba.Modules.PosModule
         [ImportingConstructor]
         public TicketViewModel(IApplicationState applicationState, IExpressionService expressionService,
             ITicketService ticketService, IAccountService accountService, IEntityService locationService, IUserService userService,
-            ICacheService cacheService, IAutomationService automationService, TicketOrdersViewModel ticketOrdersViewModel,
+            ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
         {
             _ticketService = ticketService;
@@ -167,7 +166,6 @@ namespace Samba.Modules.PosModule
             _cacheService = cacheService;
             _applicationState = applicationState;
             _expressionService = expressionService;
-            _automationService = automationService;
             _ticketOrdersViewModel = ticketOrdersViewModel;
             _totals = totals;
             _ticketInfo = ticketInfoViewModel;
@@ -215,7 +213,7 @@ namespace Samba.Modules.PosModule
                 {
                     foreach (var selectedOrder in SelectedOrders)
                     {
-                        _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
+                        _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
                         {
                             Ticket = SelectedTicket,
                             Order = selectedOrder,
@@ -226,7 +224,7 @@ namespace Samba.Modules.PosModule
                 }
                 else
                 {
-                    _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
+                    _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
                     {
                         Ticket = SelectedTicket,
                         AutomationCommandName = obj.Name,
@@ -244,7 +242,7 @@ namespace Samba.Modules.PosModule
 
         private void OnAutomationCommandValueSelected(EventParameters<AutomationCommandValueData> obj)
         {
-            _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Value.AutomationCommand.Name, obj.Value.Value });
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Value.AutomationCommand.Name, obj.Value.Value });
             _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
             ClearSelectedItems();
             ClearSelection = true;

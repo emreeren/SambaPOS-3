@@ -31,6 +31,26 @@ namespace Samba.Services.Implementations
             _entityCache = new EntityCache();
         }
 
+        private IEnumerable<AppRule> _rules;
+        public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = _dataService.GetRules()); } }
+
+        public IEnumerable<AppRule> GetAppRules(string eventName, int terminalId, int departmentId, int userRoleId)
+        {
+            var maps = Rules.Where(x => x.EventName == eventName).SelectMany(x => x.AppRuleMaps)
+                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
+                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
+            return Rules.Where(x => maps.Any(y => y.AppRuleId == x.Id)).OrderBy(x => x.SortOrder);
+        }
+
+        private IEnumerable<AppAction> _actions;
+        public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = _dataService.GetActions()); } }
+
+        public IEnumerable<AppAction> GetActions()
+        {
+            return Actions;
+        }
+
         public Account GetAccountById(int accountId)
         {
             return Dao.SingleWithCache<Account>(x => x.Id == accountId);
@@ -594,6 +614,8 @@ namespace Samba.Services.Implementations
             _orderTagGroups = null;
             _productTimers = null;
             _menuItems = null;
+            _rules = null;
+            _actions = null;
             _entityCache.Reset();
         }
     }

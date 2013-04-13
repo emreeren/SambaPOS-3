@@ -20,20 +20,18 @@ namespace Samba.Modules.PaymentModule
 
         private readonly PaymentEditor _paymentEditor;
         private readonly IApplicationState _applicationState;
-        private readonly IAutomationService _automationService;
         private readonly TenderedValueViewModel _tenderedValueViewModel;
         private readonly OrderSelectorViewModel _orderSelectorViewModel;
         private readonly NumberPadViewModel _numberPadViewModel;
         private readonly IExpressionService _expressionService;
 
         [ImportingConstructor]
-        public CommandButtonsViewModel(PaymentEditor paymentEditor, IApplicationState applicationState, IAutomationService automationService,
+        public CommandButtonsViewModel(PaymentEditor paymentEditor, IApplicationState applicationState, 
             TenderedValueViewModel tenderedValueViewModel, OrderSelectorViewModel orderSelectorViewModel, NumberPadViewModel numberPadViewModel,
             IExpressionService expressionService)
         {
             _paymentEditor = paymentEditor;
             _applicationState = applicationState;
-            _automationService = automationService;
             _tenderedValueViewModel = tenderedValueViewModel;
 
             _orderSelectorViewModel = orderSelectorViewModel;
@@ -75,7 +73,7 @@ namespace Samba.Modules.PaymentModule
 
         private void OnExecuteAutomationCommand(AutomationCommandData obj)
         {
-            _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = _paymentEditor.SelectedTicket, AutomationCommandName = obj.AutomationCommand.Name });
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = _paymentEditor.SelectedTicket, AutomationCommandName = obj.AutomationCommand.Name });
         }
 
         private bool CanExecuteAutomationCommand(AutomationCommandData arg)

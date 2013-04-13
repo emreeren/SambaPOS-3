@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
@@ -18,6 +19,8 @@ namespace Samba.Services
         void ResetCache();
         void ResetOrderTagCache();
         void ResetTicketTagCache();
+        IEnumerable<AppRule> GetAppRules(string eventName, int terminalId, int departmentId, int userRoleId);
+        IEnumerable<AppAction> GetActions();
         Account GetAccountById(int accountId);
         Entity GetEntityById(int entityId);
         ScreenMenu GetScreenMenu(int screenMenuId);

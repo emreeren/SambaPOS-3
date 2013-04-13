@@ -14,15 +14,15 @@ namespace Samba.Presentation.Services.Implementations.EntityModule
     public class EntityService : IEntityService
     {
         private readonly IEntityDao _entityDao;
-        private readonly IAutomationService _automationService;
+        private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
         private IWorkspace _resoureceWorkspace;
 
         [ImportingConstructor]
-        public EntityService(IEntityDao entityDao, IAutomationService automationService, ICacheService cacheService)
+        public EntityService(IEntityDao entityDao, IApplicationState applicationState, ICacheService cacheService)
         {
             _entityDao = entityDao;
-            _automationService = automationService;
+            _applicationState = applicationState;
             _cacheService = cacheService;
         }
 
@@ -111,7 +111,13 @@ namespace Samba.Presentation.Services.Implementations.EntityModule
         {
             _entityDao.UpdateEntityState(entityId, stateName, state);
             var rt = _cacheService.GetEntityTypeById(entityTypeId);
-            _automationService.NotifyEvent(RuleEventNames.EntityStateUpdated, new { EntityId = entityId, EntityTypeName = rt.Name, StateName = stateName, State = state });
+            _applicationState.NotifyEvent(RuleEventNames.EntityStateUpdated, new
+            {
+                EntityId = entityId,
+                EntityTypeName = rt.Name,
+                StateName = stateName,
+                State = state
+            });
         }
     }
 }

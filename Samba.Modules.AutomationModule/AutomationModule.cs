@@ -19,7 +19,7 @@ namespace Samba.Modules.AutomationModule
         private readonly IExpressionService _expressionService;
 
         [ImportingConstructor]
-        public AutomationModule(IExpressionService expressionService, IAutomationServiceBase automationService)
+        public AutomationModule(IExpressionService expressionService, IAutomationService automationService)
         {
             _expressionService = expressionService;
             AddDashboardCommand<EntityCollectionViewModelBase<RuleActionViewModel, AppAction>>(Resources.RuleActions, Resources.Automation, 45);

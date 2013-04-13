@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAccountService.cs" />
-    <Compile Include="IAutomationServiceBase.cs" />
+    <Compile Include="IAutomationService.cs" />
     <Compile Include="ICacheService.cs" />
     <Compile Include="IDepartmentService.cs" />
     <Compile Include="IEmailService.cs" />
@@ -83,7 +83,6 @@
     <Compile Include="ILogService.cs" />
     <Compile Include="IMenuService.cs" />
     <Compile Include="IPriceListService.cs" />
-    <Compile Include="IPrinterProcessor.cs" />
     <Compile Include="IPrinterService.cs" />
     <Compile Include="ISettingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

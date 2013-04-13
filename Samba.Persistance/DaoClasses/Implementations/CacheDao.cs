@@ -31,6 +31,16 @@ namespace Samba.Persistance.DaoClasses.Implementations
             Dao.ResetCache();
         }
 
+        public IEnumerable<AppRule> GetRules()
+        {
+            return Dao.Query<AppRule>(x => x.Actions, x => x.AppRuleMaps).OrderBy(x => x.SortOrder);
+        }
+
+        public IEnumerable<AppAction> GetActions()
+        {
+            return Dao.Query<AppAction>().OrderBy(x => x.SortOrder);
+        }
+
         public IEnumerable<MenuItem> GetMenuItems()
         {
             return Dao.Query<MenuItem>(x => x.Portions.Select(y => y.Prices));

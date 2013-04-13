@@ -27,11 +27,12 @@ namespace Samba.Presentation.Common.Services
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
         private readonly IExpressionService _expressionService;
+        private readonly IAutomationService _automationService;
         private readonly StateMachine<AppScreens, AppScreens> _screenState;
 
         [ImportingConstructor]
         public ApplicationState(IDepartmentService departmentService, ISettingService settingService,
-            ICacheService cacheService, IExpressionService expressionService)
+            ICacheService cacheService, IExpressionService expressionService, IAutomationService automationService)
         {
             _screenState = new StateMachine<AppScreens, AppScreens>(() => ActiveAppScreen, state => ActiveAppScreen = state);
             _screenState.OnUnhandledTrigger(HandleTrigger);
@@ -39,6 +40,7 @@ namespace Samba.Presentation.Common.Services
             _settingService = settingService;
             _cacheService = cacheService;
             _expressionService = expressionService;
+            _automationService = automationService;
             SetCurrentDepartment(Department.Default);
             CurrentTicketType = TicketType.Default;
         }
@@ -287,6 +289,14 @@ namespace Samba.Presentation.Common.Services
                                                  CurrentDepartment.Id,
                                                  CurrentLoggedInUser.UserRole.Id,
                                                  menuItemId);
+        }
+
+        public void NotifyEvent(string eventName, object dataObject)
+        {
+            var terminalId = CurrentTerminal.Id;
+            var departmentId = CurrentDepartment.Id;
+            var roleId = CurrentLoggedInUser.UserRole.Id;
+            _automationService.NotifyEvent(eventName, dataObject, terminalId, departmentId, roleId, x => x.PublishEvent(EventTopicNames.ExecuteEvent, true));
         }
 
         public void ResetState()

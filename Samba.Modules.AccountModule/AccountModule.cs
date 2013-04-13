@@ -33,7 +33,7 @@ namespace Samba.Modules.AccountModule
 
         [ImportingConstructor]
         public AccountModule(IRegionManager regionManager,
-            IAutomationServiceBase automationService,
+            IAutomationService automationService,
             IUserService userService,
             IAccountService accountService,
             ITicketService ticketService,

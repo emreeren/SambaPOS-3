@@ -18,17 +18,15 @@ namespace Samba.Presentation.Services.Implementations.UserModule
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IDepartmentService _departmentService;
-        private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
         public UserService(IUserDao userDao, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IDepartmentService departmentService, IAutomationService automationService)
+            IDepartmentService departmentService)
         {
             _userDao = userDao;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _departmentService = departmentService;
-            _automationService = automationService;
         }
 
         private IEnumerable<User> _users;
@@ -74,7 +72,7 @@ namespace Samba.Presentation.Services.Implementations.UserModule
             if (user != User.Nobody)
             {
                 user.PublishEvent(EventTopicNames.UserLoggedIn);
-                _automationService.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = user, RoleName = user.UserRole.Name });
+                _applicationState.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = user, RoleName = user.UserRole.Name });
             }
             return user;
         }
@@ -84,7 +82,7 @@ namespace Samba.Presentation.Services.Implementations.UserModule
             var user = _applicationState.CurrentLoggedInUser;
             Debug.Assert(user != User.Nobody);
             user.PublishEvent(EventTopicNames.UserLoggedOut);
-            _automationService.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = user, RoleName = user.UserRole.Name });
+            _applicationState.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = user, RoleName = user.UserRole.Name });
             _applicationStateSetter.SetCurrentLoggedInUser(User.Nobody);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
         }

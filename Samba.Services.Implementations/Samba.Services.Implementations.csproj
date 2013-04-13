@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="AccountModule\AccountService.cs" />
     <Compile Include="AutomationModule\ActionData.cs" />
-    <Compile Include="AutomationModule\AutomationServiceBase.cs" />
+    <Compile Include="AutomationModule\AutomationService.cs" />
     <Compile Include="AutomationModule\OperatorConstants.cs" />
     <Compile Include="AutomationModule\ParameterSources.cs" />
     <Compile Include="AutomationModule\ParameterValue.cs" />

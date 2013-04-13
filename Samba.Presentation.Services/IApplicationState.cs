@@ -51,7 +51,9 @@ namespace Samba.Presentation.Services
         IEnumerable<CalculationSelector> GetCalculationSelectors();
         IEnumerable<EntityScreen> GetEntityScreens();
         IEnumerable<EntityScreen> GetTicketEntityScreens();
-        IEnumerable<TaxTemplate> GetTaxTemplates(int menuItemId); 
+        IEnumerable<TaxTemplate> GetTaxTemplates(int menuItemId);
+
+        void NotifyEvent(string eventName, object dataObject);
 
         void ResetState();
     }

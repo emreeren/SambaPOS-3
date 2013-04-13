@@ -4,26 +4,22 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Samba.Domain.Models.Entities;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
-using Samba.Presentation.Common;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
-using Samba.Services;
 
 namespace Samba.Modules.AutomationModule.WidgetCreators
 {
     [Export(typeof(IWidgetCreator))]
     class AutomationButtonWidgetCreator : IWidgetCreator
     {
-        private readonly IAutomationService _automationService;
-        private readonly IAutomationServiceBase _automationServiceBase;
+        private readonly IAutomationDao _automationDao;
 
         [ImportingConstructor]
-        public AutomationButtonWidgetCreator(IAutomationService automationService,IAutomationServiceBase automationServiceBase)
+        public AutomationButtonWidgetCreator(IAutomationDao automationDao)
         {
-            _automationService = automationService;
-            _automationServiceBase = automationServiceBase;
+            _automationDao = automationDao;
         }
 
         public string GetCreatorName()
@@ -75,7 +71,7 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new AutomationButtonWidgetViewModel(widget, applicationState, _automationService,_automationServiceBase);
+            return new AutomationButtonWidgetViewModel(widget, applicationState, _automationDao);
         }
     }
 }

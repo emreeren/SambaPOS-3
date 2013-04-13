@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Tickets;
 
-namespace Samba.Services
+namespace Samba.Services.Common
 {
     public interface IPrinterProcessor
     {

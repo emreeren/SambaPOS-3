@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
+using Samba.Persistance.DaoClasses;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
@@ -11,23 +12,23 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
 {
     class AutomationButtonWidgetViewModel : WidgetViewModel
     {
-        private readonly IAutomationService _automationService;
-        private readonly IAutomationServiceBase _automationServiceBase;
+        private readonly IApplicationState _applicationState;
+        private readonly IAutomationDao _automationDao;
 
         [Browsable(false)]
         public CaptionCommand<AutomationButtonWidgetViewModel> ItemClickedCommand { get; set; }
 
-        public AutomationButtonWidgetViewModel(Widget widget, IApplicationState applicationState, IAutomationService automationService, IAutomationServiceBase automationServiceBase)
+        public AutomationButtonWidgetViewModel(Widget widget, IApplicationState applicationState, IAutomationDao automationDao)
             : base(widget, applicationState)
         {
-            _automationService = automationService;
-            _automationServiceBase = automationServiceBase;
+            _applicationState = applicationState;
+            _automationDao = automationDao;
             ItemClickedCommand = new CaptionCommand<AutomationButtonWidgetViewModel>("", OnItemClicked);
         }
 
         private void OnItemClicked(AutomationButtonWidgetViewModel obj)
         {
-            _automationService.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { AutomationCommandName = obj.Settings.CommandName });
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { AutomationCommandName = obj.Settings.CommandName });
         }
 
         protected override object CreateSettingsObject()
@@ -46,7 +47,7 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
 
         protected override void BeforeEditSettings()
         {
-            Settings.CommandNameValue.UpdateValues(_automationServiceBase.GetAutomationCommandNames());
+            Settings.CommandNameValue.UpdateValues(_automationDao.GetAutomationCommandNames());
         }
     }
 }

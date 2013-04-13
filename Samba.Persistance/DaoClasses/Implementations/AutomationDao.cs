@@ -22,16 +22,6 @@ namespace Samba.Persistance.DaoClasses.Implementations
             return Dao.Query<Script>().ToDictionary(x => x.HandlerName, x => x.Code);
         }
 
-        public IEnumerable<AppRule> GetRules()
-        {
-            return Dao.Query<AppRule>(x => x.Actions, x => x.AppRuleMaps).OrderBy(x => x.SortOrder);
-        }
-
-        public IEnumerable<AppAction> GetActions()
-        {
-            return Dao.Query<AppAction>().OrderBy(x => x.SortOrder);
-        }
-
         public AppAction GetActionById(int appActionId)
         {
             return Dao.Single<AppAction>(x => x.Id == appActionId);

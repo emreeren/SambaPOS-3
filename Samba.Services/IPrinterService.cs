@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Services.Common;
 
 namespace Samba.Services
 {

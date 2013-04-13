@@ -26,7 +26,6 @@ namespace Samba.Modules.PosModule
         private readonly ITicketService _ticketService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
-        private readonly IAutomationService _automationService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IRegionManager _regionManager;
@@ -60,7 +59,7 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, IUserService userService, ICacheService cacheService, IAutomationService automationService,
+            ITicketService ticketService, IUserService userService, ICacheService cacheService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel,
             MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,
             TicketEntityListViewModel ticketEntityListViewModel, TicketTypeListViewModel ticketTypeListViewModel)
@@ -68,7 +67,6 @@ namespace Samba.Modules.PosModule
             _ticketService = ticketService;
             _userService = userService;
             _cacheService = cacheService;
-            _automationService = automationService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _regionManager = regionManager;
@@ -214,7 +212,7 @@ namespace Samba.Modules.PosModule
                 var entityType = _cacheService.GetEntityTypeById(entity.EntityTypeId);
                 if (entityType != null)
                 {
-                    _automationService.NotifyEvent(RuleEventNames.EntitySelected, new
+                    _applicationState.NotifyEvent(RuleEventNames.EntitySelected, new
                         {
                             Ticket = SelectedTicket,
                             EntityTypeName = entityType.Name,

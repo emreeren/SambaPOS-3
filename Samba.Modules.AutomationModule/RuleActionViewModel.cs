@@ -14,10 +14,10 @@ namespace Samba.Modules.AutomationModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class RuleActionViewModel : EntityViewModelBase<AppAction>
     {
-        private readonly IAutomationServiceBase _automationService;
+        private readonly IAutomationService _automationService;
 
         [ImportingConstructor]
-        public RuleActionViewModel(IAutomationServiceBase automationService)
+        public RuleActionViewModel(IAutomationService automationService)
         {
             _automationService = automationService;
         }

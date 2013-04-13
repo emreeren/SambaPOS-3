@@ -24,7 +24,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
     {
         private readonly ITicketDao _ticketDao;
         private readonly IApplicationState _applicationState;
-        private readonly IAutomationService _automationService;
         private readonly IExpressionService _expressionService;
         private readonly IUserService _userService;
         private readonly ISettingService _settingService;
@@ -33,13 +32,12 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         [ImportingConstructor]
         public TicketService(ITicketDao ticketDao, IDepartmentService departmentService, IApplicationState applicationState,
-            IAutomationService automationService, IUserService userService, ISettingService settingService, IExpressionService expressionService,
+            IUserService userService, ISettingService settingService, IExpressionService expressionService,
             IAccountService accountService, ICacheService cacheService)
         {
             _ticketDao = ticketDao;
             _expressionService = expressionService;
             _applicationState = applicationState;
-            _automationService = automationService;
             _userService = userService;
             _settingService = settingService;
             _accountService = accountService;
@@ -62,7 +60,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (currentEntity != null && currentEntity.EntityId != entityId)
             {
                 var entityType = _cacheService.GetEntityTypeById(currentEntity.EntityTypeId);
-                _automationService.NotifyEvent(RuleEventNames.EntityUpdated, new
+                _applicationState.NotifyEvent(RuleEventNames.EntityUpdated, new
                 {
                     EntityTypeId = currentEntity.EntityTypeId,
                     EntityId = currentEntity.EntityId,
@@ -76,7 +74,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (currentEntityId != entityId)
             {
                 var entityType = _cacheService.GetEntityTypeById(entityTypeId);
-                _automationService.NotifyEvent(RuleEventNames.TicketEntityChanged,
+                _applicationState.NotifyEvent(RuleEventNames.TicketEntityChanged,
                     new
                     {
                         Ticket = ticket,
@@ -112,7 +110,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                              ? CreateTicket()
                              : _ticketDao.OpenTicket(ticketId);
 
-            _automationService.NotifyEvent(RuleEventNames.TicketOpened, new { Ticket = ticket, OrderCount = ticket.Orders.Count });
+            _applicationState.NotifyEvent(RuleEventNames.TicketOpened, new { Ticket = ticket, OrderCount = ticket.Orders.Count });
 
             return ticket;
         }
@@ -125,7 +123,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 _applicationState.CurrentTicketType,
                 GetExchangeRate(account),
                 _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
-            _automationService.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = result, TicketTypeName = _applicationState.CurrentTicketType.Name });
+            _applicationState.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = result, TicketTypeName = _applicationState.CurrentTicketType.Name });
             return result;
         }
 
@@ -159,7 +157,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
                     Debug.Assert(ticket.Id > 0);
-                    _automationService.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id });
+                    _applicationState.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id });
                     ticket.LockTicket();
                 }
 
@@ -176,7 +174,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 foreach (var ticketEntity in ticket.TicketEntities)
                 {
                     var entityType = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
-                    _automationService.NotifyEvent(RuleEventNames.EntityUpdated, new
+                    _applicationState.NotifyEvent(RuleEventNames.EntityUpdated, new
                                                                                        {
                                                                                            EntityTypeId = ticketEntity.EntityTypeId,
                                                                                            EntityId = ticketEntity.EntityId,
@@ -196,7 +194,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var remainingAmount = ticket.GetRemainingAmount();
             var changeAmount = tenderedAmount > remainingAmount ? tenderedAmount - remainingAmount : 0;
             ticket.AddPayment(paymentType, account, tenderedAmount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
-            _automationService.NotifyEvent(RuleEventNames.PaymentProcessed,
+            _applicationState.NotifyEvent(RuleEventNames.PaymentProcessed,
                 new
                 {
                     Ticket = ticket,
@@ -270,13 +268,13 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
             RefreshAccountTransactions(ticket);
 
-            _automationService.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket });
+            _applicationState.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket });
             return CloseTicket(ticket);
         }
 
         public TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId)
         {
-            _automationService.NotifyEvent(RuleEventNames.TicketMoving, new { Ticket = ticket });
+            _applicationState.NotifyEvent(RuleEventNames.TicketMoving, new { Ticket = ticket });
 
             var clonedOrders = selectedOrders.Select(ObjectCloner.Clone2).ToList();
             ticket.RemoveOrders(selectedOrders);
@@ -288,13 +286,13 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             {
                 clonedOrder.TicketId = 0;
                 ticket.Orders.Add(clonedOrder);
-                _automationService.NotifyEvent(RuleEventNames.OrderMoved, new { Ticket = ticket, Order = clonedOrder, clonedOrder.MenuItemName });
+                _applicationState.NotifyEvent(RuleEventNames.OrderMoved, new { Ticket = ticket, Order = clonedOrder, clonedOrder.MenuItemName });
             }
 
             RefreshAccountTransactions(ticket);
             ticket.LastOrderDate = DateTime.Now;
 
-            _automationService.NotifyEvent(RuleEventNames.TicketMoved, new { Ticket = ticket });
+            _applicationState.NotifyEvent(RuleEventNames.TicketMoved, new { Ticket = ticket });
 
             return CloseTicket(ticket);
         }
@@ -307,7 +305,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             ticket.Recalculate();
             if (total != ticket.TotalAmount)
             {
-                _automationService.NotifyEvent(RuleEventNames.TicketTotalChanged,
+                _applicationState.NotifyEvent(RuleEventNames.TicketTotalChanged,
                     new
                     {
                         Ticket = ticket,
@@ -328,7 +326,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
             ticket.SetStateValue(stateName, state, stateValue, quantity);
 
-            _automationService.NotifyEvent(RuleEventNames.TicketStateUpdated,
+            _applicationState.NotifyEvent(RuleEventNames.TicketStateUpdated,
             new
             {
                 Ticket = ticket,
@@ -357,7 +355,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 TagValue = ticketTag.Name
             };
 
-            _automationService.NotifyEvent(RuleEventNames.TicketTagSelected,
+            _applicationState.NotifyEvent(RuleEventNames.TicketTagSelected,
                         new
                         {
                             Ticket = ticket,
@@ -441,7 +439,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 {
                     var orderTagValue = order.GetOrderTagValues().First(x => x.OrderTagGroupId == orderTagGroup.Id);
                     order.UntagOrder(orderTagValue);
-                    _automationService.NotifyEvent(RuleEventNames.OrderUntagged,
+                    _applicationState.NotifyEvent(RuleEventNames.OrderUntagged,
                                new
                                {
                                    Ticket = ticket,
@@ -462,7 +460,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                     _ticketDao.SaveFreeOrderTag(orderTagGroup.Id, orderTag);
                     _cacheService.ResetOrderTagCache();
                 }
-                _automationService.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
+                _applicationState.NotifyEvent(result ? RuleEventNames.OrderTagged : RuleEventNames.OrderUntagged,
                 new
                 {
                     Ticket = ticket,
@@ -477,7 +475,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         {
             foreach (var selectedOrder in selectedOrders.Where(selectedOrder => selectedOrder.UntagIfTagged(orderTagGroup, orderTag)))
             {
-                _automationService.NotifyEvent(RuleEventNames.OrderUntagged,
+                _applicationState.NotifyEvent(RuleEventNames.OrderUntagged,
                                                new
                                                    {
                                                        Ticket = ticket,
@@ -539,7 +537,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             {
                 if (order.IsInState(stateName, state) && (string.IsNullOrEmpty(stateValue) || order.IsInState(stateValue))) continue;
                 order.SetStateValue(stateName, groupOrder, state, stateOrder, stateValue);
-                _automationService.NotifyEvent(RuleEventNames.OrderStateUpdated,
+                _applicationState.NotifyEvent(RuleEventNames.OrderStateUpdated,
                                                new
                                                    {
                                                        Ticket = ticket,
@@ -623,7 +621,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             RecalculateTicket(ticket);
 
             order.PublishEvent(EventTopicNames.OrderAdded);
-            _automationService.NotifyEvent(RuleEventNames.OrderAdded, new { Ticket = ticket, Order = order, order.MenuItemName });
+            _applicationState.NotifyEvent(RuleEventNames.OrderAdded, new { Ticket = ticket, Order = order, order.MenuItemName });
 
             return order;
         }

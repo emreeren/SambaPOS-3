@@ -37,7 +37,6 @@ namespace Samba.Persistance.Data
             Cache.Clear();
         }
 
-
         public static TResult Single<TSource, TResult>(int id, Expression<Func<TSource, TResult>> expression) where TSource : class,IEntityClass
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())

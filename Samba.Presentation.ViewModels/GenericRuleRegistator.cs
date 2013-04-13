@@ -32,8 +32,7 @@ namespace Samba.Presentation.ViewModels
         private static readonly ITriggerService TriggerService = ServiceLocator.Current.GetInstance<ITriggerService>();
         private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
-        private static readonly IAutomationServiceBase AutomationServiceBase = ServiceLocator.Current.GetInstance<IAutomationServiceBase>();
-        private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
+        private static readonly IAutomationService AutomationServiceBase = ServiceLocator.Current.GetInstance<IAutomationService>();
         private static readonly IEntityService EntityService = ServiceLocator.Current.GetInstance<IEntityService>();
         private static readonly IMethodQueue MethodQueue = ServiceLocator.Current.GetInstance<IMethodQueue>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
@@ -625,7 +624,7 @@ namespace Samba.Presentation.ViewModels
             {
                 if (x.Topic == EventTopicNames.MessageReceivedEvent && x.Value.Command == "ActionMessage")
                 {
-                    AutomationService.NotifyEvent(RuleEventNames.MessageReceived, new { Command = x.Value.Data });
+                    ApplicationState.NotifyEvent(RuleEventNames.MessageReceived, new { Command = x.Value.Data });
                 }
             });
         }

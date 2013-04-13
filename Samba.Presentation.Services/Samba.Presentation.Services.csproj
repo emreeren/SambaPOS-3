@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IApplicationStateSetter.cs" />
-    <Compile Include="IAutomationService.cs" />
     <Compile Include="IInventoryService.cs" />
     <Compile Include="IMethodQueue.cs" />
     <Compile Include="IEntityService.cs" />
