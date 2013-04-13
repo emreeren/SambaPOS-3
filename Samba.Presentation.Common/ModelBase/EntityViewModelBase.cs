@@ -91,7 +91,6 @@ namespace Samba.Presentation.Common.ModelBase
 
         protected virtual void OnSave(string value)
         {
-            ErrorMessage = GetSaveErrorMessage();
             if (CanSave())
             {
                 _modelSaved = true;
@@ -113,6 +112,7 @@ namespace Samba.Presentation.Common.ModelBase
 
         public bool CanSave()
         {
+            ErrorMessage = GetSaveErrorMessage();
             return !string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(ErrorMessage) && CanSave("");
         }
 
