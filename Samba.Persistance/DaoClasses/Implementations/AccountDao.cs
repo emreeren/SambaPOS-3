@@ -21,7 +21,7 @@ namespace Samba.Persistance.DaoClasses.Implementations
         {
             ValidatorRegistry.RegisterDeleteValidator(new AccountDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator(new AccountTypeDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator<AccountTransactionType>(x => Dao.Exists<AccountTransactionDocumentType>(y => y.TransactionTypes.Any(z => z.Id == x.Id)), Resources.AccountTransactionType, Resources.DocumentType);
+            ValidatorRegistry.RegisterDeleteValidator(new AccountTransactionTypeDeleteValidator());
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<Account>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.Account)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountType)));
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<AccountTransactionType>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.AccountTransactionType)));
@@ -154,6 +154,37 @@ namespace Samba.Persistance.DaoClasses.Implementations
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountType, Resources.Account);
             if (Dao.Exists<AccountTransactionDocumentType>(x => x.MasterAccountTypeId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountType, Resources.DocumentType);
+            return "";
+        }
+    }
+
+    public class AccountTransactionTypeDeleteValidator : SpecificationValidator<AccountTransactionType>
+    {
+        public override string GetErrorMessage(AccountTransactionType model)
+        {
+            if (Dao.Exists<AccountTransactionDocumentType>(x => x.TransactionTypes.Any(y => y.Id == model.Id)))
+            {
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTransactionType,
+                                     Resources.AccountTransactionDocument);
+            }
+            
+            if (Dao.Exists<PaymentType>(x => x.AccountTransactionType.Id == model.Id))
+            {
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTransactionType,
+                                     Resources.PaymentType);
+            }            
+            
+            if (Dao.Exists<CalculationType>(x => x.AccountTransactionType.Id == model.Id))
+            {
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTransactionType,
+                                     Resources.CalculationType);
+            }            
+            
+            if (Dao.Exists<TicketType>(x => x.SaleTransactionType.Id == model.Id))
+            {
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.AccountTransactionType,
+                                     Resources.TicketType);
+            }
             return "";
         }
     }
