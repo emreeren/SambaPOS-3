@@ -953,6 +953,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can Display Other Waiters Tickets.
+        /// </summary>
+        public static string CanDisplayOtherWaitersTickets {
+            get {
+                return ResourceManager.GetString("CanDisplayOtherWaitersTickets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Display Reports.
         /// </summary>
         public static string CanDisplayReports {

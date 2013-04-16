@@ -327,10 +327,19 @@ namespace Samba.Modules.PosModule
                 DisplayTicketEntityList();
                 return;
             }
+
             if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _applicationState.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
             {
                 _ticketTagListViewModel.Update(SelectedTicket);
                 DisplayTicketTagList();
+                return;
+            }
+
+            if (SelectedTicket != null && !_userService.IsUserPermittedFor(PermissionNames.DisplayOtherWaitersTickets) && SelectedTicket.Orders.Any() && SelectedTicket.Orders[0].CreatingUserName != _applicationState.CurrentLoggedInUser.Name)
+            {
+                InteractionService.UserIntraction.GiveFeedback("Can't display this ticket");
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested);
+                //CloseTicket();
                 return;
             }
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));

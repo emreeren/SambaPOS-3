@@ -19,5 +19,7 @@ namespace Samba.Domain.Expression
         {
             items.Where(x => x is Payment).Cast<Payment>().ToList().ForEach(x => Model.Payments.Remove(x));
         }
+        public static string CreatingUserName { get { return Model.Orders.Any() ? Model.Orders[0].CreatingUserName : ""; } }
+        public static string LastUserName { get { return Model.Orders.Any() ? Model.Orders.OrderBy(x => x.Id).Last().CreatingUserName : ""; } }
     }
 }

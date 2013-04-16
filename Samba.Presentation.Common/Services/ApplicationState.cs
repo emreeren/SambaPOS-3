@@ -96,6 +96,7 @@ namespace Samba.Presentation.Common.Services
         public void SetCurrentLoggedInUser(User user)
         {
             CurrentLoggedInUser = user;
+            SetLocalSetting("CURRENTUSER", user.Name);
         }
 
         public void SetCurrentDepartment(Department department)
@@ -106,6 +107,7 @@ namespace Samba.Presentation.Common.Services
                 CurrentDepartment.Model.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
                 SetCurrentTicketType(_cacheService.GetTicketTypeById(CurrentDepartment.TicketTypeId));
             }
+            SetLocalSetting("DEPARTMENT", department.Name);
         }
 
         public void SetCurrentDepartment(int departmentId)
@@ -134,18 +136,20 @@ namespace Samba.Presentation.Common.Services
                 TempEntityScreen = null;
             }
             SelectedEntityScreen = entityScreen;
+            SetLocalSetting("ENTITYSCREEN", entityScreen.Name);
             return entityScreen;
         }
 
         public void SetApplicationLocked(bool isLocked)
         {
             _isLocked = isLocked;
+            SetLocalSetting("ISLOCKED", isLocked.ToString());
             (this as IApplicationState).PublishEvent(EventTopicNames.ApplicationLockStateChanged);
         }
 
         public void SetNumberpadValue(string value)
         {
-            _settingService.ReadLocalSetting("NUMBERPAD").StringValue = value;
+            SetLocalSetting("NUMBERPAD", value);
         }
 
         public void SetCurrentTicketType(TicketType ticketType)
@@ -176,6 +180,11 @@ namespace Samba.Presentation.Common.Services
         public void ResetWorkPeriods()
         {
             _lastTwoWorkPeriods = null;
+        }
+
+        public void SetLocalSetting(string settingName, string settingValue)
+        {
+            _settingService.ReadLocalSetting(settingName).StringValue = settingValue;
         }
 
         public override void Reset()

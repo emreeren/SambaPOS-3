@@ -3110,4 +3110,7 @@ Error Message:
   <data name="PrintReport" xml:space="preserve">
     <value>Print Report</value>
   </data>
+  <data name="CanDisplayOtherWaitersTickets">
+    <value xml:space="preserve">Can Display Other Waiters Tickets</value>
+  </data>
 </root>

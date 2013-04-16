@@ -68,15 +68,15 @@ namespace Samba.Services.Implementations.AutomationModule
         private bool CanExecuteRule(AppRule appRule, object dataObject)
         {
             if (string.IsNullOrEmpty(appRule.CustomConstraint)) return true;
-            _settingService.ReplaceSettingValues(appRule.CustomConstraint);
-            return _expressionService.Eval("result = " + appRule.CustomConstraint, dataObject, true);
+            var expression = _settingService.ReplaceSettingValues(appRule.CustomConstraint);
+            return _expressionService.Eval("result = " + expression, dataObject, true);
         }
 
         private bool CanExecuteAction(ActionContainer actionContainer, object dataObject)
         {
             if (string.IsNullOrEmpty(actionContainer.CustomConstraint)) return true;
-            _settingService.ReplaceSettingValues(actionContainer.CustomConstraint);
-            return _expressionService.Eval("result = " + actionContainer.CustomConstraint, dataObject, true);
+            var expression = _settingService.ReplaceSettingValues(actionContainer.CustomConstraint);
+            return _expressionService.Eval("result = " + expression, dataObject, true);
         }
 
         private bool SatisfiesConditions(AppRule appRule, object dataObject)

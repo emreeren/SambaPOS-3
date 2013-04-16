@@ -21,6 +21,7 @@ namespace Samba.Presentation.Services.Common
         public static string ChangeReportDate = "ChangeReportDate";
         public static string DisplayOldTickets = "DisplayOldTickets";
         public static string CreateAccount = "CreateAccount";
+        public static string DisplayOtherWaitersTickets = "DisplayOtherWaitersTickets";
     }
 
     public static class PermissionCategories

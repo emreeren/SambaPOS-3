@@ -43,6 +43,7 @@ namespace Samba.Modules.TicketModule
             PermissionRegistry.RegisterPermission(PermissionNames.DisplayOldTickets, PermissionCategories.Ticket, Resources.CanDisplayOldTickets);
             PermissionRegistry.RegisterPermission(PermissionNames.MoveUnlockedOrders, PermissionCategories.Ticket, Resources.CanMoveUnlockedTicketLines);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeExtraProperty, PermissionCategories.Ticket, Resources.CanUpdateExtraModifiers);
+            PermissionRegistry.RegisterPermission(PermissionNames.DisplayOtherWaitersTickets,PermissionCategories.Ticket,Resources.CanDisplayOtherWaitersTickets);
 
             SetNavigationCommand(Resources.Tickets, Resources.Common, "Images/note.png", 20);
             ticketExplorerView.DataContext = ticketExplorerViewModel;
