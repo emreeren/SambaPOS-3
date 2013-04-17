@@ -621,7 +621,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             RecalculateTicket(ticket);
 
             order.PublishEvent(EventTopicNames.OrderAdded);
-            _applicationState.NotifyEvent(RuleEventNames.OrderAdded, new { Ticket = ticket, Order = order, order.MenuItemName });
+            _applicationState.NotifyEvent(RuleEventNames.OrderAdded, new { Ticket = ticket, Order = order, MenuItemName = order.MenuItemName, MenuItemTag = menuItem.Tag, MenuItemGroupCode = menuItem.GroupCode });
 
             return order;
         }

@@ -136,7 +136,7 @@ namespace Samba.Presentation.Common.Services
                 TempEntityScreen = null;
             }
             SelectedEntityScreen = entityScreen;
-            SetLocalSetting("ENTITYSCREEN", entityScreen.Name);
+            SetLocalSetting("ENTITYSCREEN", entityScreen != null ? entityScreen.Name : "");
             return entityScreen;
         }
 

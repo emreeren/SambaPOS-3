@@ -268,15 +268,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add And Save.
-        /// </summary>
-        public static string AddAndSave {
-            get {
-                return ResourceManager.GetString("AddAndSave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Enter Categories you want to add.
         /// </summary>
         public static string AddCategoryHint {

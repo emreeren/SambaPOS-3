@@ -21,9 +21,9 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <UIControls:FilteredTextBox Name="FreeTag" Type="{Binding FilteredTextBoxType}" FontSize="18" Text="{Binding FreeTag,UpdateSourceTrigger=PropertyChanged}"
+                <UIControls:FilteredTextBox Name="FreeTag" Type="{Binding FilteredTextBoxType}" FontSize="24" Text="{Binding FreeTag,UpdateSourceTrigger=PropertyChanged}"
                      HorizontalAlignment="Stretch" />
-                <FxButton:FlexButton Grid.Column="1" Margin="5,0" Command="{Binding UpdateFreeTagCommand}"
+                <FxButton:FlexButton Grid.Column="1" Margin="5,0" Padding="3" Command="{Binding UpdateFreeTagCommand}"
                      Content="{Binding UpdateFreeTagCommand.Caption}">
                 </FxButton:FlexButton>
             </Grid>

@@ -56,7 +56,7 @@ namespace Samba.Presentation.ViewModels
             AutomationServiceBase.RegisterActionType(ActionNames.SendEmail, Resources.SendEmail, new { SMTPServer = "", SMTPUser = "", SMTPPassword = "", SMTPPort = 0, ToEMailAddress = "", Subject = "", CCEmailAddresses = "", FromEMailAddress = "", EMailMessage = "", FileName = "", DeleteFile = false, BypassSslErrors = false });
             AutomationServiceBase.RegisterActionType(ActionNames.AddOrder, Resources.AddOrder, new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "" });
             AutomationServiceBase.RegisterActionType(ActionNames.SetActiveTicketType, Resources.SetActiveTicketType, new { TicketTypeName = "" });
-            AutomationServiceBase.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OldOrderTagValue = "", OrderTagValue = "", OrderTagNote = "" });
+            AutomationServiceBase.RegisterActionType(ActionNames.TagOrder, Resources.TagOrder, new { OrderTagName = "", OldOrderTagValue = "", OrderTagValue = "", OrderTagNote = "", OrderTagPrice = "" });
             AutomationServiceBase.RegisterActionType(ActionNames.UntagOrder, Resources.UntagOrder, new { OrderTagName = "", OrderTagValue = "" });
             AutomationServiceBase.RegisterActionType(ActionNames.RemoveOrderTag, Resources.RemoveOrderTag, new { OrderTagName = "" });
             AutomationServiceBase.RegisterActionType(ActionNames.MoveTaggedOrders, Resources.MoveTaggedOrders, new { OrderTagName = "", OrderTagValue = "" });
@@ -104,7 +104,7 @@ namespace Samba.Presentation.ViewModels
             AutomationServiceBase.RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { PreviousTotal = 0m, TicketTotal = 0m, RemainingAmount = 0m, DiscountTotal = 0m, PaymentTotal = 0m });
             AutomationServiceBase.RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", TenderedAmount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m, SelectedQuantity = 0m });
             AutomationServiceBase.RegisterEvent(RuleEventNames.ChangeAmountChanged, Resources.ChangeAmountUpdated, new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
-            AutomationServiceBase.RegisterEvent(RuleEventNames.OrderAdded, Resources.OrderAddedToTicket, new { MenuItemName = "" });
+            AutomationServiceBase.RegisterEvent(RuleEventNames.OrderAdded, Resources.OrderAddedToTicket, new { MenuItemGroupCode = "", MenuItemTag = "", MenuItemName = "" });
             AutomationServiceBase.RegisterEvent(RuleEventNames.OrderMoved, Resources.OrderMoved, new { MenuItemName = "" });
             AutomationServiceBase.RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             AutomationServiceBase.RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
@@ -506,7 +506,11 @@ namespace Samba.Presentation.ViewModels
                             var oldTagValue = x.Value.GetAsString("OldOrderTagValue");
                             var tagNote = x.Value.GetAsString("OrderTagNote");
                             var orderTagValue = orderTag.OrderTags.SingleOrDefault(y => y.Name == tagValue);
-
+                            if (!string.IsNullOrEmpty(x.Value.GetAsString("OrderTagPrice")))
+                            {
+                                var price = x.Value.GetAsDecimal("OrderTagPrice");
+                                orderTagValue.Price = price;
+                            }
                             if (orderTagValue != null)
                             {
                                 if (!string.IsNullOrEmpty(oldTagValue))

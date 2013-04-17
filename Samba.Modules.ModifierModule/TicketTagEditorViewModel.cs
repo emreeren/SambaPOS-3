@@ -33,7 +33,7 @@ namespace Samba.Modules.ModifierModule
             TicketTags = new ObservableCollection<TicketTag>();
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             SelectTicketTagCommand = new DelegateCommand<TicketTag>(OnTicketTagSelected);
-            UpdateFreeTagCommand = new CaptionCommand<string>(Resources.AddAndSave, OnUpdateFreeTag, CanUpdateFreeTag);
+            UpdateFreeTagCommand = new CaptionCommand<string>(Resources.Update, OnUpdateFreeTag, CanUpdateFreeTag);
         }
 
         private Ticket _selectedTicket;

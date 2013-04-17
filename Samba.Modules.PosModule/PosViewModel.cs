@@ -321,14 +321,15 @@ namespace Samba.Modules.PosModule
         private void DisplaySingleTicket()
         {
             _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
-            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId).EntityTypeAssignments.Any(x => x.AskBeforeCreatingTicket && SelectedTicket.TicketEntities.All(y => y.EntityTypeId != x.EntityTypeId)))
+
+            if (ShouldDisplayEntityList(SelectedTicket))
             {
                 _ticketEntityListViewModel.Update(SelectedTicket);
                 DisplayTicketEntityList();
                 return;
             }
 
-            if (SelectedTicket != null && SelectedTicket.Orders.Count == 0 && _applicationState.GetTicketTagGroups().Count(x => x.AskBeforeCreatingTicket && !SelectedTicket.IsTaggedWith(x.Name)) > 0)
+            if (ShouldDisplayTicketTagList(SelectedTicket))
             {
                 _ticketTagListViewModel.Update(SelectedTicket);
                 DisplayTicketTagList();
@@ -339,13 +340,27 @@ namespace Samba.Modules.PosModule
             {
                 InteractionService.UserIntraction.GiveFeedback("Can't display this ticket");
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested);
-                //CloseTicket();
                 return;
             }
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketView", UriKind.Relative));
             _ticketViewModel.RefreshSelectedItems();
             _ticketViewModel.RefreshVisuals();
+        }
+
+        private bool ShouldDisplayTicketTagList(Ticket ticket)
+        {
+            return ticket != null 
+                && ticket.Orders.Count == 0 
+                && _applicationState.GetTicketTagGroups().Any(x => x.AskBeforeCreatingTicket && !ticket.IsTaggedWith(x.Name));
+        }
+
+        private bool ShouldDisplayEntityList(Ticket ticket)
+        {
+            return ticket != null 
+                && ticket.Orders.Count == 0 
+                && _cacheService.GetTicketTypeById(ticket.TicketTypeId).EntityTypeAssignments.Any(
+                x => x.AskBeforeCreatingTicket && ticket.TicketEntities.All(y => y.EntityTypeId != x.EntityTypeId));
         }
 
         private void DisplayTicketTypeList()

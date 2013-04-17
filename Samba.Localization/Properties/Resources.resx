@@ -1133,9 +1133,6 @@ Can't end Work Period while tickets open</value>
   <data name="Update" xml:space="preserve">
     <value>Update</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>Add And Save</value>
-  </data>
   <data name="Number" xml:space="preserve">
     <value>Number</value>
     <comment>DataGridTextColumn.Header</comment>
