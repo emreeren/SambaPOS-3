@@ -69,6 +69,7 @@
     <Compile Include="CacheService.cs" />
     <Compile Include="DepartmentModule\DepartmentService.cs" />
     <Compile Include="EMailService.cs" />
+    <Compile Include="EntityModule\EntityService.cs" />
     <Compile Include="ExpressionModule\Accessors\LocatorAccessor.cs" />
     <Compile Include="ExpressionModule\ExpressionService.cs" />
     <Compile Include="LogService.cs" />

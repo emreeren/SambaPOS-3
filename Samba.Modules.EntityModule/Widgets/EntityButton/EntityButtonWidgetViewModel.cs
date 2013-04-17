@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
@@ -15,17 +14,17 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
     {
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
-        private readonly IEntityService _resourceService;
+        private readonly IEntityService _entityService;
 
         [Browsable(false)]
         public CaptionCommand<EntityButtonWidgetViewModel> ItemClickedCommand { get; set; }
 
-        public EntityButtonWidgetViewModel(Widget model, ICacheService cacheService, IApplicationState applicationState, IEntityService resourceService)
+        public EntityButtonWidgetViewModel(Widget model, ICacheService cacheService, IApplicationState applicationState, IEntityService entityService)
             : base(model, applicationState)
         {
             _cacheService = cacheService;
             _applicationState = applicationState;
-            _resourceService = resourceService;
+            _entityService = entityService;
             ItemClickedCommand = new CaptionCommand<EntityButtonWidgetViewModel>("", OnItemClickExecute);
         }
 
@@ -46,7 +45,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
 
         protected override void BeforeEditSettings()
         {
-            Settings.ResourceNameValue.UpdateValues(_resourceService.GetCurrentEntityScreenItems(_applicationState.SelectedEntityScreen, 0, "").Select(x => x.Name));
+            Settings.ResourceNameValue.UpdateValues(_entityService.GetCurrentEntityScreenItems(_applicationState.SelectedEntityScreen, 0, "").Select(x => x.Name));
         }
 
         public override void Refresh()

@@ -79,6 +79,7 @@
     <Compile Include="ICacheService.cs" />
     <Compile Include="IDepartmentService.cs" />
     <Compile Include="IEmailService.cs" />
+    <Compile Include="IEntityService.cs" />
     <Compile Include="IExpressionService.cs" />
     <Compile Include="ILogService.cs" />
     <Compile Include="IMenuService.cs" />

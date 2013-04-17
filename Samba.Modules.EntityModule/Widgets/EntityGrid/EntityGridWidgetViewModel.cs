@@ -3,7 +3,6 @@ using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Helpers;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
@@ -17,12 +16,12 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
         private readonly ICacheService _cacheService;
 
         public EntityGridWidgetViewModel(Widget model, IApplicationState applicationState,
-            IEntityService resourceService, IUserService userService, ICacheService cacheService)
+            IEntityService entityService, IUserService userService, ICacheService cacheService)
             : base(model, applicationState)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
-            ResourceSelectorViewModel = new EntitySelectorViewModel(applicationState, resourceService, userService, cacheService);
+            ResourceSelectorViewModel = new EntitySelectorViewModel(applicationState, entityService, userService, cacheService);
         }
 
         readonly EntityOperationRequest<Entity> _request = new EntityOperationRequest<Entity>(null, EventTopicNames.EntitySelected);

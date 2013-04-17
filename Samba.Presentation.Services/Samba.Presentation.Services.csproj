@@ -48,7 +48,7 @@
     <Compile Include="IApplicationStateSetter.cs" />
     <Compile Include="IInventoryService.cs" />
     <Compile Include="IMethodQueue.cs" />
-    <Compile Include="IEntityService.cs" />
+    <Compile Include="IEntityServiceClient.cs" />
     <Compile Include="ITaskService.cs" />
     <Compile Include="ITicketService.cs" />
     <Compile Include="ITriggerService.cs" />

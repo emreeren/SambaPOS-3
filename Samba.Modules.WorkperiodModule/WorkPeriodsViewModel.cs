@@ -89,7 +89,7 @@ namespace Samba.Modules.WorkperiodModule
                     var title3 = string.Format(Resources.TotalWorkTimeDays_f, WorkPeriodTime.Days, WorkPeriodTime.Hours, WorkPeriodTime.Minutes);
                     if (WorkPeriodTime.Days == 0) title3 = string.Format(Resources.TotalWorkTimeHours_f, WorkPeriodTime.Hours, WorkPeriodTime.Minutes);
                     if (WorkPeriodTime.Hours == 0) title3 = string.Format(Resources.TotalWorkTimeMinutes_f, WorkPeriodTime.TotalMinutes);
-                    return title1 + "\r\n" + title2 + "\r\n" + title3;
+                    return string.Format("{0}\r\n{1}\r\n{2}", title1, title2, title3);
                 }
                 return Resources.StartWorkPeriodToEnablePos;
             }

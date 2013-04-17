@@ -6,7 +6,6 @@ using System.Windows.Data;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Services;
@@ -17,13 +16,13 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
     public class EntityButtonWidgetCreator : IWidgetCreator
     {
         private readonly ICacheService _cacheService;
-        private readonly IEntityService _resourceService;
+        private readonly IEntityService _entityService;
 
         [ImportingConstructor]
-        public EntityButtonWidgetCreator(ICacheService cacheService, IEntityService resourceService)
+        public EntityButtonWidgetCreator(ICacheService cacheService, IEntityService entityService)
         {
             _cacheService = cacheService;
-            _resourceService = resourceService;
+            _entityService = entityService;
         }
 
         public string GetCreatorName()
@@ -45,7 +44,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new EntityButtonWidgetViewModel(widget, _cacheService, applicationState, _resourceService);
+            return new EntityButtonWidgetViewModel(widget, _cacheService, applicationState, _entityService);
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)

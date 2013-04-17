@@ -33,7 +33,7 @@ namespace Samba.Presentation.ViewModels
         private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
         private static readonly IAutomationService AutomationServiceBase = ServiceLocator.Current.GetInstance<IAutomationService>();
-        private static readonly IEntityService EntityService = ServiceLocator.Current.GetInstance<IEntityService>();
+        private static readonly IEntityServiceClient EntityService = ServiceLocator.Current.GetInstance<IEntityServiceClient>();
         private static readonly IMethodQueue MethodQueue = ServiceLocator.Current.GetInstance<IMethodQueue>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
         private static readonly IEmailService EmailService = ServiceLocator.Current.GetInstance<IEmailService>();

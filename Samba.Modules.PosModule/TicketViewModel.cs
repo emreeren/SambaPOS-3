@@ -157,7 +157,7 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public TicketViewModel(IApplicationState applicationState, IExpressionService expressionService,
-            ITicketService ticketService, IAccountService accountService, IEntityService locationService, IUserService userService,
+            ITicketService ticketService, IAccountService accountService, IEntityServiceClient locationService, IUserService userService,
             ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
             TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
         {

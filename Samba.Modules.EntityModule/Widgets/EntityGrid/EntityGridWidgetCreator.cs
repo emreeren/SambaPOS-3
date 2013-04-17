@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Services;
@@ -16,14 +15,14 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
     [Export(typeof(IWidgetCreator))]
     public class EntityGridWidgetCreator : IWidgetCreator
     {
-        private readonly IEntityService _resourceService;
+        private readonly IEntityService _entityService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public EntityGridWidgetCreator(IEntityService resourceService, IUserService userService, ICacheService cacheService)
+        public EntityGridWidgetCreator(IEntityService entityService, IUserService userService, ICacheService cacheService)
         {
-            _resourceService = resourceService;
+            _entityService = entityService;
             _userService = userService;
             _cacheService = cacheService;
         }
@@ -72,7 +71,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new EntityGridWidgetViewModel(widget, applicationState, _resourceService, _userService, _cacheService);
+            return new EntityGridWidgetViewModel(widget, applicationState, _entityService, _userService, _cacheService);
         }
     }
 }
