@@ -10,10 +10,10 @@ namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
     class TicketExplorerWidgetViewModel : WidgetViewModel
     {
         public TicketExplorerWidgetViewModel(Widget model, IApplicationState applicationState,
-            ITicketService ticketService, IUserService userService, ICacheService cacheService)
+             ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService)
             : base(model, applicationState)
         {
-            TicketExplorerViewModel = new TicketExplorerViewModel(ticketService, userService, cacheService);
+            TicketExplorerViewModel = new TicketExplorerViewModel(ticketServiceBase, userService, cacheService);
         }
 
         [Browsable(false)]

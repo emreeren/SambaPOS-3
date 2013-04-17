@@ -9,6 +9,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.WorkperiodModule
 {
@@ -17,10 +18,10 @@ namespace Samba.Modules.WorkperiodModule
     {
         private readonly IWorkPeriodService _workPeriodService;
         private readonly IApplicationState _applicationState;
-        private readonly ITicketService _ticketService;
+        private readonly ITicketServiceBase _ticketService;
 
         [ImportingConstructor]
-        public WorkPeriodsViewModel(IWorkPeriodService workPeriodService, IApplicationState applicationState, ITicketService ticketService)
+        public WorkPeriodsViewModel(IWorkPeriodService workPeriodService, IApplicationState applicationState, ITicketServiceBase ticketService)
         {
             _workPeriodService = workPeriodService;
             _applicationState = applicationState;

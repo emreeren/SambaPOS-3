@@ -24,6 +24,7 @@ namespace Samba.Modules.PosModule
     public class PosViewModel : ObservableObject
     {
         private readonly ITicketService _ticketService;
+        private readonly ITicketServiceBase _ticketServiceBase;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
@@ -59,12 +60,13 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, IUserService userService, ICacheService cacheService,
+            ITicketService ticketService,ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel,
             MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,
             TicketEntityListViewModel ticketEntityListViewModel, TicketTypeListViewModel ticketTypeListViewModel)
         {
             _ticketService = ticketService;
+            _ticketServiceBase = ticketServiceBase;
             _userService = userService;
             _cacheService = cacheService;
             _applicationState = applicationState;
@@ -167,7 +169,7 @@ namespace Samba.Modules.PosModule
                 }
                 else
                 {
-                    var openTickets = _ticketService.GetOpenTicketIds(eventParameters.Value.SelectedEntity.Id).ToList();
+                    var openTickets = _ticketServiceBase.GetOpenTicketIds(eventParameters.Value.SelectedEntity.Id).ToList();
                     if (!openTickets.Any())
                     {
                         if (_applicationState.SelectedEntityScreen != null &&

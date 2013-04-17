@@ -11,6 +11,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.PosModule
@@ -19,11 +20,13 @@ namespace Samba.Modules.PosModule
     public class TicketListViewModel : ObservableObject
     {
         private readonly ITicketService _ticketService;
+        private readonly ITicketServiceBase _ticketServiceBase;
 
         [ImportingConstructor]
-        public TicketListViewModel(ITicketService ticketService)
+        public TicketListViewModel(ITicketService ticketService, ITicketServiceBase ticketServiceBase)
         {
             _ticketService = ticketService;
+            _ticketServiceBase = ticketServiceBase;
             _tickets = new List<TicketButtonViewModel>();
             AddTicketCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Ticket).Replace(" ", "\r"), OnAddTicket, CanAddTicket);
             MergeTicketsCommand = new CaptionCommand<string>(Resources.MergeTickets.Replace(" ", "\r"), OnMergeTickets, CanMergeTickets);
@@ -85,7 +88,7 @@ namespace Samba.Modules.PosModule
             if (entity != null)
             {
                 SelectedEntity = entity;
-                _tickets = _ticketService.GetOpenTickets(entity.Id).Select(x => new TicketButtonViewModel(x, entity)).ToList();
+                _tickets = _ticketServiceBase.GetOpenTickets(entity.Id).Select(x => new TicketButtonViewModel(x, entity)).ToList();
                 Refresh();
             }
         }
@@ -94,7 +97,7 @@ namespace Samba.Modules.PosModule
         {
             SelectedEntity = tagGroup;
             var tagValue = string.Format("\"TN\":\"{0}\"", tagGroup.Name);
-            _tickets = _ticketService.GetOpenTickets(x => !x.IsClosed && x.TicketTags.Contains(tagValue)).Select(x => new TicketButtonViewModel(x, null)).ToList();
+            _tickets = _ticketServiceBase.GetOpenTickets(x => !x.IsClosed && x.TicketTags.Contains(tagValue)).Select(x => new TicketButtonViewModel(x, null)).ToList();
             Refresh();
         }
 
@@ -102,7 +105,7 @@ namespace Samba.Modules.PosModule
         {
             SelectedEntity = null;
             var stateValue = string.Format("\"S\":\"{0}\"", value.StateName);
-            _tickets = _ticketService.GetOpenTickets(x => x.TicketStates.Contains(stateValue)).Select(x => new TicketButtonViewModel(x, null)).ToList();
+            _tickets = _ticketServiceBase.GetOpenTickets(x => x.TicketStates.Contains(stateValue)).Select(x => new TicketButtonViewModel(x, null)).ToList();
             Refresh();
         }
 

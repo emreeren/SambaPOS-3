@@ -5,9 +5,8 @@ using System.Linq.Expressions;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Persistance;
-using Samba.Services;
 
-namespace Samba.Presentation.Services.Implementations.TicketModule
+namespace Samba.Services.Implementations.TicketModule
 {
     public class TicketExplorerFilter : ITicketExplorerFilter
     {

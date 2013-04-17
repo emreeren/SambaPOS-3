@@ -24,14 +24,9 @@ namespace Samba.Presentation.Services
         void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountTypeId, int accountId, string entityCustomData);
         void RecalculateTicket(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
-        int GetOpenTicketCount();
-        IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction);
-        IEnumerable<OpenTicketData> GetOpenTickets(int entityId);
-        IEnumerable<int> GetOpenTicketIds(int entityId);
-        IEnumerable<Ticket> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters);
-        IList<ITicketExplorerFilter> CreateTicketExplorerFilters();
-        void UpdateAccountOfOpenTickets(Entity entity);
-        IEnumerable<Order> GetOrders(int id);
+       
+
+        
         void TagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag, string tagNote);
         void UntagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag);
         bool CanDeselectOrders(IEnumerable<Order> selectedOrders);

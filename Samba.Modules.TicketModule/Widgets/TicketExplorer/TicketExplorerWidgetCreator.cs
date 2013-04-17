@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Entities;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Services;
@@ -15,14 +14,14 @@ namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
     class TicketExplorerWidgetCreator : IWidgetCreator
     {
         private readonly IUserService _userService;
-        private readonly ITicketService _ticketService;
+        private readonly ITicketServiceBase _ticketServiceBase;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TicketExplorerWidgetCreator(IUserService userService, ITicketService ticketService, ICacheService cacheService)
+        public TicketExplorerWidgetCreator(IUserService userService, ITicketServiceBase ticketServiceBase, ICacheService cacheService)
         {
             _userService = userService;
-            _ticketService = ticketService;
+            _ticketServiceBase = ticketServiceBase;
             _cacheService = cacheService;
         }
 
@@ -44,7 +43,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new TicketExplorerWidgetViewModel(widget, applicationState, _ticketService, _userService, _cacheService);
+            return new TicketExplorerWidgetViewModel(widget, applicationState, _ticketServiceBase, _userService, _cacheService);
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)
@@ -52,7 +51,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
             var viewModel = widgetViewModel as TicketExplorerWidgetViewModel;
             Debug.Assert(viewModel != null);
 
-            var ret = new TicketExplorerView { DataContext = viewModel.TicketExplorerViewModel, ContextMenu = contextMenu,Tag = viewModel};
+            var ret = new TicketExplorerView { DataContext = viewModel.TicketExplorerViewModel, ContextMenu = contextMenu, Tag = viewModel };
 
             var heightBinding = new Binding("Height") { Source = viewModel, Mode = BindingMode.TwoWay };
             var widthBinding = new Binding("Width") { Source = viewModel, Mode = BindingMode.TwoWay };

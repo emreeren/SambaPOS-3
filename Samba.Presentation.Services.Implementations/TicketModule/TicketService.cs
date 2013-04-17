@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Settings;
@@ -12,7 +11,6 @@ using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Persistance.DaoClasses;
-using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 using Samba.Services.Common;
@@ -23,6 +21,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
     public class TicketService : ITicketService
     {
         private readonly ITicketDao _ticketDao;
+        private readonly ITicketServiceBase _ticketServiceBase;
         private readonly IApplicationState _applicationState;
         private readonly IExpressionService _expressionService;
         private readonly IUserService _userService;
@@ -31,11 +30,12 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TicketService(ITicketDao ticketDao, IDepartmentService departmentService, IApplicationState applicationState,
+        public TicketService(ITicketDao ticketDao, ITicketServiceBase ticketServiceBase, IDepartmentService departmentService, IApplicationState applicationState,
             IUserService userService, ISettingService settingService, IExpressionService expressionService,
             IAccountService accountService, ICacheService cacheService)
         {
             _ticketDao = ticketDao;
+            _ticketServiceBase = ticketServiceBase;
             _expressionService = expressionService;
             _applicationState = applicationState;
             _userService = userService;
@@ -90,7 +90,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         private int GetOpenTicketCount(int entityId, int ticketId)
         {
-            var ids = GetOpenTicketIds(entityId).ToList();
+            var ids = _ticketServiceBase.GetOpenTicketIds(entityId).ToList();
             if (ticketId > 0 && !ids.Contains(ticketId)) ids.Add(ticketId);
             return ids.Count - (ticketId > 0 ? 1 : 0);
         }
@@ -179,7 +179,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                                                                                            EntityTypeId = ticketEntity.EntityTypeId,
                                                                                            EntityId = ticketEntity.EntityId,
                                                                                            EntityTypeName = entityType.Name,
-                                                                                           OpenTicketCount = GetOpenTicketIds(ticketEntity.EntityId).Count()
+                                                                                           OpenTicketCount = _ticketServiceBase.GetOpenTicketIds(ticketEntity.EntityId).Count()
                                                                                        });
                 }
             }
@@ -368,65 +368,10 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             tagData.PublishEvent(EventTopicNames.TicketTagSelected);
         }
 
-        public int GetOpenTicketCount()
-        {
-            return _ticketDao.GetOpenTicketCount();
-        }
-
-        public IEnumerable<int> GetOpenTicketIds(int entityId)
-        {
-            return _ticketDao.GetOpenTicketIds(entityId);
-        }
-
-        public IEnumerable<OpenTicketData> GetOpenTickets(int entityId)
-        {
-            return GetOpenTickets(x => !x.IsClosed && x.TicketEntities.Any(y => y.EntityId == entityId));
-        }
-
-        public IEnumerable<OpenTicketData> GetOpenTickets(Expression<Func<Ticket, bool>> prediction)
-        {
-            return _ticketDao.GetOpenTickets(prediction);
-        }
-
         public void SaveFreeTicketTag(int tagGroupId, string freeTag)
         {
             _ticketDao.SaveFreeTicketTag(tagGroupId, freeTag);
             _cacheService.ResetTicketTagCache();
-        }
-
-        public IEnumerable<Ticket> GetFilteredTickets(DateTime startDate, DateTime endDate, IList<ITicketExplorerFilter> filters)
-        {
-            return _ticketDao.GetFilteredTickets(startDate, endDate, filters);
-        }
-
-        public IList<ITicketExplorerFilter> CreateTicketExplorerFilters()
-        {
-            var item = new TicketExplorerFilter(_cacheService) { FilterType = Resources.OnlyOpenTickets };
-            return new List<ITicketExplorerFilter> { item };
-        }
-
-        public void UpdateAccountOfOpenTickets(Entity entity)
-        {
-            var openTicketDataList = GetOpenTickets(entity.Id).Select(x => x.Id);
-            using (var w = WorkspaceFactory.Create())
-            {
-                var tickets = w.All<Ticket>(x => openTicketDataList.Contains(x.Id), x => x.TicketEntities);
-                foreach (var ticket in tickets)
-                {
-                    ticket.TicketEntities.Where(x => x.EntityId == entity.Id).ToList().ForEach(x =>
-                        {
-                            var entityType = _cacheService.GetEntityTypeById(x.EntityTypeId);
-                            x.AccountTypeId = entityType.AccountTypeId;
-                            x.AccountId = entity.AccountId;
-                        });
-                }
-                w.CommitChanges();
-            }
-        }
-
-        public IEnumerable<Order> GetOrders(int ticketId)
-        {
-            return _ticketDao.GetOrders(ticketId);
         }
 
         public void TagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag, string tagNote)

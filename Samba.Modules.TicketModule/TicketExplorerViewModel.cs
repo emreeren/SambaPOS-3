@@ -19,17 +19,17 @@ namespace Samba.Modules.TicketModule
     public class TicketExplorerViewModel : ObservableObject
     {
         private readonly Timer _timer;
-        private readonly ITicketService _ticketService;
+        private readonly ITicketServiceBase _ticketServiceBase;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
 
         public ICaptionCommand DisplayTicketCommand { get; set; }
 
         [ImportingConstructor]
-        public TicketExplorerViewModel(ITicketService ticketService,
+        public TicketExplorerViewModel(ITicketServiceBase ticketServiceBase,
             IUserService userService, ICacheService cacheService)
         {
-            _ticketService = ticketService;
+            _ticketServiceBase = ticketServiceBase;
             _userService = userService;
             _cacheService = cacheService;
 
@@ -142,8 +142,8 @@ namespace Samba.Modules.TicketModule
                 StartDate = DateTime.Today;
                 EndDate = DateTime.Now;
             }
-            Tickets = _ticketService.GetFilteredTickets(StartDate, EndDate, Filters).Select(
-                    x => new TicketExplorerRowData(x, _ticketService)).ToList();
+            Tickets = _ticketServiceBase.GetFilteredTickets(StartDate, EndDate, Filters).Select(
+                    x => new TicketExplorerRowData(x, _ticketServiceBase)).ToList();
             Total = Tickets.Sum(x => x.Sum);
             RaisePropertyChanged(() => CanChanageDateFilter);
         }
@@ -187,7 +187,7 @@ namespace Samba.Modules.TicketModule
 
         public void ResetFilters()
         {
-            Filters = _ticketService.CreateTicketExplorerFilters();
+            Filters = _ticketServiceBase.CreateTicketExplorerFilters();
         }
 
         protected override void Dispose(bool disposing)

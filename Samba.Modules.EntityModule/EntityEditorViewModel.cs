@@ -18,19 +18,20 @@ namespace Samba.Modules.EntityModule
         private readonly ICacheService _cacheService;
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
-        private readonly ITicketService _ticketService;
+        private readonly ITicketServiceBase _ticketServiceBase;
         private readonly IApplicationState _applicationState;
         public ICaptionCommand SaveEntityCommand { get; set; }
         public ICaptionCommand SelectEntityCommand { get; set; }
         public ICaptionCommand CreateAccountCommand { get; set; }
 
         [ImportingConstructor]
-        public EntityEditorViewModel(ICacheService cacheService, IAccountService accountService, IUserService userService, ITicketService ticketService, IApplicationState applicationState)
+        public EntityEditorViewModel(ICacheService cacheService, IAccountService accountService, IUserService userService,
+            ITicketServiceBase ticketServiceBase, IApplicationState applicationState)
         {
             _cacheService = cacheService;
             _accountService = accountService;
             _userService = userService;
-            _ticketService = ticketService;
+            _ticketServiceBase = ticketServiceBase;
             _applicationState = applicationState;
             SaveEntityCommand = new CaptionCommand<string>(Resources.Save, OnSaveEntity, CanSelectEntity);
             SelectEntityCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Entity).Replace(" ", "\r"), OnSelectEntity, CanSelectEntity);
@@ -66,7 +67,7 @@ namespace Samba.Modules.EntityModule
             var accountId = _accountService.CreateAccount(SelectedEntity.EntityType.AccountTypeId, accountName);
             SelectedEntity.Model.AccountId = accountId;
             SaveSelectedEntity();
-            _ticketService.UpdateAccountOfOpenTickets(SelectedEntity.Model);
+            _ticketServiceBase.UpdateAccountOfOpenTickets(SelectedEntity.Model);
             CommonEventPublisher.PublishEntityOperation(SelectedEntity.Model, EventTopicNames.SelectEntity, EventTopicNames.EntitySelected);
         }
 

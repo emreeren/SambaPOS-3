@@ -2,21 +2,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
-using Samba.Presentation.Common.Commands;
-using Samba.Presentation.Services;
-using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
     public class TicketExplorerRowData : ObservableObject
     {
-        private readonly ITicketService _ticketService;
+        private readonly ITicketServiceBase _ticketService;
 
-        public TicketExplorerRowData(Ticket model, ITicketService ticketService)
+        public TicketExplorerRowData(Ticket model, ITicketServiceBase ticketService)
         {
             _ticketService = ticketService;
             Model = model;
-
         }
 
         public Ticket Model { get; set; }

@@ -131,6 +131,8 @@
     <Compile Include="SettingsModule\ProgramSettings.cs" />
     <Compile Include="SettingsModule\SettingReplacer.cs" />
     <Compile Include="SettingsModule\SettingService.cs" />
+    <Compile Include="TicketModule\TicketExplorerFilter.cs" />
+    <Compile Include="TicketModule\TicketServiceBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\FluentScript\FluentScript.csproj">

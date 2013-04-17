@@ -86,6 +86,7 @@
     <Compile Include="IPriceListService.cs" />
     <Compile Include="IPrinterService.cs" />
     <Compile Include="ISettingService.cs" />
+    <Compile Include="ITicketServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
