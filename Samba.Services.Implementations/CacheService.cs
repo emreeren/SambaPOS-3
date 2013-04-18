@@ -19,20 +19,20 @@ namespace Samba.Services.Implementations
     [Export(typeof(ICacheService))]
     class CacheService : ICacheService
     {
-        private readonly ICacheDao _dataService;
+        private readonly ICacheDao _cacheDao;
         private readonly IPrinterDao _printerDao;
         private readonly EntityCache _entityCache;
 
         [ImportingConstructor]
-        public CacheService(ICacheDao dataService, IPrinterDao printerDao)
+        public CacheService(ICacheDao cacheDao, IPrinterDao printerDao)
         {
-            _dataService = dataService;
+            _cacheDao = cacheDao;
             _printerDao = printerDao;
             _entityCache = new EntityCache();
         }
 
         private IEnumerable<AppRule> _rules;
-        public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = _dataService.GetRules()); } }
+        public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = _cacheDao.GetRules()); } }
 
         public IEnumerable<AppRule> GetAppRules(string eventName, int terminalId, int departmentId, int userRoleId)
         {
@@ -44,7 +44,7 @@ namespace Samba.Services.Implementations
         }
 
         private IEnumerable<AppAction> _actions;
-        public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = _dataService.GetActions()); } }
+        public IEnumerable<AppAction> Actions { get { return _actions ?? (_actions = _cacheDao.GetActions()); } }
 
         public IEnumerable<AppAction> GetActions()
         {
@@ -64,7 +64,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<MenuItem> _menuItems;
         public IEnumerable<MenuItem> MenuItems
         {
-            get { return _menuItems ?? (_menuItems = _dataService.GetMenuItems()); }
+            get { return _menuItems ?? (_menuItems = _cacheDao.GetMenuItems()); }
         }
 
         public MenuItem GetMenuItem(Func<MenuItem, bool> expression)
@@ -92,7 +92,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<ProductTimer> _productTimers;
         public IEnumerable<ProductTimer> ProductTimers
         {
-            get { return _productTimers ?? (_productTimers = _dataService.GetProductTimers()); }
+            get { return _productTimers ?? (_productTimers = _cacheDao.GetProductTimers()); }
         }
 
         public ProductTimer GetProductTimer(int ticketTypeId, int terminalId, int departmentId, int userId, int menuItemId)
@@ -112,7 +112,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<OrderTagGroup> _orderTagGroups;
         public IEnumerable<OrderTagGroup> OrderTagGroups
         {
-            get { return _orderTagGroups ?? (_orderTagGroups = _dataService.GetOrderTagGroups()); }
+            get { return _orderTagGroups ?? (_orderTagGroups = _cacheDao.GetOrderTagGroups()); }
         }
 
         public IEnumerable<OrderTagGroup> InternalGetOrderTagGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId, int menuItemId)
@@ -143,7 +143,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<TaxTemplate> _taxTemplates;
         public IEnumerable<TaxTemplate> TaxTemplates
         {
-            get { return _taxTemplates ?? (_taxTemplates = _dataService.GetTaxTemplates()); }
+            get { return _taxTemplates ?? (_taxTemplates = _cacheDao.GetTaxTemplates()); }
         }
 
         public IEnumerable<TaxTemplate> GetTaxTemplates(int ticketTypeId, int terminalId, int departmentId, int userRoleId, int menuItemId)
@@ -163,7 +163,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<TicketTagGroup> _ticketTagGroups;
         public IEnumerable<TicketTagGroup> TicketTagGroups
         {
-            get { return _ticketTagGroups ?? (_ticketTagGroups = _dataService.GetTicketTagGroups()); }
+            get { return _ticketTagGroups ?? (_ticketTagGroups = _cacheDao.GetTicketTagGroups()); }
         }
 
         public IEnumerable<TicketTagGroup> GetTicketTagGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
@@ -187,7 +187,7 @@ namespace Samba.Services.Implementations
         }
 
         private IEnumerable<AccountTransactionDocumentType> _documentTypes;
-        public IEnumerable<AccountTransactionDocumentType> DocumentTypes { get { return _documentTypes ?? (_documentTypes = _dataService.GetAccountTransactionDocumentTypes()); } }
+        public IEnumerable<AccountTransactionDocumentType> DocumentTypes { get { return _documentTypes ?? (_documentTypes = _cacheDao.GetAccountTransactionDocumentTypes()); } }
 
         public IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId, int terminalId, int userRoleId)
         {
@@ -221,7 +221,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<ChangePaymentType> _changePaymentTypes;
         public IEnumerable<ChangePaymentType> ChangePaymentTypes
         {
-            get { return _changePaymentTypes ?? (_changePaymentTypes = _dataService.GetChangePaymentTypes()); }
+            get { return _changePaymentTypes ?? (_changePaymentTypes = _cacheDao.GetChangePaymentTypes()); }
         }
 
         public IEnumerable<ChangePaymentType> GetChangePaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
@@ -242,7 +242,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<PaymentType> _paymentTypes;
         public IEnumerable<PaymentType> PaymentTypes
         {
-            get { return _paymentTypes ?? (_paymentTypes = _dataService.GetPaymentTypes()); }
+            get { return _paymentTypes ?? (_paymentTypes = _cacheDao.GetPaymentTypes()); }
         }
 
         public IEnumerable<PaymentType> GetUnderTicketPaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
@@ -275,7 +275,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
         public IEnumerable<AccountTransactionType> AccountTransactionTypes
         {
-            get { return _accountTransactionTypes ?? (_accountTransactionTypes = _dataService.GetAccountTransactionTypes()); }
+            get { return _accountTransactionTypes ?? (_accountTransactionTypes = _cacheDao.GetAccountTransactionTypes()); }
         }
 
         public AccountTransactionType GetAccountTransactionTypeById(int id)
@@ -311,7 +311,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<EntityScreen> _entityScreens;
         public IEnumerable<EntityScreen> EntityScreens
         {
-            get { return _entityScreens ?? (_entityScreens = _dataService.GetEntityScreens()); }
+            get { return _entityScreens ?? (_entityScreens = _cacheDao.GetEntityScreens()); }
         }
 
         public IEnumerable<EntityScreen> GetEntityScreens(int terminalId, int departmentId, int userRoleId)
@@ -336,7 +336,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<AccountScreen> _accountScreens;
         public IEnumerable<AccountScreen> AccountScreens
         {
-            get { return _accountScreens ?? (_accountScreens = _dataService.GetAccountScreens()); }
+            get { return _accountScreens ?? (_accountScreens = _cacheDao.GetAccountScreens()); }
         }
 
         public IEnumerable<AccountScreen> GetAccountScreens()
@@ -347,7 +347,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<ForeignCurrency> _foreignCurrencies;
         public IEnumerable<ForeignCurrency> ForeignCurrencies
         {
-            get { return _foreignCurrencies ?? (_foreignCurrencies = _dataService.GetForeignCurrencies()); }
+            get { return _foreignCurrencies ?? (_foreignCurrencies = _cacheDao.GetForeignCurrencies()); }
         }
 
         public IEnumerable<ForeignCurrency> GetForeignCurrencies()
@@ -368,7 +368,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<ScreenMenu> _screenMenus;
         public IEnumerable<ScreenMenu> ScreenMenus
         {
-            get { return _screenMenus ?? (_screenMenus = _dataService.GetScreenMenus()); }
+            get { return _screenMenus ?? (_screenMenus = _cacheDao.GetScreenMenus()); }
         }
 
         public ScreenMenu GetScreenMenu(int screenMenuId)
@@ -379,7 +379,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<TaskType> _taskTypes;
         public IEnumerable<TaskType> TaskTypes
         {
-            get { return _taskTypes ?? (_taskTypes = _dataService.GetTaskTypes()); }
+            get { return _taskTypes ?? (_taskTypes = _cacheDao.GetTaskTypes()); }
         }
 
         public int GetTaskTypeIdByName(string taskTypeName)
@@ -396,7 +396,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<TicketType> _ticketTypes;
         public IEnumerable<TicketType> TicketTypes
         {
-            get { return _ticketTypes ?? (_ticketTypes = _dataService.GetTicketTypes()); }
+            get { return _ticketTypes ?? (_ticketTypes = _cacheDao.GetTicketTypes()); }
         }
 
         public TicketType GetTicketTypeById(int ticketTypeId)
@@ -409,10 +409,21 @@ namespace Samba.Services.Implementations
             return TicketTypes;
         }
 
+        private IEnumerable<CalculationType> _calculationTypes;
+        public IEnumerable<CalculationType> CalculationTypes
+        {
+            get { return _calculationTypes ?? (_calculationTypes = _cacheDao.GetCalculationTypes()); }
+        }
+
+        public CalculationType GetCalculationTypeByName(string name)
+        {
+            return CalculationTypes.FirstOrDefault(y => y.Name == name);
+        }
+
         private IEnumerable<CalculationSelector> _calculationSelectors;
         public IEnumerable<CalculationSelector> CalculationSelectors
         {
-            get { return _calculationSelectors ?? (_calculationSelectors = _dataService.GetCalculationSelectors()); }
+            get { return _calculationSelectors ?? (_calculationSelectors = _cacheDao.GetCalculationSelectors()); }
         }
 
         public IEnumerable<CalculationSelector> GetCalculationSelectors(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
@@ -428,7 +439,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<AutomationCommand> _automationCommands;
         public IEnumerable<AutomationCommand> AutomationCommands
         {
-            get { return _automationCommands ?? (_automationCommands = _dataService.GetAutomationCommands()); }
+            get { return _automationCommands ?? (_automationCommands = _cacheDao.GetAutomationCommands()); }
         }
 
         public IEnumerable<AutomationCommandData> GetAutomationCommands(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
@@ -453,7 +464,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<AccountType> _accountTypes;
         public IEnumerable<AccountType> AccountTypes
         {
-            get { return _accountTypes ?? (_accountTypes = _dataService.GetAccountTypes()); }
+            get { return _accountTypes ?? (_accountTypes = _cacheDao.GetAccountTypes()); }
         }
 
         public AccountType GetAccountTypeById(int accountTypeId)
@@ -474,7 +485,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<PrintJob> _printJobs;
         public IEnumerable<PrintJob> PrintJobs
         {
-            get { return _printJobs ?? (_printJobs = _dataService.GetPrintJobs()); }
+            get { return _printJobs ?? (_printJobs = _cacheDao.GetPrintJobs()); }
         }
 
         public PrintJob GetPrintJobByName(string name)
@@ -485,7 +496,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<EntityType> _entityTypes;
         public IEnumerable<EntityType> EntityTypes
         {
-            get { return _entityTypes ?? (_entityTypes = _dataService.GetEntityTypes()); }
+            get { return _entityTypes ?? (_entityTypes = _cacheDao.GetEntityTypes()); }
         }
 
         public IEnumerable<EntityType> GetEntityTypes()
@@ -507,7 +518,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<Warehouse> _warehouses;
         public IEnumerable<Warehouse> Warehouses
         {
-            get { return _warehouses ?? (_warehouses = _dataService.GetWarehouses()); }
+            get { return _warehouses ?? (_warehouses = _cacheDao.GetWarehouses()); }
         }
 
         public IEnumerable<Warehouse> GetWarehouses()
@@ -518,7 +529,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<InventoryTransactionType> _inventoryTransactionTypes;
         public IEnumerable<InventoryTransactionType> InventoryTransactionTypes
         {
-            get { return _inventoryTransactionTypes??(_inventoryTransactionTypes = _dataService.GetInventoryTransactionTypes()); }
+            get { return _inventoryTransactionTypes??(_inventoryTransactionTypes = _cacheDao.GetInventoryTransactionTypes()); }
         }
 
         public IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes()
@@ -545,7 +556,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<State> _states;
         public IEnumerable<State> States
         {
-            get { return _states ?? (_states = _dataService.GetStates()); }
+            get { return _states ?? (_states = _cacheDao.GetStates()); }
         }
 
         public IEnumerable<State> GetStates(int stateType)
@@ -574,7 +585,7 @@ namespace Samba.Services.Implementations
         public Entity GetEntityByName(string entityTypeName, string entityName)
         {
             var rt = EntityTypes.Single(x => x.Name == entityTypeName);
-            return _dataService.GetEntityByName(rt.Id, entityName);
+            return _cacheDao.GetEntityByName(rt.Id, entityName);
         }
 
         public void ResetTicketTagCache()
@@ -589,7 +600,7 @@ namespace Samba.Services.Implementations
 
         public void ResetCache()
         {
-            _dataService.ResetCache();
+            _cacheDao.ResetCache();
             _inventoryTransactionTypes = null;
             _warehouses = null;
             _printers = null;
@@ -600,6 +611,7 @@ namespace Samba.Services.Implementations
             _accountTypes = null;
             _automationCommands = null;
             _calculationSelectors = null;
+            _calculationTypes = null;
             _ticketTypes = null;
             _taskTypes = null;
             _screenMenus = null;

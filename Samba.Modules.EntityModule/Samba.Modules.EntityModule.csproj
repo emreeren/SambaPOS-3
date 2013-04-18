@@ -192,7 +192,7 @@
       <Name>Samba.Presentation.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Presentation.ViewModels\Samba.Presentation.ViewModels.csproj">
-      <Project>{04ED7BE0-8768-4A8D-B1ED-C92CB60789EF}</Project>
+      <Project>{04ed7be0-8768-4a8d-b1ed-c92cb60789ef}</Project>
       <Name>Samba.Presentation.ViewModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">

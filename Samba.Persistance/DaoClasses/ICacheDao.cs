@@ -28,6 +28,7 @@ namespace Samba.Persistance.DaoClasses
         IEnumerable<TicketTagGroup> GetTicketTagGroups();
         IEnumerable<AutomationCommand> GetAutomationCommands();
         IEnumerable<CalculationSelector> GetCalculationSelectors();
+        IEnumerable<CalculationType> GetCalculationTypes();
         IEnumerable<AccountScreen> GetAccountScreens();
         IEnumerable<ScreenMenu> GetScreenMenus();
         IEnumerable<EntityScreen> GetEntityScreens();

@@ -55,6 +55,7 @@ namespace Samba.Services
         IEnumerable<string> GetTaskTypeNames();
         TicketType GetTicketTypeById(int ticketTypeId);
         IEnumerable<TicketType> GetTicketTypes();
+        CalculationType GetCalculationTypeByName(string name);
         IEnumerable<CalculationSelector> GetCalculationSelectors(int ticketTypeId, int terminalId, int departmentId, int userRoleId);
         IEnumerable<AutomationCommandData> GetAutomationCommands(int ticketTypeId, int terminalId, int departmentId, int userRoleId);
         IEnumerable<ChangePaymentType> GetChangePaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId);

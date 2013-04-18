@@ -422,7 +422,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticket != null)
                     {
                         var calculationTypeName = x.Value.GetAsString("CalculationType");
-                        var calculationType = SettingService.GetCalculationTypeByName(calculationTypeName);
+                        var calculationType = CacheService.GetCalculationTypeByName(calculationTypeName);
                         if (calculationType != null)
                         {
                             var amount = x.Value.GetAsDecimal("Amount");

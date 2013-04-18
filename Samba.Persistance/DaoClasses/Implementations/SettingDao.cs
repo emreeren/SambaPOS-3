@@ -20,16 +20,6 @@ namespace Samba.Persistance.DaoClasses.Implementations
             ValidatorRegistry.RegisterDeleteValidator(new NumeratorDeleteValidator());
         }
 
-        public IEnumerable<TaxTemplate> GetTaxTemplates()
-        {
-            return Dao.Query<TaxTemplate>();
-        }
-
-        public IEnumerable<CalculationType> GetCalculationTypes()
-        {
-            return Dao.Query<CalculationType>();
-        }
-
         public string GetNextString(int numeratorId)
         {
             using (var workspace = WorkspaceFactory.Create())

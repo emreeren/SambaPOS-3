@@ -10,8 +10,6 @@ namespace Samba.Persistance.DaoClasses
 {
     public interface ISettingDao
     {
-        IEnumerable<TaxTemplate> GetTaxTemplates();
-        IEnumerable<CalculationType> GetCalculationTypes();
         string GetNextString(int numeratorId);
         int GetNextNumber(int numeratorId);
         IEnumerable<Terminal> GetTerminals();
