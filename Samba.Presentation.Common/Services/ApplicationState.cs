@@ -27,12 +27,12 @@ namespace Samba.Presentation.Common.Services
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
         private readonly IExpressionService _expressionService;
-        private readonly IAutomationService _automationService;
+        private readonly INotificationService _notificationService;
         private readonly StateMachine<AppScreens, AppScreens> _screenState;
 
         [ImportingConstructor]
         public ApplicationState(IDepartmentService departmentService, ISettingService settingService,
-            ICacheService cacheService, IExpressionService expressionService, IAutomationService automationService)
+            ICacheService cacheService, IExpressionService expressionService, INotificationService notificationService)
         {
             _screenState = new StateMachine<AppScreens, AppScreens>(() => ActiveAppScreen, state => ActiveAppScreen = state);
             _screenState.OnUnhandledTrigger(HandleTrigger);
@@ -40,7 +40,7 @@ namespace Samba.Presentation.Common.Services
             _settingService = settingService;
             _cacheService = cacheService;
             _expressionService = expressionService;
-            _automationService = automationService;
+            _notificationService = notificationService;
             SetCurrentDepartment(Department.Default);
             CurrentTicketType = TicketType.Default;
         }
@@ -305,7 +305,7 @@ namespace Samba.Presentation.Common.Services
             var terminalId = CurrentTerminal.Id;
             var departmentId = CurrentDepartment.Id;
             var roleId = CurrentLoggedInUser.UserRole.Id;
-            _automationService.NotifyEvent(eventName, dataObject, terminalId, departmentId, roleId, x => x.PublishEvent(EventTopicNames.ExecuteEvent, true));
+            _notificationService.NotifyEvent(eventName, dataObject, terminalId, departmentId, roleId, x => x.PublishEvent(EventTopicNames.ExecuteEvent, true));
         }
 
         public void ResetState()

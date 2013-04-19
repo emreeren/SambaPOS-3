@@ -31,8 +31,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         [ImportingConstructor]
         public TicketService(ITicketDao ticketDao, ITicketServiceBase ticketServiceBase, IDepartmentService departmentService, IApplicationState applicationState,
-            IUserService userService, ISettingService settingService, IExpressionService expressionService,
-            IAccountService accountService, ICacheService cacheService)
+            IUserService userService, ISettingService settingService, IExpressionService expressionService, IAccountService accountService, ICacheService cacheService)
         {
             _ticketDao = ticketDao;
             _ticketServiceBase = ticketServiceBase;
@@ -243,20 +242,19 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var clonedTags = ticketList.SelectMany(x => x.GetTicketTagValues()).Select(ObjectCloner.Clone).ToList();
             var clonedEntites = ticketList.SelectMany(x => x.TicketEntities).Select(ObjectCloner.Clone).ToList();
 
-            ticketList.ForEach(x => x.Orders.ToList().ForEach(x.RemoveOrder));
-            ticketList.ForEach(x => x.Payments.ToList().ForEach(x.RemovePayment));
-            ticketList.ForEach(x => x.ChangePayments.ToList().ForEach(x.RemoveChangePayment));
-            ticketList.ForEach(x => x.Calculations.ToList().ForEach(x.RemoveCalculation));
-
+            ticketList.ForEach(x => x.RemoveData());
             ticketList.ForEach(x => CloseTicket(x));
 
             var ticket = CreateTicket();
+
             clonedOrders.ForEach(ticket.Orders.Add);
+
             foreach (var cp in clonedPayments)
             {
                 var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);
                 ticket.AddPayment(_cacheService.GetPaymentTypeById(cp.PaymentTypeId), account, cp.Amount, GetExchangeRate(account), 0);
             }
+
             foreach (var cp in clonedChangePayments)
             {
                 var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);

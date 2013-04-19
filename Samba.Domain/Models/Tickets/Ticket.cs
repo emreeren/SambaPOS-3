@@ -775,5 +775,13 @@ namespace Samba.Domain.Models.Tickets
             var sv = GetStateValue(s);
             return sv != null ? sv.State : "";
         }
+
+        public void RemoveData()
+        {
+            Orders.ToList().ForEach(RemoveOrder);
+            Payments.ToList().ForEach(RemovePayment);
+            ChangePayments.ToList().ForEach(RemoveChangePayment);
+            Calculations.ToList().ForEach(RemoveCalculation);
+        }
     }
 }

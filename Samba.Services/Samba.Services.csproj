@@ -73,6 +73,7 @@
     <Compile Include="IExpressionService.cs" />
     <Compile Include="ILogService.cs" />
     <Compile Include="IMenuService.cs" />
+    <Compile Include="INotificationService.cs" />
     <Compile Include="IPriceListService.cs" />
     <Compile Include="IPrinterService.cs" />
     <Compile Include="ISettingService.cs" />

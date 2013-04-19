@@ -108,7 +108,7 @@ namespace Samba.Presentation.Controls.Interaction
         private PopupWindow _popupWindow;
 
         [ImportingConstructor]
-        public UserInteraction(IAutomationService automationService,IMethodQueue methodQueue)
+        public UserInteraction(IAutomationService automationService, IMethodQueue methodQueue)
         {
             _methodQueue = methodQueue;
             _popupDataViewModel = new PopupDataViewModel();

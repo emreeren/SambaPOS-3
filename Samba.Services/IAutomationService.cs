@@ -6,7 +6,6 @@ namespace Samba.Services
 {
     public interface IAutomationService
     {
-        void NotifyEvent(string eventName, object dataObject, int terminalId, int departmentId, int userRoleId, Action<IActionData> dataAction);
         IEnumerable<IRuleConstraint> GetEventConstraints(string eventName);
         IEnumerable<IRuleConstraint> CreateRuleConstraints(string eventConstraints);
         IEnumerable<RuleEvent> GetRuleEvents();
