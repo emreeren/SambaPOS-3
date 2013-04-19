@@ -56,21 +56,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Printing" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -98,21 +88,9 @@
       <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
       <Name>Samba.Infrastructure.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
-      <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
-      <Name>Samba.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
-      <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
-      <Name>Samba.Localization</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance\Samba.Persistance.csproj">
       <Project>{9ACA7797-5C2A-4435-B991-E59462ACDAF6}</Project>
       <Name>Samba.Persistance</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Presentation.Services\Samba.Presentation.Services.csproj">
-      <Project>{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}</Project>
-      <Name>Samba.Presentation.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Services.Common\Samba.Services.Common.csproj">
       <Project>{4C8C1254-7615-46F8-B782-C6AA1441B323}</Project>

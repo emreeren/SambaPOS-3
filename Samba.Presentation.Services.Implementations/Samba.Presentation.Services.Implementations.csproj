@@ -34,26 +34,12 @@
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="Omu.ValueInjecter, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Lib\Omu.ValueInjecter.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Printing" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -73,10 +59,6 @@
     <Compile Include="WorkPeriodModule\WorkPeriodService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lib\FluentScript\FluentScript.csproj">
-      <Project>{0CDFA1B2-F3A3-45E1-919B-9D1BCA26984B}</Project>
-      <Name>FluentScript</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
       <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
       <Name>Samba.Domain</Name>
