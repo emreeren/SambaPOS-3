@@ -186,7 +186,6 @@ namespace Samba.Modules.PosModule
             ChangePriceCommand = new CaptionCommand<string>(Resources.ChangePrice, OnChangePrice, CanChangePrice);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagEvent);
@@ -329,20 +328,6 @@ namespace Samba.Modules.PosModule
                 //}
                 //if (SelectedDepartment == null)
                 //    SelectedDepartment = AppServices.MainDataContext.Departments.FirstOrDefault();
-                RefreshVisuals();
-            }
-        }
-
-        private void OnTagSelected(EventParameters<TicketTagData> obj)
-        {
-            if (obj.Topic == EventTopicNames.TicketTagSelected)
-            {
-                //if (obj.Value.TicketTagGroup != null && obj.Value.TicketTagGroup.Action == 1 && CanCloseTicket(""))
-                //    CloseTicketCommand.Execute("");
-                //if (obj.Value.TicketTagGroup != null && obj.Value.TicketTagGroup.Action == 2 && CanMakePayment(""))
-                //    MakePaymentCommand.Execute("");
-                //else
-                //{
                 RefreshVisuals();
             }
         }

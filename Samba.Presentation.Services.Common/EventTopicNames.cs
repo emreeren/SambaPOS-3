@@ -99,7 +99,6 @@
         public const string UpdateDepartment = "Update Department";
         public const string PopupClicked = "Popup Clicked";
         public const string SelectTicketTag = "Select Ticket Tag";
-        public const string TicketTagSelected = "Ticket Tag Selected";
         public const string LogData = "Log Data";
         public const string ResetNumerator = "Reset Numerator";
         public const string WorkPeriodStatusChanged = "WorkPeriod Status Changed";

@@ -364,8 +364,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                             NumericValue = tagGroup.IsNumeric ? Convert.ToDecimal(ticketTag.Name) : 0,
                             TicketTag = ticket.GetTagData()
                         });
-
-            tagData.PublishEvent(EventTopicNames.TicketTagSelected);
         }
 
         public void SaveFreeTicketTag(int tagGroupId, string freeTag)
@@ -564,8 +562,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
             if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => order.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0, ""));
             RecalculateTicket(ticket);
-
-            order.PublishEvent(EventTopicNames.OrderAdded);
             _applicationState.NotifyEvent(RuleEventNames.OrderAdded, new { Ticket = ticket, Order = order, MenuItemName = order.MenuItemName, MenuItemTag = menuItem.Tag, MenuItemGroupCode = menuItem.GroupCode });
 
             return order;

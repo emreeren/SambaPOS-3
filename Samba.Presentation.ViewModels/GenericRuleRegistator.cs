@@ -445,6 +445,7 @@ namespace Samba.Presentation.ViewModels
                         var tag = x.Value.GetAsString("Tag");
                         var order = TicketService.AddOrder(ticket, menuItem.Id, quantity, portionName, null);
                         if (order != null) order.Tag = tag;
+                        order.PublishEvent(EventTopicNames.OrderAdded);
                     }
                 }
 
@@ -456,8 +457,6 @@ namespace Samba.Presentation.ViewModels
                         var tagName = x.Value.GetAsString("TagName");
                         var tagValue = x.Value.GetAsString("TagValue");
                         ticket.SetTagValue(tagName, tagValue);
-                        var tagData = new TicketTagData { TagName = tagName, TagValue = tagValue };
-                        tagData.PublishEvent(EventTopicNames.TicketTagSelected);
                     }
                 }
 

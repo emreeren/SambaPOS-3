@@ -118,7 +118,9 @@ namespace Samba.Modules.PosModule
         {
             ClearSelectedOrders();
             var order = _ticketService.AddOrder(SelectedTicket, menuItemId, quantity, portionName, template);
-            return order == null ? null : Add(order);
+            var result = order == null ? null : Add(order);
+            order.PublishEvent(EventTopicNames.OrderAdded);
+            return result;
         }
 
         public void AddOrder(ScreenMenuItemData data)
