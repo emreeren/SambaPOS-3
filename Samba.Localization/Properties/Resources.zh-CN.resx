@@ -1392,9 +1392,6 @@
   <data name="DayOperations" xml:space="preserve">
     <value>工作期间</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>增加并保存</value>
-  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>唯一的票据ID</value>
   </data>

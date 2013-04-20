@@ -1590,14 +1590,14 @@
   <data name="DayOperations" xml:space="preserve">
     <value>فترات العمل</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>إضافة وحفظ</value>
-  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>رقم تذكرة غير مكررة</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>لا</value>
+  </data>
+  <data name="SetActiveTicketType" xml:space="preserve">
+    <value>نوع التذكرة</value>
   </data>
   <data name="All Tables" xml:space="preserve">
     <value>كافة الجداول</value>
@@ -2718,6 +2718,9 @@
   <data name="Ticket" xml:space="preserve">
     <value>تذكرة</value>
   </data>
+  <data name="EntitySelected" xml:space="preserve">
+    <value> الكيان المحدد</value>
+  </data>
   <data name="EveryDay" xml:space="preserve">
     <value>كل يوم</value>
   </data>
@@ -2876,6 +2879,9 @@
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>مجموع الضريبة</value>
+  </data>
+  <data name="Toggle" xml:space="preserve">
+    <value>تبديل القيم</value>
   </data>
   <data name="DepartmentPermissions" xml:space="preserve">
     <value>أذونات القسم</value>

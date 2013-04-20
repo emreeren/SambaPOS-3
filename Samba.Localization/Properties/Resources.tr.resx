@@ -425,7 +425,7 @@
     <value>Müşteri Adisyonları</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
-    <value>Ürün Sayacı</value>
+    <value>Ürün Zamanlayıcı</value>
   </data>
   <data name="MenuName" xml:space="preserve">
     <value>Menü Adı</value>
@@ -1596,9 +1596,6 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="DayOperations" xml:space="preserve">
     <value>Gün İşlemleri</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>Ekle ve Kaydet</value>
-  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Benzersiz Adisyon Numarası</value>
   </data>
@@ -1631,6 +1628,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Rapor İzinleri</value>
+  </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Adisyon Etiketi Seçildi</value>
   </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Gramaj Barkodları</value>
@@ -1918,8 +1918,8 @@ Hata Mesajı:
   <data name="Hidden" xml:space="preserve">
     <value>Gizli</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Adisyon Etiketi Seçildi</value>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Satır Sayısına göre Son Eklenen Satırlar</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Para Birimi Sembolü</value>
@@ -2192,7 +2192,7 @@ Hata Mesajı:
     <value>Para Üstü Toplamı</value>
   </data>
   <data name="StopTimer" xml:space="preserve">
-    <value>Sayacı Durdur</value>
+    <value>Zamanlayıcıyı Durdur</value>
   </data>
   <data name="Html" xml:space="preserve">
     <value>HTML</value>
@@ -2684,9 +2684,6 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>Geçmiş günsonu belgeleri silinemez.</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Satır Sayısına göre Son Eklenen Satırlar</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Eski Adisyonları görüntüleyebilir</value>

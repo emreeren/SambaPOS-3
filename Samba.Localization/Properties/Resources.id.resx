@@ -1576,9 +1576,6 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   <data name="DayOperations" xml:space="preserve">
     <value>Periode Kerja</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>Tambah Dan Simpan</value>
-  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>ID Unik Tiket </value>
   </data>

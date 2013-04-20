@@ -349,6 +349,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Pisač u Kuhinji</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Postavke</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>Greška u formuli</value>
   </data>
@@ -765,8 +768,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="PaymentType" xml:space="preserve">
     <value>Vrsta plaćanja</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Postavke</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>Broj linija</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234 Promijenite PIN da sakrijete ovu napomenu</value>
@@ -1482,9 +1485,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="DayOperations" xml:space="preserve">
     <value>Radno vrijeme</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>Dodaj i Spremi</value>
-  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Unique Ticket Id</value>
   </data>
@@ -1553,9 +1553,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Web stranica</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Broj linija</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Izbriši ograničenje</value>

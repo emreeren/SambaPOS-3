@@ -415,8 +415,8 @@
   <data name="PaymentScreenValues" xml:space="preserve">
     <value>Fizetési képernyő értékek</value>
   </data>
-  <data name="StopTimer" xml:space="preserve">
-    <value>Időzítő megállítása</value>
+  <data name="DataConnection" xml:space="preserve">
+    <value>Data Connection String</value>
   </data>
   <data name="DisplayOpenTickets" xml:space="preserve">
     <value>Nyitott Blokkok megjelenítése</value>
@@ -1599,9 +1599,6 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="DayOperations" xml:space="preserve">
     <value>Műszakok</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>Hozzáadás és mentés</value>
-  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Egyedi Blokk Azonosító</value>
   </data>
@@ -2193,6 +2190,9 @@ Hibaüzenet:
   </data>
   <data name="ChangeTotal" xml:space="preserve">
     <value>Végösszeg módosítása</value>
+  </data>
+  <data name="StopTimer" xml:space="preserve">
+    <value>Időzítő megállítása</value>
   </data>
   <data name="Html" xml:space="preserve">
     <value>HTML</value>

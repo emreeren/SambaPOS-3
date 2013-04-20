@@ -1599,9 +1599,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="DayOperations" xml:space="preserve">
     <value>Periodo di Lavoro</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>Aggiungere e Salvare</value>
-  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Ticket ID univoco</value>
   </data>

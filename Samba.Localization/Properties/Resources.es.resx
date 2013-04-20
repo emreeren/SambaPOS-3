@@ -1599,14 +1599,15 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="DayOperations" xml:space="preserve">
     <value>Períodos de trabajo</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>Añadir y guardar</value>
-  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Id único de recibo</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
+  </data>
+  <data name="SetActiveTicketType" xml:space="preserve">
+    <value>
+Ajuste el Tipo de Ticket Activo</value>
   </data>
   <data name="All Tables" xml:space="preserve">
     <value>Todas Mesas</value>
@@ -2727,6 +2728,9 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   <data name="Ticket" xml:space="preserve">
     <value>Ticket</value>
   </data>
+  <data name="EntitySelected" xml:space="preserve">
+    <value>Entidad Seleccionada</value>
+  </data>
   <data name="EveryDay" xml:space="preserve">
     <value>Todos los días</value>
   </data>
@@ -2885,6 +2889,9 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>Total de impuestos</value>
+  </data>
+  <data name="Toggle" xml:space="preserve">
+    <value>Fiador</value>
   </data>
   <data name="DepartmentPermissions" xml:space="preserve">
     <value>Permisos de Departamento</value>

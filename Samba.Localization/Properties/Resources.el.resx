@@ -1204,9 +1204,6 @@
   <data name="DayOperations" xml:space="preserve">
     <value>Περίοδοι εργασίας</value>
   </data>
-  <data name="AddAndSave" xml:space="preserve">
-    <value>Προσθέστε και Αποθήκευση</value>
-  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Μοναδικό αναγνωριστικό εισιτηρίων</value>
   </data>
