@@ -235,7 +235,10 @@ namespace Samba.Modules.PosModule
                 ClearSelectedItems();
                 ClearSelection = true;
                 RefreshVisuals();
-                EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                if (SelectedTicket != Ticket.Empty)
+                {
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                }
             }
         }
 
