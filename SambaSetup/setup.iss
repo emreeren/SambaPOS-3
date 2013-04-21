@@ -26,8 +26,8 @@ tr.sample_data=Örnek Veri
 tr.handheld_terminal_app=El terminali uygulamasý
 tr.ce_install_sp3_required=Compact SQL 4.0 çalýþtýrmak için Service Pack 3 gerektiðinden kurulum listesinden kaldýrýldý. Program TXT dosya veritabaný üzerinden çalýþacak.
 
-#define Version "3.03 "
-#define FileVersion "303"
+#define Version "3.04 "
+#define FileVersion "304"
 
 [Setup]
 AppName=SambaPOS

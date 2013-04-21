@@ -34,7 +34,7 @@
                                 <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
                                     <ComboBox Name="cb" IsEditable="True" 
                                           ItemsSource="{Binding InventoryTransactionTypes}" 
-                                          SelectedItem="{Binding InventoryTransactionType}" 
+                                          SelectedItem="{Binding InventoryTransactionType,UpdateSourceTrigger=PropertyChanged}" 
                                           DisplayMemberPath="Name" />
                                 </Grid>
                             </DataTemplate>
@@ -52,7 +52,7 @@
                                 <Grid FocusManager.FocusedElement="{Binding ElementName=cb1}">
                                     <ComboBox Name="cb1" IsEditable="True" 
                                           ItemsSource="{Binding SourceWarehouses}"
-                                          SelectedItem="{Binding SourceWarehouse}" 
+                                          SelectedItem="{Binding SourceWarehouse,UpdateSourceTrigger=PropertyChanged}" 
                                           DisplayMemberPath="Name" />
                                 </Grid>
                             </DataTemplate>
@@ -70,7 +70,7 @@
                                 <Grid FocusManager.FocusedElement="{Binding ElementName=cb2}">
                                     <ComboBox Name="cb2" IsEditable="True" 
                                           ItemsSource="{Binding TargetWarehouses}" 
-                                          SelectedValue="{Binding TargetWarehouse}" 
+                                          SelectedValue="{Binding TargetWarehouse,UpdateSourceTrigger=PropertyChanged}" 
                                           DisplayMemberPath="Name" />
                                 </Grid>
                             </DataTemplate>
@@ -86,7 +86,7 @@
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
-                                    <ComboBox Name="cb" IsEditable="True" ItemsSource="{Binding InventoryItemNames}" SelectedItem="{Binding Name}" />
+                                    <ComboBox Name="cb" IsEditable="True" ItemsSource="{Binding InventoryItemNames}" SelectedItem="{Binding Name,UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
