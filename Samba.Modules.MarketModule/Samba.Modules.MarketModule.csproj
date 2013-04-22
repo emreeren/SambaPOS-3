@@ -85,9 +85,9 @@
       <Project>{3C52B602-3CB1-45EE-B9A7-93B24C760A88}</Project>
       <Name>Samba.Presentation.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Presentation.Services.Common\Samba.Presentation.Services.Common.csproj">
-      <Project>{F2C77290-6806-4F23-BEB7-171C4008D13B}</Project>
-      <Name>Samba.Presentation.Services.Common</Name>
+    <ProjectReference Include="..\Samba.Presentation.Services\Samba.Presentation.Services.csproj">
+      <Project>{7dd8848c-3adb-45b3-bd49-10af3aee2521}</Project>
+      <Name>Samba.Presentation.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
       <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>

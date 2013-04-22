@@ -31,17 +31,52 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Omu.ValueInjecter">
+      <HintPath>..\Lib\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AbstractService.cs" />
+    <Compile Include="Common\AppScreenChangeData.cs" />
+    <Compile Include="Common\AppScreens.cs" />
+    <Compile Include="Common\AppServices.cs" />
+    <Compile Include="Common\DataCreationService.cs" />
+    <Compile Include="Common\EntityOperationRequest.cs" />
+    <Compile Include="Common\EventServiceFactory.cs" />
+    <Compile Include="Common\EventTopicNames.cs" />
+    <Compile Include="Common\ExtensionMethods.cs" />
+    <Compile Include="Common\GenericEvent.cs" />
+    <Compile Include="Common\IPresentationService.cs" />
+    <Compile Include="Common\MessagingService.cs" />
+    <Compile Include="Common\PermissionNames.cs" />
+    <Compile Include="Common\PermissionRegistry.cs" />
     <Compile Include="IApplicationState.cs" />
     <Compile Include="IApplicationStateSetter.cs" />
     <Compile Include="IInventoryService.cs" />
     <Compile Include="IMethodQueue.cs" />
     <Compile Include="IEntityServiceClient.cs" />
+    <Compile Include="Implementations\AutomationModule\TriggerService.cs" />
+    <Compile Include="Implementations\EntityModule\EntityServiceClient.cs" />
+    <Compile Include="Implementations\InventoryModule\InventoryService.cs" />
+    <Compile Include="Implementations\MethodQueue.cs" />
+    <Compile Include="Implementations\TaskModule\ITokenParser.cs" />
+    <Compile Include="Implementations\TaskModule\Parsers\DateTimeParser.cs" />
+    <Compile Include="Implementations\TaskModule\Parsers\ExpressionParser.cs" />
+    <Compile Include="Implementations\TaskModule\TaskCache.cs" />
+    <Compile Include="Implementations\TaskModule\TaskParser.cs" />
+    <Compile Include="Implementations\TaskModule\TaskService.cs" />
+    <Compile Include="Implementations\TicketModule\TicketService.cs" />
+    <Compile Include="Implementations\UserModule\UserService.cs" />
+    <Compile Include="Implementations\WorkPeriodModule\WorkPeriodService.cs" />
     <Compile Include="ITaskService.cs" />
     <Compile Include="ITicketService.cs" />
     <Compile Include="ITriggerService.cs" />
@@ -62,13 +97,13 @@
       <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
       <Name>Samba.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
+      <Project>{406b96a6-c886-4149-ad88-a2402edb2b90}</Project>
+      <Name>Samba.Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance\Samba.Persistance.csproj">
       <Project>{9ACA7797-5C2A-4435-B991-E59462ACDAF6}</Project>
       <Name>Samba.Persistance</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samba.Presentation.Services.Common\Samba.Presentation.Services.Common.csproj">
-      <Project>{F2C77290-6806-4F23-BEB7-171C4008D13B}</Project>
-      <Name>Samba.Presentation.Services.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
       <Project>{413b698c-0d7d-4fcd-9f16-af51aed4e647}</Project>
