@@ -61,10 +61,6 @@
       <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
       <Name>Samba.Infrastructure.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Services.Implementations\Samba.Services.Implementations.csproj">
-      <Project>{FC7C3BE1-3464-4AFB-8F1C-9209EF64BE29}</Project>
-      <Name>Samba.Services.Implementations</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
       <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
       <Name>Samba.Services</Name>
