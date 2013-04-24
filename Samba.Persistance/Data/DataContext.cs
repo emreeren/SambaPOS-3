@@ -15,9 +15,9 @@ using Samba.Infrastructure.Settings;
 
 namespace Samba.Persistance.Data
 {
-    public class SambaContext : CommonDbContext
+    public class DataContext : CommonDbContext
     {
-        public SambaContext(bool disableProxy)
+        public DataContext(bool disableProxy)
             : base(LocalSettings.AppName)
         {
             if (disableProxy)

@@ -1,7 +1,6 @@
-using System;
 using Samba.Domain.Models.Tickets;
 
-namespace Samba.Domain.Expression
+namespace Samba.Services.Implementations.ExpressionModule.Accessors
 {
     public static class OrderAccessor
     {

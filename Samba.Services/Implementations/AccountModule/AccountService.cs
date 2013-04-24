@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
 using Samba.Localization.Properties;
+using Samba.Localization;
 using Samba.Persistance;
 using Samba.Persistance.DaoClasses;
 

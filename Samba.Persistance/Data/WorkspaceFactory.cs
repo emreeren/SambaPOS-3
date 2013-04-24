@@ -65,13 +65,13 @@ namespace Samba.Persistance.Data
         public static IWorkspace Create()
         {
             if (_textFileWorkspace != null) return _textFileWorkspace;
-            return new EFWorkspace(new SambaContext(false));
+            return new EFWorkspace(new DataContext(false));
         }
 
         public static IReadOnlyWorkspace CreateReadOnly()
         {
             if (_textFileWorkspace != null) return _textFileWorkspace;
-            return new ReadOnlyEFWorkspace(new SambaContext(true));
+            return new ReadOnlyEFWorkspace(new DataContext(true));
         }
 
         private static TextFileWorkspace GetTextFileWorkspace()
@@ -95,10 +95,10 @@ namespace Samba.Persistance.Data
         }
     }
 
-    public class Initializer : IDatabaseInitializer<SambaContext>
+    public class Initializer : IDatabaseInitializer<DataContext>
     {
 
-        public void InitializeDatabase(SambaContext context)
+        public void InitializeDatabase(DataContext context)
         {
             if (!context.Database.Exists())
             {

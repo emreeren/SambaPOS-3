@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
+using Samba.Localization;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Presentation.Common;
@@ -84,7 +85,7 @@ namespace Samba.Modules.ModifierModule
 
         public bool ShouldDisplay(Ticket ticket, IList<Order> selectedOrders)
         {
-            if (selectedOrders == null || selectedOrders.Count() > 1 || selectedOrders.Count() == 0) return false;
+            if (selectedOrders == null || selectedOrders.Count() > 1 || !selectedOrders.Any()) return false;
             var order = selectedOrders.First();
             return order.Locked && order.ProductTimerValue != null;
         }

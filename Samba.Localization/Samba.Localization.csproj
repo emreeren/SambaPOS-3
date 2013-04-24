@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseExtensions\BaseLocalizeExtension.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="LocalizedCategoryAttribute.cs" />
     <Compile Include="Pluralization\Pluralizer.cs" />
     <Compile Include="Properties\Resources.ar.Designer.cs">

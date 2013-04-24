@@ -68,9 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Expression\OrderAccessor.cs" />
-    <Compile Include="Expression\TicketAccessor.cs" />
-    <Compile Include="Expression\ExpressionEngine.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\AccountData.cs" />
     <Compile Include="Models\Accounts\Account.cs" />
@@ -201,7 +198,9 @@
       <Name>Samba.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Expression\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End

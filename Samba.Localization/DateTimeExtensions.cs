@@ -2,7 +2,7 @@
 using System.Globalization;
 using Samba.Localization.Properties;
 
-namespace Samba.Persistance
+namespace Samba.Localization
 {
     public static class DateTimeExtensions
     {

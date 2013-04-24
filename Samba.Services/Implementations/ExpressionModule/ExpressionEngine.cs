@@ -4,8 +4,9 @@ using System.Text.RegularExpressions;
 using Fluentscript.Lib.AST;
 using Fluentscript.Lib.Parser;
 using Samba.Domain.Models.Tickets;
+using Samba.Services.Implementations.ExpressionModule.Accessors;
 
-namespace Samba.Domain.Expression
+namespace Samba.Services.Implementations.ExpressionModule
 {
     public static class ExpressionEngine
     {

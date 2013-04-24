@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Data.Metadata.Edm;
 using System.Data.Objects;
 using System.Linq;
-using System.Text;
 
 namespace Samba.Infrastructure.Data.SQL
 {

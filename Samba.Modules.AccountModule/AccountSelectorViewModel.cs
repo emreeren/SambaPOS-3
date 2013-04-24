@@ -9,6 +9,7 @@ using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Settings;
+using Samba.Localization;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Presentation.Common;

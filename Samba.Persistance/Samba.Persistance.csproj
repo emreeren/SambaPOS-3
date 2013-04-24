@@ -83,9 +83,7 @@
     <Compile Include="DaoClasses\IWorkPeriodDao.cs" />
     <Compile Include="Data\CachedDao.cs" />
     <Compile Include="Data\Dao.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="Specification\NonDuplicateSaveValidator.cs" />
-    <Compile Include="Data\SambaContext.cs" />
+    <Compile Include="Data\DataContext.cs" />
     <Compile Include="Data\WorkspaceFactory.cs" />
     <Compile Include="ITicketExplorerFilter.cs" />
     <Compile Include="MenuItemData.cs" />
@@ -98,6 +96,7 @@
     <Compile Include="Specification\EntitySpecifications.cs" />
     <Compile Include="Specification\ExpressionBuilder.cs" />
     <Compile Include="Specification\ISpecification.cs" />
+    <Compile Include="Specification\NonDuplicateSaveValidator.cs" />
     <Compile Include="Specification\NotSpecification.cs" />
     <Compile Include="Specification\OrSpecification.cs" />
     <Compile Include="Specification\ParametersRebinder.cs" />
