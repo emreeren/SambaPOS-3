@@ -36,10 +36,10 @@ namespace Samba.Modules.AutomationModule
         protected override void OnInitialization()
         {
             base.OnInitialization();
-            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(OnActionData);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(OnActionData);
         }
 
-        private void OnActionData(EventParameters<IActionData> obj)
+        private void OnActionData(EventParameters<ActionData> obj)
         {
             if (obj.Value.Action.ActionType == ActionNames.ExecuteScript)
             {

@@ -8,7 +8,7 @@ using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Persistance;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance.Common;
 using Samba.Persistance.Data;
 
 namespace Samba.Services.Implementations.TicketModule

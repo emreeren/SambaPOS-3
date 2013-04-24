@@ -25,7 +25,7 @@ namespace Samba.Services.Implementations.AutomationModule
             _expressionService = expressionService;
         }
 
-        public void NotifyEvent(string eventName, object dataObject, int terminalId, int departmentId, int userRoleId, Action<IActionData> dataAction)
+        public void NotifyEvent(string eventName, object dataObject, int terminalId, int departmentId, int userRoleId, Action<ActionData> dataAction)
         {
             var rules = _cacheService.GetAppRules(eventName, terminalId, departmentId, userRoleId);
             foreach (var rule in rules.Where(x => string.IsNullOrEmpty(x.EventConstraints) || SatisfiesConditions(x, dataObject)))
@@ -43,7 +43,7 @@ namespace Samba.Services.Implementations.AutomationModule
                     containerParameterValues = ReplaceParameterValues(containerParameterValues, dataObject);
                     clonedAction.Parameter = _expressionService.ReplaceExpressionValues(clonedAction.Parameter, dataObject);
                     containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues, dataObject);
-                    IActionData data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
+                    var data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
                     dataAction.Invoke(data);
                 }
             }

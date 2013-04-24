@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -7,25 +8,19 @@ using Samba.Infrastructure.Helpers;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
+    [Export]
     public class TicketFormatter
     {
         private readonly IExpressionService _expressionService;
         private readonly ISettingService _settingService;
+        private readonly TicketValueChanger _ticketValueChanger;
 
-        public TicketFormatter(IExpressionService expressionService, ISettingService settingService)
+        [ImportingConstructor]
+        public TicketFormatter(IExpressionService expressionService, ISettingService settingService, TicketValueChanger ticketValueChanger)
         {
             _expressionService = expressionService;
             _settingService = settingService;
-        }
-
-        private TicketValueChanger _ticketValueChanger;
-        private TicketValueChanger TicketValueChanger
-        {
-            get
-            {
-                return _ticketValueChanger ??
-                    (_ticketValueChanger = new TicketValueChanger());
-            }
+            _ticketValueChanger = ticketValueChanger;
         }
 
         public string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate printerTemplate)
@@ -33,7 +28,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             var orders = printerTemplate.MergeLines ? MergeLines(lines.ToList()) : lines;
             ticket.Orders.Clear();
             orders.ToList().ForEach(ticket.Orders.Add);
-            var content = TicketValueChanger.GetValue(printerTemplate, ticket);
+            var content = _ticketValueChanger.GetValue(printerTemplate, ticket);
             content = UpdateExpressions(content);
             return content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
         }

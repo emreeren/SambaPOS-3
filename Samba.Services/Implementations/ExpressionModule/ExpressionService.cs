@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using Fluentscript.Lib.AST;
 using Samba.Infrastructure.Data;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Services.Implementations.ExpressionModule.Accessors;
 
 namespace Samba.Services.Implementations.ExpressionModule
@@ -19,7 +19,6 @@ namespace Samba.Services.Implementations.ExpressionModule
         {
             _automationDao = automationDao;
 
-            ExpressionEngine.RegisterType(typeof(LocatorAccessor), "Locator");
             ExpressionEngine.RegisterFunction("Call", CallFunction);
         }
 

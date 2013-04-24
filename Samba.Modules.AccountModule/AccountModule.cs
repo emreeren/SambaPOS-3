@@ -83,10 +83,10 @@ namespace Samba.Modules.AccountModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<AccountTransactionDocumentType>>().Subscribe(OnTransactionDocumentEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<DocumentCreationData>>().Subscribe(OnDocumentCreationData);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountData>>>().Subscribe(OnAccountDataEvent);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(OnActionData);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(OnActionData);
         }
 
-        private void OnActionData(EventParameters<IActionData> ep)
+        private void OnActionData(EventParameters<ActionData> ep)
         {
             if (ep.Value.Action.ActionType == ActionNames.CreateAccountTransactionDocument)
             {

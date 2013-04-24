@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Settings;
@@ -10,17 +11,27 @@ using Samba.Localization.Properties;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
-    public static class FunctionRegistry
+    [Export]
+    public class FunctionRegistry
     {
-        private static readonly IAccountService AccountService = ServiceLocator.Current.GetInstance<IAccountService>();
-        private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
-        private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
-        private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
+        private readonly IAccountService _accountService;
+        private readonly IDepartmentService _departmentService;
+        private readonly ISettingService _settingService;
+        private readonly ICacheService _cacheService;
 
-        public static IDictionary<Type, ArrayList> Functions = new Dictionary<Type, ArrayList>();
-        public static IDictionary<string, string> Descriptions = new Dictionary<string, string>();
+        public IDictionary<Type, ArrayList> Functions = new Dictionary<Type, ArrayList>();
+        public IDictionary<string, string> Descriptions = new Dictionary<string, string>();
 
-        static FunctionRegistry()
+        [ImportingConstructor]
+        public FunctionRegistry(IAccountService accountService, IDepartmentService departmentService, ISettingService settingService, ICacheService cacheService)
+        {
+            _accountService = accountService;
+            _departmentService = departmentService;
+            _settingService = settingService;
+            _cacheService = cacheService;
+        }
+
+        public void RegisterFunctions()
         {
             //TICKETS
             RegisterFunction<Ticket>(TagNames.TicketDate, (x, d) => x.Date.ToShortDateString(), Resources.TicketDate);
@@ -43,9 +54,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>(TagNames.Totaltext, (x, d) => HumanFriendlyInteger.CurrencyToWritten(x.GetSum(), true), Resources.TextWrittenTotalValue);
             RegisterFunction<Ticket>("{TICKET TAG:([^}]+)}", (x, d) => x.GetTagValue(d), Resources.TicketTag);
             RegisterFunction<Ticket>("{TICKET STATE:([^}]+)}", (x, d) => x.GetStateStr(d), "Ticket State");
-            RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => SettingService.ReadSetting(d).StringValue, Resources.SettingValue);
+            RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => _settingService.ReadSetting(d).StringValue, Resources.SettingValue);
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString(LocalSettings.CurrencyFormat), "Calculation Total", x => x.Calculations.Count > 0);
-            RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(CacheService.GetEntityTypeIdByEntityName(d)), "Entity Name");
+            RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(_cacheService.GetEntityTypeIdByEntityName(d)), "Entity Name");
             RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString(LocalSettings.CurrencyFormat), "Order State Total");
             RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), "Service Total");
 
@@ -71,7 +82,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
             //TICKET RESOURCES
             RegisterFunction<TicketEntity>("{ENTITY NAME}", (x, d) => x.EntityName, "Entity Name");
-            RegisterFunction<TicketEntity>("{ENTITY BALANCE}", (x, d) => AccountService.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), "Entity Account Balance", x => x.AccountId > 0);
+            RegisterFunction<TicketEntity>("{ENTITY BALANCE}", (x, d) => _accountService.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), "Entity Account Balance", x => x.AccountId > 0);
             RegisterFunction<TicketEntity>("{ENTITY DATA:([^}]+)}", (x, d) => x.GetCustomData(d), "Entity Data");
 
             //CALCULATIONS
@@ -95,23 +106,23 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<TaxValue>("{TAX NAME}", (x, d) => x.Name, "Tax Template Name");
         }
 
-        public static void RegisterFunction<TModel>(string tag, Func<TModel, string, string> function, string desc = "", Func<TModel, bool> condition = null)
+        public void RegisterFunction<TModel>(string tag, Func<TModel, string, string> function, string desc = "", Func<TModel, bool> condition = null)
         {
             if (!Functions.ContainsKey(typeof(TModel)))
             {
-                Descriptions.Add("-- " + typeof(TModel).Name.UpperWhitespace() + " Value Tags --", "");
+                Descriptions.Add("-- " + UpperWhitespace(typeof(TModel).Name) + " Value Tags --", "");
                 Functions.Add(typeof(TModel), new ArrayList());
             }
             Functions[typeof(TModel)].Add(new FunctionData<TModel> { Tag = tag, Func = function, Condition = condition });
             if (!string.IsNullOrEmpty(desc)) Descriptions.Add(tag.Replace(":([^}]+)", ":X}"), desc);
         }
 
-        private static string UpperWhitespace(this string value)
+        private static string UpperWhitespace(string value)
         {
             return string.Join("", value.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).Trim();
         }
 
-        public static string ExecuteFunctions<TModel>(string content, TModel model, PrinterTemplate printerTemplate)
+        public string ExecuteFunctions<TModel>(string content, TModel model, PrinterTemplate printerTemplate)
         {
             if (!Functions.ContainsKey(typeof(TModel))) return content;
             return Functions[typeof(TModel)]
@@ -119,9 +130,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 .Aggregate(content, (current, func) => (func.GetResult(model, current, printerTemplate)));
         }
 
-        private static string GetDepartmentName(int departmentId)
+        private string GetDepartmentName(int departmentId)
         {
-            var dep = DepartmentService.GetDepartment(departmentId);
+            var dep = _departmentService.GetDepartment(departmentId);
             return dep != null ? dep.Name : Resources.UndefinedWithBrackets;
         }
 

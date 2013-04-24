@@ -6,6 +6,7 @@ using System.Text;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance;
+using Samba.Persistance.Common;
 
 namespace Samba.Services
 {

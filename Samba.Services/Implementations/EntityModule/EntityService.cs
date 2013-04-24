@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Data;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Persistance.Data;
 
 namespace Samba.Services.Implementations.EntityModule

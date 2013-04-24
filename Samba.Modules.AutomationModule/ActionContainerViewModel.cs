@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Automation;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Presentation.Common;
 using Samba.Services;
 

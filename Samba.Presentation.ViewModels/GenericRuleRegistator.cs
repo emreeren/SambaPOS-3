@@ -157,7 +157,7 @@ namespace Samba.Presentation.ViewModels
 
         private static void HandleEvents()
         {
-            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
             {
                 if (x.Value.Action.ActionType == ActionNames.SetActiveTicketType)
                 {
@@ -604,7 +604,7 @@ namespace Samba.Presentation.ViewModels
             });
         }
 
-        private static IList<Order> GetOrders(IActionData x, Ticket ticket)
+        private static IList<Order> GetOrders(ActionData x, Ticket ticket)
         {
             IList<Order> orders = new List<Order>();
             var selectedOrder = x.GetDataValue<Order>("Order");

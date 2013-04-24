@@ -1,8 +1,10 @@
-﻿using Samba.Domain.Models.Tickets;
+﻿using System.ComponentModel.Composition;
+using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
-    class PreCalculationValueChanger : AbstractValueChanger<Calculation>
+    [Export]
+    public class PreCalculationValueChanger : AbstractValueChanger<Calculation>
     {
         public override string GetTargetTag()
         {

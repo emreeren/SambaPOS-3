@@ -5,6 +5,7 @@ using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance;
+using Samba.Persistance.Common;
 
 namespace Samba.Presentation.Services
 {

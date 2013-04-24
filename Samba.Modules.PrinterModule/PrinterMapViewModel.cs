@@ -2,7 +2,7 @@
 using System.Linq;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Presentation.Common;
 using Samba.Services;
 

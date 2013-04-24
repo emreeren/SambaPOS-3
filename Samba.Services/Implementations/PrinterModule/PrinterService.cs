@@ -24,13 +24,17 @@ namespace Samba.Services.Implementations.PrinterModule
         private readonly ICacheService _cacheService;
         private readonly ILogService _logService;
         private readonly TicketFormatter _ticketFormatter;
+        private readonly FunctionRegistry _functionRegistry;
 
         [ImportingConstructor]
-        public PrinterService(ISettingService settingService, ICacheService cacheService, IExpressionService expressionService, ILogService logService)
+        public PrinterService(ISettingService settingService, ICacheService cacheService, IExpressionService expressionService, ILogService logService,
+            TicketFormatter ticketFormatter,FunctionRegistry functionRegistry)
         {
             _cacheService = cacheService;
             _logService = logService;
-            _ticketFormatter = new TicketFormatter(expressionService, settingService);
+            _ticketFormatter = ticketFormatter;
+            _functionRegistry = functionRegistry;
+            _functionRegistry.RegisterFunctions();
         }
 
         [ImportMany]
@@ -265,7 +269,7 @@ namespace Samba.Services.Implementations.PrinterModule
 
         public IDictionary<string, string> GetTagDescriptions()
         {
-            return FunctionRegistry.Descriptions;
+            return _functionRegistry.Descriptions;
         }
 
         public void ResetCache()

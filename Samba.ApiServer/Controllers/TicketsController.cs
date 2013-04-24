@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Web.Http;
 using Samba.Domain.Models.Tickets;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 
 namespace Samba.ApiServer.Controllers
 {

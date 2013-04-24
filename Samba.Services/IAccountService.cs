@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Persistance;
+using Samba.Persistance.Common;
 
 namespace Samba.Services
 {

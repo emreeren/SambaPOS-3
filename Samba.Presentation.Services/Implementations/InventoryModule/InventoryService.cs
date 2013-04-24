@@ -4,7 +4,7 @@ using System.Linq;
 using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
 using Samba.Services;

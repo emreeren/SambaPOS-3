@@ -6,7 +6,7 @@ using System.Linq;
 using Samba.Domain.Models.Automation;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
@@ -28,7 +28,7 @@ namespace Samba.Modules.AutomationModule
             _automationService = automationService;
             _automationDao = automationDao;
             SelectActionsCommand = new CaptionCommand<string>(Resources.SelectActions, OnSelectActions);
-            Constraints = new ObservableCollection<IRuleConstraint>();
+            Constraints = new ObservableCollection<RuleConstraint>();
         }
 
         private void OnSelectActions(string obj)
@@ -64,8 +64,8 @@ namespace Samba.Modules.AutomationModule
             get { return _actions; }
         }
 
-        private ObservableCollection<IRuleConstraint> _constraints;
-        public ObservableCollection<IRuleConstraint> Constraints
+        private ObservableCollection<RuleConstraint> _constraints;
+        public ObservableCollection<RuleConstraint> Constraints
         {
             get { return _constraints; }
             set
@@ -89,7 +89,7 @@ namespace Samba.Modules.AutomationModule
             set
             {
                 Model.EventName = value;
-                Constraints = new ObservableCollection<IRuleConstraint>(_automationService.GetEventConstraints(Model.EventName));
+                Constraints = new ObservableCollection<RuleConstraint>(_automationService.GetEventConstraints(Model.EventName));
             }
         }
 

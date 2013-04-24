@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using Omu.ValueInjecter;
 using Samba.Domain.Models.Tasks;
 using Samba.Infrastructure.Data;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Persistance.Data;
 
 namespace Samba.Presentation.Services.Implementations.TaskModule

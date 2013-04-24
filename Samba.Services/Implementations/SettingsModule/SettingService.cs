@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Services.Common;
 
 namespace Samba.Services.Implementations.SettingsModule

@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using Samba.Domain.Models.Menus;
 using Samba.Persistance;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance.Common;
 
 namespace Samba.Services.Implementations.MenuModule
 {

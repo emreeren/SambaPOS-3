@@ -1,13 +1,22 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
+    [Export]
     public class OrderValueChanger : AbstractValueChanger<Order>
     {
-        private static readonly OrderTagValueChanger OrderTagValueChanger = new OrderTagValueChanger();
-        private static readonly OrderStateValueChanger OrderStateValueChanger = new OrderStateValueChanger();
+        private readonly OrderTagValueChanger _orderTagValueChanger;
+        private readonly OrderStateValueChanger _orderStateValueChanger;
+
+        [ImportingConstructor]
+        public OrderValueChanger(OrderTagValueChanger orderTagValueChanger, OrderStateValueChanger orderStateValueChanger)
+        {
+            _orderTagValueChanger = orderTagValueChanger;
+            _orderStateValueChanger = orderStateValueChanger;
+        }
 
         public override string GetTargetTag()
         {
@@ -29,8 +38,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override string ReplaceTemplateValues(string templatePart, Order model, PrinterTemplate template)
         {
-            var result = OrderStateValueChanger.Replace(template, templatePart, model.GetOrderStateValues());
-            return OrderTagValueChanger.Replace(template, result, model.GetOrderTagValues());
+            var result = _orderStateValueChanger.Replace(template, templatePart, model.GetOrderStateValues());
+            return _orderTagValueChanger.Replace(template, result, model.GetOrderTagValues());
         }
 
         protected override decimal GetSumSelector(Order x)

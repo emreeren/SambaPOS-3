@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
 
@@ -42,6 +43,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
     public class AbstractValueChanger<T> : IValueChanger<T>
     {
+        [Import]
+        public FunctionRegistry FunctionRegistry { get; set; }
+
         public string Replace(PrinterTemplate template, string content, IEnumerable<T> models)
         {
             return Helper.FormatData(content, "{" + GetTargetTag() + "}", () => GetValue(template, models));

@@ -1,11 +1,18 @@
-﻿using Microsoft.Practices.ServiceLocation;
+﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
+    [Export]
     public class EntityValueChanger : AbstractValueChanger<TicketEntity>
     {
-        private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
+        private readonly ICacheService _cacheService;
+
+        [ImportingConstructor]
+        public EntityValueChanger(ICacheService cacheService)
+        {
+            _cacheService = cacheService;
+        }
 
         public override string GetTargetTag()
         {
@@ -14,7 +21,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override string GetModelName(TicketEntity model)
         {
-            var entityType = CacheService.GetEntityTypeById(model.EntityTypeId);
+            var entityType = _cacheService.GetEntityTypeById(model.EntityTypeId);
             return entityType == null ? "" : entityType.EntityName;
         }
     }

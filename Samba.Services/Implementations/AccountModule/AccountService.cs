@@ -10,7 +10,7 @@ using Samba.Domain.Models.Entities;
 using Samba.Localization.Properties;
 using Samba.Localization;
 using Samba.Persistance;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance.Common;
 
 namespace Samba.Services.Implementations.AccountModule
 {

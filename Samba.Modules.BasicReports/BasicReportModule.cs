@@ -45,7 +45,7 @@ namespace Samba.Modules.BasicReports
             automationService.RegisterActionType(ActionNames.PrintReport, Resources.PrintReport, new { ReportName = "" });
             automationService.RegisterParameterSoruce("ReportName", () => ReportContext.Reports.Select(x => x.Header));
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
             {
                 if (x.Value.Action.ActionType == "SaveReportToFile")
                 {

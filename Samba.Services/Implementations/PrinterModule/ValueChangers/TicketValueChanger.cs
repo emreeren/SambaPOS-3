@@ -1,19 +1,34 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
+    [Export]
     public class TicketValueChanger : AbstractValueChanger<Ticket>
     {
-        private static readonly EntityValueChanger ResourceValueChanger = new EntityValueChanger();
-        private static readonly PreCalculationValueChanger PreCalculationValueChanger = new PreCalculationValueChanger();
-        private static readonly PostCalculationValueChanger PostCalculationValueChanger = new PostCalculationValueChanger();
-        private static readonly PaymentValueChanger PaymentValueChanger = new PaymentValueChanger();
-        private static readonly ChangePaymentValueChanger ChangePaymentValueChanger = new ChangePaymentValueChanger();
-        private static readonly OrderValueChanger OrderValueChanger = new OrderValueChanger();
-        private static readonly TaxValueChanger TaxValueChanger = new TaxValueChanger();
+        private readonly EntityValueChanger _entityValueChanger;
+        private readonly PreCalculationValueChanger _preCalculationValueChanger;
+        private readonly PostCalculationValueChanger _postCalculationValueChanger;
+        private readonly PaymentValueChanger _paymentValueChanger;
+        private readonly ChangePaymentValueChanger _changePaymentValueChanger;
+        private readonly OrderValueChanger _orderValueChanger;
+        private readonly TaxValueChanger _taxValueChanger;
+
+        [ImportingConstructor]
+        public TicketValueChanger(EntityValueChanger entityValueChanger, PreCalculationValueChanger preCalculationValueChanger, PostCalculationValueChanger postCalculationValueChanger,
+            PaymentValueChanger paymentValueChanger, ChangePaymentValueChanger changePaymentValueChanger, OrderValueChanger orderValueChanger, TaxValueChanger taxValueChanger)
+        {
+            _entityValueChanger = entityValueChanger;
+            _preCalculationValueChanger = preCalculationValueChanger;
+            _postCalculationValueChanger = postCalculationValueChanger;
+            _paymentValueChanger = paymentValueChanger;
+            _changePaymentValueChanger = changePaymentValueChanger;
+            _orderValueChanger = orderValueChanger;
+            _taxValueChanger = taxValueChanger;
+        }
 
         public override string GetTargetTag()
         {
@@ -22,13 +37,13 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         protected override string ReplaceTemplateValues(string templatePart, Ticket model, PrinterTemplate template)
         {
-            var result = PreCalculationValueChanger.Replace(template, templatePart, model.Calculations.Where(x => !x.IncludeTax));
-            result = PostCalculationValueChanger.Replace(template, result, model.Calculations.Where(x => x.IncludeTax));
-            result = PaymentValueChanger.Replace(template, result, model.Payments);
-            result = ChangePaymentValueChanger.Replace(template, result, model.ChangePayments);
-            result = ResourceValueChanger.Replace(template, result, model.TicketEntities);
-            result = TaxValueChanger.Replace(template, result, GetTaxValues(model));
-            result = OrderValueChanger.Replace(template, result, model.Orders);
+            var result = _preCalculationValueChanger.Replace(template, templatePart, model.Calculations.Where(x => !x.IncludeTax));
+            result = _postCalculationValueChanger.Replace(template, result, model.Calculations.Where(x => x.IncludeTax));
+            result = _paymentValueChanger.Replace(template, result, model.Payments);
+            result = _changePaymentValueChanger.Replace(template, result, model.ChangePayments);
+            result = _entityValueChanger.Replace(template, result, model.TicketEntities);
+            result = _taxValueChanger.Replace(template, result, GetTaxValues(model));
+            result = _orderValueChanger.Replace(template, result, model.Orders);
             return result;
 
         }

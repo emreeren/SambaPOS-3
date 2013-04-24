@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Menus;
 using Samba.Persistance;
+using Samba.Persistance.Common;
 
 namespace Samba.Services
 {

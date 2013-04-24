@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 
 namespace Samba.Services.Implementations.DepartmentModule
 {

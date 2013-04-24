@@ -116,7 +116,7 @@ namespace Samba.Presentation.Controls.Interaction
             automationService.RegisterActionType("ShowMessage", Resources.ShowMessage, new { Message = "" });
             automationService.RegisterActionType("DisplayPopup", Resources.DisplayPopup, new { Title = "", Message = "", Color = "" });
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<IActionData>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
             {
                 if (x.Value.Action.ActionType == "ShowMessage")
                 {

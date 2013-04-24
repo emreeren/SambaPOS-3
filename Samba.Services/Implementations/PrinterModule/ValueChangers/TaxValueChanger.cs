@@ -1,6 +1,8 @@
-﻿namespace Samba.Services.Implementations.PrinterModule.ValueChangers
+﻿using System.ComponentModel.Composition;
+
+namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
-    class TaxValue
+    public class TaxValue
     {
         public bool TaxIncluded { get; set; }
         public string Name { get; set; }
@@ -13,7 +15,8 @@
 
     }
 
-    class TaxValueChanger : AbstractValueChanger<TaxValue>
+    [Export]
+    public class TaxValueChanger : AbstractValueChanger<TaxValue>
     {
         public override string GetTargetTag()
         {

@@ -7,6 +7,7 @@ using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Persistance;
+using Samba.Persistance.Common;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services.Common;
 

@@ -15,11 +15,11 @@ namespace Samba.Modules.AutomationModule
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            var pv = item as IParameterValue;
+            var pv = item as ParameterValue;
             if (pv != null)
             {
                 if (pv.Name.Contains("Password")) return PasswordTemplate;
-                if (pv.Values.Count() > 0) return ValueTemplate;
+                if (pv.Values.Any()) return ValueTemplate;
             }
             return TextTemplate;
         }

@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Net;
 using System.Web.Http;
 using Samba.Domain.Models.Entities;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 
 namespace Samba.ApiServer.Controllers
 {

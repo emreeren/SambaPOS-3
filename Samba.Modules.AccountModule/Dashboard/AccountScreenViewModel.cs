@@ -7,7 +7,7 @@ using Omu.ValueInjecter;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;

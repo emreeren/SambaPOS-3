@@ -5,7 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 

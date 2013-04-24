@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 

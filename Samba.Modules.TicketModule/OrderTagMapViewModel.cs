@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance;
+using Samba.Persistance.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 

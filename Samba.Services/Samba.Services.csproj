@@ -73,12 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AutomationCommandData.cs" />
-    <Compile Include="Common\IActionData.cs" />
-    <Compile Include="Common\IParameterValue.cs" />
     <Compile Include="Common\IPrinterProcessor.cs" />
     <Compile Include="Common\IProgramSetting.cs" />
     <Compile Include="Common\IProgramSettings.cs" />
-    <Compile Include="Common\IRuleConstraint.cs" />
     <Compile Include="Common\OrderTagData.cs" />
     <Compile Include="Common\RuleActionType.cs" />
     <Compile Include="Common\RuleEvent.cs" />
@@ -95,19 +92,18 @@
     <Compile Include="ILogService.cs" />
     <Compile Include="IMenuService.cs" />
     <Compile Include="Implementations\AccountModule\AccountService.cs" />
-    <Compile Include="Implementations\AutomationModule\ActionData.cs" />
+    <Compile Include="Common\ActionData.cs" />
     <Compile Include="Implementations\AutomationModule\AutomationService.cs" />
     <Compile Include="Implementations\AutomationModule\NotificationService.cs" />
     <Compile Include="Implementations\AutomationModule\OperatorConstants.cs" />
-    <Compile Include="Implementations\AutomationModule\ParameterSources.cs" />
-    <Compile Include="Implementations\AutomationModule\ParameterValue.cs" />
-    <Compile Include="Implementations\AutomationModule\RuleActionTypeRegistry.cs" />
-    <Compile Include="Implementations\AutomationModule\RuleConstraint.cs" />
+    <Compile Include="Common\ParameterSources.cs" />
+    <Compile Include="Common\ParameterValue.cs" />
+    <Compile Include="Common\RuleActionTypeRegistry.cs" />
+    <Compile Include="Common\RuleConstraint.cs" />
     <Compile Include="Implementations\CacheService.cs" />
     <Compile Include="Implementations\DepartmentModule\DepartmentService.cs" />
     <Compile Include="Implementations\EMailService.cs" />
     <Compile Include="Implementations\EntityModule\EntityService.cs" />
-    <Compile Include="Implementations\ExpressionModule\Accessors\LocatorAccessor.cs" />
     <Compile Include="Implementations\ExpressionModule\Accessors\OrderAccessor.cs" />
     <Compile Include="Implementations\ExpressionModule\Accessors\TicketAccessor.cs" />
     <Compile Include="Implementations\ExpressionModule\ExpressionEngine.cs" />

@@ -10,7 +10,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Persistance;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance.Common;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 using Samba.Services.Common;

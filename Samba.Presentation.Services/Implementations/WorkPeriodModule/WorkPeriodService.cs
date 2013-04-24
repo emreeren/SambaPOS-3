@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Samba.Domain.Models.Settings;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 
 namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
 {

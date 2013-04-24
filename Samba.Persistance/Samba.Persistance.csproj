@@ -54,41 +54,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BalanceValue.cs" />
-    <Compile Include="DaoClasses\IAccountDao.cs" />
-    <Compile Include="DaoClasses\IAutomationDao.cs" />
-    <Compile Include="DaoClasses\ICacheDao.cs" />
-    <Compile Include="DaoClasses\IInventoryDao.cs" />
-    <Compile Include="DaoClasses\IMenuDao.cs" />
-    <Compile Include="DaoClasses\Implementations\AccountDao.cs" />
-    <Compile Include="DaoClasses\Implementations\AutomationDao.cs" />
-    <Compile Include="DaoClasses\Implementations\CacheDao.cs" />
-    <Compile Include="DaoClasses\Implementations\MenuDao.cs" />
-    <Compile Include="DaoClasses\Implementations\PriceListDao.cs" />
-    <Compile Include="DaoClasses\Implementations\PrinterDao.cs" />
-    <Compile Include="DaoClasses\Implementations\EntityDao.cs" />
-    <Compile Include="DaoClasses\Implementations\SettingDao.cs" />
-    <Compile Include="DaoClasses\Implementations\TaskDao.cs" />
-    <Compile Include="DaoClasses\Implementations\TicketDao.cs" />
-    <Compile Include="DaoClasses\Implementations\InventoryDao.cs" />
-    <Compile Include="DaoClasses\Implementations\UserDao.cs" />
-    <Compile Include="DaoClasses\Implementations\WorkPeriodDao.cs" />
-    <Compile Include="DaoClasses\IPriceListDao.cs" />
-    <Compile Include="DaoClasses\IPrinterDao.cs" />
-    <Compile Include="DaoClasses\IEntityDao.cs" />
-    <Compile Include="DaoClasses\ISettingDao.cs" />
-    <Compile Include="DaoClasses\ITaskDao.cs" />
-    <Compile Include="DaoClasses\ITicketDao.cs" />
-    <Compile Include="DaoClasses\IUserDao.cs" />
-    <Compile Include="DaoClasses\IWorkPeriodDao.cs" />
+    <Compile Include="Common\BalanceValue.cs" />
+    <Compile Include="IAccountDao.cs" />
+    <Compile Include="IAutomationDao.cs" />
+    <Compile Include="ICacheDao.cs" />
+    <Compile Include="IInventoryDao.cs" />
+    <Compile Include="IMenuDao.cs" />
+    <Compile Include="Implementations\AccountDao.cs" />
+    <Compile Include="Implementations\AutomationDao.cs" />
+    <Compile Include="Implementations\CacheDao.cs" />
+    <Compile Include="Implementations\MenuDao.cs" />
+    <Compile Include="Implementations\PriceListDao.cs" />
+    <Compile Include="Implementations\PrinterDao.cs" />
+    <Compile Include="Implementations\EntityDao.cs" />
+    <Compile Include="Implementations\SettingDao.cs" />
+    <Compile Include="Implementations\TaskDao.cs" />
+    <Compile Include="Implementations\TicketDao.cs" />
+    <Compile Include="Implementations\InventoryDao.cs" />
+    <Compile Include="Implementations\UserDao.cs" />
+    <Compile Include="Implementations\WorkPeriodDao.cs" />
+    <Compile Include="IPriceListDao.cs" />
+    <Compile Include="IPrinterDao.cs" />
+    <Compile Include="IEntityDao.cs" />
+    <Compile Include="ISettingDao.cs" />
+    <Compile Include="ITaskDao.cs" />
+    <Compile Include="ITicketDao.cs" />
+    <Compile Include="IUserDao.cs" />
+    <Compile Include="IWorkPeriodDao.cs" />
     <Compile Include="Data\CachedDao.cs" />
     <Compile Include="Data\Dao.cs" />
     <Compile Include="Data\DataContext.cs" />
     <Compile Include="Data\WorkspaceFactory.cs" />
-    <Compile Include="ITicketExplorerFilter.cs" />
-    <Compile Include="MenuItemData.cs" />
-    <Compile Include="OpenTicketData.cs" />
-    <Compile Include="PriceData.cs" />
+    <Compile Include="Common\ITicketExplorerFilter.cs" />
+    <Compile Include="Common\MenuItemData.cs" />
+    <Compile Include="Common\OpenTicketData.cs" />
+    <Compile Include="Common\PriceData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specification\AndSpecification.cs" />
     <Compile Include="Specification\CompositeSpecification.cs" />
@@ -103,7 +103,7 @@
     <Compile Include="Specification\Specification.cs" />
     <Compile Include="Specification\SpecificationDaoExtentions.cs" />
     <Compile Include="Specification\TrueSpecification.cs" />
-    <Compile Include="TicketCommitResult.cs" />
+    <Compile Include="Common\TicketCommitResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
@@ -123,6 +123,7 @@
       <Name>Samba.Localization</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End

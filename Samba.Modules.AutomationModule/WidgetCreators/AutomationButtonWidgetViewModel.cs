@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;

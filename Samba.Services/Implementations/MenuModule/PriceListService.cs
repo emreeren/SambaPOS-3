@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Menus;
 using Samba.Persistance;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance.Common;
 
 namespace Samba.Services.Implementations.MenuModule
 {

@@ -1,8 +1,10 @@
-﻿using Samba.Domain.Models.Tickets;
+﻿using System.ComponentModel.Composition;
+using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
-    class PaymentValueChanger : AbstractValueChanger<Payment>
+    [Export]
+    public class PaymentValueChanger : AbstractValueChanger<Payment>
     {
         public override string GetTargetTag()
         {

@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Localization.Properties;
 using Samba.Persistance;
+using Samba.Persistance.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;

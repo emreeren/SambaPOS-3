@@ -1,7 +1,9 @@
-﻿using Samba.Domain.Models.Tickets;
+﻿using System.ComponentModel.Composition;
+using Samba.Domain.Models.Tickets;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
+    [Export]
     public class OrderTagValueChanger : AbstractValueChanger<OrderTagValue>
     {
         public override string GetTargetTag()

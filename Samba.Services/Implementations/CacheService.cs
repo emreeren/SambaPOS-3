@@ -10,7 +10,7 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
-using Samba.Persistance.DaoClasses;
+using Samba.Persistance;
 using Samba.Persistance.Data;
 using Samba.Services.Common;
 

@@ -8,6 +8,6 @@ namespace Samba.Services
 {
     public interface INotificationService
     {
-        void NotifyEvent(string eventName, object dataObject, int terminalId, int departmentId, int userRoleId, Action<IActionData> dataAction);
+        void NotifyEvent(string eventName, object dataObject, int terminalId, int departmentId, int userRoleId, Action<ActionData> dataAction);
     }
 }

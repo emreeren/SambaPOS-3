@@ -17,7 +17,7 @@ namespace Samba.Services.Implementations.AutomationModule
             _ruleActionTypeRegistry = new RuleActionTypeRegistry();
         }
 
-        public IEnumerable<IRuleConstraint> CreateRuleConstraints(string eventConstraints)
+        public IEnumerable<RuleConstraint> CreateRuleConstraints(string eventConstraints)
         {
             return eventConstraints.Split('#')
                 .Select(x => new RuleConstraint(x));
@@ -33,7 +33,7 @@ namespace Samba.Services.Implementations.AutomationModule
             _ruleActionTypeRegistry.RegisterEvent(eventKey, eventName, constraintObject);
         }
 
-        public IEnumerable<IRuleConstraint> GetEventConstraints(string eventName)
+        public IEnumerable<RuleConstraint> GetEventConstraints(string eventName)
         {
             return _ruleActionTypeRegistry.GetEventConstraints(eventName);
         }
@@ -58,11 +58,11 @@ namespace Samba.Services.Implementations.AutomationModule
             return _ruleActionTypeRegistry.ActionTypes.Values;
         }
 
-        public IEnumerable<IParameterValue> CreateParameterValues(RuleActionType actionType)
+        public IEnumerable<ParameterValue> CreateParameterValues(RuleActionType actionType)
         {
             if (actionType.ParameterObject != null)
                 return actionType.ParameterObject.GetType().GetProperties().Select(x => new ParameterValue(x));
-            return new List<IParameterValue>();
+            return new List<ParameterValue>();
         }
 
         public void RegisterParameterSoruce(string parameterName, Func<IEnumerable<string>> action)
