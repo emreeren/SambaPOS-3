@@ -8148,6 +8148,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Window Scale.
+        /// </summary>
+        public static string WindowScale {
+            get {
+                return ResourceManager.GetString("WindowScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows Printer.
         /// </summary>
         public static string WindowsPrinter {

@@ -3110,4 +3110,7 @@ Error Message:
   <data name="CanDisplayOtherWaitersTickets">
     <value xml:space="preserve">Can Display Other Waiters Tickets</value>
   </data>
+  <data name="WindowScale">
+    <value xml:space="preserve">Window Scale</value>
+  </data>
 </root>

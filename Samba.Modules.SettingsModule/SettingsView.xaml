@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <ScrollViewer UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
         <Grid>
             <StackPanel>
@@ -14,23 +14,29 @@
                 <GroupBox HorizontalAlignment="Left" Margin="3" Header="{LocText ProgramLanguage}">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
-                            <Label Content="{LocText UiLanguage,Suffix=':'}"/>                            
+                            <Label Content="{LocText UiLanguage,Suffix=':'}"/>
                             <ComboBox HorizontalAlignment="Left" Width="100" SelectedValue="{Binding Language}"
                                       DisplayMemberPath="NativeName" SelectedValuePath="Name" ItemsSource="{Binding SupportedLanguages}" />
                         </StackPanel>
                         <CheckBox Margin="0" IsEnabled="{Binding OverrideLanguage}" IsChecked="{Binding OverrideWindowsRegionalSettings}"
-                                  Content="{LocText OverrideWindowsRegionalSettings}"/>                        
+                                  Content="{LocText OverrideWindowsRegionalSettings}"/>
                     </StackPanel>
                 </GroupBox>
-                <Label Content="{LocText DataConnection,Suffix=':'}"/>                
+                <Label Content="{LocText DataConnection,Suffix=':'}"/>
                 <TextBox HorizontalAlignment="Left" MinWidth="300" Text="{Binding ConnectionString}" />
                 <Label Content="{LocText MessageServerName,Suffix=':'}"/>
                 <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding MessagingServerName}" />
-                <Label Content="{LocText MessageServerPort,Suffix=':'}"/>                
+                <Label Content="{LocText MessageServerPort,Suffix=':'}"/>
                 <TextBox HorizontalAlignment="Left" MinWidth="100" Text="{Binding MessagingServerPort}" />
                 <CheckBox Margin="0,5" IsChecked="{Binding StartMessagingClient}" Content="{LocText AutoStartMessageClient}" />
                 <Button HorizontalAlignment="Left" Margin="0,10" Content="{Binding StartMessagingServerCommand.Caption}"
                      Command="{Binding StartMessagingServerCommand}" />
+                <Label Content="{LocText WindowScale,Suffix=':'}" />
+                <StackPanel Orientation="Horizontal">
+                    <UIControls:FilteredTextBox Type="Number" HorizontalAlignment="Left" MinWidth="50" Text="{Binding WindowScale}"/>
+                    <Label Content="%"/>
+                </StackPanel>
+
                 <StackPanel Orientation="Horizontal">
                     <Button HorizontalAlignment="Left" Margin="0,10,20,10" MinWidth="70" Content="{Binding SaveSettingsCommand.Caption}"
                      Command="{Binding SaveSettingsCommand}" />

@@ -132,6 +132,7 @@
         public const string DisplayInventory = "DisplayInventory";
         public const string TicketTypeChanged = "TicketTypeChanged";
         public const string TicketTypeSelected = "TicketTypeSelected";
+        public const string LocalSettingsChanged = "LocalSettingsChanged";
     }
 
     public static class FunctionNames

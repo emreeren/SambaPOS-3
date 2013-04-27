@@ -52,6 +52,7 @@ namespace Samba.Modules.SettingsModule
         private void OnSaveSettings(string obj)
         {
             LocalSettings.SaveSettings();
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.LocalSettingsChanged);
             ((VisibleViewModelBase)this).PublishEvent(EventTopicNames.ViewClosed);
         }
 
@@ -88,6 +89,12 @@ namespace Samba.Modules.SettingsModule
         {
             get { return LocalSettings.StartMessagingClient; }
             set { LocalSettings.StartMessagingClient = value; }
+        }
+
+        public string WindowScale
+        {
+            get { return LocalSettings.WindowScale.Equals(0) ? "100" : (LocalSettings.WindowScale * 100).ToString(CultureInfo.CurrentCulture); }
+            set { LocalSettings.WindowScale = Convert.ToDouble(value) / 100; }
         }
 
         public string Language

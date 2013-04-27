@@ -10,6 +10,7 @@ using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
 using Samba.Presentation.Common;
@@ -63,6 +64,18 @@ namespace Samba.Presentation
 
                 });
 
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
+                x =>
+                {
+                    if (x.Topic == EventTopicNames.LocalSettingsChanged)
+                    {
+                        if (LocalSettings.WindowScale > 0)
+                        {
+                            (MainGrid.LayoutTransform as ScaleTransform).ScaleX = LocalSettings.WindowScale;
+                            (MainGrid.LayoutTransform as ScaleTransform).ScaleY = LocalSettings.WindowScale;
+                        }
+                    }
+                });
 
 
             UserRegion.Visibility = Visibility.Collapsed;
@@ -70,10 +83,10 @@ namespace Samba.Presentation
             Height = Properties.Settings.Default.ShellHeight;
             Width = Properties.Settings.Default.ShellWidth;
 
-            if (Properties.Settings.Default.WindowScale > 0)
+            if (LocalSettings.WindowScale > 0)
             {
-                (MainGrid.LayoutTransform as ScaleTransform).ScaleX = Properties.Settings.Default.WindowScale;
-                (MainGrid.LayoutTransform as ScaleTransform).ScaleY = Properties.Settings.Default.WindowScale;
+                (MainGrid.LayoutTransform as ScaleTransform).ScaleX = LocalSettings.WindowScale;
+                (MainGrid.LayoutTransform as ScaleTransform).ScaleY = LocalSettings.WindowScale;
             }
 
             _timer = new DispatcherTimer();
@@ -126,8 +139,11 @@ namespace Samba.Presentation
                 Properties.Settings.Default.ShellWidth = Width;
             }
 
-            Properties.Settings.Default.WindowScale = (MainGrid.LayoutTransform as ScaleTransform).ScaleX;
+
             Properties.Settings.Default.Save();
+
+            LocalSettings.WindowScale = (MainGrid.LayoutTransform as ScaleTransform).ScaleX;
+            LocalSettings.SaveSettings();
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)

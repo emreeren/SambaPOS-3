@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using Fluentscript.Lib.AST;
 using Samba.Infrastructure.Data;
 using Samba.Persistance;
-using Samba.Services.Implementations.ExpressionModule.Accessors;
 
 namespace Samba.Services.Implementations.ExpressionModule
 {
@@ -18,7 +17,6 @@ namespace Samba.Services.Implementations.ExpressionModule
         public ExpressionService(IAutomationDao automationDao)
         {
             _automationDao = automationDao;
-
             ExpressionEngine.RegisterFunction("Call", CallFunction);
         }
 

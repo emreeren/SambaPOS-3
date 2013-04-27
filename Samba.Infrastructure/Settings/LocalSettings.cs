@@ -23,6 +23,7 @@ namespace Samba.Infrastructure.Settings
         public bool OverrideLanguage { get; set; }
         public bool OverrideWindowsRegionalSettings { get; set; }
         public int DefaultRecordLimit { get; set; }
+        public double WindowScale { get; set; }
 
         private readonly SerializableDictionary<string, string> _customSettings;
         public SerializableDictionary<string, string> CustomSettings
@@ -132,6 +133,12 @@ html
         {
             get { return _settingsObject.DefaultRecordLimit; }
             set { _settingsObject.DefaultRecordLimit = value; }
+        }
+
+        public static double WindowScale
+        {
+            get { return _settingsObject.WindowScale; }
+            set { _settingsObject.WindowScale = value; }
         }
 
         public static string AppPath { get; set; }
