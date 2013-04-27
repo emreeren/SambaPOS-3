@@ -29,6 +29,7 @@ namespace Samba.Presentation.Controls.Interaction
         {
             Properties.Settings.Default.LSHeight = Height;
             Properties.Settings.Default.LSWidth = Width;
+            Properties.Settings.Default.Save();
         }
     }
 }

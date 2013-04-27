@@ -5,7 +5,11 @@
      mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls" Closing="Window_Closing">
-    <Grid>
+
+    <Grid Name="MainGrid">
+        <Grid.LayoutTransform>
+            <ScaleTransform/>
+        </Grid.LayoutTransform>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -19,7 +23,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Label Name="DescriptionLabel" Grid.ColumnSpan="3" />
-        <Label Grid.Row="1" Grid.Column="0" Name="ValuesLabel" Content="{LocText List,Suffix=':'}"/>        
+        <Label Grid.Row="1" Grid.Column="0" Name="ValuesLabel" Content="{LocText List,Suffix=':'}"/>
         <ListBox Margin="3" Grid.Row="2" Grid.Column="0" Name="ValuesListBox" DisplayMemberPath="UserString"
              MouseDoubleClick="ValuesListBox_MouseDoubleClick" SelectionMode="Extended">
             <ListBox.ContextMenu>
@@ -32,7 +36,7 @@
         </ListBox>
         <UIControls:SearchTextBox Grid.Row="3" Margin="3" x:Name="SearchTextBox" Search="SearchTextBox_Search"
              KeyDown="SearchTextBox_KeyDown" LabelText="{LocText Search}"/>
-        <Label Grid.Row="1" Grid.Column="2" Name="SelectedValuesLabel" Content="{LocText Selected,Suffix=':'}"/>        
+        <Label Grid.Row="1" Grid.Column="2" Name="SelectedValuesLabel" Content="{LocText Selected,Suffix=':'}"/>
         <ListBox Margin="3" Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Name="SelectedValuesListBox"
              DisplayMemberPath="UserString" dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True"
              MouseDoubleClick="SelectedValuesListBox_MouseDoubleClick" SelectionMode="Extended" />
@@ -42,8 +46,8 @@
         </StackPanel>
         <StackPanel Grid.Row="4" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right"
              Margin="3">
-            <Button Margin="3" Width="70" Click="Button_Click" Content="{LocText OK}"/>            
-            <Button Margin="3" Width="70" Click="Button_Click_1" Content="{LocText Cancel}"/>            
+            <Button Margin="3" Width="70" Click="Button_Click" Content="{LocText OK}"/>
+            <Button Margin="3" Width="70" Click="Button_Click_1" Content="{LocText Cancel}"/>
         </StackPanel>
     </Grid>
 </Window>

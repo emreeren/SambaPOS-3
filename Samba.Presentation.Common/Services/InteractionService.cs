@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Windows;
 
 namespace Samba.Presentation.Common.Services
 {
@@ -48,6 +49,11 @@ namespace Samba.Presentation.Common.Services
         public static void ToggleKeyboard()
         {
             UserIntraction.ToggleKeyboard();
+        }
+
+        public static void Scale(FrameworkElement control)
+        {
+            UserIntraction.Scale(control);
         }
     }
 }

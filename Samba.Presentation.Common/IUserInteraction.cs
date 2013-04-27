@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Presentation.Common
@@ -25,5 +26,6 @@ namespace Samba.Presentation.Common
         void ToggleKeyboard();
         void ToggleSplashScreen();
         void DisplayPopup(string title, string content, object dataObject, string eventMessage, string headerColor = "DarkRed");
+        void Scale(FrameworkElement control);
     }
 }

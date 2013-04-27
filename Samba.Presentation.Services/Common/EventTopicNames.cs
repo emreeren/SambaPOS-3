@@ -133,6 +133,8 @@
         public const string TicketTypeChanged = "TicketTypeChanged";
         public const string TicketTypeSelected = "TicketTypeSelected";
         public const string LocalSettingsChanged = "LocalSettingsChanged";
+        public const string EnableLandscape = "EnableLandscape";
+        public const string DisableLandscape = "DisableLandscape";
     }
 
     public static class FunctionNames

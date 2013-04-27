@@ -5,7 +5,10 @@
     xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
      Title="ListSorterForm" Height="325" Width="300" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen"
      Closing="Window_Closing">
-    <Grid>
+    <Grid Name="MainGrid">
+        <Grid.LayoutTransform>
+            <ScaleTransform/>
+        </Grid.LayoutTransform>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />

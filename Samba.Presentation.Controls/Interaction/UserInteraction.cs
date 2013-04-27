@@ -7,6 +7,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Media;
 using PropertyTools.DataAnnotations;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
@@ -198,6 +199,8 @@ namespace Samba.Presentation.Controls.Interaction
                                ValuesLabel = { Content = string.Format(Resources.List_f, singularName) },
                                SelectedValuesLabel = { Content = string.Format(Resources.Selected_f, pluralName) }
                            };
+            Scale(form.MainGrid);
+
             form.ShowDialog();
 
             ReorderItems(form.SelectedValues);
@@ -229,7 +232,7 @@ namespace Samba.Presentation.Controls.Interaction
                                Title = caption,
                                DescriptionLabel = { Text = description }
                            };
-
+            Scale(form.MainGrid);
             form.ShowDialog();
 
             if (form.DialogResult != null && form.DialogResult.Value)
@@ -287,6 +290,15 @@ namespace Samba.Presentation.Controls.Interaction
             _popupDataViewModel.Add(title, content, dataObject, eventMessage, headerColor);
             PopupWindow.Show();
             _methodQueue.Queue("DisplayPopups", DisplayPopups);
+        }
+
+        public void Scale(FrameworkElement control)
+        {
+            if (LocalSettings.WindowScale > 0)
+            {
+                (control.LayoutTransform as ScaleTransform).ScaleX = LocalSettings.WindowScale;
+                (control.LayoutTransform as ScaleTransform).ScaleY = LocalSettings.WindowScale;
+            }
         }
 
         public void DisplayPopups()

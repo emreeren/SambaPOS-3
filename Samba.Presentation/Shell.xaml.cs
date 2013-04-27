@@ -14,6 +14,7 @@ using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services.Common;
@@ -43,6 +44,8 @@ namespace Samba.Presentation
                                   new FrameworkPropertyMetadata(
                                       XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
+            Application.Current.MainWindow.SizeChanged += MainWindow_SizeChanged;
+
             var selectedIndexChange = DependencyPropertyDescriptor.FromProperty(Selector.SelectedIndexProperty, typeof(TabControl));
 
             selectedIndexChange.AddValueChanged(MainTabControl, MainTabControlSelectedIndexChanged);
@@ -69,13 +72,10 @@ namespace Samba.Presentation
                 {
                     if (x.Topic == EventTopicNames.LocalSettingsChanged)
                     {
-                        if (LocalSettings.WindowScale > 0)
-                        {
-                            (MainGrid.LayoutTransform as ScaleTransform).ScaleX = LocalSettings.WindowScale;
-                            (MainGrid.LayoutTransform as ScaleTransform).ScaleY = LocalSettings.WindowScale;
-                        }
+                        InteractionService.Scale(MainGrid);
                     }
                 });
+
 
 
             UserRegion.Visibility = Visibility.Collapsed;
@@ -83,11 +83,7 @@ namespace Samba.Presentation
             Height = Properties.Settings.Default.ShellHeight;
             Width = Properties.Settings.Default.ShellWidth;
 
-            if (LocalSettings.WindowScale > 0)
-            {
-                (MainGrid.LayoutTransform as ScaleTransform).ScaleX = LocalSettings.WindowScale;
-                (MainGrid.LayoutTransform as ScaleTransform).ScaleY = LocalSettings.WindowScale;
-            }
+
 
             _timer = new DispatcherTimer();
             _timer.Tick += TimerTick;
@@ -97,6 +93,11 @@ namespace Samba.Presentation
             WindowStyle = WindowStyle.None;
             WindowState = WindowState.Maximized;
 #endif
+        }
+
+        void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _applicationState.IsLandscape = e.NewSize.Height < e.NewSize.Width;
         }
 
         void TimerTick(object sender, EventArgs e)
@@ -122,8 +123,6 @@ namespace Samba.Presentation
             UserRegion.Visibility = Visibility.Collapsed;
             RightUserRegion.Visibility = Visibility.Collapsed;
         }
-
-
 
         private void WindowClosing(object sender, CancelEventArgs e)
         {
@@ -156,6 +155,8 @@ namespace Samba.Presentation
 
             var source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             if (source != null) source.AddHook(WndProc);
+
+            InteractionService.Scale(MainGrid);
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

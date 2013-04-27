@@ -152,6 +152,7 @@ namespace Samba.Presentation.Controls.Interaction
         {
             Properties.Settings.Default.VCHeight = Height;
             Properties.Settings.Default.VCWidth = Width;
+            Properties.Settings.Default.Save();
         }
     }
 }

@@ -9,36 +9,57 @@
              FocusVisualStyle="{x:Null}"
              Focusable="True"
              PreviewTextInput="UserControl_PreviewTextInput" Loaded="UserControl_Loaded">
-    <Grid Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="45*"/>
-            <ColumnDefinition Width="55*"/>
-        </Grid.ColumnDefinitions>
+    <TabControl Name="LayoutTabControl" Background="Transparent"
+                    Grid.Column="0" BorderThickness="0"
+                    Margin="0" Padding="0">
+        <TabControl.ItemContainerStyle>
+            <Style TargetType="{x:Type TabItem}">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </Style>
+        </TabControl.ItemContainerStyle>
 
-        <TabControl cal:RegionManager.RegionName="{x:Static Common:RegionNames.PosMainRegion}" 
+        <Grid Name="Grid1" Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45*"/>
+                <ColumnDefinition Width="55*"/>
+            </Grid.ColumnDefinitions>
+
+            <TabControl cal:RegionManager.RegionName="{x:Static Common:RegionNames.PosMainRegion}" 
                     Background="Transparent"
                     Grid.Column="0" BorderThickness="0"
                     Margin="0" Padding="0"
                     FocusVisualStyle="{x:Null}"
                     Name="TicketRegion">
-            <TabControl.ItemContainerStyle>
-                <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </Style>
-            </TabControl.ItemContainerStyle>
-        </TabControl>
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Style>
+                </TabControl.ItemContainerStyle>
+            </TabControl>
 
-        <TabControl cal:RegionManager.RegionName="{x:Static Common:RegionNames.PosSubRegion}"                        
+            <TabControl cal:RegionManager.RegionName="{x:Static Common:RegionNames.PosSubRegion}"                        
                     Grid.Column="1"
                     FocusVisualStyle="{x:Null}"
                     Background="Transparent"
                     BorderThickness="0"
-                    Margin="0" Padding="0">
-            <TabControl.ItemContainerStyle>
-                <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </Style>
-            </TabControl.ItemContainerStyle>
-        </TabControl>
-    </Grid>
+                    Margin="0" Padding="0"
+                    Name="MenuRegion">
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Style>
+                </TabControl.ItemContainerStyle>
+            </TabControl>
+        </Grid>
+        <TabControl Name="Grid2"/>
+        
+        <!--<Grid Name="Grid2" Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>-->
+    </TabControl>
+
+
 </UserControl>

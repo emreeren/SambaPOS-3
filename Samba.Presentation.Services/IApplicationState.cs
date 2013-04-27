@@ -38,6 +38,7 @@ namespace Samba.Presentation.Services
         bool IsCurrentWorkPeriodOpen { get; }
         bool IsLocked { get; }
         Terminal CurrentTerminal { get; }
+        bool IsLandscape { get; set; }
 
         ProductTimer GetProductTimer(int menuItemId);
         IEnumerable<OrderTagGroup> GetOrderTagGroups(params int[] menuItemIds);

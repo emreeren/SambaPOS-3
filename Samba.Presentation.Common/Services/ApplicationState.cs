@@ -43,6 +43,7 @@ namespace Samba.Presentation.Common.Services
             _notificationService = notificationService;
             SetCurrentDepartment(Department.Default);
             CurrentTicketType = TicketType.Default;
+            _isLandscape = true;
         }
 
         public Dispatcher MainDispatcher { get; set; }
@@ -61,6 +62,22 @@ namespace Samba.Presentation.Common.Services
 
         private Terminal _terminal;
         public Terminal CurrentTerminal { get { return _terminal ?? (_terminal = GetCurrentTerminal()); } set { _terminal = value; } }
+
+        private bool _isLandscape;
+        public bool IsLandscape
+        {
+            get { return _isLandscape; }
+            set
+            {
+                if (_isLandscape != value)
+                {
+                    _isLandscape = value;
+                    EventServiceFactory.EventService.PublishEvent(IsLandscape
+                                                                      ? EventTopicNames.EnableLandscape
+                                                                      : EventTopicNames.DisableLandscape);
+                }
+            }
+        }
 
         private User _currentLoggedInUser;
         public User CurrentLoggedInUser
