@@ -151,22 +151,22 @@ namespace Samba.Modules.AccountModule
 
         private void ActivateBatchDocumentCreator()
         {
-            _regionManager.Regions[RegionNames.MainRegion].Activate(_batchDocumentCreatorView);
+            _regionManager.ActivateRegion(RegionNames.MainRegion, _batchDocumentCreatorView);
         }
 
         private void ActivateDocumentCreator()
         {
-            _regionManager.Regions[RegionNames.MainRegion].Activate(_documentCreatorView);
+            _regionManager.ActivateRegion(RegionNames.MainRegion, _documentCreatorView);
         }
 
         private void ActivateAccountTransactions()
         {
-            _regionManager.Regions[RegionNames.MainRegion].Activate(_accountDetailsView);
+            _regionManager.ActivateRegion(RegionNames.MainRegion, _accountDetailsView);
         }
 
         private void ActivateAccountSelector()
         {
-            _regionManager.Regions[RegionNames.MainRegion].Activate(_accountSelectorView);
+            _regionManager.ActivateRegion(RegionNames.MainRegion, _accountSelectorView);
         }
 
         public override object GetVisibleView()

@@ -23,7 +23,7 @@ namespace Samba.Presentation.Common
         public void Activate()
         {
             _applicationStateSetter.SetCurrentApplicationScreen(_appScreen);
-            _regionManager.Regions[RegionNames.MainRegion].Activate(GetVisibleView());
+            _regionManager.ActivateRegion(RegionNames.MainRegion, GetVisibleView());
         }
 
         protected void SetNavigationCommand(string caption, string category, string image, int order = 0)

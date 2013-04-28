@@ -22,7 +22,7 @@ namespace Samba.Modules.EntityModule
 
         [ImportingConstructor]
         public EntityModule(IRegionManager regionManager,
-            IUserService userService,IApplicationStateSetter applicationStateSetter,
+            IUserService userService, IApplicationStateSetter applicationStateSetter,
             EntitySwitcherView entitySwitcherView,
             EntityEditorView entityEditorView)
         {
@@ -67,13 +67,13 @@ namespace Samba.Modules.EntityModule
         private void ActivateEntityEditor()
         {
             _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.EntityView);
-            _regionManager.Regions[RegionNames.EntityScreenRegion].Activate(_entityEditorView);
+            _regionManager.ActivateRegion(RegionNames.EntityScreenRegion, _entityEditorView);
         }
 
         private void ActivateEntitySwitcher()
         {
             _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.EntityView);
-            _regionManager.Regions[RegionNames.MainRegion].Activate(_entitySwitcherView);
+            _regionManager.ActivateRegion(RegionNames.MainRegion, _entitySwitcherView);
         }
     }
 }

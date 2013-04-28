@@ -79,7 +79,7 @@ namespace Samba.Modules.InventoryModule
 
         private void ActivateInventoryView()
         {
-            _regionManager.Regions[RegionNames.MainRegion].Activate(_warehouseInventoryView);
+            _regionManager.ActivateRegion(RegionNames.MainRegion, _warehouseInventoryView);
         }
 
         public override object GetVisibleView()

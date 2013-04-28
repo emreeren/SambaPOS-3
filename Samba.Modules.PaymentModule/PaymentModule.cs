@@ -3,10 +3,7 @@ using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
-using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
-using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.PaymentModule
 {
@@ -83,17 +80,17 @@ namespace Samba.Modules.PaymentModule
 
         public void ActivateReturningAmount()
         {
-            _regionManager.Regions[RegionNames.PaymentTenderedValueRegion].Activate(_returningAmountView);
+            _regionManager.ActivateRegion(RegionNames.PaymentTenderedValueRegion, _returningAmountView);
         }
 
         public void ActivateTenderedAmount()
         {
-            _regionManager.Regions[RegionNames.PaymentTenderedValueRegion].Activate(_tenderedValueView);
+            _regionManager.ActivateRegion(RegionNames.PaymentTenderedValueRegion, _tenderedValueView);
         }
 
         public void ActivateChangeTemplates()
         {
-            _regionManager.Regions[RegionNames.PaymentTenderedValueRegion].Activate(_changeTemplatesView);
+            _regionManager.ActivateRegion(RegionNames.PaymentTenderedValueRegion, _changeTemplatesView);
         }
     }
 }

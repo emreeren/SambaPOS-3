@@ -15,6 +15,8 @@ namespace Samba.Modules.PosModule
     public partial class PosView : UserControl
     {
         private bool _isLandscape;
+        private bool IsPortrait { get { return !_isLandscape; } }
+        private bool IsLandscape { get { return _isLandscape; } }
 
         [ImportingConstructor]
         public PosView(PosViewModel viewModel)
@@ -28,7 +30,7 @@ namespace Samba.Modules.PosModule
 
         private void OnRegionDataEvent(EventParameters<RegionData> obj)
         {
-            if (!_isLandscape && obj.Topic == EventTopicNames.RegionActivated && obj.Value.RegionName == RegionNames.PosSubRegion)
+            if (IsPortrait && obj.Topic == EventTopicNames.RegionActivated && obj.Value.RegionName == RegionNames.PosSubRegion)
             {
                 Grid2.SelectedIndex = 1;
             }
@@ -48,6 +50,9 @@ namespace Samba.Modules.PosModule
         {
             switch (obj.Topic)
             {
+                case EventTopicNames.ActivatePosView:
+                    if (IsPortrait) Grid2.SelectedIndex = 0;
+                    break;
                 case EventTopicNames.DisableLandscape:
                     DisableLandscapeMode();
                     break;

@@ -29,8 +29,8 @@ namespace Samba.Modules.EntityModule
         private EntityOperationRequest<Entity> _currentOperationRequest;
 
         [ImportingConstructor]
-        public EntitySwitcherViewModel(IRegionManager regionManager, 
-            IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,ICacheService cacheService,
+        public EntitySwitcherViewModel(IRegionManager regionManager,
+            IApplicationState applicationState, IApplicationStateSetter applicationStateSetter, ICacheService cacheService,
             EntitySelectorView entitySelectorView, EntitySelectorViewModel entitySelectorViewModel,
             EntitySearchView entitySearchView, EntitySearchViewModel entitySearchViewModel,
             EntityDashboardView entityDashboardView, EntityDashboardViewModel entityDashboardViewModel)
@@ -140,19 +140,19 @@ namespace Samba.Modules.EntityModule
         private void ActivateDashboard(EntityScreen entityScreen)
         {
             _entityDashboardViewModel.Refresh(entityScreen, _currentOperationRequest);
-            _regionManager.Regions[RegionNames.EntityScreenRegion].Activate(_entityDashboardView);
+            _regionManager.ActivateRegion(RegionNames.EntityScreenRegion, _entityDashboardView);
         }
 
         private void ActivateEntitySearcher(EntityScreen entityScreen)
         {
             _entitySearchViewModel.Refresh(entityScreen.EntityTypeId, entityScreen.StateFilter, _currentOperationRequest);
-            _regionManager.Regions[RegionNames.EntityScreenRegion].Activate(_entitySearchView);
+            _regionManager.ActivateRegion(RegionNames.EntityScreenRegion, _entitySearchView);
         }
 
         private void ActivateButtonSelector(EntityScreen entityScreen)
         {
             _entitySelectorViewModel.Refresh(entityScreen, entityScreen.StateFilter, _currentOperationRequest);
-            _regionManager.Regions[RegionNames.EntityScreenRegion].Activate(_entitySelectorView);
+            _regionManager.ActivateRegion(RegionNames.EntityScreenRegion, _entitySelectorView);
         }
     }
 }
