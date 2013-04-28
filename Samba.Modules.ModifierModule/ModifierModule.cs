@@ -60,7 +60,7 @@ namespace Samba.Modules.ModifierModule
 
         private void OnAutomationCommandEvent(EventParameters<AutomationCommand> obj)
         {
-            if(obj.Topic == EventTopicNames.SelectAutomationCommandValue)
+            if (obj.Topic == EventTopicNames.SelectAutomationCommandValue)
             {
                 DisplayAutomationCommandValueSelector();
             }
@@ -96,34 +96,34 @@ namespace Samba.Modules.ModifierModule
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketNoteEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketTagEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(ProductTimerEditorView));
-            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof (AutomationCommandSelectorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(AutomationCommandSelectorView));
         }
 
         public void DisplayTicketDetailsScreen()
         {
-            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_selectedOrdersView);
+            _regionManager.ActivateRegion(RegionNames.PosSubRegion, _selectedOrdersView);
             _ticketNoteEditorView.TicketNote.BackgroundFocus();
         }
 
         public void DisplayAutomationCommandValueSelector()
         {
-            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_automationCommandSelectorView);
+            _regionManager.ActivateRegion(RegionNames.PosSubRegion, _automationCommandSelectorView);
         }
 
         public void DisplayTicketNoteEditor()
         {
-            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_ticketNoteEditorView);
+            _regionManager.ActivateRegion(RegionNames.PosSubRegion, _ticketNoteEditorView);
         }
 
         public void DisplayTicketTagEditor()
         {
-            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_ticketTagEditorView);
+            _regionManager.ActivateRegion(RegionNames.PosSubRegion, _ticketTagEditorView);
         }
 
         private void DisplayProdcutTimerEdior(Order selectedOrder)
         {
             _productTimerEditorViewModel.Update(selectedOrder);
-            _regionManager.Regions[RegionNames.PosSubRegion].Activate(_productTimerEditorView);
+            _regionManager.ActivateRegion(RegionNames.PosSubRegion, _productTimerEditorView);
         }
 
         private void OnSelectedOrdersDataEvent(EventParameters<SelectedOrdersData> selectedOrdersEvent)

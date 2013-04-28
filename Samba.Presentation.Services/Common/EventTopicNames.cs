@@ -135,6 +135,7 @@
         public const string LocalSettingsChanged = "LocalSettingsChanged";
         public const string EnableLandscape = "EnableLandscape";
         public const string DisableLandscape = "DisableLandscape";
+        public const string RegionActivated = "RegionActivated";
     }
 
     public static class FunctionNames

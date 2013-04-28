@@ -14,12 +14,24 @@ namespace Samba.Modules.PosModule
     [Export]
     public partial class PosView : UserControl
     {
+        private bool _isLandscape;
+
         [ImportingConstructor]
         public PosView(PosViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
+            _isLandscape = true;
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnEvent);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<RegionData>>().Subscribe(OnRegionDataEvent);
+        }
+
+        private void OnRegionDataEvent(EventParameters<RegionData> obj)
+        {
+            if (!_isLandscape && obj.Topic == EventTopicNames.RegionActivated && obj.Value.RegionName == RegionNames.PosSubRegion)
+            {
+                Grid2.SelectedIndex = 1;
+            }
         }
 
         private void UserControl_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -47,6 +59,7 @@ namespace Samba.Modules.PosModule
 
         private void EnableLandscapeMode()
         {
+            _isLandscape = true;
             LayoutTabControl.SelectedIndex = 0;
             Disconnect(TicketRegion);
             Disconnect(MenuRegion);
@@ -56,6 +69,7 @@ namespace Samba.Modules.PosModule
 
         private void DisableLandscapeMode()
         {
+            _isLandscape = false;
             LayoutTabControl.SelectedIndex = 1;
             Disconnect(TicketRegion);
             Disconnect(MenuRegion);

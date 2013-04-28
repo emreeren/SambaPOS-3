@@ -101,6 +101,7 @@
   <ItemGroup>
     <Compile Include="Commands\CustomCommand.cs" />
     <Compile Include="ElementSpy.cs" />
+    <Compile Include="RegionService.cs" />
     <Compile Include="Widgets\IWidgetCreator.cs" />
     <Compile Include="ModelBase\AbstractMapViewModel.cs" />
     <Compile Include="ModelBase\EntityViewModelBaseWithMap.cs" />

@@ -14,8 +14,8 @@
             <RowDefinition Height="67"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Name="Column1" Width="*" />
+            <ColumnDefinition Name="Column2" Width="4*" />
         </Grid.ColumnDefinitions>
         <!--TITLE AREA-->
         <Label Name="TitleLabel" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedTicketTitle}"
@@ -35,7 +35,7 @@
         <ContentControl Grid.Row="4" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketPaymentRegion}"/>
 
         <!--COMMAND BUTTONS AREA-->
-        <StackPanel Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top">
+        <StackPanel Name="CommandButtonsColumn" Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top">
             <StackPanel.Resources>
                 <Style TargetType="FxButton:FlexButton">
                     <Setter Property="Height" Value="65"/>
