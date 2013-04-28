@@ -108,6 +108,9 @@
     <Compile Include="Interaction\ValueChooserForm.xaml.cs">
       <DependentUpon>ValueChooserForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VirtualKeyboard\KeyboardView3.xaml.cs">
+      <DependentUpon>KeyboardView3.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ListViewEx\BackgroundConverter.cs" />
     <Compile Include="ListViewEx\ListViewCustomComparer.cs" />
     <Compile Include="ListViewEx\ListViewSorter.cs" />
@@ -152,6 +155,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VirtualKeyboard\KeyboardView3.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -17,7 +17,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border BorderThickness="1" BorderBrush="Gray" SnapsToDevicePixels="True" Background="WhiteSmoke" Name="border">
+                        <Border BorderThickness="1" BorderBrush="Gray" SnapsToDevicePixels="True" Background="Gainsboro" Name="border">
                             <ContentPresenter HorizontalAlignment="Center" Name="presenter"/>
                         </Border>
 

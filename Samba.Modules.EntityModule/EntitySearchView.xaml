@@ -16,7 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Grid.Column="0" Margin="2">
@@ -49,11 +49,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
-        <Viewbox MaxHeight="300" Grid.Column="0" Grid.Row="2" Visibility="{Binding IsKeyboardVisible,Converter={StaticResource VisibilityConverter}}">
-            <VirtualKeyboard:KeyboardView/>
-        </Viewbox>
-
+        <VirtualKeyboard:KeyboardView3 Margin="5,0,5,5" Grid.Column="0" Grid.Row="2" Visibility="{Binding IsKeyboardVisible,Converter={StaticResource VisibilityConverter}}"/>
         <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Background="LightGray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />

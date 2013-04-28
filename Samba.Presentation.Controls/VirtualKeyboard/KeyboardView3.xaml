@@ -1,0 +1,189 @@
+﻿<UserControl x:Class="Samba.Presentation.Controls.VirtualKeyboard.KeyboardView3"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=local:KeyboardViewModel,IsDesignTimeCreatable=True}"
+             Focusable="False" IsVisibleChanged="UserControl_IsVisibleChanged">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}">
+
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Focusable" Value="False"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderThickness="1,1,0,0" BorderBrush="Gray" SnapsToDevicePixels="True" Background="Gainsboro" Name="border">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="3*"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Viewbox Grid.Row="1" Grid.Column="1">
+                                    <ContentPresenter HorizontalAlignment="Center" Name="presenter"/>
+                                </Viewbox>
+                            </Grid>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="Gray" TargetName="border"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Border BorderThickness="0,0,1,1" BorderBrush="Gray" SnapsToDevicePixels="True" Background="Gainsboro">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2.4*"/>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key1}" Content="{Binding Model.Key1.Caption}" Grid.Column="0"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key2}" Content="{Binding Model.Key2.Caption}" Grid.Column="1"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key3}" Content="{Binding Model.Key3.Caption}" Grid.Column="2"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key4}" Content="{Binding Model.Key4.Caption}" Grid.Column="3"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key5}" Content="{Binding Model.Key5.Caption}"  Grid.Column="4"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key6}" Content="{Binding Model.Key6.Caption}"  Grid.Column="5"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key7}" Content="{Binding Model.Key7.Caption}"  Grid.Column="6"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key8}" Content="{Binding Model.Key8.Caption}"  Grid.Column="7"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key9}" Content="{Binding Model.Key9.Caption}"  Grid.Column="8"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.Key0}" Content="{Binding Model.Key0.Caption}"  Grid.Column="9"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyBack}"  Grid.Column="10">
+                    <Path Stretch="Fill" Width="36" Height="24" Data="F1M555.0371,274.4893L552.7871,276.7383L549.9861,273.9373L547.1991,276.7243L545.1131,274.6393L547.9001,271.8523L545.0101,268.9603L547.2601,266.7113L550.1501,269.6023L552.8921,266.8613L554.9761,268.9463L552.2361,271.6883z M555.3751,264.0003L544.8751,264.0003C543.1251,264.1253,535.0001,270.7503,535.0001,272.2503C535.0001,273.7503,543.1251,279.3753,544.8751,279.5003L555.3751,279.5003C558.8751,279.5003,559.3751,277.7093,559.3751,275.5003L559.3751,268.0003C559.3751,265.7913,558.7501,264.0003,555.3751,264.0003" Fill="#FF333333"/>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.3*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyQ}" Content="{Binding Model.KeyQ.Caption}" Grid.Column="0"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyW}" Content="{Binding Model.KeyW.Caption}" Grid.Column="1"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyE}" Content="{Binding Model.KeyE.Caption}" Grid.Column="2"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyR}" Content="{Binding Model.KeyR.Caption}" Grid.Column="3"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyT}" Content="{Binding Model.KeyT.Caption}"  Grid.Column="4"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyY}" Content="{Binding Model.KeyY.Caption}"  Grid.Column="5"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyU}" Content="{Binding Model.KeyU.Caption}"  Grid.Column="6"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyI}" Content="{Binding Model.KeyI.Caption}"  Grid.Column="7"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyO}" Content="{Binding Model.KeyO.Caption}"  Grid.Column="8"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyP}" Content="{Binding Model.KeyP.Caption}"  Grid.Column="9"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyGTr}" Content="{Binding Model.KeyGTr.Caption}"  Grid.Column="10"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyUTr}" Content="{Binding Model.KeyUTr.Caption}"  Grid.Column="11"/>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.8*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.6*"/>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyA}" Content="{Binding Model.KeyA.Caption}" Grid.Column="0"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyS}" Content="{Binding Model.KeyS.Caption}" Grid.Column="1"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyD}" Content="{Binding Model.KeyD.Caption}" Grid.Column="2"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyF}" Content="{Binding Model.KeyF.Caption}" Grid.Column="3"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyG}" Content="{Binding Model.KeyG.Caption}"  Grid.Column="4"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyH}" Content="{Binding Model.KeyH.Caption}"  Grid.Column="5"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyJ}" Content="{Binding Model.KeyJ.Caption}"  Grid.Column="6"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyK}" Content="{Binding Model.KeyK.Caption}"  Grid.Column="7"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyL}" Content="{Binding Model.KeyL.Caption}"  Grid.Column="8"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeySTr}" Content="{Binding Model.KeySTr.Caption}"  Grid.Column="9"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyITr}" Content="{Binding Model.KeyITr.Caption}"  Grid.Column="10"/>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.1*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2.4*"/>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyShift}" HorizontalContentAlignment="Left">
+                    <Path Margin="0,0,0,0" Fill="#FF333333" Stretch="Fill" Width="28" Height="24" Data="F1M269.5,262C269.026,262,268.552,262.168,268.171,262.505L259.671,270.505C259.05,271.057,258.835,271.935,259.131,272.71C259.425,273.487,260.169,274,261,274L265,274L265,278C265,279.104,265.896,280,267,280L272,280C273.104,280,274,279.104,274,278L274,274L278,274C278.81,274,279.538,273.513,279.849,272.766C280.157,272.018,279.986,271.158,279.415,270.585L270.914,262.586C270.524,262.197,270.013,262,269.5,262 M269.5,264L278,272L272,272L272,278L267,278L267,272L261,272L269.5,264" />
+                </Button>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyZ}" Content="{Binding Model.KeyZ.Caption}" Grid.Column="1"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyX}" Content="{Binding Model.KeyX.Caption}" Grid.Column="2"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyC}" Content="{Binding Model.KeyC.Caption}" Grid.Column="3"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyV}" Content="{Binding Model.KeyV.Caption}"  Grid.Column="4"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyB}" Content="{Binding Model.KeyB.Caption}"  Grid.Column="5"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyN}" Content="{Binding Model.KeyN.Caption}"  Grid.Column="6"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyM}" Content="{Binding Model.KeyM.Caption}"  Grid.Column="7"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyOTr}" Content="{Binding Model.KeyOTr.Caption}"  Grid.Column="8"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyCTr}" Content="{Binding Model.KeyCTr.Caption}"  Grid.Column="9"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyEnter}" Content="{Binding Model.KeyEnter.Caption}"  Grid.Column="10"/>
+            </Grid>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyStar}" Content="{Binding Model.KeyStar.Caption}"  Grid.Column="0"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyDash}" Content="{Binding Model.KeyDash.Caption}"  Grid.Column="1"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeySpace}" Content="{Binding Model.KeySpace.Caption}" Grid.Column="2"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyPoint}" Content="{Binding Model.KeyPoint.Caption}" Grid.Column="3"/>
+                <Button Command="{Binding PressKeyCommand}" CommandParameter="{Binding Model.KeyComma}" Content="{Binding Model.KeyComma.Caption}"  Grid.Column="4"/>
+
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

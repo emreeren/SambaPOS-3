@@ -8,7 +8,7 @@
              mc:Ignorable="d" d:DesignWidth="300" FontSize="20">
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="9*" />
+			<ColumnDefinition Width="7*" />
 			<ColumnDefinition Width="1*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>

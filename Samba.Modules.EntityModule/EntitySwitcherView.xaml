@@ -12,7 +12,7 @@
         <ItemsControl ItemsSource="{Binding EntitySwitcherButtons}" Background="Transparent">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FxButton:FlexButton Margin="2,2,2,0" FontSize="35" Content="{Binding Caption}" 
+                    <FxButton:FlexButton Margin="2,2,2,0" FontSize="35" Content="{Binding Caption}" Focusable="False"
                                          Command="{Binding DataContext.SelectEntityCategoryCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                          CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor}"/>
                 </DataTemplate>
