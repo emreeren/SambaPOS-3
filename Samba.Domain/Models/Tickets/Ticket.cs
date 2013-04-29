@@ -179,9 +179,9 @@ namespace Samba.Domain.Models.Tickets
             return TicketStateValues;
         }
 
-        public IEnumerable<AccountData> GetTicketAccounts()
+        public IEnumerable<AccountData> GetTicketAccounts(params Account[] includes)
         {
-            return TicketEntities.Select(x => new AccountData(x.AccountTypeId, x.AccountId));
+            return TicketEntities.Select(x => new AccountData(x.AccountTypeId, x.AccountId)).Union(includes.Select(x => new AccountData(x.AccountTypeId, x.Id)));
         }
 
         public Order AddOrder(AccountTransactionType template, Department department, string userName, MenuItem menuItem, IList<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, ProductTimer timer)
@@ -211,7 +211,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void AddPayment(PaymentType paymentType, Account account, decimal amount, decimal exchangeRate, int userId)
         {
-            var transaction = TransactionDocument.AddNewTransaction(paymentType.AccountTransactionType, GetTicketAccounts(), amount, exchangeRate);
+            var transaction = TransactionDocument.AddNewTransaction(paymentType.AccountTransactionType, GetTicketAccounts(account), amount, exchangeRate);
             var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name, PaymentTypeId = paymentType.Id };
             Payments.Add(payment);
             LastPaymentDate = DateTime.Now;
@@ -224,7 +224,7 @@ namespace Samba.Domain.Models.Tickets
 
         public void AddChangePayment(ChangePaymentType changePaymentType, Account account, decimal amount, decimal exchangeRate, int userId)
         {
-            var transaction = TransactionDocument.AddNewTransaction(changePaymentType.AccountTransactionType, GetTicketAccounts(), amount, exchangeRate);
+            var transaction = TransactionDocument.AddNewTransaction(changePaymentType.AccountTransactionType, GetTicketAccounts(account), amount, exchangeRate);
             var payment = new ChangePayment { AccountTransaction = transaction, Amount = amount, Name = account.Name, ChangePaymentTypeId = changePaymentType.Id };
             ChangePayments.Add(payment);
         }

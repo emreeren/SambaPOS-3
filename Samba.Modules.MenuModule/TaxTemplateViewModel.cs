@@ -32,6 +32,11 @@ namespace Samba.Modules.MenuModule
             return Resources.TaxTemplate;
         }
 
+        protected override AbstractValidator<TaxTemplate> GetValidator()
+        {
+            return new TaxTemplateValidator();
+        }
+
         protected override void Initialize()
         {
             base.Initialize();
