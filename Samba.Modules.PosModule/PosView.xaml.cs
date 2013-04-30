@@ -50,6 +50,9 @@ namespace Samba.Modules.PosModule
         {
             switch (obj.Topic)
             {
+                case EventTopicNames.ActivateMenuView:
+                    if (IsPortrait) Grid2.SelectedIndex = 1;
+                    break;
                 case EventTopicNames.ActivatePosView:
                     if (IsPortrait) Grid2.SelectedIndex = 0;
                     break;

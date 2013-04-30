@@ -1,5 +1,4 @@
-﻿using System;
-using Samba.Infrastructure.Data;
+﻿using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {

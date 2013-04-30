@@ -14,16 +14,18 @@ namespace Samba.Modules.PosModule
     [Export]
     public partial class TicketView : UserControl
     {
-        internal GridLength ButtonColumnLenght = new GridLength(1, GridUnitType.Star);
-        internal GridLength TicketColumnLenght = new GridLength(4, GridUnitType.Star);
-        internal Thickness LandscapeCommandWidth = new Thickness(0);
-        internal Thickness PortraitCommandWidth = new Thickness(5, 0, 0, 0);
+        private readonly GridLength _buttonColumnLenght = new GridLength(1, GridUnitType.Star);
+        private readonly GridLength _ticketColumnLenght = new GridLength(4, GridUnitType.Star);
+        private readonly Thickness _landscapeCommandWidth = new Thickness(0);
+        private readonly Thickness _portraitCommandWidth = new Thickness(5, 0, 0, 0);
+        private TicketViewModel _ticketViewModel;
 
         [ImportingConstructor]
         public TicketView(TicketViewModel viewModel)
         {
             DataContext = viewModel;
             InitializeComponent();
+            _ticketViewModel = viewModel;
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnEvent);
         }
 
@@ -43,17 +45,19 @@ namespace Samba.Modules.PosModule
         private void EnableLandscapeMode()
         {
             SwapColumns();
-            Column1.Width = ButtonColumnLenght;
-            Column2.Width = TicketColumnLenght;
-            CommandButtonsColumn.Margin = LandscapeCommandWidth;
+            Column1.Width = _buttonColumnLenght;
+            Column2.Width = _ticketColumnLenght;
+            CommandButtonsColumn.Margin = _landscapeCommandWidth;
+            _ticketViewModel.RefreshLayout();
         }
 
         private void DisableLandscapeMode()
         {
             SwapColumns();
-            Column1.Width = TicketColumnLenght;
-            Column2.Width = ButtonColumnLenght;
-            CommandButtonsColumn.Margin = PortraitCommandWidth;
+            Column1.Width = _ticketColumnLenght;
+            Column2.Width = _buttonColumnLenght;
+            CommandButtonsColumn.Margin = _portraitCommandWidth;
+            _ticketViewModel.RefreshLayout();
         }
 
         private void SwapColumns()

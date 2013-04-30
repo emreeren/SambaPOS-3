@@ -48,6 +48,7 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand RemoveTicketLockCommand { get; set; }
         public ICaptionCommand RemoveTicketTagCommand { get; set; }
         public ICaptionCommand ChangePriceCommand { get; set; }
+        public ICaptionCommand AddOrderCommand { get; set; }
 
         public DelegateCommand<EntityType> SelectEntityCommand { get; set; }
         public DelegateCommand<CommandContainerButton> ExecuteAutomationCommnand { get; set; }
@@ -111,6 +112,8 @@ namespace Samba.Modules.PosModule
             get { return _applicationState.CurrentDepartment != null ? _applicationState.CurrentDepartment.Model : null; }
         }
 
+        public bool IsPortrait { get { return !_applicationState.IsLandscape; } }
+        public bool IsLandscape { get { return _applicationState.IsLandscape; } }
         public bool IsItemsSelected { get { return SelectedOrders.Any(); } }
         public bool IsItemsSelectedAndUnlocked { get { return SelectedOrders.Any() && SelectedOrders.Count(x => x.Locked) == 0; } }
         public bool IsItemsSelectedAndLocked { get { return SelectedOrders.Any() && SelectedOrders.Count(x => !x.Locked) == 0; } }
@@ -184,6 +187,7 @@ namespace Samba.Modules.PosModule
             EditTicketNoteCommand = new CaptionCommand<string>(Resources.TicketNote.Replace(" ", Environment.NewLine), OnEditTicketNote, CanEditTicketNote);
             RemoveTicketLockCommand = new CaptionCommand<string>(Resources.ReleaseLock, OnRemoveTicketLock, CanRemoveTicketLock);
             ChangePriceCommand = new CaptionCommand<string>(Resources.ChangePrice, OnChangePrice, CanChangePrice);
+            AddOrderCommand = new CaptionCommand<string>(Resources.AddOrder, OnAddOrder,CanAddOrder);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
@@ -194,6 +198,16 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommandValueData>>().Subscribe(OnAutomationCommandValueSelected);
 
             SelectedTicket = Ticket.Empty;
+        }
+
+        private bool CanAddOrder(string arg)
+        {
+            return !SelectedTicket.IsClosed || !SelectedTicket.IsLocked;
+        }
+
+        private void OnAddOrder(string obj)
+        {
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateMenuView);
         }
 
         private bool CanExecuteAutomationCommand(CommandContainerButton arg)
@@ -564,6 +578,12 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsItemsSelectedAndLocked);
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => OrderAutomationCommands);
+        }
+
+        public void RefreshLayout()
+        {
+            RaisePropertyChanged(() => IsPortrait);
+            RaisePropertyChanged(() => IsLandscape);
         }
 
         private void RefreshSelectedOrders()

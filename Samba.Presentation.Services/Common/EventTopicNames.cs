@@ -136,6 +136,7 @@
         public const string EnableLandscape = "EnableLandscape";
         public const string DisableLandscape = "DisableLandscape";
         public const string RegionActivated = "RegionActivated";
+        public const string ActivateMenuView = "ActivateMenuView";
     }
 
     public static class FunctionNames

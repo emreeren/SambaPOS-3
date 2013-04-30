@@ -43,6 +43,8 @@
                     <Setter Property="FontSize" Value="18"/>
                 </Style>
             </StackPanel.Resources>
+            <FxButton:FlexButton Command="{Binding AddOrderCommand}" Content="{Binding AddOrderCommand.Caption}"
+                         Visibility="{Binding IsPortrait,Converter={StaticResource VisibilityConverter}}"/>
             <ItemsControl ItemsSource="{Binding EntityButtons,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>
@@ -94,7 +96,7 @@
             <FxButton:FlexButton Command="{Binding DecQuantityCommand}" Content="{Binding DecQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndUnlocked,Converter={StaticResource VisibilityConverter}}" />
             <FxButton:FlexButton Command="{Binding IncSelectionQuantityCommand}" Content="{Binding IncSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
             <FxButton:FlexButton Command="{Binding DecSelectionQuantityCommand}" Content="{Binding DecSelectionQuantityCommand.Caption}" Visibility="{Binding IsItemsSelectedAndLocked,Converter={StaticResource VisibilityConverter}}" />
-         
+
             <ItemsControl ItemsSource="{Binding OrderAutomationCommands,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsItemsSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>
