@@ -3,7 +3,7 @@
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" FontSize="20">
 
-    <Grid>
+    <Grid Margin="0,5,5,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />

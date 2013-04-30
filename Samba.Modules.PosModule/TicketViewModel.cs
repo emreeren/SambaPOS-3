@@ -202,7 +202,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanAddOrder(string arg)
         {
-            return !SelectedTicket.IsClosed || !SelectedTicket.IsLocked;
+            return !SelectedTicket.IsClosed && !SelectedTicket.IsLocked;
         }
 
         private void OnAddOrder(string obj)

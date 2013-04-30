@@ -5,7 +5,7 @@
      xmlns:cal="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism" 
      mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid Name="MainGrid">
+    <Grid Name="MainGrid" Margin="3,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="8*"/>
@@ -18,28 +18,28 @@
             <ColumnDefinition Name="Column2" Width="4*" />
         </Grid.ColumnDefinitions>
         <!--TITLE AREA-->
-        <Label Name="TitleLabel" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedTicketTitle}"
+        <Label Name="TitleLabel" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedTicketTitle}" Margin="0,0,3,0"
                      FontWeight="Bold" FontSize="18" Background="DarkGray" Foreground="WhiteSmoke" BorderThickness="0">
         </Label>
 
         <!--ORDERS AREA-->
-        <ContentControl Grid.Row="1" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketOrdersRegion}"/>
+        <ContentControl Grid.Row="1" Grid.Column="1" Margin="0,0,3,0" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketOrdersRegion}"/>
 
         <!--TICKET INFO AREA-->
-        <ContentControl Grid.Row="2" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketInfoRegion}"/>
+        <ContentControl Grid.Row="2" Grid.Column="1" Margin="0,0,3,0" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketInfoRegion}"/>
 
         <!--TICKET TOTALS AREA-->
-        <ContentControl Grid.Row="3" Grid.Column="1"  cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketTotalsRegion}"/>
+        <ContentControl Grid.Row="3" Grid.Column="1" Margin="0,0,3,0" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketTotalsRegion}"/>
 
         <!--PAYMENT BUTTONS AREA-->
         <ContentControl Grid.Row="4" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketPaymentRegion}"/>
 
         <!--COMMAND BUTTONS AREA-->
-        <StackPanel Name="CommandButtonsColumn" Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top">
+        <StackPanel Name="CommandButtonsColumn" Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top" Margin="0,0,3,0">
             <StackPanel.Resources>
                 <Style TargetType="FxButton:FlexButton">
                     <Setter Property="Height" Value="65"/>
-                    <Setter Property="Margin" Value="0,0,3,3"/>
+                    <Setter Property="Margin" Value="0,0,0,3"/>
                     <Setter Property="FontSize" Value="18"/>
                 </Style>
             </StackPanel.Resources>

@@ -16,8 +16,6 @@ namespace Samba.Modules.PosModule
     {
         private readonly GridLength _buttonColumnLenght = new GridLength(1, GridUnitType.Star);
         private readonly GridLength _ticketColumnLenght = new GridLength(4, GridUnitType.Star);
-        private readonly Thickness _landscapeCommandWidth = new Thickness(0);
-        private readonly Thickness _portraitCommandWidth = new Thickness(5, 0, 0, 0);
         private TicketViewModel _ticketViewModel;
 
         [ImportingConstructor]
@@ -47,7 +45,6 @@ namespace Samba.Modules.PosModule
             SwapColumns();
             Column1.Width = _buttonColumnLenght;
             Column2.Width = _ticketColumnLenght;
-            CommandButtonsColumn.Margin = _landscapeCommandWidth;
             _ticketViewModel.RefreshLayout();
         }
 
@@ -56,7 +53,6 @@ namespace Samba.Modules.PosModule
             SwapColumns();
             Column1.Width = _ticketColumnLenght;
             Column2.Width = _buttonColumnLenght;
-            CommandButtonsColumn.Margin = _portraitCommandWidth;
             _ticketViewModel.RefreshLayout();
         }
 

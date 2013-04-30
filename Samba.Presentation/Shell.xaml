@@ -29,7 +29,7 @@
             <TextBlock MouseWheel="UIElement_OnMouseWheel" Margin="10,0" FontWeight="Bold" FontSize="24" Foreground="White" MouseDown="TextBlockMouseDown" VerticalAlignment="Center">SambaPOS 3</TextBlock>
         </StackPanel>
         <TextBlock Name="TimeLabel" Grid.Row="0" Grid.Column="1" Margin="10,5,10,0" FontSize="18" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="Lucida Console">SAAT</TextBlock>
-        <TabControl Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}" Grid.Row="1" Grid.ColumnSpan="2" cal:RegionManager.RegionName="MainRegion" SelectedIndex="0" Name="MainTabControl">
+        <TabControl Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}" Margin="0" Padding="0" Grid.Row="1" Grid.ColumnSpan="2" cal:RegionManager.RegionName="MainRegion" SelectedIndex="0" Name="MainTabControl">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Visibility" Value="Collapsed"/>

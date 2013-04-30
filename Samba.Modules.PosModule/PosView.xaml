@@ -51,14 +51,16 @@
                 </TabControl.ItemContainerStyle>
             </TabControl>
         </Grid>
-        <TabControl Name="Grid2"/>
-        
-        <!--<Grid Name="Grid2" Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="95*"/>
-                <ColumnDefinition Width="5*"/>
-            </Grid.ColumnDefinitions>
-        </Grid>-->
+        <TabControl Name="Grid2" FocusVisualStyle="{x:Null}"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Margin="0" Padding="0">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
     </TabControl>
 
 

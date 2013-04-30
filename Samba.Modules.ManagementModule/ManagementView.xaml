@@ -21,7 +21,7 @@
             <RowDefinition Height="*" Name="KeyboardPanel"/>
         </Grid.RowDefinitions>
 
-        <ContentControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Content="{Binding Path=CategoryView}" ContentTemplate="{StaticResource CommandsTemplate}"/>
+        <ContentControl Grid.Column="0" Grid.Row="0" Margin="3,2,0,0" Grid.RowSpan="3" Content="{Binding Path=CategoryView}" ContentTemplate="{StaticResource CommandsTemplate}"/>
         
         <ContentControl FontSize="14" Grid.Column="1" Grid.Row="0" Content="{Binding Path=Views}" ContentTemplate="{StaticResource ViewsTemplate}"/>
         
