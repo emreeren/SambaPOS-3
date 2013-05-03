@@ -9,7 +9,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Margin="0,5,0,10" Text="{Binding Name,StringFormat='Dönem: {0}'}" />
+        <TextBlock Grid.Row="0" Margin="0,5,0,10" Text="{Binding NameStr}" />
         <TabControl Grid.Row="1" ItemsSource="{Binding WarehouseConsumptions}" SelectedItem="{Binding SelectedWarehouseConsumption}">
             <TabControl.ItemTemplate>
                 <DataTemplate>

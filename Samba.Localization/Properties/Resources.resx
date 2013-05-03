@@ -3113,4 +3113,10 @@ Error Message:
   <data name="WindowScale">
     <value xml:space="preserve">Window Scale</value>
   </data>
+  <data name="Logout">
+    <value xml:space="preserve">Logout</value>
+  </data>
+  <data name="Period_f">
+    <value xml:space="preserve">Period: {0}</value>
+  </data>
 </root>

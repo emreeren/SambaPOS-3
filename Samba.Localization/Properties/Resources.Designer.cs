@@ -3855,6 +3855,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main Menu.
         /// </summary>
         public static string MainMenu {
@@ -4922,6 +4931,15 @@ namespace Samba.Localization.Properties {
         public static string PaymentType {
             get {
                 return ResourceManager.GetString("PaymentType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Period: {0}.
+        /// </summary>
+        public static string Period_f {
+            get {
+                return ResourceManager.GetString("Period_f", resourceCulture);
             }
         }
         

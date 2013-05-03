@@ -22,13 +22,5 @@ namespace Samba.Modules.SettingsModule
             AddDashboardCommand<ProgramSettingsViewModel>(Resources.ProgramSettings, Resources.Settings, 22);
             AddDashboardCommand<BrowserViewModel>(Resources.SambaPosWebsite, Resources.SambaNetwork, 99);
         }
-
-        //private void OnShowBrowser(string obj)
-        //{
-        //    if (_browserViewModel == null)
-        //        _browserViewModel = new BrowserViewModel();
-        //    CommonEventPublisher.PublishViewAddedEvent(_browserViewModel);
-        //    new Uri("http://network.sambapos.com").PublishEvent(EventTopicNames.BrowseUrl);
-        //}
     }
 }

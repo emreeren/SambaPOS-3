@@ -52,6 +52,8 @@ namespace Samba.Modules.InventoryModule
 
         public ICaptionCommand UpdateCalculationCommand { get; set; }
 
+        public string NameStr { get { return String.Format(Resources.Period_f, Name); } }
+
         protected override bool CanSave(string arg)
         {
             return !_applicationState.IsCurrentWorkPeriodOpen && SelectedWarehouseConsumption != null
