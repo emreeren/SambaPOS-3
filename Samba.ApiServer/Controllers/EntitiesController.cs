@@ -9,24 +9,24 @@ namespace Samba.ApiServer.Controllers
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class ResourcesController : ApiController
+    public class EntitiesController : ApiController
     {
-        private readonly IEntityDao _resourceDao;
+        private readonly IEntityDao _entityDao;
         
         [ImportingConstructor]
-        public ResourcesController(IEntityDao resourceDao)
+        public EntitiesController(IEntityDao entityDao)
         {
-            _resourceDao = resourceDao;
+            _entityDao = entityDao;
         }
 
-        public IEnumerable<Entity> GetAllResources()
+        public IEnumerable<Entity> GetAllEntities()
         {
-            return _resourceDao.GetEntitiesByState("Available", 2);
+            return _entityDao.GetEntitiesByState("Available", 2);
         }
 
-        public Entity GetResourceById(int id)
+        public Entity GetEntityById(int id)
         {
-            var product = _resourceDao.GetEntityById(id);
+            var product = _entityDao.GetEntityById(id);
             if (product == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -34,9 +34,9 @@ namespace Samba.ApiServer.Controllers
             return product;
         }
 
-        public IEnumerable<Entity> GetResourcesByCategory(string category)
+        public IEnumerable<Entity> GetEntitiesByCategory(string category)
         {
-            return _resourceDao.FindEntities(null, category, "");
+            return _entityDao.FindEntities(null, category, "");
         }
     }
 }

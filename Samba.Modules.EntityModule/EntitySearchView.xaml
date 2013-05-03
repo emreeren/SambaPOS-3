@@ -10,8 +10,8 @@
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" FontSize="20">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="7*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="*" MinWidth="80" MaxWidth="300"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -50,30 +50,24 @@
             </ListView.View>
         </ListView>
         <VirtualKeyboard:KeyboardView3 Margin="5,0,5,5" Grid.Column="0" Grid.Row="2" Visibility="{Binding IsKeyboardVisible,Converter={StaticResource VisibilityConverter}}"/>
-        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Background="LightGray">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectEntityCommandCaption}"
+
+        <StackPanel MinWidth="50" Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Background="LightGray">
+            <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectEntityCommandCaption}"
                                        Command="{Binding SelectEntityCommand}" 
                                        Visibility="{Binding IsEntitySelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding EditEntityCommandCaption}"
+            <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding EditEntityCommandCaption}"
                                        Command="{Binding EditEntityCommand}"/>
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateEntityCommandCaption}"
+            <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateEntityCommandCaption}"
                                        Command="{Binding CreateEntityCommand}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding RemoveEntityCommandCaption}"
+            <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding RemoveEntityCommandCaption}"
                                        Command="{Binding RemoveEntityCommand}"
                                        Visibility="{Binding IsEntitySelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayAccountCommand.Caption}"
+            <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayAccountCommand.Caption}"
                                        Command="{Binding DisplayAccountCommand}" />
-                <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayInventoryCommand.Caption}"
+            <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayInventoryCommand.Caption}"
                                        Command="{Binding DisplayInventoryCommand}" 
                                        Visibility="{Binding IsInventorySelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
 
-            </StackPanel>
-        </Grid>
-
+        </StackPanel>
     </Grid>
 </UserControl>

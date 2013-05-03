@@ -16,7 +16,6 @@ namespace Samba.Modules.PosModule
     {
         private bool _isLandscape;
         private bool IsPortrait { get { return !_isLandscape; } }
-        private bool IsLandscape { get { return _isLandscape; } }
 
         [ImportingConstructor]
         public PosView(PosViewModel viewModel)

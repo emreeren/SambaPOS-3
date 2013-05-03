@@ -9,7 +9,8 @@
              FocusVisualStyle="{x:Null}"
              Focusable="True"
              PreviewTextInput="UserControl_PreviewTextInput" Loaded="UserControl_Loaded">
-    <TabControl Name="LayoutTabControl" Background="Transparent"
+   
+    <TabControl Name="LayoutTabControl" Background="Transparent" FocusVisualStyle="{x:Null}"
                     Grid.Column="0" BorderThickness="0"
                     Margin="0" Padding="0">
         <TabControl.ItemContainerStyle>
@@ -51,6 +52,7 @@
                 </TabControl.ItemContainerStyle>
             </TabControl>
         </Grid>
+        
         <TabControl Name="Grid2" FocusVisualStyle="{x:Null}"
                     Background="Transparent"
                     BorderThickness="0"

@@ -74,7 +74,7 @@
     </Compile>
     <Compile Include="MefBootstrapper.cs" />
     <Compile Include="MefDependencyResolver.cs" />
-    <Compile Include="Controllers\ResourcesController.cs" />
+    <Compile Include="Controllers\EntitiesController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmMain.resx">

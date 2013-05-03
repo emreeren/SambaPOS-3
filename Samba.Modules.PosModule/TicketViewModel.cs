@@ -187,7 +187,7 @@ namespace Samba.Modules.PosModule
             EditTicketNoteCommand = new CaptionCommand<string>(Resources.TicketNote.Replace(" ", Environment.NewLine), OnEditTicketNote, CanEditTicketNote);
             RemoveTicketLockCommand = new CaptionCommand<string>(Resources.ReleaseLock, OnRemoveTicketLock, CanRemoveTicketLock);
             ChangePriceCommand = new CaptionCommand<string>(Resources.ChangePrice, OnChangePrice, CanChangePrice);
-            AddOrderCommand = new CaptionCommand<string>(Resources.AddOrder, OnAddOrder,CanAddOrder);
+            AddOrderCommand = new CaptionCommand<string>(Resources.AddOrder.Replace(" ", Environment.NewLine), OnAddOrder, CanAddOrder);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
@@ -280,7 +280,7 @@ namespace Samba.Modules.PosModule
         private bool CanSelectEntity(EntityType arg)
         {
             Debug.Assert(SelectedTicket != null);
-            return !SelectedTicket.IsLocked && SelectedTicket.CanSubmit && _applicationState.GetTicketEntityScreens().Any(x => x.EntityTypeId == arg.Id);
+            return arg != null && !SelectedTicket.IsLocked && SelectedTicket.CanSubmit && _applicationState.GetTicketEntityScreens().Any(x => x.EntityTypeId == arg.Id);
         }
 
         private void OnSelectEntity(EntityType obj)
