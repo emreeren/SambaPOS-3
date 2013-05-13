@@ -33,6 +33,7 @@
         public const string UpdateOrderState = "UpdateOrderState";
         public const string SetActiveTicketType = "SetActiveTicketType";
         public const string PrintReport = "PrintReport";
+        public const string StartProcess = "StartProcess";
     }
 
     public static class RuleEventNames

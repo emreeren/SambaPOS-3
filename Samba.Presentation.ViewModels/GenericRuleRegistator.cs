@@ -79,6 +79,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.RefreshCache, Resources.RefreshCache);
             AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderStateName = "", OrderState = "", OrderStateValue = "", OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
+            AutomationService.RegisterActionType(ActionNames.StartProcess, Resources.StartProcess, new { FileName = "", Arguments = "", UseShellExecute = false, IsHidden = false });
             //AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
         }
 
@@ -159,6 +160,26 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
             {
+                if (x.Value.Action.ActionType == ActionNames.StartProcess)
+                {
+                    var fileName = x.Value.GetAsString("FileName");
+                    var arguments = x.Value.GetAsString("Arguments");
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        var psi = new ProcessStartInfo(fileName, arguments);
+                        var isHidden = x.Value.GetAsBoolean("IsHidden");
+                        if (isHidden) psi.WindowStyle = ProcessWindowStyle.Hidden;
+
+                        var useShellExecute = x.Value.GetAsBoolean("UseShellExecute");
+                        if (useShellExecute) psi.UseShellExecute = true;
+
+                        var workingDirectory = x.Value.GetAsString("WorkingDirectory");
+                        if (!string.IsNullOrEmpty(workingDirectory))
+                            psi.WorkingDirectory = workingDirectory;
+
+                        Process.Start(psi);
+                    }
+                }
                 if (x.Value.Action.ActionType == ActionNames.SetActiveTicketType)
                 {
                     var ticketTypeName = x.Value.GetAsString("TicketTypeName");

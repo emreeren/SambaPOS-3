@@ -6405,6 +6405,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start Process.
+        /// </summary>
+        public static string StartProcess {
+            get {
+                return ResourceManager.GetString("StartProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start Work Period.
         /// </summary>
         public static string StartWorkPeriod {
