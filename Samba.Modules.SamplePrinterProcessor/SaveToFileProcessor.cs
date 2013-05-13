@@ -22,7 +22,14 @@ namespace Samba.Modules.SamplePrinterProcessor
 
         protected SaveToFileProcessorSettings Settings
         {
-            get { return _settings ?? (_settings = new SaveToFileProcessorSettings(_settingService)); }
+            get { return _settings ?? (_settings = GetSettings()); }
+        }
+
+        private SaveToFileProcessorSettings GetSettings()
+        {
+            var result = new SaveToFileProcessorSettings(_settingService);
+            result.Load();
+            return result;
         }
 
         public string Name { get { return "SaveToFile"; } }
@@ -41,6 +48,7 @@ namespace Samba.Modules.SamplePrinterProcessor
         public void EditSettings()
         {
             InteractionService.UserIntraction.EditProperties(Settings);
+            Settings.Save();
         }
     }
 }

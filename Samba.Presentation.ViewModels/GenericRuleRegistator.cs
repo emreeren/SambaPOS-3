@@ -80,7 +80,6 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderStateName = "", OrderState = "", OrderStateValue = "", OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
             AutomationService.RegisterActionType(ActionNames.StartProcess, Resources.StartProcess, new { FileName = "", Arguments = "", UseShellExecute = false, IsHidden = false });
-            //AutomationService.RegisterActionType(ActionNames.ExecutePowershellScript, Resources.ExecutePowershellScript, new { Script = "" });
         }
 
         private static void RegisterRules()

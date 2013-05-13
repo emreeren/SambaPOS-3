@@ -20,6 +20,7 @@ namespace Samba.Modules.SamplePrinterProcessor
         public void Save()
         {
             _settingService.ReadGlobalSetting("SamplePrinterProcessorFileName").StringValue = FileName;
+            _settingService.SaveProgramSettings();
         }
 
         public void Load()
