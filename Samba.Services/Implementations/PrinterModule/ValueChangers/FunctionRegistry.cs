@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
@@ -73,6 +74,10 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Order>("{ORDER STATE:([^}]+)}", (x, d) => x.GetStateValue(d).StateValue, "Order State Value");
             RegisterFunction<Order>("{ORDER TAX RATE:([^}]+)}", (x, d) => x.GetTaxValue(d).TaxRate.ToString(LocalSettings.QuantityFormat), "Order Tax Rate");
             RegisterFunction<Order>("{ORDER TAX TEMPLATE NAMES}", (x, d) => string.Join(", ", x.GetTaxValues().Select(y => y.TaxTemplateName)), "Order Tax Template Names");
+            RegisterFunction<Order>("{ITEM ID}", (x, d) => x.MenuItemId.ToString());
+            RegisterFunction<Order>("{BARCODE}", (x, d) => GetMenuItem(x.MenuItemId).Barcode);
+            RegisterFunction<Order>("{GROUP CODE}", (x, d) => GetMenuItem(x.MenuItemId).GroupCode);
+            RegisterFunction<Order>("{ITEM TAG}", (x, d) => GetMenuItem(x.MenuItemId).Tag);
 
             //ORDER TAG VALUES
             RegisterFunction<OrderTagValue>(TagNames.OrderTagPrice, (x, d) => x.AddTagPriceToOrderPrice ? "" : x.Price.ToString(LocalSettings.CurrencyFormat), Resources.OrderTagPrice, x => x.Price != 0);
@@ -135,5 +140,10 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return dep != null ? dep.Name : Resources.UndefinedWithBrackets;
         }
 
+        private MenuItem GetMenuItem(int menuItemId)
+        {
+            var mi = _cacheService.GetMenuItem(x => x.Id == menuItemId);
+            return mi ?? (MenuItem.All);
+        }
     }
 }
