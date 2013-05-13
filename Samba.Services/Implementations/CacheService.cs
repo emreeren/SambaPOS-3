@@ -401,6 +401,7 @@ namespace Samba.Services.Implementations
 
         public TicketType GetTicketTypeById(int ticketTypeId)
         {
+            if (ticketTypeId == 0) return null;
             return TicketTypes.SingleOrDefault(x => x.Id == ticketTypeId);
         }
 

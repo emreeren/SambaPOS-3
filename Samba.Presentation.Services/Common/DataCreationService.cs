@@ -557,6 +557,8 @@ namespace Samba.Presentation.Services.Common
 
             _workspace.CommitChanges();
             _workspace.Dispose();
+
+            
         }
 
         private void ImportItems<T>(Func<string[], IWorkspace, IEnumerable<T>> func) where T : class

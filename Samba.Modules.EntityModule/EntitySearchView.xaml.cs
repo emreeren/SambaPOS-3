@@ -74,5 +74,27 @@ namespace Samba.Modules.EntityModule
         {
             SearchString.BackgroundFocus();
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var keyboardHeight = Properties.Settings.Default.KeyboardHeight;
+            if (keyboardHeight <= 10 && keyboardHeight > 1) keyboardHeight = 0;
+            KeyboardRow.Height = new GridLength(keyboardHeight, GridUnitType.Star);
+            var contentHeight = Properties.Settings.Default.ContentHeight;
+            ContentRow.Height = new GridLength(contentHeight, GridUnitType.Star);
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.KeyboardHeight = KeyboardRow.Height.Value;
+            Properties.Settings.Default.ContentHeight = ContentRow.Height.Value;
+            Properties.Settings.Default.Save();
+        }
+
+        private void GridSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            KeyboardRow.Height = new GridLength(1, GridUnitType.Star);
+            ContentRow.Height = new GridLength(1, GridUnitType.Star);
+        }
     }
 }

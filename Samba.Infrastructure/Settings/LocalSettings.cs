@@ -159,7 +159,7 @@ html
         public static string PrintoutCurrencyFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
-        public static int DbVersion { get { return 3; } }
+        public static int DbVersion { get { return 4; } }
         public static string AppVersion { get { return "3.04 BETA"; } }
         public static string AppName { get { return "SambaPOS3"; } }
 

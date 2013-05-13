@@ -118,11 +118,7 @@ Source: src\Interop.cidv5callerid.dll; DestDir: {app}; Flags: ignoreversion; Com
 Source: src\Samba.Modules.CidMonitor.dll; DestDir: {app}; Flags: ignoreversion; Components: cid
 Source: src\Samba.Presentation.ViewModels.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Presentation.Services.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Presentation.Services.Common.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Presentation.Services.Implementations.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Services.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Services.Common.dll; DestDir: {app}; Flags: ignoreversion
-Source: src\Samba.Services.Implementations.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\System.Windows.Interactivity.dll; DestDir: {app}
 Source: src\Images\apple-icon.png; DestDir: {app}\Images\
 Source: src\Images\apple.ico; DestDir: {app}\Images\

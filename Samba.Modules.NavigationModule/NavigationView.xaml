@@ -57,10 +57,10 @@
                                                         <RowDefinition Height="45*"/>
                                                         <RowDefinition Height="45*"/>
                                                     </Grid.RowDefinitions>
-                                                    <Viewbox Grid.Row="2" MinHeight="20" Margin="15,5" Name="textbox">
-                                                        <TextBlock Foreground="#BDF5F5F5" FontWeight="Bold" Text="{Binding Caption}">
+                                                    <Viewbox StretchDirection="DownOnly" Grid.Row="2" MinHeight="20" Margin="15,5" Name="textbox">
+                                                        <TextBlock Foreground="#BDF5F5F5" FontSize="40" FontWeight="Bold" Text="{Binding Caption}">
                                                             <TextBlock.Effect>
-                                                                <DropShadowEffect ShadowDepth="1" BlurRadius="2" Opacity="0.5" />
+                                                                <DropShadowEffect ShadowDepth="2" BlurRadius="3" Opacity="0.5" />
                                                             </TextBlock.Effect>
                                                         </TextBlock>
                                                     </Viewbox>

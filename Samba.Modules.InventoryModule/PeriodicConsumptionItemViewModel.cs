@@ -18,7 +18,7 @@ namespace Samba.Modules.InventoryModule
         public string ItemName { get { return Model.InventoryItemName; } }
         public string UnitName { get { return Model.UnitName; } }
         public decimal InStock { get { return Model.InStock; } }
-        public decimal Purchase { get { return Model.Purchase; } }
+        public decimal Purchase { get { return Model.Added - Model.Removed; } }
         public decimal Cost { get { return Model.Cost; } }
         public decimal Consumption { get { return Model.Consumption; } }
         public decimal InventoryPrediction { get { return Model.GetInventoryPrediction(); } }

@@ -224,7 +224,8 @@ namespace Samba.Persistance.Data
 
             //PeriodicConsumptionIntem
             modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.InStock).HasPrecision(precision, qscale);
-            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Purchase).HasPrecision(precision, qscale);
+            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Added).HasPrecision(precision, qscale);
+            modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Removed).HasPrecision(precision, qscale);
             modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Consumption).HasPrecision(precision, qscale);
             modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.PhysicalInventory).HasPrecision(precision, qscale);
             modelBuilder.Entity<PeriodicConsumptionItem>().Property(x => x.Cost).HasPrecision(precision, scale);

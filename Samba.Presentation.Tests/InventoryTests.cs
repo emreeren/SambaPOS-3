@@ -493,8 +493,6 @@ namespace Samba.Presentation.Tests
         public Entity Seller1WarehouseEntity { get; set; }
         public Entity Seller2WarehouseEntity { get; set; }
 
-
-
         public InventoryTransactionType PurchaseTransactionType { get; set; }
         public InventoryTransactionType BarTransferTransactionType { get; set; }
 

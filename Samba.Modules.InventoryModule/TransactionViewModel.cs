@@ -8,7 +8,7 @@ using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
 {
-    class TransactionViewModel : ObservableObject
+    public class TransactionViewModel : ObservableObject
     {
         private readonly IWorkspace _workspace;
         private readonly IInventoryService _inventoryService;

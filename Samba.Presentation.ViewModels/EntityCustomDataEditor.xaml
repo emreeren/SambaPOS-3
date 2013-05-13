@@ -7,29 +7,29 @@
         <DataTemplate x:Key="textTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="EntityLabel" Width="auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" MinWidth="100" Content="{Binding Name}"/>
-                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Grid.Column="0" Content="{Binding Name}"/>
+                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="150" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="numberTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition SharedSizeGroup="EntityLabel" Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <UIControls:FilteredTextBox Margin="0,0,2,2" Grid.Column="1" Type="Number" MinWidth="200" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"/>
+                <UIControls:FilteredTextBox Margin="0,0,2,2" Grid.Column="1" Type="Number" MinWidth="100" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="wideTextTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition SharedSizeGroup="EntityLabel" Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
@@ -40,22 +40,22 @@
         <DataTemplate x:Key="comboBoxTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition SharedSizeGroup="EntityLabel" Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <ComboBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" ItemsSource="{Binding CustomField.Values}" SelectedItem="{Binding Value}" />
+                <ComboBox Margin="0,0,2,2" Grid.Column="1" MinWidth="150" ItemsSource="{Binding CustomField.Values}" SelectedItem="{Binding Value}" />
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="maskedTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition SharedSizeGroup="EntityLabel" Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <UIControls:MaskedTextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" 
+                <UIControls:MaskedTextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="150" 
                     PromptChar=" "
                     UnmaskedText="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
                     InputMask="{Binding CustomField.EditingFormat}"/>

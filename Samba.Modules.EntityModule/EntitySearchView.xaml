@@ -7,7 +7,7 @@
              xmlns:ListViewEx="clr-namespace:Samba.Presentation.Controls.ListViewEx;assembly=Samba.Presentation.Controls"
              xmlns:ListViewLM="clr-namespace:Samba.Presentation.Controls.ListViewLM;assembly=Samba.Presentation.Controls"
              xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard;assembly=Samba.Presentation.Controls"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" FontSize="20">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" FontSize="20" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
@@ -15,8 +15,9 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" Name="ContentRow" MinHeight="50"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" Name="KeyboardRow" MinHeight="10"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Grid.Column="0" Margin="2">
@@ -32,7 +33,7 @@
             <FlexButton:FlexButton Grid.Column="2" Margin="0,3,3,3" Content="X" MinWidth="50" Click="FlexButtonClick" />
         </Grid>
 
-        <ListView Name="MainListView" Grid.Row="1" Margin="5" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
+        <ListView Name="MainListView" Grid.Row="1" Margin="5,5,5,0" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
                          IsSynchronizedWithCurrentItem="True" ListViewEx:ListViewSorter.IsListviewSortable="True"
                          ListViewLM:ListViewLayoutManager.Enabled="True" ItemsSource="{Binding FoundEntities}"
                          SelectedItem="{Binding FocusedEntity,Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
@@ -49,9 +50,11 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <VirtualKeyboard:KeyboardView3 Margin="5,0,5,5" Grid.Column="0" Grid.Row="2" Visibility="{Binding IsKeyboardVisible,Converter={StaticResource VisibilityConverter}}"/>
+        <GridSplitter Grid.Column="0" Grid.Row="2" Height="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                      ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" MouseDoubleClick="GridSplitter_MouseDoubleClick" Background="Transparent"/>
+        <VirtualKeyboard:KeyboardView3 Margin="5,0,5,5" Grid.Column="0" Grid.Row="3" Visibility="{Binding IsKeyboardVisible,Converter={StaticResource VisibilityConverter}}"/>
 
-        <StackPanel MinWidth="50" Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Background="LightGray">
+        <StackPanel MinWidth="50" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Background="LightGray">
             <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectEntityCommandCaption}"
                                        Command="{Binding SelectEntityCommand}" 
                                        Visibility="{Binding IsEntitySelectorVisible,Converter={StaticResource VisibilityConverter}}"/>

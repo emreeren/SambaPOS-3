@@ -5,8 +5,8 @@ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      PreviewTextInput="UserControl_PreviewTextInput" PreviewKeyDown="UserControl_PreviewKeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Name="Column1" Width="*" />
+            <ColumnDefinition Name="Column2" Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

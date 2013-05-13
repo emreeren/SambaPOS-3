@@ -13,8 +13,11 @@ using Samba.Services;
 namespace Samba.Modules.InventoryModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    class TransactionDocumentViewModel : EntityViewModelBase<InventoryTransactionDocument>
+    public class TransactionDocumentViewModel : EntityViewModelBase<InventoryTransactionDocument>
     {
+        public event EventHandler RowInserted;
+        public event EventHandler RowDeleted;
+
         private readonly IApplicationState _applicationState;
         private readonly IInventoryService _inventoryService;
         private readonly ICacheService _cacheService;
@@ -64,7 +67,7 @@ namespace Samba.Modules.InventoryModule
 
         private bool CanDeleteTransactionItem(string arg)
         {
-            return SelectedTransactionItem != null && CanSave(arg);
+            return SelectedTransactionItem != null && (CanSave(arg) || SelectedTransactionItem.InventoryItem == null);
         }
 
         private void OnDeleteTransactionItem(string obj)
@@ -73,6 +76,7 @@ namespace Samba.Modules.InventoryModule
                 Workspace.Delete(SelectedTransactionItem.Model);
             Model.TransactionItems.Remove(SelectedTransactionItem.Model);
             TransactionItems.Remove(SelectedTransactionItem);
+            OnRowDeleted();
         }
 
         private bool CanAddTransactionItem(string arg)
@@ -87,11 +91,16 @@ namespace Samba.Modules.InventoryModule
 
         private void OnAddTransactionItem(string obj)
         {
-            var ti = Model.Add(InventoryTransactionType.Default, null, 0, 0, "", 1);
+            var inventoryTransactionType = InventoryTransactionType.Default;
+            var lt = TransactionItems.LastOrDefault();
+            if (lt != null) inventoryTransactionType = lt.InventoryTransactionType;
+
+            var ti = Model.Add(inventoryTransactionType, null, 0, 0, "", 1);
             var tiv = new TransactionViewModel(ti, Workspace, _inventoryService, _cacheService);
             TransactionItems.Add(tiv);
             SelectedTransactionItem = tiv;
             RaisePropertyChanged(() => TransactionItems);
+            OnRowInserted();
         }
 
         protected override void OnSave(string value)
@@ -111,6 +120,18 @@ namespace Samba.Modules.InventoryModule
             base.OnSave(value);
         }
 
+        public void OnRowDeleted()
+        {
+            EventHandler handler = RowDeleted;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        public void OnRowInserted()
+        {
+            EventHandler handler = RowInserted;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
         public override Type GetViewType()
         {
             return typeof(TransactionDocumentView);
@@ -124,6 +145,12 @@ namespace Samba.Modules.InventoryModule
         protected override AbstractValidator<InventoryTransactionDocument> GetValidator()
         {
             return new TransactionValidator(_applicationState);
+        }
+
+        public void ExecuteTransactionItemCommand()
+        {
+            if(AddTransactionItemCommand.CanExecute(""))
+                AddTransactionItemCommand.Execute("");
         }
     }
 

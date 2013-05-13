@@ -104,18 +104,18 @@ namespace Samba.Persistance.Data
             {
                 Create(context);
             }
-#if DEBUG
-            else if (!context.Database.CompatibleWithModel(false))
-            {
-                context.Database.Delete();
-                Create(context);
-            }
-#else
+//#if DEBUG
+//            else if (!context.Database.CompatibleWithModel(false))
+//            {
+//                context.Database.Delete();
+//                Create(context);
+//            }
+//#else
             else
             {
                 Migrate(context);
             }
-#endif
+//#endif
             var version = context.ObjContext().ExecuteStoreQuery<long>("select top(1) Version from VersionInfo order by version desc").FirstOrDefault();
             LocalSettings.CurrentDbVersion = version;
         }

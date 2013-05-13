@@ -11,10 +11,13 @@ namespace Samba.Domain.Models.Inventory
         public string UnitName { get; set; }
         public decimal UnitMultiplier { get; set; }
         public decimal InStock { get; set; }
-        public decimal Purchase { get; set; }
+        public decimal Added { get; set; }
+        public decimal Removed { get; set; }
         public decimal Consumption { get; set; }
         public decimal? PhysicalInventory { get; set; }
         public decimal Cost { get; set; }
+
+        public decimal Purchase { get { return Added - Removed; } }
 
         public decimal GetInventoryPrediction()
         {

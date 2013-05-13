@@ -64,7 +64,7 @@ namespace Samba.Presentation.ViewModels
         {
             if (_template == null) return;
 
-            data.Where(x => !_template.EntityCustomFields.Any(y => y.Name == x.Name)).ToList().ForEach(x => data.Remove(x));
+            data.Where(x => _template.EntityCustomFields.All(y => y.Name != x.Name)).ToList().ForEach(x => data.Remove(x));
 
             foreach (var cf in _template.EntityCustomFields)
             {
