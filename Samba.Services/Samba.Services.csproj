@@ -101,6 +101,8 @@
     <Compile Include="Implementations\DepartmentModule\DepartmentService.cs" />
     <Compile Include="Implementations\EMailService.cs" />
     <Compile Include="Implementations\EntityModule\EntityService.cs" />
+    <Compile Include="Implementations\ExpressionModule\Accessors\DataAccessor.cs" />
+    <Compile Include="Implementations\ExpressionModule\Accessors\EntityAccessor.cs" />
     <Compile Include="Implementations\ExpressionModule\Accessors\OrderAccessor.cs" />
     <Compile Include="Implementations\ExpressionModule\Accessors\TicketAccessor.cs" />
     <Compile Include="Implementations\ExpressionModule\ExpressionEngine.cs" />

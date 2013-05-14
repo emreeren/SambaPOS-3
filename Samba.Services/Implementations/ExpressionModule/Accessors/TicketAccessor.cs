@@ -21,5 +21,19 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
         }
         public static string CreatingUserName { get { return Model.Orders.Any() ? Model.Orders[0].CreatingUserName : ""; } }
         public static string LastUserName { get { return Model.Orders.Any() ? Model.Orders.OrderBy(x => x.Id).Last().CreatingUserName : ""; } }
+        public static bool IsInState(string state)
+        {
+            if (state.Contains(":"))
+            {
+                var parts = state.Split(new[] { ':' }, 2);
+                return IsInState(parts[0], parts[1]);
+            }
+            return Model.IsInState("*", state);
+        }
+
+        public static bool IsInState(string stateName, string state)
+        {
+            return Model.IsInState(stateName, state);
+        }
     }
 }

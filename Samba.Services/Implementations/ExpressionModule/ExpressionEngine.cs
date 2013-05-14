@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using Fluentscript.Lib.AST;
 using Fluentscript.Lib.Parser;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Services.Implementations.ExpressionModule.Accessors;
 
@@ -17,14 +18,19 @@ namespace Samba.Services.Implementations.ExpressionModule
             Interpreter = new Interpreter();
             Interpreter.SetFunctionCallback("F", FormatFunction);
             Interpreter.SetFunctionCallback("TN", ToNumberFunction);
-            Interpreter.SetFunctionCallback("FF",FixFormatFunction);
+            Interpreter.SetFunctionCallback("FF", FixFormatFunction);
 
             Interpreter.LexReplace("Ticket", "TicketAccessor");
             Interpreter.LexReplace("Order", "OrderAccessor");
+            Interpreter.LexReplace("Entity", "EntityAccessor");
+            Interpreter.LexReplace("Data", "DataAccessor");
             Interpreter.Context.Plugins.RegisterAll();
             Interpreter.Context.Types.Register(typeof(TicketAccessor), null);
             Interpreter.Context.Types.Register(typeof(OrderAccessor), null);
+            Interpreter.Context.Types.Register(typeof(EntityAccessor), null);
+            Interpreter.Context.Types.Register(typeof(DataAccessor), null);
         }
+
 
         public static void RegisterType(Type type, string name)
         {
@@ -50,7 +56,7 @@ namespace Samba.Services.Implementations.ExpressionModule
             return (Convert.ToDouble(arg3.ParamList[0])).ToString(fmt);
         }
 
-        private static object FixFormatFunction(string s,string s1,FunctionCallExpr args)
+        private static object FixFormatFunction(string s, string s1, FunctionCallExpr args)
         {
             double d;
             double.TryParse(args.ParamList[0].ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out d);
@@ -66,6 +72,8 @@ namespace Samba.Services.Implementations.ExpressionModule
                 {
                     TicketAccessor.Model = GetDataValue<Ticket>(dataObject);
                     OrderAccessor.Model = GetDataValue<Order>(dataObject);
+                    EntityAccessor.Model = GetDataValue<Entity>(dataObject);
+                    DataAccessor.Model = dataObject;
                 }
                 Interpreter.Execute("result = " + expression);
                 return Interpreter.Result.Success ? Interpreter.Memory.Get<string>("result") : "";
@@ -84,6 +92,8 @@ namespace Samba.Services.Implementations.ExpressionModule
                 {
                     TicketAccessor.Model = GetDataValue<Ticket>(dataObject);
                     OrderAccessor.Model = GetDataValue<Order>(dataObject);
+                    EntityAccessor.Model = GetDataValue<Entity>(dataObject);
+                    DataAccessor.Model = dataObject;
                 }
                 Interpreter.Execute(expression);
                 return Interpreter.Result.Success ? Interpreter.Memory.Get<T>("result") : defaultValue;

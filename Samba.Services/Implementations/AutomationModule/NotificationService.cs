@@ -75,6 +75,7 @@ namespace Samba.Services.Implementations.AutomationModule
         {
             if (string.IsNullOrEmpty(actionContainer.CustomConstraint)) return true;
             var expression = _settingService.ReplaceSettingValues(actionContainer.CustomConstraint);
+            expression = ReplaceParameterValues(expression, dataObject);
             return _expressionService.Eval("result = " + expression, dataObject, true);
         }
 
