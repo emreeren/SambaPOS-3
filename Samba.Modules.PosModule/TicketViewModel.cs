@@ -549,6 +549,8 @@ namespace Samba.Modules.PosModule
         {
             RefreshVisuals();
             _ticketInfo.Refresh();
+            _totals.ResetCache();
+            _totals.Refresh();
             ClearSelectedItems();
         }
 

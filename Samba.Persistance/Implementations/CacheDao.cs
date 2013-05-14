@@ -118,7 +118,7 @@ namespace Samba.Persistance.Implementations
 
         public IEnumerable<CalculationType> GetCalculationTypes()
         {
-            return Dao.Query<CalculationType>();
+            return Dao.Query<CalculationType>(x => x.AccountTransactionType);
         }
 
         public IEnumerable<AccountScreen> GetAccountScreens()

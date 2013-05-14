@@ -82,7 +82,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                         EntityTypeName = entityType.Name,
                         OldEntityName = oldEntityName,
                         NewEntityName = newEntityName,
-                        OrderCount = ticket.Orders.Count
+                        OrderCount = ticket.Orders.Count,
+                        CustomData=entityCustomData
                     });
             }
         }

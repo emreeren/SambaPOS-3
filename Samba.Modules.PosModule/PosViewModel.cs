@@ -287,6 +287,13 @@ namespace Samba.Modules.PosModule
                         _ticketViewModel.ResetTicket();
                     }
                     break;
+                case EventTopicNames.RegenerateSelectedTicket:
+                    if (SelectedTicket != null)
+                    {
+                        _ticketViewModel.ResetTicket();
+                        DisplaySingleTicket();
+                    }
+                    break;
                 case EventTopicNames.RefreshSelectedTicket:
                     DisplayMenuScreen();
                     DisplaySingleTicket();

@@ -138,6 +138,7 @@
         public const string DisableLandscape = "DisableLandscape";
         public const string RegionActivated = "RegionActivated";
         public const string ActivateMenuView = "ActivateMenuView";
+        public const string RegenerateSelectedTicket = "RegenerateSelectedTicket";
     }
 
     public static class FunctionNames
