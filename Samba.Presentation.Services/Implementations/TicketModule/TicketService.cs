@@ -83,7 +83,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                         OldEntityName = oldEntityName,
                         NewEntityName = newEntityName,
                         OrderCount = ticket.Orders.Count,
-                        CustomData=entityCustomData
+                        CustomData = entityCustomData
                     });
             }
         }
@@ -137,8 +137,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (canSumbitTicket)
             {
                 RecalculateTicket(ticket);
-                ticket.Close();
-
+                //ticket.Close();
+                _applicationState.NotifyEvent(RuleEventNames.BeforeTicketClosing, new { Ticket = ticket, TicketId = ticket.Id, ticket.RemainingAmount, ticket.TotalAmount });
                 if (ticket.Orders.Count > 0)
                 {
                     var ticketType = _cacheService.GetTicketTypeById(ticket.TicketTypeId);
@@ -157,7 +157,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
                     Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
                     Debug.Assert(ticket.Id > 0);
-                    _applicationState.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id });
+                    _applicationState.NotifyEvent(RuleEventNames.TicketClosing, new { Ticket = ticket, TicketId = ticket.Id, ticket.RemainingAmount, ticket.TotalAmount });
                     ticket.LockTicket();
                 }
 

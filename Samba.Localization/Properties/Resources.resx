@@ -3122,4 +3122,13 @@ Error Message:
   <data name="StartProcess" xml:space="preserve">
     <value>Start Process</value>
   </data>
+  <data name="BeforeTicketClosing" xml:space="preserve">
+    <value>Before Ticket Closing</value>
+  </data>
+  <data name="MarkTicketAsClosed" xml:space="preserve">
+    <value>Mark Ticket as Closed</value>
+  </data>
+  <data name="LoadTicket" xml:space="preserve">
+    <value>Load Ticket</value>
+  </data>
 </root>

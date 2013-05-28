@@ -441,6 +441,8 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(lockTicketAction);
             var unlockTicketAction = new AppAction { ActionType = ActionNames.UnlockTicket, Name = Resources.UnlockTicket, Parameter = "" };
             _workspace.Add(unlockTicketAction);
+            var markTicketAsClosed = new AppAction { ActionType = ActionNames.MarkTicketAsClosed, Name = Resources.MarkTicketAsClosed, Parameter = "" };
+            _workspace.Add(markTicketAsClosed);
             _workspace.CommitChanges();
 
             var newTicketRule = new AppRule { Name = "New Ticket Creating Rule", EventName = RuleEventNames.TicketCreated };
@@ -454,6 +456,12 @@ namespace Samba.Presentation.Services.Common
             newOrderAddingRule.AddRuleMap();
             _workspace.Add(newOrderAddingRule);
 
+            var ticketPayCheckRule = new AppRule { Name = "Ticket Payment Check", EventName = RuleEventNames.TicketClosing, EventConstraints = "RemainingAmount;=;0" };
+            ticketPayCheckRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = "Status=" + Resources.Paid });
+            ticketPayCheckRule.Actions.Add(new ActionContainer(markTicketAsClosed));
+            ticketPayCheckRule.AddRuleMap();
+            _workspace.Add(ticketPayCheckRule);
+
             var ticketMovedRule = new AppRule { Name = Resources.TicketMovedRule, EventName = RuleEventNames.TicketMoved };
             ticketMovedRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
             ticketMovedRule.AddRuleMap();
@@ -466,10 +474,10 @@ namespace Samba.Presentation.Services.Common
             ticketClosingRule.AddRuleMap();
             _workspace.Add(ticketClosingRule);
 
-            var ticketPayRule = new AppRule { Name = "Ticket Paying Rule", EventName = RuleEventNames.PaymentProcessed, EventConstraints = "RemainingAmount;=;0" };
-            ticketPayRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = "Status=" + Resources.Paid });
-            ticketPayRule.AddRuleMap();
-            _workspace.Add(ticketPayRule);
+            //var ticketPayRule = new AppRule { Name = "Ticket Paying Rule", EventName = RuleEventNames.PaymentProcessed, EventConstraints = "RemainingAmount;=;0" };
+            //ticketPayRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = "Status=" + Resources.Paid });
+            //ticketPayRule.AddRuleMap();
+            //_workspace.Add(ticketPayRule);
 
             var giftOrderRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.Gift), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = string.Format("AutomationCommandName;=;{0}", giftItemAutomation.Name) };
             giftOrderRule.Actions.Add(new ActionContainer(updateOrderAction) { ParameterValues = "Decrease=True#Calculate Price=False" });
@@ -558,7 +566,7 @@ namespace Samba.Presentation.Services.Common
             _workspace.CommitChanges();
             _workspace.Dispose();
 
-            
+
         }
 
         private void ImportItems<T>(Func<string[], IWorkspace, IEnumerable<T>> func) where T : class

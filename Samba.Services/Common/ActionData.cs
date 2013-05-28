@@ -2,7 +2,7 @@
 
 namespace Samba.Services.Common
 {
-    public class ActionData 
+    public class ActionData
     {
         public AppAction Action { get; set; }
         public string ParameterValues { get; set; }

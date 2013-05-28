@@ -20,5 +20,6 @@ namespace Samba.Services
         IEnumerable<int> GetOpenTicketIds(int entityId);
         int GetOpenTicketCount();
         void UpdateAccountOfOpenTickets(Entity entity);
+        IEnumerable<Ticket> GetTicketsByState(string state);
     }
 }

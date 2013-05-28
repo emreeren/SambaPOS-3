@@ -45,6 +45,7 @@ namespace Samba.Services.Implementations.AutomationModule
                     containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues, dataObject);
                     var data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
                     dataAction.Invoke(data);
+                    dataObject = data.DataObject;
                 }
             }
         }

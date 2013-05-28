@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Samba.Domain.Models.Entities;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Helpers;
 using Samba.Persistance;
 using Samba.Presentation.Common.Commands;
@@ -28,7 +29,7 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
 
         private void OnItemClicked(AutomationButtonWidgetViewModel obj)
         {
-            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { AutomationCommandName = obj.Settings.CommandName });
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = Ticket.Empty, AutomationCommandName = obj.Settings.CommandName });
         }
 
         protected override object CreateSettingsObject()

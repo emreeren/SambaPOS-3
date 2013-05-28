@@ -764,6 +764,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Before Ticket Closing.
+        /// </summary>
+        public static string BeforeTicketClosing {
+            get {
+                return ResourceManager.GetString("BeforeTicketClosing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Before Work Period Ends.
         /// </summary>
         public static string BeforeWorkPeriodEnds {
@@ -3801,6 +3810,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load Ticket.
+        /// </summary>
+        public static string LoadTicket {
+            get {
+                return ResourceManager.GetString("LoadTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Local Settings.
         /// </summary>
         public static string LocalSettings {
@@ -3923,6 +3941,15 @@ namespace Samba.Localization.Properties {
         public static string Market {
             get {
                 return ResourceManager.GetString("Market", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark Ticket as Closed.
+        /// </summary>
+        public static string MarkTicketAsClosed {
+            get {
+                return ResourceManager.GetString("MarkTicketAsClosed", resourceCulture);
             }
         }
         

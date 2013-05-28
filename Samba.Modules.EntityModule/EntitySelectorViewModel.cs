@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
@@ -129,7 +130,7 @@ namespace Samba.Modules.EntityModule
                 EntityScreenItems = new ObservableCollection<EntityScreenItemViewModel>();
                 EntityScreenItems.AddRange(entityData.Select(x => new
                     EntityScreenItemViewModel(_cacheService, x, SelectedEntityScreen, EntitySelectionCommand,
-                    _currentOperationRequest.SelectedEntity != null, _userService.IsUserPermittedFor(PermissionNames.MergeTickets))));
+                   _currentOperationRequest != null && _currentOperationRequest.SelectedEntity != null, _userService.IsUserPermittedFor(PermissionNames.MergeTickets))));
             }
             else
             {
@@ -146,5 +147,6 @@ namespace Samba.Modules.EntityModule
             _currentOperationRequest = currentOperationRequest;
             UpdateEntityScreenItems(entityScreen);
         }
+
     }
 }

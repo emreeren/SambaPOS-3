@@ -20,7 +20,7 @@ namespace Samba.Services.Implementations.TicketModule
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TicketServiceBase(ITicketDao ticketDao,ICacheService cacheService)
+        public TicketServiceBase(ITicketDao ticketDao, ICacheService cacheService)
         {
             _ticketDao = ticketDao;
             _cacheService = cacheService;
@@ -79,6 +79,17 @@ namespace Samba.Services.Implementations.TicketModule
                 }
                 w.CommitChanges();
             }
+        }
+
+        public IEnumerable<Ticket> GetTicketsByState(string state)
+        {
+            var sv = string.Format("\"S\":\"{0}\"", state);
+            return Dao.Query<Ticket>(x => x.TicketStates.Contains(sv),
+                             x => x.Orders.Select(y => y.ProductTimerValue),
+                             x => x.TicketEntities,
+                             x => x.Calculations,
+                             x => x.Payments,
+                             x => x.ChangePayments);
         }
     }
 }
