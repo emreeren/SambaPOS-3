@@ -6,6 +6,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            <ListBox ItemsSource="{Binding TicketList}" SelectedItem="{Binding SelectedItem}"></ListBox>
+        <ListBox Name="ListBox" ItemsSource="{Binding TicketList}" SelectedItem="{Binding SelectedItem}" FontSize="{Binding FontSize}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="1" BorderBrush="{Binding Border}" Margin="0,3" >
+                        <TextBlock Padding="3" Background="{Binding Background}" Foreground="{Binding Foreground}"  
+                               Text="{Binding TicketData}"></TextBlock>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True"
+                        Width="{Binding Path=ActualWidth,
+                                  RelativeSource={RelativeSource
+                                  Mode=FindAncestor,
+                                  AncestorType= {x:Type ScrollContentPresenter}}}" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
     </Grid>
 </UserControl>

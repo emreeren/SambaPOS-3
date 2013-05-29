@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Samba.Infrastructure;
 using Samba.Services.Implementations.AutomationModule;
 
 namespace Samba.Services.Common
@@ -22,7 +23,7 @@ namespace Samba.Services.Common
                 {
                     EventKey = eventKey,
                     EventName = eventName,
-                    ParameterObject = constraintObject
+                    ParameterObject = constraintObject.ToDynamic()
                 });
         }
 
@@ -35,7 +36,7 @@ namespace Samba.Services.Common
                                                 {
                                                     ActionName = actionName,
                                                     ActionType = actionType,
-                                                    ParameterObject = parameterObject
+                                                    ParameterObject = parameterObject.ToDynamic()
                                                 });
         }
 

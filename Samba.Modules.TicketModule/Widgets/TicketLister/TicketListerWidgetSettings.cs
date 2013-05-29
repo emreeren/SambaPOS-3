@@ -1,14 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using PropertyTools.DataAnnotations;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common.ModelBase;
 
 namespace Samba.Modules.TicketModule.Widgets.TicketLister
 {
     public class TicketListerWidgetSettings
     {
+        public TicketListerWidgetSettings()
+        {
+            Width = 0;
+            FontSize = 12;
+            FontName = "";
+            Background = "Transparent";
+            Foreground = "Black";
+            Border = "Transparent";
+            State = null;
+            Format = null;
+        }
+
         public string State
         {
             get { return _state; }
@@ -19,14 +33,13 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         private string _state;
         private int _width;
         private string _fontName;
-        private string _selectedTicketSettingName;
 
         [WideProperty]
         [Height(80)]
         public string Format
         {
             get { return _format; }
-            set { _format = value ?? ("{TICKET NO}"); }
+            set { _format = value ?? ("<J>{TICKET NO}|{TICKET TOTAL}"); }
         }
 
         public int Width
@@ -41,10 +54,31 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             set { _fontName = !string.IsNullOrEmpty(value) ? value : "Lucida Console"; }
         }
 
-        public string SelectedTicketSettingName
+        public int FontSize { get; set; }
+
+        public string Background { get; set; }
+        public string Foreground { get; set; }
+        public string Border { get; set; }
+
+        private NameWithValue _commandNameValue;
+        public NameWithValue CommandNameValue
         {
-            get { return _selectedTicketSettingName; }
-            set { _selectedTicketSettingName = !string.IsNullOrEmpty(value) ? value : "LISTER_ID"; }
+            get { return _commandNameValue??(_commandNameValue = new NameWithValue()); }
         }
+
+        [Browsable(false)]
+        public string CommandName { get { return CommandNameValue.Text; } set { CommandNameValue.Text = value; } }
+
+        public string CommandValue { get; set; }
+
+        private NameWithValue _orderByNameValue;
+        public NameWithValue OrderByNameValue
+        {
+            get { return _orderByNameValue ?? (_orderByNameValue = new NameWithValue()); }
+        }
+
+        [Browsable(false)]
+        public string OrderBy { get { return OrderByNameValue.Text; } set { OrderByNameValue.Text = value; } }
+
     }
 }

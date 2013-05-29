@@ -4,6 +4,7 @@ using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Messaging;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.Services;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
@@ -36,7 +37,7 @@ namespace Samba.Modules.EntityModule
 
         public void RemoveWidget(IDiagram viewModel)
         {
-            if (viewModel != null)
+            if (viewModel != null && InteractionService.UserIntraction.AskQuestion("Delete Widget?"))
             {
                 Widgets.Remove(viewModel);
                 _entityService.RemoveWidget(viewModel.GetWidget());

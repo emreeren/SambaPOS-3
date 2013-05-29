@@ -290,7 +290,7 @@ namespace Samba.Presentation.ViewModels
                 {
                     var ticketId = x.Value.GetAsInteger("TicketId");
                     var ticket = TicketService.OpenTicket(ticketId);
-                    x.Value.DataObject = new {Ticket = ticket};
+                    x.Value.DataObject.Ticket = ticket;
                     ticket.PublishEvent(EventTopicNames.SetSelectedTicket);
                 }
 

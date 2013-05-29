@@ -33,7 +33,7 @@ namespace Samba.Domain.Models.Automation
             return Parameters.ContainsKey(parameterName) ? Parameters[parameterName] : "";
         }
 
-        public string GetFormattedParameter(string parameterName, object dataObject, string parameterValues)
+        public string GetFormattedParameter(string parameterName, dynamic dataObject, string parameterValues)
         {
             var format = GetParameter(parameterName);
             return !string.IsNullOrEmpty(format) && format.Contains("[") ? Format(format, dataObject, parameterValues) : format;
@@ -46,7 +46,7 @@ namespace Samba.Domain.Models.Automation
                 foreach (var propertyName in Regex.Matches(parameterValues, "\\[:([^\\]]+)\\]").Cast<Match>().Select(match => match.Groups[1].Value).ToList())
                 {
                     parameterValues = parameterValues.Replace(string.Format("[:{0}]", propertyName),
-                                             SafeToString(dataObject.GetType().GetProperty(propertyName).GetValue(dataObject, null)));
+                                             SafeToString(((IDictionary<string, object>)dataObject)[propertyName]));
                 }
             }
 

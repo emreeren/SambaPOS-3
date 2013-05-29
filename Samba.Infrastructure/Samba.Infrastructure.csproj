@@ -81,6 +81,7 @@
     <Compile Include="ExceptionReporter\SystemInfo\SysInfoResult.cs" />
     <Compile Include="ExceptionReporter\SystemInfo\SysInfoResultMapper.cs" />
     <Compile Include="ExceptionReporter\SystemInfo\SysInfoRetriever.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Helpers\AlphanumComparator.cs" />
     <Compile Include="Cron\CronBuilder.cs" />
     <Compile Include="Cron\CronEntryBase.cs" />

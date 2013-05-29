@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Automation;
+using Samba.Infrastructure;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Services.Common;
 
@@ -25,8 +26,10 @@ namespace Samba.Services.Implementations.AutomationModule
             _expressionService = expressionService;
         }
 
-        public void NotifyEvent(string eventName, object dataObject, int terminalId, int departmentId, int userRoleId, Action<ActionData> dataAction)
+        public void NotifyEvent(string eventName, object dataParameter, int terminalId, int departmentId, int userRoleId, Action<ActionData> dataAction)
         {
+            var dataObject = dataParameter.ToDynamic();
+            _settingService.ClearSettingCache();
             var rules = _cacheService.GetAppRules(eventName, terminalId, departmentId, userRoleId);
             foreach (var rule in rules.Where(x => string.IsNullOrEmpty(x.EventConstraints) || SatisfiesConditions(x, dataObject)))
             {
@@ -45,7 +48,6 @@ namespace Samba.Services.Implementations.AutomationModule
                     containerParameterValues = _expressionService.ReplaceExpressionValues(containerParameterValues, dataObject);
                     var data = new ActionData { Action = clonedAction, DataObject = dataObject, ParameterValues = containerParameterValues };
                     dataAction.Invoke(data);
-                    dataObject = data.DataObject;
                 }
             }
         }
@@ -56,9 +58,8 @@ namespace Samba.Services.Implementations.AutomationModule
             {
                 foreach (var propertyName in Regex.Matches(parameterValues, "\\[:([^\\]]+)\\]").Cast<Match>().Select(match => match.Groups[1].Value).ToList())
                 {
-                    var prop = dataObject.GetType().GetProperty(propertyName);
-                    if (prop == null) continue;
-                    var val = prop.GetValue(dataObject, null);
+                    if (!((IDictionary<string, object>)dataObject).ContainsKey(propertyName)) continue;
+                    var val = ((IDictionary<string, object>)dataObject)[propertyName];
                     parameterValues = parameterValues.Replace(string.Format("[:{0}]", propertyName), val != null ? val.ToString() : "");
                 }
             }
@@ -84,7 +85,7 @@ namespace Samba.Services.Implementations.AutomationModule
         {
             var conditions = appRule.EventConstraints.Split('#').Select(x => new RuleConstraint(x));
 
-            var parameterNames = dataObject.GetType().GetProperties().Select(x => x.Name).ToList();
+            var parameterNames = ((IDictionary<string, object>)dataObject).Keys;
 
             foreach (var condition in conditions)
             {
@@ -92,8 +93,7 @@ namespace Samba.Services.Implementations.AutomationModule
 
                 if (!string.IsNullOrEmpty(parameterName))
                 {
-                    var property = dataObject.GetType().GetProperty(parameterName);
-                    var parameterValue = property.GetValue(dataObject, null) ?? "";
+                    var parameterValue = ((IDictionary<string, object>)dataObject)[parameterName];
                     if (condition.IsValueDifferent(parameterValue)) return false;
                 }
             }

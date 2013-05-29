@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media;
 using Samba.Domain.Models.Entities;
+using Samba.Persistance;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Services;
@@ -15,14 +15,17 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
     {
         private readonly ITicketServiceBase _ticketServiceBase;
         private readonly IPrinterService _printerService;
-        private readonly ISettingService _settingService;
+        private readonly ICacheService _cacheService;
+        private readonly IAutomationDao _automationDao;
 
         [ImportingConstructor]
-        public TicketListerWidgetCreator(ITicketServiceBase ticketServiceBase, IPrinterService printerService, ISettingService settingService)
+        public TicketListerWidgetCreator(ITicketServiceBase ticketServiceBase, IPrinterService printerService,
+            ICacheService cacheService, IAutomationDao automationDao)
         {
             _ticketServiceBase = ticketServiceBase;
             _printerService = printerService;
-            _settingService = settingService;
+            _cacheService = cacheService;
+            _automationDao = automationDao;
         }
 
         public string GetCreatorName()
@@ -66,7 +69,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new TicketListerWidgetViewModel(widget, applicationState, _ticketServiceBase, _printerService, _settingService);
+            return new TicketListerWidgetViewModel(widget, applicationState, _ticketServiceBase, _printerService, _cacheService, _automationDao);
         }
     }
 }

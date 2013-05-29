@@ -224,7 +224,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             {
                 ticket.TicketNumber = _settingService.GetNextString(numerator.Id);
             }
-            ticket.LastOrderDate = DateTime.Now;
         }
 
         public TicketCommitResult MergeTickets(IEnumerable<int> ticketIds)
