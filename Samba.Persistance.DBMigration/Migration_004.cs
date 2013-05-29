@@ -16,6 +16,38 @@ namespace Samba.Persistance.DBMigration
             Create.Column("Removed").OnTable("PeriodicConsumptionItems").AsDecimal().WithDefaultValue(0);
             Execute.Sql("Update PeriodicConsumptionItems set Added = Purchase");
             Delete.Column("Purchase").FromTable("PeriodicConsumptionItems");
+
+            var dc = ApplicationContext as DbContext;
+
+            if (dc != null)
+            {
+                var ticketPayingRule = dc.Set<AppRule>().SingleOrDefault(x => x.Name == "Ticket Paying Rule");
+                if (ticketPayingRule != null)
+                {
+                    ticketPayingRule.Name = "Ticket Payment Check";
+                    ticketPayingRule.EventName = "BeforeTicketClosing";
+                    var markTicketAsClosed = new AppAction { ActionType = "MarkTicketAsClosed", Name = Resources.MarkTicketAsClosed, Parameter = "" };
+                    dc.Set<AppAction>().Add(markTicketAsClosed);
+                    dc.SaveChanges();
+                    ticketPayingRule.Actions.Add(new ActionContainer(markTicketAsClosed));
+                }
+
+                //var updateTicketStatusAction = dc.Set<AppAction>().SingleOrDefault(x => x.Name == Resources.UpdateTicketStatus);
+                //var updateMergedTicket = dc.Set<AppRule>().SingleOrDefault(x => x.Name == Resources.UpdateMergedTicketsState);
+                //if (updateTicketStatusAction != null)
+                //{
+                //    if (updateMergedTicket != null)
+                //    {
+                //        updateMergedTicket.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
+                //    }
+
+                //    var ticketMovedRule = new AppRule { Name = Resources.TicketMovedRule, EventName = "TicketMoved" };
+                //    ticketMovedRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
+                //    ticketMovedRule.AddRuleMap();
+                //    dc.Set<AppRule>().Add(ticketMovedRule);
+                //}
+                dc.SaveChanges();
+            }
         }
 
         public override void Down()

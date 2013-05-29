@@ -456,7 +456,7 @@ namespace Samba.Presentation.Services.Common
             newOrderAddingRule.AddRuleMap();
             _workspace.Add(newOrderAddingRule);
 
-            var ticketPayCheckRule = new AppRule { Name = "Ticket Payment Check", EventName = RuleEventNames.TicketClosing, EventConstraints = "RemainingAmount;=;0" };
+            var ticketPayCheckRule = new AppRule { Name = "Ticket Payment Check", EventName = RuleEventNames.BeforeTicketClosing, EventConstraints = "RemainingAmount;=;0" };
             ticketPayCheckRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = "Status=" + Resources.Paid });
             ticketPayCheckRule.Actions.Add(new ActionContainer(markTicketAsClosed));
             ticketPayCheckRule.AddRuleMap();

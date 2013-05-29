@@ -16,7 +16,6 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
 {
     class TicketListerWidgetViewModel : WidgetViewModel
     {
-        public bool IsRefreshing { get; set; }
         private readonly IApplicationState _applicationState;
         private readonly ITicketServiceBase _ticketService;
         private readonly IPrinterService _printerService;
@@ -46,6 +45,8 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         }
 
         [Browsable(false)]
+        public bool IsRefreshing { get; set; }        
+        [Browsable(false)]
         public string FontName { get { return Settings.FontName; } }
         [Browsable(false)]
         public int FontSize { get { return Settings.FontSize; } }
@@ -63,22 +64,24 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             set
             {
                 _selectedItem = value;
-                // _settingService.ReadLocalSetting(Settings.SelectedTicketSettingName).IntegerValue = value != null ? value.Ticket.Id : 0;
                 if (!string.IsNullOrEmpty(Settings.CommandName))
                 {
                     var val = "";
 
                     if (value != null)
                     {
-                        val = _printerService.GetPrintingContent(value.Ticket, Settings.CommandValue, 0);
+                        val = !string.IsNullOrEmpty(Settings.CommandValue) ?
+                            _printerService.GetPrintingContent(value.Ticket, Settings.CommandValue, 0)
+                            : value.Ticket.Id.ToString();
                     }
 
-                    _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
-                                                                                                {
-                                                                                                    Ticket = Ticket.Empty,
-                                                                                                    AutomationCommandName = Settings.CommandName,
-                                                                                                    Value = val
-                                                                                                });
+                    _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
+                        new
+                        {
+                            Ticket = Ticket.Empty,
+                            AutomationCommandName = Settings.CommandName,
+                            Value = val
+                        });
                 }
             }
         }

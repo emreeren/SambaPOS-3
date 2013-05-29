@@ -17,7 +17,8 @@ namespace Samba.Services.Common
 
         public string GetDataValueAsString(string dataName)
         {
-            return GetDataValue<string>(dataName);
+            if (!((IDictionary<string, object>)DataObject).ContainsKey(dataName)) return "";
+            return ((IDictionary<string, object>)DataObject)[dataName].ToString();
         }
 
         public int GetDataValueAsInt(string dataName)

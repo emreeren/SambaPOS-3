@@ -7,9 +7,10 @@ namespace Samba.Services.Common
 {
     public class ParameterValue
     {
-        private readonly PropertyInfo _parameterInfo;
+        private readonly string _parameterName;
+        private readonly Type _paramaterType;
 
-        public string Name { get { return _parameterInfo.Name; } }
+        public string Name { get { return _parameterName; } }
         public string NameDisplay
         {
             get
@@ -19,14 +20,15 @@ namespace Samba.Services.Common
             }
         }
 
-        public Type ValueType { get { return _parameterInfo.PropertyType; } }
+        public Type ValueType { get { return _paramaterType; } }
         public string Value { get; set; }
 
         private IEnumerable<string> _values;
 
-        public ParameterValue(PropertyInfo propertyInfo)
+        public ParameterValue(string parameterName, Type paramaterType)
         {
-            _parameterInfo = propertyInfo;
+            _parameterName = parameterName;
+            _paramaterType = paramaterType;
         }
 
         public IEnumerable<string> Values

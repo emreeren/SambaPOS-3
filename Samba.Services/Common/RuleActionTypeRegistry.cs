@@ -46,8 +46,8 @@ namespace Samba.Services.Common
             var obj = RuleEvents[eventName].ParameterObject;
             if (obj != null)
             {
-                var items = obj.GetType().GetProperties().Select(
-                        x => CreateRuleConstraint(x.Name, OperatorConstants.Equal, GetOperations(x.PropertyType)));
+                var items = obj.Select(
+                        x => CreateRuleConstraint(x.Key, OperatorConstants.Equal, GetOperations(x.Value.GetType())));
                 result.AddRange(items);
             }
             return result;
