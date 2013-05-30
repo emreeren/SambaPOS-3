@@ -45,7 +45,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         }
 
         [Browsable(false)]
-        public bool IsRefreshing { get; set; }        
+        public bool IsRefreshing { get; set; }
         [Browsable(false)]
         public string FontName { get { return Settings.FontName; } }
         [Browsable(false)]
@@ -113,6 +113,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
                                            {
                                                Background = Settings.Background,
                                                Foreground = Settings.Foreground,
+                                               MinWidth = Settings.MinWidth,
                                                Border = Settings.Border,
                                                TicketData = _printerService.GetPrintingContent(x, Settings.Format, Settings.Width),
                                                Ticket = x
@@ -165,5 +166,6 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         public string Background { get; set; }
         public string Foreground { get; set; }
         public string Border { get; set; }
+        public int MinWidth { get; set; }
     }
 }

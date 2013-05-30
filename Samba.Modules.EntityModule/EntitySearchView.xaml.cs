@@ -17,10 +17,13 @@ namespace Samba.Modules.EntityModule
     [Export]
     public partial class EntitySearchView : UserControl
     {
+        public EntitySearchViewModel ViewModel { get; set; }
+
         [ImportingConstructor]
         public EntitySearchView(EntitySearchViewModel viewModel)
         {
             DataContext = viewModel;
+            ViewModel = viewModel;
             viewModel.SelectedEntityTypeChanged += viewModel_SelectedAccountTypeChanged;
             InitializeComponent();
         }
@@ -28,12 +31,11 @@ namespace Samba.Modules.EntityModule
         void viewModel_SelectedAccountTypeChanged(object sender, System.EventArgs e)
         {
             var gridView = MainListView.View as GridView;
-            var selector = sender as EntitySearchViewModel;
-            if (selector != null && gridView != null)
+            if (ViewModel != null && gridView != null)
             {
                 gridView.Columns.Where(x => x.Header.ToString() != Localization.Properties.Resources.Name).ToList().ForEach(x => gridView.Columns.Remove(x));
-                if (selector.SelectedEntityType != null)
-                    selector.SelectedEntityType.EntityCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
+                if (ViewModel.SelectedEntityType != null)
+                    ViewModel.SelectedEntityType.EntityCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
                 MainListView.RaiseEvent(new RoutedEventArgs(LoadedEvent, MainListView));
             }
         }
@@ -54,8 +56,8 @@ namespace Samba.Modules.EntityModule
             if (e.Key == Key.Enter)
             {
                 e.Handled = true;
-                if (((EntitySearchViewModel)DataContext).SelectEntityCommand.CanExecute(""))
-                    ((EntitySearchViewModel)DataContext).SelectEntityCommand.Execute("");
+                if (ViewModel.SelectEntityCommand.CanExecute(""))
+                    ViewModel.SelectEntityCommand.Execute("");
             }
         }
 
@@ -66,7 +68,7 @@ namespace Samba.Modules.EntityModule
 
         private void Reset()
         {
-            ((EntitySearchViewModel)DataContext).RefreshSelectedEntity(null);
+            ViewModel.RefreshSelectedEntity(null);
             SearchString.BackgroundFocus();
         }
 
@@ -77,18 +79,36 @@ namespace Samba.Modules.EntityModule
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var keyboardHeight = Properties.Settings.Default.KeyboardHeight;
-            if (keyboardHeight <= 10 && keyboardHeight > 1) keyboardHeight = 0;
-            KeyboardRow.Height = new GridLength(keyboardHeight, GridUnitType.Star);
-            var contentHeight = Properties.Settings.Default.ContentHeight;
-            ContentRow.Height = new GridLength(contentHeight, GridUnitType.Star);
+            if (ViewModel.IsKeyboardVisible)
+            {
+                var keyboardHeight = Properties.Settings.Default.KeyboardHeight;
+                if (keyboardHeight <= 10 && keyboardHeight > 1) keyboardHeight = 0;
+                KeyboardRow.Height = new GridLength(keyboardHeight, GridUnitType.Star);
+                var contentHeight = Properties.Settings.Default.ContentHeight;
+                ContentRow.Height = new GridLength(contentHeight, GridUnitType.Star);
+            }
+            else
+            {
+                HideKeyboard();
+            }
+        }
+
+        private void HideKeyboard()
+        {
+            KeyboardRow.Height = new GridLength(0, GridUnitType.Auto);
+            KeyboardRow.MinHeight = 0;
+            Keyboard.Visibility = Visibility.Collapsed;
+            Splitter.Visibility = Visibility.Collapsed;
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.KeyboardHeight = KeyboardRow.Height.Value;
-            Properties.Settings.Default.ContentHeight = ContentRow.Height.Value;
-            Properties.Settings.Default.Save();
+            if (ViewModel.IsKeyboardVisible)
+            {
+                Properties.Settings.Default.KeyboardHeight = KeyboardRow.Height.Value;
+                Properties.Settings.Default.ContentHeight = ContentRow.Height.Value;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void GridSplitter_MouseDoubleClick(object sender, MouseButtonEventArgs e)

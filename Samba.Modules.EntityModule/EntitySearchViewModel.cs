@@ -71,6 +71,10 @@ namespace Samba.Modules.EntityModule
             _entityService = entityService;
 
             IsKeyboardVisible = true;
+            IsEditEntityCommandVisible = true;
+            IsCreateEntityCommandVisible = true;
+            IsDisplayAccountCommandVisible = true;
+            SearchLabel = Resources.Search;
             FoundEntities = new ObservableCollection<EntitySearchResultViewModel>();
 
             SelectEntityCommand = new CaptionCommand<string>("", OnSelectEntity, CanSelectEntity);
@@ -79,6 +83,65 @@ namespace Samba.Modules.EntityModule
             DisplayAccountCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(" ", "\r"), OnDisplayAccount, CanDisplayAccount);
             DisplayInventoryCommand = new CaptionCommand<string>(Resources.Inventory, OnDisplayInventory, CanDisplayInventory);
             RemoveEntityCommand = new CaptionCommand<string>("", OnRemoveEntity, CanRemoveEntity);
+        }
+
+        private string _searchString;
+        public string SearchString
+        {
+            get { return string.IsNullOrEmpty(_searchString) ? null : _searchString.TrimStart('+', '0'); }
+            set
+            {
+                if (value != _searchString)
+                {
+                    _searchString = value;
+                    RaisePropertyChanged(() => SearchString);
+                    ResetTimer();
+                }
+            }
+        }
+
+        private string _searchLabel;
+        public string SearchLabel
+        {
+            get { return _searchLabel; }
+            set
+            {
+                _searchLabel = value;
+                RaisePropertyChanged(() => SearchLabel);
+            }
+        }
+
+        private bool _isEditEntityCommandVisible;
+        public bool IsEditEntityCommandVisible
+        {
+            get { return _isEditEntityCommandVisible; }
+            set
+            {
+                _isEditEntityCommandVisible = value;
+                RaisePropertyChanged(() => IsEditEntityCommandVisible);
+            }
+        }
+
+        private bool _isCreateEntityCommandVisible;
+        public bool IsCreateEntityCommandVisible
+        {
+            get { return _isCreateEntityCommandVisible; }
+            set
+            {
+                _isCreateEntityCommandVisible = value;
+                RaisePropertyChanged(() => IsCreateEntityCommandVisible);
+            }
+        }
+
+        private bool _isDisplayAccountCommandVisible;
+        public bool IsDisplayAccountCommandVisible
+        {
+            get { return _isDisplayAccountCommandVisible; }
+            set
+            {
+                _isDisplayAccountCommandVisible = value;
+                RaisePropertyChanged(() => IsDisplayAccountCommandVisible);
+            }
         }
 
         private bool CanDisplayInventory(string arg)
@@ -92,7 +155,17 @@ namespace Samba.Modules.EntityModule
         }
 
         protected string StateFilter { get; set; }
-        public bool IsKeyboardVisible { get; set; }
+
+        private bool _isKeyboardVisible;
+        public bool IsKeyboardVisible
+        {
+            get { return _isKeyboardVisible; }
+            set
+            {
+                _isKeyboardVisible = value;
+                RaisePropertyChanged(() => IsKeyboardVisible);
+            }
+        }
 
         public IEnumerable<EntityType> EntityTypes { get { return _cacheService.GetEntityTypes(); } }
 
@@ -139,21 +212,6 @@ namespace Samba.Modules.EntityModule
                 _focusedEntity = value;
                 RaisePropertyChanged(() => FocusedEntity);
                 RaisePropertyChanged(() => SelectedEntity);
-            }
-        }
-
-        private string _searchString;
-        public string SearchString
-        {
-            get { return string.IsNullOrEmpty(_searchString) ? null : _searchString.TrimStart('+', '0'); }
-            set
-            {
-                if (value != _searchString)
-                {
-                    _searchString = value;
-                    RaisePropertyChanged(() => SearchString);
-                    ResetTimer();
-                }
             }
         }
 

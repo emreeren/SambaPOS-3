@@ -474,11 +474,6 @@ namespace Samba.Presentation.Services.Common
             ticketClosingRule.AddRuleMap();
             _workspace.Add(ticketClosingRule);
 
-            //var ticketPayRule = new AppRule { Name = "Ticket Paying Rule", EventName = RuleEventNames.PaymentProcessed, EventConstraints = "RemainingAmount;=;0" };
-            //ticketPayRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = "Status=" + Resources.Paid });
-            //ticketPayRule.AddRuleMap();
-            //_workspace.Add(ticketPayRule);
-
             var giftOrderRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.Gift), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = string.Format("AutomationCommandName;=;{0}", giftItemAutomation.Name) };
             giftOrderRule.Actions.Add(new ActionContainer(updateOrderAction) { ParameterValues = "Decrease=True#Calculate Price=False" });
             giftOrderRule.Actions.Add(new ActionContainer(updateOrderGiftStatusAction) { ParameterValues = string.Format("Status={0}#Value=[:Value]", Resources.Gift) });

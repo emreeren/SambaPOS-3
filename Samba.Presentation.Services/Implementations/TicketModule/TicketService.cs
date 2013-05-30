@@ -137,7 +137,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (canSumbitTicket)
             {
                 RecalculateTicket(ticket);
-                //ticket.Close();
                 _applicationState.NotifyEvent(RuleEventNames.BeforeTicketClosing, new { Ticket = ticket, TicketId = ticket.Id, ticket.RemainingAmount, ticket.TotalAmount });
                 if (ticket.Orders.Count > 0)
                 {

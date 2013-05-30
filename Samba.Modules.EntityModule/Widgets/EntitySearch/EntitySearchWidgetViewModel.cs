@@ -50,6 +50,10 @@ namespace Samba.Modules.EntityModule.Widgets.EntitySearch
         public override void Refresh()
         {
             EntitySearchViewModel.IsKeyboardVisible = Settings.IsKeyboardVisible;
+            EntitySearchViewModel.IsEditEntityCommandVisible = Settings.CanEditEntity;
+            EntitySearchViewModel.IsCreateEntityCommandVisible = Settings.CanCreateEntity;
+            EntitySearchViewModel.IsDisplayAccountCommandVisible = Settings.CanDisplayAccount;
+            EntitySearchViewModel.SearchLabel = Settings.SearchLabel;
             var entityTypeId = _cacheService.GetEntityTypeIdByEntityName(Settings.EntityTypeName);
             if (entityTypeId == 0) entityTypeId = _applicationState.SelectedEntityScreen.EntityTypeId;
             var stateFilter = !string.IsNullOrEmpty(Settings.StateFilterName) ? (Settings.StateFilterName) : _applicationState.SelectedEntityScreen.StateFilter;

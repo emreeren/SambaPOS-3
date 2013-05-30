@@ -19,6 +19,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             Background = "Transparent";
             Foreground = "Black";
             Border = "Transparent";
+            MinWidth = 20;
             State = null;
             Format = null;
         }
@@ -47,6 +48,8 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             get { return _width; }
             set { _width = value > 0 ? value : 40; }
         }
+
+        public int MinWidth { get; set; }
 
         public string FontName
         {

@@ -31,21 +31,6 @@ namespace Samba.Persistance.DBMigration
                     dc.SaveChanges();
                     ticketPayingRule.Actions.Add(new ActionContainer(markTicketAsClosed));
                 }
-
-                //var updateTicketStatusAction = dc.Set<AppAction>().SingleOrDefault(x => x.Name == Resources.UpdateTicketStatus);
-                //var updateMergedTicket = dc.Set<AppRule>().SingleOrDefault(x => x.Name == Resources.UpdateMergedTicketsState);
-                //if (updateTicketStatusAction != null)
-                //{
-                //    if (updateMergedTicket != null)
-                //    {
-                //        updateMergedTicket.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
-                //    }
-
-                //    var ticketMovedRule = new AppRule { Name = Resources.TicketMovedRule, EventName = "TicketMoved" };
-                //    ticketMovedRule.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
-                //    ticketMovedRule.AddRuleMap();
-                //    dc.Set<AppRule>().Add(ticketMovedRule);
-                //}
                 dc.SaveChanges();
             }
         }

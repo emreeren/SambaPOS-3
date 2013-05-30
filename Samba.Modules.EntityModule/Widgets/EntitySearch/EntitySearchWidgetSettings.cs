@@ -22,5 +22,9 @@ namespace Samba.Modules.EntityModule.Widgets.EntitySearch
         [Browsable(false)]
         public string StateFilterName { get { return StateFilterNameValue.Text; } set { StateFilterNameValue.Text = value; } }
         public bool IsKeyboardVisible { get; set; }
+        public bool CanEditEntity { get; set; }
+        public bool CanCreateEntity { get; set; }
+        public bool CanDisplayAccount { get; set; }
+        public string SearchLabel { get; set; }
     }
 }
