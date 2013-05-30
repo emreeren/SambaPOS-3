@@ -59,6 +59,14 @@ namespace Samba.Modules.EntityModule
                 if (ViewModel.SelectEntityCommand.CanExecute(""))
                     ViewModel.SelectEntityCommand.Execute("");
             }
+            else if (e.Key == Key.Down)
+            {
+                if (ViewModel.FoundEntities.Count > 0)
+                {
+                    e.Handled = true;
+                    MainListView.Focus();
+                }
+            }
         }
 
         private void FlexButtonClick(object sender, RoutedEventArgs e)

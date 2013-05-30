@@ -13,26 +13,37 @@
                 Duration="0:0:0.2" From="0.2" To="1">
             </DoubleAnimation>
         </Storyboard>
-        <Style TargetType="TextBlock" x:Key="FadingTextBlock">
+        <Storyboard x:Key="FadeStop">
+            <DoubleAnimation
+                Storyboard.TargetProperty="Opacity" 
+                Duration="0:0:0" From="1" To="1">
+            </DoubleAnimation>
+        </Storyboard>
+        <Style TargetType="Border" x:Key="FadingBorder">
             <Style.Triggers>
                 <EventTrigger RoutedEvent="MouseDown">
-                    <BeginStoryboard Storyboard="{StaticResource FadeIn}"/>
+                    <BeginStoryboard Storyboard="{StaticResource FadeIn}" Name="FadeStart"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseUp">
+                    <SkipStoryboardToFill BeginStoryboardName="FadeStart"></SkipStoryboardToFill>
                 </EventTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid>
-        <ListBox Name="ListBox" ItemsSource="{Binding TicketList}" SelectedItem="{Binding SelectedItem}" FontSize="{Binding FontSize}">
-            <ListBox.ItemTemplate>
+        <ListBox Name="ListBox" ItemsSource="{Binding TicketList}"  FontSize="{Binding FontSize}">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="1" BorderBrush="{Binding Border}" Margin="0,3" >
-                        <TextBlock Padding="3" Background="{Binding Background}" Foreground="{Binding Foreground}" MinWidth="{Binding MinWidth}"
-                               Text="{Binding TicketData}" Style="{StaticResource FadingTextBlock}"></TextBlock>
-                    </Border>
+                    <Button Style="{StaticResource ItemsControlButtonStyle}"  Command="{Binding ItemSelectionCommand}" CommandParameter="{Binding}">
+                        <Border CornerRadius="5" Style="{StaticResource FadingBorder}" BorderThickness="1" BorderBrush="{Binding Border}" Background="{Binding Background}" Margin="0,3" >
+                            <TextBlock Padding="3" Background="Transparent" Foreground="{Binding Foreground}" MinWidth="{Binding MinWidth}"
+                               Text="{Binding TicketData}"></TextBlock>
+                        </Border>
+                    </Button>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.ItemsPanel>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel IsItemsHost="True"
                         Width="{Binding Path=ActualWidth,
@@ -40,7 +51,7 @@
                                   Mode=FindAncestor,
                                   AncestorType= {x:Type ScrollContentPresenter}}}" />
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+            </ItemsControl.ItemsPanel>
         </ListBox>
     </Grid>
 </UserControl>

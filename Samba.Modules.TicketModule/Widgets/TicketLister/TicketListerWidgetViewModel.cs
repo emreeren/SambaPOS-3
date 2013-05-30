@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Helpers;
@@ -22,6 +23,8 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         private readonly ICacheService _cacheService;
         private readonly IAutomationDao _automationDao;
 
+        public DelegateCommand<TicketViewData> ItemSelectionCommand { get; set; }
+
         public TicketListerWidgetViewModel(Widget model, IApplicationState applicationState, ITicketServiceBase ticketService,
             IPrinterService printerService, ICacheService cacheService, IAutomationDao automationDao)
             : base(model, applicationState)
@@ -31,6 +34,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             _printerService = printerService;
             _cacheService = cacheService;
             _automationDao = automationDao;
+            ItemSelectionCommand = new DelegateCommand<TicketViewData>(OnItemSelection);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(
             x =>
@@ -44,6 +48,29 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             });
         }
 
+        private void OnItemSelection(TicketViewData obj)
+        {
+            if (!string.IsNullOrEmpty(Settings.CommandName))
+            {
+                var val = "";
+
+                if (obj != null)
+                {
+                    val = !string.IsNullOrEmpty(Settings.CommandValue) ?
+                        _printerService.GetPrintingContent(obj.Ticket, Settings.CommandValue, 0)
+                        : obj.Ticket.Id.ToString();
+                }
+
+                _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
+                    new
+                    {
+                        Ticket = Ticket.Empty,
+                        AutomationCommandName = Settings.CommandName,
+                        Value = val
+                    });
+            }
+        }
+
         [Browsable(false)]
         public bool IsRefreshing { get; set; }
         [Browsable(false)]
@@ -54,37 +81,6 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         public string Background { get { return Settings.Background; } }
         [Browsable(false)]
         public string Foreground { get { return Settings.Foreground; } }
-
-        private TicketViewData _selectedItem;
-
-        [Browsable(false)]
-        public TicketViewData SelectedItem
-        {
-            get { return _selectedItem; }
-            set
-            {
-                _selectedItem = value;
-                if (!string.IsNullOrEmpty(Settings.CommandName))
-                {
-                    var val = "";
-
-                    if (value != null)
-                    {
-                        val = !string.IsNullOrEmpty(Settings.CommandValue) ?
-                            _printerService.GetPrintingContent(value.Ticket, Settings.CommandValue, 0)
-                            : value.Ticket.Id.ToString();
-                    }
-
-                    _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
-                        new
-                        {
-                            Ticket = Ticket.Empty,
-                            AutomationCommandName = Settings.CommandName,
-                            Value = val
-                        });
-                }
-            }
-        }
 
         [Browsable(false)]
         public IList<TicketViewData> TicketList { get; set; }
@@ -111,6 +107,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
 
             return tickets.Select(x => new TicketViewData
                                            {
+                                               ItemSelectionCommand = ItemSelectionCommand,
                                                Background = Settings.Background,
                                                Foreground = Settings.Foreground,
                                                MinWidth = Settings.MinWidth,
@@ -167,5 +164,6 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         public string Foreground { get; set; }
         public string Border { get; set; }
         public int MinWidth { get; set; }
+        public DelegateCommand<TicketViewData> ItemSelectionCommand { get; set; }
     }
 }
