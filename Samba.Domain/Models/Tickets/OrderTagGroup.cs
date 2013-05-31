@@ -21,6 +21,7 @@ namespace Samba.Domain.Models.Tickets
         public bool FreeTagging { get; set; }
         public bool SaveFreeTags { get; set; }
         public string GroupTag { get; set; }
+        public bool TaxFree { get; set; }
 
         private IList<OrderTag> _orderTags;
         public virtual IList<OrderTag> OrderTags
@@ -35,6 +36,7 @@ namespace Samba.Domain.Models.Tickets
             get { return _orderTagMaps; }
             set { _orderTagMaps = value; }
         }
+
 
         public OrderTagGroup()
         {

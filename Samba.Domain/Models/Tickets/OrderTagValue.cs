@@ -35,7 +35,9 @@ namespace Samba.Domain.Models.Tickets
         [DataMember(Name = "OK")]
         public string OrderKey { get; set; }
         [DataMember(Name = "FT", EmitDefaultValue = false)]
-        public bool FreeTag { get; set; }
+        public bool FreeTag { get; set; }       
+        [DataMember(Name = "TF", EmitDefaultValue = false)]
+        public bool TaxFree { get; set; }
 
         public void UpdatePrice(decimal orderTagPrice)
         {

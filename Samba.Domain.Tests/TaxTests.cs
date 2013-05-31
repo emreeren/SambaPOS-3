@@ -252,6 +252,31 @@ namespace Samba.Domain.Tests
         }
 
         [Test]
+        public void CanCalculateDoubleOrdersMultipleTaxWithMultipleOrderTagOneTaxFree()
+        {
+            var ticket = Ticket.Create(Department.Default, TicketType, 1, null);
+            var order1 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
+            var order2 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
+            Assert.AreEqual(10, order2.GetVisibleValue());
+            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT1", Id = 1, AddTagPriceToOrderPrice = true }, new OrderTag { Name = "t1", Id = 1, Price = 5 }, 1, "");
+            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT2", Id = 2, AddTagPriceToOrderPrice = false }, new OrderTag { Name = "t2", Id = 2, Price = 5 }, 1, "");
+            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT3", Id = 3, AddTagPriceToOrderPrice = true, TaxFree = true }, new OrderTag { Name = "t3", Id = 3, Price = 5 }, 1, "");
+            order2.UpdatePrice(5, "");
+            ticket.Recalculate();
+            const decimal expTax = 2.18m + 3;
+            const decimal expStTax = 1.95m + 3;
+            const decimal expLcTax = 0.23m;
+
+            Assert.AreEqual(expTax, ticket.GetTaxTotal());
+            Assert.AreEqual(10, order1.GetVisibleValue());
+            Assert.AreEqual(15, order2.GetVisibleValue());
+            Assert.AreEqual(30, ticket.GetSum());
+            Assert.AreEqual(30 - expTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == TicketType.SaleTransactionType.Id).Amount);
+            Assert.AreEqual(expLcTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
+            Assert.AreEqual(expStTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
+        }
+
+        [Test]
         public void CanCalculateDiscountTax()
         {
             const decimal orderQuantiy = 1;

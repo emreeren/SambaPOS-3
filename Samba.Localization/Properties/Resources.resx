@@ -3131,4 +3131,7 @@ Error Message:
   <data name="LoadTicket" xml:space="preserve">
     <value>Load Ticket</value>
   </data>
+  <data name="TaxFree" xml:space="preserve">
+    <value>Tax Free</value>
+  </data>
 </root>

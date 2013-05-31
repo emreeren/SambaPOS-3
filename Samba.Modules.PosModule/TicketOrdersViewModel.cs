@@ -58,7 +58,7 @@ namespace Samba.Modules.PosModule
             {
                 _selectedTicket = value;
                 _orders.Clear();
-                _orders.AddRange(_selectedTicket.Orders.Select(x => new OrderViewModel(x)).OrderBy(x => x.Model.CreatedDateTime).ThenBy(x => x.OrderNumber).ThenBy(x => x.OrderKey).ThenBy(x => x.Model.Id));
+                _orders.AddRange(_selectedTicket.Orders.Select(x => new OrderViewModel(x)).OrderBy(x => x.Model.CreatedDateTime.Ticks).ThenBy(x => x.OrderNumber).ThenBy(x => x.OrderKey).ThenBy(x => x.Model.Id));
                 RaisePropertyChanged(() => SelectedTicket);
                 Refresh();
             }

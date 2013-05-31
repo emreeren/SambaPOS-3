@@ -6711,6 +6711,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tax Free.
+        /// </summary>
+        public static string TaxFree {
+            get {
+                return ResourceManager.GetString("TaxFree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tax Included.
         /// </summary>
         public static string TaxIncluded {

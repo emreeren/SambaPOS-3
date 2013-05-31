@@ -13,7 +13,8 @@ namespace Samba.Services.Common
         public IEnumerable<string> GetParameterNames(string eventKey)
         {
             var po = RuleEvents[eventKey].ParameterObject;
-            return po != null ? po.GetType().GetProperties().Select(x => x.Name) : new List<string>();
+           // return po != null ? po.GetType().GetProperties().Select(x => x.Name) : new List<string>();
+            return ((IDictionary<string, object>) po).Keys;
         }
 
         public void RegisterEvent(string eventKey, string eventName, object constraintObject)

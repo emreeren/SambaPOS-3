@@ -12,6 +12,7 @@ namespace Samba.Persistance.DBMigration
     {
         public override void Up()
         {
+            Create.Column("TaxFree").OnTable("OrderTagGroups").AsBoolean().WithDefaultValue(false);
             Create.Column("Added").OnTable("PeriodicConsumptionItems").AsDecimal().WithDefaultValue(0);
             Create.Column("Removed").OnTable("PeriodicConsumptionItems").AsDecimal().WithDefaultValue(0);
             Execute.Sql("Update PeriodicConsumptionItems set Added = Purchase");
