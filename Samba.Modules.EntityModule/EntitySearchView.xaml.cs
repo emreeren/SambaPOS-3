@@ -10,10 +10,6 @@ using Samba.Presentation.Controls.ListViewLM;
 
 namespace Samba.Modules.EntityModule
 {
-    /// <summary>
-    /// Interaction logic for AccountSearchView.xaml
-    /// </summary>
-
     [Export]
     public partial class EntitySearchView : UserControl
     {

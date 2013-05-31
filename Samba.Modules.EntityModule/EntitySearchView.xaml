@@ -8,7 +8,7 @@
              xmlns:ListViewLM="clr-namespace:Samba.Presentation.Controls.ListViewLM;assembly=Samba.Presentation.Controls"
              xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard;assembly=Samba.Presentation.Controls"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" FontSize="20" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded">
-    <Grid>
+    <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="*" MinWidth="80" MaxWidth="300"/>

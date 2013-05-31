@@ -31,7 +31,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Name="MainGrid">
         <ListBox Name="ListBox" ItemsSource="{Binding TicketList}"  FontSize="{Binding FontSize}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

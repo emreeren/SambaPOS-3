@@ -7,6 +7,7 @@ using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
 using Samba.Persistance;
 using Samba.Presentation.Common.Widgets;
+using Samba.Presentation.Controls.Converters;
 using Samba.Presentation.Services;
 
 namespace Samba.Modules.AutomationModule.WidgetCreators
@@ -15,11 +16,13 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
     class AutomationButtonWidgetCreator : IWidgetCreator
     {
         private readonly IAutomationDao _automationDao;
+        private readonly IValueConverter _brushConverter;
 
         [ImportingConstructor]
         public AutomationButtonWidgetCreator(IAutomationDao automationDao)
         {
             _automationDao = automationDao;
+            _brushConverter = new NullBrushConverter();
         }
 
         public string GetCreatorName()
@@ -46,7 +49,7 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
             var radiusBinding = new Binding("CornerRadius") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var buttonColorBinding = new Binding("Settings.ButtonColor") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var commandBinding = new Binding("ItemClickedCommand") { Source = buttonHolder, Mode = BindingMode.OneWay };
-            var enabledBinding = new Binding("IsEnabled") { Source = buttonHolder, Mode = BindingMode.OneWay };
+            var enabledBinding = new Binding("IsEnabled") { Source = buttonHolder, Mode = BindingMode.OneWay, Converter = _brushConverter };
             var transformBinding = new Binding("RenderTransform") { Source = buttonHolder, Mode = BindingMode.OneWay };
 
             ret.SetBinding(InkCanvas.LeftProperty, xBinding);

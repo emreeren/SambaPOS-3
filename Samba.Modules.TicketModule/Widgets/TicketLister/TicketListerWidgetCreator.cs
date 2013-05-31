@@ -50,6 +50,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             var yBinding = new Binding("Y") { Source = viewModel, Mode = BindingMode.TwoWay };
             var fontNameBinding = new Binding("FontName") { Source = viewModel };
             var transformBinding = new Binding("RenderTransform") { Source = viewModel, Mode = BindingMode.OneWay };
+            var scaleTransformBinding = new Binding("ScaleTransform") { Source = viewModel, Mode = BindingMode.OneWay };
 
             ret.SetBinding(InkCanvas.LeftProperty, xBinding);
             ret.SetBinding(InkCanvas.TopProperty, yBinding);
@@ -57,7 +58,8 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             ret.SetBinding(FrameworkElement.WidthProperty, widthBinding);
             ret.SetBinding(UIElement.RenderTransformProperty, transformBinding);
             ret.SetBinding(Control.FontFamilyProperty, fontNameBinding);
-
+            ret.MainGrid.SetBinding(FrameworkElement.LayoutTransformProperty, scaleTransformBinding);
+            
             return ret;
         }
 

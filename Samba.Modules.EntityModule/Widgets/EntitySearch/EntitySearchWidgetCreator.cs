@@ -46,11 +46,13 @@ namespace Samba.Modules.EntityModule.Widgets.EntitySearch
             var widthBinding = new Binding("Width") { Source = viewModel, Mode = BindingMode.TwoWay };
             var xBinding = new Binding("X") { Source = viewModel, Mode = BindingMode.TwoWay };
             var yBinding = new Binding("Y") { Source = viewModel, Mode = BindingMode.TwoWay };
+            var transformBinding = new Binding("ScaleTransform") { Source = viewModel, Mode = BindingMode.OneWay };
 
             ret.SetBinding(InkCanvas.LeftProperty, xBinding);
             ret.SetBinding(InkCanvas.TopProperty, yBinding);
             ret.SetBinding(FrameworkElement.HeightProperty, heightBinding);
             ret.SetBinding(FrameworkElement.WidthProperty, widthBinding);
+            ret.MainGrid.SetBinding(FrameworkElement.LayoutTransformProperty, transformBinding);
 
             return ret;
         }

@@ -71,9 +71,10 @@
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="PropertyTools, Version=2012.4.14.1, Culture=neutral, PublicKeyToken=ea0c9f2b460934d0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Samba.Modules.UserModule\bin\Debug\PropertyTools.dll</HintPath>
+      <HintPath>..\Lib\PropertyTools.dll</HintPath>
     </Reference>
-    <Reference Include="PropertyTools.Wpf">
+    <Reference Include="PropertyTools.Wpf, Version=2012.4.14.1, Culture=neutral, PublicKeyToken=ea0c9f2b460934d0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\PropertyTools.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
