@@ -25,7 +25,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         public string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate printerTemplate)
         {
-            var orders = printerTemplate.MergeLines ? MergeLines(lines.ToList()) : lines;
+            var orders = printerTemplate.MergeLines ? MergeLines(lines.ToList()) : lines.ToList();
             ticket.Orders.Clear();
             orders.ToList().ForEach(ticket.Orders.Add);
             var content = _ticketValueChanger.GetValue(printerTemplate, ticket);

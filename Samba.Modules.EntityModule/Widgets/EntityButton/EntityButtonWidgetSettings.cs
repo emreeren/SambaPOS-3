@@ -6,8 +6,6 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
     public class EntityButtonWidgetSettings
     {
         private NameWithValue _resourceNameValue;
-
-
         public NameWithValue ResourceNameValue
         {
             get { return _resourceNameValue ?? (_resourceNameValue = new NameWithValue()); }

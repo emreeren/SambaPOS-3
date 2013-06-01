@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Samba.Infrastructure;
 using Samba.Services.Implementations.AutomationModule;
 
 namespace Samba.Services.Common
@@ -12,7 +13,8 @@ namespace Samba.Services.Common
         public IEnumerable<string> GetParameterNames(string eventKey)
         {
             var po = RuleEvents[eventKey].ParameterObject;
-            return po != null ? po.GetType().GetProperties().Select(x => x.Name) : new List<string>();
+           // return po != null ? po.GetType().GetProperties().Select(x => x.Name) : new List<string>();
+            return ((IDictionary<string, object>) po).Keys;
         }
 
         public void RegisterEvent(string eventKey, string eventName, object constraintObject)
@@ -22,7 +24,7 @@ namespace Samba.Services.Common
                 {
                     EventKey = eventKey,
                     EventName = eventName,
-                    ParameterObject = constraintObject
+                    ParameterObject = constraintObject.ToDynamic()
                 });
         }
 
@@ -35,7 +37,7 @@ namespace Samba.Services.Common
                                                 {
                                                     ActionName = actionName,
                                                     ActionType = actionType,
-                                                    ParameterObject = parameterObject
+                                                    ParameterObject = parameterObject.ToDynamic()
                                                 });
         }
 
@@ -45,8 +47,8 @@ namespace Samba.Services.Common
             var obj = RuleEvents[eventName].ParameterObject;
             if (obj != null)
             {
-                var items = obj.GetType().GetProperties().Select(
-                        x => CreateRuleConstraint(x.Name, OperatorConstants.Equal, GetOperations(x.PropertyType)));
+                var items = obj.Select(
+                        x => CreateRuleConstraint(x.Key, OperatorConstants.Equal, GetOperations(x.Value.GetType())));
                 result.AddRange(items);
             }
             return result;

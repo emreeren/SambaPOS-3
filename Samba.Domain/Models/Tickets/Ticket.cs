@@ -490,7 +490,7 @@ namespace Samba.Domain.Models.Tickets
                 item.OrderNumber = orderNumber;
             }
 
-            Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
+           // Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
         }
 
         public void RequestLock()

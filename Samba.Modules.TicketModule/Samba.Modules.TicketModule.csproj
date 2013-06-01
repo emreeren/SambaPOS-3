@@ -69,7 +69,12 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationFramework.Aero" />
-    <Reference Include="PropertyTools.Wpf">
+    <Reference Include="PropertyTools, Version=2012.4.14.1, Culture=neutral, PublicKeyToken=ea0c9f2b460934d0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\PropertyTools.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyTools.Wpf, Version=2012.4.14.1, Culture=neutral, PublicKeyToken=ea0c9f2b460934d0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\PropertyTools.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -126,6 +131,12 @@
     <Compile Include="TicketExplorerViewModel.cs" />
     <Compile Include="Widgets\TicketExplorer\TicketExplorerWidgetCreator.cs" />
     <Compile Include="Widgets\TicketExplorer\TicketExplorerWidgetViewModel.cs" />
+    <Compile Include="Widgets\TicketLister\TicketListerControl.xaml.cs">
+      <DependentUpon>TicketListerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Widgets\TicketLister\TicketListerWidgetCreator.cs" />
+    <Compile Include="Widgets\TicketLister\TicketListerWidgetSettings.cs" />
+    <Compile Include="Widgets\TicketLister\TicketListerWidgetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="CalculationSelectorView.xaml">
@@ -163,6 +174,10 @@
     <Page Include="TicketExplorerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Widgets\TicketLister\TicketListerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

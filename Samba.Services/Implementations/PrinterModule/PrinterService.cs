@@ -12,6 +12,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 using Samba.Services.Common;
+using Samba.Services.Implementations.PrinterModule.Formatters;
 using Samba.Services.Implementations.PrinterModule.PrintJobs;
 using Samba.Services.Implementations.PrinterModule.Tools;
 using Samba.Services.Implementations.PrinterModule.ValueChangers;
@@ -28,7 +29,7 @@ namespace Samba.Services.Implementations.PrinterModule
 
         [ImportingConstructor]
         public PrinterService(ISettingService settingService, ICacheService cacheService, IExpressionService expressionService, ILogService logService,
-            TicketFormatter ticketFormatter,FunctionRegistry functionRegistry)
+            TicketFormatter ticketFormatter, FunctionRegistry functionRegistry)
         {
             _cacheService = cacheService;
             _logService = logService;
@@ -275,6 +276,13 @@ namespace Samba.Services.Implementations.PrinterModule
         public void ResetCache()
         {
             PrinterInfo.ResetCache();
+        }
+
+        public string GetPrintingContent(Ticket ticket, string format, int width)
+        {
+            var lines = _ticketFormatter.GetFormattedTicket(ticket, ticket.Orders, new PrinterTemplate() { Template = format });
+            var result = new FormattedDocument(lines, width).GetFormattedText();
+            return result;
         }
     }
 }

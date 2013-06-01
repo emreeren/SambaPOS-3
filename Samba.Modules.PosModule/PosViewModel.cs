@@ -142,6 +142,13 @@ namespace Samba.Modules.PosModule
 
         private void OnTicketEventReceived(EventParameters<Ticket> obj)
         {
+            if (obj.Topic == EventTopicNames.SetSelectedTicket)
+            {
+                if (SelectedTicket != null) CloseTicket();
+                _applicationStateSetter.SetApplicationLocked(true);
+                SelectedTicket = obj.Value;
+            }
+
             if (obj.Topic == EventTopicNames.MoveSelectedOrders)
             {
                 var newTicketId = _ticketService.MoveOrders(SelectedTicket, SelectedTicket.ExtractSelectedOrders().ToArray(), 0).TicketId;
@@ -227,7 +234,7 @@ namespace Samba.Modules.PosModule
         }
 
         private void OnTicketIdPublished(EventParameters<int> obj)
-        {
+        {   
             if (obj.Topic == EventTopicNames.DisplayTicket)
             {
                 if (SelectedTicket != null) CloseTicket();

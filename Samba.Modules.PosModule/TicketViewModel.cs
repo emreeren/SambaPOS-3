@@ -446,7 +446,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanMoveOrders(string arg)
         {
-            if (SelectedTicket.IsLocked) return false;
+            if (SelectedTicket.IsLocked || SelectedTicket.IsClosed) return false;
             if (!SelectedTicket.CanRemoveSelectedOrders(SelectedOrders)) return false;
             if (SelectedOrders.Any(x => x.Id == 0)) return false;
             if (SelectedOrders.Any(x => !x.Locked) && _userService.IsUserPermittedFor(PermissionNames.MoveUnlockedOrders)) return true;

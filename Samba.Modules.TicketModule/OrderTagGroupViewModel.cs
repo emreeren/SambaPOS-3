@@ -46,6 +46,7 @@ namespace Samba.Modules.TicketModule
         public bool FreeTagging { get { return Model.FreeTagging; } set { Model.FreeTagging = value; } }
         public bool SaveFreeTags { get { return Model.SaveFreeTags; } set { Model.SaveFreeTags = value; } }
         public string GroupTag { get { return Model.GroupTag; } set { Model.GroupTag = value; } }
+        public bool TaxFree { get { return Model.TaxFree; } set { Model.TaxFree = value; } }
 
         public OrderTagViewModel SelectedOrderTag { get; set; }
 

@@ -48,7 +48,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         public string Replace(PrinterTemplate template, string content, IEnumerable<T> models)
         {
-            return Helper.FormatData(content, "{" + GetTargetTag() + "}", () => GetValue(template, models));
+            return Helper.FormatData(content, "{" + GetTargetTag() + "}", () => GetValue(template, models.OrderBy(x => GetModelOrder(template, x))));
         }
 
         private string GetValue(PrinterTemplate template, IEnumerable<T> models)
@@ -92,6 +92,14 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         protected virtual GroupingKey GetGroupSelector(T arg, string switchValue)
         {
             return GroupingKey.Empty;
+        }
+
+        private object GetModelOrder(PrinterTemplate template, T model)
+        {
+            return template
+                .GetFilters(GetTargetTag()).Select(x => x.Key)
+                .ToList()
+                .IndexOf(GetModelName(model));
         }
 
         public string GetValue(PrinterTemplate template, T model)

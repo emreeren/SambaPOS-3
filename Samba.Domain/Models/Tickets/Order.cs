@@ -208,7 +208,8 @@ namespace Samba.Domain.Models.Tickets
                            PortionName = orderTag.MenuItemId > 0 ? PortionName : null,
                            UserId = userId,
                            Quantity = 1,
-                           OrderKey = orderTagGroup.SortOrder.ToString("000") + orderTag.SortOrder.ToString("000")
+                           OrderKey = orderTagGroup.SortOrder.ToString("000") + orderTag.SortOrder.ToString("000"),
+                           TaxFree = orderTagGroup.TaxFree
                        };
 
             otag.UpdatePrice(orderTag.Price);
@@ -367,14 +368,14 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetTotalTaxAmount(bool taxIncluded, decimal plainSum, decimal preTaxServices)
         {
-            var result = CalculatePrice ? TaxValues.Sum(x => x.GetTaxAmount(taxIncluded, GetPrice(), TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) * Quantity : 0;
+            var result = CalculatePrice ? TaxValues.Sum(x => x.GetTaxAmount(taxIncluded, GetTaxablePrice(), TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) * Quantity : 0;
             return decimal.Round(result, 2, MidpointRounding.AwayFromZero);
         }
 
         public decimal GetTotalTaxAmount(bool taxIncluded, decimal plainSum, decimal preTaxServices, int taxTemplateId)
         {
             var result = CalculatePrice ? TaxValues.Where(x => x.TaxTempleteAccountTransactionTypeId == taxTemplateId)
-                .Sum(x => x.GetTaxAmount(taxIncluded, GetPrice(), TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) * Quantity : 0;
+                .Sum(x => x.GetTaxAmount(taxIncluded, GetTaxablePrice(), TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) * Quantity : 0;
             return result;
         }
 
@@ -385,7 +386,12 @@ namespace Samba.Domain.Models.Tickets
             return OrderTagValue.Empty;
         }
 
-        public string OrderKey { get { return string.Join("", OrderTagValues.OrderBy(x => x.OrderKey).Select(x => x.OrderKey)); } }
+        public string OrderKey { get { return GetOrderKey(); } }
+
+        private string GetOrderKey()
+        {
+            return string.Join("", OrderTagValues.OrderBy(x => x.OrderKey).Select(x => x.OrderKey));
+        }
 
         public void UpdateProductTimer(ProductTimer timer)
         {
@@ -429,6 +435,15 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetPrice()
         {
             var result = Price + OrderTagValues.Sum(x => x.Price * x.Quantity);
+            if (ProductTimerValue != null)
+                result = ProductTimerValue.GetPrice(result);
+            return result;
+        }
+
+        //Vergi etkilememiş vergilendirilebilir fiyat
+        public decimal GetTaxablePrice()
+        {
+            var result = Price + OrderTagValues.Where(x => !x.TaxFree).Sum(x => x.Price * x.Quantity);
             if (ProductTimerValue != null)
                 result = ProductTimerValue.GetPrice(result);
             return result;

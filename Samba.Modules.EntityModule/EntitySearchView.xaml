@@ -8,7 +8,7 @@
              xmlns:ListViewLM="clr-namespace:Samba.Presentation.Controls.ListViewLM;assembly=Samba.Presentation.Controls"
              xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard;assembly=Samba.Presentation.Controls"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" FontSize="20" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded">
-    <Grid>
+    <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="*" MinWidth="80" MaxWidth="300"/>
@@ -26,14 +26,14 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Margin="3" FontSize="30" Grid.Column="0" Text="{LocText Search}" />
+            <TextBlock Margin="0,3" FontSize="30" Grid.Column="0" Text="{Binding SearchLabel}" />
             <TextBox Margin="3,3,0,3" FontSize="30" Grid.Column="1" Name="SearchString"
                              Text="{Binding SearchString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              PreviewKeyDown="SearchStringPreviewKeyDown" Loaded="SearchStringLoaded" />
             <FlexButton:FlexButton Grid.Column="2" Margin="0,3,3,3" Content="X" MinWidth="50" Click="FlexButtonClick" />
         </Grid>
 
-        <ListView Name="MainListView" Grid.Row="1" Margin="5,5,5,0" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
+        <ListView Name="MainListView" Grid.Row="1" Margin="5,0,5,0" Background="LightGray" VirtualizingStackPanel.IsVirtualizing="True"
                          IsSynchronizedWithCurrentItem="True" ListViewEx:ListViewSorter.IsListviewSortable="True"
                          ListViewLM:ListViewLayoutManager.Enabled="True" ItemsSource="{Binding FoundEntities}"
                          SelectedItem="{Binding FocusedEntity,Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
@@ -50,23 +50,27 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <GridSplitter Grid.Column="0" Grid.Row="2" Height="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+        <GridSplitter Name="Splitter" Grid.Column="0" Grid.Row="2" Height="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                       ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" MouseDoubleClick="GridSplitter_MouseDoubleClick" Background="Transparent"/>
-        <VirtualKeyboard:KeyboardView3 Margin="5,0,5,5" Grid.Column="0" Grid.Row="3" Visibility="{Binding IsKeyboardVisible,Converter={StaticResource VisibilityConverter}}"/>
+
+        <VirtualKeyboard:KeyboardView3 Name="Keyboard" Margin="5,0,5,5" Grid.Column="0" Grid.Row="3"/>
 
         <StackPanel MinWidth="50" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Background="LightGray">
             <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding SelectEntityCommandCaption}"
                                        Command="{Binding SelectEntityCommand}" 
                                        Visibility="{Binding IsEntitySelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
             <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding EditEntityCommandCaption}"
-                                       Command="{Binding EditEntityCommand}"/>
+                                       Command="{Binding EditEntityCommand}"
+                                   Visibility="{Binding IsEditEntityCommandVisible,Converter={StaticResource VisibilityConverter}}"/>
             <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding CreateEntityCommandCaption}"
-                                       Command="{Binding CreateEntityCommand}" />
+                                       Command="{Binding CreateEntityCommand}" 
+                                   Visibility="{Binding IsCreateEntityCommandVisible,Converter={StaticResource VisibilityConverter}}"/>
             <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding RemoveEntityCommandCaption}"
                                        Command="{Binding RemoveEntityCommand}"
                                        Visibility="{Binding IsEntitySelectorVisible,Converter={StaticResource VisibilityConverter}}"/>
             <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayAccountCommand.Caption}"
-                                       Command="{Binding DisplayAccountCommand}" />
+                                       Command="{Binding DisplayAccountCommand}" 
+                                   Visibility="{Binding IsDisplayAccountCommandVisible,Converter={StaticResource VisibilityConverter}}"/>
             <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding DisplayInventoryCommand.Caption}"
                                        Command="{Binding DisplayInventoryCommand}" 
                                        Visibility="{Binding IsInventorySelectorVisible,Converter={StaticResource VisibilityConverter}}"/>

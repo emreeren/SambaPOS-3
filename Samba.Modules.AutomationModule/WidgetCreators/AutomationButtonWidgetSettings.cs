@@ -18,6 +18,8 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
 
         [Browsable(false)]
         public string CommandName { get { return CommandNameValue.Text; } set { CommandNameValue.Text = value; } }
+
+        public string Value { get; set; }
         public string Caption { get; set; }
         public string ButtonColor { get; set; }
     }

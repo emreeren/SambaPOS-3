@@ -69,11 +69,13 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.UpdateTicketCalculation, Resources.UpdateTicketCalculation, new { CalculationType = "", Amount = 0m });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 });
             AutomationService.RegisterActionType(ActionNames.CloseActiveTicket, Resources.CloseTicket);
+            AutomationService.RegisterActionType(ActionNames.LoadTicket, Resources.LoadTicket, new { TicketId = 0 });
             AutomationService.RegisterActionType(ActionNames.CreateTicket, string.Format(Resources.Create_f, Resources.Ticket));
             AutomationService.RegisterActionType(ActionNames.DisplayTicket, Resources.DisplayTicket, new { TicketId = 0 });
             AutomationService.RegisterActionType(ActionNames.DisplayTicketList, Resources.DisplayTicketList, new { TicketTagName = "", TicketStateName = "" });
             AutomationService.RegisterActionType(ActionNames.LockTicket, Resources.LockTicket);
             AutomationService.RegisterActionType(ActionNames.UnlockTicket, Resources.UnlockTicket);
+            AutomationService.RegisterActionType(ActionNames.MarkTicketAsClosed, Resources.MarkTicketAsClosed);
             AutomationService.RegisterActionType(ActionNames.DisplayPaymentScreen, Resources.DisplayPaymentScreen);
             AutomationService.RegisterActionType(ActionNames.UpdatePriceTag, Resources.UpdatePriceTag, new { DepartmentName = "", PriceTag = "" });
             AutomationService.RegisterActionType(ActionNames.RefreshCache, Resources.RefreshCache);
@@ -96,7 +98,8 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.TicketMoving, Resources.Ticket_Moving);
             AutomationService.RegisterEvent(RuleEventNames.TicketMoved, Resources.TicketMoved);
             AutomationService.RegisterEvent(RuleEventNames.TicketOpened, Resources.TicketOpened, new { OrderCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.BeforeTicketClosing, Resources.BeforeTicketClosing, new { TicketId = 0, RemainingAmount = 0m, TotalAmount = 0m });
+            AutomationService.RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0, RemainingAmount = 0m, TotalAmount = 0m });
             AutomationService.RegisterEvent(RuleEventNames.TicketsMerged, Resources.TicketsMerged);
             AutomationService.RegisterEvent(RuleEventNames.TicketEntityChanged, Resources.TicketEntityChanged, new { EntityTypeName = "", OrderCount = 0, OldEntityName = "", NewEntityName = "", CustomData = "" });
             AutomationService.RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
@@ -283,6 +286,14 @@ namespace Samba.Presentation.ViewModels
                     }
                 }
 
+                if (x.Value.Action.ActionType == ActionNames.LoadTicket)
+                {
+                    var ticketId = x.Value.GetAsInteger("TicketId");
+                    var ticket = TicketService.OpenTicket(ticketId);
+                    x.Value.DataObject.Ticket = ticket;
+                    ticket.PublishEvent(EventTopicNames.SetSelectedTicket);
+                }
+
                 if (x.Value.Action.ActionType == ActionNames.DisplayTicket)
                 {
                     var ticketId = x.Value.GetAsInteger("TicketId");
@@ -318,6 +329,12 @@ namespace Samba.Presentation.ViewModels
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                     if (ticket != null) ticket.UnLock();
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.UnlockTicketRequested);
+                }
+
+                if (x.Value.Action.ActionType == ActionNames.MarkTicketAsClosed)
+                {
+                    var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (ticket != null) ticket.Close();
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.CloseActiveTicket)

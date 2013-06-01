@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="Samba.Modules.TicketModule.Widgets.TicketLister.TicketListerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation
+                Storyboard.TargetProperty="Opacity" 
+                Duration="0:0:0.2" From="0.2" To="1">
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="FadeStop">
+            <DoubleAnimation
+                Storyboard.TargetProperty="Opacity" 
+                Duration="0:0:0" From="1" To="1">
+            </DoubleAnimation>
+        </Storyboard>
+        <Style TargetType="Border" x:Key="FadingBorder">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseDown">
+                    <BeginStoryboard Storyboard="{StaticResource FadeIn}" Name="FadeStart"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseUp">
+                    <SkipStoryboardToFill BeginStoryboardName="FadeStart"></SkipStoryboardToFill>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Name="MainGrid">
+        <ListBox Name="ListBox" ItemsSource="{Binding TicketList}"  FontSize="{Binding FontSize}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Style="{StaticResource ItemsControlButtonStyle}"  Command="{Binding ItemSelectionCommand}" CommandParameter="{Binding}">
+                        <Border CornerRadius="5" Style="{StaticResource FadingBorder}" BorderThickness="1" BorderBrush="{Binding Border}" Background="{Binding Background}" Margin="0,3" >
+                            <TextBlock Padding="3" Background="Transparent" Foreground="{Binding Foreground}" MinWidth="{Binding MinWidth}"
+                               Text="{Binding TicketData}"></TextBlock>
+                        </Border>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True"
+                        Width="{Binding Path=ActualWidth,
+                                  RelativeSource={RelativeSource
+                                  Mode=FindAncestor,
+                                  AncestorType= {x:Type ScrollContentPresenter}}}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ListBox>
+    </Grid>
+</UserControl>

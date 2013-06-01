@@ -61,10 +61,31 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
 
         public override void Refresh()
         {
+            if (IsRefreshing || DesignMode) return;
+            using (var worker = new BackgroundWorker())
+            {
+                worker.DoWork += delegate
+                {
+                    IsRefreshing = true;
+                    RefreshSync();
+                };
+                worker.RunWorkerCompleted += (sender, eventArgs) =>
+                {
+                    IsRefreshing = false;
+                };
+                worker.RunWorkerAsync();
+            }
+        }
+
+        protected bool IsRefreshing { get; set; }
+
+        public void RefreshSync()
+        {
             var stateFilter = !string.IsNullOrEmpty(Settings.StateFilterName)
                                   ? Settings.StateFilterName
                                   : EntityScreen.StateFilter;
             ResourceSelectorViewModel.Refresh(EntityScreen, stateFilter, _request);
+            
         }
     }
 }

@@ -1,25 +1,24 @@
-﻿using Samba.Domain.Models.Automation;
+﻿using System.Collections.Generic;
+using Samba.Domain.Models.Automation;
 
 namespace Samba.Services.Common
 {
-    public class ActionData 
+    public class ActionData
     {
         public AppAction Action { get; set; }
         public string ParameterValues { get; set; }
-        public object DataObject { get; set; }
+        public dynamic DataObject { get; set; }
 
         public T GetDataValue<T>(string dataName) where T : class
         {
-            var property = DataObject.GetType().GetProperty(dataName);
-            if (property != null)
-                return property.GetValue(DataObject, null) as T;
-            return null;
+            if (!((IDictionary<string, object>)DataObject).ContainsKey(dataName)) return null;
+            return ((IDictionary<string, object>)DataObject)[dataName] as T;
         }
 
         public string GetDataValueAsString(string dataName)
         {
-            var property = DataObject.GetType().GetProperty(dataName);
-            return property != null ? property.GetValue(DataObject, null).ToString() : "";
+            if (!((IDictionary<string, object>)DataObject).ContainsKey(dataName)) return "";
+            return ((IDictionary<string, object>)DataObject)[dataName].ToString();
         }
 
         public int GetDataValueAsInt(string dataName)

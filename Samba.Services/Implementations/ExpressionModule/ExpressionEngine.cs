@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Fluentscript.Lib.AST;
@@ -125,10 +126,8 @@ namespace Samba.Services.Implementations.ExpressionModule
         private static T GetDataValue<T>(object dataObject) where T : class
         {
             if (dataObject == null) return null;
-            var property = dataObject.GetType().GetProperty(typeof(T).Name);
-            if (property != null)
-                return property.GetValue(dataObject, null) as T;
-            return null;
+            if (!((IDictionary<string, object>)dataObject).ContainsKey(typeof(T).Name)) return null;
+            return ((IDictionary<string, object>)dataObject)[typeof(T).Name] as T;
         }
 
         public static string ReplaceExpressionValues(string data, object dataObject, string template = "\\[=([^\\]]+)\\]")

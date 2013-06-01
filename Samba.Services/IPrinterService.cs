@@ -17,5 +17,6 @@ namespace Samba.Services
         void ExecutePrintJob(PrintJob printJob);
         IDictionary<string, string> GetTagDescriptions();
         void ResetCache();
+        string GetPrintingContent(Ticket ticket, string format,int width);
     }
 }

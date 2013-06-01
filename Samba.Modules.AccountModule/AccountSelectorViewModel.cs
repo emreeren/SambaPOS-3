@@ -151,8 +151,16 @@ namespace Samba.Modules.AccountModule
         {
             if (_selectedAccountScreen == null || _selectedAccountScreen.Filter == 0) return null;
             //Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod
-            if (_selectedAccountScreen.Filter == 1) return x => x.Date >= DateTime.Now.MonthStart();
-            if (_selectedAccountScreen.Filter == 3) return x => x.Date >= _applicationState.CurrentWorkPeriod.StartDate;
+            if (_selectedAccountScreen.Filter == 1)
+            {
+                var date = DateTime.Now.MonthStart();
+                return x => x.Date >= date;
+            }
+            if (_selectedAccountScreen.Filter == 3)
+            {
+                var date = _applicationState.CurrentWorkPeriod.StartDate;
+                return x => x.Date >= date;
+            }
             return null;
         }
 

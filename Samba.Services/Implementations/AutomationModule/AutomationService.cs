@@ -61,7 +61,7 @@ namespace Samba.Services.Implementations.AutomationModule
         public IEnumerable<ParameterValue> CreateParameterValues(RuleActionType actionType)
         {
             if (actionType.ParameterObject != null)
-                return actionType.ParameterObject.GetType().GetProperties().Select(x => new ParameterValue(x));
+                return actionType.ParameterObject.Select(x => new ParameterValue(x.Key, x.Value.GetType()));
             return new List<ParameterValue>();
         }
 

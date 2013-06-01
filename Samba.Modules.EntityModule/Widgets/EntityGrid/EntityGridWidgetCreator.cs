@@ -44,8 +44,12 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
 
             if (widget.DesignMode)
             {
-                viewModel.Refresh();
-                viewModel.ResourceSelectorViewModel.EntityScreenItems.ToList().ForEach(x => x.IsEnabled = false);
+                viewModel.RefreshSync();
+                foreach (var entityScreenItemViewModel in viewModel.ResourceSelectorViewModel.EntityScreenItems)
+                {
+                    entityScreenItemViewModel.IsEnabled = false;
+                }
+                
             }
 
             var ret = new EntitySelectorView(viewModel.ResourceSelectorViewModel) { DataContext = viewModel.ResourceSelectorViewModel, ContextMenu = contextMenu, Tag = widget };

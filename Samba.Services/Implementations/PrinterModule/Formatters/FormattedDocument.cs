@@ -54,7 +54,12 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
             return _lineFormatters
                 .Select(x => x.GetFormattedLineWithoutTags())
                 .Where(x => !string.IsNullOrEmpty(x))
-                .Aggregate("", (current, s) => current + s + "\r\n");
+                .Aggregate("", (current, s) => current + GetSeparator(current) + s);
+        }
+
+        internal string GetSeparator(string current)
+        {
+            return !string.IsNullOrEmpty(current) ? "\r\n" : "";
         }
 
         public IEnumerable<ILineFormatter> GetFormatters()

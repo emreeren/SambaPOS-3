@@ -34,6 +34,8 @@
         public const string SetActiveTicketType = "SetActiveTicketType";
         public const string PrintReport = "PrintReport";
         public const string StartProcess = "StartProcess";
+        public const string MarkTicketAsClosed = "MarkTicketAsClosed";
+        public const string LoadTicket = "LoadTicket";
     }
 
     public static class RuleEventNames
@@ -68,6 +70,7 @@
         public const string TicketCreated = "TicketCreated";
         public const string OrderStateUpdated = "OrderStateUpdated";
         public const string EntitySelected = "EntitySelected";
+        public const string BeforeTicketClosing = "BeforeTicketClosing";
     }
 
     public static class EventTopicNames
@@ -139,6 +142,7 @@
         public const string RegionActivated = "RegionActivated";
         public const string ActivateMenuView = "ActivateMenuView";
         public const string RegenerateSelectedTicket = "RegenerateSelectedTicket";
+        public const string SetSelectedTicket = "SetSelectedTicket";
     }
 
     public static class FunctionNames
