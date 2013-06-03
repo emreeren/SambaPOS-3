@@ -282,7 +282,7 @@ Die Arbeitszeit kann nicht beendet werden.</value>
     <value>Expression Builder</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
-    <value>Auto Rundung</value>
+    <value>Automatische Rundung</value>
   </data>
   <data name="AddProductsToCategoryHint_f" xml:space="preserve">
     <value>Wählen Sie Artikel für die Warengruppe {0} </value>
@@ -1114,7 +1114,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Konto: {0}</value>
   </data>
   <data name="AM" xml:space="preserve">
-    <value>a.m.</value>
+    <value>Vormittag</value>
   </data>
   <data name="SaveReportToFile" xml:space="preserve">
     <value>Bericht in einer Datei speichern</value>
@@ -1575,7 +1575,7 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
     <value>Alle Werte zeigen</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Abbrechen</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Zeichensatz</value>
@@ -2012,5 +2012,41 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
   </data>
   <data name="LineItemTotalAndQuantity" xml:space="preserve">
     <value># Line: Artikel Summe x Menge</value>
+  </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>Verbrauch</value>
+  </data>
+  <data name="CustomerAccount" xml:space="preserve">
+    <value>Kunden-Konto</value>
+  </data>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Lokales Lager</value>
+  </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Lokale Lager</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="Settle" xml:space="preserve">
+    <value>Abrechnen</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>MwSt</value>
+  </data>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>inkl. MwSt</value>
+  </data>
+  <data name="TaxTemplate" xml:space="preserve">
+    <value>MwSt Vorlage</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Lager</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Lagerstätten</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>Lager Typ</value>
   </data>
 </root>
