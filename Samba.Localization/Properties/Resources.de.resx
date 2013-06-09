@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AllDiscountsRemoved" xml:space="preserve">
-    <value>Alle Rabatte wurden entfernt, weil der berechnete Gesamtrabatt größer ist als der Betrag de Tickets.</value>
+    <value>Alle Rabatte wurden entfernt, weil der berechnete Gesamtrabatt größer ist als der Betrag des Beleges.</value>
   </data>
   <data name="Purchase" xml:space="preserve">
     <value>Einkauf</value>
@@ -172,7 +172,7 @@
     <value>Menü-Liste</value>
   </data>
   <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
-    <value>Es gibt {0} offene Tickets.
+    <value>Es gibt {0} offene Belege.
 Die Arbeitszeit kann nicht beendet werden.</value>
   </data>
   <data name="SortCategoryProducts" xml:space="preserve">
@@ -242,7 +242,7 @@ Die Arbeitszeit kann nicht beendet werden.</value>
     <value>Preis-Definition</value>
   </data>
   <data name="TicketSubTotal" xml:space="preserve">
-    <value>Ticket Zwischensumme</value>
+    <value>Beleg Zwischensumme</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
@@ -282,7 +282,7 @@ Die Arbeitszeit kann nicht beendet werden.</value>
     <value>Expression Builder</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
-    <value>Auto Rundung</value>
+    <value>Automatische Rundung</value>
   </data>
   <data name="AddProductsToCategoryHint_f" xml:space="preserve">
     <value>Wählen Sie Artikel für die Warengruppe {0} </value>
@@ -300,7 +300,7 @@ Die Arbeitszeit kann nicht beendet werden.</value>
     <value>Senden</value>
   </data>
   <data name="TicketTagSelected" xml:space="preserve">
-    <value>Ticket Tag ausgewählt</value>
+    <value>Beleg Tag ausgewählt</value>
   </data>
   <data name="Eleven" xml:space="preserve">
     <value>Elf</value>
@@ -343,7 +343,7 @@ Bitte teilen Sie uns einige Details mit, wie es passiert ist.
 Weiter ohne das Hinzufügen von Details?</value>
   </data>
   <data name="CanReleaseTicketLock" xml:space="preserve">
-    <value>Kann Ticket-Sperre entfernen</value>
+    <value>Kann Beleg-Sperre entfernen</value>
   </data>
   <data name="Multiplier" xml:space="preserve">
     <value>Multiplikator</value>
@@ -370,7 +370,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Zeilenanzahl</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
-    <value>Kann alte Tickets anzeigen</value>
+    <value>Kann alte Belege anzeigen</value>
   </data>
   <data name="AccountBalance" xml:space="preserve">
     <value>Kontostand</value>
@@ -424,7 +424,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Jeden Wochentag</value>
   </data>
   <data name="AllTickets" xml:space="preserve">
-    <value>Alle Tickets</value>
+    <value>Alle Belege</value>
   </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Modifiergruppenname</value>
@@ -640,7 +640,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Kunde</value>
   </data>
   <data name="UseAtOldTickets" xml:space="preserve">
-    <value>Nur für alte Tickets</value>
+    <value>Nur für alte Belege</value>
   </data>
   <data name="AutoLogout" xml:space="preserve">
     <value>Automatisches Logout</value>
@@ -730,7 +730,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Konfiguration</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
-    <value>Tickettag</value>
+    <value>Belegtag</value>
   </data>
   <data name="MenuProperties" xml:space="preserve">
     <value>Menueigenschaften</value>
@@ -787,7 +787,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Zweimal pro Stunde</value>
   </data>
   <data name="OnlyOpenTickets" xml:space="preserve">
-    <value>Nur offene Tickets</value>
+    <value>Nur offene Beleg</value>
   </data>
   <data name="ExpressionValid" xml:space="preserve">
     <value>Gültiger Ausdruck</value>
@@ -976,7 +976,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Ausdruck</value>
   </data>
   <data name="TicketTime" xml:space="preserve">
-    <value>Ticketzeit</value>
+    <value>Belegzeit</value>
   </data>
   <data name="NewTicket" xml:space="preserve">
     <value>Neues Ticket</value>
@@ -1054,7 +1054,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Name des freigegebenen Druckers / Port Name</value>
   </data>
   <data name="TicketTotalChanged" xml:space="preserve">
-    <value>Ticket gesamt geändert</value>
+    <value>Belege gesamt geändert</value>
   </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Gesamtbetrag als Text geschrieben</value>
@@ -1084,7 +1084,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Trigger</value>
   </data>
   <data name="OptionalTicketTag" xml:space="preserve">
-    <value>Optionales Ticket-Tag</value>
+    <value>Optionales Beleg-Tag</value>
   </data>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Bericht-Berechtigungen</value>
@@ -1114,7 +1114,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Konto: {0}</value>
   </data>
   <data name="AM" xml:space="preserve">
-    <value>a.m.</value>
+    <value>Vormittag</value>
   </data>
   <data name="SaveReportToFile" xml:space="preserve">
     <value>Bericht in einer Datei speichern</value>
@@ -1258,7 +1258,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Kassiert</value>
   </data>
   <data name="RateFromTicketAmount" xml:space="preserve">
-    <value>Prozentsatz von der Ticketsumme</value>
+    <value>Prozentsatz von der Belegsumme</value>
   </data>
   <data name="Categories" xml:space="preserve">
     <value>Gruppen</value>
@@ -1267,7 +1267,7 @@ Weiter ohne das Hinzufügen von Details?</value>
     <value>Portionen</value>
   </data>
   <data name="TicketTemplate" xml:space="preserve">
-    <value>Ticketvorlage</value>
+    <value>Belegvorlage</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Fünfzehn</value>
@@ -1551,7 +1551,7 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
     <value>Absteigend</value>
   </data>
   <data name="CanMergeTickets" xml:space="preserve">
-    <value>Kann Tickets umbuchen</value>
+    <value>Kann Belege umbuchen</value>
   </data>
   <data name="NoTransactionsFoundFor_f" xml:space="preserve">
     <value>Keine Transaktionen für {0}</value>
@@ -1575,7 +1575,7 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
     <value>Alle Werte zeigen</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Abbrechen</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Zeichensatz</value>
@@ -1623,7 +1623,7 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
     <value>{0} kann nicht leer gelassen werden.</value>
   </data>
   <data name="TicketWithBrackets" xml:space="preserve">
-    <value>[Ticket]</value>
+    <value>[Beleg]</value>
   </data>
   <data name="RateFromPreviousTemplate" xml:space="preserve">
     <value>Prozentsatz von der vorherigen Vorlagensumme</value>
@@ -1665,7 +1665,7 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
     <value>s</value>
   </data>
   <data name="TicketTipTotalAmount" xml:space="preserve">
-    <value>Gesamtes Trinkgeld des Tickets</value>
+    <value>Gesamtes Trinkgeld des Beleges</value>
   </data>
   <data name="Totals" xml:space="preserve">
     <value>Gesamtsummen</value>
@@ -1683,7 +1683,7 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
     <value>Alle 4 Stunden</value>
   </data>
   <data name="TicketTotal" xml:space="preserve">
-    <value>Ticket Summe</value>
+    <value>Beleg Summe</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
     <value>Gesamtumsatz</value>
@@ -1710,7 +1710,7 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
     <value>Warengruppe</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
-    <value>Kann entsperrte Tickets umbuchen</value>
+    <value>Kann entsperrte Belege umbuchen</value>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>Menge</value>
@@ -1938,10 +1938,10 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
     <value>Ticket geöffnet</value>
   </data>
   <data name="Tickets" xml:space="preserve">
-    <value>Tickets</value>
+    <value>Belege</value>
   </data>
   <data name="CanRemoveTicketTag" xml:space="preserve">
-    <value>Kann Ticket-Tag entfernen</value>
+    <value>Kann Beleg-Tag entfernen</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Datum</value>
@@ -2012,5 +2012,41 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
   </data>
   <data name="LineItemTotalAndQuantity" xml:space="preserve">
     <value># Line: Artikel Summe x Menge</value>
+  </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>Verbrauch</value>
+  </data>
+  <data name="CustomerAccount" xml:space="preserve">
+    <value>Kunden-Konto</value>
+  </data>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Lokales Lager</value>
+  </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Lokale Lager</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="Settle" xml:space="preserve">
+    <value>Abrechnen</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>MwSt</value>
+  </data>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>inkl. MwSt</value>
+  </data>
+  <data name="TaxTemplate" xml:space="preserve">
+    <value>MwSt Vorlage</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Lager</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Lagerstätten</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>Lager Typ</value>
   </data>
 </root>
