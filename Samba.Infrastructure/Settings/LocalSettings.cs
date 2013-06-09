@@ -25,6 +25,8 @@ namespace Samba.Infrastructure.Settings
         public int DefaultRecordLimit { get; set; }
         public double WindowScale { get; set; }
 
+        public string PrintFontFamily { get; set; }
+
         private readonly SerializableDictionary<string, string> _customSettings;
         public SerializableDictionary<string, string> CustomSettings
         {
@@ -102,6 +104,26 @@ html
         {
             get { return _settingsObject.LogoPath; }
             set { _settingsObject.LogoPath = value; }
+        }
+
+        public static string PrintFontFamily
+        {
+          get
+          {
+            if (_settingsObject.PrintFontFamily == null || _settingsObject.PrintFontFamily == string.Empty ||
+              _settingsObject.PrintFontFamily == "")
+            {
+              _settingsObject.PrintFontFamily = "Consolas";
+              SaveSettings();
+              //return "Consolas";
+            }
+            return _settingsObject.PrintFontFamily;
+          }
+          set
+          {
+            _settingsObject.PrintFontFamily = value;
+            SaveSettings();
+          }
         }
 
         public static string DefaultHtmlReportHeader
