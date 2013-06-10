@@ -25,6 +25,10 @@ namespace Samba.Infrastructure.Settings
         public int DefaultRecordLimit { get; set; }
         public double WindowScale { get; set; }
 
+        public string ApiHost { get; set; }
+        public string ApiPort { get; set; }
+        public TimeSpan TokenLifeTime { get; set; }
+
         public string PrintFontFamily { get; set; }
 
         private readonly SerializableDictionary<string, string> _customSettings;
@@ -124,6 +128,24 @@ html
             _settingsObject.PrintFontFamily = value;
             SaveSettings();
           }
+        }
+
+        public static string ApiHost
+        {
+          get { return _settingsObject.ApiHost; }
+          set { _settingsObject.ApiHost = value; SaveSettings(); }
+        }
+
+        public static TimeSpan TokenLifeTime
+        {
+          get { return _settingsObject.TokenLifeTime; }
+          set { _settingsObject.TokenLifeTime = value; SaveSettings(); }
+        }
+
+        public static string ApiPort
+        {
+          get { return _settingsObject.ApiPort; }
+          set { _settingsObject.ApiPort = value; SaveSettings(); }
         }
 
         public static string DefaultHtmlReportHeader
