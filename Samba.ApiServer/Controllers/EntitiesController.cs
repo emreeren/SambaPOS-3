@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Web.Http;
 using Samba.ApiServer.Lib;
 using Samba.Domain.Models.Entities;
@@ -14,36 +10,35 @@ namespace Samba.ApiServer.Controllers
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-  public class EntitiesController:
-    SambaApiController
+    public class EntitiesController : SambaApiController
     {
         private readonly IEntityDao _entityDao;
-        
+
         [ImportingConstructor]
         public EntitiesController(IEntityDao entityDao)
         {
             _entityDao = entityDao;
         }
 
-    //GET =>  http://localhost:8080/api/{token}/Entities/
-    public IEnumerable<Entity> GetAllEntities(string entityState)
+        //GET =>  http://localhost:8080/api/{token}/Entities/
+        public IEnumerable<Entity> GetAllEntities(string entityState)
         {
-      ValidateToken();
-      return _entityDao.GetEntitiesByState(entityState, 2);
+            ValidateToken();
+            return _entityDao.GetEntitiesByState(entityState, 2);
         }
 
-    //GET =>  http://localhost:8080/api/{token}/Entities/?category={category}
-    public IEnumerable<Entity> GetEntitiesByCategory(string category)
-    {
-      ValidateToken();
-      return _entityDao.FindEntities(null, category, "");
-    }
+        //GET =>  http://localhost:8080/api/{token}/Entities/?category={category}
+        public IEnumerable<Entity> GetEntitiesByCategory(string category)
+        {
+            ValidateToken();
+            return _entityDao.FindEntities(null, category, "");
+        }
 
-    //GET =>  http://localhost:8080/api/{token}/Entities/{id}
+        //GET =>  http://localhost:8080/api/{token}/Entities/{id}
         public Entity GetEntityById(int id)
         {
-      ValidateToken();
-      Entity product = _entityDao.GetEntityById(id);
+            ValidateToken();
+            Entity product = _entityDao.GetEntityById(id);
             if (product == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -51,5 +46,5 @@ namespace Samba.ApiServer.Controllers
             return product;
         }
 
-        }
+    }
 }
