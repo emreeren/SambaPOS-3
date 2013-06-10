@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
@@ -72,11 +73,15 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Lib\SambaApiController.cs" />
+    <Compile Include="Lib\SimpleSerializer.cs" />
+    <Compile Include="Lib\Token.cs" />
     <Compile Include="MefBootstrapper.cs" />
     <Compile Include="MefDependencyResolver.cs" />
     <Compile Include="Controllers\EntitiesController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\SambaApiLoginResponse.cs" />
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +114,10 @@
       <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
       <Name>Samba.Infrastructure.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
+      <Project>{b184e8f8-a507-4c3d-b580-184e3776a95c}</Project>
+      <Name>Samba.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Persistance\Samba.Persistance.csproj">
       <Project>{9ACA7797-5C2A-4435-B991-E59462ACDAF6}</Project>
       <Name>Samba.Persistance</Name>
@@ -122,6 +131,7 @@
       <Name>Samba.Services</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
