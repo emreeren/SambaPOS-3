@@ -8,16 +8,15 @@ using System.Web.Http;
 
 namespace Samba.ApiServer.Lib
 {
-  public class SambaApiController:
-    ApiController
-  {
-    internal void ValidateToken()
+    public class SambaApiController : ApiController
     {
-      string token = (string)ControllerContext.RouteData.Values["token"];
-      if (!Token.ValidateToken(token))
-      {
-        throw new HttpResponseException(HttpStatusCode.Forbidden);
-      }
+        internal void ValidateToken()
+        {
+            var token = (string)ControllerContext.RouteData.Values["token"];
+            if (!Token.ValidateToken(token))
+            {
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+            }
+        }
     }
-  }
 }

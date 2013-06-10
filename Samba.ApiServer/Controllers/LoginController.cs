@@ -14,45 +14,45 @@ using Samba.Persistance;
 
 namespace Samba.ApiServer.Controllers
 {
-  [Export]
-  [PartCreationPolicy(CreationPolicy.NonShared)]
-  public class LoginController:
-    ApiController
-  {
-    private readonly IUserDao _UserDao;
-
-    [ImportingConstructor]
-    public LoginController(IUserDao userDao)
+    [Export]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class LoginController :
+      ApiController
     {
-      _UserDao = userDao;
-    }
+        private readonly IUserDao _UserDao;
 
-    //GET =>  http://localhost:8080/api/getToken/{pin}
-    public SambaApiLoginResponse GetLogin(string pin)
-    {
-      // User ret = _UserDao.GetUserByPinCode(pin);
-      SettingsObject settings = new SettingsObject();
-      SambaApiLoginResponse ret;
+        [ImportingConstructor]
+        public LoginController(IUserDao userDao)
+        {
+            _UserDao = userDao;
+        }
 
-      if (!_UserDao.GetIsUserExists(pin))
-      {
-        //throw new HttpResponseException(HttpStatusCode.Unauthorized);
-        ret = new SambaApiLoginResponse(null,null, HttpStatusCode.Unauthorized);
-      }
-      else
-      {
-        User user = _UserDao.GetUserByPinCode(pin);
-        ret = new SambaApiLoginResponse(new Token(user.Id),
-                                        user,
-                                        HttpStatusCode.Accepted,
-                                        true);
-      }
-       
-      return ret;
+        //GET =>  http://localhost:8080/api/getToken/{pin}
+        public SambaApiLoginResponse GetLogin(string pin)
+        {
+            // User ret = _UserDao.GetUserByPinCode(pin);
+            SettingsObject settings = new SettingsObject();
+            SambaApiLoginResponse ret;
+
+            if (!_UserDao.GetIsUserExists(pin))
+            {
+                //throw new HttpResponseException(HttpStatusCode.Unauthorized);
+                ret = new SambaApiLoginResponse(null, null, HttpStatusCode.Unauthorized);
+            }
+            else
+            {
+                User user = _UserDao.GetUserByPinCode(pin);
+                ret = new SambaApiLoginResponse(new Token(user.Id),
+                                                user,
+                                                HttpStatusCode.Accepted,
+                                                true);
+            }
+
+            return ret;
+        }
+        //public IEnumerable<User> GetAllUsers()
+        //{
+        //  return Dao.Query<User>();       
+        //}
     }
-    //public IEnumerable<User> GetAllUsers()
-    //{
-    //  return Dao.Query<User>();       
-    //}
-  }
 }
