@@ -16,32 +16,28 @@ namespace Samba.ApiServer.Controllers
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class LoginController :
-      ApiController
+    public class LoginController : ApiController
     {
-        private readonly IUserDao _UserDao;
+        private readonly IUserDao _userDao;
 
         [ImportingConstructor]
         public LoginController(IUserDao userDao)
         {
-            _UserDao = userDao;
+            _userDao = userDao;
         }
 
         //GET =>  http://localhost:8080/api/getToken/{pin}
         public SambaApiLoginResponse GetLogin(string pin)
         {
-            // User ret = _UserDao.GetUserByPinCode(pin);
-            SettingsObject settings = new SettingsObject();
             SambaApiLoginResponse ret;
 
-            if (!_UserDao.GetIsUserExists(pin))
+            if (!_userDao.GetIsUserExists(pin))
             {
-                //throw new HttpResponseException(HttpStatusCode.Unauthorized);
                 ret = new SambaApiLoginResponse(null, null, HttpStatusCode.Unauthorized);
             }
             else
             {
-                User user = _UserDao.GetUserByPinCode(pin);
+                var user = _userDao.GetUserByPinCode(pin);
                 ret = new SambaApiLoginResponse(new Token(user.Id),
                                                 user,
                                                 HttpStatusCode.Accepted,
@@ -50,9 +46,5 @@ namespace Samba.ApiServer.Controllers
 
             return ret;
         }
-        //public IEnumerable<User> GetAllUsers()
-        //{
-        //  return Dao.Query<User>();       
-        //}
     }
 }

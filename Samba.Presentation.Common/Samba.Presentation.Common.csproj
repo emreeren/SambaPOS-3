@@ -78,6 +78,10 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PropertyTools, Version=2012.4.14.1, Culture=neutral, PublicKeyToken=ea0c9f2b460934d0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\PropertyTools.dll</HintPath>
+    </Reference>
     <Reference Include="PropertyTools.Wpf">
       <HintPath>..\Lib\PropertyTools.Wpf.dll</HintPath>
     </Reference>

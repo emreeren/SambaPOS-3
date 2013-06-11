@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 
@@ -88,13 +89,13 @@ namespace Samba.Presentation.Controls.UIControls
         public DiagramCanvas()
         {
             ButtonContextMenu.Items.Clear();
-            var menuItem = new MenuItem { Header = "Properties" };
+            var menuItem = new MenuItem { Header = Localization.Properties.Resources.Properties };
             menuItem.Click += MenuItemClick;
             ButtonContextMenu.Items.Add(menuItem);
-            var mi2 = new MenuItem { Header = "Settings" };
+            var mi2 = new MenuItem { Header = Localization.Properties.Resources.Settings };
             mi2.Click += Mi2Click;
             ButtonContextMenu.Items.Add(mi2);
-            var mi3 = new MenuItem { Header = "Delete Widget" };
+            var mi3 = new MenuItem { Header = Localization.Properties.Resources.Delete };
             mi3.Click += Mi3Click;
             ButtonContextMenu.Items.Add(mi3);
         }

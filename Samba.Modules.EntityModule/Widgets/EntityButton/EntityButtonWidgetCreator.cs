@@ -62,7 +62,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
             var buttonColorBinding = new Binding("ButtonColor") { Source = buttonHolder, Mode = BindingMode.TwoWay };
             var commandBinding = new Binding("ItemClickedCommand") { Source = buttonHolder, Mode = BindingMode.OneWay };
             var enabledBinding = new Binding("IsEnabled") { Source = buttonHolder, Mode = BindingMode.OneWay };
-            var transformBinding = new Binding("RenderTransform") { Source = buttonHolder, Mode = BindingMode.OneWay };
+            var rotateTransform = new Binding("RotateTransform") { Source = buttonHolder, Mode = BindingMode.OneWay };
 
             ret.SetBinding(InkCanvas.LeftProperty, xBinding);
             ret.SetBinding(InkCanvas.TopProperty, yBinding);
@@ -72,7 +72,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
             ret.SetBinding(FlexButton.FlexButton.CornerRadiusProperty, radiusBinding);
             ret.SetBinding(FlexButton.FlexButton.ButtonColorProperty, buttonColorBinding);
             ret.SetBinding(ButtonBase.CommandProperty, commandBinding);
-            ret.SetBinding(UIElement.RenderTransformProperty, transformBinding);
+            ret.SetBinding(FrameworkElement.LayoutTransformProperty, rotateTransform);
             //ret.SetBinding(UIElement.IsEnabledProperty, enabledBinding);
 
             return ret;

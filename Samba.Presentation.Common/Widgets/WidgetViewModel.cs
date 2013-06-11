@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using PropertyTools.DataAnnotations;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
 using Samba.Localization;
@@ -54,12 +55,14 @@ namespace Samba.Presentation.Common.Widgets
             set { _model.CreatorName = value; }
         }
 
+        [Spinnable(1, 10, 0, int.MaxValue)]
         public int X
         {
             get { return _model.XLocation; }
             set { _model.XLocation = value; RaisePropertyChanged(() => X); }
         }
 
+        [Spinnable(1, 10, 0, int.MaxValue)]
         public int Y
         {
             get { return _model.YLocation; }
@@ -67,6 +70,7 @@ namespace Samba.Presentation.Common.Widgets
         }
 
         [LocalizedDisplayName(ResourceStrings.Height)]
+        [Spinnable(1, 10, 0, int.MaxValue)]
         public int Height
         {
             get { return _model.Height; }
@@ -74,6 +78,7 @@ namespace Samba.Presentation.Common.Widgets
         }
 
         [LocalizedDisplayName(ResourceStrings.Width)]
+        [Spinnable(1, 10, 0, int.MaxValue)]
         public int Width
         {
             get { return _model.Width; }
@@ -81,7 +86,7 @@ namespace Samba.Presentation.Common.Widgets
         }
 
         [Browsable(false)]
-        public Transform RenderTransform
+        public Transform RotateTransform
         {
             get { return new RotateTransform(_model.Angle); }
             set { _model.Angle = ((RotateTransform)value).Angle; }
@@ -102,7 +107,7 @@ namespace Samba.Presentation.Common.Widgets
             {
                 _model.Angle = value;
                 RaisePropertyChanged(() => Angle);
-                RaisePropertyChanged(() => RenderTransform);
+                RaisePropertyChanged(() => RotateTransform);
             }
         }
 
