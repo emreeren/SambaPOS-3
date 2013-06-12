@@ -191,7 +191,6 @@ namespace Samba.Modules.PosModule
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
-            // EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
@@ -330,24 +329,6 @@ namespace Samba.Modules.PosModule
                 RefreshVisuals();
             }
         }
-
-        //private void OnAccountSelectedFromPopup(EventParameters<PopupData> obj)
-        //{
-        //    if (obj.Value.EventMessage == EventTopicNames.SelectEntity)
-        //    {
-        //        //todo fix (caller id popupuna týklandýðýnda adisyon açan metod)
-
-        //        //var dep = AppServices.MainDataContext.Departments.FirstOrDefault(y => y.IsTakeAway);
-        //        //if (dep != null)
-        //        //{
-        //        //    UpdateSelectedDepartment(dep.Id);
-        //        //    SelectedTicketView = OpenTicketListView;
-        //        //}
-        //        //if (SelectedDepartment == null)
-        //        //    SelectedDepartment = AppServices.MainDataContext.Departments.FirstOrDefault();
-        //        RefreshVisuals();
-        //    }
-        //}
 
         private void OnSelectedOrdersChanged(EventParameters<OrderViewModel> obj)
         {
