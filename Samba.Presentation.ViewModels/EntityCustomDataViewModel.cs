@@ -1,25 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.Serialization;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
-using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 
 namespace Samba.Presentation.ViewModels
 {
-    [DataContract]
-    public class CustomDataValue
-    {
-        [DataMember]
-        public string Name { get; set; }
-        [DataMember]
-        public string Value { get; set; }
-        public EntityCustomField CustomField { get; set; }
-    }
-
     public class EntityCustomDataViewModel : ObservableObject
     {
         public Entity Model { get; set; }
@@ -27,8 +14,8 @@ namespace Samba.Presentation.ViewModels
 
         public string GetValue(string name)
         {
-            return CustomData.Any(x => x.Name == name) 
-                ? CustomData.Single(x => x.Name == name).Value 
+            return CustomData.Any(x => x.Name == name)
+                ? CustomData.Single(x => x.Name == name).Value
                 : string.Empty;
         }
 

@@ -21,9 +21,9 @@ namespace Samba.Presentation.Common
             userControl.PublishEvent(EventTopicNames.DashboardClosed);
         }
 
-        public static void PublishEntityOperation<T>(T entity, string requestedEvent, string expectedEvent = "")
+        public static void PublishEntityOperation<T>(T entity, string requestedEvent, string expectedEvent = "", string data = "")
         {
-            EntityOperationRequest<T>.Publish(entity, requestedEvent, expectedEvent);
+            EntityOperationRequest<T>.Publish(entity, requestedEvent, expectedEvent, data);
         }
     }
 }

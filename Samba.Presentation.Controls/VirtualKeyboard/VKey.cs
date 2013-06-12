@@ -64,7 +64,7 @@ namespace Samba.Presentation.Controls.VirtualKeyboard
             }
 
             ToAscii((uint)key, 0, GetKeyState(modifiers), outputBuilder, 0);
-            throw new Exception("Invalid key");
+            return ' ';
         }
 
         private const byte HighBit = 0x80;

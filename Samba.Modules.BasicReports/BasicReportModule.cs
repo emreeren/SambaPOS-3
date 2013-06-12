@@ -43,7 +43,7 @@ namespace Samba.Modules.BasicReports
 
             automationService.RegisterActionType("SaveReportToFile", Resources.SaveReportToFile, new { ReportName = "", FileName = "" });
             automationService.RegisterActionType(ActionNames.PrintReport, Resources.PrintReport, new { ReportName = "" });
-            automationService.RegisterParameterSoruce("ReportName", () => ReportContext.Reports.Select(x => x.Header));
+            automationService.RegisterParameterSource("ReportName", () => ReportContext.Reports.Select(x => x.Header));
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
             {

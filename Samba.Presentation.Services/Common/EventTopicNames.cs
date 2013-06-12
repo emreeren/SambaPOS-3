@@ -71,6 +71,7 @@
         public const string OrderStateUpdated = "OrderStateUpdated";
         public const string EntitySelected = "EntitySelected";
         public const string BeforeTicketClosing = "BeforeTicketClosing";
+        public const string DeviceEventGenerated = "DeviceEventGenerated";
     }
 
     public static class EventTopicNames

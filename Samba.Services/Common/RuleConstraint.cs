@@ -85,6 +85,8 @@ namespace Samba.Services.Common
 
         public bool ValueEquals(object parameterValue)
         {
+            if (parameterValue == null) return false;
+            
             if (IsNumericType(parameterValue.GetType()) || Operation.Contains(OperatorConstants.Greater) || Operation.Contains(OperatorConstants.Less))
             {
                 decimal propertyValue;

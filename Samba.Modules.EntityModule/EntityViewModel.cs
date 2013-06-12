@@ -107,8 +107,6 @@ namespace Samba.Modules.EntityModule
             return Resources.Entity;
         }
 
-        public string SearchString { get { return Model.SearchString; } set { Model.SearchString = value; } }
-
         protected override AbstractValidator<Entity> GetValidator()
         {
             return new EntityValidator();

@@ -37,6 +37,7 @@ namespace Samba.Presentation.ViewModels
         private static readonly IMethodQueue MethodQueue = ServiceLocator.Current.GetInstance<IMethodQueue>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
         private static readonly IEmailService EmailService = ServiceLocator.Current.GetInstance<IEmailService>();
+        private static readonly IDeviceService DeviceService = ServiceLocator.Current.GetInstance<IDeviceService>();
 
         private static bool _registered;
 
@@ -116,38 +117,41 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.EntityUpdated, Resources.EntityUpdated, new { EntityTypeName = "", OpenTicketCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.EntityStateUpdated, Resources.EntityStateUpdated, new { EntityTypeName = "", StateName = "", State = "" });
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
+            AutomationService.RegisterEvent(RuleEventNames.DeviceEventGenerated, Resources.DeviceEventGenerated, new { DeviceName = "", EventName = "", EventData = "" });
             AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted);
         }
 
         private static void RegisterParameterSources()
         {
-            AutomationService.RegisterParameterSoruce("UserName", () => UserService.GetUserNames());
-            AutomationService.RegisterParameterSoruce("DepartmentName", () => DepartmentService.GetDepartmentNames());
-            AutomationService.RegisterParameterSoruce("TerminalName", () => SettingService.GetTerminalNames());
-            AutomationService.RegisterParameterSoruce("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
-            AutomationService.RegisterParameterSoruce("MenuItemName", () => Dao.Distinct<MenuItem>(yz => yz.Name));
-            AutomationService.RegisterParameterSoruce("PriceTag", () => Dao.Distinct<MenuItemPriceDefinition>(x => x.PriceTag));
-            AutomationService.RegisterParameterSoruce("Color", () => typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.Name));
-            AutomationService.RegisterParameterSoruce("TaxTemplate", () => Dao.Distinct<TaxTemplate>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("CalculationType", () => Dao.Distinct<CalculationType>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("TagName", () => Dao.Distinct<TicketTagGroup>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("OrderTagName", () => Dao.Distinct<OrderTagGroup>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("State", () => Dao.Distinct<State>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("EntityState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 0));
-            AutomationService.RegisterParameterSoruce("TicketState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 1));
-            AutomationService.RegisterParameterSoruce("OrderState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 2));
-            AutomationService.RegisterParameterSoruce("StateName", () => Dao.Distinct<State>(x => x.GroupName));
-            AutomationService.RegisterParameterSoruce("EntityStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 0));
-            AutomationService.RegisterParameterSoruce("TicketStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 1));
-            AutomationService.RegisterParameterSoruce("OrderStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 2));
-            AutomationService.RegisterParameterSoruce("EntityTypeName", () => Dao.Distinct<EntityType>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("PaymentTypeName", () => Dao.Distinct<PaymentType>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("AccountTransactionTypeName", () => Dao.Distinct<AccountTransactionType>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("AccountTransactionDocumentName", () => Dao.Distinct<AccountTransactionDocumentType>(x => x.Name));
-            AutomationService.RegisterParameterSoruce("UpdateType", () => new[] { Resources.Update, Resources.Increase, Resources.Decrease, Resources.Toggle });
-            AutomationService.RegisterParameterSoruce("TicketTypeName", () => Dao.Distinct<TicketType>(x => x.Name));
+            AutomationService.RegisterParameterSource("UserName", () => UserService.GetUserNames());
+            AutomationService.RegisterParameterSource("DepartmentName", () => DepartmentService.GetDepartmentNames());
+            AutomationService.RegisterParameterSource("TerminalName", () => SettingService.GetTerminalNames());
+            AutomationService.RegisterParameterSource("DeviceName", () => DeviceService.GetDeviceNames());
+            AutomationService.RegisterParameterSource("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
+            AutomationService.RegisterParameterSource("MenuItemName", () => Dao.Distinct<MenuItem>(yz => yz.Name));
+            AutomationService.RegisterParameterSource("PriceTag", () => Dao.Distinct<MenuItemPriceDefinition>(x => x.PriceTag));
+            AutomationService.RegisterParameterSource("Color", () => typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.Name));
+            AutomationService.RegisterParameterSource("TaxTemplate", () => Dao.Distinct<TaxTemplate>(x => x.Name));
+            AutomationService.RegisterParameterSource("CalculationType", () => Dao.Distinct<CalculationType>(x => x.Name));
+            AutomationService.RegisterParameterSource("TagName", () => Dao.Distinct<TicketTagGroup>(x => x.Name));
+            AutomationService.RegisterParameterSource("OrderTagName", () => Dao.Distinct<OrderTagGroup>(x => x.Name));
+            AutomationService.RegisterParameterSource("State", () => Dao.Distinct<State>(x => x.Name));
+            AutomationService.RegisterParameterSource("EntityState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 0));
+            AutomationService.RegisterParameterSource("TicketState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 1));
+            AutomationService.RegisterParameterSource("OrderState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 2));
+            AutomationService.RegisterParameterSource("StateName", () => Dao.Distinct<State>(x => x.GroupName));
+            AutomationService.RegisterParameterSource("EntityStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 0));
+            AutomationService.RegisterParameterSource("TicketStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 1));
+            AutomationService.RegisterParameterSource("OrderStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 2));
+            AutomationService.RegisterParameterSource("EntityTypeName", () => Dao.Distinct<EntityType>(x => x.Name));
+            AutomationService.RegisterParameterSource("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
+            AutomationService.RegisterParameterSource("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
+            AutomationService.RegisterParameterSource("PaymentTypeName", () => Dao.Distinct<PaymentType>(x => x.Name));
+            AutomationService.RegisterParameterSource("AccountTransactionTypeName", () => Dao.Distinct<AccountTransactionType>(x => x.Name));
+            AutomationService.RegisterParameterSource("AccountTransactionDocumentName", () => Dao.Distinct<AccountTransactionDocumentType>(x => x.Name));
+            AutomationService.RegisterParameterSource("UpdateType", () => new[] { Resources.Update, Resources.Increase, Resources.Decrease, Resources.Toggle });
+            AutomationService.RegisterParameterSource("TicketTypeName", () => Dao.Distinct<TicketType>(x => x.Name));
+            AutomationService.RegisterParameterSource("EntityScreenName", () => Dao.Distinct<EntityScreen>(x => x.Name));
         }
 
         private static void ResetCache()
@@ -182,6 +186,7 @@ namespace Samba.Presentation.ViewModels
                         Process.Start(psi);
                     }
                 }
+
                 if (x.Value.Action.ActionType == ActionNames.SetActiveTicketType)
                 {
                     var ticketTypeName = x.Value.GetAsString("TicketTypeName");

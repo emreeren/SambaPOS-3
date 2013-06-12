@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using Samba.Infrastructure.Data;
 
@@ -25,7 +26,7 @@ namespace Samba.Presentation.Common
         void HideKeyboard();
         void ToggleKeyboard();
         void ToggleSplashScreen();
-        void DisplayPopup(string title, string content, object dataObject, string eventMessage, string headerColor = "DarkRed");
+        void DisplayPopup(string title, string content, string headerColor = "DarkRed", Action<object> action = null, object actionParameter = null);
         void Scale(FrameworkElement control);
     }
 }

@@ -3134,4 +3134,10 @@ Error Message:
   <data name="TaxFree" xml:space="preserve">
     <value>Tax Free</value>
   </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>Device Event Generated</value>
+  </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>Search Entity</value>
+  </data>
 </root>

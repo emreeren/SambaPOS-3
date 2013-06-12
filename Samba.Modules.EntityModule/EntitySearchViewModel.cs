@@ -284,7 +284,8 @@ namespace Samba.Modules.EntityModule
             var targetEvent = _currentEntitySelectionRequest != null
                                   ? _currentEntitySelectionRequest.GetExpectedEvent()
                                   : EventTopicNames.SelectEntity;
-            var newEntity = new Entity { EntityTypeId = SelectedEntityType.Id, Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(SearchString ?? "") };
+            var newEntity = new Entity { EntityTypeId = SelectedEntityType.Id };
+            newEntity.SetDefaultValues(SearchString);
             ClearSearchValues();
             CommonEventPublisher.PublishEntityOperation(newEntity, EventTopicNames.EditEntityDetails, targetEvent);
         }
@@ -359,7 +360,7 @@ namespace Samba.Modules.EntityModule
             {
                 worker.DoWork += delegate
                                      {
-                                         result = _entityService.SearchEntities(SearchString, SelectedEntityType, StateFilter);
+                                         result = _entityService.SearchEntities(SelectedEntityType, SearchString, StateFilter);
                                      };
 
                 worker.RunWorkerCompleted +=
@@ -371,12 +372,6 @@ namespace Samba.Modules.EntityModule
                                {
                                    FoundEntities.Clear();
                                    FoundEntities.AddRange(result.Select(x => new EntitySearchResultViewModel(x, SelectedEntityType)));
-
-                                   //if (SelectedEntity != null && SearchString == SelectedEntity.PhoneNumber)
-                                   //{
-                                   //    SelectedEntity.UpdateDetailedInfo();
-                                   //}
-
                                    RaisePropertyChanged(() => SelectedEntity);
                                    CommandManager.InvalidateRequerySuggested();
                                }));
