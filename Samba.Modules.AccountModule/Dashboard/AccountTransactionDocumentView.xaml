@@ -12,12 +12,13 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <DockPanel>
-            <Label>Document Name</Label>
-            <TextBox Text="{Binding Name}"></TextBox>
+        <DockPanel Margin="0,3,0,3">
+            <Label Content="{LocText Name_f, FormatSegment1={LocText TransactionDocument}, Suffix=':'}"/>
+            <TextBox Text="{Binding Name}" VerticalContentAlignment="Center"></TextBox>
         </DockPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding AccountTransactions}" AutoGenerateColumns="False" 
-                  PreviewTextInput="DataGrid_PreviewTextInput" PreparingCellForEdit="DataGrid_PreparingCellForEdit">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding AccountTransactions}" AutoGenerateColumns="False" RowHeaderWidth="0"
+                  PreviewTextInput="DataGrid_PreviewTextInput" PreparingCellForEdit="DataGrid_PreparingCellForEdit"
+                  HorizontalGridLinesBrush="Silver" VerticalGridLinesBrush="Silver">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="{LocText Transaction}">
                     <DataGridTemplateColumn.CellTemplate>
@@ -73,9 +74,22 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Description" Binding="{Binding Name}" Width="*"/>
+                <DataGridTemplateColumn Header="{LocText Description}" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid FocusManager.FocusedElement="{Binding ElementName=tx3}">
+                                <TextBox VerticalContentAlignment="Center" Name="tx3" Text="{Binding Name}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Amount">
+                <DataGridTemplateColumn Header="{LocText Amount}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Margin="3" TextAlignment="Right" Text="{Binding Amount,StringFormat='#,#0.00'}" />
@@ -84,7 +98,7 @@
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
                             <Grid FocusManager.FocusedElement="{Binding ElementName=cb3}">
-                                <UIControls:FilteredTextBox Name="cb3" Type="Number" Text="{Binding Amount}"/>
+                                <UIControls:FilteredTextBox VerticalContentAlignment="Center" Name="cb3" Type="Number" Text="{Binding Amount}"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>

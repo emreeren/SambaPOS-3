@@ -719,11 +719,29 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Batch Create.
+        /// </summary>
+        public static string BatchCreate {
+            get {
+                return ResourceManager.GetString("BatchCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Batch Create {0}.
         /// </summary>
         public static string BatchCreate_f {
             get {
                 return ResourceManager.GetString("BatchCreate_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batch Create Documents.
+        /// </summary>
+        public static string BatchCreateDocuments {
+            get {
+                return ResourceManager.GetString("BatchCreateDocuments", resourceCulture);
             }
         }
         
@@ -1886,6 +1904,24 @@ namespace Samba.Localization.Properties {
         public static string DefaultProperties {
             get {
                 return ResourceManager.GetString("DefaultProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Source Account.
+        /// </summary>
+        public static string DefaultSourceAccount {
+            get {
+                return ResourceManager.GetString("DefaultSourceAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Target Account.
+        /// </summary>
+        public static string DefaultTargetAccount {
+            get {
+                return ResourceManager.GetString("DefaultTargetAccount", resourceCulture);
             }
         }
         
@@ -3914,6 +3950,15 @@ namespace Samba.Localization.Properties {
         public static string Manual {
             get {
                 return ResourceManager.GetString("Manual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mapped Account.
+        /// </summary>
+        public static string MappedAccount {
+            get {
+                return ResourceManager.GetString("MappedAccount", resourceCulture);
             }
         }
         
@@ -6405,6 +6450,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Source Account Type (Debit).
+        /// </summary>
+        public static string SourceAccountTypeDesc {
+            get {
+                return ResourceManager.GetString("SourceAccountTypeDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click here for information about working with SQL Databases.
         /// </summary>
         public static string SqlHint {
@@ -6698,6 +6752,15 @@ namespace Samba.Localization.Properties {
         public static string Target_f {
             get {
                 return ResourceManager.GetString("Target_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Account Type (Credit).
+        /// </summary>
+        public static string TargetAccountTypeDesc {
+            get {
+                return ResourceManager.GetString("TargetAccountTypeDesc", resourceCulture);
             }
         }
         
@@ -7254,26 +7317,26 @@ namespace Samba.Localization.Properties {
         ///{ORDERS}
         ///&lt;F&gt;=
         ///&lt;EB&gt;
-        ///&lt;J10&gt;{IF DISCOUNT}
-        ///&lt;J10&gt;Total Gift:|{GIFT TOTAL}
+        ///{DISCOUNTS}
+        ///&lt;J10&gt;Total Gift:|{ORDER STATE TOTAL:Gift}
         ///&lt;J10&gt;Total:|{TICKET TOTAL}
-        ///{IF PAID}
+        ///{PAYMENTS}
         ///&lt;DB&gt;
         ///&lt;F&gt;=
-        ///&lt;C10&gt;T H A N K    Y O U
-        ///
+        ///&lt;C10&gt;T H A N K Y O U
+        /// 
+        ///[DISCOUNTS]
+        ///&lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
+        /// 
+        ///[PAYMENTS]
+        ///&lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT}
+        /// 
         ///[ORDERS]
         ///-- Default format for orders
         ///&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
         ///{ORDER TAGS}
-        ///
-        ///[ORDERS:GIFT]
-        ///-- Format for gifted orders
-        ///&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
-        ///{ORDER TAGS}
-        ///
-        ///[ORDERS:VOID]
-        ///-- Nothing will print for void l [rest of string was truncated]&quot;;.
+        /// 
+        ///[ [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TicketTemplateValue {
             get {

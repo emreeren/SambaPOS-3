@@ -31,7 +31,7 @@
                 <ColumnDefinition Width="78*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40*" Name="SelectedItemsRow" />
+                <RowDefinition Height="auto" Name="SelectedItemsRow" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="60*" Name="MenuItemRow" />
                 <RowDefinition Height="40*" Name="NumeratorRow" />

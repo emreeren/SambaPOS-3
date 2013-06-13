@@ -12,22 +12,21 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <StackPanel >
-            <Label>
-                Account Transaction Type Name:
-            </Label>
+            <Label Content="{LocText Name_f, FormatSegment1={LocText AccountTransactionType}, Suffix=':'}"/>
+
             <TextBox HorizontalAlignment="Left" MinWidth="250" Text="{Binding Name}" />
-            <Label MinWidth="120">Source Account Type (Debit)</Label>
+            <Label MinWidth="120" Content="{LocText SourceAccountTypeDesc, Suffix=':'}"/>
             <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTypes}"
                                      SelectedItem="{Binding SourceAccountType}" />
-            <Label MinWidth="120">Target Account Type (Credit)</Label>
+            <Label MinWidth="120" Content="{LocText TargetAccountTypeDesc,Suffix=':'}"/>
             <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" ItemsSource="{Binding AccountTypes}"
                                      SelectedItem="{Binding TargetAccountType}" />
-            <Label MinWidth="120">Default Source Account</Label>
+            <Label MinWidth="120" Content="{LocText DefaultSourceAccount,Suffix=':'}"/>
             <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" 
                       ItemsSource="{Binding SourceAccounts}"
                       SelectedValue="{Binding DefaultSourceAccountId}" 
                       SelectedValuePath="Id"/>
-            <Label MinWidth="120">Default Target Account</Label>
+            <Label MinWidth="120" Content="{LocText DefaultTargetAccount,Suffix=':'}"/>
             <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name" 
                       ItemsSource="{Binding TargetAccounts}"
                       SelectedValue="{Binding DefaultTargetAccountId}" 

@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
 
         <TabControl Template="{StaticResource OfficeTabControl}">
-            <TabItem Header="General Settings">
+            <TabItem Header="{LocText GeneralSettings}">
                 <StackPanel >
                     <Label HorizontalAlignment="Left" Content="{LocText Name}" />
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
@@ -71,9 +71,9 @@
 
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Batch Create">
+            <TabItem Header="{LocText BatchCreate}">
                 <StackPanel>
-                    <CheckBox Content="Batch Create Documents" IsChecked="{Binding BatchCreateDocuments,Mode=TwoWay}"/>
+                    <CheckBox Content="{LocText BatchCreateDocuments}" IsChecked="{Binding BatchCreateDocuments,Mode=TwoWay}"/>
                     <Label Margin="0,5,0,0" MinWidth="120" Content="{LocText Filter,Suffix=':'}"/>
                     <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding FilterDescriptions}" 
                               SelectedItem="{Binding FilterStr}" IsEnabled="{Binding BatchCreateDocuments}"/>
@@ -100,7 +100,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Header="Mapped Account" MinWidth="150">
+                                <DataGridTemplateColumn Header="{LocText MappedAccount}" MinWidth="150">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Margin="5" Text="{Binding MappedAccountSelector.AccountName}" />
