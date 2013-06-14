@@ -17,13 +17,14 @@ namespace Samba.Modules.CidMonitor
     {
         private readonly IApplicationState _applicationState;
         private readonly IEntityService _entityService;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
         public CidDevice(IApplicationState applicationState, IEntityService entityService, ICacheService cacheService)
         {
             _applicationState = applicationState;
             _entityService = entityService;
-            CustomerType = cacheService.GetEntityTypes().SingleOrDefault(x => x.Name == Resources.Customers);
+            _cacheService = cacheService;
         }
 
         protected EntityType CustomerType { get; set; }
@@ -33,6 +34,7 @@ namespace Samba.Modules.CidMonitor
         public void Initialize()
         {
             if (IsInitialized) return;
+            CustomerType = _cacheService.GetEntityTypes().SingleOrDefault(x => x.Name == Resources.Customers);            
             try
             {
                 var frmMain = new FrmMain();
