@@ -123,6 +123,7 @@ namespace Samba.Presentation
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ShellInitialized);
             InteractionService.UserIntraction.ToggleSplashScreen();
             ServiceLocator.Current.GetInstance<ITriggerService>().UpdateCronObjects();
+            ServiceLocator.Current.GetInstance<IDeviceService>().InitializeDevices();
             ServiceLocator.Current.GetInstance<IApplicationState>().NotifyEvent(RuleEventNames.ApplicationStarted, new { });
         }
     }

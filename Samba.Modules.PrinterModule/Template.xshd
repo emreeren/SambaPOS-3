@@ -26,7 +26,7 @@
     </Span>
 
     <Keywords foreground="Blue" >
-      <Word>{RESOURCES}</Word>
+      <Word>{ENTITIES}</Word>
       <Word>{ORDERS}</Word>
       <Word>{ORDER TAGS}</Word>
       <Word>{TAXES}</Word>
@@ -35,7 +35,7 @@
       <Word>{PAYMENTS}</Word>
       <Word>{CHANGES}</Word>
     </Keywords>
-    
+
     <!--<Rule color="Punctuation">
       [?,.;()\[\]{}+\-/%*&lt;&gt;^+~!|&amp;]+
     </Rule>-->

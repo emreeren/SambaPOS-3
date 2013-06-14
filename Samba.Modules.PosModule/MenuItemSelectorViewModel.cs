@@ -33,6 +33,7 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand IncPageNumberCommand { get; set; }
         public ICaptionCommand DecPageNumberCommand { get; set; }
         public ICaptionCommand SubCategoryCommand { get; set; }
+        public ICaptionCommand CloseMenuViewCommand { get; set; }
 
         public ScreenMenuCategory MostUsedItemsCategory { get; set; }
 
@@ -57,6 +58,9 @@ namespace Samba.Modules.PosModule
         public string[] QuickNumeratorValues { get; set; }
         public string[] AlphaButtonValues { get; set; }
 
+        private bool _isSelectedItemsVisible;
+        public bool IsSelectedItemsVisible { get { return _isSelectedItemsVisible; } set { _isSelectedItemsVisible = value; RaisePropertyChanged(() => IsSelectedItemsVisible); } }
+
         public bool IsQuickNumeratorVisible { get { return SelectedCategory != null && SelectedCategory.IsQuickNumeratorVisible; } }
         public bool IsNumeratorVisible { get { return SelectedCategory != null && SelectedCategory.IsNumeratorVisible; } }
         public bool IsPageNumberNavigatorVisible { get { return SelectedCategory != null && SelectedCategory.PageCount > 1; } }
@@ -64,6 +68,8 @@ namespace Samba.Modules.PosModule
         public VerticalAlignment CategoriesVerticalAlignment { get { return Categories != null && Categories.Count > 0 && double.IsNaN(Categories[0].MButtonHeight) ? VerticalAlignment.Stretch : VerticalAlignment.Top; } }
         public int CurrentPageNo { get; set; }
         public string CurrentTag { get; set; }
+
+        public ObservableCollection<ScreenMenuItemData> SelectedMenuItems { get; set; }
 
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
@@ -86,12 +92,15 @@ namespace Samba.Modules.PosModule
             IncPageNumberCommand = new CaptionCommand<string>(Localization.Properties.Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
             DecPageNumberCommand = new CaptionCommand<string>("<< " + Localization.Properties.Resources.PreviousPage, OnDecPageNumber, CanDecPageNumber);
             SubCategoryCommand = new CaptionCommand<ScreenSubCategoryButton>(".", OnSubCategoryCommand);
+            CloseMenuViewCommand = new CaptionCommand<string>(Localization.Properties.Resources.Close, OnCloseMenuView);
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnNumeratorReset);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnEvent);
             NumeratorValue = "";
 
             SubCategories = new ObservableCollection<ScreenSubCategoryButton>();
+            SelectedMenuItems = new ObservableCollection<ScreenMenuItemData>();
         }
+
 
         private bool _filtered;
         private void FilterMenuItems(string numeratorValue)
@@ -113,10 +122,22 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void OnNumeratorReset(EventParameters<EventAggregator> obj)
+        private void OnCloseMenuView(string obj)
         {
-            if (obj.Topic == EventTopicNames.ResetNumerator)
-                NumeratorValue = "";
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
+        }
+
+        private void OnEvent(EventParameters<EventAggregator> obj)
+        {
+            switch (obj.Topic)
+            {
+                case EventTopicNames.ResetNumerator:
+                    NumeratorValue = "";
+                    break;
+                case EventTopicNames.ActivateMenuView:
+                    SelectedMenuItems.Clear();
+                    break;
+            }
         }
 
         private void OnDecPageNumber(string obj)
@@ -208,6 +229,7 @@ namespace Samba.Modules.PosModule
                 var data = new ScreenMenuItemData { ScreenMenuItem = screenMenuItem, Quantity = selectedMultiplier };
                 if (data.Quantity == 1 && screenMenuItem.Quantity > 1)
                     data.Quantity = screenMenuItem.Quantity;
+                SelectedMenuItems.Add(data);
                 data.PublishEvent(EventTopicNames.ScreenMenuItemDataSelected);
             }
         }
@@ -312,6 +334,7 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => QuickNumeratorValues);
             RaisePropertyChanged(() => AlphaButtonValues);
             RaisePropertyChanged(() => MenuItemsVerticalAlignment);
+            RaisePropertyChanged(() => IsSelectedItemsVisible);
         }
 
         private ObservableCollection<ScreenMenuItemButton> CreateMenuButtons(ScreenMenuCategory category, int pageNo, string tag)

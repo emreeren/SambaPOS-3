@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Samba.Domain.Models.Entities;
 
 namespace Samba.Presentation.ViewModels
 {

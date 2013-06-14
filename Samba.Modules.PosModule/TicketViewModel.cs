@@ -191,7 +191,6 @@ namespace Samba.Modules.PosModule
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(OnAccountSelectedFromPopup);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderTagData>>().Subscribe(OnOrderTagEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
@@ -287,7 +286,7 @@ namespace Samba.Modules.PosModule
         {
             var ticketEntity = SelectedTicket.TicketEntities.SingleOrDefault(x => x.EntityTypeId == obj.Id);
             var selectedEntity = ticketEntity != null ? _cacheService.GetEntityById(ticketEntity.EntityId) : Entity.GetNullEntity(obj.Id);
-            EntityOperationRequest<Entity>.Publish(selectedEntity, EventTopicNames.SelectEntity, EventTopicNames.EntitySelected);
+            EntityOperationRequest<Entity>.Publish(selectedEntity, EventTopicNames.SelectEntity, EventTopicNames.EntitySelected, "");
         }
 
         private void OnPortionSelected(EventParameters<MenuItemPortion> obj)
@@ -327,24 +326,6 @@ namespace Samba.Modules.PosModule
 
             if (obj.Topic == EventTopicNames.RefreshSelectedTicket)
             {
-                RefreshVisuals();
-            }
-        }
-
-        private void OnAccountSelectedFromPopup(EventParameters<PopupData> obj)
-        {
-            if (obj.Value.EventMessage == EventTopicNames.SelectEntity)
-            {
-                //todo fix (caller id popupuna týklandýðýnda adisyon açan metod)
-
-                //var dep = AppServices.MainDataContext.Departments.FirstOrDefault(y => y.IsTakeAway);
-                //if (dep != null)
-                //{
-                //    UpdateSelectedDepartment(dep.Id);
-                //    SelectedTicketView = OpenTicketListView;
-                //}
-                //if (SelectedDepartment == null)
-                //    SelectedDepartment = AppServices.MainDataContext.Departments.FirstOrDefault();
                 RefreshVisuals();
             }
         }

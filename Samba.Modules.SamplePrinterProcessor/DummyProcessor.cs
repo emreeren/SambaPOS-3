@@ -13,13 +13,13 @@ namespace Samba.Modules.SamplePrinterProcessor
 
         public string[] Process(Ticket ticket, IList<Order> orders, string[] formattedLines)
         {
-            InteractionService.UserIntraction.DisplayPopup(string.Format("Ticket #{0}", ticket.TicketNumber), string.Format("{0} orders processed", ticket.Orders.Count), null, "", "Black");
+            InteractionService.UserIntraction.DisplayPopup(string.Format("Ticket #{0}", ticket.TicketNumber), string.Format("{0} orders processed", ticket.Orders.Count));
             return null; //Module will handle printing. 
         }
 
         public void EditSettings()
         {
-           InteractionService.UserIntraction.GiveFeedback("No settings to change");
+            InteractionService.UserIntraction.GiveFeedback("No settings to change");
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Samba.Presentation.Common.Widgets
         int Width { get; set; }
         bool IsEnabled { get; set; }
         CornerRadius CornerRadius { get; set; }
-        Transform RenderTransform { get; set; }
+        Transform RotateTransform { get; set; }
         Transform ScaleTransform { get; set; }
         Widget GetWidget();
         bool DesignMode { get; set; }

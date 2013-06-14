@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Helpers;
 
 namespace Samba.Domain.Models.Entities
 {
@@ -39,6 +44,28 @@ namespace Samba.Domain.Models.Entities
             var pattern = string.Format("\"Name\":\"{0}\",\"Value\":\"([^\"]+)\"", fieldName);
             return Regex.IsMatch(customData, pattern)
                 ? Regex.Match(customData, pattern).Groups[1].Value : "";
+        }
+
+        public void SetCustomData(string fieldName, string value)
+        {
+            var list = JsonHelper.Deserialize<List<CustomDataValue>>(CustomData);
+            if (list.All(x => x.Name != fieldName))
+                list.Add(new CustomDataValue { Name = fieldName });
+            list.Single(x => x.Name == fieldName).Value = value;
+            CustomData = JsonHelper.Serialize(list);
+        }
+
+        public void SetDefaultValues(string data)
+        {
+            if (data.Contains(":"))
+            {
+                var parts = data.Split(new[] { ':' }, 2);
+                SetCustomData(parts[0], parts[1]);
+            }
+            else
+            {
+                Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data ?? "");
+            }
         }
     }
 }

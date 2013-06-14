@@ -35,7 +35,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
             var si = _applicationState.SelectedEntityScreen.ScreenItems.SingleOrDefault(x => x.Name == Settings.ResourceName);
             if (si == null) return;
             var resource = _cacheService.GetEntityById(si.EntityId);
-            EntityOperationRequest<Entity>.Publish(resource, EventTopicNames.EntitySelected, null);
+            EntityOperationRequest<Entity>.Publish(resource, EventTopicNames.EntitySelected,null,null);
         }
 
         protected override object CreateSettingsObject()

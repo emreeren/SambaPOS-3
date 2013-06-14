@@ -103,6 +103,12 @@ namespace Samba.Persistance.Implementations
             }
         }
 
+        public List<Entity> FindEntities(EntityType entityType, string fieldName, string searchValue, string stateFilter)
+        {
+            var result = FindEntities(entityType, searchValue, stateFilter);
+            return result.Where(x => x.GetCustomData(fieldName).Contains(searchValue)).ToList();
+        }
+
         public void UpdateEntityState(int entityId, string stateName, string state)
         {
             if (entityId == 0) return;

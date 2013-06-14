@@ -2605,41 +2605,46 @@ Continue without adding details?</value>
 {ORDERS}
 &lt;F&gt;=
 &lt;EB&gt;
-&lt;J10&gt;{IF DISCOUNT}
-&lt;J10&gt;Total Gift:|{GIFT TOTAL}
+{DISCOUNTS}
+&lt;J10&gt;Total Gift:|{ORDER STATE TOTAL:Gift}
 &lt;J10&gt;Total:|{TICKET TOTAL}
-{IF PAID}
+{PAYMENTS}
 &lt;DB&gt;
 &lt;F&gt;=
-&lt;C10&gt;T H A N K    Y O U
-
+&lt;C10&gt;T H A N K Y O U
+ 
+[DISCOUNTS]
+&lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
+ 
+[PAYMENTS]
+&lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT}
+ 
 [ORDERS]
 -- Default format for orders
 &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
 {ORDER TAGS}
-
-[ORDERS:GIFT]
+ 
+[ORDERS:Gift]
 -- Format for gifted orders
 &lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
 {ORDER TAGS}
-
-[ORDERS:VOID]
+ 
+[ORDERS:Void]
 -- Nothing will print for void lines
-
+ 
 [ORDER TAGS]
 -- Format for order tags
-&lt;J00&gt;     * {ORDER TAG NAME} | {ORDER TAG PRICE}
-
+&lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
+ 
 [ENTITIES:Table]
 -- Table entity format
 &lt;L00&gt;Table: {ENTITY NAME}
-
+ 
 [ENTITIES:Customer]
 -- Customer entity format
 &lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
   </data>
-
-<data name="AddTagPriceToOrderPrice" xml:space="preserve">
+  <data name="AddTagPriceToOrderPrice" xml:space="preserve">
     <value>Add Tag Price To Order Price</value>
     <comment>CheckBox.Content</comment>
   </data>
@@ -2729,209 +2734,209 @@ Continue without adding details?</value>
   <data name="WindowsPrinter" xml:space="preserve">
     <value>Windows Printer</value>
   </data>
-  <data name="AccountMap">
-    <value xml:space="preserve">Account Map</value>
+  <data name="AccountMap" xml:space="preserve">
+    <value>Account Map</value>
   </data>
-  <data name="BalancedAccounts">
-    <value xml:space="preserve">Balanced Accounts</value>
+  <data name="BalancedAccounts" xml:space="preserve">
+    <value>Balanced Accounts</value>
   </data>
-  <data name="MappedAccounts">
-    <value xml:space="preserve">Mapped Accounts</value>
+  <data name="MappedAccounts" xml:space="preserve">
+    <value>Mapped Accounts</value>
   </data>
-  <data name="ActionName">
-    <value xml:space="preserve">Action Name</value>
+  <data name="ActionName" xml:space="preserve">
+    <value>Action Name</value>
   </data>
-  <data name="AccountTransactionDocument">
-    <value xml:space="preserve">Account Transaction Document</value>
+  <data name="AccountTransactionDocument" xml:space="preserve">
+    <value>Account Transaction Document</value>
   </data>
-  <data name="Mapping_f">
-    <value xml:space="preserve">{0} Mapping</value>
+  <data name="Mapping_f" xml:space="preserve">
+    <value>{0} Mapping</value>
   </data>
-  <data name="Name_f">
-    <value xml:space="preserve">{0} Name</value>
+  <data name="Name_f" xml:space="preserve">
+    <value>{0} Name</value>
   </data>
-  <data name="ErrorLogMessage">
-    <value xml:space="preserve">There is a problem.
+  <data name="ErrorLogMessage" xml:space="preserve">
+    <value>There is a problem.
 
 Message:
 </value>
   </data>
-  <data name="Receivables">
-    <value xml:space="preserve">Receivables</value>
+  <data name="Receivables" xml:space="preserve">
+    <value>Receivables</value>
   </data>
-  <data name="General">
-    <value xml:space="preserve">General</value>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
   </data>
-  <data name="Customer">
-    <value xml:space="preserve">Customer</value>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
   </data>
-  <data name="Customers">
-    <value xml:space="preserve">Customers</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Customers</value>
   </data>
-  <data name="Tables">
-    <value xml:space="preserve">Tables</value>
+  <data name="Tables" xml:space="preserve">
+    <value>Tables</value>
   </data>
-  <data name="Phone">
-    <value xml:space="preserve">Phone</value>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
   </data>
-  <data name="UnlockTicket">
-    <value xml:space="preserve">Unlock Ticket</value>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>Unlock Ticket</value>
   </data>
-  <data name="Payment">
-    <value xml:space="preserve">Payment</value>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
   </data>
-  <data name="Accounts_f">
-    <value xml:space="preserve">{0} Accounts</value>
+  <data name="Accounts_f" xml:space="preserve">
+    <value>{0} Accounts</value>
   </data>
-  <data name="CustomerAccount">
-    <value xml:space="preserve">Customer Account</value>
+  <data name="CustomerAccount" xml:space="preserve">
+    <value>Customer Account</value>
   </data>
-  <data name="Payment_f">
-    <value xml:space="preserve">{0} Payment</value>
+  <data name="Payment_f" xml:space="preserve">
+    <value>{0} Payment</value>
   </data>
-  <data name="Transaction_f">
-    <value xml:space="preserve">{0} Transaction</value>
+  <data name="Transaction_f" xml:space="preserve">
+    <value>{0} Transaction</value>
   </data>
-  <data name="Sale">
-    <value xml:space="preserve">Sale</value>
+  <data name="Sale" xml:space="preserve">
+    <value>Sale</value>
   </data>
-  <data name="RemoveLimit">
-    <value xml:space="preserve">Remove Limit</value>
+  <data name="RemoveLimit" xml:space="preserve">
+    <value>Remove Limit</value>
   </data>
-  <data name="ChangeSortOrderHint">
-    <value xml:space="preserve">Change sort order by dragging items</value>
+  <data name="ChangeSortOrderHint" xml:space="preserve">
+    <value>Change sort order by dragging items</value>
   </data>
-  <data name="DeleteSelectedItems">
-    <value xml:space="preserve">Delete Selected Items</value>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>Delete Selected Items</value>
   </data>
-  <data name="TagOrder">
-    <value xml:space="preserve">Tag Order</value>
+  <data name="TagOrder" xml:space="preserve">
+    <value>Tag Order</value>
   </data>
-  <data name="UntagOrder">
-    <value xml:space="preserve">Untag Order</value>
+  <data name="UntagOrder" xml:space="preserve">
+    <value>Untag Order</value>
   </data>
-  <data name="RemoveOrderTag">
-    <value xml:space="preserve">Remove OrderTag</value>
+  <data name="RemoveOrderTag" xml:space="preserve">
+    <value>Remove OrderTag</value>
   </data>
-  <data name="MoveTaggedOrders">
-    <value xml:space="preserve">Move Tagged Orders</value>
+  <data name="MoveTaggedOrders" xml:space="preserve">
+    <value>Move Tagged Orders</value>
   </data>
-  <data name="ExecutePrintJob">
-    <value xml:space="preserve">Execute Print Job</value>
+  <data name="ExecutePrintJob" xml:space="preserve">
+    <value>Execute Print Job</value>
   </data>
-  <data name="UpdateEntityState">
-    <value xml:space="preserve">Update Entity State</value>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>Update Entity State</value>
   </data>
-  <data name="DisplayTicket">
-    <value xml:space="preserve">Display Ticket</value>
+  <data name="DisplayTicket" xml:space="preserve">
+    <value>Display Ticket</value>
   </data>
-  <data name="DisplayPaymentScreen">
-    <value xml:space="preserve">Display Payment Screen</value>
+  <data name="DisplayPaymentScreen" xml:space="preserve">
+    <value>Display Payment Screen</value>
   </data>
-  <data name="BeforeWorkPeriodEnds">
-    <value xml:space="preserve">Before Work Period Ends</value>
+  <data name="BeforeWorkPeriodEnds" xml:space="preserve">
+    <value>Before Work Period Ends</value>
   </data>
-  <data name="TicketOpened">
-    <value xml:space="preserve">Ticket Opened</value>
+  <data name="TicketOpened" xml:space="preserve">
+    <value>Ticket Opened</value>
   </data>
-  <data name="TicketClosing">
-    <value xml:space="preserve">Ticket Closing</value>
+  <data name="TicketClosing" xml:space="preserve">
+    <value>Ticket Closing</value>
   </data>
-  <data name="TicketsMerged">
-    <value xml:space="preserve">Tickets Merged</value>
+  <data name="TicketsMerged" xml:space="preserve">
+    <value>Tickets Merged</value>
   </data>
-  <data name="PaymentProcessed">
-    <value xml:space="preserve">Payment Processed</value>
+  <data name="PaymentProcessed" xml:space="preserve">
+    <value>Payment Processed</value>
   </data>
-  <data name="TicketEntityChanged">
-    <value xml:space="preserve">Ticket Entity Changed</value>
+  <data name="TicketEntityChanged" xml:space="preserve">
+    <value>Ticket Entity Changed</value>
   </data>
-  <data name="OrderTagged">
-    <value xml:space="preserve">Order Tagged</value>
+  <data name="OrderTagged" xml:space="preserve">
+    <value>Order Tagged</value>
   </data>
-  <data name="OrderUntagged">
-    <value xml:space="preserve">Order Untagged</value>
+  <data name="OrderUntagged" xml:space="preserve">
+    <value>Order Untagged</value>
   </data>
-  <data name="EntityUpdated">
-    <value xml:space="preserve">Entity Updated</value>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>Entity Updated</value>
   </data>
-  <data name="OrderAddedToTicket">
-    <value xml:space="preserve">Order Added to Ticket</value>
+  <data name="OrderAddedToTicket" xml:space="preserve">
+    <value>Order Added to Ticket</value>
   </data>
-  <data name="ChangeAmountUpdated">
-    <value xml:space="preserve">Change Amount Updated</value>
+  <data name="ChangeAmountUpdated" xml:space="preserve">
+    <value>Change Amount Updated</value>
   </data>
-  <data name="ApplicationStarted">
-    <value xml:space="preserve">Application Started</value>
+  <data name="ApplicationStarted" xml:space="preserve">
+    <value>Application Started</value>
   </data>
-  <data name="AutomationCommandExecuted">
-    <value xml:space="preserve">Automation Command Exeucted</value>
+  <data name="AutomationCommandExecuted" xml:space="preserve">
+    <value>Automation Command Exeucted</value>
   </data>
-  <data name="TagsShouldBeUniqueErrorMessage">
-    <value xml:space="preserve">Ticket tag names should be unique</value>
+  <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
+    <value>Ticket tag names should be unique</value>
   </data>
-  <data name="ExecutePowershellScript">
-    <value xml:space="preserve">Execute Powershell Script</value>
+  <data name="ExecutePowershellScript" xml:space="preserve">
+    <value>Execute Powershell Script</value>
   </data>
-  <data name="FontSize">
-    <value xml:space="preserve">Font Size</value>
+  <data name="FontSize" xml:space="preserve">
+    <value>Font Size</value>
   </data>
-  <data name="PaymentScreenValues">
-    <value xml:space="preserve">Payment Screen Values</value>
+  <data name="PaymentScreenValues" xml:space="preserve">
+    <value>Payment Screen Values</value>
   </data>
-  <data name="PaymentScreenSettings">
-    <value xml:space="preserve">Payment Screen Settings</value>
+  <data name="PaymentScreenSettings" xml:space="preserve">
+    <value>Payment Screen Settings</value>
   </data>
-  <data name="UpdateOrder">
-    <value xml:space="preserve">Update Order</value>
+  <data name="UpdateOrder" xml:space="preserve">
+    <value>Update Order</value>
   </data>
-  <data name="ToggleValues">
-    <value xml:space="preserve">Toggle Values</value>
+  <data name="ToggleValues" xml:space="preserve">
+    <value>Toggle Values</value>
   </data>
-  <data name="Script_f">
-    <value xml:space="preserve">{0} Script</value>
+  <data name="Script_f" xml:space="preserve">
+    <value>{0} Script</value>
   </data>
-  <data name="CanExecute">
-    <value xml:space="preserve">Can Execute</value>
+  <data name="CanExecute" xml:space="preserve">
+    <value>Can Execute</value>
   </data>
-  <data name="GeneralPrintErrorMessage">
-    <value xml:space="preserve">There is a problem while printing: Print Map is null</value>
+  <data name="GeneralPrintErrorMessage" xml:space="preserve">
+    <value>There is a problem while printing: Print Map is null</value>
   </data>
-  <data name="Handler">
-    <value xml:space="preserve">Handler</value>
+  <data name="Handler" xml:space="preserve">
+    <value>Handler</value>
   </data>
-  <data name="Script">
-    <value xml:space="preserve">Script</value>
+  <data name="Script" xml:space="preserve">
+    <value>Script</value>
   </data>
-  <data name="Default_f">
-    <value xml:space="preserve">Default {0}</value>
+  <data name="Default_f" xml:space="preserve">
+    <value>Default {0}</value>
   </data>
-  <data name="TaskType">
-    <value xml:space="preserve">Task Type</value>
+  <data name="TaskType" xml:space="preserve">
+    <value>Task Type</value>
   </data>
-  <data name="Task">
-    <value xml:space="preserve">Task</value>
+  <data name="Task" xml:space="preserve">
+    <value>Task</value>
   </data>
-  <data name="AutoRefreshInterval">
-    <value xml:space="preserve">Auto Refresh Interval</value>
+  <data name="AutoRefreshInterval" xml:space="preserve">
+    <value>Auto Refresh Interval</value>
   </data>
-  <data name="ViewMode">
-    <value xml:space="preserve">View Mode</value>
+  <data name="ViewMode" xml:space="preserve">
+    <value>View Mode</value>
   </data>
-  <data name="PrintErrorMessage">
-    <value xml:space="preserve">There is a problem while printing. Check printer and printer template settings.
+  <data name="PrintErrorMessage" xml:space="preserve">
+    <value>There is a problem while printing. Check printer and printer template settings.
 
 Error Message:
 </value>
   </data>
-  <data name="Customer_f">
-    <value xml:space="preserve">Customer {0}</value>
+  <data name="Customer_f" xml:space="preserve">
+    <value>Customer {0}</value>
   </data>
-  <data name="All Tables">
-    <value xml:space="preserve">All Tables</value>
+  <data name="All Tables" xml:space="preserve">
+    <value>All Tables</value>
   </data>
-  <data name="CustomerTickets">
-    <value xml:space="preserve">Customer Tickets</value>
+  <data name="CustomerTickets" xml:space="preserve">
+    <value>Customer Tickets</value>
   </data>
   <data name="StateController" xml:space="preserve">
     <value>State Controller</value>
@@ -2978,47 +2983,47 @@ Error Message:
   <data name="OrderLine" xml:space="preserve">
     <value>Order Line</value>
   </data>
-  <data name="Cancel_f">
-    <value xml:space="preserve">Cancel {0}</value>
+  <data name="Cancel_f" xml:space="preserve">
+    <value>Cancel {0}</value>
   </data>
-  <data name="Rule_f">
-    <value xml:space="preserve">{0} Rule</value>
+  <data name="Rule_f" xml:space="preserve">
+    <value>{0} Rule</value>
   </data>
-  <data name="Submitted">
-    <value xml:space="preserve">Submitted</value>
+  <data name="Submitted" xml:space="preserve">
+    <value>Submitted</value>
   </data>
   <data name="NewOrders" xml:space="preserve">
     <value>New Orders</value>
   </data>
-  <data name="Orders">
-    <value xml:space="preserve">Orders</value>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
   </data>
-  <data name="EntityStateUpdated">
-    <value xml:space="preserve">Entity State Updated</value>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>Entity State Updated</value>
   </data>
-  <data name="DisplayTicketList">
-    <value xml:space="preserve">Display Ticket List</value>
+  <data name="DisplayTicketList" xml:space="preserve">
+    <value>Display Ticket List</value>
   </data>
-  <data name="DisplayState">
-    <value xml:space="preserve">Display State</value>
+  <data name="DisplayState" xml:space="preserve">
+    <value>Display State</value>
   </data>
-  <data name="State_f">
-    <value xml:space="preserve">{0} State</value>
+  <data name="State_f" xml:space="preserve">
+    <value>{0} State</value>
   </data>
-  <data name="StateType">
-    <value xml:space="preserve">State Type</value>
+  <data name="StateType" xml:space="preserve">
+    <value>State Type</value>
   </data>
-  <data name="Required">
-    <value xml:space="preserve">Required</value>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
   </data>
-  <data name="AskBeforeCreatingTicket">
-    <value xml:space="preserve">Ask Before Creating Ticket</value>
+  <data name="AskBeforeCreatingTicket" xml:space="preserve">
+    <value>Ask Before Creating Ticket</value>
   </data>
   <data name="CreditLimit" xml:space="preserve">
     <value>Credit Limit</value>
   </data>
-  <data name="ChangeTicketEntity">
-    <value xml:space="preserve">Change Ticket Entity</value>
+  <data name="ChangeTicketEntity" xml:space="preserve">
+    <value>Change Ticket Entity</value>
   </data>
   <data name="Warehouse" xml:space="preserve">
     <value>Warehouse</value>
@@ -3032,20 +3037,20 @@ Error Message:
   <data name="Target_f" xml:space="preserve">
     <value>Target {0}</value>
   </data>
-  <data name="LocalWarehouses">
-    <value xml:space="preserve">Local Warehouses</value>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Local Warehouses</value>
   </data>
-  <data name="SellerWarehouses">
-    <value xml:space="preserve">Seller Warehouses</value>
+  <data name="SellerWarehouses" xml:space="preserve">
+    <value>Seller Warehouses</value>
   </data>
-  <data name="LocalWarehouse">
-    <value xml:space="preserve">Local Warehouse</value>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Local Warehouse</value>
   </data>
-  <data name="SellerWarehouse">
-    <value xml:space="preserve">Seller Warehouse</value>
+  <data name="SellerWarehouse" xml:space="preserve">
+    <value>Seller Warehouse</value>
   </data>
-  <data name="PurchaseTransaction">
-    <value xml:space="preserve">Purchase Transaction</value>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>Purchase Transaction</value>
   </data>
   <data name="InventoryTransactionType" xml:space="preserve">
     <value>Inventory Transaction Type</value>
@@ -3056,8 +3061,8 @@ Error Message:
   <data name="Warehouses" xml:space="preserve">
     <value>Warehouses</value>
   </data>
-  <data name="Consumption">
-    <value xml:space="preserve">Consumption</value>
+  <data name="Consumption" xml:space="preserve">
+    <value>Consumption</value>
   </data>
   <data name="Market" xml:space="preserve">
     <value>Market</value>
@@ -3065,11 +3070,11 @@ Error Message:
   <data name="SambaMarket" xml:space="preserve">
     <value>Samba Market</value>
   </data>
-  <data name="Source">
-    <value xml:space="preserve">Source</value>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
   </data>
-  <data name="Target">
-    <value xml:space="preserve">Target</value>
+  <data name="Target" xml:space="preserve">
+    <value>Target</value>
   </data>
   <data name="OrderMoved" xml:space="preserve">
     <value>Order Moved</value>
@@ -3107,17 +3112,17 @@ Error Message:
   <data name="PrintReport" xml:space="preserve">
     <value>Print Report</value>
   </data>
-  <data name="CanDisplayOtherWaitersTickets">
-    <value xml:space="preserve">Can Display Other Waiters Tickets</value>
+  <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
+    <value>Can Display Other Waiters Tickets</value>
   </data>
-  <data name="WindowScale">
-    <value xml:space="preserve">Window Scale</value>
+  <data name="WindowScale" xml:space="preserve">
+    <value>Window Scale</value>
   </data>
-  <data name="Logout">
-    <value xml:space="preserve">Logout</value>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
   </data>
-  <data name="Period_f">
-    <value xml:space="preserve">Period: {0}</value>
+  <data name="Period_f" xml:space="preserve">
+    <value>Period: {0}</value>
   </data>
   <data name="StartProcess" xml:space="preserve">
     <value>Start Process</value>
@@ -3133,5 +3138,32 @@ Error Message:
   </data>
   <data name="TaxFree" xml:space="preserve">
     <value>Tax Free</value>
+  </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>Device Event Generated</value>
+  </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>Search Entity</value>
+  </data>
+  <data name="BatchCreateDocuments" xml:space="preserve">
+    <value>Batch Create Documents</value>
+  </data>
+  <data name="BatchCreate" xml:space="preserve">
+    <value>Batch Create</value>
+  </data>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>Mapped Account</value>
+  </data>
+  <data name="SourceAccountTypeDesc" xml:space="preserve">
+    <value>Source Account Type (Debit)</value>
+  </data>
+  <data name="TargetAccountTypeDesc" xml:space="preserve">
+    <value>Target Account Type (Credit)</value>
+  </data>
+  <data name="DefaultSourceAccount" xml:space="preserve">
+    <value>Default Source Account</value>
+  </data>
+  <data name="DefaultTargetAccount" xml:space="preserve">
+    <value>Default Target Account</value>
   </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -34,8 +35,8 @@ namespace Samba.Presentation.Controls.Interaction
     {
         public string Title { get; set; }
         public string Content { get; set; }
-        public object DataObject { get; set; }
-        public string EventMessage { get; set; }
+        public Action<object> Action { get; set; }
+        public object ActionParameter { get; set; }
 
         private string _headerColor;
         public string HeaderColor
@@ -75,14 +76,14 @@ namespace Samba.Presentation.Controls.Interaction
 
         private void OnButtonClick(PopupData obj)
         {
-            if (!string.IsNullOrEmpty(obj.EventMessage))
-                obj.PublishEvent(EventTopicNames.PopupClicked);
+            if (obj.Action != null)
+                obj.Action(obj.ActionParameter);
             _popupList.Remove(obj);
         }
 
-        public void Add(string title, string content, object dataObject, string eventMessage, string headerColor)
+        public void Add(string title, string content, string headerColor, Action<object> action, object actionParameter)
         {
-            _popupCache.Add(new PopupData { Title = title, Content = content, DataObject = dataObject, EventMessage = eventMessage, HeaderColor = headerColor });
+            _popupCache.Add(new PopupData { Title = title, Content = content, HeaderColor = headerColor, Action = action, ActionParameter = actionParameter });
         }
 
         public void DisplayPopups()
@@ -133,7 +134,7 @@ namespace Samba.Presentation.Controls.Interaction
                     var color = x.Value.GetAsString("Color");
                     color = string.IsNullOrEmpty(color.Trim()) ? "DarkRed" : color;
                     if (!string.IsNullOrEmpty(message.Trim()))
-                        DisplayPopup(title, message, null, "", color);
+                        DisplayPopup(title, message, color);
                 }
             });
         }
@@ -285,9 +286,9 @@ namespace Samba.Presentation.Controls.Interaction
             }
         }
 
-        public void DisplayPopup(string title, string content, object dataObject, string eventMessage, string headerColor)
+        public void DisplayPopup(string title, string content, string headerColor, Action<object> action = null, object actionParameter = null)
         {
-            _popupDataViewModel.Add(title, content, dataObject, eventMessage, headerColor);
+            _popupDataViewModel.Add(title, content, headerColor, action, actionParameter);
             PopupWindow.Show();
             _methodQueue.Queue("DisplayPopups", DisplayPopups);
         }

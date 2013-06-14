@@ -1,4 +1,5 @@
 using Samba.Domain.Models.Accounts;
+using Samba.Localization.Properties;
 using Samba.Services;
 
 namespace Samba.Modules.AccountModule.Dashboard

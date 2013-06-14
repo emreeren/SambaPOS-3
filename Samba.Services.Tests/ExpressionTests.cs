@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure;
 
 namespace Samba.Services.Tests
 {
@@ -29,7 +30,7 @@ namespace Samba.Services.Tests
         public void CanReadTicketId()
         {
             var ticket = new Ticket(1);
-            var result = ExpressionService.Eval("result = Ticket.Model.Id", new { Ticket = ticket }, 0);
+            var result = ExpressionService.Eval("result = Ticket.Model.Id", (new { Ticket = ticket }).ToDynamic(), 0);
             Assert.AreEqual(1, result);
         }
 
@@ -37,7 +38,7 @@ namespace Samba.Services.Tests
         public void CanReadExchangeRate()
         {
             var ticket = new Ticket(1);
-            var result = ExpressionService.Eval("result = Ticket.Model.ExchangeRate", new { Ticket = ticket }, 0m);
+            var result = ExpressionService.Eval("result = Ticket.Model.ExchangeRate", (new { Ticket = ticket }).ToDynamic(), 0m);
             Assert.AreEqual(1m, result);
         }
 
@@ -45,9 +46,9 @@ namespace Samba.Services.Tests
         public void CanUpdateExchangeRate()
         {
             var ticket = new Ticket(1);
-            ExpressionService.Eval("Ticket.Model.ExchangeRate=1.15", new { Ticket = ticket }, 0);
+            ExpressionService.Eval("Ticket.Model.ExchangeRate=1.15", (new { Ticket = ticket }).ToDynamic(), 0);
             Assert.AreEqual(1.15m, ticket.ExchangeRate);
-            var result = ExpressionService.Eval("result = Ticket.Model.ExchangeRate", new { Ticket = ticket }, 0m);
+            var result = ExpressionService.Eval("result = Ticket.Model.ExchangeRate", (new { Ticket = ticket }).ToDynamic(), 0m);
             Assert.AreEqual(1.15m, result);
         }
 
@@ -62,7 +63,7 @@ namespace Samba.Services.Tests
         public void CanDivideOrderPrice()
         {
             var order = new Order { Price = 10, Quantity = 1 };
-            ExpressionService.Eval("Order.Price = Order.Price / 2", new { Order = order }, 0);
+            ExpressionService.Eval("Order.Price = Order.Price / 2", (new { Order = order }).ToDynamic(), 0);
             Assert.AreEqual(5, order.Price);
         }
 
@@ -79,8 +80,8 @@ namespace Samba.Services.Tests
 
             result = ExpressionService.Eval("F(TN('5.000')*2)");
             const int expected3 = 10000;
-            Assert.AreEqual(expected3.ToString("#,#0.00"), result);       
-            
+            Assert.AreEqual(expected3.ToString("#,#0.00"), result);
+
             result = ExpressionService.Eval("F(TN('11,00')/2)");
             const double expected4 = 5.5;
             Assert.AreEqual(expected4.ToString("#,#0.00"), result);

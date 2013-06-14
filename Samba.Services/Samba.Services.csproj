@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AutomationCommandData.cs" />
+    <Compile Include="Common\IDevice.cs" />
     <Compile Include="Common\IPrinterProcessor.cs" />
     <Compile Include="Common\IProgramSetting.cs" />
     <Compile Include="Common\IProgramSettings.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="IAutomationService.cs" />
     <Compile Include="ICacheService.cs" />
     <Compile Include="IDepartmentService.cs" />
+    <Compile Include="IDeviceService.cs" />
     <Compile Include="IEmailService.cs" />
     <Compile Include="IEntityService.cs" />
     <Compile Include="IExpressionService.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="Common\RuleConstraint.cs" />
     <Compile Include="Implementations\CacheService.cs" />
     <Compile Include="Implementations\DepartmentModule\DepartmentService.cs" />
+    <Compile Include="Implementations\DeviceService.cs" />
     <Compile Include="Implementations\EMailService.cs" />
     <Compile Include="Implementations\EntityModule\EntityService.cs" />
     <Compile Include="Implementations\ExpressionModule\Accessors\DataAccessor.cs" />

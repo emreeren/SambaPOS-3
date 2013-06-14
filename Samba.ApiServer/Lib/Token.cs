@@ -95,14 +95,6 @@ namespace Samba.ApiServer.Lib
             }
         }
 
-        public User GetUserFromToken()
-        {
-            var u = (from user in Dao.Query<User>()
-                     where user.Id == UserId
-                     select user).First();
-            return u;
-        }
-
         public override string ToString()
         {
             return Guid.ToString();

@@ -65,7 +65,7 @@ namespace Samba.Services.Implementations.AutomationModule
             return new List<ParameterValue>();
         }
 
-        public void RegisterParameterSoruce(string parameterName, Func<IEnumerable<string>> action)
+        public void RegisterParameterSource(string parameterName, Func<IEnumerable<string>> action)
         {
             ParameterSources.Add(parameterName, action);
         }

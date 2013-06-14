@@ -77,8 +77,13 @@ namespace Samba.Services.Implementations.EntityModule
             _resoureceWorkspace.CommitChanges();
         }
 
-        public List<Entity> SearchEntities(string searchString, EntityType selectedEntityType, string stateFilter)
+        public List<Entity> SearchEntities(EntityType selectedEntityType, string searchString, string stateFilter)
         {
+            if (searchString.Contains(":"))
+            {
+                var parts = searchString.Split(new[] { ':' }, 2);
+                return _entityDao.FindEntities(selectedEntityType, parts[0], parts[1], stateFilter);
+            }
             return _entityDao.FindEntities(selectedEntityType, searchString, stateFilter);
         }
 

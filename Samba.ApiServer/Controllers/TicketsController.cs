@@ -12,8 +12,7 @@ namespace Samba.ApiServer.Controllers
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-  public class TicketsController:
-    SambaApiController
+    public class TicketsController : SambaApiController
     {
         private readonly ITicketDao _ticketDao;
 
@@ -23,17 +22,17 @@ namespace Samba.ApiServer.Controllers
             _ticketDao = ticketDao;
         }
 
-    //GET =>  http://localhost:8080/api/{token}/Tickets/
+        //GET =>  http://localhost:8080/api/{token}/Tickets/
         public IEnumerable<Ticket> GetAllTickets()
         {
-      ValidateToken();
+            ValidateToken();
             return _ticketDao.GetAllTickets();
         }
 
-    //GET =>  http://localhost:8080/api/{token}/Tickets/{id}
+        //GET =>  http://localhost:8080/api/{token}/Tickets/{id}
         public Ticket GetTicketById(int id)
         {
-      ValidateToken();
+            ValidateToken();
             return _ticketDao.GetTicketById(id);
         }
     }

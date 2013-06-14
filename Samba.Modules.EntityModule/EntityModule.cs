@@ -54,14 +54,6 @@ namespace Samba.Modules.EntityModule
             {
                 if (x.Topic == EventTopicNames.SelectEntity) ActivateEntitySwitcher();
             });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<PopupData>>().Subscribe(x =>
-            {
-                if (x.Topic == EventTopicNames.PopupClicked && x.Value.EventMessage == EventTopicNames.SelectEntity)
-                {
-                    ActivateEntitySwitcher();
-                }
-            });
         }
 
         private void ActivateEntityEditor()
