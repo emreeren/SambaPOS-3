@@ -24,6 +24,7 @@ namespace Samba.Modules.PaymentModule.Tests
             var hamburger = new MenuItem("Hamburger") { Id = 2 };
             var ticket = Ticket.Create(Department.Default, TicketType.Default, 1, new List<CalculationType>());
             var order = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", tost, null, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
+
             order.Quantity = 2;
             order.PortionCount = 2;
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", tost, null, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
@@ -31,6 +32,30 @@ namespace Samba.Modules.PaymentModule.Tests
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", hamburger, null, new MenuItemPortion { Price = 6, Name = "Adet" }, "", null);
             ticket.Recalculate();
             return ticket;
+        }
+
+        [Test]
+        public void CanHandleTax()
+        {
+            var taxTemplate = new TaxTemplate { Name = "Tax", Rate = 10, AccountTransactionType = AccountTransactionType.Default };
+            var taxTemplates = new List<TaxTemplate> { taxTemplate };
+
+            var tost = new MenuItem("Tost") { Id = 1 };
+            var hamburger = new MenuItem("Hamburger") { Id = 2 };
+            var ticket = Ticket.Create(Department.Default, TicketType.Default, 1, new List<CalculationType>());
+            var order = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", tost, taxTemplates, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
+
+            order.Quantity = 2;
+            order.PortionCount = 2;
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", tost, taxTemplates, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", hamburger, taxTemplates, new MenuItemPortion { Price = 7, Name = "Adet" }, "", null);
+            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", hamburger, taxTemplates, new MenuItemPortion { Price = 6, Name = "Adet" }, "", null);
+           ticket.AddCalculation(new CalculationType(){AccountTransactionType=AccountTransactionType.Default,DecreaseAmount = true}, 10);
+            ticket.Recalculate();
+
+            var orderSelector = new OrderSelector();
+            orderSelector.UpdateTicket(ticket);
+            Assert.AreEqual(ticket.GetSum(), orderSelector.Selectors.Sum(x => x.TotalPrice));
         }
 
         [Test]
@@ -218,11 +243,11 @@ namespace Samba.Modules.PaymentModule.Tests
         {
             var orderSelector = SetupOrderSelector();
             Assert.AreEqual(28, orderSelector.SelectedTicket.GetSum());
-            orderSelector.SelectedTicket.AddPayment(new PaymentType() { AccountTransactionType = AccountTransactionType.Default }, new Account(), 20, 1, 0);
+            orderSelector.SelectedTicket.AddPayment(new PaymentType { AccountTransactionType = AccountTransactionType.Default }, new Account(), 20, 1, 0);
             Assert.AreEqual(8, orderSelector.SelectedTicket.GetRemainingAmount());
             orderSelector.Select(1, 5);
             orderSelector.Select(1, 5);
-            Assert.AreEqual(8,orderSelector.GetSelectedAmount());
+            Assert.AreEqual(8, orderSelector.GetSelectedAmount());
         }
     }
 }

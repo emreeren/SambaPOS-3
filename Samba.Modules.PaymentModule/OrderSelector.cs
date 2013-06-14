@@ -38,7 +38,7 @@ namespace Samba.Modules.PaymentModule
             }
         }
 
-        private void UpdateSelector(Order order, decimal serviceAmount, decimal sum)
+        private void UpdateSelector(Order order, decimal serviceAmount, decimal sum, bool taxIncluded)
         {
             var selector = Selectors.FirstOrDefault(x => x.Key == GetKey(order));
             if (selector == null)
@@ -47,13 +47,15 @@ namespace Samba.Modules.PaymentModule
                 Selectors.Add(selector);
             }
             selector.Quantity += order.Quantity;
-            selector.Price = GetPrice(order, serviceAmount, sum, ExchangeRate);
+            selector.Price = GetPrice(order, serviceAmount, sum, ExchangeRate, taxIncluded);
         }
 
-        private decimal GetPrice(Order order, decimal serviceAmount, decimal sum, decimal exchangeRate)
+        private decimal GetPrice(Order order, decimal serviceAmount, decimal sum, decimal exchangeRate, bool taxIncluded)
         {
             var result = order.GetPrice();
+            var tax = order.GetTaxAmount(taxIncluded, sum, serviceAmount);
             if (serviceAmount != 0 && sum != 0) result += (result * serviceAmount) / sum;
+            result += tax;
             result = result / exchangeRate;
             return result;
         }
@@ -107,7 +109,7 @@ namespace Samba.Modules.PaymentModule
 
             foreach (var order in SelectedTicket.Orders.Where(x => x.CalculatePrice))
             {
-                UpdateSelector(order, serviceAmount, sum);
+                UpdateSelector(order, serviceAmount, sum, SelectedTicket.TaxIncluded);
             }
 
             RoundSelectors();
