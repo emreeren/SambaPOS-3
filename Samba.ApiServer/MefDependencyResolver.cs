@@ -41,7 +41,6 @@ namespace Samba.ApiServer
 
         public void Dispose()
         {
-            ;
         }
     }
 }

@@ -5,10 +5,9 @@ using Fluentscript.Lib.Helpers;
 using Fluentscript.Lib._Core;
 using Fluentscript.Lib._Core.Meta.Docs;
 using Fluentscript.Lib._Core.Meta.Types;
+
 // <lang:using>
-
 // </lang:using>
-
 namespace Fluentscript.Lib.Types
 {
     /// <summary>
@@ -17,67 +16,19 @@ namespace Fluentscript.Lib.Types
     public class LTypeMethods : ITypeMethods
     {
         /// <summary>
-        /// A mapping between the method for the datatype in the language to the 
-        /// implemented method in this host language.
-        /// </summary>
-        public class MappedMethod
-        {
-            /// <summary>
-            /// The method name in the language
-            /// </summary>
-            public string DataTypeMethod;
-
-
-            /// <summary>
-            /// The method name in the host language.
-            /// </summary>
-            public string HostLanguageMethod;
-
-
-            /// <summary>
-            /// The function metadata for the language types method.
-            /// </summary>
-            public FunctionMetaData FuncDef;
-
-
-            /// <summary>
-            /// Whether or not this supports a getter property if this is a property
-            /// </summary>
-            public bool AllowGet;
-
-
-            /// <summary>
-            /// Whether or not this supports a setter property if this is a property
-            /// </summary>
-            public bool AllowSet;
-
-
-            /// <summary>
-            /// Whether or not convert the parameters from lang type to host type.
-            /// </summary>
-            public bool ConvertParameters;
-        }
-
-
-
-        /// <summary>
         /// A mapping of the defined members including properties for this type
         /// </summary>
         protected IDictionary<string, MemberTypes> _allMembersMap = new Dictionary<string, MemberTypes>();
-
 
         /// <summary>
         /// A mapping of the all the method names associated with this type.
         /// </summary>
         protected IDictionary<string, MappedMethod> _methodMap = new Dictionary<string, MappedMethod>();
 
-
-
         /// <summary>
         /// The datatype this methods class supports.
         /// </summary>
         public LType DataType { get; set; }
-
 
         /// <summary>
         /// Initailize the function mappings.
@@ -85,7 +36,6 @@ namespace Fluentscript.Lib.Types
         public virtual void Init()
         {
         }
-
 
         /// <summary>
         /// Creates functionmetadata object with the supplied inputs.
@@ -100,7 +50,6 @@ namespace Fluentscript.Lib.Types
             return this.AddMethodInfo(MemberTypes.Method, name, implementationMethod, returnType, description, true);
         }
 
-
         /// <summary>
         /// Creates functionmetadata object with the supplied inputs.
         /// </summary>
@@ -114,7 +63,6 @@ namespace Fluentscript.Lib.Types
             return this.AddMethodInfo(MemberTypes.Method, name, implementationMethod, returnType, description, false);
         }
 
-
         /// <summary>
         /// Adds a new property
         /// </summary>
@@ -126,7 +74,6 @@ namespace Fluentscript.Lib.Types
         {            
             this.AddMethodInfo(MemberTypes.Property, name, implementationMethod, returnType, description, true);
         }
-
 
         /// <summary>
         /// Initailizes
@@ -144,7 +91,6 @@ namespace Fluentscript.Lib.Types
             this._methodMap[funcName].FuncDef.AddArg(name, type, required, alias, defaultVal, examples, desc);
         }
 
-
         /// <summary>
         /// Determines whether or not this type can be created ( via constructor ) from the args supplied.
         /// </summary>
@@ -154,7 +100,6 @@ namespace Fluentscript.Lib.Types
         {
             return false;
         }
-
 
         /// <summary>
         /// Creates an instance of the type associated with theses methods from the arguments supplied. Repesents a constructor call
@@ -166,15 +111,12 @@ namespace Fluentscript.Lib.Types
             return LObjects.Null;
         }
 
-
         /// <summary>
         /// Callback for when these methods are registered with the system.
         /// </summary>
         public virtual void OnRegistered()
         {
-            
         }
-
 
         /// <summary>
         /// Whether or not the associted obj of this methods class has the supplied member.
@@ -187,7 +129,6 @@ namespace Fluentscript.Lib.Types
             return _allMembersMap.ContainsKey(memberName);
         }
 
-
         /// <summary>
         /// Whether or not the associted obj of this methods class has the supplied method.
         /// </summary>
@@ -196,11 +137,13 @@ namespace Fluentscript.Lib.Types
         /// <returns></returns>
         public virtual bool HasMethod(LObject obj, string methodName)
         {
-            if (!_allMembersMap.ContainsKey(methodName)) return false;
+            if (!_allMembersMap.ContainsKey(methodName))
+            {
+                return false;
+            }
             var member = _allMembersMap[methodName];
             return member == MemberTypes.Method;
         }
-
 
         /// <summary>
         /// Whether or not the associted obj of this methods class has the supplied property.
@@ -210,11 +153,13 @@ namespace Fluentscript.Lib.Types
         /// <returns></returns>
         public virtual bool HasProperty(LObject obj, string propertyName)
         {
-            if (!_allMembersMap.ContainsKey(propertyName)) return false;
+            if (!_allMembersMap.ContainsKey(propertyName))
+            {
+                return false;
+            }
             var member = _allMembersMap[propertyName];
             return member == MemberTypes.Property;
         }
-
 
         /// <summary>
         /// Gets the property value for the specified propertyname.
@@ -235,7 +180,6 @@ namespace Fluentscript.Lib.Types
             return result;
         }
 
-
         /// <summary>
         /// Sets the property value for the specified propertyname.
         /// </summary>
@@ -255,8 +199,6 @@ namespace Fluentscript.Lib.Types
             object result = method.Invoke(this, methodArgs);
         }
 
-
-
         /// <summary>
         /// Validates the method call.
         /// </summary>
@@ -268,7 +210,9 @@ namespace Fluentscript.Lib.Types
         {
             // 1. Valid method/member name?
             if (!this._methodMap.ContainsKey(methodName))
+            {
                 return new BoolMsgObj(obj, false, "The method name : " + methodName + " does not exist for this type");
+            }
 
             // 2. Valid method parameters?
             var mappedMethod = _methodMap[methodName];
@@ -290,8 +234,6 @@ namespace Fluentscript.Lib.Types
             return new BoolMsgObj(obj, isValid, message);
         }
 
-
-
         /// <summary>
         /// Get / set value by index.
         /// </summary>
@@ -302,7 +244,6 @@ namespace Fluentscript.Lib.Types
         {
             return LObjects.Null;
         }
-
 
         /// <summary>
         /// Get / set value by index.
@@ -315,7 +256,6 @@ namespace Fluentscript.Lib.Types
             return LObjects.Null;
         }
 
-
         /// <summary>
         /// Get / set value by index.
         /// </summary>
@@ -327,7 +267,6 @@ namespace Fluentscript.Lib.Types
         {
         }
 
-
         /// <summary>
         /// Set a value by the index.
         /// </summary>
@@ -336,7 +275,6 @@ namespace Fluentscript.Lib.Types
         public virtual void SetByStringMember(LObject obj, string member, LObject val)
         {
         }
-
 
         /// <summary>
         /// Executes the method supplied on the the type.
@@ -428,7 +366,6 @@ namespace Fluentscript.Lib.Types
             return result;
         }
 
-
         /// <summary>
         /// Creates functionmetadata object with the supplied inputs.
         /// </summary>
@@ -458,7 +395,6 @@ namespace Fluentscript.Lib.Types
             return funcdef;
         }
 
-
         /// <summary>
         /// Converts the parameter value into the proper type of the argument.
         /// </summary>
@@ -476,5 +412,42 @@ namespace Fluentscript.Lib.Types
             }
             return val;
         }
+
+        /// <summary>
+        /// A mapping between the method for the datatype in the language to the 
+        /// implemented method in this host language.
+        /// </summary>
+        public class MappedMethod
+        {
+            /// <summary>
+            /// The method name in the language
+            /// </summary>
+            public string DataTypeMethod;
+
+            /// <summary>
+            /// The method name in the host language.
+            /// </summary>
+            public string HostLanguageMethod;
+
+            /// <summary>
+            /// The function metadata for the language types method.
+            /// </summary>
+            public FunctionMetaData FuncDef;
+
+            /// <summary>
+            /// Whether or not this supports a getter property if this is a property
+            /// </summary>
+            public bool AllowGet;
+
+            /// <summary>
+            /// Whether or not this supports a setter property if this is a property
+            /// </summary>
+            public bool AllowSet;
+
+            /// <summary>
+            /// Whether or not convert the parameters from lang type to host type.
+            /// </summary>
+            public bool ConvertParameters;
     }
+}
 }

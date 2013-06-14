@@ -86,18 +86,9 @@ namespace Samba.Presentation.Controls.ListViewEx
         private static void RegisterSortableGridView(ListView grid,
           DependencyPropertyChangedEventArgs args)
         {
-        
-            if (args.NewValue is Boolean && (Boolean)args.NewValue)
-            {
                 grid.AddHandler(ButtonBase.ClickEvent,
                     new RoutedEventHandler(GridViewColumnHeaderClickedHandler));
             }
-            else
-            {
-                grid.AddHandler(ButtonBase.ClickEvent,
-                 new RoutedEventHandler(GridViewColumnHeaderClickedHandler));
-            }
-        }
 
         private static void GridViewColumnHeaderClickedHandler(object sender, RoutedEventArgs e)
         {

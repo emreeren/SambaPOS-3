@@ -402,7 +402,7 @@ namespace Samba.Services.Implementations.PrinterModule.HtmlConverter
                         if (HtmlSchema.IsEntity(entity))
                         {
                             _nextCharacter = HtmlSchema.EntityCharacterValue(entity);
-                            _nextCharacterCode = (int)_nextCharacter;
+                            _nextCharacterCode = _nextCharacter;
                             _isNextCharacterEntity = true;
                         }
                         else

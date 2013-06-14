@@ -7,7 +7,6 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
-using System.Windows.Markup;
 using Samba.Infrastructure.Settings;
 
 ////// Register this namespace under admirals one with prefix
@@ -19,7 +18,6 @@ using Samba.Infrastructure.Settings;
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "Samba.Localization.Engine")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.microsoft.com/winfx/2007/xaml/presentation", "Samba.Localization.Engine")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.microsoft.com/winfx/2008/xaml/presentation", "Samba.Localization.Engine")]
-
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "Samba.Localization.Extensions")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.microsoft.com/winfx/2007/xaml/presentation", "Samba.Localization.Extensions")]
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.microsoft.com/winfx/2008/xaml/presentation", "Samba.Localization.Extensions")]
@@ -48,6 +46,16 @@ namespace Samba.Localization.Engine
         public const string ResourcesName = "Resources";
 
         /// <summary>
+        /// Holds a SyncRoot to be thread safe
+        /// </summary>
+        private static readonly object SyncRoot = new object();
+
+        /// <summary>
+        /// Holds the instance of singleton
+        /// </summary>
+        private static LocalizeDictionary instance;
+
+        /// <summary>
         /// Holds the name of the Resource Manager.
         /// </summary>
         private const string ResourceManagerName = "ResourceManager";
@@ -61,16 +69,6 @@ namespace Samba.Localization.Engine
         /// Holds the binding flags for the reflection to find the resource files.
         /// </summary>
         private const BindingFlags ResourceBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
-
-        /// <summary>
-        /// Holds a SyncRoot to be thread safe
-        /// </summary>
-        private static readonly object SyncRoot = new object();
-
-        /// <summary>
-        /// Holds the instance of singleton
-        /// </summary>
-        private static LocalizeDictionary instance;
 
         /// <summary>
         /// Holds the current chosen <see cref="CultureInfo"/>
@@ -96,7 +94,10 @@ namespace Samba.Localization.Engine
         /// </summary>
         public static CultureInfo DefaultCultureInfo
         {
-            get { return CultureInfo.InvariantCulture; }
+            get
+            {
+                return CultureInfo.InvariantCulture;
+            }
         }
 
         /// <summary>
@@ -182,7 +183,10 @@ namespace Samba.Localization.Engine
         /// </summary>
         public CultureInfo SpecificCulture
         {
-            get { return CultureInfo.CreateSpecificCulture(this.Culture.ToString()); }
+            get
+            {
+                return CultureInfo.CreateSpecificCulture(this.Culture.ToString());
+            }
         }
 
         /// <summary>
@@ -271,6 +275,28 @@ namespace Samba.Localization.Engine
             {
                 obj.SetValue(DesignCultureProperty, value);
             }
+        }
+
+        public static void ChangeLanguage(string languageName)
+        {
+            var requestedLang = languageName;
+            if (string.IsNullOrEmpty(requestedLang))
+            {
+                var currentUiLanguageLarge = Thread.CurrentThread.CurrentCulture.Name;
+                if (LocalSettings.SupportedLanguages.Contains(currentUiLanguageLarge))
+                {
+                    requestedLang = currentUiLanguageLarge;
+                }
+                else
+                {
+                    var currentUiLanguage = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
+                    requestedLang = LocalSettings.SupportedLanguages.Contains(currentUiLanguage)
+                                    ? currentUiLanguage
+                                    : LocalSettings.SupportedLanguages[0];
+                }
+            }
+            Instance.Culture = CultureInfo.GetCultureInfo(requestedLang);
+            LocalSettings.CurrentLanguage = requestedLang;
         }
 
         /// <summary>
@@ -826,28 +852,6 @@ namespace Samba.Localization.Engine
                     }
                 }
             }
-        }
-
-        public static void ChangeLanguage(string languageName)
-        {
-            var requestedLang = languageName;
-            if (string.IsNullOrEmpty(requestedLang))
-            {
-                var currentUiLanguageLarge = Thread.CurrentThread.CurrentCulture.Name;
-                if (LocalSettings.SupportedLanguages.Contains(currentUiLanguageLarge))
-                {
-                    requestedLang = currentUiLanguageLarge;
-                }
-                else
-                {
-                    var currentUiLanguage = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
-                    requestedLang = LocalSettings.SupportedLanguages.Contains(currentUiLanguage)
-                                       ? currentUiLanguage
-                                       : LocalSettings.SupportedLanguages[0];
-                }
-            }
-            Instance.Culture = CultureInfo.GetCultureInfo(requestedLang);
-            LocalSettings.CurrentLanguage = requestedLang;
         }
     }
 }

@@ -23,12 +23,12 @@ namespace Samba.Modules.LoginModule
 
         private string PinValue { get { return _pinValue; } set { _pinValue = value; UpdatePinTextBox(_pinValue); } }
         private static string EmptyString { get { return " " + Localization.Properties.Resources.EnterPin; } }
-        private void UpdatePinTextBox(string _pinValue)
+        private void UpdatePinTextBox(string pinValue)
         {
-            if (_pinValue == EmptyString)
-                PinTextBox.Text = _pinValue;
+            if (pinValue == EmptyString)
+                PinTextBox.Text = pinValue;
             else
-                PinTextBox.Text = "".PadLeft(_pinValue.Length, '*');
+                PinTextBox.Text = "".PadLeft(pinValue.Length, '*');
         }
 
         private bool CheckPinValue()

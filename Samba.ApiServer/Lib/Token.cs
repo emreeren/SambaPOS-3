@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
-using Samba.Persistance.Data;
 
 namespace Samba.ApiServer.Lib
 {
@@ -38,7 +36,9 @@ namespace Samba.ApiServer.Lib
         }
 
         public DateTime LastUsed { get; set; }
+
         public Guid Guid { get; set; }
+
         public int UserId { get; set; }
 
         public static void ApplicationExit(object sender, EventArgs e)

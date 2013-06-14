@@ -8,8 +8,6 @@ using System.Text;
 using System.Web.Http;
 using Samba.ApiServer.Lib;
 using Samba.ApiServer.Responses;
-using Samba.Domain.Models.Users;
-using Samba.Infrastructure.Settings;
 using Samba.Persistance;
 
 namespace Samba.ApiServer.Controllers

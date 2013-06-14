@@ -644,7 +644,7 @@ namespace Fluentscript.Lib.Parser
         {
             var token = _tokenIt.NextToken.Token;
             var plugin = _context.Plugins.LastMatchedExtStmtPlugin;
-            var expPlugin = plugin as IExprPlugin;
+            var expPlugin = plugin;
             Expr result = null;
             if(!expPlugin.IsAssignmentSupported )
             {

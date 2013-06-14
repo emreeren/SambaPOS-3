@@ -867,7 +867,7 @@ namespace Fluentscript.Lib.Parser.Integration
             {
                 if (pair.Value is ILangPlugin)
                 {
-                    var langp = pair.Value as ILangPlugin;
+                    var langp = pair.Value;
                     grammerOnly += Environment.NewLine + langp.GetType().Name.Replace("Plugin", "") + " : " + langp.Grammer;
                 }
                 if (pair.Value is IExprPlugin)

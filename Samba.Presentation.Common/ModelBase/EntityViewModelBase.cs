@@ -13,8 +13,11 @@ namespace Samba.Presentation.Common.ModelBase
         private bool _modelSaved;
 
         public TModel Model { get; set; }
+
         public ICaptionCommand SaveCommand { get; private set; }
+
         private IValidator<TModel> _validator;
+
         public string ErrorMessage { get; set; }
 
         protected IWorkspace Workspace { get; private set; }
@@ -26,7 +29,10 @@ namespace Samba.Presentation.Common.ModelBase
 
         public string Name
         {
-            get { return Model.Name; }
+            get
+            {
+                return Model.Name;
+            }
             set
             {
                 Model.Name = value.Trim();
@@ -38,7 +44,10 @@ namespace Samba.Presentation.Common.ModelBase
 
         public string Error
         {
-            get { return _error; }
+            get
+            {
+                return _error;
+            }
             set
             {
                 _error = value;
@@ -48,7 +57,10 @@ namespace Samba.Presentation.Common.ModelBase
 
         public string Foreground
         {
-            get { return GetForeground(); }
+            get
+            {
+                return GetForeground();
+            }
         }
 
         protected virtual string GetForeground()
@@ -79,13 +91,17 @@ namespace Samba.Presentation.Common.ModelBase
         public override void OnClosed()
         {
             if (!_modelSaved)
+            {
                 RollbackModel();
+        }
         }
 
         protected override string GetHeaderInfo()
         {
             if (Model.Id > 0)
+            {
                 return string.Format(Resources.EditModel_f, GetModelTypeString(), Name);
+            }
             return string.Format(Resources.AddModel_f, GetModelTypeString());
         }
 
@@ -104,7 +120,9 @@ namespace Samba.Presentation.Common.ModelBase
             else
             {
                 if (string.IsNullOrEmpty(Name))
+                {
                     ErrorMessage = string.Format(Resources.EmptyNameError, GetModelTypeString());
+                }
                 MessageBox.Show(ErrorMessage, Resources.CantSave);
                 ErrorMessage = "";
             }
@@ -158,7 +176,18 @@ namespace Samba.Presentation.Common.ModelBase
     {
         public EntityValidator()
         {
+            #if DEBUG
+            try
+            {
+                this.RuleFor(x => x.Name).NotEmpty();
+            }
+            catch (System.Exception e)
+            {
+                //System.Windows.Forms.MessageBox.Show(e.Message,"Exception");
+            }
+            #else
             RuleFor(x => x.Name).NotEmpty();
+            #endif
         }
     }
 }

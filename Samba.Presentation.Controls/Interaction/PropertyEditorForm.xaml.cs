@@ -1,10 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using PropertyTools.Wpf;
-using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Common.Services;
 
 namespace Samba.Presentation.Controls.Interaction
 {

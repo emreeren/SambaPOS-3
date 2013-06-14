@@ -1139,21 +1139,21 @@ namespace DataGridFilterLibrary.Support
                 throw ParseError(errorPos, Res.FirstExprMustBeBool);
             if (expr1.Type != expr2.Type)
             {
-                Expression expr1as2 = expr2 != nullLiteral ? PromoteExpression(expr1, expr2.Type, true) : null;
-                Expression expr2as1 = expr1 != nullLiteral ? PromoteExpression(expr2, expr1.Type, true) : null;
-                if (expr1as2 != null && expr2as1 == null)
+                Expression expr1As2 = expr2 != nullLiteral ? PromoteExpression(expr1, expr2.Type, true) : null;
+                Expression expr2As1 = expr1 != nullLiteral ? PromoteExpression(expr2, expr1.Type, true) : null;
+                if (expr1As2 != null && expr2As1 == null)
                 {
-                    expr1 = expr1as2;
+                    expr1 = expr1As2;
                 }
-                else if (expr2as1 != null && expr1as2 == null)
+                else if (expr2As1 != null && expr1As2 == null)
                 {
-                    expr2 = expr2as1;
+                    expr2 = expr2As1;
                 }
                 else
                 {
                     string type1 = expr1 != nullLiteral ? expr1.Type.Name : "null";
                     string type2 = expr2 != nullLiteral ? expr2.Type.Name : "null";
-                    if (expr1as2 != null && expr2as1 != null)
+                    if (expr1As2 != null && expr2As1 != null)
                         throw ParseError(errorPos, Res.BothTypesConvertToOther, type1, type2);
                     throw ParseError(errorPos, Res.NeitherTypeConvertsToOther, type1, type2);
                 }
@@ -1293,7 +1293,7 @@ namespace DataGridFilterLibrary.Support
                         if (method.ReturnType == typeof(void))
                             throw ParseError(errorPos, Res.MethodIsVoid,
                                 id, GetTypeName(method.DeclaringType));
-                        return Expression.Call(instance, (MethodInfo)method, args);
+                        return Expression.Call(instance, method, args);
                     default:
                         throw ParseError(errorPos, Res.AmbiguousMethodInvocation,
                             id, GetTypeName(type));
@@ -1891,10 +1891,10 @@ namespace DataGridFilterLibrary.Support
             if (t1 == t2) return 0;
             if (s == t1) return 1;
             if (s == t2) return -1;
-            bool t1t2 = IsCompatibleWith(t1, t2);
-            bool t2t1 = IsCompatibleWith(t2, t1);
-            if (t1t2 && !t2t1) return 1;
-            if (t2t1 && !t1t2) return -1;
+            bool t1T2 = IsCompatibleWith(t1, t2);
+            bool t2T1 = IsCompatibleWith(t2, t1);
+            if (t1T2 && !t2T1) return 1;
+            if (t2T1 && !t1T2) return -1;
             if (IsSignedIntegralType(t1) && IsUnsignedIntegralType(t2)) return 1;
             if (IsSignedIntegralType(t2) && IsUnsignedIntegralType(t1)) return -1;
             return 0;

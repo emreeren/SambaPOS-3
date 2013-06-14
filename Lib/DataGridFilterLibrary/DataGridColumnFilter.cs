@@ -1,22 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Collections;
-using DataGridFilterLibrary.Support;
-using System.Reflection;
-using DataGridFilterLibrary.Querying;
-using System.ComponentModel;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Input;
+using DataGridFilterLibrary.Querying;
+using DataGridFilterLibrary.Support;
 
 namespace DataGridFilterLibrary
 {
@@ -28,12 +23,13 @@ namespace DataGridFilterLibrary
         }
 
         #region Overrides
+        
         protected override void OnPropertyChanged(
             DependencyPropertyChangedEventArgs e)
         {
-            if (e.Property == DataGridItemsSourceProperty
-                && e.OldValue != e.NewValue
-                && AssignedDataGridColumn != null && DataGrid != null && AssignedDataGridColumn is DataGridColumn)
+            if (e.Property == DataGridItemsSourceProperty &&
+                e.OldValue != e.NewValue &&
+                AssignedDataGridColumn != null && DataGrid != null && AssignedDataGridColumn is DataGridColumn)
             {
                 initialize();
 
@@ -47,13 +43,21 @@ namespace DataGridFilterLibrary
 
             base.OnPropertyChanged(e);
         }
+        
         #endregion
 
         #region Properties
+        
         public FilterData FilterCurrentData
         {
-            get { return (FilterData)GetValue(FilterCurrentDataProperty); }
-            set { SetValue(FilterCurrentDataProperty, value); }
+            get
+            {
+                return (FilterData)GetValue(FilterCurrentDataProperty);
+            }
+            set
+            {
+                SetValue(FilterCurrentDataProperty, value);
+            }
         }
 
         public static readonly DependencyProperty FilterCurrentDataProperty =
@@ -61,8 +65,14 @@ namespace DataGridFilterLibrary
 
         public DataGridColumnHeader AssignedDataGridColumnHeader
         {
-            get { return (DataGridColumnHeader)GetValue(AssignedDataGridColumnHeaderProperty); }
-            set { SetValue(AssignedDataGridColumnHeaderProperty, value); }
+            get
+            {
+                return (DataGridColumnHeader)GetValue(AssignedDataGridColumnHeaderProperty);
+            }
+            set
+            {
+                SetValue(AssignedDataGridColumnHeaderProperty, value);
+            }
         }
 
         public static readonly DependencyProperty AssignedDataGridColumnHeaderProperty =
@@ -70,8 +80,14 @@ namespace DataGridFilterLibrary
 
         public DataGridColumn AssignedDataGridColumn
         {
-            get { return (DataGridColumn)GetValue(AssignedDataGridColumnProperty); }
-            set { SetValue(AssignedDataGridColumnProperty, value); }
+            get
+            {
+                return (DataGridColumn)GetValue(AssignedDataGridColumnProperty);
+            }
+            set
+            {
+                SetValue(AssignedDataGridColumnProperty, value);
+            }
         }
 
         public static readonly DependencyProperty AssignedDataGridColumnProperty =
@@ -79,8 +95,14 @@ namespace DataGridFilterLibrary
 
         public DataGrid DataGrid
         {
-            get { return (DataGrid)GetValue(DataGridProperty); }
-            set { SetValue(DataGridProperty, value); }
+            get
+            {
+                return (DataGrid)GetValue(DataGridProperty);
+            }
+            set
+            {
+                SetValue(DataGridProperty, value);
+            }
         }
 
         public static readonly DependencyProperty DataGridProperty =
@@ -88,8 +110,14 @@ namespace DataGridFilterLibrary
 
         public IEnumerable DataGridItemsSource
         {
-            get { return (IEnumerable)GetValue(DataGridItemsSourceProperty); }
-            set { SetValue(DataGridItemsSourceProperty, value); }
+            get
+            {
+                return (IEnumerable)GetValue(DataGridItemsSourceProperty);
+            }
+            set
+            {
+                SetValue(DataGridItemsSourceProperty, value);
+            }
         }
 
         public static readonly DependencyProperty DataGridItemsSourceProperty =
@@ -97,19 +125,37 @@ namespace DataGridFilterLibrary
 
         public bool IsFilteringInProgress
         {
-            get { return (bool)GetValue(IsFilteringInProgressProperty); }
-            set { SetValue(IsFilteringInProgressProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsFilteringInProgressProperty);
+            }
+            set
+            {
+                SetValue(IsFilteringInProgressProperty, value);
+            }
         }
 
         public static readonly DependencyProperty IsFilteringInProgressProperty =
             DependencyProperty.Register("IsFilteringInProgress", typeof(bool), typeof(DataGridColumnFilter));
 
-        public FilterType FilterType { get { return FilterCurrentData != null ? FilterCurrentData.Type : FilterType.Text; } }
+        public FilterType FilterType
+        {
+            get
+            {
+                return FilterCurrentData != null ? FilterCurrentData.Type : FilterType.Text;
+            }
+        }
 
         public bool IsTextFilterControl
         {
-            get { return (bool)GetValue(IsTextFilterControlProperty); }
-            set { SetValue(IsTextFilterControlProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsTextFilterControlProperty);
+            }
+            set
+            {
+                SetValue(IsTextFilterControlProperty, value);
+            }
         }
 
         public static readonly DependencyProperty IsTextFilterControlProperty =
@@ -117,70 +163,128 @@ namespace DataGridFilterLibrary
 
         public bool IsNumericFilterControl
         {
-            get { return (bool)GetValue(IsNumericFilterControlProperty); }
-            set { SetValue(IsNumericFilterControlProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsNumericFilterControlProperty);
         }
+            set
+            {
+                SetValue(IsNumericFilterControlProperty, value);
+            }
+        }
+            
         public static readonly DependencyProperty IsNumericFilterControlProperty =
             DependencyProperty.Register("IsNumericFilterControl", typeof(bool), typeof(DataGridColumnFilter));
 
         public bool IsNumericBetweenFilterControl
         {
-            get { return (bool)GetValue(IsNumericBetweenFilterControlProperty); }
-            set { SetValue(IsNumericBetweenFilterControlProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsNumericBetweenFilterControlProperty);
         }
+            set
+            {
+                SetValue(IsNumericBetweenFilterControlProperty, value);
+            }
+        }
+            
         public static readonly DependencyProperty IsNumericBetweenFilterControlProperty =
             DependencyProperty.Register("IsNumericBetweenFilterControl", typeof(bool), typeof(DataGridColumnFilter));
 
         public bool IsBooleanFilterControl
         {
-            get { return (bool)GetValue(IsBooleanFilterControlProperty); }
-            set { SetValue(IsBooleanFilterControlProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsBooleanFilterControlProperty);
         }
+            set
+            {
+                SetValue(IsBooleanFilterControlProperty, value);
+            }
+        }
+            
         public static readonly DependencyProperty IsBooleanFilterControlProperty =
             DependencyProperty.Register("IsBooleanFilterControl", typeof(bool), typeof(DataGridColumnFilter));
 
         public bool IsListFilterControl
         {
-            get { return (bool)GetValue(IsListFilterControlProperty); }
-            set { SetValue(IsListFilterControlProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsListFilterControlProperty);
         }
+            set
+            {
+                SetValue(IsListFilterControlProperty, value);
+            }
+        }
+            
         public static readonly DependencyProperty IsListFilterControlProperty =
             DependencyProperty.Register("IsListFilterControl", typeof(bool), typeof(DataGridColumnFilter));
 
         public bool IsDateTimeFilterControl
         {
-            get { return (bool)GetValue(IsDateTimeFilterControlProperty); }
-            set { SetValue(IsDateTimeFilterControlProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsDateTimeFilterControlProperty);
         }
+            set
+            {
+                SetValue(IsDateTimeFilterControlProperty, value);
+            }
+        }
+            
         public static readonly DependencyProperty IsDateTimeFilterControlProperty =
             DependencyProperty.Register("IsDateTimeFilterControl", typeof(bool), typeof(DataGridColumnFilter));
 
         public bool IsDateTimeBetweenFilterControl
         {
-            get { return (bool)GetValue(IsDateTimeBetweenFilterControlProperty); }
-            set { SetValue(IsDateTimeBetweenFilterControlProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsDateTimeBetweenFilterControlProperty);
         }
+            set
+            {
+                SetValue(IsDateTimeBetweenFilterControlProperty, value);
+            }
+        }
+            
         public static readonly DependencyProperty IsDateTimeBetweenFilterControlProperty =
             DependencyProperty.Register("IsDateTimeBetweenFilterControl", typeof(bool), typeof(DataGridColumnFilter));
 
         public bool IsFirstFilterControl
         {
-            get { return (bool)GetValue(IsFirstFilterControlProperty); }
-            set { SetValue(IsFirstFilterControlProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsFirstFilterControlProperty);
         }
+            set
+            {
+                SetValue(IsFirstFilterControlProperty, value);
+            }
+        }
+            
         public static readonly DependencyProperty IsFirstFilterControlProperty =
             DependencyProperty.Register("IsFirstFilterControl", typeof(bool), typeof(DataGridColumnFilter));
 
         public bool IsControlInitialized
         {
-            get { return (bool)GetValue(IsControlInitializedProperty); }
-            set { SetValue(IsControlInitializedProperty, value); }
+            get
+            {
+                return (bool)GetValue(IsControlInitializedProperty);
         }
+            set
+            {
+                SetValue(IsControlInitializedProperty, value);
+            }
+        }
+            
         public static readonly DependencyProperty IsControlInitializedProperty =
             DependencyProperty.Register("IsControlInitialized", typeof(bool), typeof(DataGridColumnFilter));
+
         #endregion
 
         #region Initialization
+            
         private void initialize()
         {
             if (DataGridItemsSource != null && AssignedDataGridColumn != null && DataGrid != null)
@@ -282,7 +386,6 @@ namespace DataGridFilterLibrary
 
                 if (comboBox != null && column != null)
                 {
-
                     if (DataGridComboBoxExtensions.GetIsTextFilter(column))
                     {
                         FilterCurrentData.Type = FilterType.Text;
@@ -297,7 +400,9 @@ namespace DataGridFilterLibrary
                         {
                             System.Windows.Setter styleSetter = column.EditingElementStyle.Setters.First(s => ((System.Windows.Setter)s).Property == DataGridComboBoxColumn.ItemsSourceProperty) as System.Windows.Setter;
                             if (styleSetter != null)
+                            {
                                 columnItemsSourceBinding = styleSetter.Value as Binding;
+                        }
                         }
 
                         comboBox.DisplayMemberPath = column.DisplayMemberPath;
@@ -308,8 +413,7 @@ namespace DataGridFilterLibrary
                             BindingOperations.SetBinding(comboBox, ComboBox.ItemsSourceProperty, columnItemsSourceBinding);
                         }
 
-                        comboBox.RequestBringIntoView 
-                            += new RequestBringIntoViewEventHandler(setComboBindingAndHanldeUnsetValue);
+                        comboBox.RequestBringIntoView += new RequestBringIntoViewEventHandler(setComboBindingAndHanldeUnsetValue);
                     }
                 }
             }
@@ -461,7 +565,6 @@ namespace DataGridFilterLibrary
                         }
                     }
                 }
-
 
                 if (pi != null)
                 {
@@ -623,9 +726,11 @@ namespace DataGridFilterLibrary
                     DataGrid, new DataGridFilterCommand(clearQuery));
             }
         }
+        
         #endregion
 
         #region Querying
+            
         void filterCurrentData_FilterChangedEvent(object sender, EventArgs e)
         {
             if (DataGrid != null)
@@ -676,6 +781,7 @@ namespace DataGridFilterLibrary
                 this.IsFilteringInProgress = true;
             }
         }
+
         #endregion
     }
 }

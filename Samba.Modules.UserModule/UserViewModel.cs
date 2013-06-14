@@ -23,7 +23,10 @@ namespace Samba.Modules.UserModule
         {
             get
             {
-                if (_edited) return Model.PinCode;
+                if (_edited)
+                {
+                    return Model.PinCode;
+                }
                 return !string.IsNullOrEmpty(Model.PinCode) ? "********" : "";
             }
             set
@@ -37,7 +40,17 @@ namespace Samba.Modules.UserModule
             }
         }
 
-        public UserRole Role { get { return Model.UserRole; } set { Model.UserRole = value; } }
+        public UserRole Role
+        {
+            get
+            {
+                return Model.UserRole;
+            }
+            set
+            {
+                Model.UserRole = value;
+            }
+        }
 
         public IEnumerable<UserRole> Roles { get; private set; }
 
@@ -66,8 +79,19 @@ namespace Samba.Modules.UserModule
     {
         public UserValidator()
         {
+            #if DEBUG
+            try
+            {
             RuleFor(x => x.PinCode).Length(4, 10);
             RuleFor(x => x.UserRole).NotNull();
         }
+            catch
+            {
+    }
+            #else
+            RuleFor(x => x.PinCode).Length(4, 10);
+            RuleFor(x => x.UserRole).NotNull();
+            #endif
+}
     }
 }

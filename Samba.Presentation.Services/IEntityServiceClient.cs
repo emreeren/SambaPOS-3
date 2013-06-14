@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Samba.Domain.Models.Entities;
 
 namespace Samba.Presentation.Services
 {

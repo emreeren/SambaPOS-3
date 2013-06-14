@@ -565,7 +565,7 @@ namespace Fluentscript.Lib.Parser
             var start = advanceFirst ? _pos.Pos + 1 : _pos.Pos;
             var currPos = start;
             var first = true;
-            var found1stChar = false;
+            var found1StChar = false;
             var totalCharsRead = 0;
             while (currPos <= LAST_POSITION)
             {
@@ -573,9 +573,9 @@ namespace Fluentscript.Lib.Parser
                 totalCharsRead++;
 
                 if (ch == expectChar)
-                    found1stChar = true;
+                    found1StChar = true;
 
-                if (totalCharsRead >= maxAdvancesBeforeExpected && !found1stChar)
+                if (totalCharsRead >= maxAdvancesBeforeExpected && !found1StChar)
                     break;
 
                 var isValidChar = (('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || ch == '$' || ch == '_'
