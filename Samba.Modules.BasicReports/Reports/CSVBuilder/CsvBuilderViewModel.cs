@@ -8,7 +8,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Services;
 
-namespace Samba.Modules.BasicReports.Reports.CSVBuilder
+namespace Samba.Modules.BasicReports.Reports.CsvBuilder
 {
     class CsvBuilderViewModel : ReportViewModelBase
     {

@@ -20,7 +20,7 @@ namespace Samba.Presentation.Controls.Browser
     /// <summary>
     /// Interop functions we need (i.e. those dealing with the url cache) from wininet.dll.
     /// </summary>
-    public sealed class WinInetAPI
+    public sealed class WinInetApi
     {
         /// <summary>
         /// Structure used in various caching APIs.
@@ -36,10 +36,10 @@ namespace Samba.Presentation.Controls.Browser
             public UInt32 dwHitRate;
             public UInt32 dwSizeLow;
             public UInt32 dwSizeHigh;
-            public Win32API.FILETIME LastModifiedTime;
-            public Win32API.FILETIME ExpireTime;
-            public Win32API.FILETIME LastAccessTime;
-            public Win32API.FILETIME LastSyncTime;
+            public Win32Api.FILETIME LastModifiedTime;
+            public Win32Api.FILETIME ExpireTime;
+            public Win32Api.FILETIME LastAccessTime;
+            public Win32Api.FILETIME LastSyncTime;
             public IntPtr lpHeaderInfo;
             public UInt32 dwHeaderInfoSize;
             public string lpszFileExtension;
@@ -83,7 +83,7 @@ namespace Samba.Presentation.Controls.Browser
             }
 
             int lastError = Marshal.GetLastWin32Error();
-            if (lastError == Win32API.ERROR_ACCESS_DENIED)
+            if (lastError == Win32Api.ERROR_ACCESS_DENIED)
             {
                 ThrowAccessDenied(url);
             }
@@ -124,22 +124,22 @@ namespace Samba.Presentation.Controls.Browser
         private static void CheckLastError(string url, bool ignoreInsufficientBuffer)
         {
             int lastError = Marshal.GetLastWin32Error();
-            if (lastError == Win32API.ERROR_INSUFFICIENT_BUFFER)
+            if (lastError == Win32Api.ERROR_INSUFFICIENT_BUFFER)
             {
                 if (!ignoreInsufficientBuffer)
                 {
                     ThrowInsufficientBuffer(url);
                 }
             }
-            else if (lastError == Win32API.ERROR_FILE_NOT_FOUND)
+            else if (lastError == Win32Api.ERROR_FILE_NOT_FOUND)
             {
                 ThrowFileNotFound(url);
             }
-            else if (lastError == Win32API.ERROR_ACCESS_DENIED)
+            else if (lastError == Win32Api.ERROR_ACCESS_DENIED)
             {
                 ThrowAccessDenied(url);
             }
-            else if (lastError != Win32API.ERROR_SUCCESS)
+            else if (lastError != Win32Api.ERROR_SUCCESS)
             {
                 throw new ApplicationException("Unexpected error, code=" + lastError.ToString());
             }
@@ -255,12 +255,12 @@ namespace Samba.Presentation.Controls.Browser
                 if (hEnum == IntPtr.Zero)
                 {
                     int lastError = Marshal.GetLastWin32Error();
-                    if (lastError == Win32API.ERROR_INSUFFICIENT_BUFFER)
+                    if (lastError == Win32Api.ERROR_INSUFFICIENT_BUFFER)
                     {
                         buffer = Marshal.AllocHGlobal((int)structSize);
                         hEnum = FindFirstUrlCacheEntry(urlPattern, buffer, out structSize);
                     }
-                    else if (lastError == Win32API.ERROR_NO_MORE_ITEMS)
+                    else if (lastError == Win32Api.ERROR_NO_MORE_ITEMS)
                     {
                         return results;
                     }
@@ -293,12 +293,12 @@ namespace Samba.Presentation.Controls.Browser
                     if (nextResult != 1)
                     {
                         int lastError = Marshal.GetLastWin32Error();
-                        if (lastError == Win32API.ERROR_INSUFFICIENT_BUFFER)
+                        if (lastError == Win32Api.ERROR_INSUFFICIENT_BUFFER)
                         {
                             buffer = Marshal.AllocHGlobal((int)structSize);
                             nextResult = FindNextUrlCacheEntry(hEnum, buffer, out structSize);
                         }
-                        else if (lastError == Win32API.ERROR_NO_MORE_ITEMS)
+                        else if (lastError == Win32Api.ERROR_NO_MORE_ITEMS)
                         {
                             break;
                         }
@@ -338,7 +338,7 @@ namespace Samba.Presentation.Controls.Browser
         /// <summary>
         /// Static class -- can't create.
         /// </summary>
-        private WinInetAPI()
+        private WinInetApi()
         {
         }
     }

@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services.Common;
-using Samba.Services;
-using System.Linq;
 
 namespace Samba.Modules.UserModule
 {
     public class UserRoleViewModel : EntityViewModelBase<UserRole>
     {
         private IEnumerable<PermissionViewModel> _permissions;
+
         public IEnumerable<PermissionViewModel> Permissions
         {
-            get { return _permissions ?? (_permissions = GetPermissions()); }
+            get
+            {
+                return _permissions ?? (_permissions = GetPermissions());
+            }
         }
 
         private IEnumerable<PermissionViewModel> GetPermissions()
@@ -32,21 +35,37 @@ namespace Samba.Modules.UserModule
         }
 
         private IEnumerable<Department> _departments;
+
         public IEnumerable<Department> Departments
         {
-            get { return _departments ?? (_departments = Workspace.All<Department>()); }
+            get
+            {
+                return _departments ?? (_departments = Workspace.All<Department>());
+            }
         }
 
         public int DepartmentId
         {
-            get { return Model.DepartmentId; }
-            set { Model.DepartmentId = value; }
+            get
+            {
+                return Model.DepartmentId;
+            }
+            set
+            {
+                Model.DepartmentId = value;
+            }
         }
 
         public bool IsAdmin
         {
-            get { return Model.IsAdmin; }
-            set { Model.IsAdmin = value || Model.Id == 1; }
+            get
+            {
+                return Model.IsAdmin;
+            }
+            set
+            {
+                Model.IsAdmin = value || Model.Id == 1;
+            }
         }
 
         public override Type GetViewType()
@@ -69,7 +88,17 @@ namespace Samba.Modules.UserModule
     {
         public UserRoleValidator()
         {
-            RuleFor(x => x.DepartmentId).GreaterThan(0);
+            #if DEBUG
+            try
+            {
+                this.RuleFor(x => x.DepartmentId).GreaterThan(0);
         }
+            catch
+            {
+    }
+            #else
+            this.RuleFor(x => x.DepartmentId).GreaterThan(0);
+            #endif
+}
     }
 }

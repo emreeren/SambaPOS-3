@@ -391,7 +391,7 @@ namespace Samba.Presentation.Common
             RECT rectangle = (RECT)Marshal.PtrToStructure(
                                         m.LParam, typeof(RECT));
             SetWindowPos(m.HWnd, IntPtr.Zero, rectangle.Left, rectangle.Top, rectangle.Width,
-                         rectangle.Height, SWP_NoActivate | SWP_ShowWindow | SWP_NoSendChanging);
+                         rectangle.Height, SwpNoActivate | SwpShowWindow | SwpNoSendChanging);
         }
 
         #endregion
@@ -510,7 +510,7 @@ namespace Samba.Presentation.Common
         /// window is activated and moved to the top of either the
         /// topmost or non-topmost group .
         /// </summary>
-        public static int SWP_NoActivate
+        public static int SwpNoActivate
         {
             get
             {
@@ -521,7 +521,7 @@ namespace Samba.Presentation.Common
         /// <summary>
         /// Displays the window
         /// </summary>
-        public static int SWP_ShowWindow
+        public static int SwpShowWindow
         {
             get
             {
@@ -532,7 +532,7 @@ namespace Samba.Presentation.Common
         /// <summary>
         /// Prevents the window from receiving the WM_WINDOWPOSCHANGING message
         /// </summary>
-        public static int SWP_NoSendChanging
+        public static int SwpNoSendChanging
         {
             get
             {

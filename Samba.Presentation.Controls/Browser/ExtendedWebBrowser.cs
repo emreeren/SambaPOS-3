@@ -44,7 +44,7 @@ namespace Samba.Presentation.Controls.Browser
             // Make sure to call the base class or the normal events won't fire
             base.CreateSink();
             events = new WebBrowserExtendedEvents(this);
-            cookie = new AxHost.ConnectionPointCookie(this.ActiveXInstance, events, typeof(UnsafeNativeMethods.DWebBrowserEvents2));
+            cookie = new AxHost.ConnectionPointCookie(this.ActiveXInstance, events, typeof(DWebBrowserEvents2.IDWebBrowserEvents2));
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Samba.Presentation.Controls.Browser
         #region The Implementation of DWebBrowserEvents2 for firing extra events
 
         //This class will capture events from the WebBrowser
-        class WebBrowserExtendedEvents : UnsafeNativeMethods.DWebBrowserEvents2
+        class WebBrowserExtendedEvents : DWebBrowserEvents2.IDWebBrowserEvents2
         {
             public WebBrowserExtendedEvents() { }
 
@@ -233,9 +233,9 @@ namespace Samba.Presentation.Controls.Browser
             #region DWebBrowserEvents2 Members
 
             //Implement whichever events you wish
-            public void BeforeNavigate2(object pDisp, ref object URL, ref object flags, ref object targetFrameName, ref object postData, ref object headers, ref bool cancel)
+            public void BeforeNavigate2(object pDisp, ref object url, ref object flags, ref object targetFrameName, ref object postData, ref object headers, ref bool cancel)
             {
-                Uri urlUri = new Uri(URL.ToString());
+                Uri urlUri = new Uri(url.ToString());
 
                 string tFrame = null;
                 if (targetFrameName != null)
@@ -259,11 +259,11 @@ namespace Samba.Presentation.Controls.Browser
             }
 
             // NewWindow3 event, used on Windows XP SP2 and higher
-            public void NewWindow3(ref object ppDisp, ref bool Cancel, uint dwFlags, string bstrUrlContext, string bstrUrl)
+            public void NewWindow3(ref object ppDisp, ref bool cancel, uint dwFlags, string bstrUrlContext, string bstrUrl)
             {
                 BrowserExtendedNavigatingEventArgs args = new BrowserExtendedNavigatingEventArgs(ppDisp, new Uri(bstrUrl), null);
                 _Browser.OnStartNewWindow(args, (NativeMethods.NWMF)dwFlags);
-                Cancel = args.Cancel;
+                cancel = args.Cancel;
                 ppDisp = args.AutomationObject;
             }
 
@@ -308,11 +308,11 @@ namespace Samba.Presentation.Controls.Browser
             {
             }
 
-            public void NavigateComplete2(object pDisp, ref object URL)
+            public void NavigateComplete2(object pDisp, ref object url)
             {
             }
 
-            public void DocumentComplete(object pDisp, ref object URL)
+            public void DocumentComplete(object pDisp, ref object url)
             {
             }
 
@@ -372,7 +372,7 @@ namespace Samba.Presentation.Controls.Browser
             {
             }
 
-            public void NavigateError(object pDisp, ref object URL, ref object frame, ref object statusCode, ref bool cancel)
+            public void NavigateError(object pDisp, ref object url, ref object frame, ref object statusCode, ref bool cancel)
             {
             }
 
@@ -392,11 +392,11 @@ namespace Samba.Presentation.Controls.Browser
             {
             }
 
-            public void CommandStateChange(int Command, bool Enable)
+            public void CommandStateChange(int command, bool enable)
             {
             }
 
-            public void ClientToHostWindow(ref int CX, ref int CY)
+            public void ClientToHostWindow(ref int cX, ref int cY)
             {
             }
             #endregion
@@ -435,9 +435,9 @@ namespace Samba.Presentation.Controls.Browser
                         //int lp = m.LParam.ToInt32();
                         int wp = m.WParam.ToInt32();
 
-                        int X = wp & 0xFFFF;
+                        int x = wp & 0xFFFF;
                         //int Y = (wp >> 16) & 0xFFFF;
-                        if (X == (int)WindowsMessages.WM_DESTROY)
+                        if (x == (int)WindowsMessages.WM_DESTROY)
                             this.OnQuit();
                         return;
                     }

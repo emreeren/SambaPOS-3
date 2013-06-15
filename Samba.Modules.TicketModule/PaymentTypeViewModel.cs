@@ -19,6 +19,7 @@ namespace Samba.Modules.TicketModule
         }
 
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
+
         public IEnumerable<AccountTransactionType> AccountTransactionTypes
         {
             get
@@ -29,6 +30,7 @@ namespace Samba.Modules.TicketModule
         }
 
         private IEnumerable<Account> _accounts;
+
         public IEnumerable<Account> Accounts
         {
             get
@@ -42,7 +44,10 @@ namespace Samba.Modules.TicketModule
 
         public AccountTransactionType AccountTransactionType
         {
-            get { return Model.AccountTransactionType; }
+            get
+            {
+                return Model.AccountTransactionType;
+            }
             set
             {
                 Model.AccountTransactionType = value;
@@ -54,7 +59,10 @@ namespace Samba.Modules.TicketModule
 
         public Account Account
         {
-            get { return Model.Account; }
+            get
+            {
+                return Model.Account;
+            }
             set
             {
                 Model.Account = value;
@@ -62,7 +70,17 @@ namespace Samba.Modules.TicketModule
             }
         }
 
-        public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
+        public string ButtonColor
+        {
+            get
+            {
+                return Model.ButtonColor;
+            }
+            set
+            {
+                Model.ButtonColor = value;
+            }
+        }
 
         public override Type GetViewType()
         {
@@ -90,8 +108,20 @@ namespace Samba.Modules.TicketModule
     {
         public PaymentTypeValidator()
         {
+            #if DEBUG
+            try
+            {
             RuleFor(x => x.AccountTransactionType).NotNull();
             //RuleFor(x => x.Account).NotNull();
         }
+            catch (System.Exception e)
+            {
+                //System.Windows.Forms.MessageBox.Show(e.Message, "Exception");
+    }
+            #else
+          RuleFor(x => x.AccountTransactionType).NotNull();
+            //RuleFor(x => x.Account).NotNull();
+            #endif
+}
     }
 }

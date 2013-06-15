@@ -1,12 +1,12 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows.Forms;
-using System.Runtime.CompilerServices;
 
 namespace Samba.Presentation.Controls.Browser
 {
-    public sealed class HTMLDispIDs
+    public sealed class HtmlDispIDs
     {
         //useful DISPIDs
         public const int DISPID_UNKNOWN = -1;
@@ -63,7 +63,7 @@ namespace Samba.Presentation.Controls.Browser
         public const int STDDISPID_XOBJ_ONROWSDELETE = (DISPID_XOBJ_BASE + 32);
         public const int STDDISPID_XOBJ_ONROWSINSERTED = (DISPID_XOBJ_BASE + 33);
         public const int STDDISPID_XOBJ_ONCELLCHANGE = (DISPID_XOBJ_BASE + 34);
-        public const int STDPROPID_XOBJ_DISABLED = (DISPID_XOBJ_BASE + 0x4C); //+76
+        public const int STDPROPID_XOBJ_DISABLED = (DISPID_XOBJ_BASE + 0x4C);//+76
         public const int DISPID_DEFAULTVALUE = (DISPID_A_FIRST + 83);
 
         public const int DISPID_CLICK = (-600);
@@ -82,7 +82,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_THIS = (-613);
 
         //  Standard dispatch ID constants
-
         public const int DISPID_AUTOSIZE = (-500);
         public const int DISPID_BACKCOLOR = (-501);
         public const int DISPID_BACKSTYLE = (-502);
@@ -190,8 +189,8 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_ONFOCUSIN = (DISPID_NORMAL_FIRST + 48);
         public const int DISPID_ONFOCUSOUT = (DISPID_NORMAL_FIRST + 49);
 
-        public const int DISPID_A_UNICODEBIDI = (DISPID_A_FIRST + 118); // Complex Text support for CSS2 unicode-bidi
-        public const int DISPID_A_DIRECTION = (DISPID_A_FIRST + 119); // Complex Text support for CSS2 direction
+        public const int DISPID_A_UNICODEBIDI = (DISPID_A_FIRST + 118);// Complex Text support for CSS2 unicode-bidi
+        public const int DISPID_A_DIRECTION = (DISPID_A_FIRST + 119);// Complex Text support for CSS2 direction
 
         public const int DISPID_EVPROP_ONMOUSEOVER = (DISPID_EVENTS + 0);
         public const int DISPID_EVMETH_ONMOUSEOVER = STDDISPID_XOBJ_ONMOUSEOVER;
@@ -398,15 +397,15 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLELEMENT_TAGNAME = DISPID_ELEMENT + 4;
         public const int DISPID_IHTMLELEMENT_PARENTELEMENT = STDPROPID_XOBJ_PARENT;
         public const int DISPID_IHTMLELEMENT_STYLE = STDPROPID_XOBJ_STYLE;
-        public const int DISPID_IHTMLELEMENT_ONHELP = DISPID_EVPROP_ONHELP; //-2147412098
-        public const int DISPID_IHTMLELEMENT_ONCLICK = DISPID_EVPROP_ONCLICK; //-2147412103
+        public const int DISPID_IHTMLELEMENT_ONHELP = DISPID_EVPROP_ONHELP;//-2147412098
+        public const int DISPID_IHTMLELEMENT_ONCLICK = DISPID_EVPROP_ONCLICK;//-2147412103
         public const int DISPID_IHTMLELEMENT_ONDBLCLICK = DISPID_EVPROP_ONDBLCLICK;//-2147412102
-        public const int DISPID_IHTMLELEMENT_ONKEYDOWN = DISPID_EVPROP_ONKEYDOWN; //-2147412106
+        public const int DISPID_IHTMLELEMENT_ONKEYDOWN = DISPID_EVPROP_ONKEYDOWN;//-2147412106
         public const int DISPID_IHTMLELEMENT_ONKEYUP = DISPID_EVPROP_ONKEYUP;
-        public const int DISPID_IHTMLELEMENT_ONKEYPRESS = DISPID_EVPROP_ONKEYPRESS; //-2147412104
-        public const int DISPID_IHTMLELEMENT_ONMOUSEOUT = DISPID_EVPROP_ONMOUSEOUT; //-2147412110
-        public const int DISPID_IHTMLELEMENT_ONMOUSEOVER = DISPID_EVPROP_ONMOUSEOVER; //-2147412111
-        public const int DISPID_IHTMLELEMENT_ONMOUSEMOVE = DISPID_EVPROP_ONMOUSEMOVE; // -2147412107
+        public const int DISPID_IHTMLELEMENT_ONKEYPRESS = DISPID_EVPROP_ONKEYPRESS;//-2147412104
+        public const int DISPID_IHTMLELEMENT_ONMOUSEOUT = DISPID_EVPROP_ONMOUSEOUT;//-2147412110
+        public const int DISPID_IHTMLELEMENT_ONMOUSEOVER = DISPID_EVPROP_ONMOUSEOVER;//-2147412111
+        public const int DISPID_IHTMLELEMENT_ONMOUSEMOVE = DISPID_EVPROP_ONMOUSEMOVE;// -2147412107
         public const int DISPID_IHTMLELEMENT_ONMOUSEDOWN = DISPID_EVPROP_ONMOUSEDOWN;
         public const int DISPID_IHTMLELEMENT_ONMOUSEUP = DISPID_EVPROP_ONMOUSEUP;
         public const int DISPID_IHTMLELEMENT_DOCUMENT = DISPID_ELEMENT + 18;
@@ -448,7 +447,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLELEMENT_ALL = DISPID_ELEMENT + 38;
 
         //  DISPIDs for interface IHTMLElement2
-
         public const int DISPID_IHTMLELEMENT2_SCOPENAME = DISPID_ELEMENT + 39;
         public const int DISPID_IHTMLELEMENT2_SETCAPTURE = DISPID_ELEMENT + 40;
         public const int DISPID_IHTMLELEMENT2_RELEASECAPTURE = DISPID_ELEMENT + 41;
@@ -519,16 +517,13 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLELEMENT2_GETELEMENTSBYTAGNAME = DISPID_ELEMENT + 85;
 
         //    DISPIDs for interface IHTMLElementCollection
-
         public const int DISPID_IHTMLELEMENTCOLLECTION_TOSTRING = DISPID_COLLECTION + 1;
         public const int DISPID_IHTMLELEMENTCOLLECTION_LENGTH = DISPID_COLLECTION;
-        public const int DISPID_IHTMLELEMENTCOLLECTION__NEWENUM = DISPID_NEWENUM;
+        public const int DISPID_IHTMLELEMENTCOLLECTION_NEWENUM = DISPID_NEWENUM;
         public const int DISPID_IHTMLELEMENTCOLLECTION_ITEM = DISPID_VALUE;
         public const int DISPID_IHTMLELEMENTCOLLECTION_TAGS = DISPID_COLLECTION + 2;
 
-
         //    DISPIDs for interface IHTMLEventObj
-
         public const int DISPID_EVENTOBJ = DISPID_NORMAL_FIRST;
 
         public const int DISPID_IHTMLEVENTOBJ_SRCELEMENT = DISPID_EVENTOBJ + 1;
@@ -555,7 +550,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLEVENTOBJ_SRCFILTER = DISPID_EVENTOBJ + 26;
 
         //    DISPIDs for interface IHTMLEventObj2
-
         public const int DISPID_IHTMLEVENTOBJ2_SETATTRIBUTE = DISPID_HTMLOBJECT + 1;
         public const int DISPID_IHTMLEVENTOBJ2_GETATTRIBUTE = DISPID_HTMLOBJECT + 2;
         public const int DISPID_IHTMLEVENTOBJ2_REMOVEATTRIBUTE = DISPID_HTMLOBJECT + 3;
@@ -588,7 +582,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLEVENTOBJ2_DATATRANSFER = DISPID_EVENTOBJ + 37;
 
         //    DISPIDs for interface IHTMLEventObj3
-
         public const int DISPID_IHTMLEVENTOBJ3_CONTENTOVERFLOW = DISPID_EVENTOBJ + 38;
         public const int DISPID_IHTMLEVENTOBJ3_SHIFTLEFT = DISPID_EVENTOBJ + 39;
         public const int DISPID_IHTMLEVENTOBJ3_ALTLEFT = DISPID_EVENTOBJ + 40;
@@ -602,7 +595,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLEVENTOBJ3_BEHAVIORCOOKIE = DISPID_EVENTOBJ + 48;
         public const int DISPID_IHTMLEVENTOBJ3_BEHAVIORPART = DISPID_EVENTOBJ + 49;
         public const int DISPID_IHTMLEVENTOBJ3_NEXTPAGE = DISPID_EVENTOBJ + 50;
-
 
         public const int DISPID_A_FIRST = DISPID_ATTRS;
         public const int DISPID_A_DIR = DISPID_A_FIRST + 117;
@@ -652,7 +644,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLDOCUMENT4_URLUNENCODED = DISPID_OMDOCUMENT + 97;
 
         //    DISPIDs for interface IHTMLDocument5
-
         public const int DISPID_IHTMLDOCUMENT5_ONMOUSEWHEEL = DISPID_EVPROP_ONMOUSEWHEEL;
         public const int DISPID_IHTMLDOCUMENT5_DOCTYPE = DISPID_OMDOCUMENT + 98;
         public const int DISPID_IHTMLDOCUMENT5_IMPLEMENTATION = DISPID_OMDOCUMENT + 99;
@@ -665,7 +656,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLDOCUMENT5_ONBEFOREACTIVATE = DISPID_EVPROP_ONBEFOREACTIVATE;
         public const int DISPID_IHTMLDOCUMENT5_ONBEFOREDEACTIVATE = DISPID_EVPROP_ONBEFOREDEACTIVATE;
         public const int DISPID_IHTMLDOCUMENT5_COMPATMODE = DISPID_OMDOCUMENT + 102;
-
 
         //DISPIDS for interface IHTMLDocumentEvents2
         public const int DISPID_HTMLDOCUMENTEVENTS2_ONHELP = DISPID_EVMETH_ONHELP;
@@ -708,7 +698,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_HTMLDOCUMENTEVENTS2_ONBEFOREDEACTIVATE = DISPID_EVMETH_ONBEFOREDEACTIVATE;
 
         //    DISPIDs for event set HTMLWindowEvents2
-
         public const int DISPID_HTMLWINDOWEVENTS2_ONLOAD = DISPID_EVMETH_ONLOAD;
         public const int DISPID_HTMLWINDOWEVENTS2_ONUNLOAD = DISPID_EVMETH_ONUNLOAD;
         public const int DISPID_HTMLWINDOWEVENTS2_ONHELP = DISPID_EVMETH_ONHELP;
@@ -722,7 +711,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_HTMLWINDOWEVENTS2_ONAFTERPRINT = DISPID_EVMETH_ONAFTERPRINT;
 
         //    DISPIDs for interface IHTMLDOMNode
-
         public const int DISPID_IHTMLDOMNODE_NODETYPE = DISPID_ELEMENT + 46;
         public const int DISPID_IHTMLDOMNODE_PARENTNODE = DISPID_ELEMENT + 47;
         public const int DISPID_IHTMLDOMNODE_HASCHILDNODES = DISPID_ELEMENT + 48;
@@ -749,26 +737,23 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_VALUE = 0;
 
         /* The following DISPID is reserved to indicate the param
-         * that is the right-hand-side (or "put" value) of a PropertyPut
-         */
+        * that is the right-hand-side (or "put" value) of a PropertyPut
+        */
         public const int DISPID_PROPERTYPUT = -3;
 
         /* DISPID reserved for the standard "NewEnum" method */
         public const int DISPID_NEWENUM = -4;
 
         //    DISPIDs for interface IHTMLDOMChildrenCollection
-
         public const int DISPID_IHTMLDOMCHILDRENCOLLECTION_LENGTH = DISPID_COLLECTION;
-        public const int DISPID_IHTMLDOMCHILDRENCOLLECTION__NEWENUM = DISPID_NEWENUM;
+        public const int DISPID_IHTMLDOMCHILDRENCOLLECTION_NEWENUM = DISPID_NEWENUM;
         public const int DISPID_IHTMLDOMCHILDRENCOLLECTION_ITEM = DISPID_VALUE;
 
         //    DISPIDs for interface IHTMLFramesCollection2
-
         public const int DISPID_IHTMLFRAMESCOLLECTION2_ITEM = 0;
         public const int DISPID_IHTMLFRAMESCOLLECTION2_LENGTH = 1001;
 
         //    DISPIDs for interface IHTMLWindow2
-
         public const int DISPID_IHTMLWINDOW2_FRAMES = 1100;
         public const int DISPID_IHTMLWINDOW2_DEFAULTSTATUS = 1101;
         public const int DISPID_IHTMLWINDOW2_STATUS = 1102;
@@ -801,7 +786,7 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLWINDOW2_ONSCROLL = DISPID_EVPROP_ONSCROLL;
         public const int DISPID_IHTMLWINDOW2_DOCUMENT = 1151;
         public const int DISPID_IHTMLWINDOW2_EVENT = 1152;
-        public const int DISPID_IHTMLWINDOW2__NEWENUM = 1153;
+        public const int DISPID_IHTMLWINDOW2_NEWENUM = 1153;
         public const int DISPID_IHTMLWINDOW2_SHOWMODALDIALOG = 1154;
         public const int DISPID_IHTMLWINDOW2_SHOWHELP = 1155;
         public const int DISPID_IHTMLWINDOW2_SCREEN = 1156;
@@ -853,7 +838,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLANCHORELEMENT_BLUR = DISPID_SITE + 2;
 
         //    DISPIDs for interface IHTMLImgElement
-
         public const int DISPID_IMGBASE = DISPID_NORMAL_FIRST;
         public const int DISPID_IMG = (DISPID_IMGBASE + 1000);
         public const int DISPID_INPUTIMAGE = (DISPID_IMGBASE + 1000);
@@ -862,7 +846,7 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_INPUTTEXT = (DISPID_INPUTTEXTBASE + 1000);
         public const int DISPID_SELECT = DISPID_NORMAL_FIRST;
 
-        public const int DISPID_A_READYSTATE = (DISPID_A_FIRST + 116); // ready state
+        public const int DISPID_A_READYSTATE = (DISPID_A_FIRST + 116);// ready state
         public const int STDPROPID_XOBJ_CONTROLALIGN = (DISPID_XOBJ_BASE + 0x49);
         public const int STDPROPID_XOBJ_NAME = (DISPID_XOBJ_BASE + 0x0);
         public const int STDPROPID_XOBJ_WIDTH = (DISPID_XOBJ_BASE + 0x5);
@@ -932,7 +916,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLTXTRANGE_EXECCOMMANDSHOWHELP = DISPID_RANGE + 34;
 
         //    DISPIDs for interface IHTMLDOMAttribute
-
         public const int DISPID_DOMATTRIBUTE = DISPID_NORMAL_FIRST;
 
         public const int DISPID_IHTMLDOMATTRIBUTE_NODENAME = DISPID_DOMATTRIBUTE;
@@ -940,21 +923,18 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLDOMATTRIBUTE_SPECIFIED = DISPID_DOMATTRIBUTE + 1;
 
         //    DISPIDs for interface IHTMLAttributeCollection
-
         public const int DISPID_IHTMLATTRIBUTECOLLECTION_LENGTH = DISPID_COLLECTION;
-        public const int DISPID_IHTMLATTRIBUTECOLLECTION__NEWENUM = DISPID_NEWENUM;
+        public const int DISPID_IHTMLATTRIBUTECOLLECTION_NEWENUM = DISPID_NEWENUM;
         public const int DISPID_IHTMLATTRIBUTECOLLECTION_ITEM = DISPID_VALUE;
 
         //    DISPIDs for interface IHTMLStyleSheetsCollection
-
         public const int DISPID_STYLESHEETS_COL = DISPID_NORMAL_FIRST;
 
         public const int DISPID_IHTMLSTYLESHEETSCOLLECTION_LENGTH = DISPID_STYLESHEETS_COL + 1;
-        public const int DISPID_IHTMLSTYLESHEETSCOLLECTION__NEWENUM = DISPID_NEWENUM;
+        public const int DISPID_IHTMLSTYLESHEETSCOLLECTION_NEWENUM = DISPID_NEWENUM;
         public const int DISPID_IHTMLSTYLESHEETSCOLLECTION_ITEM = DISPID_VALUE;
 
         //    DISPIDs for interface IHTMLSelectionObject
-
         public const int DISPID_SELECTOBJ = DISPID_NORMAL_FIRST;
 
         public const int DISPID_IHTMLSELECTIONOBJECT_CREATERANGE = DISPID_SELECTOBJ + 1;
@@ -1052,7 +1032,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLSCRIPTELEMENT_ONERROR = DISPID_EVPROP_ONERROR;
         public const int DISPID_IHTMLSCRIPTELEMENT_TYPE = DISPID_SCRIPT + 9;
 
-        private const int DISPID_COMMENTPDL = DISPID_NORMAL_FIRST;
         //    DISPIDs for interface IHTMLCommentElement
         public const int DISPID_IHTMLCOMMENTELEMENT_TEXT = DISPID_COMMENTPDL + 1;
         public const int DISPID_IHTMLCOMMENTELEMENT_ATOMIC = DISPID_COMMENTPDL + 2;
@@ -1190,7 +1169,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLTABLECELL2_SCOPE = DISPID_TABLECELL + 9;
 
         //    DISPIDs for event set HTMLElementEvents2
-
         public const int DISPID_HTMLELEMENTEVENTS2_ONHELP = DISPID_EVMETH_ONHELP;
         public const int DISPID_HTMLELEMENTEVENTS2_ONCLICK = DISPID_EVMETH_ONCLICK;
         public const int DISPID_HTMLELEMENTEVENTS2_ONDBLCLICK = DISPID_EVMETH_ONDBLCLICK;
@@ -1261,9 +1239,7 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLHRELEMENT_WIDTH = STDPROPID_XOBJ_WIDTH;
         public const int DISPID_IHTMLHRELEMENT_SIZE = STDPROPID_XOBJ_HEIGHT;
 
-
         //    DISPIDs for interface IHTMLInputElement
-
         public const int DISPID_IHTMLINPUTELEMENT_TYPE = DISPID_INPUT;
         public const int DISPID_IHTMLINPUTELEMENT_VALUE = DISPID_A_VALUE;
         public const int DISPID_IHTMLINPUTELEMENT_NAME = STDPROPID_XOBJ_NAME;
@@ -1301,7 +1277,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLINPUTELEMENT_START = DISPID_INPUT + 20;
 
         //    DISPIDs for interface IHTMLSelectElement
-
         public const int DISPID_IHTMLSELECTELEMENT_SIZE = DISPID_SELECT + 2;
         public const int DISPID_IHTMLSELECTELEMENT_MULTIPLE = DISPID_SELECT + 3;
         public const int DISPID_IHTMLSELECTELEMENT_NAME = STDPROPID_XOBJ_NAME;
@@ -1315,7 +1290,7 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLSELECTELEMENT_ADD = DISPID_COLLECTION + 3;
         public const int DISPID_IHTMLSELECTELEMENT_REMOVE = DISPID_COLLECTION + 4;
         public const int DISPID_IHTMLSELECTELEMENT_LENGTH = DISPID_COLLECTION;
-        public const int DISPID_IHTMLSELECTELEMENT__NEWENUM = DISPID_NEWENUM;
+        public const int DISPID_IHTMLSELECTELEMENT_NEWENUM = DISPID_NEWENUM;
         public const int DISPID_IHTMLSELECTELEMENT_ITEM = DISPID_VALUE;
         public const int DISPID_IHTMLSELECTELEMENT_TAGS = DISPID_COLLECTION + 2;
 
@@ -1341,7 +1316,6 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLTEXTAREAELEMENT_CREATETEXTRANGE = DISPID_RICHTEXT + 6;
 
         //    DISPIDs for interface IHTMLFormElement
-
         public const int DISPID_FORM = DISPID_NORMAL_FIRST;
         public const int DISPID_IHTMLFORMELEMENT_ACTION = DISPID_FORM + 1;
         public const int DISPID_IHTMLFORMELEMENT_DIR = DISPID_A_DIR;
@@ -1355,7 +1329,7 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLFORMELEMENT_SUBMIT = DISPID_FORM + 9;
         public const int DISPID_IHTMLFORMELEMENT_RESET = DISPID_FORM + 10;
         public const int DISPID_IHTMLFORMELEMENT_LENGTH = DISPID_COLLECTION;
-        public const int DISPID_IHTMLFORMELEMENT__NEWENUM = DISPID_NEWENUM;
+        public const int DISPID_IHTMLFORMELEMENT_NEWENUM = DISPID_NEWENUM;
         public const int DISPID_IHTMLFORMELEMENT_ITEM = DISPID_VALUE;
         public const int DISPID_IHTMLFORMELEMENT_TAGS = DISPID_COLLECTION + 2;
 
@@ -1555,7 +1529,7 @@ namespace Samba.Presentation.Controls.Browser
 
         //    DISPIDs for interface IHTMLAreasCollection
         public const int DISPID_IHTMLAREASCOLLECTION_LENGTH = DISPID_COLLECTION;
-        public const int DISPID_IHTMLAREASCOLLECTION__NEWENUM = DISPID_NEWENUM;
+        public const int DISPID_IHTMLAREASCOLLECTION_NEWENUM = DISPID_NEWENUM;
         public const int DISPID_IHTMLAREASCOLLECTION_ITEM = DISPID_VALUE;
         public const int DISPID_IHTMLAREASCOLLECTION_TAGS = DISPID_COLLECTION + 2;
         public const int DISPID_IHTMLAREASCOLLECTION_ADD = DISPID_COLLECTION + 3;
@@ -1641,7 +1615,7 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_A_SCROLL = (DISPID_A_FIRST + 79);
         public const int DISPID_A_CURSOR = (DISPID_A_FIRST + 102);
         public const int DISPID_A_BORDERCOLLAPSE = (DISPID_A_FIRST + 84);
-        public const int DISPID_A_BEHAVIOR = (DISPID_A_FIRST + 115); // xtags
+        public const int DISPID_A_BEHAVIOR = (DISPID_A_FIRST + 115);// xtags
         public const int STDPROPID_XOBJ_RIGHT = (DISPID_XOBJ_BASE + 0x4D);
         public const int STDPROPID_XOBJ_BOTTOM = (DISPID_XOBJ_BASE + 0x4E);
         public const int DISPID_A_IMEMODE = (DISPID_A_FIRST + 120);
@@ -1927,250 +1901,452 @@ namespace Samba.Presentation.Controls.Browser
         public const int DISPID_IHTMLPOPUP_DOCUMENT = DISPID_HTMLPOPUP + 3;
         public const int DISPID_IHTMLPOPUP_ISOPEN = DISPID_HTMLPOPUP + 4;
 
-
+        private const int DISPID_COMMENTPDL = DISPID_NORMAL_FIRST;
     }
-    class UnsafeNativeMethods
+
+    class DWebBrowserEvents2
     {
-
-
-        private UnsafeNativeMethods()
+        private DWebBrowserEvents2()
         {
         }
 
         [ComImport, TypeLibType((short)0x1010), InterfaceType((short)2), Guid("34A715A0-6587-11D0-924A-0020AFC7AC4D")]
-        public interface DWebBrowserEvents2
+        public interface IDWebBrowserEvents2
         {
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x66)]
-            void StatusTextChange([In, MarshalAs(UnmanagedType.BStr)] string Text);
+            void StatusTextChange([In, MarshalAs(UnmanagedType.BStr)]
+                                  string Text);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x6c)]
-            void ProgressChange([In] int Progress, [In] int ProgressMax);
+            void ProgressChange([In]
+                                int Progress, [In]
+                                int ProgressMax);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x69)]
-            void CommandStateChange([In] int Command, [In] bool Enable);
+            void CommandStateChange([In]
+                                    int Command, [In]
+                                    bool Enable);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x6a)]
             void DownloadBegin();
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x68)]
             void DownloadComplete();
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x71)]
-            void TitleChange([In, MarshalAs(UnmanagedType.BStr)] string Text);
+            void TitleChange([In, MarshalAs(UnmanagedType.BStr)]
+                             string Text);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x70)]
-            void PropertyChange([In, MarshalAs(UnmanagedType.BStr)] string szProperty);
+            void PropertyChange([In, MarshalAs(UnmanagedType.BStr)]
+                                string szProperty);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(250)]
-            void BeforeNavigate2([In, MarshalAs(UnmanagedType.IDispatch)] object pDisp, [In, MarshalAs(UnmanagedType.Struct)] ref object URL, [In, MarshalAs(UnmanagedType.Struct)] ref object Flags, [In, MarshalAs(UnmanagedType.Struct)] ref object TargetFrameName, [In, MarshalAs(UnmanagedType.Struct)] ref object PostData, [In, MarshalAs(UnmanagedType.Struct)] ref object Headers, [In, Out] ref bool Cancel);
+            void BeforeNavigate2([In, MarshalAs(UnmanagedType.IDispatch)]
+                                 object pDisp, [In, MarshalAs(UnmanagedType.Struct)]
+                                 ref object URL, [In, MarshalAs(UnmanagedType.Struct)]
+                                 ref object Flags, [In, MarshalAs(UnmanagedType.Struct)]
+                                 ref object TargetFrameName, [In, MarshalAs(UnmanagedType.Struct)]
+                                 ref object PostData, [In, MarshalAs(UnmanagedType.Struct)]
+                                 ref object Headers, [In, Out]
+                                 ref bool Cancel);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xfb)]
-            void NewWindow2([In, Out, MarshalAs(UnmanagedType.IDispatch)] ref object ppDisp, [In, Out] ref bool Cancel);
+            void NewWindow2([In, Out, MarshalAs(UnmanagedType.IDispatch)]
+                            ref object ppDisp, [In, Out]
+                            ref bool Cancel);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xfc)]
-            void NavigateComplete2([In, MarshalAs(UnmanagedType.IDispatch)] object pDisp, [In, MarshalAs(UnmanagedType.Struct)] ref object URL);
+            void NavigateComplete2([In, MarshalAs(UnmanagedType.IDispatch)]
+                                   object pDisp, [In, MarshalAs(UnmanagedType.Struct)]
+                                   ref object URL);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x103)]
-            void DocumentComplete([In, MarshalAs(UnmanagedType.IDispatch)] object pDisp, [In, MarshalAs(UnmanagedType.Struct)] ref object URL);
+            void DocumentComplete([In, MarshalAs(UnmanagedType.IDispatch)]
+                                  object pDisp, [In, MarshalAs(UnmanagedType.Struct)]
+                                  ref object URL);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xfd)]
             void OnQuit();
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xfe)]
-            void OnVisible([In] bool Visible);
+            void OnVisible([In]
+                           bool Visible);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xff)]
-            void OnToolBar([In] bool ToolBar);
+            void OnToolBar([In]
+                           bool ToolBar);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x100)]
-            void OnMenuBar([In] bool MenuBar);
+            void OnMenuBar([In]
+                           bool MenuBar);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x101)]
-            void OnStatusBar([In] bool StatusBar);
+            void OnStatusBar([In]
+                             bool StatusBar);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x102)]
-            void OnFullScreen([In] bool FullScreen);
+            void OnFullScreen([In]
+                              bool FullScreen);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(260)]
-            void OnTheaterMode([In] bool TheaterMode);
+            void OnTheaterMode([In]
+                               bool TheaterMode);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x106)]
-            void WindowSetResizable([In] bool Resizable);
+            void WindowSetResizable([In]
+                                    bool Resizable);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x108)]
-            void WindowSetLeft([In] int Left);
+            void WindowSetLeft([In]
+                               int Left);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x109)]
-            void WindowSetTop([In] int Top);
+            void WindowSetTop([In]
+                              int Top);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x10a)]
-            void WindowSetWidth([In] int Width);
+            void WindowSetWidth([In]
+                                int Width);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x10b)]
-            void WindowSetHeight([In] int Height);
+            void WindowSetHeight([In]
+                                 int Height);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x107)]
-            void WindowClosing([In] bool IsChildWindow, [In, Out] ref bool Cancel);
+            void WindowClosing([In]
+                               bool IsChildWindow, [In, Out]
+                               ref bool Cancel);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x10c)]
-            void ClientToHostWindow([In, Out] ref int CX, [In, Out] ref int CY);
+            void ClientToHostWindow([In, Out]
+                                    ref int CX, [In, Out]
+                                    ref int CY);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x10d)]
-            void SetSecureLockIcon([In] int SecureLockIcon);
+            void SetSecureLockIcon([In]
+                                   int SecureLockIcon);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(270)]
-            void FileDownload([In, Out] ref bool Cancel);
+            void FileDownload([In, Out]
+                              ref bool Cancel);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x10f)]
-            void NavigateError([In, MarshalAs(UnmanagedType.IDispatch)] object pDisp, [In, MarshalAs(UnmanagedType.Struct)] ref object URL, [In, MarshalAs(UnmanagedType.Struct)] ref object Frame, [In, MarshalAs(UnmanagedType.Struct)] ref object StatusCode, [In, Out] ref bool Cancel);
+            void NavigateError([In, MarshalAs(UnmanagedType.IDispatch)]
+                               object pDisp, [In, MarshalAs(UnmanagedType.Struct)]
+                               ref object URL, [In, MarshalAs(UnmanagedType.Struct)]
+                               ref object Frame, [In, MarshalAs(UnmanagedType.Struct)]
+                               ref object StatusCode, [In, Out]
+                               ref bool Cancel);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xe1)]
-            void PrintTemplateInstantiation([In, MarshalAs(UnmanagedType.IDispatch)] object pDisp);
+            void PrintTemplateInstantiation([In, MarshalAs(UnmanagedType.IDispatch)]
+                                            object pDisp);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xe2)]
-            void PrintTemplateTeardown([In, MarshalAs(UnmanagedType.IDispatch)] object pDisp);
+            void PrintTemplateTeardown([In, MarshalAs(UnmanagedType.IDispatch)]
+                                       object pDisp);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0xe3)]
-            void UpdatePageStatus([In, MarshalAs(UnmanagedType.IDispatch)] object pDisp, [In, MarshalAs(UnmanagedType.Struct)] ref object nPage, [In, MarshalAs(UnmanagedType.Struct)] ref object fDone);
+            void UpdatePageStatus([In, MarshalAs(UnmanagedType.IDispatch)]
+                                  object pDisp, [In, MarshalAs(UnmanagedType.Struct)]
+                                  ref object nPage, [In, MarshalAs(UnmanagedType.Struct)]
+                                  ref object fDone);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x110)]
-            void PrivacyImpactedStateChange([In] bool bImpacted);
+            void PrivacyImpactedStateChange([In]
+                                            bool bImpacted);
+
             [PreserveSig, MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), DispId(0x111)]
-            void NewWindow3([In, Out, MarshalAs(UnmanagedType.IDispatch)] ref object ppDisp, [In, Out] ref bool Cancel, [In] uint dwFlags, [In, MarshalAs(UnmanagedType.BStr)] string bstrUrlContext, [In, MarshalAs(UnmanagedType.BStr)] string bstrUrl);
+            void NewWindow3([In, Out, MarshalAs(UnmanagedType.IDispatch)]
+                            ref object ppDisp, [In, Out]
+                            ref bool Cancel, [In]
+                            uint dwFlags, [In, MarshalAs(UnmanagedType.BStr)]
+                            string bstrUrlContext, [In, MarshalAs(UnmanagedType.BStr)]
+                            string bstrUrl);
         }
 
         [ComImport, SuppressUnmanagedCodeSecurity, TypeLibType(TypeLibTypeFlags.FOleAutomation | (TypeLibTypeFlags.FDual | TypeLibTypeFlags.FHidden)), Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E")]
         public interface IWebBrowser2
         {
-            [DispId(100)]
-            void GoBack();
-            [DispId(0x65)]
-            void GoForward();
-            [DispId(0x66)]
-            void GoHome();
-            [DispId(0x67)]
-            void GoSearch();
-            [DispId(0x68)]
-            void Navigate([In] string Url, [In] ref object flags, [In] ref object targetFrameName, [In] ref object postData, [In] ref object headers);
-            [DispId(-550)]
-            void Refresh();
-            [DispId(0x69)]
-            void Refresh2([In] ref object level);
-            [DispId(0x6a)]
-            void Stop();
             [DispId(200)]
-            object Application { [return: MarshalAs(UnmanagedType.IDispatch)] get; }
+            object Application { [return: MarshalAs(UnmanagedType.IDispatch)]
+       get; }
+
             [DispId(0xc9)]
-            object Parent { [return: MarshalAs(UnmanagedType.IDispatch)] get; }
+            object Parent { [return: MarshalAs(UnmanagedType.IDispatch)]
+       get; }
+
             [DispId(0xca)]
-            object Container { [return: MarshalAs(UnmanagedType.IDispatch)] get; }
+            object Container { [return: MarshalAs(UnmanagedType.IDispatch)]
+       get; }
+
             [DispId(0xcb)]
-            object Document { [return: MarshalAs(UnmanagedType.IDispatch)] get; }
+            object Document { [return: MarshalAs(UnmanagedType.IDispatch)]
+       get; }
+
             [DispId(0xcc)]
             bool TopLevelContainer { get; }
+
             [DispId(0xcd)]
             string Type { get; }
+
             [DispId(0xce)]
             int Left { get; set; }
+
             [DispId(0xcf)]
             int Top { get; set; }
+
             [DispId(0xd0)]
             int Width { get; set; }
+
             [DispId(0xd1)]
             int Height { get; set; }
+
             [DispId(210)]
             string LocationName { get; }
+
             [DispId(0xd3)]
-            string LocationURL { get; }
+            string LocationUrl { get; }
+
             [DispId(0xd4)]
             bool Busy { get; }
-            [DispId(300)]
-            void Quit();
-            [DispId(0x12d)]
-            void ClientToWindow(out int pcx, out int pcy);
-            [DispId(0x12e)]
-            void PutProperty([In] string property, [In] object vtValue);
-            [DispId(0x12f)]
-            object GetProperty([In] string property);
+
             [DispId(0)]
             string Name { get; }
+
             [DispId(-515)]
             int HWND { get; }
+
             [DispId(400)]
             string FullName { get; }
+
             [DispId(0x191)]
             string Path { get; }
+
             [DispId(0x192)]
             bool Visible { get; set; }
+
             [DispId(0x193)]
             bool StatusBar { get; set; }
+
             [DispId(0x194)]
             string StatusText { get; set; }
+
             [DispId(0x195)]
             int ToolBar { get; set; }
+
             [DispId(0x196)]
             bool MenuBar { get; set; }
+
             [DispId(0x197)]
             bool FullScreen { get; set; }
-            [DispId(500)]
-            void Navigate2([In] ref object URL, [In] ref object flags, [In] ref object targetFrameName, [In] ref object postData, [In] ref object headers);
-            [DispId(0x1f5)]
-            NativeMethods.OLECMDF QueryStatusWB([In] NativeMethods.OLECMDID cmdID);
-            [DispId(0x1f6)]
-            void ExecWB([In] NativeMethods.OLECMDID cmdID, [In] NativeMethods.OLECMDEXECOPT cmdexecopt, ref object pvaIn, IntPtr pvaOut);
-            [DispId(0x1f7)]
-            void ShowBrowserBar([In] ref object pvaClsid, [In] ref object pvarShow, [In] ref object pvarSize);
+
             [DispId(-525)]
             WebBrowserReadyState ReadyState { get; }
+
             [DispId(550)]
             bool Offline { get; set; }
+
             [DispId(0x227)]
             bool Silent { get; set; }
+
             [DispId(0x228)]
             bool RegisterAsBrowser { get; set; }
+
             [DispId(0x229)]
             bool RegisterAsDropTarget { get; set; }
+
             [DispId(0x22a)]
             bool TheaterMode { get; set; }
+
             [DispId(0x22b)]
             bool AddressBar { get; set; }
+
             [DispId(0x22c)]
             bool Resizable { get; set; }
+
+            [DispId(100)]
+            void GoBack();
+
+            [DispId(0x65)]
+            void GoForward();
+
+            [DispId(0x66)]
+            void GoHome();
+
+            [DispId(0x67)]
+            void GoSearch();
+
+            [DispId(0x68)]
+            void Navigate([In]
+                          string Url, [In]
+                          ref object flags, [In]
+                          ref object targetFrameName, [In]
+                          ref object postData, [In]
+                          ref object headers);
+
+            [DispId(-550)]
+            void Refresh();
+
+            [DispId(0x69)]
+            void Refresh2([In]
+                          ref object level);
+
+            [DispId(0x6a)]
+            void Stop();
+
+            [DispId(300)]
+            void Quit();
+
+            [DispId(0x12d)]
+            void ClientToWindow(out int pcx, out int pcy);
+
+            [DispId(0x12e)]
+            void PutProperty([In]
+                             string property, [In]
+                             object vtValue);
+
+            [DispId(0x12f)]
+            object GetProperty([In]
+                               string property);
+
+            [DispId(500)]
+            void Navigate2([In]
+                           ref object URL, [In]
+                           ref object flags, [In]
+                           ref object targetFrameName, [In]
+                           ref object postData, [In]
+                           ref object headers);
+
+            [DispId(0x1f5)]
+            NativeMethods.OLECMDF QueryStatusWB([In]
+                                                NativeMethods.OLECMDID cmdID);
+
+            [DispId(0x1f6)]
+            void ExecWB([In]
+                        NativeMethods.OLECMDID cmdID, [In]
+                        NativeMethods.OLECMDEXECOPT cmdexecopt, ref object pvaIn, IntPtr pvaOut);
+
+            [DispId(0x1f7)]
+            void ShowBrowserBar([In]
+                                ref object pvaClsid, [In]
+                                ref object pvarShow, [In]
+                                ref object pvarSize);
         }
 
         [ComVisible(true), ComImport()]
         [TypeLibType((short)4160)] //TypeLibTypeFlags.FDispatchable
         [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
         [Guid("3050f240-98b5-11cf-bb82-00aa00bdce0b")]
-        public interface IHTMLImgElement
+        public interface IHtmlImgElement
         {
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_ISMAP)]
-            bool isMap { set; [return: MarshalAs(UnmanagedType.VariantBool)] get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_USEMAP)]
-            string useMap { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_MIMETYPE)]
-            string mimeType { [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_FILESIZE)]
-            string fileSize { [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_FILECREATEDDATE)]
-            string fileCreatedDate { [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_FILEMODIFIEDDATE)]
-            string fileModifiedDate { [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_FILEUPDATEDDATE)]
-            string fileUpdatedDate { [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_PROTOCOL)]
-            string protocol { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_HREF)]
-            string href { [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_NAMEPROP)]
-            string nameProp { [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_BORDER)]
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_ISMAP)]
+            bool isMap { set; [return: MarshalAs(UnmanagedType.VariantBool)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_USEMAP)]
+            string useMap { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_MIMETYPE)]
+            string mimeType { [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_FILESIZE)]
+            string fileSize { [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_FILECREATEDDATE)]
+            string fileCreatedDate { [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_FILEMODIFIEDDATE)]
+            string fileModifiedDate { [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_FILEUPDATEDDATE)]
+            string fileUpdatedDate { [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_PROTOCOL)]
+            string protocol { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_HREF)]
+            string href { [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_NAMEPROP)]
+            string nameProp { [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_BORDER)]
             object border { set; get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_VSPACE)]
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_VSPACE)]
             int vspace { set; get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_HSPACE)]
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_HSPACE)]
             int hspace { set; get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_ALT)]
-            string alt { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_SRC)]
-            string src { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_LOWSRC)]
-            string lowsrc { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_VRML)]
-            string vrml { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_DYNSRC)]
-            string dynsrc { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_READYSTATE)]
-            string readyState { [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_COMPLETE)]
-            bool complete { [return: MarshalAs(UnmanagedType.VariantBool)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_LOOP)]
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_ALT)]
+            string alt { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_SRC)]
+            string src { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_LOWSRC)]
+            string lowsrc { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_VRML)]
+            string vrml { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_DYNSRC)]
+            string dynsrc { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_READYSTATE)]
+            string readyState { [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_COMPLETE)]
+            bool complete { [return: MarshalAs(UnmanagedType.VariantBool)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_LOOP)]
             object loop { set; get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_ALIGN)]
-            string align { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_ONLOAD)]
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_ALIGN)]
+            string align { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_ONLOAD)]
             object onload { set; get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_ONERROR)]
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_ONERROR)]
             object onerror { set; get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_ONABORT)]
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_ONABORT)]
             object onabort { set; get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_NAME)]
-            string name { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_WIDTH)]
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_NAME)]
+            string name { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_WIDTH)]
             int width { set; get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_HEIGHT)]
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_HEIGHT)]
             int height { set; get; }
-            [DispId(HTMLDispIDs.DISPID_IHTMLIMGELEMENT_START)]
-            string start { set; [return: MarshalAs(UnmanagedType.BStr)] get;}
+
+            [DispId(HtmlDispIDs.DISPID_IHTMLIMGELEMENT_START)]
+            string start { set; [return: MarshalAs(UnmanagedType.BStr)]
+       get; }
         }
     }
 }

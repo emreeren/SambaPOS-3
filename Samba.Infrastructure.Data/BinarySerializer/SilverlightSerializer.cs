@@ -604,7 +604,7 @@ namespace Samba.Infrastructure.Data.BinarySerializer
         /// </remarks>
         private static object OldDeserializeObject(BinaryReader reader, Type itemType = null, object instance = null)
         {
-            var tpId = (ushort)reader.ReadUInt16();
+            var tpId = reader.ReadUInt16();
             if (tpId == 0xFFFE)
                 return null;
 
@@ -2036,10 +2036,10 @@ namespace Samba.Infrastructure.Data.BinarySerializer
         private static object DecimalReader(BinaryReader reader)
         {
             var array = new int[4];
-            array[0] = (int)reader.ReadInt32();
-            array[1] = (int)reader.ReadInt32();
-            array[2] = (int)reader.ReadInt32();
-            array[3] = (int)reader.ReadInt32();
+            array[0] = reader.ReadInt32();
+            array[1] = reader.ReadInt32();
+            array[2] = reader.ReadInt32();
+            array[3] = reader.ReadInt32();
 
             return new Decimal(array);
         }
@@ -2133,7 +2133,7 @@ namespace Samba.Infrastructure.Data.BinarySerializer
         private static void ByteArrayWriter(BinaryWriter writer, object value)
         {
             var array = value as byte[];
-            writer.Write((int)array.Length);
+            writer.Write(array.Length);
             writer.Write(array);
         }
 

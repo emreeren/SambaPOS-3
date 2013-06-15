@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
@@ -17,99 +16,186 @@ namespace Samba.Persistance.Data
 {
     public class DataContext : CommonDbContext
     {
-        public DataContext(bool disableProxy)
-            : base(LocalSettings.AppName)
+        public DataContext(bool disableProxy) : base(LocalSettings.AppName)
         {
             if (disableProxy)
+            {
                 ObjContext().ContextOptions.ProxyCreationEnabled = false;
+        }
         }
 
         public DbSet<MenuItem> MenuItems { get; set; }
+
         public DbSet<MenuItemPortion> MenuItemPortions { get; set; }
+
         public DbSet<ScreenMenuCategory> ScreenMenuCategories { get; set; }
+
         public DbSet<ScreenMenuItem> ScreenMenuItems { get; set; }
+
         public DbSet<TicketType> TicketTypes { get; set; }
+
         public DbSet<Department> Departments { get; set; }
+
         public DbSet<User> Users { get; set; }
+
         public DbSet<UserRole> UserRoles { get; set; }
+
         public DbSet<Terminal> Terminals { get; set; }
+
         public DbSet<Printer> Printers { get; set; }
+
         public DbSet<PrintJob> PrintJobs { get; set; }
+
         public DbSet<ProgramSettingValue> ProgramSettings { get; set; }
+
         public DbSet<PrinterMap> PrinterMaps { get; set; }
+
         public DbSet<PrinterTemplate> PrinterTemplates { get; set; }
+
         public DbSet<Numerator> Numerators { get; set; }
+
         public DbSet<WorkPeriod> WorkPeriods { get; set; }
+
         public DbSet<PaidItem> PaidItems { get; set; }
+
         public DbSet<Ticket> Tickets { get; set; }
+
         public DbSet<TicketEntity> TicketEntities { get; set; }
+
         public DbSet<Order> Orders { get; set; }
+
         public DbSet<OrderTag> OrderTags { get; set; }
+
         public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
+
         public DbSet<OrderTagMap> OrderTagMaps { get; set; }
+
         public DbSet<OrderTagTemplate> OrderTagTemplates { get; set; }
+
         public DbSet<OrderTagTemplateValue> OrderTagTemplateValues { get; set; }
+
         public DbSet<ProductTimer> Productimers { get; set; }
+
         public DbSet<ProdcutTimerMap> ProductTimerMaps { get; set; }
+
         public DbSet<ProductTimerValue> ProductTimerValues { get; set; }
+
         public DbSet<ScreenMenu> ScreenMenus { get; set; }
+
         public DbSet<Permission> Permissions { get; set; }
+
         public DbSet<WarehouseType> WarehouseTypes { get; set; }
+
         public DbSet<Warehouse> Warehouses { get; set; }
+
         public DbSet<InventoryItem> InventoryItems { get; set; }
+
         public DbSet<Recipe> Recipes { get; set; }
+
         public DbSet<RecipeItem> RecipeItems { get; set; }
+
         public DbSet<InventoryTransactionType> InventoryTransactionTypes { get; set; }
+
         public DbSet<InventoryTransactionDocumentType> InventoryTransactionDocumentTypes { get; set; }
+
         public DbSet<InventoryTransactionDocument> InventoryTransactionsDocuments { get; set; }
+
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+
         public DbSet<PeriodicConsumption> PeriodicConsumptions { get; set; }
+
         public DbSet<WarehouseConsumption> WarehouseConsumptions { get; set; }
+
         public DbSet<PeriodicConsumptionItem> PeriodicConsumptionItems { get; set; }
+
         public DbSet<CostItem> CostItems { get; set; }
+
         public DbSet<TicketTag> TicketTags { get; set; }
+
         public DbSet<TicketTagGroup> TicketTagGroups { get; set; }
+
         public DbSet<TicketTagMap> TicketTagMaps { get; set; }
+
         public DbSet<AppAction> RuleActions { get; set; }
+
         public DbSet<ActionContainer> ActionContainers { get; set; }
+
         public DbSet<AppRule> Rules { get; set; }
+
         public DbSet<Trigger> Triggers { get; set; }
+
         public DbSet<AutomationCommand> AutomationCommands { get; set; }
+
         public DbSet<AutomationCommandMap> AutomationCommandMaps { get; set; }
+
         public DbSet<MenuItemPriceDefinition> MenuItemPriceDefinitions { get; set; }
+
         public DbSet<MenuItemPrice> MenuItemPrices { get; set; }
+
         public DbSet<TaxTemplate> TaxTemplates { get; set; }
+
         public DbSet<CalculationType> CalculationTypes { get; set; }
+
         public DbSet<CalculationSelector> CalculationSelectors { get; set; }
+
         public DbSet<CalculationSelectorMap> CalculationTypeMaps { get; set; }
+
         public DbSet<Calculation> Calculations { get; set; }
+
         public DbSet<ForeignCurrency> ForeignCurrencies { get; set; }
+
         public DbSet<PaymentType> PaymentTypes { get; set; }
+
         public DbSet<PaymentTypeMap> PaymentTypeMaps { get; set; }
+
         public DbSet<Payment> Payments { get; set; }
+
         public DbSet<ChangePayment> ChangePayments { get; set; }
+
         public DbSet<ChangePaymentType> ChangePaymentTypes { get; set; }
+
         public DbSet<ChangePaymentTypeMap> ChangePaymentTypeMaps { get; set; }
+
         public DbSet<Account> Accounts { get; set; }
+
         public DbSet<AccountType> AccountTypes { get; set; }
+
         public DbSet<AccountScreen> AccountScreens { get; set; }
+
         public DbSet<AccountTransaction> AccountTransactions { get; set; }
+
         public DbSet<AccountTransactionValue> AccountTransactionValues { get; set; }
+
         public DbSet<AccountTransactionType> AccountTransactionTypes { get; set; }
+
         public DbSet<AccountTransactionDocumentTypeMap> AccountTransactionDocumentTypeMaps { get; set; }
+
         public DbSet<AccountTransactionDocument> AccountTransactionDocuments { get; set; }
+
         public DbSet<AccountTransactionDocumentType> AccountTransactionDocumentTypes { get; set; }
+
         public DbSet<Entity> Entities { get; set; }
+
         public DbSet<EntityType> EntityTypes { get; set; }
+
         public DbSet<EntityCustomField> EntityCustomFields { get; set; }
+
         public DbSet<EntityScreenItem> EntityScreenItems { get; set; }
+
         public DbSet<EntityScreen> EntityScreens { get; set; }
+
         public DbSet<Widget> Widgets { get; set; }
+
         public DbSet<State> States { get; set; }
+
         public DbSet<EntityStateValue> EntityStateValues { get; set; }
+
         public DbSet<Script> Scripts { get; set; }
+
         public DbSet<TaskType> TaskTypes { get; set; }
+
         public DbSet<Task> Tasks { get; set; }
+
         public DbSet<TaskToken> TaskResources { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

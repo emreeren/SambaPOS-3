@@ -17,7 +17,7 @@ namespace Samba.Presentation.Controls.Browser
 	/// <summary>
 	/// Win32 api functions and definitions we use.
 	/// </summary>
-	public sealed class Win32API
+	public sealed class Win32Api
 	{
 		/// <summary>
 		/// From winerror.h.
@@ -75,7 +75,7 @@ namespace Samba.Presentation.Controls.Browser
 		/// </summary>
 		/// <param name="ft"></param>
 		/// <returns></returns>
-		public static DateTime FromFileTime( Win32API.FILETIME ft )
+		public static DateTime FromFileTime( Win32Api.FILETIME ft )
 		{
 			if( ft.dwHighDateTime == Int32.MaxValue || (ft.dwLowDateTime == 0 && ft.dwHighDateTime == 0) )
 			{
@@ -85,13 +85,13 @@ namespace Samba.Presentation.Controls.Browser
 				return DateTime.MinValue;
 			}
 
-            Win32API.SYSTEMTIME syst = new Win32API.SYSTEMTIME();
-            Win32API.SYSTEMTIME systLocal = new Win32API.SYSTEMTIME();
-			if( 0 == Win32API.FileTimeToSystemTime( ref ft, ref syst ) )
+            Win32Api.SYSTEMTIME syst = new Win32Api.SYSTEMTIME();
+            Win32Api.SYSTEMTIME systLocal = new Win32Api.SYSTEMTIME();
+			if( 0 == Win32Api.FileTimeToSystemTime( ref ft, ref syst ) )
 			{
 				throw new ApplicationException( "Error calling FileTimeToSystemTime: " + Marshal.GetLastWin32Error() );
 			}
-			if( 0 == Win32API.SystemTimeToTzSpecificLocalTime( IntPtr.Zero, ref syst, out systLocal ) )
+			if( 0 == Win32Api.SystemTimeToTzSpecificLocalTime( IntPtr.Zero, ref syst, out systLocal ) )
 			{
 				throw new ApplicationException( "Error calling SystemTimeToTzSpecificLocalTime: " + Marshal.GetLastWin32Error() );
 			}
@@ -104,7 +104,7 @@ namespace Samba.Presentation.Controls.Browser
 		/// </summary>
 		/// <param name="ft"></param>
 		/// <returns></returns>
-		public static string ToStringFromFileTime( Win32API.FILETIME ft )
+		public static string ToStringFromFileTime( Win32Api.FILETIME ft )
 		{
 			DateTime dt = FromFileTime( ft );
 			if( dt == DateTime.MinValue )
@@ -118,7 +118,7 @@ namespace Samba.Presentation.Controls.Browser
 		/// <summary>
 		/// Static class -- can't create.
 		/// </summary>
-		private Win32API()
+		private Win32Api()
 		{
 		}
 	}

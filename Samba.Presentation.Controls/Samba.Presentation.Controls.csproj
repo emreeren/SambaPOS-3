@@ -71,9 +71,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Browser\NativeMethods.cs" />
-    <Compile Include="Browser\UnsafeNativeMethods.cs" />
+    <Compile Include="Browser\DWebBrowserEvents2.cs" />
     <Compile Include="Browser\UrlContext.cs" />
-    <Compile Include="Browser\Win32API.cs" />
+    <Compile Include="Browser\Win32Api.cs" />
     <Compile Include="Browser\WinInetAPI.cs" />
     <Compile Include="Converters\FontWeightConverter.cs" />
     <Compile Include="Converters\NullBrushConverter.cs" />

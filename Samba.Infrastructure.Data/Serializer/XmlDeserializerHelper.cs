@@ -383,7 +383,7 @@ namespace Samba.Infrastructure.Data.Serializer
             // Cached already?
             if (assemblycache.ContainsKey(assembly))
             {
-                return (Assembly)assemblycache[assembly];
+                return assemblycache[assembly];
             }
 
             // Shortnamed, version independent assembly name
@@ -395,7 +395,7 @@ namespace Samba.Infrastructure.Data.Serializer
             // Cached already?
             if (ass != null && assemblycache.ContainsKey(ass))
             {
-                return (Assembly)assemblycache[ass];
+                return assemblycache[ass];
             }
 
 
@@ -409,7 +409,7 @@ namespace Samba.Infrastructure.Data.Serializer
                     if (assemblycache.ContainsKey(assembly))
                     {
                         // Cached
-                        a = (Assembly)assemblycache[assembly];
+                        a = assemblycache[assembly];
                     }
                     else
                     {
@@ -429,7 +429,7 @@ namespace Samba.Infrastructure.Data.Serializer
                             if (assemblycache.ContainsKey(ass))
                             {
                                 // Cached
-                                a = (Assembly)assemblycache[ass];
+                                a = assemblycache[ass];
                             }
                             else
                             {
@@ -444,7 +444,7 @@ namespace Samba.Infrastructure.Data.Serializer
                             if (assemblycache.ContainsKey(assembly))
                             {
                                 // Cached
-                                a = (Assembly)assemblycache[assembly];
+                                a = assemblycache[assembly];
                             }
                             else
                             {
@@ -461,7 +461,7 @@ namespace Samba.Infrastructure.Data.Serializer
                         if (assemblycache.ContainsKey(assembly))
                         {
                             // Cached
-                            a = (Assembly)assemblycache[assembly];
+                            a = assemblycache[assembly];
                         }
                         else
                         {
@@ -609,7 +609,9 @@ namespace Samba.Infrastructure.Data.Serializer
                         return obj;
                     }
                 }
-                catch { ; }
+                catch
+                {
+                }
 
                 obj = Activator.CreateInstance(type);
 

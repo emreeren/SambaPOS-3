@@ -1,0 +1,1729 @@
+<?xml version="1.0" encoding="utf-8"?>
+<JustCodeSettings Version="0.0" Timestamp="9b969ee5-64ee-4323-8688-416682fdc98e">
+  <CSharpCodeStyleSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <General>
+      <AddDocumentation>false</AddDocumentation>
+      <AdjustNewlines>true</AdjustNewlines>
+      <AdjustSpaces>true</AdjustSpaces>
+      <ArrangeThisQualifier>Always</ArrangeThisQualifier>
+      <BlockUsage>
+        <DoStatements>Always</DoStatements>
+        <FixedStatements>Always</FixedStatements>
+        <ForEachStatements>Always</ForEachStatements>
+        <ForStatements>Always</ForStatements>
+        <IfStatements>Always</IfStatements>
+        <UsingStatements>Always</UsingStatements>
+        <WhileStatements>Always</WhileStatements>
+      </BlockUsage>
+      <UseImplicitlyTypedVariable>OnlyIfObvious</UseImplicitlyTypedVariable>
+    </General>
+    <Indentation>
+      <ArgumentIndent>true</ArgumentIndent>
+      <ArrayArgumentIndent>true</ArrayArgumentIndent>
+      <CaseIndent>true</CaseIndent>
+      <CaseLabelIndent>true</CaseLabelIndent>
+      <ConstructorInitializerIndent>true</ConstructorInitializerIndent>
+      <LabelLeftIndent>false</LabelLeftIndent>
+      <NestedUsingsIndent>true</NestedUsingsIndent>
+      <NextLineIndent>true</NextLineIndent>
+      <ParameterIndent>true</ParameterIndent>
+    </Indentation>
+    <SpacesSettings>
+      <AccessorSpaceAfterSemicolon>true</AccessorSpaceAfterSemicolon>
+      <AccessorSpaceBeforeOpenBrace>true</AccessorSpaceBeforeOpenBrace>
+      <AnonymousClassSpaceAfterComma>true</AnonymousClassSpaceAfterComma>
+      <AnonymousClassSpaceAfterOpenBrace>true</AnonymousClassSpaceAfterOpenBrace>
+      <AnonymousClassSpaceBeforeCloseBrace>true</AnonymousClassSpaceBeforeCloseBrace>
+      <AnonymousClassSpaceBeforeComma>false</AnonymousClassSpaceBeforeComma>
+      <AnonymousClassSpaceBeforeOpenBrace>true</AnonymousClassSpaceBeforeOpenBrace>
+      <AnonymousMethodSpaceAfterOpenBrace>true</AnonymousMethodSpaceAfterOpenBrace>
+      <AnonymousMethodSpaceBeforeCloseBrace>true</AnonymousMethodSpaceBeforeCloseBrace>
+      <AnonymousMethodSpaceBeforeOpenBrace>true</AnonymousMethodSpaceBeforeOpenBrace>
+      <ArrayCloseBracketSpaceBefore>false</ArrayCloseBracketSpaceBefore>
+      <ArrayCommaInIndexSpaceAfter>true</ArrayCommaInIndexSpaceAfter>
+      <ArrayCommaInIndexSpaceBefore>false</ArrayCommaInIndexSpaceBefore>
+      <ArrayInitializerSpaceAfterComma>true</ArrayInitializerSpaceAfterComma>
+      <ArrayInitializerSpaceAfterOpenBrace>true</ArrayInitializerSpaceAfterOpenBrace>
+      <ArrayInitializerSpaceBeforeCloseBrace>true</ArrayInitializerSpaceBeforeCloseBrace>
+      <ArrayInitializerSpaceBeforeComma>false</ArrayInitializerSpaceBeforeComma>
+      <ArrayInitializerSpaceBeforeOpenBrace>true</ArrayInitializerSpaceBeforeOpenBrace>
+      <ArrayOpenBracketSpaceAfter>false</ArrayOpenBracketSpaceAfter>
+      <ArrayOpenBracketSpaceBefore>false</ArrayOpenBracketSpaceBefore>
+      <AssignmentOperatorInNamespaceAliasSpaceAfter>true</AssignmentOperatorInNamespaceAliasSpaceAfter>
+      <AssignmentOperatorInNamespaceAliasSpaceBefore>true</AssignmentOperatorInNamespaceAliasSpaceBefore>
+      <AssignmentOperatorSpaceAfter>true</AssignmentOperatorSpaceAfter>
+      <AssignmentOperatorSpaceBefore>true</AssignmentOperatorSpaceBefore>
+      <BlockSpaceAfterCloseBrace>false</BlockSpaceAfterCloseBrace>
+      <BlockSpaceAfterOpenBrace>true</BlockSpaceAfterOpenBrace>
+      <BlockSpaceBeforeCloseBrace>true</BlockSpaceBeforeCloseBrace>
+      <BlockSpaceBeforeOpenBrace>true</BlockSpaceBeforeOpenBrace>
+      <CaseAndDefaultLabelSpaceBeforeOpenBrace>true</CaseAndDefaultLabelSpaceBeforeOpenBrace>
+      <CastExpressionSpaceAfterCloseParenthesis>false</CastExpressionSpaceAfterCloseParenthesis>
+      <CastExpressionSpaceAfterOpenParenthesis>false</CastExpressionSpaceAfterOpenParenthesis>
+      <CastExpressionSpaceBeforeCloseParenthesis>false</CastExpressionSpaceBeforeCloseParenthesis>
+      <CatchCloseParenthesisSpaceBefore>false</CatchCloseParenthesisSpaceBefore>
+      <CatchOpenParenthesisSpaceAfter>false</CatchOpenParenthesisSpaceAfter>
+      <ClassDeclarationColonSpaceAfter>true</ClassDeclarationColonSpaceAfter>
+      <ClassDeclarationColonSpaceBefore>true</ClassDeclarationColonSpaceBefore>
+      <ClassDeclarationCommaSpaceAfter>true</ClassDeclarationCommaSpaceAfter>
+      <ClassDeclarationCommaSpaceBefore>false</ClassDeclarationCommaSpaceBefore>
+      <ColonInTernaryOperatorSpaceAfter>true</ColonInTernaryOperatorSpaceAfter>
+      <ColonInTernaryOperatorSpaceBefore>true</ColonInTernaryOperatorSpaceBefore>
+      <ConstructorInitializerColonSpaceAfter>true</ConstructorInitializerColonSpaceAfter>
+      <ConstructorInitializerColonSpaceBefore>true</ConstructorInitializerColonSpaceBefore>
+      <DotSpaceAfter>false</DotSpaceAfter>
+      <DotSpaceBefore>false</DotSpaceBefore>
+      <ExplicitLambdaSpaceAfterOpenBrace>true</ExplicitLambdaSpaceAfterOpenBrace>
+      <ExplicitLambdaSpaceBeforeCloseBrace>true</ExplicitLambdaSpaceBeforeCloseBrace>
+      <FixedCloseParenthesisSpaceBefore>false</FixedCloseParenthesisSpaceBefore>
+      <FixedOpenParenthesisSpaceAfter>false</FixedOpenParenthesisSpaceAfter>
+      <ForCloseParenthesisSpaceBefore>false</ForCloseParenthesisSpaceBefore>
+      <ForEachCloseParenthesisSpaceBefore>false</ForEachCloseParenthesisSpaceBefore>
+      <ForEachOpenParenthesisSpaceAfter>false</ForEachOpenParenthesisSpaceAfter>
+      <ForOpenParenthesisSpaceAfter>false</ForOpenParenthesisSpaceAfter>
+      <IfCloseParenthesisSpaceBefore>false</IfCloseParenthesisSpaceBefore>
+      <IfOpenParenthesisSpaceAfter>false</IfOpenParenthesisSpaceAfter>
+      <ImplicitLambdaSpaceAfterOpenBrace>true</ImplicitLambdaSpaceAfterOpenBrace>
+      <ImplicitLambdaSpaceBeforeCloseBrace>true</ImplicitLambdaSpaceBeforeCloseBrace>
+      <IndexerSpaceBeforeOpenBrace>true</IndexerSpaceBeforeOpenBrace>
+      <KeywordSpace>true</KeywordSpace>
+      <LockCloseParenthesisSpaceBefore>false</LockCloseParenthesisSpaceBefore>
+      <LockOpenParenthesisSpaceAfter>false</LockOpenParenthesisSpaceAfter>
+      <MethodBodySpaceBeforeOpenBrace>true</MethodBodySpaceBeforeOpenBrace>
+      <MethodCloseParenthesisInDeclarationSpaceBefore>false</MethodCloseParenthesisInDeclarationSpaceBefore>
+      <MethodCloseParenthesisInInvocationSpaceBefore>false</MethodCloseParenthesisInInvocationSpaceBefore>
+      <MethodCommaInDeclarationSpaceAfter>true</MethodCommaInDeclarationSpaceAfter>
+      <MethodCommaInDeclarationSpaceBefore>false</MethodCommaInDeclarationSpaceBefore>
+      <MethodCommaInInvocationSpaceAfter>true</MethodCommaInInvocationSpaceAfter>
+      <MethodCommaInInvocationSpaceBefore>false</MethodCommaInInvocationSpaceBefore>
+      <MethodOpenParenthesisInDeclarationSpaceAfter>false</MethodOpenParenthesisInDeclarationSpaceAfter>
+      <MethodOpenParenthesisInDeclarationSpaceBefore>false</MethodOpenParenthesisInDeclarationSpaceBefore>
+      <MethodOpenParenthesisInInvocationSpaceAfter>false</MethodOpenParenthesisInInvocationSpaceAfter>
+      <MethodOpenParenthesisInInvocationSpaceBefore>false</MethodOpenParenthesisInInvocationSpaceBefore>
+      <NamespaceBodySpaceBeforeOpenBrace>true</NamespaceBodySpaceBeforeOpenBrace>
+      <ObjectInitializerSpaceAfterComma>true</ObjectInitializerSpaceAfterComma>
+      <ObjectInitializerSpaceAfterOpenBrace>true</ObjectInitializerSpaceAfterOpenBrace>
+      <ObjectInitializerSpaceBeforeCloseBrace>true</ObjectInitializerSpaceBeforeCloseBrace>
+      <ObjectInitializerSpaceBeforeComma>false</ObjectInitializerSpaceBeforeComma>
+      <ObjectInitializerSpaceBeforeOpenBrace>true</ObjectInitializerSpaceBeforeOpenBrace>
+      <OperatorAdditiveSpaceAfter>true</OperatorAdditiveSpaceAfter>
+      <OperatorAdditiveSpaceBefore>true</OperatorAdditiveSpaceBefore>
+      <OperatorConditionalLogicalSpaceAfter>true</OperatorConditionalLogicalSpaceAfter>
+      <OperatorConditionalLogicalSpaceBefore>true</OperatorConditionalLogicalSpaceBefore>
+      <OperatorEqualitySpaceAfter>true</OperatorEqualitySpaceAfter>
+      <OperatorEqualitySpaceBefore>true</OperatorEqualitySpaceBefore>
+      <OperatorLambdaSpaceAfter>true</OperatorLambdaSpaceAfter>
+      <OperatorLambdaSpaceBefore>true</OperatorLambdaSpaceBefore>
+      <OperatorLogicalSpaceAfter>true</OperatorLogicalSpaceAfter>
+      <OperatorLogicalSpaceBefore>true</OperatorLogicalSpaceBefore>
+      <OperatorMultiplicativeSpaceAfter>true</OperatorMultiplicativeSpaceAfter>
+      <OperatorMultiplicativeSpaceBefore>true</OperatorMultiplicativeSpaceBefore>
+      <OperatorNullCoalescingSpaceAfter>true</OperatorNullCoalescingSpaceAfter>
+      <OperatorNullCoalescingSpaceBefore>true</OperatorNullCoalescingSpaceBefore>
+      <OperatorRelationalSpaceAfter>true</OperatorRelationalSpaceAfter>
+      <OperatorRelationalSpaceBefore>true</OperatorRelationalSpaceBefore>
+      <OperatorShiftSpaceAfter>true</OperatorShiftSpaceAfter>
+      <OperatorShiftSpaceBefore>true</OperatorShiftSpaceBefore>
+      <ParametersCloseParenthesisSpaceAfter>false</ParametersCloseParenthesisSpaceAfter>
+      <ParametersCloseParenthesisSpaceBefore>false</ParametersCloseParenthesisSpaceBefore>
+      <ParametersOpenParenthesisSpaceAfter>false</ParametersOpenParenthesisSpaceAfter>
+      <ParametersOpenParenthesisSpaceBefore>false</ParametersOpenParenthesisSpaceBefore>
+      <ParenSpace>false</ParenSpace>
+      <PropertySpaceAfterOpenBrace>true</PropertySpaceAfterOpenBrace>
+      <PropertySpaceBeforeCloseBrace>true</PropertySpaceBeforeCloseBrace>
+      <PropertySpaceBeforeOpenBrace>true</PropertySpaceBeforeOpenBrace>
+      <QuestionMarkInTernaryOperatorSpaceAfter>true</QuestionMarkInTernaryOperatorSpaceAfter>
+      <QuestionMarkInTernaryOperatorSpaceBefore>true</QuestionMarkInTernaryOperatorSpaceBefore>
+      <RemoveExtraSpace>true</RemoveExtraSpace>
+      <SemicolonsInForHeaderSpaceAfter>true</SemicolonsInForHeaderSpaceAfter>
+      <SemicolonsInForHeaderSpaceBefore>false</SemicolonsInForHeaderSpaceBefore>
+      <SizeofCloseParenthesisSpaceBefore>false</SizeofCloseParenthesisSpaceBefore>
+      <SizeofOpenParenthesisSpaceAfter>false</SizeofOpenParenthesisSpaceAfter>
+      <SwitchStatementSpaceBeforeOpenBrace>true</SwitchStatementSpaceBeforeOpenBrace>
+      <TypeArgumentsCloseAngleBracketSpaceBefore>false</TypeArgumentsCloseAngleBracketSpaceBefore>
+      <TypeArgumentsOpenAngleBracketSpaceAfter>false</TypeArgumentsOpenAngleBracketSpaceAfter>
+      <TypeParameterCommaSpaceAfter>true</TypeParameterCommaSpaceAfter>
+      <TypeParameterCommaSpaceBefore>false</TypeParameterCommaSpaceBefore>
+      <TypeParameterConstraintColonSpaceAfter>true</TypeParameterConstraintColonSpaceAfter>
+      <TypeParameterConstraintColonSpaceBefore>true</TypeParameterConstraintColonSpaceBefore>
+      <TypeParametersCloseAngleBracketSpaceBefore>false</TypeParametersCloseAngleBracketSpaceBefore>
+      <TypeParametersOpenAngleBracketSpaceAfter>false</TypeParametersOpenAngleBracketSpaceAfter>
+      <TypeSpaceBeforeOpenBrace>true</TypeSpaceBeforeOpenBrace>
+      <TypeofCloseParenthesisSpaceBefore>false</TypeofCloseParenthesisSpaceBefore>
+      <TypeofOpenParenthesisSpaceAfter>false</TypeofOpenParenthesisSpaceAfter>
+      <UsingCloseParenthesisSpaceBefore>false</UsingCloseParenthesisSpaceBefore>
+      <UsingOpenParenthesisSpaceAfter>false</UsingOpenParenthesisSpaceAfter>
+      <WhileCloseParenthesisSpaceBefore>false</WhileCloseParenthesisSpaceBefore>
+      <WhileOpenParenthesisSpaceAfter>false</WhileOpenParenthesisSpaceAfter>
+    </SpacesSettings>
+    <NewLines>
+      <AttributesOnSingleLine>true</AttributesOnSingleLine>
+      <AutoImplementedPropertiesOnSeparateLine>false</AutoImplementedPropertiesOnSeparateLine>
+      <CatchNewline>true</CatchNewline>
+      <ClosingBracketsOnSameLineAsLastArgument>true</ClosingBracketsOnSameLineAsLastArgument>
+      <ClosingParanthesisOnSameLineAsLastParameter>true</ClosingParanthesisOnSameLineAsLastParameter>
+      <ConstructorInitializerOnNewLine>false</ConstructorInitializerOnNewLine>
+      <ElseNewline>true</ElseNewline>
+      <FinallyNewline>true</FinallyNewline>
+      <OneLineAccessorBodiesOnSeparateLine>true</OneLineAccessorBodiesOnSeparateLine>
+      <OpeningBracketsOnSameLineAsIdentifier>true</OpeningBracketsOnSameLineAsIdentifier>
+      <OpeningParanthesisOnSameLineAsIdentifier>true</OpeningParanthesisOnSameLineAsIdentifier>
+      <SimpleStatementInSwitchCaseOnNewLine>true</SimpleStatementInSwitchCaseOnNewLine>
+      <SimpleStatementOnNewLine>true</SimpleStatementOnNewLine>
+      <WhileNewLine>true</WhileNewLine>
+    </NewLines>
+    <BlankLines>
+      <BlankLineAfterBreakInsideSwitchStatement>false</BlankLineAfterBreakInsideSwitchStatement>
+      <BlankLinesAfterAutoImplementedProperty>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is an auto-implemented property</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not an auto-implemented property</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterAutoImplementedProperty>
+      <BlankLinesAfterDelegate>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is a delegate</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not a delegate</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterDelegate>
+      <BlankLinesAfterEndregionDirective>
+        <BlankLinesAfter>
+          <Description />
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfter>
+      </BlankLinesAfterEndregionDirective>
+      <BlankLinesAfterEvent>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is an event</Description>
+          <MinBlankLinesAfter>0</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not an event</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterEvent>
+      <BlankLinesAfterField>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is a field</Description>
+          <MinBlankLinesAfter>0</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not a field</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterField>
+      <BlankLinesAfterFileHeader>
+        <BlankLinesAfter>
+          <Description />
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfter>
+      </BlankLinesAfterFileHeader>
+      <BlankLinesAfterIndexer>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is an indexer</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not an indexer</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterIndexer>
+      <BlankLinesAfterMethodConstructorAndDestructor>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is Method, Constructor or Destructor</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not Method, Constructor or Destructor</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterMethodConstructorAndDestructor>
+      <BlankLinesAfterProperty>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is a property</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not a property</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterProperty>
+      <BlankLinesAfterRegionDirective>
+        <BlankLinesAfter>
+          <Description />
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfter>
+      </BlankLinesAfterRegionDirective>
+      <BlankLinesAfterTypeAndNamespace>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is a type or namespace</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not a type or namespace</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterTypeAndNamespace>
+      <BlankLinesAfterUsingDirective>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is an using directive</Description>
+          <MinBlankLinesAfter>0</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>0</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not an using directive</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterUsingDirective>
+      <BlankLinesBeforeEndregionDirective>
+        <BlankLinesAfter>
+          <Description />
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfter>
+      </BlankLinesBeforeEndregionDirective>
+      <BlankLinesBeforeRegionDirective>
+        <BlankLinesAfter>
+          <Description />
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfter>
+      </BlankLinesBeforeRegionDirective>
+      <ClosingBraceNoEmptyLine>true</ClosingBraceNoEmptyLine>
+      <OpeningBraceNoEmptyLine>true</OpeningBraceNoEmptyLine>
+      <RemoveExtraLines>true</RemoveExtraLines>
+    </BlankLines>
+    <Ordering>
+      <version>1</version>
+      <SortElementsAlphabetically>false</SortElementsAlphabetically>
+      <NamespaceElementOrder>
+        <Extern-Alias-Directives />
+        <Using-Directives />
+        <Namespaces />
+        <Delegates />
+        <Enums />
+        <Interfaces />
+        <Structs />
+        <Classes />
+      </NamespaceElementOrder>
+      <TypeElementOrder>
+        <Fields />
+        <Constructors />
+        <Finalizes />
+        <Delegates />
+        <Events />
+        <Enums />
+        <Interfaces />
+        <Properties />
+        <Indexers />
+        <Methods />
+        <Overloaded-Operators />
+        <Structs />
+        <Classes />
+      </TypeElementOrder>
+      <AccessSequenceOrder>
+        <Public />
+        <Internal />
+        <Protected-Internal />
+        <Protected />
+        <Private />
+      </AccessSequenceOrder>
+      <StaticSequenceOrder>
+        <Static />
+        <Non-Static />
+      </StaticSequenceOrder>
+      <ConstancySequenceOrder>
+        <Constant />
+        <Read-Only />
+        <Non-Constant />
+      </ConstancySequenceOrder>
+    </Ordering>
+    <BracePositionSettings>
+      <AccessorBracePosition>NextLine</AccessorBracePosition>
+      <AnonymousClassBracePosition>NextLine</AnonymousClassBracePosition>
+      <AnonymousMethodBracePosition>NextLine</AnonymousMethodBracePosition>
+      <ArrayObjectAndCollectionInitializerBracePosition>NextLine</ArrayObjectAndCollectionInitializerBracePosition>
+      <BlocksBracePosition>NextLine</BlocksBracePosition>
+      <CaseLabelBracePosition>NextLine</CaseLabelBracePosition>
+      <FormatSimpleBlocksOnSingleLine>false</FormatSimpleBlocksOnSingleLine>
+      <FormatSingleLineAnonymousClasses>false</FormatSingleLineAnonymousClasses>
+      <FormatSingleLineAnonymousMethods>false</FormatSingleLineAnonymousMethods>
+      <FormatSingleLineInitializers>false</FormatSingleLineInitializers>
+      <IndentAtAnonymousClass>false</IndentAtAnonymousClass>
+      <IndentAtAnonymousMethod>false</IndentAtAnonymousMethod>
+      <IndentAtInitializer>false</IndentAtInitializer>
+      <IndexerBracePosition>NextLine</IndexerBracePosition>
+      <LambdaExpressionBracePosition>NextLine</LambdaExpressionBracePosition>
+      <MethodBracePosition>NextLine</MethodBracePosition>
+      <NamespaceBracePosition>NextLine</NamespaceBracePosition>
+      <PropertyBracePosition>NextLine</PropertyBracePosition>
+      <SwitchStatementBracePosition>NextLine</SwitchStatementBracePosition>
+      <TypeBracePosition>NextLine</TypeBracePosition>
+    </BracePositionSettings>
+    <WrappingSettings>
+      <EnableCodeWrapping>true</EnableCodeWrapping>
+      <MaxLineLength>9999</MaxLineLength>
+      <PreserveNewLinesWhenWrapping>true</PreserveNewLinesWhenWrapping>
+      <StatementWrap>true</StatementWrap>
+      <WrapAnonymousClassInitializerClause>WhenNeeded</WrapAnonymousClassInitializerClause>
+      <WrapArrayArgumentsClause>38</WrapArrayArgumentsClause>
+      <WrapAssignmentClause>38</WrapAssignmentClause>
+      <WrapAttributesArgumentsClause>54</WrapAttributesArgumentsClause>
+      <WrapClassDeclarationBoundsClause>118</WrapClassDeclarationBoundsClause>
+      <WrapClassDeclarationBoundsConstraintClause>58</WrapClassDeclarationBoundsConstraintClause>
+      <WrapClassDeclarationTypeParametersClause>42</WrapClassDeclarationTypeParametersClause>
+      <WrapClassDeclarationsExtendsClause>38</WrapClassDeclarationsExtendsClause>
+      <WrapForStatementHeaderClause>42</WrapForStatementHeaderClause>
+      <WrapInfixExpressionClause>42</WrapInfixExpressionClause>
+      <WrapLinqClauses>42</WrapLinqClauses>
+      <WrapMethodChainingCalls>58</WrapMethodChainingCalls>
+      <WrapMethodDeclarationBoundsClause>118</WrapMethodDeclarationBoundsClause>
+      <WrapMethodDeclarationBoundsConstraintClause>58</WrapMethodDeclarationBoundsConstraintClause>
+      <WrapMethodDeclarationParametersClause>38</WrapMethodDeclarationParametersClause>
+      <WrapMethodDeclarationTypeParametersClause>42</WrapMethodDeclarationTypeParametersClause>
+      <WrapMethodInvocationArgumentsClause1>38</WrapMethodInvocationArgumentsClause1>
+      <WrapMethodInvocationTypeArgumentsClause>42</WrapMethodInvocationTypeArgumentsClause>
+      <WrapObjectInitializerClause>102</WrapObjectInitializerClause>
+      <WrapTernaryOperator>42</WrapTernaryOperator>
+    </WrappingSettings>
+    <UsingDirectivesSettings>
+      <NamespacesThatAlwaysShouldBeImported />
+      <NamespacesThatNeverShouldBeRemoved>
+        <UsingDirective>System</UsingDirective>
+        <UsingDirective>System.Linq</UsingDirective>
+        <UsingDirective>System.Runtime.CompilerServices</UsingDirective>
+        <UsingDirective>System.Collections.Generic</UsingDirective>
+        <UsingDirective>System.Text</UsingDirective>
+        <UsingDirective>System.Windows.Input</UsingDirective>
+        <UsingDirective>Samba.Infrastructure.ExceptionReporter</UsingDirective>
+        <UsingDirective>System.Windows</UsingDirective>
+        <UsingDirective>Samba.Localization.Properties</UsingDirective>
+        <UsingDirective>System.ComponentModel</UsingDirective>
+        <UsingDirective>Samba.Infrastructure</UsingDirective>
+        <UsingDirective>System.Resources</UsingDirective>
+        <UsingDirective>Samba.Presentation.Common</UsingDirective>
+        <UsingDirective>Samba.Presentation.Controls.Interaction</UsingDirective>
+        <UsingDirective>System.Globalization</UsingDirective>
+        <UsingDirective>System.Windows.Data</UsingDirective>
+        <UsingDirective>System.Windows.Documents</UsingDirective>
+        <UsingDirective>System.Windows.Media</UsingDirective>
+        <UsingDirective>System.Windows.Media.Imaging</UsingDirective>
+        <UsingDirective>System.Windows.Navigation</UsingDirective>
+        <UsingDirective>System.Windows.Shapes</UsingDirective>
+        <UsingDirective>Samba.Presentation.Services</UsingDirective>
+        <UsingDirective>Samba.Services</UsingDirective>
+        <UsingDirective>Samba.Persistance</UsingDirective>
+        <UsingDirective>Samba.Services.Common</UsingDirective>
+        <UsingDirective>Samba.Domain.Models.Menus</UsingDirective>
+        <UsingDirective>Samba.Domain.Models.Accounts</UsingDirective>
+        <UsingDirective>Samba.Presentation.Common.Commands</UsingDirective>
+        <UsingDirective>Samba.Presentation.Services.Common</UsingDirective>
+        <UsingDirective>System.Data.Objects</UsingDirective>
+      </NamespacesThatNeverShouldBeRemoved>
+      <PutSystemNamespacesOnTop>true</PutSystemNamespacesOnTop>
+    </UsingDirectivesSettings>
+    <NamingConventionsSettings>
+      <AllowedAcronyms>HSL RGB HTML XAML AST LLK LJS SQL</AllowedAcronyms>
+      <AttributeTypesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix>Attribute</Suffix>
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </AttributeTypesNamingOption>
+      <ConstantFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>UpperCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix>_</Prefix>
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </ConstantFieldsNamingOption>
+      <ConstantVariablesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </ConstantVariablesNamingOption>
+      <EnumMembersNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>UpperCaseUnderscore</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </EnumMembersNamingOption>
+      <EventsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </EventsNamingOption>
+      <ExceptionTypesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix>Exception</Suffix>
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </ExceptionTypesNamingOption>
+      <InterfacesNamingOption>
+        <PrimaryPolicy>
+          <Prefix>I</Prefix>
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </InterfacesNamingOption>
+      <MethodParametersNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>UpperCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </MethodParametersNamingOption>
+      <MethodsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </MethodsNamingOption>
+      <NamespacesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix>_</Prefix>
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </NamespacesNamingOption>
+      <NonPrivateNonReadonlyStaticFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix>_</Prefix>
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </NonPrivateNonReadonlyStaticFieldsNamingOption>
+      <NonPrivateReadonlyStaticFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>UpperCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </NonPrivateReadonlyStaticFieldsNamingOption>
+      <PrivateFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix>_</Prefix>
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix>_</Prefix>
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>UpperCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </PrivateFieldsNamingOption>
+      <PrivateNonReadonlyStaticFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix>_</Prefix>
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>UpperCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </PrivateNonReadonlyStaticFieldsNamingOption>
+      <PrivateReadonlyStaticFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix>_</Prefix>
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </PrivateReadonlyStaticFieldsNamingOption>
+      <PropertiesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>UpperCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>SentenceCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>LowerCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </PropertiesNamingOption>
+      <ProtectedFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix>_</Prefix>
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </ProtectedFieldsNamingOption>
+      <PublicInternalFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>UpperCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix>_</Prefix>
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </PublicInternalFieldsNamingOption>
+      <TypesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>UpperCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </TypesNamingOption>
+      <VariablesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>LowerCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </VariablesNamingOption>
+    </NamingConventionsSettings>
+  </CSharpCodeStyleSettings>
+  <CodeAnalysisProblemsSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <CodeMarkersAppearance>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_MocksWithoutArrangesWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_AssignmentWithNoEffectWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_AssignmentWithNoEffectWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_AssignmentWithNoEffectWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_AsyncMethodLacksAwaitOperators</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_AsyncMethodLacksAwaitOperators</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_MismatchingTypeAndFileNamesWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_MismatchingTypeAndFileNamesWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_MismatchingInnerTypeAndFileNamesWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_MismatchingInnerTypeAndFileNamesWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_MismatchingDelegateTypeAndFileNamesWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_MismatchingDelegateTypeAndFileNamesWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_ClosureVariableAsForearchVariable</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_ClosureVariableAsForearchVariable</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_NamingConventionInconsistency</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_NamingConventionInconsistency</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_OnPropertyChangedMismatch</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_OnPropertyChangedMismatch</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_FieldCanBeMadeReadonly</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_FieldCanBeMadeReadonly</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_IdenticalIfElse</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_IdenticalIfElse</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_IdenticalIfElse</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_NamespaceMismatchWarningMarker</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_NamespaceMismatchOnNamespaceWarningMarker</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_NamespaceMismatchWarningMarker</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_NamespaceMismatchOnNamespaceWarningMarker</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_EqualsGetHashCode</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_EqualsGetHashCode</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_RedundantOverride</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_RedundantOverride</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_RedundantCast</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_RedundantCast</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_EmptyStatement</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_EmptyStatement</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXAML_UnusedResourceWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>XAML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_UnusedUsingOrImport</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_UnusedUsingOrImport</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_FieldOrPropertyOnlyAssignedTo</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_UnusedPrivateMember</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_FieldNeverAssignedTo</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_FieldOrPropertyOnlyAssignedTo</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_UnusedPrivateMember</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_FieldNeverAssignedTo</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_OnlyAssignedToVariableWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_UnusedVariableWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_UnusedParameterInPrivateMethodsWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_UnusedParameterInNonPrivateMethodsWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_OnlyAssignedToVariableWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_UnusedVariableWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_UnusedParameterInPrivateMethodsWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_UnusedParameterInNonPrivateMethodsWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_OnlyAssignedToVariableWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_UnusedVariableWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_UnusedParameterInPrivateMethodsWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_UnusedParameterInNonPrivateMethodsWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_UnusedParameterInConstructors</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_UnusedParameterInConstructors</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_CoreError</Name>
+        <Appearance>ShowAsError</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_CoreWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_UnreachableStatement</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCS_LateBindingWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>C#</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_CoreError</Name>
+        <Appearance>ShowAsError</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_CoreWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayVB_LateBindingWarning</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>VB.NET</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXAML_CoreError</Name>
+        <Appearance>ShowAsError</Appearance>
+        <Language>XAML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXAML_CoreWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>XAML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXAML_TagPrefixUnknown</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>XAML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXAML_ObjectElementTypeNotFound</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>XAML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXAML_AttachedPropertyTypeNotFound</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>XAML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXAML_AttachedPropertyPropertyNotFound</Name>
+        <Appearance>DontShow</Appearance>
+        <Language>XAML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXAML_AttachedPropertyPropertyAmbiguous</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>XAML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXAML_EventMethodCanNotBeResolved</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>XAML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXML_CoreError</Name>
+        <Appearance>ShowAsError</Appearance>
+        <Language>XML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayXML_CoreWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>XML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_CoreError</Name>
+        <Appearance>ShowAsError</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_CoreWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayJS_VariableRedeclaration</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>JavaScript</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCSS_CoreError</Name>
+        <Appearance>ShowAsError</Appearance>
+        <Language>CSS</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCSS_CoreWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>CSS</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCSS_InvalidProperty</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>CSS</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayCSS_InvalidValue</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>CSS</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayHTML_CoreError</Name>
+        <Appearance>ShowAsError</Appearance>
+        <Language>HTML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayHTML_CoreWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>HTML</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayLESS_CoreError</Name>
+        <Appearance>ShowAsError</Appearance>
+        <Language>LESS</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayLESS_CoreWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>LESS</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayLess_InvalidProperty</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>LESS</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>DisplayLess_InvalidValue</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>LESS</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>Displayweb.config_CoreError</Name>
+        <Appearance>ShowAsError</Appearance>
+        <Language>web.config</Language>
+      </CodeMarkerDisplay>
+      <CodeMarkerDisplay>
+        <Name>Displayweb.config_CoreWarning</Name>
+        <Appearance>ShowAsWarning</Appearance>
+        <Language>web.config</Language>
+      </CodeMarkerDisplay>
+    </CodeMarkersAppearance>
+  </CodeAnalysisProblemsSettings>
+  <CssCodeStyleSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <SpacesSettings>
+      <AfterColons>1</AfterColons>
+      <AfterCommas>1</AfterCommas>
+      <AfterOpenBrace>1</AfterOpenBrace>
+      <AfterParenthesisInSelectors>1</AfterParenthesisInSelectors>
+      <AfterSemicolons>1</AfterSemicolons>
+      <BeforeColons>0</BeforeColons>
+      <BeforeCommas>0</BeforeCommas>
+      <BeforeOpenBrace>1</BeforeOpenBrace>
+      <BeforeParenthesisInSelectors>1</BeforeParenthesisInSelectors>
+      <BeforeSemicolons>0</BeforeSemicolons>
+    </SpacesSettings>
+    <NewLines>
+      <DeclarationsFormattingOption>PreserveManual</DeclarationsFormattingOption>
+    </NewLines>
+    <BlankLines>
+      <MaxNewLinesAfterDeclaration>1</MaxNewLinesAfterDeclaration>
+      <MaxNewLinesAfterRule>1</MaxNewLinesAfterRule>
+      <MinNewLinesAfterDeclaration>0</MinNewLinesAfterDeclaration>
+      <MinNewLinesAfterRule>0</MinNewLinesAfterRule>
+    </BlankLines>
+    <BracePositionSettings>
+      <BlocksBracePosition>NextLine</BlocksBracePosition>
+      <FormatRulesOnSingleLine>false</FormatRulesOnSingleLine>
+    </BracePositionSettings>
+  </CssCodeStyleSettings>
+  <HtmlCodeStyleSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <General>
+      <AttributesFormattingOption>PreserveManual</AttributesFormattingOption>
+      <ElementsEmptyContentFormattingOption>PreserveManual</ElementsEmptyContentFormattingOption>
+      <ElementsPlainTextualContentFormattingOption>PreserveManual</ElementsPlainTextualContentFormattingOption>
+      <ExclusionsOption>
+        <ElementName>abbr</ElementName>
+        <ElementName>acronym</ElementName>
+        <ElementName>b</ElementName>
+        <ElementName>bdo</ElementName>
+        <ElementName>br</ElementName>
+        <ElementName>cite</ElementName>
+        <ElementName>em</ElementName>
+        <ElementName>i</ElementName>
+        <ElementName>img</ElementName>
+        <ElementName>q</ElementName>
+        <ElementName>samp</ElementName>
+        <ElementName>small</ElementName>
+        <ElementName>span</ElementName>
+        <ElementName>strong</ElementName>
+        <ElementName>sub</ElementName>
+        <ElementName>sup</ElementName>
+        <ElementName>textarea</ElementName>
+        <ElementName>var</ElementName>
+      </ExclusionsOption>
+    </General>
+    <Indentation>
+      <AlignByFirstAttribute>true</AlignByFirstAttribute>
+    </Indentation>
+  </HtmlCodeStyleSettings>
+  <IntroduceHeaderSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <HeaderText />
+  </IntroduceHeaderSettings>
+  <JavaScriptCodeStyleSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <General>
+      <AdjustNewlines>true</AdjustNewlines>
+      <AdjustSpaces>true</AdjustSpaces>
+      <BlockUsage>
+        <DoStatements>Always</DoStatements>
+        <ForEachStatements>Always</ForEachStatements>
+        <ForStatements>Always</ForStatements>
+        <IfStatements>Always</IfStatements>
+        <WhileStatements>Always</WhileStatements>
+      </BlockUsage>
+    </General>
+    <Indentation>
+      <ArgumentIndent>true</ArgumentIndent>
+      <CaseIndent>true</CaseIndent>
+      <CaseLabelIndent>true</CaseLabelIndent>
+      <LabelLeftIndent>false</LabelLeftIndent>
+      <NextLineIndent>true</NextLineIndent>
+      <ParameterIndent>true</ParameterIndent>
+    </Indentation>
+    <Spacing>
+      <ArgumentCommaSpace>true</ArgumentCommaSpace>
+      <ArgumentSpace>false</ArgumentSpace>
+      <ArrayArgumentSpace>false</ArrayArgumentSpace>
+      <ArrayMethodCallSpace>false</ArrayMethodCallSpace>
+      <AssignmentOperatorSpace>true</AssignmentOperatorSpace>
+      <BinaryOperatorSpace>true</BinaryOperatorSpace>
+      <ConditionSpace>false</ConditionSpace>
+      <KeywordSpace>true</KeywordSpace>
+      <MethodCallSpace>false</MethodCallSpace>
+      <OpenBraceSpaceBefore>true</OpenBraceSpaceBefore>
+      <ParameterCommaSpace>true</ParameterCommaSpace>
+      <ParameterSpace>false</ParameterSpace>
+      <ParenSpace>false</ParenSpace>
+    </Spacing>
+    <NewLines>
+      <CatchNewline>true</CatchNewline>
+      <ElseNewline>true</ElseNewline>
+      <FinallyNewline>true</FinallyNewline>
+      <SimpleStatementOnNewLine>true</SimpleStatementOnNewLine>
+      <WhileInDoStatementNewline>true</WhileInDoStatementNewline>
+    </NewLines>
+    <BlankLines>
+      <BlankLineAfterBreakInsideSwitchStatement>false</BlankLineAfterBreakInsideSwitchStatement>
+      <ClosingBraceNoEmptyLine>true</ClosingBraceNoEmptyLine>
+      <OpeningBraceNoEmptyLine>true</OpeningBraceNoEmptyLine>
+    </BlankLines>
+    <BracePositionSettings>
+      <BlocksBracePosition>SameLine</BlocksBracePosition>
+      <CaseLabelBracePosition>SameLine</CaseLabelBracePosition>
+      <CatchClauseBracePosition>SameLine</CatchClauseBracePosition>
+      <DoWhileStatementBracePosition>SameLine</DoWhileStatementBracePosition>
+      <FinallyClauseBracePosition>SameLine</FinallyClauseBracePosition>
+      <ForStatementBracePosition>SameLine</ForStatementBracePosition>
+      <ForeachStatementBracePosition>SameLine</ForeachStatementBracePosition>
+      <FuntionBracePosition>SameLine</FuntionBracePosition>
+      <IfElseBracePosition>SameLine</IfElseBracePosition>
+      <ObjectLiteralBracePosition>SameLine</ObjectLiteralBracePosition>
+      <SwitchStatementBracePosition>SameLine</SwitchStatementBracePosition>
+      <TryStatementBracePosition>SameLine</TryStatementBracePosition>
+      <WhileStatementBracePosition>SameLine</WhileStatementBracePosition>
+      <WithStatementBracePosition>SameLine</WithStatementBracePosition>
+    </BracePositionSettings>
+    <Wrapping>
+      <FormatSingleLineInitializers>false</FormatSingleLineInitializers>
+      <MaxLineLength>9999</MaxLineLength>
+      <StatementWrap>true</StatementWrap>
+    </Wrapping>
+  </JavaScriptCodeStyleSettings>
+  <LessCodeStyleSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <SpacesSettings>
+      <AfterColonInMixins>1</AfterColonInMixins>
+      <AfterColons>1</AfterColons>
+      <AfterCommaInMixins>1</AfterCommaInMixins>
+      <AfterCommas>1</AfterCommas>
+      <AfterOpenBrace>1</AfterOpenBrace>
+      <AfterOpenParenthesisInFunctions>0</AfterOpenParenthesisInFunctions>
+      <AfterOpenParenthesisInMixins>0</AfterOpenParenthesisInMixins>
+      <AfterOpenParenthesisInOperations>0</AfterOpenParenthesisInOperations>
+      <AfterOperators>1</AfterOperators>
+      <AfterParenthesisInSelectors>1</AfterParenthesisInSelectors>
+      <AfterSemicolons>1</AfterSemicolons>
+      <BeforeCloseParenthesisInFunctions>0</BeforeCloseParenthesisInFunctions>
+      <BeforeCloseParenthesisInMixins>0</BeforeCloseParenthesisInMixins>
+      <BeforeCloseParenthesisInOperations>0</BeforeCloseParenthesisInOperations>
+      <BeforeColonInMixins>0</BeforeColonInMixins>
+      <BeforeCommaInMixins>0</BeforeCommaInMixins>
+      <BeforeCommas>0</BeforeCommas>
+      <BeforeOpenBrace>1</BeforeOpenBrace>
+      <BeforeOpenParenthesisInMixins>0</BeforeOpenParenthesisInMixins>
+      <BeforeOperators>1</BeforeOperators>
+      <BeforeParenthesisInSelectors>1</BeforeParenthesisInSelectors>
+      <BeforeSemicolons>0</BeforeSemicolons>
+    </SpacesSettings>
+    <NewLines>
+      <DeclarationsFormattingOption>PreserveManual</DeclarationsFormattingOption>
+      <FormatFunctionExpressionInOneLineOption>true</FormatFunctionExpressionInOneLineOption>
+      <FormatMixinArgumentsInOneLineOption>true</FormatMixinArgumentsInOneLineOption>
+      <FormatMixinGuardsInOneLineOption>true</FormatMixinGuardsInOneLineOption>
+      <FormatMixinParametersInOneLineOption>true</FormatMixinParametersInOneLineOption>
+      <FormatOperationsInOneLineOption>true</FormatOperationsInOneLineOption>
+      <FormatPropertyDeclarationInOneLineOption>true</FormatPropertyDeclarationInOneLineOption>
+      <FormatVariableDeclarationInOneLineOption>true</FormatVariableDeclarationInOneLineOption>
+    </NewLines>
+    <BlankLines>
+      <BlankLinesAfterDeclaration>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is a property declaration</Description>
+          <MinBlankLinesAfter>0</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>0</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not a property declaration</Description>
+          <MinBlankLinesAfter>0</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterDeclaration>
+      <BlankLinesAfterRule>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is a rule / mixin</Description>
+          <MinBlankLinesAfter>0</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not a rule / mixin</Description>
+          <MinBlankLinesAfter>1</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterRule>
+      <BlankLinesAfterVariableDeclaration>
+        <BlankLinesAfterIfNextConstructIsSimilar>
+          <Description>If next construct is a variable declaration</Description>
+          <MinBlankLinesAfter>0</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>0</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsSimilar>
+        <BlankLinesAfterIfNextConstructIsDifferent>
+          <Description>If next construct is not a variable declaration</Description>
+          <MinBlankLinesAfter>0</MinBlankLinesAfter>
+          <MaxBlankLinesAfter>1</MaxBlankLinesAfter>
+        </BlankLinesAfterIfNextConstructIsDifferent>
+      </BlankLinesAfterVariableDeclaration>
+    </BlankLines>
+    <BracePositionSettings>
+      <BlocksBracePosition>SameLine</BlocksBracePosition>
+      <FormatRulesOnSingleLine>false</FormatRulesOnSingleLine>
+    </BracePositionSettings>
+  </LessCodeStyleSettings>
+  <RazorCodeStyleSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <NewLines>
+      <CodeLineNewline>true</CodeLineNewline>
+      <ExpandSingleLineBlockNewline>true</ExpandSingleLineBlockNewline>
+      <FunctionsBlockNewline>true</FunctionsBlockNewline>
+      <HelperNewline>true</HelperNewline>
+      <SectionBlockNewline>true</SectionBlockNewline>
+    </NewLines>
+  </RazorCodeStyleSettings>
+  <VBCodeStyleSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <General>
+      <AddDocumentation>false</AddDocumentation>
+      <AdjustNewlines>false</AdjustNewlines>
+      <AdjustSpaces>false</AdjustSpaces>
+      <ArrangeMeQualifier>Always</ArrangeMeQualifier>
+      <UseImplicitlyTypedVariable>Always</UseImplicitlyTypedVariable>
+    </General>
+    <Indentation>
+      <ArgumentIndent>true</ArgumentIndent>
+      <BlockIndent>true</BlockIndent>
+      <BraceIndent>false</BraceIndent>
+      <CaseIndent>true</CaseIndent>
+      <CaseLabelIndent>true</CaseLabelIndent>
+      <InitializersBodyIndent>true</InitializersBodyIndent>
+      <LabelLeftIndent>false</LabelLeftIndent>
+      <NextLineIndent>false</NextLineIndent>
+      <ParameterIndent>true</ParameterIndent>
+    </Indentation>
+    <SpacesSettings>
+      <NamespaceSpaceAfterDot>false</NamespaceSpaceAfterDot>
+      <NamespaceSpaceBeforeDot>false</NamespaceSpaceBeforeDot>
+    </SpacesSettings>
+    <NewLineSettings />
+    <BlankLineSettings>
+      <MaxBlankLinesAfterConstructor>1</MaxBlankLinesAfterConstructor>
+      <MaxBlankLinesAfterDelegate>1</MaxBlankLinesAfterDelegate>
+      <MaxBlankLinesAfterEvent>1</MaxBlankLinesAfterEvent>
+      <MaxBlankLinesAfterField>1</MaxBlankLinesAfterField>
+      <MaxBlankLinesAfterFunctionDeclaration>1</MaxBlankLinesAfterFunctionDeclaration>
+      <MaxBlankLinesAfterProperty>1</MaxBlankLinesAfterProperty>
+      <MaxBlankLinesAfterSubDeclaration>1</MaxBlankLinesAfterSubDeclaration>
+      <MinBlankLinesAfterConstructor>0</MinBlankLinesAfterConstructor>
+      <MinBlankLinesAfterDelegate>0</MinBlankLinesAfterDelegate>
+      <MinBlankLinesAfterEvent>0</MinBlankLinesAfterEvent>
+      <MinBlankLinesAfterField>0</MinBlankLinesAfterField>
+      <MinBlankLinesAfterFunctionDeclaration>0</MinBlankLinesAfterFunctionDeclaration>
+      <MinBlankLinesAfterProperty>0</MinBlankLinesAfterProperty>
+      <MinBlankLinesAfterSubDeclaration>0</MinBlankLinesAfterSubDeclaration>
+    </BlankLineSettings>
+    <UsingDirectivesSettings>
+      <NamespacesThatAlwaysShouldBeImported />
+      <NamespacesThatNeverShouldBeRemoved>
+        <UsingDirective>System</UsingDirective>
+        <UsingDirective>System.Linq</UsingDirective>
+      </NamespacesThatNeverShouldBeRemoved>
+      <PutSystemNamespacesOnTop>true</PutSystemNamespacesOnTop>
+    </UsingDirectivesSettings>
+    <NamingConventionsSettings>
+      <AllowedAcronyms />
+      <AttributeTypesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix>Attribute</Suffix>
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </AttributeTypesNamingOption>
+      <ConstantFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </ConstantFieldsNamingOption>
+      <ConstantVariablesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </ConstantVariablesNamingOption>
+      <EnumMembersNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </EnumMembersNamingOption>
+      <EventsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </EventsNamingOption>
+      <ExceptionTypesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix>Exception</Suffix>
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </ExceptionTypesNamingOption>
+      <InterfacesNamingOption>
+        <PrimaryPolicy>
+          <Prefix>I</Prefix>
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </InterfacesNamingOption>
+      <MethodParametersNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </MethodParametersNamingOption>
+      <MethodsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+        <SecondaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCaseUnderscore</RuleIdentifier>
+          <Suffix />
+        </SecondaryPolicy>
+      </MethodsNamingOption>
+      <NamespacesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </NamespacesNamingOption>
+      <NonPrivateNonReadonlyStaticFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </NonPrivateNonReadonlyStaticFieldsNamingOption>
+      <NonPrivateReadonlyStaticFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </NonPrivateReadonlyStaticFieldsNamingOption>
+      <PrivateFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </PrivateFieldsNamingOption>
+      <PrivateNonReadonlyStaticFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </PrivateNonReadonlyStaticFieldsNamingOption>
+      <PrivateReadonlyStaticFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </PrivateReadonlyStaticFieldsNamingOption>
+      <PropertiesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </PropertiesNamingOption>
+      <ProtectedFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </ProtectedFieldsNamingOption>
+      <PublicInternalFieldsNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </PublicInternalFieldsNamingOption>
+      <TypesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>PascalCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </TypesNamingOption>
+      <VariablesNamingOption>
+        <PrimaryPolicy>
+          <Prefix />
+          <RuleIdentifier>CamelCase</RuleIdentifier>
+          <Suffix />
+          <IsEnabled>True</IsEnabled>
+        </PrimaryPolicy>
+      </VariablesNamingOption>
+    </NamingConventionsSettings>
+  </VBCodeStyleSettings>
+  <XamlCodeStyleSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <General>
+      <AttributesFormattingOption>PreserveManual</AttributesFormattingOption>
+      <ElementsEmptyContentFormattingOption>PreserveManual</ElementsEmptyContentFormattingOption>
+      <ElementsPlainTextualContentFormattingOption>PreserveManual</ElementsPlainTextualContentFormattingOption>
+      <ExclusionsOption>
+        <ElementName>Bold</ElementName>
+        <ElementName>Figure</ElementName>
+        <ElementName>Hyperlink</ElementName>
+        <ElementName>Italic</ElementName>
+        <ElementName>LineBreak</ElementName>
+        <ElementName>Run</ElementName>
+        <ElementName>Span</ElementName>
+        <ElementName>Underline</ElementName>
+      </ExclusionsOption>
+    </General>
+    <Indentation>
+      <AlignByFirstAttribute>true</AlignByFirstAttribute>
+    </Indentation>
+  </XamlCodeStyleSettings>
+  <XmlCodeStyleSettings xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <General>
+      <AttributesFormattingOption>PreserveManual</AttributesFormattingOption>
+      <ElementsEmptyContentFormattingOption>PreserveManual</ElementsEmptyContentFormattingOption>
+      <ElementsPlainTextualContentFormattingOption>PreserveManual</ElementsPlainTextualContentFormattingOption>
+    </General>
+    <Indentation>
+      <AlignByFirstAttribute>true</AlignByFirstAttribute>
+    </Indentation>
+  </XmlCodeStyleSettings>
+</JustCodeSettings>

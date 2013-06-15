@@ -163,7 +163,7 @@ namespace Samba.Infrastructure.Data.Serializer
 
         private static ObjectInfo GetObjectInfo(string name, Type type)
         {
-            return new ObjectInfo { Name = name, Type = type.FullName, Assembly = type.Assembly.FullName }; ;
+            return new ObjectInfo { Name = name, Type = type.FullName, Assembly = type.Assembly.FullName }; 
         }
 
         private void SetObjectInfoAttributes(String propertyName, Type type, XmlNode node)

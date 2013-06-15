@@ -495,8 +495,9 @@ namespace Samba.Infrastructure.Data.BinarySerializer
 
         public int BeginReadDictionary()
         {
-            return ReadSimpleValue<int>(); ;
+            return ReadSimpleValue<int>(); 
         }
+
         public void EndReadDictionary() { }
 
         public int BeginReadObjectArray()

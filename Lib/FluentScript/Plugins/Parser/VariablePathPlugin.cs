@@ -193,8 +193,8 @@ namespace Fluentscript.Lib.Plugins.Parser
             if (string.IsNullOrEmpty(text))
                 text = token.Token.Text;
 
-            var start = isConstant ? Exprs.Const(new LString(text), _tokenIt.NextToken) as Expr
-                                    : Exprs.Ident(text, _tokenIt.NextToken) as Expr;
+            var start = isConstant ? Exprs.Const(new LString(text), _tokenIt.NextToken)
+                        : Exprs.Ident(text, _tokenIt.NextToken);
             _parser.SetupContext(start, token);
             pathExps.Add(start);
         }

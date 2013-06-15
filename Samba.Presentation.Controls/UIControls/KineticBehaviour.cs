@@ -16,7 +16,7 @@ namespace Samba.Presentation.Controls.UIControls
         /// </summary>
         public static readonly DependencyProperty FrictionProperty =
             DependencyProperty.RegisterAttached("Friction", typeof(double), typeof(KineticBehaviour),
-                new FrameworkPropertyMetadata((double)0.90));
+                new FrameworkPropertyMetadata(0.90));
 
         /// <summary>
         /// Gets the Friction property.  This dependency property 
@@ -45,7 +45,7 @@ namespace Samba.Presentation.Controls.UIControls
         /// </summary>
         private static readonly DependencyProperty ScrollStartPointProperty =
             DependencyProperty.RegisterAttached("ScrollStartPoint", typeof(Point), typeof(KineticBehaviour),
-                new FrameworkPropertyMetadata((Point)new Point()));
+                new FrameworkPropertyMetadata(new Point()));
 
         /// <summary>
         /// Gets the ScrollStartPoint property.  This dependency property 
@@ -74,7 +74,7 @@ namespace Samba.Presentation.Controls.UIControls
         /// </summary>
         private static readonly DependencyProperty ScrollStartOffsetProperty =
             DependencyProperty.RegisterAttached("ScrollStartOffset", typeof(Point), typeof(KineticBehaviour),
-                new FrameworkPropertyMetadata((Point)new Point()));
+                new FrameworkPropertyMetadata(new Point()));
 
         /// <summary>
         /// Gets the ScrollStartOffset property.  This dependency property 
@@ -133,7 +133,7 @@ namespace Samba.Presentation.Controls.UIControls
         public static readonly DependencyProperty HandleKineticScrollingProperty =
             DependencyProperty.RegisterAttached("HandleKineticScrolling", typeof(bool),
             typeof(KineticBehaviour),
-                new FrameworkPropertyMetadata((bool)false,
+                new FrameworkPropertyMetadata(false,
                     new PropertyChangedCallback(OnHandleKineticScrollingChanged)));
 
         /// <summary>

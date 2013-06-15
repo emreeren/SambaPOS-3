@@ -9,13 +9,14 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Microsoft.Practices.Prism.Regions;
 using Samba.Infrastructure.Settings;
 
 namespace Samba.Presentation.Common
 {
     public static class ExtensionServices
     {
+        private static readonly Action EmptyDelegate = delegate { };
+
         public static void BackgroundFocus(this UIElement el)
         {
             Action a = () => Keyboard.Focus(el);
@@ -40,8 +41,6 @@ namespace Samba.Presentation.Common
             }
         }
 
-        private static readonly Action EmptyDelegate = delegate { };
-
         public static void Refresh(this UIElement uiElement)
         {
             uiElement.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
@@ -64,14 +63,23 @@ namespace Samba.Presentation.Common
             if (sIndex >= 0)
             {
                 var selected = dataGrid.GetContainerFromIndex<DataGridRow>(sIndex);
-                if (selected != null && selected.IsEditing) return selected;
+                if (selected != null && selected.IsEditing)
+                {
+                    return selected;
+                }
             }
 
             for (int i = 0; i < dataGrid.Items.Count; i++)
             {
-                if (i == sIndex) continue;
+                if (i == sIndex)
+                {
+                    continue;
+                }
                 var item = dataGrid.GetContainerFromIndex<DataGridRow>(i);
-                if (item != null && item.IsEditing) return item;
+                if (item != null && item.IsEditing)
+                {
+                    return item;
+                }
             }
 
             return null;
@@ -114,7 +122,10 @@ namespace Samba.Presentation.Common
         public static T GetVisualChild<T>(DependencyObject parent) where T : DependencyObject
         {
             var child = default(T);
-            if (parent == null) return null;
+            if (parent == null)
+            {
+                return null;
+            }
             var numVisuals = VisualTreeHelper.GetChildrenCount(parent);
             for (var i = 0; i < numVisuals; i++)
             {
@@ -142,15 +153,6 @@ namespace Samba.Presentation.Common
             return csvBuilder.ToString();
         }
 
-        private static string ToCsvValue<T>(this T item) where T : class
-        {
-            if (item is string)
-            {
-                return string.Format("\"{0}\"", item.ToString().Replace("\"", "\\\"")); ;
-            }
-            return string.Format("\"{0}\"", item);
-        }
-
         public static ParallelQuery<TSource> SetCulture<TSource>(this ParallelQuery<TSource> source)
         {
             SetCulture();
@@ -161,6 +163,15 @@ namespace Samba.Presentation.Common
                         SetCulture();
                         return item;
                     });
+        }
+
+        private static string ToCsvValue<T>(this T item) where T : class
+        {
+            if (item is string)
+            {
+                return string.Format("\"{0}\"", item.ToString().Replace("\"", "\\\""));
+            }
+            return string.Format("\"{0}\"", item);
         }
 
         private static void SetCulture()

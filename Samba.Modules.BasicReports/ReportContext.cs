@@ -10,7 +10,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Modules.BasicReports.Reports;
 using Samba.Modules.BasicReports.Reports.AccountReport;
-using Samba.Modules.BasicReports.Reports.CSVBuilder;
+using Samba.Modules.BasicReports.Reports.CsvBuilder;
 using Samba.Modules.BasicReports.Reports.EndOfDayReport;
 using Samba.Modules.BasicReports.Reports.InventoryReports;
 using Samba.Modules.BasicReports.Reports.ProductReport;

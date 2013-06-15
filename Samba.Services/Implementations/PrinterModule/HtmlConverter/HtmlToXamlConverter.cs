@@ -1719,7 +1719,7 @@ namespace Samba.Services.Implementations.PrinterModule.HtmlConverter
             string rowSpanAsString;
             int rowSpan;
 
-            rowSpanAsString = GetAttribute((XmlElement)htmlTDElement, "rowspan");
+            rowSpanAsString = GetAttribute(htmlTDElement, "rowspan");
             if (rowSpanAsString != null)
             {
                 if (!Int32.TryParse(rowSpanAsString, out rowSpan))
@@ -2538,7 +2538,7 @@ namespace Samba.Services.Implementations.PrinterModule.HtmlConverter
             // set default border thickness for xamlTableCellElement to enable gridlines
             xamlTableCellElement.SetAttribute(Xaml_TableCell_BorderThickness, "1,1,1,1");
             xamlTableCellElement.SetAttribute(Xaml_TableCell_BorderBrush, Xaml_Brushes_Black);
-            string rowSpanString = GetAttribute((XmlElement)htmlChildNode, "rowspan");
+            string rowSpanString = GetAttribute(htmlChildNode, "rowspan");
             if (rowSpanString != null)
             {
                 xamlTableCellElement.SetAttribute(Xaml_TableCell_RowSpan, rowSpanString);
