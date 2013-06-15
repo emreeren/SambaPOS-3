@@ -1003,48 +1003,6 @@
   <data name="SortCategories" xml:space="preserve">
     <value>ترتيب الأصناف</value>
   </data>
-  <data name="TicketTemplateValue" xml:space="preserve">
-    <value>[LAYOUT]
- -- التنسيق العام
- &lt;T&gt;التذكرة
- &lt;L00&gt;التاريخ:{TICKET DATE}
- &lt;L00&gt;الوقت:{TIME}
- {RESOURCES}
- &lt;L00&gt;رقم التذكرة:{TICKET NO}
- &lt;F&gt;-
- {ORDERS}
- &lt;F&gt;=
- &lt;EB&gt;
- &lt;J10&gt;{IF DISCOUNT}
- &lt;J10&gt;مجموع الهدية:|{GIFT TOTAL}
- &lt;J10&gt;المجموع:|{TICKET TOTAL}
- {IF PAID}
- &lt;DB&gt;
- &lt;F&gt;=
- &lt;C10&gt;شكراً لك
- 
- [ORDERS]
- -- التنسيق الافتراضي للطلبات
- &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
- {ORDER TAGS}
- 
- [ORDERS:GIFT]
- -- التنسيق للطلبات الهدية
- &lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
- {ORDER TAGS}
- [ORDERS:VOID]
- -- لن يطبع أي سطر من العطلبات الملغية
- [ORDER TAGS]
- -- تنسيق علامات الطلبات
- &lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
-
- [RESOURCES:Table]
- -- تنسيق موارد الطاولات
- &lt;L00&gt;طاولة: {RESOURCE NAME}
- [RESOURCES:Customer]
- -- تنسيق موارد الزبون
- &lt;J00&gt;العميل: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
-  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>تغيير السعر</value>
   </data>

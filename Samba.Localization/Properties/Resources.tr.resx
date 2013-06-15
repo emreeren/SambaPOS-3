@@ -1007,48 +1007,6 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="SortCategories" xml:space="preserve">
     <value>Kategorileri Sırala</value>
   </data>
-  <data name="TicketTemplateValue" xml:space="preserve">
-    <value>[LAYOUT]
--- General layout
-&lt;T&gt;ADİSYON
-&lt;L00&gt;Tarih:{TICKET DATE}
-&lt;L00&gt;Saat:{TIME}
-{RESOURCES}
-&lt;L00&gt;Adisyon No:{TICKET NO}
-&lt;F&gt;-
-{ORDERS}
-&lt;F&gt;=
-&lt;EB&gt;
-&lt;J10&gt;Total:|{TICKET TOTAL}
-&lt;DB&gt;
-&lt;F&gt;=
-&lt;C10&gt;T H A N K    Y O U
-
-[ORDERS]
--- Default format for orders
-&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-{ORDER TAGS}
-
-[ORDERS:İkram]
--- Format for gifted orders
-&lt;J00&gt;- {QUANTITY} {NAME}|**İKRAM**
-{ORDER TAGS}
-
-[ORDERS:İade]
--- Nothing will print for void lines
-
-[ORDER TAGS]
--- Format for order tags
-&lt;J00&gt;     * {ORDER TAG NAME} | {ORDER TAG PRICE}
-
-[RESOURCES:Masa]
--- Table resource format
-&lt;L00&gt;Masa: {RESOURCE NAME}
-
-[RESOURCES:Müşteri]
--- Customer resource format
-&lt;J00&gt;Müşteri: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
-  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Fiyat Değiştir</value>
   </data>

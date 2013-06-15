@@ -1005,51 +1005,6 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="SortCategories" xml:space="preserve">
     <value>Kategóriák rendezése</value>
   </data>
-  <data name="TicketTemplateValue" xml:space="preserve">
-    <value>[LAYOUT]
--- General layout
-&lt;T&gt;BLOKK
-&lt;L00&gt;Dátum:{TICKET DATE}
-&lt;L00&gt;Idő:{TIME}
-{ENTITIES}
-&lt;L00&gt;Blokk szám:{TICKET NO}
-&lt;F&gt;-
-{ORDERS}
-&lt;F&gt;=
-&lt;EB&gt;
-&lt;J10&gt;{IF DISCOUNT}
-&lt;J10&gt;Kedvezmény:|{GIFT TOTAL}
-&lt;J10&gt;Összesen:|{TICKET TOTAL}
-{IF PAID}
-&lt;DB&gt;
-&lt;F&gt;=
-&lt;C10&gt;K Ö S Z Ö N J Ü K !
-
-[ORDERS]
--- Default format for orders
-&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-{ORDER TAGS}
-
-[ORDERS:GIFT]
--- Format for gifted orders
-&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
-{ORDER TAGS}
-
-[ORDERS:VOID]
--- Nothing will print for void lines
-
-[ORDER TAGS]
--- Format for order tags
-&lt;J00&gt;     * {ORDER TAG NAME} | {ORDER TAG PRICE}
-
-[ENTITIES:Table]
--- Table entity format
-&lt;L00&gt;Table: {ENTITY NAME}
-
-[ENTITIES:Customer]
--- Customer entity format
-&lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
-  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Ár módosítása</value>
   </data>

@@ -945,51 +945,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="SortCategories" xml:space="preserve">
     <value>Složi kategorije</value>
   </data>
-  <data name="TicketTemplateValue" xml:space="preserve">
-    <value>[LAYOUT]
--- General layout
-&lt;T&gt;TICKET
-&lt;L00&gt;Date:{TICKET DATE}
-&lt;L00&gt;Time:{TIME}
-{RESOURCES}
-&lt;L00&gt;Ticket No:{TICKET NO}
-&lt;F&gt;-
-{ORDERS}
-&lt;F&gt;=
-&lt;EB&gt;
-&lt;J10&gt;{IF DISCOUNT}
-&lt;J10&gt;Total Gift:|{GIFT TOTAL}
-&lt;J10&gt;Total:|{TICKET TOTAL}
-{IF PAID}
-&lt;DB&gt;
-&lt;F&gt;=
-&lt;C10&gt;T H A N K    Y O U
-
-[ORDERS]
--- Default format for orders
-&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-{ORDER TAGS}
-
-[ORDERS:GIFT]
--- Format for gifted orders
-&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
-{ORDER TAGS}
-
-[ORDERS:VOID]
--- Nothing will print for void lines
-
-[ORDER TAGS]
--- Format for order tags
-&lt;J00&gt;     * {ORDER TAG NAME} | {ORDER TAG PRICE}
-
-[RESOURCES:Table]
--- Table resource format
-&lt;L00&gt;Table: {RESOURCE NAME}
-
-[RESOURCES:Customer]
--- Customer resource format
-&lt;J00&gt;Customer: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
-  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Promijeni cijenu</value>
   </data>

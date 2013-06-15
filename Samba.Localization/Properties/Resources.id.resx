@@ -993,49 +993,6 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   <data name="SortCategories" xml:space="preserve">
     <value>Urutkan Kategori</value>
   </data>
-  <data name="TicketTemplateValue" xml:space="preserve">
-    <value>[LAYOUT]
--- Susunan Umum
-&lt;T&gt;TIKET
-&lt;L00&gt;Tanggal:{TICKET DATE}
-&lt;L00&gt;Waktu:{TIME}
-{ENTITIES}
-&lt;L00&gt;No Tiket:{TICKET NO}
-&lt;F&gt;-
-{ORDERS}
-&lt;F&gt;=
-&lt;EB&gt;
-&lt;J10&gt;{IF DISCOUNT}
-&lt;J10&gt;Total Hadiah:|{GIFT TOTAL}
-&lt;J10&gt;Total:|{TICKET TOTAL}
-{IF PAID}
-&lt;DB&gt;
-&lt;F&gt;=
-&lt;C10&gt;TERIMA KASIH
-[ORDERS]
--- Format Standar untuk Pemesanan
-&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-{ORDER TAGS}
-
-[ORDERS:GIFT]
--- Format untuk Hadiah Pemesanan
-&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
-{ORDER TAGS}
-
-[ORDERS:VOID]
--- Tidak ada yang akan di print untuk yang dibatalkan
-[ORDER TAGS]
--- Format untuk label pemesanan
-&lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
-
-[ENTITIES:Table]
--- Format meja entity
-&lt;L00&gt;Table: {ENTITY NAME}
-
-[ENTITIES:Customer]
--- Format Entity Pelanggan
-&lt;J00&gt;Pelanggan: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
-  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Ubah Harga</value>
   </data>

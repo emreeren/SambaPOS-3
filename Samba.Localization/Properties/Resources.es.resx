@@ -1005,51 +1005,6 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="SortCategories" xml:space="preserve">
     <value>Ordenar las categorías</value>
   </data>
-  <data name="TicketTemplateValue" xml:space="preserve">
-    <value>[LAYOUT]
- -- General Diseño
- &lt;T&gt;TICKET
- &lt;L00&gt;Fecha:{TICKET DATE}
- &lt;L00&gt;Hora:{TIME}
- {RESOURCES}
- &lt;L00&gt;Ticket No:{TICKET NO}
- &lt;F&gt;-
- {ORDERS}
- &lt;F&gt;=
- &lt;EB&gt;
- &lt;J10&gt;{IF DISCOUNT}
- &lt;J10&gt;Total Gift:|{GIFT TOTAL}
- &lt;J10&gt;Total:|{TICKET TOTAL}
- {IF PAID}
- &lt;DB&gt;
- &lt;F&gt;=
- &lt;C10&gt;T H A N K Y O U
- 
- [ORDERS]
- -- Defecto formato Pedidos
- &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
- {ORDER TAGS}
- 
- [ORDERS:GIFT]
- -- Formato para pedidos regalados
- &lt;J00&gt;- {QUANTITY} {NAME}|**REGALO**
- {ORDER TAGS}
- 
- [ORDERS:VOID]
- -- Nada se imprime lineas vacias
- 
- [ORDER TAGS]
- -- Formato para etiquetas  pedido
- &lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
- 
- [RESOURCES:Table]
- -- Mesa pedido
- &lt;L00&gt;Mesa: {RESOURCE NAME}
- 
- [RESOURCES:Customer]
- -- Cliente
- &lt;J00&gt;Cliente: {RESOURCE NAME} | {RESOURCE DATA:Phone}</value>
-  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Cambiar precio</value>
   </data>
