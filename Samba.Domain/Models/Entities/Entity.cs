@@ -57,7 +57,7 @@ namespace Samba.Domain.Models.Entities
 
         public void SetDefaultValues(string data)
         {
-            if (data.Contains(":"))
+            if (!string.IsNullOrEmpty(data) && data.Contains(":"))
             {
                 var parts = data.Split(new[] { ':' }, 2);
                 SetCustomData(parts[0], parts[1]);

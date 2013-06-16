@@ -32,12 +32,12 @@
     </UserControl.Resources>
 
     <Grid Name="MainGrid">
-        <ListBox Name="ListBox" ItemsSource="{Binding TicketList}"  FontSize="{Binding FontSize}">
+        <ItemsControl Name="ListBox" ItemsSource="{Binding TicketList}"  FontSize="{Binding FontSize}" Background="White" BorderThickness="1">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Style="{StaticResource ItemsControlButtonStyle}"  Command="{Binding ItemSelectionCommand}" CommandParameter="{Binding}">
-                        <Border CornerRadius="5" Style="{StaticResource FadingBorder}" BorderThickness="1" BorderBrush="{Binding Border}" Background="{Binding Background}" Margin="0,3" >
-                            <TextBlock Padding="3" Background="Transparent" Foreground="{Binding Foreground}" MinWidth="{Binding MinWidth}"
+                        <Border CornerRadius="5" Style="{StaticResource FadingBorder}" BorderThickness="1" BorderBrush="{Binding Border}" Background="{Binding BackgroundValue}" Margin="0,3" >
+                            <TextBlock Padding="3" Background="Transparent" Foreground="{Binding ForegroundValue}" MinWidth="{Binding MinWidth}"
                                Text="{Binding TicketData}"></TextBlock>
                         </Border>
                     </Button>
@@ -52,6 +52,6 @@
                                   AncestorType= {x:Type ScrollContentPresenter}}}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-        </ListBox>
+        </ItemsControl>
     </Grid>
 </UserControl>

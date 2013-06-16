@@ -91,6 +91,7 @@ namespace Samba.Modules.DepartmentModule
                 RaisePropertyChanged(() => CanChangeDepartment);
                 if (obj.Value.UserRole.DepartmentId > 0)
                 {
+                    _applicationStateSetter.SetSelectedEntityScreen(null);
                     _applicationStateSetter.SetCurrentDepartment(obj.Value.UserRole.DepartmentId);
                     //_applicationStateSetter.SetCurrentTicketType(_cacheService.GetTicketTypeById(_applicationState.CurrentDepartment.TicketTypeId));
                 }

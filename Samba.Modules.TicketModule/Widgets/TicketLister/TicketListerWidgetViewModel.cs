@@ -50,16 +50,21 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
 
         private void OnItemSelection(TicketViewData obj)
         {
+            if (obj == null) return;
+
+            if (!Settings.MultiSelection)
+            {
+                TicketList.ToList().ForEach(x => x.IsSelected = false);
+                obj.IsSelected = true;
+            }
+            else
+            {
+                obj.IsSelected = !obj.IsSelected;
+            }
+
             if (!string.IsNullOrEmpty(Settings.CommandName))
             {
-                var val = "";
-
-                if (obj != null)
-                {
-                    val = !string.IsNullOrEmpty(Settings.CommandValue) ?
-                        _printerService.GetPrintingContent(obj.Ticket, Settings.CommandValue, 0)
-                        : obj.Ticket.Id.ToString();
-                }
+                var val = GetCommandValues();
 
                 _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
                     new
@@ -69,6 +74,17 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
                         Value = val
                     });
             }
+        }
+
+        private string GetCommandValues()
+        {
+            return !string.IsNullOrEmpty(Settings.CommandValue)
+                       ? string.Join(",",
+                                     TicketList.Where(x => x.IsSelected)
+                                               .Select(x => _printerService.GetPrintingContent(x.Ticket, Settings.CommandValue, 0)))
+                       : string.Join(",",
+                                     TicketList.Where(x => x.IsSelected)
+                                               .Select(x => x.Ticket.Id));
         }
 
         [Browsable(false)]
@@ -110,6 +126,8 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
                                                ItemSelectionCommand = ItemSelectionCommand,
                                                Background = Settings.Background,
                                                Foreground = Settings.Foreground,
+                                               SelectedBackground = Settings.SelectedBackground,
+                                               SelectedForeground = Settings.SelectedForeground,
                                                MinWidth = Settings.MinWidth,
                                                Border = Settings.Border,
                                                TicketData = _printerService.GetPrintingContent(x, Settings.Format, Settings.Width),
@@ -156,12 +174,28 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         }
     }
 
-    public class TicketViewData
+    public class TicketViewData : ObservableObject
     {
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                RaisePropertyChanged(() => BackgroundValue);
+                RaisePropertyChanged(() => ForegroundValue);
+            }
+        }
+
         public Ticket Ticket { get; set; }
         public string TicketData { get; set; }
         public string Background { get; set; }
         public string Foreground { get; set; }
+        public string SelectedBackground { get; set; }
+        public string SelectedForeground { get; set; }
+        public string BackgroundValue { get { return IsSelected ? SelectedBackground : Background; } }
+        public string ForegroundValue { get { return IsSelected ? SelectedForeground : Foreground; } }
         public string Border { get; set; }
         public int MinWidth { get; set; }
         public DelegateCommand<TicketViewData> ItemSelectionCommand { get; set; }

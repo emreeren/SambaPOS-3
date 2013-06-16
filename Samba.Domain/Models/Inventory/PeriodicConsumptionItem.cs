@@ -17,7 +17,7 @@ namespace Samba.Domain.Models.Inventory
         public decimal? PhysicalInventory { get; set; }
         public decimal Cost { get; set; }
 
-        public decimal Purchase { get { return Added - Removed; } }
+        public decimal Purchase { get { return Added; } }
 
         public decimal GetInventoryPrediction()
         {
@@ -31,7 +31,7 @@ namespace Samba.Domain.Models.Inventory
 
         public decimal GetPredictedConsumption()
         {
-            return Consumption;
+            return Consumption + Removed;
         }
 
         public decimal GetConsumption()

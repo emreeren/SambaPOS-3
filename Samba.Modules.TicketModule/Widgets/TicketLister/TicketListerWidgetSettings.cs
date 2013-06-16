@@ -61,7 +61,10 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
 
         public string Background { get; set; }
         public string Foreground { get; set; }
+        public string SelectedBackground { get; set; }
+        public string SelectedForeground { get; set; }
         public string Border { get; set; }
+        public bool MultiSelection { get; set; }
 
         private NameWithValue _commandNameValue;
         public NameWithValue CommandNameValue
