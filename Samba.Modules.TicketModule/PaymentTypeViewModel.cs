@@ -63,6 +63,7 @@ namespace Samba.Modules.TicketModule
         }
 
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
+        public int FontSize { get { return Model.FontSize; } set { Model.FontSize = value; } }
 
         public override Type GetViewType()
         {

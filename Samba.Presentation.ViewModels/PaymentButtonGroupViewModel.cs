@@ -59,6 +59,7 @@ namespace Samba.Presentation.ViewModels
                     Caption = x.Name.Replace(" ", "\r"),
                     Command = _makePaymentCommand,
                     Color = x.ButtonColor,
+                    FontSize = x.FontSize,
                     Parameter = x
                 }));
 

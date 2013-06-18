@@ -14,7 +14,7 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <FxButton:FlexButton ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" FontSize="40" Focusable="False" Command="{Binding Command}" 
+                <FxButton:FlexButton ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" FontSize="{Binding FontSize}" Focusable="False" Command="{Binding Command}" 
                                          CommandParameter="{Binding Parameter}" Margin="5" Content="{Binding Caption}">
                 </FxButton:FlexButton>
             </DataTemplate>

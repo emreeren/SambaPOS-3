@@ -9,11 +9,13 @@ namespace Samba.Domain.Models.Tickets
         public PaymentType()
         {
             _paymentTypeMaps = new List<PaymentTypeMap>();
+            FontSize = 40;
         }
 
         public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
         public string ButtonColor { get; set; }
+        public int FontSize { get; set; }
         public virtual AccountTransactionType AccountTransactionType { get; set; }
         public virtual Account Account { get; set; }
         

@@ -14,6 +14,7 @@ namespace Samba.Persistance.DBMigration
         {
             Create.Column("UserId").OnTable("Payments").AsInt32().WithDefaultValue(0);
             Create.Column("UserId").OnTable("ChangePayments").AsInt32().WithDefaultValue(0);
+            Create.Column("FontSize").OnTable("PaymentTypes").AsInt32().WithDefaultValue(0);
         }
 
         public override void Down()

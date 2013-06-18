@@ -20,5 +20,6 @@ namespace Samba.Presentation.ViewModels
 
         public T Parameter { get; set; }
         public string Color { get; set; }
+        public int FontSize { get; set; }
     }
 }
