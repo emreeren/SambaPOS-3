@@ -26,7 +26,7 @@ namespace Samba.Modules.PaymentModule
         private readonly IExpressionService _expressionService;
 
         [ImportingConstructor]
-        public CommandButtonsViewModel(PaymentEditor paymentEditor, IApplicationState applicationState, 
+        public CommandButtonsViewModel(PaymentEditor paymentEditor, IApplicationState applicationState,
             TenderedValueViewModel tenderedValueViewModel, OrderSelectorViewModel orderSelectorViewModel, NumberPadViewModel numberPadViewModel,
             IExpressionService expressionService)
         {
@@ -56,6 +56,7 @@ namespace Samba.Modules.PaymentModule
                         Caption = x.ButtonHeader,
                         Command = _serviceSelectedCommand,
                         Color = x.ButtonColor,
+                        FontSize = x.FontSize,
                         Parameter = x
                     }));
 
@@ -65,6 +66,7 @@ namespace Samba.Modules.PaymentModule
                         Caption = x.AutomationCommand.Name,
                         Command = _executeAutomationCommand,
                         Color = x.AutomationCommand.Color,
+                        FontSize = x.AutomationCommand.FontSize,
                         Parameter = x
                     }));
             }

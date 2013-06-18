@@ -8,10 +8,12 @@ namespace Samba.Domain.Models.Automation
         public AutomationCommand()
         {
             _automationCommandMaps = new List<AutomationCommandMap>();
+            FontSize = 30;
         }
 
         public string ButtonHeader { get; set; }
         public string Color { get; set; }
+        public int FontSize { get; set; }
         public string Values { get; set; }
         public bool ToggleValues { get; set; }
         public int SortOrder { get; set; }

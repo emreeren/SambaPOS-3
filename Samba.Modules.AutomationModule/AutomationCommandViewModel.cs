@@ -16,6 +16,7 @@ namespace Samba.Modules.AutomationModule
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public string Color { get { return Model.Color; } set { Model.Color = value; } }
+        public int FontSize { get { return Model.FontSize; } set { Model.FontSize = value; } }
         public string Values
         {
             get { return (Model.Values ?? "").Replace("|", Environment.NewLine); }

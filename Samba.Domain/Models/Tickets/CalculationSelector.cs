@@ -9,10 +9,12 @@ namespace Samba.Domain.Models.Tickets
         {
             _calculationTypes = new List<CalculationType>();
             _calculationSelectorMaps = new List<CalculationSelectorMap>();
+            FontSize = 30;
         }
 
         public string ButtonHeader { get; set; }
         public string ButtonColor { get; set; }
+        public int FontSize { get; set; }
 
         public int SortOrder { get; set; }
         public string UserString { get { return Name; } }

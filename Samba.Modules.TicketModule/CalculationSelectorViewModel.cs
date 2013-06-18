@@ -5,7 +5,6 @@ using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
@@ -29,6 +28,7 @@ namespace Samba.Modules.TicketModule
 
         public string ButtonHeader { get { return Model.ButtonHeader; } set { Model.ButtonHeader = value; } }
         public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
+        public int FontSize { get { return Model.FontSize; } set { Model.FontSize = value; } }
 
         private ObservableCollection<CalculationType> _calculationTypes;
         public ObservableCollection<CalculationType> CalculationTypes
