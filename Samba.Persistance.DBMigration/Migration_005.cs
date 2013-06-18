@@ -1,9 +1,4 @@
-using System;
-using System.Data.Entity;
-using System.Linq;
 using FluentMigrator;
-using Samba.Domain.Models.Automation;
-using Samba.Localization.Properties;
 
 namespace Samba.Persistance.DBMigration
 {

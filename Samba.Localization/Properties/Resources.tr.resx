@@ -1007,6 +1007,57 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="SortCategories" xml:space="preserve">
     <value>Kategorileri Sırala</value>
   </data>
+  <data name="TicketTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
+-- General layout
+&lt;T&gt;ADİSYON
+&lt;L00&gt;Tarih:{TICKET DATE}
+&lt;L00&gt;Saat:{TIME}
+{ENTITIES}
+&lt;L00&gt;Adisyon No:{TICKET NO}
+&lt;F&gt;-
+{ORDERS}
+&lt;F&gt;=
+&lt;EB&gt;
+{DISCOUNTS}
+&lt;J10&gt;Toplam İkram:|{ORDER STATE TOTAL:Gift}
+&lt;J10&gt;Toplam:|{TICKET TOTAL}
+{PAYMENTS}
+&lt;DB&gt;
+&lt;F&gt;=
+&lt;C10&gt;T E Ş E K K Ü R L E R
+ 
+[DISCOUNTS]
+&lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
+ 
+[PAYMENTS]
+&lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT}
+ 
+[ORDERS]
+-- Default format for orders
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+ 
+[ORDERS:İkram]
+-- Format for gifted orders
+&lt;J00&gt;- {QUANTITY} {NAME}|**İKRAM**
+{ORDER TAGS}
+ 
+[ORDERS:İade]
+-- Nothing will print for void lines
+ 
+[ORDER TAGS]
+-- Format for order tags
+&lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
+ 
+[ENTITIES:Masa]
+-- Table entity format
+&lt;L00&gt;Masa: {ENTITY NAME}
+ 
+[ENTITIES:Müşteri]
+-- Customer entity format
+&lt;J00&gt;Müşteri: {ENTITY NAME} | {ENTITY DATA:Telefon}</value>
+  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Fiyat Değiştir</value>
   </data>
