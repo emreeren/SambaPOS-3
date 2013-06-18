@@ -57,6 +57,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => _settingService.ReadSetting(d).StringValue, Resources.SettingValue);
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString(LocalSettings.CurrencyFormat), "Calculation Total", x => x.Calculations.Count > 0);
             RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(_cacheService.GetEntityTypeIdByEntityName(d)), "Entity Name");
+            RegisterFunction<Ticket>("{ENTITY DATA:([^}]+)}", GetEntityFieldValue);
             RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString(LocalSettings.CurrencyFormat), "Order State Total");
             RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), "Service Total");
 
@@ -110,6 +111,13 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<TaxValue>("{TAX NAME}", (x, d) => x.Name, "Tax Template Name");
         }
 
+        private string GetEntityFieldValue(Ticket ticket, string data)
+        {
+            var parts = data.Split(':');
+            var et = _cacheService.GetEntityTypeIdByEntityName(parts[0]);
+            return ticket.GetEntityFieldValue(et, parts[1]);
+        }
+
         public void RegisterFunction<TModel>(string tag, Func<TModel, string, string> function, string desc = "", Func<TModel, bool> condition = null)
         {
             if (!Functions.ContainsKey(typeof(TModel)))
@@ -118,7 +126,10 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 Functions.Add(typeof(TModel), new ArrayList());
             }
             Functions[typeof(TModel)].Add(new FunctionData<TModel> { Tag = tag, Func = function, Condition = condition });
-            if (!string.IsNullOrEmpty(desc)) Descriptions.Add(tag.Replace(":([^}]+)", ":X}"), desc);
+            if (!string.IsNullOrEmpty(desc))
+            {
+                Descriptions.Add(tag.Replace(":([^}]+)", ":X}"), desc);
+            }
         }
 
         private static string UpperWhitespace(string value)

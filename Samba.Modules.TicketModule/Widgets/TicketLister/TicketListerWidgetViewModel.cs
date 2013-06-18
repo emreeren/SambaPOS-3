@@ -107,17 +107,47 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
 
             if (!string.IsNullOrEmpty(Settings.OrderBy))
             {
-                if (Settings.OrderBy == "Id")
-                    tickets = tickets.OrderBy(x => x.Id);
-                else if (Settings.OrderBy == "Ticket No")
-                    tickets = tickets.OrderBy(x => x.TicketNumber);
-                else if (Settings.OrderBy == "Last Order")
-                    tickets = tickets.OrderBy(x => x.LastOrderDate);
-                else
+                if (Settings.OrderBy.Contains("{"))
                 {
-                    var entityType = _cacheService.GetEntityTypeIdByEntityName(Settings.OrderBy);
-                    if (entityType > 0)
-                        tickets = tickets.OrderBy(x => x.GetEntityName(entityType));
+                    tickets = tickets.OrderBy(x => _printerService.GetPrintingContent(x, Settings.OrderBy, 0));
+                }
+                else switch (Settings.OrderBy)
+                {
+                    case "Id":
+                        tickets = tickets.OrderBy(x => x.Id);
+                        break;
+                    case "Ticket No":
+                        tickets = tickets.OrderBy(x => x.TicketNumber);
+                        break;
+                    case "Last Order":
+                        tickets = tickets.OrderBy(x => x.LastOrderDate);
+                        break;
+                    default:
+                        {
+                            var entityTypeName = Settings.OrderBy;
+                            var entityFieldName = "";
+                            if (entityTypeName.Contains(":"))
+                            {
+                                var parts = entityTypeName.Split(':');
+                                entityTypeName = parts[0];
+                                entityFieldName = parts[1];
+                            }
+                            var entityType = _cacheService.GetEntityTypeIdByEntityName(entityTypeName);
+                            if (entityType > 0)
+                            {
+                                if (string.IsNullOrEmpty(entityFieldName))
+                                    tickets = tickets.OrderBy(x => x.GetEntityName(entityType));
+                                else
+                                {
+                                    tickets =
+                                        tickets.OrderBy(
+                                            x =>
+                                            x.TicketEntities.First(y => y.EntityTypeId == entityType)
+                                             .GetCustomData(entityFieldName));
+                                }
+                            }
+                        }
+                        break;
                 }
             }
 

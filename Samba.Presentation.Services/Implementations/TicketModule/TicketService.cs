@@ -251,13 +251,13 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             foreach (var cp in clonedPayments)
             {
                 var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);
-                ticket.AddPayment(_cacheService.GetPaymentTypeById(cp.PaymentTypeId), account, cp.Amount, GetExchangeRate(account), 0);
+                ticket.AddPayment(_cacheService.GetPaymentTypeById(cp.PaymentTypeId), account, cp.Amount, GetExchangeRate(account), cp.UserId);
             }
 
             foreach (var cp in clonedChangePayments)
             {
                 var account = _accountService.GetAccountById(cp.AccountTransaction.TargetTransactionValue.AccountId);
-                ticket.AddChangePayment(_cacheService.GetChangePaymentTypeById(cp.ChangePaymentTypeId), account, cp.Amount, GetExchangeRate(account), 0);
+                ticket.AddChangePayment(_cacheService.GetChangePaymentTypeById(cp.ChangePaymentTypeId), account, cp.Amount, GetExchangeRate(account), cp.UserId);
             }
 
             clonedEntites.ForEach(x => ticket.UpdateEntity(x.EntityTypeId, x.EntityId, x.EntityName, x.AccountTypeId, x.AccountId, x.EntityCustomData));

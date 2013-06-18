@@ -16,6 +16,8 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             Width = 0;
             FontSize = 12;
             FontName = "";
+            SelectedBackground = "Silver";
+            SelectedForeground = "Black";
             Background = "Transparent";
             Foreground = "Black";
             Border = "Transparent";

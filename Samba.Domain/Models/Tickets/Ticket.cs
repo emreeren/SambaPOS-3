@@ -212,7 +212,7 @@ namespace Samba.Domain.Models.Tickets
         public void AddPayment(PaymentType paymentType, Account account, decimal amount, decimal exchangeRate, int userId)
         {
             var transaction = TransactionDocument.AddNewTransaction(paymentType.AccountTransactionType, GetTicketAccounts(account), amount, exchangeRate);
-            var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name, PaymentTypeId = paymentType.Id };
+            var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name, PaymentTypeId = paymentType.Id, UserId = userId };
             Payments.Add(payment);
             LastPaymentDate = DateTime.Now;
             RemainingAmount = GetRemainingAmount();
@@ -225,7 +225,7 @@ namespace Samba.Domain.Models.Tickets
         public void AddChangePayment(ChangePaymentType changePaymentType, Account account, decimal amount, decimal exchangeRate, int userId)
         {
             var transaction = TransactionDocument.AddNewTransaction(changePaymentType.AccountTransactionType, GetTicketAccounts(account), amount, exchangeRate);
-            var payment = new ChangePayment { AccountTransaction = transaction, Amount = amount, Name = account.Name, ChangePaymentTypeId = changePaymentType.Id };
+            var payment = new ChangePayment { AccountTransaction = transaction, Amount = amount, Name = account.Name, ChangePaymentTypeId = changePaymentType.Id, UserId = userId };
             ChangePayments.Add(payment);
         }
 
@@ -490,7 +490,7 @@ namespace Samba.Domain.Models.Tickets
                 item.OrderNumber = orderNumber;
             }
 
-           // Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
+            // Orders.Where(x => x.Id == 0).ToList().ForEach(x => x.CreatedDateTime = DateTime.Now);
         }
 
         public void RequestLock()
@@ -736,6 +736,13 @@ namespace Samba.Domain.Models.Tickets
         {
             var tr = TicketEntities.FirstOrDefault(x => x.EntityTypeId == entityTypeId);
             if (tr != null) return tr.EntityName;
+            return "";
+        }
+
+        public string GetEntityFieldValue(int entityTypeId, string fieldName)
+        {
+            var tr = TicketEntities.FirstOrDefault(x => x.EntityTypeId == entityTypeId);
+            if (tr != null) return tr.GetCustomData(fieldName);
             return "";
         }
 

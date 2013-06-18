@@ -21,5 +21,6 @@ namespace Samba.Domain.Models.Tickets
         public int AccountTransactionId { get; set; }
         public virtual AccountTransaction AccountTransaction { get; set; }
         public decimal Amount { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -83,7 +83,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.ExecutePrintJob, Resources.ExecutePrintJob, new { PrintJobName = "", OrderStateName = "", OrderState = "", OrderStateValue = "", OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
             AutomationService.RegisterActionType(ActionNames.StartProcess, Resources.StartProcess, new { FileName = "", Arguments = "", UseShellExecute = false, IsHidden = false });
-            AutomationService.RegisterActionType(ActionNames.LoopValues, "Loop Values", new { Values = "" });
+            AutomationService.RegisterActionType(ActionNames.LoopValues, "Loop Values", new { Name = "", Values = "" });
         }
 
         private static void RegisterRules()
@@ -120,7 +120,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
             AutomationService.RegisterEvent(RuleEventNames.DeviceEventGenerated, Resources.DeviceEventGenerated, new { DeviceName = "", EventName = "", EventData = "" });
             AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted);
-            AutomationService.RegisterEvent(RuleEventNames.ValueLooped, "Value Looped", new { Value = "" });
+            AutomationService.RegisterEvent(RuleEventNames.ValueLooped, "Value Looped", new {Name="", Value = "" });
         }
 
         private static void RegisterParameterSources()
@@ -170,12 +170,13 @@ namespace Samba.Presentation.ViewModels
             {
                 if (x.Value.Action.ActionType == ActionNames.LoopValues)
                 {
+                    var name = x.Value.GetAsString("Name");
                     var values = x.Value.GetAsString("Values");
                     if (!string.IsNullOrEmpty(values))
                     {
                         foreach (var value in values.Split(','))
                         {
-                            ApplicationState.NotifyEvent(RuleEventNames.ValueLooped, new { Value = value });
+                            ApplicationState.NotifyEvent(RuleEventNames.ValueLooped, new { Name = name, Value = value });
                         }
                     }
                 }

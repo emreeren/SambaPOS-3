@@ -22,7 +22,7 @@ namespace Samba.Presentation.Controls.Interaction
         protected virtual FrameworkElement CreateComboBox(PropertyItem pi, PropertyControlFactoryOptions options)
         {
             var cbox = new ComboBox { IsEditable = true };
-            cbox.SetBinding(Selector.SelectedItemProperty, new Binding(pi.Descriptor.Name + ".Text"));
+            cbox.SetBinding(ComboBox.TextProperty, new Binding(pi.Descriptor.Name + ".Text"));
             cbox.SetBinding(ItemsControl.ItemsSourceProperty, new Binding(pi.Descriptor.Name + ".Values"));
             return cbox;
         }

@@ -112,40 +112,39 @@ html
 
         public static string PrintFontFamily
         {
-          get
-          {
-            if (_settingsObject.PrintFontFamily == null || _settingsObject.PrintFontFamily == string.Empty ||
-              _settingsObject.PrintFontFamily == "")
+            get
             {
-              _settingsObject.PrintFontFamily = "Consolas";
-              SaveSettings();
-              //return "Consolas";
+                if (string.IsNullOrEmpty(_settingsObject.PrintFontFamily) || _settingsObject.PrintFontFamily == "")
+                {
+                    _settingsObject.PrintFontFamily = "Consolas";
+                    SaveSettings();
+                    //return "Consolas";
+                }
+                return _settingsObject.PrintFontFamily;
             }
-            return _settingsObject.PrintFontFamily;
-          }
-          set
-          {
-            _settingsObject.PrintFontFamily = value;
-            SaveSettings();
-          }
+            set
+            {
+                _settingsObject.PrintFontFamily = value;
+                SaveSettings();
+            }
         }
 
         public static string ApiHost
         {
-          get { return _settingsObject.ApiHost; }
-          set { _settingsObject.ApiHost = value; SaveSettings(); }
+            get { return _settingsObject.ApiHost; }
+            set { _settingsObject.ApiHost = value; SaveSettings(); }
         }
 
         public static TimeSpan TokenLifeTime
         {
-          get { return _settingsObject.TokenLifeTime; }
-          set { _settingsObject.TokenLifeTime = value; SaveSettings(); }
+            get { return _settingsObject.TokenLifeTime; }
+            set { _settingsObject.TokenLifeTime = value; SaveSettings(); }
         }
 
         public static string ApiPort
         {
-          get { return _settingsObject.ApiPort; }
-          set { _settingsObject.ApiPort = value; SaveSettings(); }
+            get { return _settingsObject.ApiPort; }
+            set { _settingsObject.ApiPort = value; SaveSettings(); }
         }
 
         public static string DefaultHtmlReportHeader
@@ -203,8 +202,8 @@ html
         public static string PrintoutCurrencyFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
-        public static int DbVersion { get { return 4; } }
-        public static string AppVersion { get { return "3.04 BETA"; } }
+        public static int DbVersion { get { return 5; } }
+        public static string AppVersion { get { return "3.05 BETA"; } }
         public static string AppName { get { return "SambaPOS3"; } }
 
         private static IList<string> _supportedLanguages;
