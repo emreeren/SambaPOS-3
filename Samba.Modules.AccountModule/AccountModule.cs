@@ -167,6 +167,7 @@ namespace Samba.Modules.AccountModule
         private void ActivateAccountSelector()
         {
             _regionManager.ActivateRegion(RegionNames.MainRegion, _accountSelectorView);
+            _accountSelectorViewModel.Refresh();
         }
 
         public override object GetVisibleView()

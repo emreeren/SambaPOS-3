@@ -28,6 +28,7 @@ namespace Samba.Modules.AccountModule
         private AccountTransactionDocumentType _selectedDocumentType;
 
         public CaptionCommand<string> CreateDocuments { get; set; }
+        public CaptionCommand<string> GoBack { get; set; }
 
         [ImportingConstructor]
         public BatchDocumentCreatorViewModel(IAccountService accountService, ICacheService cacheService)
@@ -36,6 +37,12 @@ namespace Samba.Modules.AccountModule
             _accountService = accountService;
             _cacheService = cacheService;
             CreateDocuments = new CaptionCommand<string>(string.Format(Resources.Create_f, "").Trim(), OnCreateDocuments, CanCreateDocument);
+            GoBack = new CaptionCommand<string>(Resources.Back, OnGoBack);
+        }
+
+        private void OnGoBack(string obj)
+        {
+            SelectedDocumentType.PublishEvent(EventTopicNames.BatchDocumentsCreated);
         }
 
         public IEnumerable<AccountType> GetNeededAccountTypes()

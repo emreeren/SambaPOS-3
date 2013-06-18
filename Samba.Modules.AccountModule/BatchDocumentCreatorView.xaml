@@ -17,11 +17,13 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <Label HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Content="{Binding Title}" FontWeight="Bold" FontSize="20"/>
-        <FlexButton:FlexButton Grid.Column="1" Margin="5" Padding="5" Command="{Binding CreateDocuments}" Content="{Binding CreateDocuments.Caption}">
 
-        </FlexButton:FlexButton>
+        <Label HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Content="{Binding Title}" FontWeight="Bold" FontSize="20"/>
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <FlexButton:FlexButton Padding="5" Margin="5" Command="{Binding GoBack}" Content="{Binding GoBack.Caption}"/>
+            <FlexButton:FlexButton Padding="5" Margin="5" Command="{Binding CreateDocuments}" Content="{Binding CreateDocuments.Caption}"/>
+        </StackPanel>
+        
         <DataGrid Name="MainDataGrid" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Accounts}" HorizontalAlignment="Stretch" 
                   HorizontalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                   VerticalGridLinesBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
