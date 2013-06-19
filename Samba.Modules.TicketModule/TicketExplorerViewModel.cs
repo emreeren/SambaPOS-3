@@ -43,8 +43,7 @@ namespace Samba.Modules.TicketModule
             PreviousWorkPeriod = new CaptionCommand<string>("<<", OnExecutePreviousWorkPeriod);
             NextWorkPeriod = new CaptionCommand<string>(">>", OnExecuteNextWorkPeriod);
             RefreshDatesCommand = new CaptionCommand<string>(Resources.Refresh, OnRefreshDates);
-
-            DisplayTicketCommand = new CaptionCommand<string>("Display", OnDisplayTicket);
+            DisplayTicketCommand = new CaptionCommand<string>(Resources.Display, OnDisplayTicket);
         }
 
         private IList<ITicketExplorerFilter> _filters;

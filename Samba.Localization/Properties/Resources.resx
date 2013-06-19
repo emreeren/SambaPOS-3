@@ -3220,4 +3220,7 @@ Error Message:
   <data name="LastOrderDuration" xml:space="preserve">
     <value>Last Order Duration</value>
   </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
+  </data>
 </root>

@@ -2205,6 +2205,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display.
+        /// </summary>
+        public static string Display {
+            get {
+                return ResourceManager.GetString("Display", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display All Values.
         /// </summary>
         public static string DisplayAllValues {
