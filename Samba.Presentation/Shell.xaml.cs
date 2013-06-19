@@ -147,7 +147,7 @@ namespace Samba.Presentation
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            Title = Title + " [App: " + LocalSettings.AppVersion + "]";
+            Title = Title + " [App: " + LocalSettings.AppVersion + "] [" + LocalSettings.AppVersionDateTime + "]";
             if (LocalSettings.CurrentDbVersion > 0)
                 Title += " [DB: " + LocalSettings.DbVersion + "-" + LocalSettings.CurrentDbVersion + "]";
             _timer.Interval = TimeSpan.FromSeconds(1);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
@@ -202,8 +203,25 @@ html
         public static string PrintoutCurrencyFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
-        public static int DbVersion { get { return 5; } }
-        public static string AppVersion { get { return "3.05 BETA"; } }
+        public static int DbVersion { get { return Convert.ToInt32(GetVersionDat("DbVersion")); } }
+        public static string AppVersion { get { return GetVersionDat("AppVersion"); } }
+        public static DateTime AppVersionDateTime
+        {
+            get
+            {
+                //2013-06-19 1415
+                Regex reg = new Regex(@"(\d\d\d\d)-(\d\d)-(\d\d) (\d\d)(\d\d)");
+                Match match = reg.Match(GetVersionDat("VersionTime"));
+
+                return new DateTime(Convert.ToInt32(match.Groups[1].Value),
+                                    Convert.ToInt32(match.Groups[2].Value),
+                                    Convert.ToInt32(match.Groups[3].Value),
+                                    Convert.ToInt32(match.Groups[4].Value),
+                                    Convert.ToInt32(match.Groups[5].Value),
+                                    0);
+            }
+        }
+
         public static string AppName { get { return "SambaPOS3"; } }
 
         private static IList<string> _supportedLanguages;
@@ -221,6 +239,29 @@ html
                 if (string.IsNullOrEmpty(ConnectionString) && IsSqlce40Installed()) return "CE";
                 return "TX";
             }
+        }
+
+        private static Dictionary<string, string> versionDat;
+
+        private static string GetVersionDat(string versionType)
+        {
+            if (versionDat == null || versionDat.Count == 0)
+            {
+                versionDat = new Dictionary<string, string>();
+                foreach (string item in File.ReadAllLines(DataPath + @"\version.dat"))
+                {
+                    string[] split = item.Split('=');
+                    versionDat.Add(split[0], split[1]);
+                }
+            }
+            if (versionDat.ContainsKey(versionType))
+            {
+                return versionDat[versionType];
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("versionType","VersionType "+ versionType + " doesn't exist!");
+            }   
         }
 
         public static bool IsSqlce40Installed()

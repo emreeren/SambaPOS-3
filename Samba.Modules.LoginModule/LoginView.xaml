@@ -15,8 +15,8 @@ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         <Image Grid.Column="0" Stretch="None" Source="{Binding LogoPath}" VerticalAlignment="Center"
              HorizontalAlignment="Center">
         </Image>
-        <TextBlock Grid.Row="1" FontSize="30" FontWeight="Black" Foreground="WhiteSmoke" Text="{Binding AppLabel}"
-             Margin="5,0,0,-5">
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" FontSize="30" FontWeight="Black" Foreground="WhiteSmoke" Text="{Binding AppLabel}"
+             Margin="5,0,0,0">
             <TextBlock.Effect>
                 <DropShadowEffect Opacity="0.3" ShadowDepth="1" BlurRadius="3">
                 </DropShadowEffect>
