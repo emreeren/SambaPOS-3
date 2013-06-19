@@ -203,15 +203,20 @@ html
         public static string PrintoutCurrencyFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
-        public static int DbVersion { get { return Convert.ToInt32(GetVersionDat("DbVersion")); } }
-        public static string AppVersion { get { return GetVersionDat("AppVersion"); } }
+        private static int DefaultDbVersion { get { return 5; } }
+        private static string DefaultAppVersion { get { return "3.06 BETA"; } }
+
+        public static int DbVersion { get { return CanReadVersionFile() ? Convert.ToInt32(GetVersionDat("DbVersion")) : DefaultDbVersion; } }
+        public static string AppVersion { get { return CanReadVersionFile() ? GetVersionDat("AppVersion") : DefaultAppVersion; } }
         public static DateTime AppVersionDateTime
         {
             get
             {
+                if (!CanReadVersionFile()) return DateTime.Now;
+
                 //2013-06-19 1415
-                Regex reg = new Regex(@"(\d\d\d\d)-(\d\d)-(\d\d) (\d\d)(\d\d)");
-                Match match = reg.Match(GetVersionDat("VersionTime"));
+                var reg = new Regex(@"(\d\d\d\d)-(\d\d)-(\d\d) (\d\d)(\d\d)");
+                var match = reg.Match(GetVersionDat("VersionTime"));
 
                 return new DateTime(Convert.ToInt32(match.Groups[1].Value),
                                     Convert.ToInt32(match.Groups[2].Value),
@@ -241,27 +246,37 @@ html
             }
         }
 
-        private static Dictionary<string, string> versionDat;
+        private static Dictionary<string, string> _versionData;
+        private static readonly string VersionDataFilePath = DataPath + @"\version.dat";
+
+        private static bool CanReadVersionFile()
+        {
+#if DEBUG
+            return false;
+#else
+            return File.Exists(VersionDataFilePath);
+#endif
+        }
 
         private static string GetVersionDat(string versionType)
         {
-            if (versionDat == null || versionDat.Count == 0)
+            if (_versionData == null || _versionData.Count == 0)
             {
-                versionDat = new Dictionary<string, string>();
-                foreach (string item in File.ReadAllLines(DataPath + @"\version.dat"))
+                _versionData = new Dictionary<string, string>();
+                foreach (string item in File.ReadAllLines(VersionDataFilePath))
                 {
                     string[] split = item.Split('=');
-                    versionDat.Add(split[0], split[1]);
+                    _versionData.Add(split[0], split[1]);
                 }
             }
-            if (versionDat.ContainsKey(versionType))
+            if (_versionData.ContainsKey(versionType))
             {
-                return versionDat[versionType];
+                return _versionData[versionType];
             }
             else
             {
-                throw new ArgumentOutOfRangeException("versionType","VersionType "+ versionType + " doesn't exist!");
-            }   
+                throw new ArgumentOutOfRangeException("versionType", "VersionType " + versionType + " doesn't exist!");
+            }
         }
 
         public static bool IsSqlce40Installed()
