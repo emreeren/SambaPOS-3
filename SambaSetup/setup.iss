@@ -26,8 +26,12 @@ tr.sample_data=Örnek Veri
 tr.handheld_terminal_app=El terminali uygulamasý
 tr.ce_install_sp3_required=Compact SQL 4.0 çalýþtýrmak için Service Pack 3 gerektiðinden kurulum listesinden kaldýrýldý. Program TXT dosya veritabaný üzerinden çalýþacak.
 
-#define Version "3.05 "
+#define Version "3.05"
 #define FileVersion "305"
+#define DbVersion "5"
+
+#define VersionInfo "3.05 BETA"
+#define VersionTime GetDateTimeString('yyyy-mm-dd hhnn', '-', ':');
 
 [Setup]
 AppName=SambaPOS
@@ -38,12 +42,12 @@ OutputDir=bin
 OutputBaseFilename=SambaSetup{#FileVersion}_Beta
 SourceDir=.
 AppCopyright=Copyright © Açýk Yazýlým Platformu 2013
-AppVerName=Samba POS {#Version}
+AppVerName=Samba POS {#VersionInfo}
 
 DefaultGroupName=SambaPOS3
 AllowNoIcons=true
 AppPublisher=Açýk Yazýlým
-AppVersion={#Version}
+AppVersion={#VersionInfo}
 UninstallDisplayIcon={app}\Samba.Presentation.exe
 UninstallDisplayName=SambaPOS3
 UsePreviousGroup=true
@@ -180,7 +184,32 @@ Name: {group}\Samba Data; Filename: {commonappdata}\Ozgu Tech\SambaPOS3\
 Filename: {app}\Samba.Presentation.exe; Description: {cm:LaunchProgram,Samba POS}; Flags: nowait postinstall skipifsilent unchecked
 
 [Code]
-
+function CreateVersion(): boolean;
+var
+  fileName : string;
+  lines : TArrayOfString;
+begin
+  Result := true;
+  fileName := ExpandConstant('{commonappdata}\Ozgu Tech\SambaPOS3\version.dat');
+  SetArrayLength(lines, 5);
+  lines[0] := ExpandConstant('Version={#Version}');
+  lines[1] := ExpandConstant('FileVersion={#FileVersion}');
+  lines[2] := ExpandConstant('DbVersion={#DbVersion}');
+  lines[3] := ExpandConstant('AppVersion={#VersionInfo}');
+  lines[4] := ExpandConstant('VersionTime={#VersionTime}');
+  
+  Result := SaveStringsToFile(filename,lines,false);
+  
+  exit;
+end;
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if  CurStep=ssPostInstall then
+    begin
+         CreateVersion();
+    end
+end;
+ 
 procedure CurPageChanged(CurPageID: Integer);
 begin
 if (CurPageId = wpSelectProgramGroup) then
