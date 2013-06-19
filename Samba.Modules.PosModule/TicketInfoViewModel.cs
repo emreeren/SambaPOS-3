@@ -49,7 +49,7 @@ namespace Samba.Modules.PosModule
             get
             {
                 if (SelectedTicket.IsClosed) return SelectedTicket.Date.ToString();
-                var time = new TimeSpan(DateTime.Now.Ticks - SelectedTicket.Date.Ticks).TotalMinutes.ToString("#");
+                var time = SelectedTicket.GetTicketCreationMinuteStr();
 
                 return !string.IsNullOrEmpty(time)
                     ? string.Format(Resources.TicketTimeDisplay_f, SelectedTicket.Date.ToShortTimeString(), time)
@@ -62,7 +62,8 @@ namespace Samba.Modules.PosModule
             get
             {
                 if (SelectedTicket.IsClosed) return SelectedTicket.LastOrderDate.ToString();
-                var time = new TimeSpan(DateTime.Now.Ticks - SelectedTicket.LastOrderDate.Ticks).TotalMinutes.ToString("#");
+                var time = SelectedTicket.GetTicketLastOrderMinuteStr();
+
                 return !string.IsNullOrEmpty(time)
                     ? string.Format(Resources.TicketTimeDisplay_f, SelectedTicket.LastOrderDate.ToShortTimeString(), time)
                     : SelectedTicket.LastOrderDate.ToShortTimeString();

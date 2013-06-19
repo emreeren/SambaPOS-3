@@ -790,5 +790,15 @@ namespace Samba.Domain.Models.Tickets
             ChangePayments.ToList().ForEach(RemoveChangePayment);
             Calculations.ToList().ForEach(RemoveCalculation);
         }
+
+        public string GetTicketCreationMinuteStr()
+        {
+            return new TimeSpan(DateTime.Now.Ticks - Date.Ticks).TotalMinutes.ToString("#");
+        }
+
+        public string GetTicketLastOrderMinuteStr()
+        {
+            return new TimeSpan(DateTime.Now.Ticks - LastOrderDate.Ticks).TotalMinutes.ToString("#");
+        }
     }
 }

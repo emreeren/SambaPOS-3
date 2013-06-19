@@ -3166,4 +3166,58 @@ Error Message:
   <data name="DefaultTargetAccount" xml:space="preserve">
     <value>Default Target Account</value>
   </data>
+  <data name="ProductTag" xml:space="preserve">
+    <value>Product Tag</value>
+  </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>Group Footer</value>
+  </data>
+  <data name="GroupKey" xml:space="preserve">
+    <value>Group Key</value>
+  </data>
+  <data name="GroupTotal" xml:space="preserve">
+    <value>Group Total</value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>Change Payment</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="OrderGrouping" xml:space="preserve">
+    <value>Order Grouping</value>
+  </data>
+  <data name="TotalTaxableAmount" xml:space="preserve">
+    <value>Total Taxable Amount</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Taxable Amount</value>
+  </data>
+  <data name="TaxRate" xml:space="preserve">
+    <value>Tax Rate</value>
+  </data>
+  <data name="TaxAmount" xml:space="preserve">
+    <value>Tax Amount</value>
+  </data>
+  <data name="Amount_f" xml:space="preserve">
+    <value>{0} Amount</value>
+  </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Calculation</value>
+  </data>
+  <data name="OrderTagValue" xml:space="preserve">
+    <value>Order Tag Value</value>
+  </data>
+  <data name="OrderStateValue" xml:space="preserve">
+    <value>Order State Value</value>
+  </data>
+  <data name="TicketState" xml:space="preserve">
+    <value>Ticket State</value>
+  </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>Ticket Duration</value>
+  </data>
+  <data name="LastOrderDuration" xml:space="preserve">
+    <value>Last Order Duration</value>
+  </data>
 </root>

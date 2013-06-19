@@ -46,19 +46,28 @@ namespace Samba.Modules.PrinterModule
             var result = new Dictionary<string, string>();
 
             result.Add("--Format Parts--", "");
-            result.Add("{ENTITIES}", "Entity List");
-            result.Add("{ORDERS}", "Order List");
-            result.Add("{ORDER TAGS}", "Order Tag List");
-            result.Add("{TAXES}", "Tax List");
-            result.Add("{DISCOUNTS}", "Discount List");
-            result.Add("{SERVICES}", "Service List");
-            result.Add("{PAYMENTS}", "Payment List");
-            result.Add("{CHANGES}", "Change Payment List");
+            result.Add("{ENTITIES}", string.Format(Resources.List_f, Resources.Entity));
+            result.Add("{ORDERS}", string.Format(Resources.List_f, Resources.Order));
+            result.Add("{ORDER TAGS}", string.Format(Resources.List_f, Resources.OrderTag));
+            result.Add("{TAXES}", string.Format(Resources.List_f, Resources.Tax));
+            result.Add("{DISCOUNTS}", string.Format(Resources.List_f, Resources.Discount));
+            result.Add("{SERVICES}", string.Format(Resources.List_f, Resources.Service));
+            result.Add("{PAYMENTS}", string.Format(Resources.List_f, Resources.Payment));
+            result.Add("{CHANGES}", string.Format(Resources.List_f, Resources.ChangePayment));
 
             foreach (var tagDescription in _printerService.GetTagDescriptions())
             {
                 result.Add(tagDescription.Key, tagDescription.Value);
             }
+
+            result.Add("--" + Resources.OrderGrouping + "--", "");
+            result.Add("[ORDERS GROUP|ORDER STATE:x]", Resources.OrderState);
+            result.Add("[ORDERS GROUP|ORDER TAG:x]", Resources.OrderTag);
+            result.Add("[ORDERS GROUP|PRODUCT GROUP]", Resources.GroupCode);
+            result.Add("[ORDERS GROUP|PRODUCT TAG]", Resources.ProductTag);
+            result.Add("[ORDERS FOOTER]", Resources.GroupFooter);
+            result.Add("{GROUP KEY}", Resources.GroupKey);
+            result.Add("{GROUP TOTAL}", Resources.GroupTotal);
 
             return result;
         }
