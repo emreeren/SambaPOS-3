@@ -135,4 +135,10 @@ Error Message:
   <data name="Transaction">
     <value xml:space="preserve">Transaction</value>
   </data>
+  <data name="Connected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="MessageServerError" xml:space="preserve">
+    <value>Message Server Error</value>
+  </data>
 </root>

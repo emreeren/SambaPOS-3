@@ -57,8 +57,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             if (groupSwitchValue != null)
             {
                 var result = "";
-                var groups = models.GroupBy(x => GetGroupSelector(x, groupSwitchValue));
-                foreach (var @group in groups.OrderBy(x => x.Key))
+                var groups = models.GroupBy(x => GetGroupSelector(x, groupSwitchValue)).OrderBy(x => x.Key);
+                foreach (var @group in groups)
                 {
                     var grp = @group;
                     var gtn = string.Format("{0} GROUP{1}", GetTargetTag(), grp.Key.Name != null ? ":" + grp.Key.Name : "");

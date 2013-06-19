@@ -18,7 +18,7 @@ namespace Samba.Domain.Models.Tickets
         private static OrderStateValue _default;
         public static OrderStateValue Default
         {
-            get { return _default ?? (_default = new OrderStateValue()); }
+            get { return _default ?? (_default = new OrderStateValue() { OrderKey = "", StateName = "", StateValue = "", State = "" }); }
         }
 
         public bool Equals(OrderStateValue other)

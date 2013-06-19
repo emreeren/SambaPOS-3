@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 
@@ -10,12 +11,14 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
     {
         private readonly OrderTagValueChanger _orderTagValueChanger;
         private readonly OrderStateValueChanger _orderStateValueChanger;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public OrderValueChanger(OrderTagValueChanger orderTagValueChanger, OrderStateValueChanger orderStateValueChanger)
+        public OrderValueChanger(OrderTagValueChanger orderTagValueChanger, OrderStateValueChanger orderStateValueChanger, ICacheService cacheService)
         {
             _orderTagValueChanger = orderTagValueChanger;
             _orderStateValueChanger = orderStateValueChanger;
+            _cacheService = cacheService;
         }
 
         public override string GetTargetTag()
@@ -60,8 +63,18 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 if (parts[0] == "ORDER STATE")
                 {
                     var r = arg.GetStateValue(parts[1]);
-                    return new GroupingKey { Key = r.OrderKey, Name = r.StateValue };
+                    return new GroupingKey { Key = r.OrderKey, Name = r.State };
                 }
+            }
+            if (switchValue == "PRODUCT GROUP")
+            {
+                var mi = GetMenuItem(arg.MenuItemId);
+                return new GroupingKey { Key = mi.GroupCode, Name = mi.GroupCode };
+            }
+            if (switchValue == "PRODUCT TAG")
+            {
+                var mi = GetMenuItem(arg.MenuItemId);
+                return new GroupingKey { Key = mi.Tag, Name = mi.Tag };
             }
             return base.GetGroupSelector(arg, switchValue);
         }
@@ -76,6 +89,12 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                     obj.GetOrderTagValues(x => x.TagName == parts[1]).ToList().ForEach(obj.UntagOrder);
                 }
             }
+        }
+
+        private MenuItem GetMenuItem(int menuItemId)
+        {
+            var mi = _cacheService.GetMenuItem(x => x.Id == menuItemId);
+            return mi ?? (MenuItem.All);
         }
     }
 }

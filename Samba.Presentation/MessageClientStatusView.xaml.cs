@@ -21,18 +21,26 @@ namespace Samba.Presentation
 
         private void OnTimerTick(object state)
         {
+            if (Application.Current == null)
+            {
+                _timer.Dispose();
+                return;
+            }
+
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
                 new Action(delegate
                 {
                     if (AppServices.MessagingService.IsConnected)
                     {
-                        StatusLabel.Content = "Bağlı.";
+                        StatusLabel.Content = Properties.Resources.Connected;
                         StatusLabel.Foreground = Brushes.Green;
+                        _timer.Change(60000, 60000);
                     }
                     else
                     {
-                        StatusLabel.Content = "Bağlanmadı.";
+                        StatusLabel.Content = Properties.Resources.MessageServerError;
                         StatusLabel.Foreground = Brushes.Red;
+                        _timer.Change(10000, 10000);
                     }
                 }));
         }

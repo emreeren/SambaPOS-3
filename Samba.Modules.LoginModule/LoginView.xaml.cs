@@ -54,7 +54,7 @@ namespace Samba.Modules.LoginModule
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         private void UserControl_PreviewTextInput(object sender, TextCompositionEventArgs e)
