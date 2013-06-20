@@ -71,6 +71,11 @@ namespace Samba.Infrastructure.Data
                 return c.TargetProp.Value;
             }
 
+            if (c.SourceProp.Value is IEntityClass)
+            {
+                return c.SourceProp.Value;
+            }
+
             if (c.TargetProp.Value == null)
             {
                 try
