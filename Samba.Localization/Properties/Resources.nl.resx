@@ -277,6 +277,9 @@
   <data name="Account" xml:space="preserve">
     <value>Rekening</value>
   </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>Apparaatgebeurtenis gegenereerd</value>
+  </data>
   <data name="Liability" xml:space="preserve">
     <value>Aansprakelijkheid</value>
   </data>
@@ -709,6 +712,9 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
   </data>
   <data name="Eleven" xml:space="preserve">
     <value>Elf</value>
+  </data>
+  <data name="BatchCreate" xml:space="preserve">
+    <value>Batch maken</value>
   </data>
   <data name="CanOpenDashboard" xml:space="preserve">
     <value>Mag Dashboard Openen</value>
@@ -1500,6 +1506,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="Source" xml:space="preserve">
     <value>Bron</value>
   </data>
+  <data name="DefaultSourceAccount" xml:space="preserve">
+    <value>Standaard rekening bron</value>
+  </data>
   <data name="AddOrder" xml:space="preserve">
     <value>Bestelling Toevoegen</value>
   </data>
@@ -1631,6 +1640,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Rapportage Machtigingen</value>
+  </data>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>Toegewezen rekening</value>
   </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Gewicht Barcodes</value>
@@ -2074,6 +2086,9 @@ Foutbericht:
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Sub-knop Hoogte</value>
   </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>Zoek eenheid</value>
+  </data>
   <data name="ThisMonth" xml:space="preserve">
     <value>Deze maand</value>
   </data>
@@ -2492,6 +2507,9 @@ Bon</value>
   <data name="PhoneNumber" xml:space="preserve">
     <value>Telefoon</value>
   </data>
+  <data name="BatchCreateDocuments" xml:space="preserve">
+    <value>Batch documenten maken</value>
+  </data>
   <data name="Customer" xml:space="preserve">
     <value>Klant</value>
   </data>
@@ -2587,6 +2605,9 @@ Bon</value>
   </data>
   <data name="FieldType" xml:space="preserve">
     <value>Veld Soort</value>
+  </data>
+  <data name="SourceAccountTypeDesc" xml:space="preserve">
+    <value>Bron rekeningtype (debet)</value>
   </data>
   <data name="OrderUntagged" xml:space="preserve">
     <value>Bestelling ongelabeld</value>
@@ -2714,6 +2735,9 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
   </data>
   <data name="Ninety" xml:space="preserve">
     <value>Negentig</value>
+  </data>
+  <data name="DefaultTargetAccount" xml:space="preserve">
+    <value>Standaard rekening doel</value>
   </data>
   <data name="PrinterName" xml:space="preserve">
     <value>Printer Naam</value>
@@ -2864,6 +2888,9 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
   </data>
   <data name="Exit" xml:space="preserve">
     <value>Afsluiten</value>
+  </data>
+  <data name="TargetAccountTypeDesc" xml:space="preserve">
+    <value>Doel-rekeningtype (Credit)</value>
   </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Tekst geschreven totale waarde</value>

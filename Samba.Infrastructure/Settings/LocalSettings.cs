@@ -206,13 +206,13 @@ html
         private static int DefaultDbVersion { get { return 5; } }
         private static string DefaultAppVersion { get { return "3.06 BETA"; } }
 
-        public static int DbVersion { get { return CanReadVersionFile() ? Convert.ToInt32(GetVersionDat("DbVersion")) : DefaultDbVersion; } }
-        public static string AppVersion { get { return CanReadVersionFile() ? GetVersionDat("AppVersion") : DefaultAppVersion; } }
+        public static int DbVersion { get { return CanReadVersionFromFile() ? Convert.ToInt32(GetVersionDat("DbVersion")) : DefaultDbVersion; } }
+        public static string AppVersion { get { return CanReadVersionFromFile() ? GetVersionDat("AppVersion") : DefaultAppVersion; } }
         public static DateTime AppVersionDateTime
         {
             get
             {
-                if (!CanReadVersionFile()) return DateTime.Now;
+                if (!CanReadVersionFromFile()) return DateTime.Now;
 
                 //2013-06-19 1415
                 var reg = new Regex(@"(\d\d\d\d)-(\d\d)-(\d\d) (\d\d)(\d\d)");
@@ -249,7 +249,7 @@ html
         private static Dictionary<string, string> _versionData;
         private static readonly string VersionDataFilePath = DataPath + @"\version.dat";
 
-        private static bool CanReadVersionFile()
+        private static bool CanReadVersionFromFile()
         {
 #if DEBUG
             return false;
