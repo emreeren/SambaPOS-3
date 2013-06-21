@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
+using Samba.Infrastructure.Settings;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
@@ -62,21 +63,33 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 {
                     var grp = @group;
                     var gtn = string.Format("{0} GROUP{1}", GetTargetTag(), grp.Key.Name != null ? ":" + grp.Key.Name : "");
-                    var groupTemplate = (template.GetPart(gtn) ?? "");
-                    groupTemplate = Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP KEY}", () => (grp.Key.Name ?? ""));
-                    groupTemplate = Helper.FormatDataIf(grp.Key != null, groupTemplate, "{GROUP SUM}", () => grp.Sum(x => GetSumSelector(x)).ToString("#,#0.00"));
+                    var groupTemplate = UpdateGroupTemplateValues(template, gtn, grp);
                     result += ReplaceValues(groupTemplate, grp.ElementAt(0), template) + "\r\n";
-                    //group.ToList().ForEach(x => ProcessItem(x, groupSwitchValue));
                     result += string.Join("\r\n", grp.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
+                    
                     var ftr = string.Format("{0} FOOTER{1}", GetTargetTag(), grp.Key.Name != null ? ":" + grp.Key.Name : "");
-                    var ftrTemplate = template.GetPart(ftr) ?? "";
-                    ftrTemplate = Helper.FormatDataIf(grp.Key != null, ftrTemplate, "{GROUP KEY}", () => (grp.Key.Name ?? ""));
-                    ftrTemplate = Helper.FormatDataIf(grp.Key != null, ftrTemplate, "{GROUP SUM}", () => grp.Sum(x => GetSumSelector(x)).ToString("#,#0.00"));
+                    var ftrTemplate = UpdateGroupTemplateValues(template, ftr, grp);
                     result += "\r\n" + ftrTemplate + "\r\n";
                 }
                 return result;
             }
             return string.Join("\r\n", models.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
+        }
+
+        private string UpdateGroupTemplateValues(PrinterTemplate template, string templateKey, IGrouping<GroupingKey, T> grouping)
+        {
+            var templateStr = template.GetPart(templateKey) ?? "";
+            templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{GROUP KEY}", () => (grouping.Key.Name ?? ""));
+            templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{GROUP SUM}",
+                                              () => grouping.Sum(x => GetSumSelector(x)).ToString(LocalSettings.CurrencyFormat));
+            templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{QUANTITY SUM}",
+                                              () => grouping.Sum(x => GetQuantitySelector(x)).ToString(LocalSettings.QuantityFormat));
+            return templateStr;
+        }
+
+        protected virtual decimal GetQuantitySelector(T x)
+        {
+            return 0;
         }
 
         protected virtual decimal GetSumSelector(T x)

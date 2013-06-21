@@ -50,6 +50,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return x.GetValue();
         }
 
+        protected override decimal GetQuantitySelector(Order x)
+        {
+            return x.Quantity;
+        }
+
         protected override GroupingKey GetGroupSelector(Order arg, string switchValue)
         {
             if (!string.IsNullOrEmpty(switchValue) && switchValue.Contains(":"))
@@ -75,6 +80,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             {
                 var mi = GetMenuItem(arg.MenuItemId);
                 return new GroupingKey { Key = mi.Tag, Name = mi.Tag };
+            }
+            if (switchValue == "BARCODE")
+            {
+                var mi = GetMenuItem(arg.MenuItemId);
+                return new GroupingKey { Key = mi.Barcode, Name = mi.Barcode };
             }
             return base.GetGroupSelector(arg, switchValue);
         }

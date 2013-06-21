@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Helpers;
@@ -34,6 +35,8 @@ namespace Samba.Domain.Models.Entities
             {
                 sv.State = state;
             }
+
+            sv.LastUpdateTime = DateTime.Now;
 
             if (string.IsNullOrEmpty(sv.State))
                 EntityStateValues.Remove(sv);

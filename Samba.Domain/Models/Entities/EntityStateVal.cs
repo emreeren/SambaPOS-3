@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Samba.Domain.Models.Entities
@@ -5,10 +6,17 @@ namespace Samba.Domain.Models.Entities
     [DataContract]
     public class EntityStateVal
     {
+        public EntityStateVal()
+        {
+            LastUpdateTime = DateTime.Now;
+        }
+
         [DataMember(Name = "SN")]
         public string StateName { get; set; }
         [DataMember(Name = "S")]
         public string State { get; set; }
+        [DataMember(Name = "D")]
+        public DateTime LastUpdateTime { get; set; }
 
         private static EntityStateVal _default;
         public static EntityStateVal Default

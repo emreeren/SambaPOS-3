@@ -559,6 +559,8 @@ namespace Samba.Domain.Models.Tickets
                 sv.StateValue = stateValue;
                 sv.Quantity = quantity;
             }
+            sv.LastUpdateTime = DateTime.Now;
+
             if (string.IsNullOrEmpty(sv.State))
                 TicketStateValues.Remove(sv);
 
@@ -802,6 +804,16 @@ namespace Samba.Domain.Models.Tickets
         public string GetTicketLastOrderMinuteStr()
         {
             return new TimeSpan(DateTime.Now.Ticks - LastOrderDate.Ticks).TotalMinutes.ToString("#");
+        }
+
+        public string GetStateMinuteStr(string state)
+        {
+            var sv = GetStateValue(state);
+            if (sv != null)
+            {
+                return new TimeSpan(DateTime.Now.Ticks - sv.LastUpdateTime.Ticks).TotalMinutes.ToString("#");
+            }
+            return "";
         }
     }
 }

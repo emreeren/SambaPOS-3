@@ -285,7 +285,7 @@ namespace Samba.Domain.Models.Tickets
                 sv.State = state;
                 sv.StateValue = stateValue;
             }
-
+            sv.LastUpdateTime = DateTime.Now;
             sv.OrderKey = groupOrder.ToString("000") + stateOrder.ToString("000");
 
             if (string.IsNullOrEmpty(sv.State))
@@ -498,6 +498,16 @@ namespace Samba.Domain.Models.Tickets
             return TaxValues.Any(x => x.TaxTemplateName == taxTemplateName)
                 ? GetTaxValues().SingleOrDefault(x => x.TaxTemplateName == taxTemplateName)
                 : TaxValue.Empty;
+        }
+
+        public string GetStateMinuteStr(string state)
+        {
+            var sv = GetStateValue(state);
+            if (sv != null)
+            {
+                return new TimeSpan(DateTime.Now.Ticks - sv.LastUpdateTime.Ticks).TotalMinutes.ToString("#");
+            }
+            return "";
         }
     }
 }

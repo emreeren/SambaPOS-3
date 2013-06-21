@@ -57,6 +57,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>(TagNames.Totaltext, (x, d) => HumanFriendlyInteger.CurrencyToWritten(x.GetSum(), true), Resources.TextWrittenTotalValue);
             RegisterFunction<Ticket>("{TICKET TAG:([^}]+)}", (x, d) => x.GetTagValue(d), Resources.TicketTag);
             RegisterFunction<Ticket>("{TICKET STATE:([^}]+)}", (x, d) => x.GetStateStr(d), Resources.TicketState);
+            RegisterFunction<Ticket>("{TICKET STATE MINUTES:([^}]+)}", (x, d) => x.GetStateMinuteStr(d), "Ticket State Duration");
             RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => _settingService.ReadSetting(d).StringValue, Resources.SettingValue);
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Calculation), x => x.Calculations.Count > 0);
             RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(_cacheService.GetEntityTypeIdByEntityName(d)), string.Format(Resources.Name_f,Resources.Entity));
@@ -76,6 +77,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Order>(TagNames.PriceTag, (x, d) => x.PriceTag, Resources.LinePriceTag);
             RegisterFunction<Order>("{ORDER TAG:([^}]+)}", (x, d) => x.GetOrderTagValue(d).TagValue, Resources.OrderTagValue);
             RegisterFunction<Order>("{ORDER STATE:([^}]+)}", (x, d) => x.GetStateValue(d).StateValue, Resources.OrderStateValue);
+            RegisterFunction<Order>("{ORDER STATE MINUTES:([^}]+)}", (x, d) => x.GetStateMinuteStr(d), "Order State Duration");
             RegisterFunction<Order>("{ORDER TAX RATE:([^}]+)}", (x, d) => x.GetTaxValue(d).TaxRate.ToString(LocalSettings.QuantityFormat), Resources.TaxRate);
             RegisterFunction<Order>("{ORDER TAX TEMPLATE NAMES}", (x, d) => string.Join(", ", x.GetTaxValues().Select(y => y.TaxTemplateName)), string.Format(Resources.List_f,Resources.TaxTemplate));
             RegisterFunction<Order>("{ITEM ID}", (x, d) => x.MenuItemId.ToString());

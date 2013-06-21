@@ -6,6 +6,11 @@ namespace Samba.Domain.Models.Tickets
     [DataContract]
     public class TicketStateValue : IEquatable<TicketStateValue>
     {
+        public TicketStateValue()
+        {
+            LastUpdateTime = DateTime.Now;
+        }
+
         [DataMember(Name = "SN")]
         public string StateName { get; set; }
         [DataMember(Name = "S")]
@@ -14,6 +19,8 @@ namespace Samba.Domain.Models.Tickets
         public string StateValue { get; set; }
         [DataMember(Name = "Q", EmitDefaultValue = false)]
         public int Quantity { get; set; }
+        [DataMember(Name = "D")]
+        public DateTime LastUpdateTime { get; set; }
 
         private static TicketStateValue _default;
         public static TicketStateValue Default
