@@ -31,9 +31,9 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Border BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+    <Border BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1">
         <ScrollViewer UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
-            <ItemsControl Name="ListBox" ItemsSource="{Binding TicketList}"  FontSize="{Binding FontSize}" Background="White" BorderThickness="1">
+            <ItemsControl Name="ListBox" ItemsSource="{Binding TicketList}"  FontSize="{Binding FontSize}" Background="White" BorderThickness="0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Style="{StaticResource ItemsControlButtonStyle}"  Command="{Binding ItemSelectionCommand}" CommandParameter="{Binding}">
