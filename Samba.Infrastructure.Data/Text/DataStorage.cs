@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Samba.Infrastructure.Data.Text
 {
@@ -115,45 +113,7 @@ namespace Samba.Infrastructure.Data.Text
             return GetDataList(typeof(T)).Values.Cast<T>().Where(predicate.Compile()).ToList();
         }
 
-        public void FixIdNumbers()
-        {
-            foreach (var item in Items)
-            {
-                var parts = item.Key.Split('.');
-                var className = parts[parts.Length - 1];
-                foreach (var listItem in item.Value)
-                {
-                    var id = listItem.Key;
-                    var obj = listItem.Value;
-                    obj.GetType()
-                            .GetProperties()
-                            .Where(x => x.PropertyType.IsGenericType && x.PropertyType.GetInterfaces().Contains(typeof(IEnumerable)))
-                            .ToList().ForEach(x => UpdateCollection(className, id, x, obj));
-                }
-            }
-        }
 
-        private void UpdateCollection(string className, int id, PropertyInfo propertyInfo, object o)
-        {
-            var collection = propertyInfo.GetValue(o, null) as IEnumerable;
-            foreach (var item in collection)
-            {
-                var prop = item.GetType().GetProperties().FirstOrDefault(x => x.Name == className + "Id");
-                if (prop != null)
-                {
-                    prop.SetValue(item, id, null);
-                }
-                var vitem = item as IValueClass;
-                if (vitem != null)
-                {
-                    var type = vitem.GetType();
-                    if (vitem.Id == 0) vitem.Id = CreateIdNumber(type);
-                    type.GetProperties()
-                            .Where(x => x.PropertyType.IsGenericType && x.PropertyType.GetInterfaces().Contains(typeof(IEnumerable)))
-                            .ToList().ForEach(x => UpdateCollection(type.Name, vitem.Id, x, item));
-                }
 
-            }
-        }
     }
 }

@@ -41,7 +41,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{LAST ORDER TIME}", (x, d) => x.LastOrderDate.ToShortTimeString(),Resources.LastOrderTime);
             RegisterFunction<Ticket>("{CREATION MINUTES}", (x, d) => x.GetTicketCreationMinuteStr(), Resources.TicketDuration);
             RegisterFunction<Ticket>("{LAST ORDER MINUTES}", (x, d) => x.GetTicketLastOrderMinuteStr(), Resources.LastOrderDuration);
-            RegisterFunction<Ticket>(TagNames.TicketId, (x, d) => x.Id.ToString(), Resources.UniqueTicketId);
+            RegisterFunction<Ticket>(TagNames.TicketId, (x, d) => x.Id.ToString("#"), Resources.UniqueTicketId);
             RegisterFunction<Ticket>(TagNames.TicketNo, (x, d) => x.TicketNumber, Resources.TicketNumber);
             //RegisterFunction<Ticket>(TagNames.OrderNo, (x, d) => x.Orders.Last().OrderNumber.ToString(), Resources.LineOrderNumber);
             RegisterFunction<Ticket>(TagNames.UserName, (x, d) => x.Orders.Last().CreatingUserName, Resources.UserName);
@@ -73,14 +73,14 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Order>(TagNames.TotalAmount, (x, d) => x.GetValue().ToString(LocalSettings.CurrencyFormat), Resources.LineItemTotalAndQuantity);
             RegisterFunction<Order>(TagNames.Cents, (x, d) => (x.Price * 100).ToString(LocalSettings.QuantityFormat), Resources.LineItemPriceCents);
             RegisterFunction<Order>(TagNames.LineAmount, (x, d) => x.GetTotal().ToString(LocalSettings.CurrencyFormat), Resources.LineItemTotalWithoutGifts);
-            RegisterFunction<Order>(TagNames.OrderNo, (x, d) => x.OrderNumber.ToString(), Resources.LineOrderNumber);
+            RegisterFunction<Order>(TagNames.OrderNo, (x, d) => x.OrderNumber.ToString("#"), Resources.LineOrderNumber);
             RegisterFunction<Order>(TagNames.PriceTag, (x, d) => x.PriceTag, Resources.LinePriceTag);
             RegisterFunction<Order>("{ORDER TAG:([^}]+)}", (x, d) => x.GetOrderTagValue(d).TagValue, Resources.OrderTagValue);
             RegisterFunction<Order>("{ORDER STATE:([^}]+)}", (x, d) => x.GetStateValue(d).StateValue, Resources.OrderStateValue);
             RegisterFunction<Order>("{ORDER STATE MINUTES:([^}]+)}", (x, d) => x.GetStateMinuteStr(d), "Order State Duration");
             RegisterFunction<Order>("{ORDER TAX RATE:([^}]+)}", (x, d) => x.GetTaxValue(d).TaxRate.ToString(LocalSettings.QuantityFormat), Resources.TaxRate);
             RegisterFunction<Order>("{ORDER TAX TEMPLATE NAMES}", (x, d) => string.Join(", ", x.GetTaxValues().Select(y => y.TaxTemplateName)), string.Format(Resources.List_f,Resources.TaxTemplate));
-            RegisterFunction<Order>("{ITEM ID}", (x, d) => x.MenuItemId.ToString());
+            RegisterFunction<Order>("{ITEM ID}", (x, d) => x.MenuItemId.ToString("#"));
             RegisterFunction<Order>("{BARCODE}", (x, d) => GetMenuItem(x.MenuItemId).Barcode);
             RegisterFunction<Order>("{GROUP CODE}", (x, d) => GetMenuItem(x.MenuItemId).GroupCode);
             RegisterFunction<Order>("{ITEM TAG}", (x, d) => GetMenuItem(x.MenuItemId).Tag);

@@ -244,6 +244,7 @@ namespace Samba.Presentation.Common.ModelBase
         {
             var duplicate = ObjectCloner.EntityClone(SelectedItem.Model);
             duplicate.Id = 0;
+            IdFixer.FixEntityIdNumber(duplicate, x => 0);
             duplicate.Name = "_" + duplicate.Name;
             VisibleViewModelBase wm = InternalCreateNewViewModel(duplicate);
             if (wm != null) OpenViewModels.Add(wm as EntityViewModelBase<TModel>);

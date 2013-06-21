@@ -104,6 +104,7 @@
     <Compile Include="SQL\EFWorkspace.cs" />
     <Compile Include="SQL\ReadOnlyEFWorkspace.cs" />
     <Compile Include="Text\DataStorage.cs" />
+    <Compile Include="IdFixer.cs" />
     <Compile Include="Text\TextFileWorkspace.cs" />
     <Compile Include="ValidatorRegistry.cs" />
   </ItemGroup>

@@ -66,7 +66,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                     var groupTemplate = UpdateGroupTemplateValues(template, gtn, grp);
                     result += ReplaceValues(groupTemplate, grp.ElementAt(0), template) + "\r\n";
                     result += string.Join("\r\n", grp.SelectMany(x => GetValue(template, x).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)));
-                    
+
                     var ftr = string.Format("{0} FOOTER{1}", GetTargetTag(), grp.Key.Name != null ? ":" + grp.Key.Name : "");
                     var ftrTemplate = UpdateGroupTemplateValues(template, ftr, grp);
                     result += "\r\n" + ftrTemplate + "\r\n";
@@ -78,9 +78,10 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         private string UpdateGroupTemplateValues(PrinterTemplate template, string templateKey, IGrouping<GroupingKey, T> grouping)
         {
+            var groupKeyName = grouping.Key.Name ?? "";
             var templateStr = template.GetPart(templateKey) ?? "";
-            templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{GROUP KEY}", () => (grouping.Key.Name ?? ""));
-            templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{GROUP SUM}",
+            templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{GROUP KEY}", () => (groupKeyName));
+            templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{GROUP SUM}", 
                                               () => grouping.Sum(x => GetSumSelector(x)).ToString(LocalSettings.CurrencyFormat));
             templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{QUANTITY SUM}",
                                               () => grouping.Sum(x => GetQuantitySelector(x)).ToString(LocalSettings.QuantityFormat));

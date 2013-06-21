@@ -43,9 +43,7 @@ namespace Samba.Infrastructure.Data.Text
         {
             LocalSettings.UpdateThreadLanguage();
             if (!string.IsNullOrEmpty(o.ToString()) && (int)o != _tNumber) return;
-            //var serializerHelper = new XmlSerializerHelper { IgnoreSerializableAttribute = true, IgnoreSerialisationErrors = true };
-            //serializerHelper.Serialize(_storage, _fileName);
-            _storage.FixIdNumbers();
+            IdFixer.FixIdNumbers(_storage.Items, _storage.CreateIdNumber);
             var data = SilverlightSerializer.Serialize(_storage);
             File.WriteAllBytes(_fileName, data);
         }
