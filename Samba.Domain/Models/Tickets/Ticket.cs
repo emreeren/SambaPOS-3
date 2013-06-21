@@ -643,10 +643,13 @@ namespace Samba.Domain.Models.Tickets
                 foreach (var orders in orderGroup)
                 {
                     var o = orders;
-                    var transaction = TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == o.Key);
-                    var amount = o.Sum(x => GetTaxExcludedSum(x));
-                    transaction.UpdateAccounts(GetTicketAccounts());
-                    transaction.UpdateAmount(amount, ExchangeRate);
+                    var transaction = TransactionDocument.AccountTransactions.SingleOrDefault(x => x.AccountTransactionTypeId == o.Key);
+                    if (transaction != null)
+                    {
+                        var amount = o.Sum(x => GetTaxExcludedSum(x));
+                        transaction.UpdateAccounts(GetTicketAccounts());
+                        transaction.UpdateAmount(amount, ExchangeRate);
+                    }
                 }
 
                 var taxIds = GetTaxIds();

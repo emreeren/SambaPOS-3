@@ -58,7 +58,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             ret.SetBinding(FrameworkElement.WidthProperty, widthBinding);
             ret.SetBinding(UIElement.RenderTransformProperty, transformBinding);
             ret.SetBinding(Control.FontFamilyProperty, fontNameBinding);
-            ret.MainGrid.SetBinding(FrameworkElement.LayoutTransformProperty, scaleTransformBinding);
+            ret.ListBox.SetBinding(FrameworkElement.LayoutTransformProperty, scaleTransformBinding);
             
             return ret;
         }

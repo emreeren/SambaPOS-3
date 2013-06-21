@@ -13,10 +13,7 @@ namespace Samba.Infrastructure.Data
             var propertyMatch = c.SourceProp.Name == c.TargetProp.Name;
             var sourceNotNull = c.SourceProp.Value != null;
 
-            var targetPropertyIdWritable = true;
-
-            if (propertyMatch && c.TargetProp.Name == "Id" && !(c.Target.Value is IEntityClass))
-                targetPropertyIdWritable = false;
+            bool targetPropertyIdWritable = !(propertyMatch && c.TargetProp.Name == "Id" && !(c.Target.Value is IEntityClass));
 
             return propertyMatch && sourceNotNull && targetPropertyIdWritable;
         }
