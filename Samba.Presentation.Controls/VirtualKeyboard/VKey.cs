@@ -39,13 +39,13 @@ namespace Samba.Presentation.Controls.VirtualKeyboard
 
             try
             {
-                LowKey = User32Interop.ToAscii(virtualKey, Keys.None).ToString();
+                LowKey = User32Interop.ToUnicode(virtualKey, Keys.None).ToString();
             }
             catch (Exception) { LowKey = " "; }
 
             try
             {
-                UpKey = User32Interop.ToAscii(virtualKey, Keys.ShiftKey).ToString();
+                UpKey = User32Interop.ToUnicode(virtualKey, Keys.ShiftKey).ToString();
             }
             catch (Exception) { UpKey = " "; }
         }
@@ -64,6 +64,20 @@ namespace Samba.Presentation.Controls.VirtualKeyboard
             }
 
             ToAscii((uint)key, 0, GetKeyState(modifiers), outputBuilder, 0);
+            return ' ';
+        }
+
+        public static char ToUnicode(Keys key, Keys modifiers)
+        {
+            var outputBuilder = new StringBuilder(2);
+            int result = ToUnicode((uint)key, 0, GetKeyState(modifiers),
+                                 outputBuilder, 2, 0);
+            if (result == 1)
+            {
+                return outputBuilder[0];
+            }
+
+            ToUnicode((uint)key, 0, GetKeyState(modifiers), outputBuilder,2, 0);
             return ' ';
         }
 
@@ -86,5 +100,18 @@ namespace Samba.Presentation.Controls.VirtualKeyboard
                                           byte[] lpKeyState,
                                           [Out] StringBuilder lpChar,
                                           uint uFlags);
+
+        //        int WINAPI ToUnicode(
+        //  _In_      UINT wVirtKey,
+        //  _In_      UINT wScanCode,
+        //  _In_opt_  const BYTE *lpKeyState,
+        //  _Out_     LPWSTR pwszBuff,
+        //  _In_      int cchBuff,
+        //  _In_      UINT wFlags
+        //);
+        [DllImport("user32.dll")]
+        static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpKeyState,
+           [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] StringBuilder pwszBuff, int cchBuff,
+           uint wFlags);
     }
 }
