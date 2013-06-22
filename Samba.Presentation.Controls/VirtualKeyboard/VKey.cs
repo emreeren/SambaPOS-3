@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -39,13 +40,13 @@ namespace Samba.Presentation.Controls.VirtualKeyboard
 
             try
             {
-                LowKey = User32Interop.ToUnicode(virtualKey, Keys.None).ToString();
+                LowKey = User32Interop.ToUnicode(virtualKey, Keys.None);
             }
             catch (Exception) { LowKey = " "; }
 
             try
             {
-                UpKey = User32Interop.ToUnicode(virtualKey, Keys.ShiftKey).ToString();
+                UpKey = User32Interop.ToUnicode(virtualKey, Keys.ShiftKey);
             }
             catch (Exception) { UpKey = " "; }
         }
@@ -67,18 +68,18 @@ namespace Samba.Presentation.Controls.VirtualKeyboard
             return ' ';
         }
 
-        public static char ToUnicode(Keys key, Keys modifiers)
+        public static string ToUnicode(Keys key, Keys modifiers)
         {
-            var outputBuilder = new StringBuilder(2);
+            var outputBuilder = new char[4];
             int result = ToUnicode((uint)key, 0, GetKeyState(modifiers),
-                                 outputBuilder, 2, 0);
-            if (result == 1)
+                                 outputBuilder, 4, 0);
+            if (result > 0)
             {
-                return outputBuilder[0];
+                return new string(outputBuilder.Take(result).ToArray());
             }
 
-            ToUnicode((uint)key, 0, GetKeyState(modifiers), outputBuilder,2, 0);
-            return ' ';
+            ToUnicode((uint)key, 0, GetKeyState(modifiers), outputBuilder, 4, 0);
+            return " ";
         }
 
         private const byte HighBit = 0x80;
@@ -109,9 +110,7 @@ namespace Samba.Presentation.Controls.VirtualKeyboard
         //  _In_      int cchBuff,
         //  _In_      UINT wFlags
         //);
-        [DllImport("user32.dll")]
-        static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpKeyState,
-           [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] StringBuilder pwszBuff, int cchBuff,
-           uint wFlags);
+        [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
+        public static extern int ToUnicode(uint virtualKey, uint scanCode, byte[] keyStates, [MarshalAs(UnmanagedType.LPArray)] [Out] char[] chars, int charMaxCount, uint flags);
     }
 }
