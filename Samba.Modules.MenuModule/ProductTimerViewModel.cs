@@ -15,6 +15,7 @@ namespace Samba.Modules.MenuModule
         public string PriceType { get { return PriceTypes[Model.PriceType]; } set { Model.PriceType = PriceTypes.ToList().IndexOf(value); } }
         public decimal MinTime { get { return Model.MinTime; } set { Model.MinTime = value; } }
         public decimal TimeRounding { get { return Model.TimeRounding; } set { Model.TimeRounding = value; } }
+        public int StartTime { get { return Model.StartTime; } set { Model.StartTime = value; } }
 
         public override Type GetViewType()
         {

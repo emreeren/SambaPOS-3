@@ -12,6 +12,7 @@ namespace Samba.Domain.Models.Menus
         public decimal PriceDuration { get; set; }
         public decimal MinTime { get; set; }
         public decimal TimeRounding { get; set; }
+        public int StartTime { get; set; }
 
         private IList<ProdcutTimerMap> _productTimerMaps;
         public virtual IList<ProdcutTimerMap> ProductTimerMaps

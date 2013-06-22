@@ -411,6 +411,12 @@ namespace Samba.Domain.Models.Tickets
                                              PriceDuration = timer.PriceDuration,
                                              TimeRounding = timer.TimeRounding,
                                          };
+                if (timer.StartTime > 0)
+                {
+                    var now = DateTime.Today;
+                    ProductTimerValue.Start = new DateTime(now.Year, now.Month, now.Day, timer.StartTime, 0, 0);
+                    ProductTimerValue.End = ProductTimerValue.Start;
+                }
             }
         }
 

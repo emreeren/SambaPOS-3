@@ -31,6 +31,8 @@
                     <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Text="{Binding MinTime}" Type="Number" />
                     <Label Content="{LocText TimeRounding,Suffix=':'}" />
                     <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Text="{Binding TimeRounding}" Type="Number" />
+                    <Label Content="{LocText StartTime,Suffix=':'}" />
+                    <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Text="{Binding StartTime}" Type="Digits" />
                 </StackPanel>
             </TabItem>
 

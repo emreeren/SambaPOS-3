@@ -203,8 +203,8 @@ html
         public static string PrintoutCurrencyFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
-        private static int DefaultDbVersion { get { return 5; } }
-        private static string DefaultAppVersion { get { return "3.07 BETA"; } }
+        private static int DefaultDbVersion { get { return 6; } }
+        private static string DefaultAppVersion { get { return "3.08 BETA"; } }
 
         public static int DbVersion { get { return CanReadVersionFromFile() ? Convert.ToInt32(GetVersionDat("DbVersion")) : DefaultDbVersion; } }
         public static string AppVersion { get { return CanReadVersionFromFile() ? GetVersionDat("AppVersion") : DefaultAppVersion; } }
