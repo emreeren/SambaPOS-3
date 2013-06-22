@@ -2,10 +2,12 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Events;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
+using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 
@@ -40,6 +42,17 @@ namespace Samba.Modules.PaymentModule
             TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecuted);
             SetValueCommand = new DelegateCommand<string>(OnSetValue);
             DivideValueCommand = new DelegateCommand<string>(OnDivideValue);
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnEventGenerated);
+        }
+
+        private void OnEventGenerated(EventParameters<EventAggregator> obj)
+        {
+            if (obj.Topic == EventTopicNames.ResetCache)
+            {
+                _paymentScreenValues = null;
+                RaisePropertyChanged(() => PaymentScreenValues);
+            }
         }
 
         public event EventHandler TypedValueChanged;

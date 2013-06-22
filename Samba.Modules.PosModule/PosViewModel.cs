@@ -60,7 +60,7 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService,ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService,
+            ITicketService ticketService, ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel,
             MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,
             TicketEntityListViewModel ticketEntityListViewModel, TicketTypeListViewModel ticketTypeListViewModel)
@@ -234,7 +234,7 @@ namespace Samba.Modules.PosModule
         }
 
         private void OnTicketIdPublished(EventParameters<int> obj)
-        {   
+        {
             if (obj.Topic == EventTopicNames.DisplayTicket)
             {
                 if (SelectedTicket != null) CloseTicket();
@@ -366,15 +366,15 @@ namespace Samba.Modules.PosModule
 
         private bool ShouldDisplayTicketTagList(Ticket ticket)
         {
-            return ticket != null 
-                && ticket.Orders.Count == 0 
+            return ticket != null
+                && ticket.Orders.Count == 0
                 && _applicationState.GetTicketTagGroups().Any(x => x.AskBeforeCreatingTicket && !ticket.IsTaggedWith(x.Name));
         }
 
         private bool ShouldDisplayEntityList(Ticket ticket)
         {
-            return ticket != null 
-                && ticket.Orders.Count == 0 
+            return ticket != null
+                && ticket.Orders.Count == 0
                 && _cacheService.GetTicketTypeById(ticket.TicketTypeId).EntityTypeAssignments.Any(
                 x => x.AskBeforeCreatingTicket && ticket.TicketEntities.All(y => y.EntityTypeId != x.EntityTypeId));
         }

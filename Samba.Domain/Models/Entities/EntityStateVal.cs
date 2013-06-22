@@ -15,7 +15,7 @@ namespace Samba.Domain.Models.Entities
         public string StateName { get; set; }
         [DataMember(Name = "S")]
         public string State { get; set; }
-        [DataMember(Name = "D")]
+        [DataMember(Name = "D", IsRequired = false, EmitDefaultValue = false)]
         public DateTime LastUpdateTime { get; set; }
 
         private static EntityStateVal _default;

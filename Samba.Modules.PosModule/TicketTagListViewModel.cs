@@ -49,9 +49,11 @@ namespace Samba.Modules.PosModule
         public void Update(Ticket selectedTicket)
         {
             _selectedTicket = selectedTicket;
+            var tags = _applicationState.GetTicketTagGroups().Where(x => x.AskBeforeCreatingTicket).ToList();
             TicketTagValueViewModels.Clear();
-            TicketTagValueViewModels.AddRange(_applicationState.GetTicketTagGroups().Where(x => x.AskBeforeCreatingTicket).Select(x => new TicketTagValueViewModel(x, selectedTicket)));
+            TicketTagValueViewModels.AddRange(tags.Select(x => new TicketTagValueViewModel(x, selectedTicket)));
             RaisePropertyChanged(() => RowCount);
+            OnSelectTicketTagGroup(TicketTagValueViewModels.First().Model);
         }
 
         public int RowCount { get { return TicketTagValueViewModels.Count > 7 ? TicketTagValueViewModels.Count : 8; } }

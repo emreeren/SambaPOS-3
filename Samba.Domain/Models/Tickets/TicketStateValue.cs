@@ -19,10 +19,12 @@ namespace Samba.Domain.Models.Tickets
         public string StateValue { get; set; }
         [DataMember(Name = "Q", EmitDefaultValue = false)]
         public int Quantity { get; set; }
-        [DataMember(Name = "D")]
+        [DataMember(Name = "D", IsRequired = false, EmitDefaultValue = false)]
         public DateTime LastUpdateTime { get; set; }
 
         private static TicketStateValue _default;
+        private DateTime _lastUpdateTime;
+
         public static TicketStateValue Default
         {
             get { return _default ?? (_default = new TicketStateValue()); }
