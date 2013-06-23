@@ -259,7 +259,7 @@ Changing PIN will hide this hint</value>
     <value>Common</value>
   </data>
   <data name="CanOpenDashboard" xml:space="preserve">
-    <value>CanOpenDashboard</value>
+    <value>Can Open Management</value>
   </data>
   <data name="Keyboard" xml:space="preserve">
     <value>Keyboard</value>
@@ -3225,5 +3225,14 @@ Error Message:
   </data>
   <data name="StartTime" xml:space="preserve">
     <value>Start Time</value>
+  </data>
+  <data name="CanNavigate_f" xml:space="preserve">
+    <value>Can Navigate {0}</value>
+  </data>
+  <data name="TicketExplorer" xml:space="preserve">
+    <value>Ticket Explorer</value>
+  </data>
+  <data name="POS" xml:space="preserve">
+    <value>POS</value>
   </data>
 </root>

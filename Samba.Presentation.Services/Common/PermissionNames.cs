@@ -8,6 +8,8 @@ namespace Samba.Presentation.Services.Common
         public static string OpenDashboard = "OpenDashboard";
         public static string OpenWorkPeriods = "OpenWorkPeriods";
         public static string OpenReports = "OpenReports";
+        public static string OpenInventory = "OpenInventory";
+        public static string OpenMarket="OpenMarket";
         public static string UseDepartment = "UseDepartment_";
         public static string ChangeDepartment = "ChangeDepartment";
         public static string AddItemsToLockedTickets = "AddItemsToLockedTickets";

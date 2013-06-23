@@ -5,8 +5,8 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
-using Samba.Services;
 
 namespace Samba.Modules.TicketModule
 {
@@ -14,14 +14,16 @@ namespace Samba.Modules.TicketModule
     public class TicketModule : VisibleModuleBase
     {
         private readonly IRegionManager _regionManager;
+        private readonly IUserService _userService;
         private readonly TicketExplorerView _ticketExplorerView;
         private readonly TicketExplorerViewModel _ticketExplorerViewModel;
 
         [ImportingConstructor]
-        public TicketModule(IRegionManager regionManager, TicketExplorerView ticketExplorerView, TicketExplorerViewModel ticketExplorerViewModel)
+        public TicketModule(IRegionManager regionManager, IUserService userService, TicketExplorerView ticketExplorerView, TicketExplorerViewModel ticketExplorerViewModel)
             : base(regionManager, AppScreens.TicketListView)
         {
             _regionManager = regionManager;
+            _userService = userService;
 
             _ticketExplorerView = ticketExplorerView;
             _ticketExplorerViewModel = ticketExplorerViewModel;
@@ -43,10 +45,16 @@ namespace Samba.Modules.TicketModule
             PermissionRegistry.RegisterPermission(PermissionNames.DisplayOldTickets, PermissionCategories.Ticket, Resources.CanDisplayOldTickets);
             PermissionRegistry.RegisterPermission(PermissionNames.MoveUnlockedOrders, PermissionCategories.Ticket, Resources.CanMoveUnlockedTicketLines);
             PermissionRegistry.RegisterPermission(PermissionNames.ChangeExtraProperty, PermissionCategories.Ticket, Resources.CanUpdateExtraModifiers);
-            PermissionRegistry.RegisterPermission(PermissionNames.DisplayOtherWaitersTickets,PermissionCategories.Ticket,Resources.CanDisplayOtherWaitersTickets);
+            PermissionRegistry.RegisterPermission(PermissionNames.DisplayOtherWaitersTickets, PermissionCategories.Ticket, Resources.CanDisplayOtherWaitersTickets);
 
             SetNavigationCommand(Resources.Tickets, Resources.Common, "Images/note.png", 20);
+
             ticketExplorerView.DataContext = ticketExplorerViewModel;
+        }
+
+        protected override bool CanNavigate(string arg)
+        {
+            return _userService.IsUserPermittedFor(PermissionNames.DisplayOldTickets);
         }
 
         protected override void OnNavigate(string obj)

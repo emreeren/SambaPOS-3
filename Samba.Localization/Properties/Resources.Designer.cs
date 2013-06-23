@@ -1043,6 +1043,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can Navigate {0}.
+        /// </summary>
+        public static string CanNavigate_f {
+            get {
+                return ResourceManager.GetString("CanNavigate_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Enter Cash Screen.
         /// </summary>
         public static string CanNavigateCash {
@@ -1052,7 +1061,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CanOpenDashboard.
+        ///   Looks up a localized string similar to Can Open Management.
         /// </summary>
         public static string CanOpenDashboard {
             get {
@@ -5232,6 +5241,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to POS.
+        /// </summary>
+        public static string POS {
+            get {
+                return ResourceManager.GetString("POS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to POS Menu.
         /// </summary>
         public static string POSMenu {
@@ -7248,6 +7266,15 @@ namespace Samba.Localization.Properties {
         public static string TicketEntityChanged {
             get {
                 return ResourceManager.GetString("TicketEntityChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ticket Explorer.
+        /// </summary>
+        public static string TicketExplorer {
+            get {
+                return ResourceManager.GetString("TicketExplorer", resourceCulture);
             }
         }
         

@@ -7,6 +7,7 @@ using Samba.Domain.Models.Inventory;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 
@@ -17,16 +18,18 @@ namespace Samba.Modules.InventoryModule
     {
         private readonly IRegionManager _regionManager;
         private readonly ICacheService _cacheService;
+        private readonly IUserService _userService;
         private readonly WarehouseInventoryView _warehouseInventoryView;
         private readonly WarehouseInventoryViewModel _warehouseInventoryViewModel;
 
         [ImportingConstructor]
-        public InventoryModule(IRegionManager regionManager, ICacheService cacheService,
+        public InventoryModule(IRegionManager regionManager, ICacheService cacheService, IUserService userService,
             WarehouseInventoryView resourceInventoryView, WarehouseInventoryViewModel resourceInventoryViewModel)
             : base(regionManager, AppScreens.InventoryView)
         {
             _regionManager = regionManager;
             _cacheService = cacheService;
+            _userService = userService;
             _warehouseInventoryView = resourceInventoryView;
             _warehouseInventoryViewModel = resourceInventoryViewModel;
 
@@ -44,6 +47,8 @@ namespace Samba.Modules.InventoryModule
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Entity>>().Subscribe(OnResourceEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Warehouse>>().Subscribe(OnWarehouseEvent);
+
+            PermissionRegistry.RegisterPermission(PermissionNames.OpenInventory, PermissionCategories.Navigation, string.Format(Resources.CanNavigate_f, Resources.Inventory));
         }
 
         private void OnResourceEvent(EventParameters<Entity> obj)
@@ -64,6 +69,11 @@ namespace Samba.Modules.InventoryModule
                 _warehouseInventoryViewModel.Refresh(obj.Value.Id);
                 ActivateInventoryView();
             }
+        }
+
+        protected override bool CanNavigate(string arg)
+        {
+            return _userService.IsUserPermittedFor(PermissionNames.OpenInventory);
         }
 
         protected override void OnNavigate(string obj)
