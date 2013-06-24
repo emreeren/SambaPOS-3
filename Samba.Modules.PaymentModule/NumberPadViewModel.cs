@@ -46,6 +46,8 @@ namespace Samba.Modules.PaymentModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnEventGenerated);
         }
 
+        public string DecimalSeparator { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator; } }
+
         private void OnEventGenerated(EventParameters<EventAggregator> obj)
         {
             if (obj.Topic == EventTopicNames.ResetCache)
