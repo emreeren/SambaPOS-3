@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Windows;
 using ICSharpCode.AvalonEdit.Document;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Services;
 
@@ -18,12 +20,38 @@ namespace Samba.Modules.PrinterModule
         public PrinterTemplateViewModel(IPrinterService printerService)
         {
             _printerService = printerService;
+            LoadTicketTemplateCommand = new CaptionCommand<string>("", OnLoadTicketTemplate);
+            LoadKitchenOrderTemplateCommand = new CaptionCommand<string>("", OnLoadKitchenOrderTemplate);
         }
+
+        public ICaptionCommand LoadTicketTemplateCommand { get; set; }
+        public ICaptionCommand LoadKitchenOrderTemplateCommand { get; set; }
 
         public string Template { get { return Model.Template; } set { Model.Template = value; } }
         public bool MergeLines { get { return Model.MergeLines; } set { Model.MergeLines = value; } }
 
-        public TextDocument TemplateText { get; set; }
+        private TextDocument _templateText;
+        public TextDocument TemplateText
+        {
+            get { return _templateText; }
+            set
+            {
+                _templateText = value;
+                RaisePropertyChanged(() => TemplateText);
+            }
+        }
+
+        private void OnLoadTicketTemplate(string obj)
+        {
+            if (string.IsNullOrEmpty(TemplateText.Text) || MessageBox.Show(string.Format(Resources.ReloadPrinterTemplateConfirmation_f, Resources.TicketTemplate), Resources.Confirmation, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                TemplateText = new TextDocument(_printerService.GetDefaultTicketPrintTemplate());
+        }
+
+        private void OnLoadKitchenOrderTemplate(string obj)
+        {
+            if (string.IsNullOrEmpty(TemplateText.Text) || MessageBox.Show(string.Format(Resources.ReloadPrinterTemplateConfirmation_f, Resources.KitchenOrderTemplate), Resources.Confirmation, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                TemplateText = new TextDocument(_printerService.GetDefaultKitchenPrintTemplate());
+        }
 
         public override Type GetViewType()
         {
@@ -65,9 +93,11 @@ namespace Samba.Modules.PrinterModule
             result.Add("[ORDERS GROUP|ORDER TAG:x]", Resources.OrderTag);
             result.Add("[ORDERS GROUP|PRODUCT GROUP]", Resources.GroupCode);
             result.Add("[ORDERS GROUP|PRODUCT TAG]", Resources.ProductTag);
+            result.Add("[ORDERS GROUP|BARCODE]", Resources.ProductTag);
             result.Add("[ORDERS FOOTER]", Resources.GroupFooter);
             result.Add("{GROUP KEY}", Resources.GroupKey);
-            result.Add("{GROUP TOTAL}", Resources.GroupTotal);
+            result.Add("{GROUP SUM}", Resources.GroupTotal);
+            result.Add("{QUANTITY SUM}", Resources.QuantityTotal);
 
             return result;
         }

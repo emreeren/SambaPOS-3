@@ -102,18 +102,18 @@ namespace Samba.Services.Implementations.PrinterModule
             IEnumerable<Order> ti;
             switch (printJob.WhatToPrint)
             {
-                case (int)WhatToPrintTypes.NewLines:
-                    ti = ticket.GetUnlockedOrders();
-                    break;
-                case (int)WhatToPrintTypes.GroupedByBarcode:
-                    ti = GroupLinesByValue(ticket, x => x.Barcode ?? "", "1", true);
-                    break;
-                case (int)WhatToPrintTypes.GroupedByGroupCode:
-                    ti = GroupLinesByValue(ticket, x => x.GroupCode ?? "", Resources.UndefinedWithBrackets);
-                    break;
-                case (int)WhatToPrintTypes.GroupedByTag:
-                    ti = GroupLinesByValue(ticket, x => x.Tag ?? "", Resources.UndefinedWithBrackets);
-                    break;
+                //case (int)WhatToPrintTypes.NewLines:
+                //    ti = ticket.GetUnlockedOrders();
+                //    break;
+                //case (int)WhatToPrintTypes.GroupedByBarcode:
+                //    ti = GroupLinesByValue(ticket, x => x.Barcode ?? "", "1", true);
+                //    break;
+                //case (int)WhatToPrintTypes.GroupedByGroupCode:
+                //    ti = GroupLinesByValue(ticket, x => x.GroupCode ?? "", Resources.UndefinedWithBrackets);
+                //    break;
+                //case (int)WhatToPrintTypes.GroupedByTag:
+                //    ti = GroupLinesByValue(ticket, x => x.Tag ?? "", Resources.UndefinedWithBrackets);
+                //    break;
                 case (int)WhatToPrintTypes.LastLinesByPrinterLineCount:
                     ti = GetLastOrders(ticket, printJob);
                     break;
@@ -283,6 +283,100 @@ namespace Samba.Services.Implementations.PrinterModule
             var lines = _ticketFormatter.GetFormattedTicket(ticket, ticket.Orders, new PrinterTemplate() { Template = format });
             var result = new FormattedDocument(lines, width).GetFormattedText();
             return result;
+        }
+
+        public string GetDefaultTicketPrintTemplate()
+        {
+            const string template = @"[LAYOUT]
+-- General layout
+<T><%TICKET>
+<L00><%DATE>:{TICKET DATE}
+<L00><%TIME>:{TIME}
+{ENTITIES}
+<L00><%TICKET> No:{TICKET NO}
+<F>-
+{ORDERS}
+<F>=
+<EB>
+{DISCOUNTS}
+[<J10><%TOTAL> <%GIFT>:|{ORDER STATE TOTAL:<%GIFT>}]
+<J10><%TOTAL>:|{TICKET TOTAL}
+{PAYMENTS}
+<DB>
+<F>=
+<C10>T H A N K   Y O U
+ 
+[DISCOUNTS]
+<J00>{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
+ 
+[PAYMENTS]
+<J00>{PAYMENT NAME}|{PAYMENT AMOUNT}
+ 
+[ORDERS]
+-- Default format for orders
+<J00>- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+ 
+[ORDERS:<%GIFT>]
+-- Format for gifted orders
+<J00>- {QUANTITY} {NAME}|**GIFT**
+{ORDER TAGS}
+ 
+[ORDERS:<%VOID>]
+-- Nothing will print for void lines
+ 
+[ORDER TAGS]
+-- Format for order tags
+<J00> * {ORDER TAG NAME} | {ORDER TAG PRICE}
+ 
+[ENTITIES:<%TABLE>]
+-- Table entity format
+<L00><%TABLE>: {ENTITY NAME}
+ 
+[ENTITIES:<%CUSTOMER>]
+-- Customer entity format
+<J00><%CUSTOMER>: {ENTITY NAME} | {ENTITY DATA:Phone}";
+            return ReplaceTemplateValues(template);
+        }
+
+        public string GetDefaultKitchenPrintTemplate()
+        {
+            const string template = @"[LAYOUT]
+<T><%TICKET>
+<L00><%DATE>:{TICKET DATE}
+<L00><%TIME>:{TIME}
+<L00><%TABLE>:{ENTITY NAME:<%TABLE>}
+<L00><%TICKET> No:{TICKET NO}
+<F>-
+{ORDERS}
+
+[ORDERS]
+<L00>- {QUANTITY} {NAME}
+{ORDER TAGS}
+
+[ORDERS:<%VOID>]
+<J00>- {QUANTITY} {NAME}|**<%VOID>**
+{ORDER TAGS}
+
+[ORDER TAGS]
+-- Format for order tags
+<L00>     * {ORDER TAG NAME}";
+
+            return ReplaceTemplateValues(template);
+        }
+
+        private static string ReplaceTemplateValues(string template)
+        {
+            template = template.Replace("<%TICKET>", Resources.Ticket);
+            template = template.Replace("<%DATE>", Resources.Date);
+            template = template.Replace("<%TIME>", Resources.Time);
+            template = template.Replace("<%GIFT>", Resources.Gift);
+            template = template.Replace("<%VOID>", Resources.Void);
+            template = template.Replace("<%TABLE>", Resources.Table);
+            template = template.Replace("<%CUSTOMER>", Resources.Customer);
+            template = template.Replace("<%PHONE>", Resources.Phone);
+            template = template.Replace("<%TOTAL>", Resources.Total);
+            return template;
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿<UserControl x:Class="Samba.Modules.PrinterModule.PrinterTemplateView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" mc:Ignorable="d" d:DesignWidth="575" d:DesignHeight="278">
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:uiControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
+             mc:Ignorable="d" d:DesignWidth="575" d:DesignHeight="278">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -15,9 +17,9 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0">
-            <Label Content="{LocText TemplateName,Suffix=':'}"/>            
+            <Label Content="{LocText TemplateName,Suffix=':'}"/>
             <TextBox Text="{Binding Name}" MinWidth="200" HorizontalAlignment="Left" />
-            <CheckBox Margin="0,3,0,0" IsChecked="{Binding MergeLines}" HorizontalAlignment="Left" Content="{LocText MergeLines}"/>            
+            <CheckBox Margin="0,3,0,0" IsChecked="{Binding MergeLines}" HorizontalAlignment="Left" Content="{LocText MergeLines}"/>
         </StackPanel>
 
         <Grid Grid.Row="1" Grid.Column="0">
@@ -37,8 +39,18 @@
         </FlowDocumentScrollViewer>
 
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+            <StackPanel Orientation="Horizontal">
+                <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                      Command="{Binding SaveCommand}" />
+                <uiControls:DropDownButton Content="{LocText Load}" Margin="5,10" MinWidth="70">
+                    <uiControls:DropDownButton.DropDown>
+                        <ContextMenu>
+                            <MenuItem Header="{LocText TicketTemplate}" Command="{Binding LoadTicketTemplateCommand}"></MenuItem>
+                            <MenuItem Header="{LocText KitchenOrderTemplate}" Command="{Binding LoadKitchenOrderTemplateCommand}"></MenuItem>
+                        </ContextMenu>
+                    </uiControls:DropDownButton.DropDown>
+                </uiControls:DropDownButton>
+            </StackPanel>
             <Label Content="{Binding Error}" Foreground="Red" />
         </StackPanel>
 

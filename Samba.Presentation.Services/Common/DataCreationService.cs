@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Entities;
@@ -17,15 +18,19 @@ using Samba.Infrastructure.Helpers;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
+using Samba.Services;
 
 namespace Samba.Presentation.Services.Common
 {
     public class DataCreationService
     {
         private readonly IWorkspace _workspace;
+        private readonly IPrinterService _printerService;
+
         public DataCreationService()
         {
             _workspace = WorkspaceFactory.Create();
+            _printerService = ServiceLocator.Current.GetInstance<IPrinterService>();
         }
 
         private bool ShouldCreateData()
@@ -344,8 +349,8 @@ namespace Samba.Presentation.Services.Common
             var u = new User("Administrator", "1234") { UserRole = role };
             _workspace.Add(u);
 
-            var ticketPrinterTemplate = new PrinterTemplate { Name = Resources.TicketTemplate, Template = Resources.TicketTemplateValue };
-            var kitchenPrinterTemplate = new PrinterTemplate { Name = Resources.KitchenOrderTemplate, Template = Resources.KitchenTemplateValue };
+            var ticketPrinterTemplate = new PrinterTemplate { Name = Resources.TicketTemplate, Template = _printerService.GetDefaultTicketPrintTemplate() };
+            var kitchenPrinterTemplate = new PrinterTemplate { Name = Resources.KitchenOrderTemplate, Template = _printerService.GetDefaultKitchenPrintTemplate() };
 
             _workspace.Add(ticketPrinterTemplate);
             _workspace.Add(kitchenPrinterTemplate);

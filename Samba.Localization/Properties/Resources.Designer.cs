@@ -3936,6 +3936,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load.
+        /// </summary>
+        public static string Load {
+            get {
+                return ResourceManager.GetString("Load", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load Ticket.
         /// </summary>
         public static string LoadTicket {
@@ -5658,6 +5667,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quantity Total.
+        /// </summary>
+        public static string QuantityTotal {
+            get {
+                return ResourceManager.GetString("QuantityTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quarter past.
         /// </summary>
         public static string QuarterPast {
@@ -5780,6 +5798,15 @@ namespace Samba.Localization.Properties {
         public static string ReleaseLock {
             get {
                 return ResourceManager.GetString("ReleaseLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete current template and Load {0}?.
+        /// </summary>
+        public static string ReloadPrinterTemplateConfirmation_f {
+            get {
+                return ResourceManager.GetString("ReloadPrinterTemplateConfirmation_f", resourceCulture);
             }
         }
         

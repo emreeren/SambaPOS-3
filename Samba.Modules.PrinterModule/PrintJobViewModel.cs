@@ -35,7 +35,7 @@ namespace Samba.Modules.PrinterModule
         public ICaptionCommand AddPrinterMapCommand { get; set; }
         public ICaptionCommand DeletePrinterMapCommand { get; set; }
 
-        private readonly IList<string> _whatToPrintTypes = new[] { Resources.AllLines, Resources.OnlyNewLines, Resources.LinesGroupedByBarcode, Resources.LinesGroupedByGroupCode, Resources.LinesGroupedByTag, Resources.LastLinesByPrinterLineCount, Resources.LastPaidOrders };
+        private readonly IList<string> _whatToPrintTypes = new[] { Resources.AllLines, Resources.LastLinesByPrinterLineCount, Resources.LastPaidOrders };
         public IList<string> WhatToPrintTypes { get { return _whatToPrintTypes; } }
 
         public IEnumerable<Department> Departments { get { return GetAllDepartments(); } }

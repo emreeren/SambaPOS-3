@@ -3235,4 +3235,13 @@ Error Message:
   <data name="POS" xml:space="preserve">
     <value>POS</value>
   </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Delete current template and Load {0}?</value>
+  </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Quantity Total</value>
+  </data>
 </root>

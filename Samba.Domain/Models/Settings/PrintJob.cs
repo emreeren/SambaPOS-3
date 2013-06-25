@@ -6,10 +6,6 @@ namespace Samba.Domain.Models.Settings
     public enum WhatToPrintTypes
     {
         Everything,
-        NewLines,
-        GroupedByBarcode,
-        GroupedByGroupCode,
-        GroupedByTag,
         LastLinesByPrinterLineCount,
         LastPaidOrders
     }
