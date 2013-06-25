@@ -115,6 +115,15 @@ namespace Samba.Modules.EntityModule
         protected override void OnSave(string value)
         {
             CustomDataViewModel.Update();
+            if (Model.Id > 0)
+            {
+                var screenItems = Workspace.All<EntityScreenItem>(x => x.EntityId == Model.Id);
+                foreach (var entityScreenItem in screenItems)
+                {
+                    entityScreenItem.Name = Model.Name;
+                }
+            }
+
             base.OnSave(value);
         }
 
