@@ -28,6 +28,7 @@ namespace Samba.Modules.BasicReports
         public static IUserService UserService { get; set; }
         public static IApplicationState ApplicationState { get; set; }
         public static ILogService LogService { get; set; }
+        public static ICacheService CacheService { get; set; }
 
         private static IList<ReportViewModelBase> _reports;
         public static IList<ReportViewModelBase> Reports
@@ -45,7 +46,7 @@ namespace Samba.Modules.BasicReports
                               new ReceivableReportViewModel(UserService,ApplicationState,LogService),
                               new InternalAccountsViewModel(UserService,ApplicationState,LogService),
                               new PurchaseReportViewModel(UserService,ApplicationState,LogService),
-                              new InventoryReportViewModel(UserService,ApplicationState,LogService),
+                              new InventoryReportViewModel(UserService,ApplicationState,CacheService,LogService),
                               new CostReportViewModel(UserService,ApplicationState,LogService),
                               new CsvBuilderViewModel(UserService,ApplicationState,LogService)
                           };

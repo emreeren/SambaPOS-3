@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
+using Samba.Domain.Models.Inventory;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
@@ -11,10 +13,12 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
     class InventoryReportViewModel : ReportViewModelBase
     {
-        public InventoryReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService)
+        private readonly ICacheService _cacheService;
+
+        public InventoryReportViewModel(IUserService userService, IApplicationState applicationState, ICacheService cacheService, ILogService logService)
             : base(userService, applicationState, logService)
         {
-
+            _cacheService = cacheService;
         }
 
         protected override void CreateFilterGroups()
@@ -32,25 +36,34 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 
             var lastPeriodicConsumption = ReportContext.GetCurrentPeriodicConsumption();
 
-            var consumptionItems = lastPeriodicConsumption.WarehouseConsumptions.SelectMany(x=>x.PeriodicConsumptionItems);
-
-            if (consumptionItems.Any())
+            foreach (var warehouseConsumption in lastPeriodicConsumption.WarehouseConsumptions.OrderBy(GetWarehouseOrder))
             {
-                report.AddColumTextAlignment("InventoryTable", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
-                report.AddColumnLength("InventoryTable", "45*", "30*", "35*");
-                report.AddTable("InventoryTable", Resources.InventoryItem, Resources.Unit, Resources.Quantity);
+                var warehouse =
+                    _cacheService.GetWarehouses().SingleOrDefault(x => x.Id == warehouseConsumption.WarehouseId) ??
+                    Warehouse.Undefined;
+                var inventoryTableSlug = "InventoryTable_" + warehouseConsumption.WarehouseId;
+                report.AddColumTextAlignment(inventoryTableSlug, TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
+                report.AddColumnLength(inventoryTableSlug, "55*", "15*", "30*");
+                report.AddTable(inventoryTableSlug, warehouse.Name, "", "");
 
-                foreach (var costItem in consumptionItems)
+                foreach (var periodicConsumptionItem in warehouseConsumption.PeriodicConsumptionItems)
                 {
-                    report.AddRow("InventoryTable",
-                        costItem.InventoryItemName,
-                        costItem.UnitName,
-                        costItem.GetPhysicalInventory().ToString("#,#0.##"));
+                    report.AddRow(inventoryTableSlug,
+                        periodicConsumptionItem.InventoryItemName,
+                        periodicConsumptionItem.UnitName,
+                        periodicConsumptionItem.GetPhysicalInventory().ToString(LocalSettings.ReportQuantityFormat));
                 }
             }
-            else report.AddHeader(Resources.ThereAreNoCostTransactionsInThisPeriod);
 
             return report.Document;
+        }
+
+        private int GetWarehouseOrder(WarehouseConsumption arg)
+        {
+            var warehouse =
+                _cacheService.GetWarehouses().SingleOrDefault(x => x.Id == arg.WarehouseId) ??
+                Warehouse.Undefined;
+            return warehouse.SortOrder;
         }
 
         protected override string GetHeader()

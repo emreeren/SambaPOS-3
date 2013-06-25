@@ -11,5 +11,11 @@ namespace Samba.Domain.Models.Inventory
         public int WarehouseTypeId { get; set; }
         public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
+
+        private static Warehouse _undefined;
+        public static Warehouse Undefined
+        {
+            get { return _undefined ?? (_undefined = new Warehouse { Name = "Undefined" }); }
+        }
     }
 }

@@ -229,6 +229,5 @@ namespace Samba.Modules.PaymentModule
             _tenderedValueViewModel.TenderedAmount = "";
             RaisePropertyChanged(() => BalanceModeCaption);
         }
-
     }
 }
