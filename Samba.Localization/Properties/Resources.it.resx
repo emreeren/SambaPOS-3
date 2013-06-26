@@ -710,9 +710,6 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   <data name="Eleven" xml:space="preserve">
     <value>Undici</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Impossibile aprire Dashboard</value>
-  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Ultima Data Ordine</value>
   </data>
@@ -1608,6 +1605,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Segnalazione di autorizzazioni</value>
   </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Ticket Tag selezionato</value>
+  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Peso codici a barre</value>
   </data>
@@ -1900,8 +1900,8 @@ Messaggio di errore:
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Ticket Tag selezionato</value>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Nuove linee di Conto Stampante</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Simbolo Valuta</value>
@@ -2675,9 +2675,6 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>Impossibile eliminare oltre la fine delle registrazioni al giorno</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Nuove linee di Conto Stampante</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>In grado di visualizzare biglietti Vecchio</value>

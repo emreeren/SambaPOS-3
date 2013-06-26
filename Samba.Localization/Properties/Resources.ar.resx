@@ -702,9 +702,6 @@
   <data name="Eleven" xml:space="preserve">
     <value>أحد عشر</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>يطلع على الرئيسية</value>
-  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>تاريخ آخر طلب</value>
   </data>
@@ -1584,6 +1581,9 @@
   <data name="ReportPermissions" xml:space="preserve">
     <value>أذونات التقارير</value>
   </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>علامة التذكرة المختارة</value>
+  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>وزن الباركود</value>
   </data>
@@ -1870,8 +1870,8 @@
   <data name="Hidden" xml:space="preserve">
     <value>مخفي</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>علامة التذكرة المختارة</value>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>الاسطر الاخيرة بعدد اسطر الطابعة</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>رمز العملة</value>
@@ -2639,9 +2639,6 @@
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>لا يمكن حذف سجلات نهاية اليوم الماضية</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>الاسطر الاخيرة بعدد اسطر الطابعة</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>يستطيع عرض التذاكر السابقة</value>

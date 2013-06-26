@@ -695,9 +695,6 @@ Akan Terlihat setelah hari {1}, {2} jam, {3} menit</value>
   <data name="Eleven" xml:space="preserve">
     <value>Sebelas</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Bisa Buka Dasbor</value>
-  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Urutan Pesanan Tanggal Terakhir </value>
   </data>

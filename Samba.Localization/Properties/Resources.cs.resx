@@ -159,8 +159,8 @@
   <data name="ItemSales" xml:space="preserve">
     <value>Položka Prodej</value>
   </data>
-  <data name="Three" xml:space="preserve">
-    <value>Tři</value>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>Resetovat účet</value>
   </data>
   <data name="AutoStartMessageClient" xml:space="preserve">
     <value>Automaticky spouštět message klienta</value>
@@ -426,8 +426,8 @@ Pokračovat bez přidání podrobnosti?</value>
   <data name="EveryWeekday" xml:space="preserve">
     <value>Každý všední den</value>
   </data>
-  <data name="AllTickets" xml:space="preserve">
-    <value>Všechny účty</value>
+  <data name="DefaultProperties" xml:space="preserve">
+    <value>Výchozí vlastnosti</value>
   </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Název vlastností skupiny</value>
@@ -657,6 +657,9 @@ Pokračovat bez přidání podrobnosti?</value>
   <data name="OnceAYear" xml:space="preserve">
     <value>Jednou za rok</value>
   </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>Vybrat {0}</value>
+  </data>
   <data name="Color" xml:space="preserve">
     <value>Barva</value>
   </data>
@@ -744,8 +747,8 @@ Pokračovat bez přidání podrobnosti?</value>
   <data name="Angle" xml:space="preserve">
     <value>Úhel</value>
   </data>
-  <data name="DefaultProperties" xml:space="preserve">
-    <value>Výchozí vlastnosti</value>
+  <data name="WorkPeriodStarted" xml:space="preserve">
+    <value>Směna začala</value>
   </data>
   <data name="OneHundred" xml:space="preserve">
     <value>Sto</value>
@@ -777,8 +780,8 @@ Pokračovat bez přidání podrobnosti?</value>
   <data name="CashContent" xml:space="preserve">
     <value>Obsah účtu restaurace</value>
   </data>
-  <data name="WorkPeriodStarted" xml:space="preserve">
-    <value>Směna začala</value>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Hodnota vlastnosti</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Varování</value>
@@ -788,9 +791,6 @@ Pokračovat bez přidání podrobnosti?</value>
   </data>
   <data name="TwiceAnHour" xml:space="preserve">
     <value>Dvakrát za hodinu</value>
-  </data>
-  <data name="SettingValue" xml:space="preserve">
-    <value>Hodnota vlastnosti</value>
   </data>
   <data name="OnlyOpenTickets" xml:space="preserve">
     <value>Otevřené účty pouze</value>
@@ -803,6 +803,9 @@ Pokračovat bez přidání podrobnosti?</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>Měsíc</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Daň</value>
   </data>
   <data name="Noon" xml:space="preserve">
     <value>poledne</value>
@@ -969,6 +972,9 @@ Pokračovat bez přidání podrobnosti?</value>
   <data name="Properties" xml:space="preserve">
     <value>Vlastnosti</value>
   </data>
+  <data name="AllTickets" xml:space="preserve">
+    <value>Všechny účty</value>
+  </data>
   <data name="DisplayUserPath" xml:space="preserve">
     <value>Zobrazit cestu k uživateli</value>
   </data>
@@ -1110,8 +1116,8 @@ Pokračovat bez přidání podrobnosti?</value>
   <data name="Number" xml:space="preserve">
     <value>Číslo</value>
   </data>
-  <data name="ThisWeek" xml:space="preserve">
-    <value>Tento týden</value>
+  <data name="Table" xml:space="preserve">
+    <value>Stůl</value>
   </data>
   <data name="Action" xml:space="preserve">
     <value>Akce</value>
@@ -1290,8 +1296,11 @@ Pokračovat bez přidání podrobnosti?</value>
   <data name="EveryOtherHour" xml:space="preserve">
     <value>Každou druhou hodinu</value>
   </data>
-  <data name="EndOfDayRecords" xml:space="preserve">
-    <value>Denní uzávěrky</value>
+  <data name="TicketType" xml:space="preserve">
+    <value>Typ účtu</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Sleva</value>
   </data>
   <data name="RoundingTotal" xml:space="preserve">
     <value>Zaokrouhlování celkem</value>
@@ -1314,8 +1323,8 @@ Pokračovat bez přidání podrobnosti?</value>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Když je neoštítkovaný</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Otevřít pokladnu</value>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>Tento týden</value>
   </data>
   <data name="Fifty" xml:space="preserve">
     <value>Padesát</value>
@@ -1374,9 +1383,6 @@ Pokračovat bez přidání podrobnosti?</value>
   </data>
   <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
     <value>SambaPOS došlo k nečekanému problému. Podrobnosti jsou uženy do souboru trace.log</value>
-  </data>
-  <data name="Table" xml:space="preserve">
-    <value>Stůl</value>
   </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>Neexistují žádné transakční náklady v této pracovní době.</value>
@@ -1532,6 +1538,9 @@ Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
   <data name="WeightBarcodeQuantityLength" xml:space="preserve">
     <value>Hmotnost čárových kódů Množství Délka</value>
   </data>
+  <data name="TaxTemplate" xml:space="preserve">
+    <value>Daňová šablona</value>
+  </data>
   <data name="MergeLines" xml:space="preserve">
     <value>Sloučit řádky</value>
   </data>
@@ -1561,6 +1570,12 @@ Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
   </data>
   <data name="Decrease" xml:space="preserve">
     <value>Snížit</value>
+  </data>
+  <data name="EndOfDayRecords" xml:space="preserve">
+    <value>Denní uzávěrky</value>
+  </data>
+  <data name="AddOrder" xml:space="preserve">
+    <value>Přidat objednávku</value>
   </data>
   <data name="CanMergeTickets" xml:space="preserve">
     <value>Může sloučit účty</value>
@@ -1622,8 +1637,8 @@ Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
   <data name="EndOfDayRecord" xml:space="preserve">
     <value>Denní uzávěrka</value>
   </data>
-  <data name="Seventy" xml:space="preserve">
-    <value>Sedmdesát</value>
+  <data name="VoidOrders" xml:space="preserve">
+    <value>Neplatné objednávky</value>
   </data>
   <data name="ExpenseTransactions" xml:space="preserve">
     <value>Nákladové transakce</value>
@@ -1793,8 +1808,8 @@ Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
     <value>Časové období není v aktivní pracovní době</value>
   </data>
-  <data name="HalfPast" xml:space="preserve">
-    <value>Půl</value>
+  <data name="TicketTagGroup" xml:space="preserve">
+    <value>Skupina štítků</value>
   </data>
   <data name="PrintMapping" xml:space="preserve">
     <value>Print Mapping</value>
@@ -1901,8 +1916,8 @@ Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Tiskárna faktur</value>
   </data>
-  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
-    <value>Tam je další cena rozlišení s {0} tag</value>
+  <data name="HalfPast" xml:space="preserve">
+    <value>Půl</value>
   </data>
   <data name="Header" xml:space="preserve">
     <value>Hlavička</value>
@@ -1939,6 +1954,9 @@ Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
   </data>
   <data name="CurrentCost" xml:space="preserve">
     <value>Současné náklady</value>
+  </data>
+  <data name="Three" xml:space="preserve">
+    <value>Tři</value>
   </data>
   <data name="Every5Minutes" xml:space="preserve">
     <value>Každých 5 minut</value>
@@ -1995,6 +2013,9 @@ Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
   <data name="Divide" xml:space="preserve">
     <value>Rozdělit</value>
   </data>
+  <data name="Seventy" xml:space="preserve">
+    <value>Sedmdesát</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopírovat</value>
   </data>
@@ -2012,6 +2033,9 @@ Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
   </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Vyberte časové období, aktualizujte report a klikněte na související odkaz pro export dat.</value>
+  </data>
+  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
+    <value>Tam je další cena rozlišení s {0} tag</value>
   </data>
   <data name="TicketPermissions" xml:space="preserve">
     <value>Oprávnění účtů</value>

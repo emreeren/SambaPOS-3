@@ -129,6 +129,9 @@
   <data name="ButtonHeader" xml:space="preserve">
     <value>Buttonbeschriftung</value>
   </data>
+  <data name="POS" xml:space="preserve">
+    <value>POS</value>
+  </data>
   <data name="DisplayTicket" xml:space="preserve">
     <value>Beleg anzeigen</value>
   </data>
@@ -343,6 +346,9 @@
   <data name="Payment_f" xml:space="preserve">
     <value>{0} Zahlung</value>
   </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>Beleg-Dauer</value>
+  </data>
   <data name="StateFilter" xml:space="preserve">
     <value>Statusfilter</value>
   </data>
@@ -366,6 +372,9 @@
   </data>
   <data name="CashContent" xml:space="preserve">
     <value>Kasseninhalt</value>
+  </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Berechnung</value>
   </data>
   <data name="Selection_f" xml:space="preserve">
     <value>{0} Auswahl</value>
@@ -402,6 +411,9 @@
   </data>
   <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
     <value>Kann Belege anderer Kellner anzeigen</value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>ändere Zahlung</value>
   </data>
   <data name="AccountNameTemplate" xml:space="preserve">
     <value>Kontonamen-Vorlage</value>
@@ -717,7 +729,7 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
     <value>Mehrere erzeugen</value>
   </data>
   <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Kann Dashboard öffnen</value>
+    <value>Kann Configuration öffnen</value>
   </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Datum der letzten Bestellung</value>
@@ -809,6 +821,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="UpdateProgramSetting" xml:space="preserve">
     <value>Update-Programm-Einstellung</value>
   </data>
+  <data name="TicketState" xml:space="preserve">
+    <value>Beleg-Status</value>
+  </data>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>Bestellungs Taggruppe</value>
   </data>
@@ -864,6 +879,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="TicketTag" xml:space="preserve">
     <value>Belegtag</value>
   </data>
+  <data name="Display" xml:space="preserve">
+    <value>Anzeige</value>
+  </data>
   <data name="Handler" xml:space="preserve">
     <value>Steuerungsprogramm</value>
   </data>
@@ -872,6 +890,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="FixedCost" xml:space="preserve">
     <value>Feste Kosten</value>
+  </data>
+  <data name="Amount_f" xml:space="preserve">
+    <value>{0} Betrag</value>
   </data>
   <data name="CategoryProperties" xml:space="preserve">
     <value>Kategorieeigenschaften</value>
@@ -1020,6 +1041,57 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="SortCategories" xml:space="preserve">
     <value>Sortieren der Warengruppen</value>
   </data>
+  <data name="TicketTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
+-- Allgemeines Layout
+&lt;T&gt;Beleg
+&lt;L00&gt;Datum:{TICKET DATE}
+&lt;L00&gt;Zeit:{TIME}
+{ENTITIES}
+&lt;L00&gt;Beleg Nr.:{TICKET NO}
+&lt;F&gt;-
+{ORDERS}
+&lt;F&gt;=
+&lt;EB&gt;
+{DISCOUNTS}
+&lt;J10&gt;Summe Trinkgelder:|{ORDER STATE TOTAL:Gift}
+&lt;J10&gt;Summe:|{TICKET TOTAL}
+{PAYMENTS}
+&lt;DB&gt;
+&lt;F&gt;=
+&lt;C10&gt;D A N K E
+ 
+[DISCOUNTS]
+&lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
+ 
+[PAYMENTS]
+&lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT}
+ 
+[ORDERS]
+-- Standard-Format für Positionen
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+ 
+[ORDERS:Gift]
+-- Format für Trinkgelder Positionen
+&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
+{ORDER TAGS}
+ 
+[ORDERS:Void]
+-- Nichts wird für leere Zeilen ausgedruckt
+ 
+[ORDER TAGS]
+-- Format für Bestell-Tags
+&lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
+ 
+[ENTITIES:Table]
+-- Table entity format
+&lt;L00&gt;Table: {ENTITY NAME}
+ 
+[ENTITIES:Customer]
+-- Customer entity format
+&lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
+  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Preis ändern</value>
   </data>
@@ -1061,6 +1133,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>Transaktionen dürfen nicht leer sein</value>
+  </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>Gruppen-Fußzeile</value>
   </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Gesamtentnahmen</value>
@@ -1137,6 +1212,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Kann entsperrte Belege umbuchen</value>
   </data>
+  <data name="TaxRate" xml:space="preserve">
+    <value>Steuerrate</value>
+  </data>
   <data name="PaymentScreenSettings" xml:space="preserve">
     <value>Zahlungsmasken-Einstellungen</value>
   </data>
@@ -1167,6 +1245,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>Höhe des Zählers</value>
   </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
   <data name="Receiveable" xml:space="preserve">
     <value>Zulässig</value>
   </data>
@@ -1175,6 +1256,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="SellerWarehouses" xml:space="preserve">
     <value>Verkaufslagerräume</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Laden</value>
   </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Rechnungsdrucker</value>
@@ -1456,6 +1540,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Billion" xml:space="preserve">
     <value>Milliarde</value>
   </data>
+  <data name="GroupKey" xml:space="preserve">
+    <value>Gruppen-Schlüssel</value>
+  </data>
   <data name="UsePlainSum" xml:space="preserve">
     <value>Benutze einfache Summe</value>
   </data>
@@ -1473,6 +1560,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="ViewMode" xml:space="preserve">
     <value>Anzeige Modus</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Steuerbetrag</value>
   </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Belegdrucker</value>
@@ -1636,6 +1726,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="AccountMap" xml:space="preserve">
     <value>Kontoabbildung</value>
   </data>
+  <data name="GroupTotal" xml:space="preserve">
+    <value>Gruppen-Summe</value>
+  </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Wählen Sie die Zeitspanne, laden Sie den Bericht neu und klicken Sie den entsprechenden link, um  die Daten zu exportieren.</value>
   </data>
@@ -1705,6 +1798,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="TipsTotal" xml:space="preserve">
     <value>Trinkgelder gesamt</value>
   </data>
+  <data name="OrderGrouping" xml:space="preserve">
+    <value>sortiere Grupierung</value>
+  </data>
   <data name="Default_f" xml:space="preserve">
     <value>Standard {0}</value>
   </data>
@@ -1753,6 +1849,9 @@ Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeit
   </data>
   <data name="Rounding" xml:space="preserve">
     <value>Runden</value>
+  </data>
+  <data name="OrderStateValue" xml:space="preserve">
+    <value>Bestellstatus Wert</value>
   </data>
   <data name="SqlHint" xml:space="preserve">
     <value>Klicken Sie hier für Hinweise zum Arbeiten mit SQL-Datenbanken</value>
@@ -1811,6 +1910,9 @@ Weiter ohne das Hinzufügen von Details?</value>
 Fehlernachricht:
 </value>
   </data>
+  <data name="CanNavigate_f" xml:space="preserve">
+    <value>Kann Navigieren {0}</value>
+  </data>
   <data name="Six" xml:space="preserve">
     <value>Sechs</value>
   </data>
@@ -1864,6 +1966,9 @@ Fehlernachricht:
   </data>
   <data name="Restaurant" xml:space="preserve">
     <value>Restaurant</value>
+  </data>
+  <data name="OrderTagValue" xml:space="preserve">
+    <value>Bestell-Tag Wert</value>
   </data>
   <data name="Total_f" xml:space="preserve">
     <value>Total: {0}</value>
@@ -2069,6 +2174,9 @@ Fehlernachricht:
   <data name="Market" xml:space="preserve">
     <value>Markt</value>
   </data>
+  <data name="TotalTaxableAmount" xml:space="preserve">
+    <value>Summe Nettopreis</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Sub-Tastenhöhe</value>
   </data>
@@ -2171,6 +2279,9 @@ Fehlernachricht:
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Beleg bezahlt. Ihre letzte Änderung wurde nicht gespeichert.</value>
   </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Anfangszeit</value>
+  </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Benutzer abmelden</value>
   </data>
@@ -2264,6 +2375,9 @@ Fehlernachricht:
   <data name="Every15Minutes" xml:space="preserve">
     <value>Alle 15 Minuten</value>
   </data>
+  <data name="LastOrderDuration" xml:space="preserve">
+    <value>Zeitspanne der letzten Bestellung</value>
+  </data>
   <data name="DisplayPaymentScreen" xml:space="preserve">
     <value>Zahlungmaske anzeigen</value>
   </data>
@@ -2327,6 +2441,9 @@ schliessen</value>
   </data>
   <data name="ChangeAmountUpdated" xml:space="preserve">
     <value>Wechselgeldbetrag aktualisiert</value>
+  </data>
+  <data name="TaxAmount" xml:space="preserve">
+    <value>Steuerbetrag</value>
   </data>
   <data name="TicketClosing" xml:space="preserve">
     <value>Beleg Schließung</value>
@@ -2433,6 +2550,9 @@ schliessen</value>
   <data name="LoadTicket" xml:space="preserve">
     <value>lade Beleg</value>
   </data>
+  <data name="TicketExplorer" xml:space="preserve">
+    <value>Belege auflisten</value>
+  </data>
   <data name="TicketTipTotal" xml:space="preserve">
     <value>Trinkgeld gesamt</value>
   </data>
@@ -2474,6 +2594,9 @@ schliessen</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Standard</value>
+  </data>
+  <data name="ProductTag" xml:space="preserve">
+    <value>Artikel-Tag</value>
   </data>
   <data name="TaskType" xml:space="preserve">
     <value>Aufgabentyp</value>
@@ -2564,6 +2687,9 @@ schliessen</value>
   </data>
   <data name="Consumption" xml:space="preserve">
     <value>Verbrauch</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Derzeitige Vorlage löschen und {0} laden?</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Jeden zweiten Monat</value>

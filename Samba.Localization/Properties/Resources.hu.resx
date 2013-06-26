@@ -704,9 +704,6 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
   <data name="Eleven" xml:space="preserve">
     <value>Tizenegy</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Főképernyőt megnyithatja</value>
-  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Utolsó rendelés ideje</value>
   </data>
@@ -1587,6 +1584,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Jelentés Engedélyek</value>
   </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Blokk címke kiválasztva</value>
+  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Súly-bonalkódok</value>
   </data>
@@ -1873,8 +1873,8 @@ Hibaüzenet:
   <data name="Hidden" xml:space="preserve">
     <value>Rejtett</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Blokk címke kiválasztva</value>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Új sorok a Nyomtatandó sorok száma alapján</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Pénznemszimbólum</value>
@@ -2641,9 +2641,6 @@ Amíg nyitott blokk van, nem lehet műszakot zárni!</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>A múltbéli zárás adatok nem törölhetőek</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Új sorok a Nyomtatandó sorok száma alapján</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Régi Blokkokat megjeleníthet</value>

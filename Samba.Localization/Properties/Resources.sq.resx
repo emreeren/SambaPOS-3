@@ -563,9 +563,6 @@ Do të shkaktojë pas {1} ditë, {2} orë, {3} minuta</value>
   <data name="Eleven" xml:space="preserve">
     <value>Njëmbëdhjetë</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Mund të hapë Databazën</value>
-  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Data e Porosise se Fundit</value>
   </data>

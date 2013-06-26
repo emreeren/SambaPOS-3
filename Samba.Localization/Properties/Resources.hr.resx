@@ -663,9 +663,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Eleven" xml:space="preserve">
     <value>Jedanaest</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Može otvoriti glavnu ploču</value>
-  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Datum zadnje narudžbe</value>
   </data>

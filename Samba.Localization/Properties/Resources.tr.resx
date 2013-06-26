@@ -129,6 +129,9 @@
   <data name="ButtonHeader" xml:space="preserve">
     <value>Düğme Başlığı</value>
   </data>
+  <data name="POS" xml:space="preserve">
+    <value>POS</value>
+  </data>
   <data name="DisplayTicket" xml:space="preserve">
     <value>Adisyonu Görüntüle</value>
   </data>
@@ -277,6 +280,9 @@
   <data name="Account" xml:space="preserve">
     <value>Hesap</value>
   </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>Dış Cihaz Etkinlik Oluşturdu</value>
+  </data>
   <data name="Liability" xml:space="preserve">
     <value>Borç</value>
   </data>
@@ -340,6 +346,9 @@
   <data name="Payment_f" xml:space="preserve">
     <value>{0} Ödemesi</value>
   </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>Belge Süresi</value>
+  </data>
   <data name="StateFilter" xml:space="preserve">
     <value>Durum Filtresi</value>
   </data>
@@ -363,6 +372,9 @@
   </data>
   <data name="CashContent" xml:space="preserve">
     <value>Kasa Durumu</value>
+  </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Hesaplama</value>
   </data>
   <data name="Selection_f" xml:space="preserve">
     <value>{0} Seçim</value>
@@ -396,6 +408,12 @@
   </data>
   <data name="VoidOrders" xml:space="preserve">
     <value>Adisyon siparişlerini iptal et</value>
+  </data>
+  <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
+    <value>Diğer Personellerin Belgelerini Görebilir</value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>Ödeme Değiştir</value>
   </data>
   <data name="AccountNameTemplate" xml:space="preserve">
     <value>Hesap İsmi Şablonu</value>
@@ -636,6 +654,9 @@ Mesaj:
   <data name="PropertyGroup" xml:space="preserve">
     <value>Özellik Grubu</value>
   </data>
+  <data name="PrintReport" xml:space="preserve">
+    <value>Raporu Yazdır</value>
+  </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>Hata Mesajı</value>
   </data>
@@ -706,8 +727,11 @@ Mesaj:
   <data name="Eleven" xml:space="preserve">
     <value>Onbir</value>
   </data>
+  <data name="BatchCreate" xml:space="preserve">
+    <value>Toplu Oluştur</value>
+  </data>
   <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Yönetim ekranı açabilir</value>
+    <value>Yönetime Girebilir</value>
   </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Son Sipariş Tarihi</value>
@@ -799,6 +823,9 @@ Mesaj:
   <data name="UpdateProgramSetting" xml:space="preserve">
     <value>Program ayarı değiştir</value>
   </data>
+  <data name="TicketState" xml:space="preserve">
+    <value>Belge Durumu</value>
+  </data>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>Sipariş Etiketi Grubu</value>
   </data>
@@ -854,6 +881,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="TicketTag" xml:space="preserve">
     <value>Adisyon Etiketi</value>
   </data>
+  <data name="Display" xml:space="preserve">
+    <value>Görüntüle</value>
+  </data>
   <data name="Handler" xml:space="preserve">
     <value>Denetimci</value>
   </data>
@@ -862,6 +892,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="FixedCost" xml:space="preserve">
     <value>Sabit Maliyet</value>
+  </data>
+  <data name="Amount_f" xml:space="preserve">
+    <value>Tutar {0} </value>
   </data>
   <data name="CategoryProperties" xml:space="preserve">
     <value>Kategori Özellikleri</value>
@@ -955,6 +988,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
     <value>"Sayısal etiketleme" seçildiğinde etiketlerin tümü sayısal olmalıdır.</value>
+  </data>
+  <data name="MarkTicketAsClosed" xml:space="preserve">
+    <value>Belgeyi Kapalı olarak işaretle</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Telefon</value>
@@ -1088,6 +1124,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="ItemProperties" xml:space="preserve">
     <value>İlave Özellikler</value>
   </data>
+  <data name="Period_f" xml:space="preserve">
+    <value>Periyot: {0}</value>
+  </data>
   <data name="Change_f" xml:space="preserve">
     <value>{0} Değiştir</value>
   </data>
@@ -1096,6 +1135,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>Hareketler boş olmamalı</value>
+  </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>Grup Alt Bölümü</value>
   </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Toplam Gider</value>
@@ -1126,6 +1168,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>Bu {0} bir {1} kaydında kullanıldığı için silinemez.</value>
+  </data>
+  <data name="BeforeTicketClosing" xml:space="preserve">
+    <value>Belge Kapanmadan Önce</value>
   </data>
   <data name="Decrease" xml:space="preserve">
     <value>Azalt</value>
@@ -1169,6 +1214,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Kilitlenmemiş adisyon satırlarını taşıyabilir</value>
   </data>
+  <data name="TaxRate" xml:space="preserve">
+    <value>Vergi Oranı</value>
+  </data>
   <data name="PaymentScreenSettings" xml:space="preserve">
     <value>Ödeme Ekranı Ayarları</value>
   </data>
@@ -1198,6 +1246,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>Numaratör Yüksekliği</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Servis</value>
   </data>
   <data name="Receiveable" xml:space="preserve">
     <value>Alacak</value>
@@ -1476,6 +1527,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Billion" xml:space="preserve">
     <value>Milyar</value>
   </data>
+  <data name="GroupKey" xml:space="preserve">
+    <value>Grup Anahtar Kelimesi</value>
+  </data>
   <data name="UsePlainSum" xml:space="preserve">
     <value>Sade Toplamı Kullan</value>
   </data>
@@ -1494,6 +1548,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="ViewMode" xml:space="preserve">
     <value>Görünüm Modu</value>
   </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Vergilendirebilir Tutar</value>
+  </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Adisyon Yazıcı</value>
   </data>
@@ -1511,6 +1568,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Source" xml:space="preserve">
     <value>Kaynak</value>
+  </data>
+  <data name="DefaultSourceAccount" xml:space="preserve">
+    <value>Varsayılan Kaynak Hesabı</value>
   </data>
   <data name="AddOrder" xml:space="preserve">
     <value>Adisyona sipariş ekle</value>
@@ -1611,6 +1671,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="No" xml:space="preserve">
     <value>Hayır</value>
   </data>
+  <data name="SetActiveTicketType" xml:space="preserve">
+    <value>Aktif Adisyon Tipini Değiştir</value>
+  </data>
   <data name="All Tables" xml:space="preserve">
     <value>Tüm Masalar</value>
   </data>
@@ -1625,6 +1688,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="InternalAccounts" xml:space="preserve">
     <value>İç Kullanım Hesapları</value>
+  </data>
+  <data name="TaxFree" xml:space="preserve">
+    <value>Vergisiz</value>
   </data>
   <data name="POSView" xml:space="preserve">
     <value>POS Görünümü</value>
@@ -1646,6 +1712,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="AccountMap" xml:space="preserve">
     <value>Hesap İlişkisi</value>
+  </data>
+  <data name="GroupTotal" xml:space="preserve">
+    <value>Grup Toplamı</value>
   </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Veri aktarımı için bir tarih aralığı seçiniz, raporu güncelleyiniz ve ilgili linke tıklayınız.</value>
@@ -1716,6 +1785,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="TipsTotal" xml:space="preserve">
     <value>Garsoniye Toplamı</value>
   </data>
+  <data name="OrderGrouping" xml:space="preserve">
+    <value>Sipariş Guruplama</value>
+  </data>
   <data name="Default_f" xml:space="preserve">
     <value>Varsayılan {0}</value>
   </data>
@@ -1730,6 +1802,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Transaction" xml:space="preserve">
     <value>Hareket</value>
+  </data>
+  <data name="StartProcess" xml:space="preserve">
+    <value>Süreci Başlat</value>
   </data>
   <data name="EntityType" xml:space="preserve">
     <value>Varlık Tipi</value>
@@ -1761,6 +1836,9 @@ Raporlar bölümünden gün sonu raporlarınızı alınız.</value>
   </data>
   <data name="Rounding" xml:space="preserve">
     <value>Yuvarlama</value>
+  </data>
+  <data name="OrderStateValue" xml:space="preserve">
+    <value>Sipariş Durumu Değeri</value>
   </data>
   <data name="SqlHint" xml:space="preserve">
     <value>Veritabanını SQL ile çalıştırmak ile ilgili bilgi için tıklayın.</value>
@@ -1804,6 +1882,9 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   <data name="InventoryConsumption" xml:space="preserve">
     <value>Stok Kullanımı</value>
   </data>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>İlişkili Hesap</value>
+  </data>
   <data name="Weekday" xml:space="preserve">
     <value>Hafta</value>
   </data>
@@ -1818,6 +1899,9 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
 
 Hata Mesajı:
 </value>
+  </data>
+  <data name="CanNavigate_f" xml:space="preserve">
+    <value>Navigasyonu Görebilir  {0}</value>
   </data>
   <data name="Six" xml:space="preserve">
     <value>Altı</value>
@@ -1873,6 +1957,9 @@ Hata Mesajı:
   <data name="Restaurant" xml:space="preserve">
     <value>Restoran</value>
   </data>
+  <data name="OrderTagValue" xml:space="preserve">
+    <value>Sipariş Etiketi</value>
+  </data>
   <data name="Total_f" xml:space="preserve">
     <value>Toplam {0}</value>
   </data>
@@ -1926,6 +2013,9 @@ Hata Mesajı:
   </data>
   <data name="Hidden" xml:space="preserve">
     <value>Gizli</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Çıkış</value>
   </data>
   <data name="LastLinesByPrinterLineCount" xml:space="preserve">
     <value>Satır Sayısına göre Son Eklenen Satırlar</value>
@@ -2074,8 +2164,14 @@ Hata Mesajı:
   <data name="Market" xml:space="preserve">
     <value>Market</value>
   </data>
+  <data name="TotalTaxableAmount" xml:space="preserve">
+    <value>Toplam Vergiye tabi Tutar</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Alt Düğme Yüksekliği</value>
+  </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>Varlık Ara</value>
   </data>
   <data name="ThisMonth" xml:space="preserve">
     <value>Bu Ay</value>
@@ -2173,6 +2269,9 @@ Hata Mesajı:
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Adisyon ödenmiş. Yaptığınız değişiklikler kayıt edilmeyecek.</value>
   </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Başlangıç Zamanı</value>
+  </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Kullanıcı Çıktı</value>
   </data>
@@ -2266,6 +2365,9 @@ Hata Mesajı:
   <data name="Every15Minutes" xml:space="preserve">
     <value>Her 15 dakikada bir</value>
   </data>
+  <data name="LastOrderDuration" xml:space="preserve">
+    <value>Son Sipariş Süresi</value>
+  </data>
   <data name="DisplayPaymentScreen" xml:space="preserve">
     <value>Ödeme Ekranını Görüntüle</value>
   </data>
@@ -2326,6 +2428,9 @@ Kapat</value>
   </data>
   <data name="ChangeAmountUpdated" xml:space="preserve">
     <value>Para Üstü Güncellendi</value>
+  </data>
+  <data name="TaxAmount" xml:space="preserve">
+    <value>Vergi Tutarı</value>
   </data>
   <data name="TicketClosing" xml:space="preserve">
     <value>Adisyon Kapanıyor</value>
@@ -2423,8 +2528,17 @@ Kapat</value>
   <data name="OrderStateGroup" xml:space="preserve">
     <value>Sipariş Durumu Grubu</value>
   </data>
+  <data name="AskTicketType" xml:space="preserve">
+    <value>Adisyon Tipi Sor</value>
+  </data>
   <data name="Negative" xml:space="preserve">
     <value>Negatif</value>
+  </data>
+  <data name="LoadTicket" xml:space="preserve">
+    <value>Adisyon Bul</value>
+  </data>
+  <data name="TicketExplorer" xml:space="preserve">
+    <value>Belge Gezgini</value>
   </data>
   <data name="TicketTipTotal" xml:space="preserve">
     <value>Garsoniye Toplamı</value>
@@ -2468,6 +2582,9 @@ Kapat</value>
   <data name="Default" xml:space="preserve">
     <value>Varsayılan</value>
   </data>
+  <data name="ProductTag" xml:space="preserve">
+    <value>Ürün Etiketi</value>
+  </data>
   <data name="TaskType" xml:space="preserve">
     <value>Görev Tipi</value>
   </data>
@@ -2485,6 +2602,9 @@ Kapat</value>
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>Telefon</value>
+  </data>
+  <data name="BatchCreateDocuments" xml:space="preserve">
+    <value>Toplu Belgeler Oluştur</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Müşteri</value>
@@ -2581,6 +2701,9 @@ Kapat</value>
   </data>
   <data name="FieldType" xml:space="preserve">
     <value>Alan Tipi</value>
+  </data>
+  <data name="SourceAccountTypeDesc" xml:space="preserve">
+    <value>Kaynak Hesap Tipi (Borç)</value>
   </data>
   <data name="OrderUntagged" xml:space="preserve">
     <value>Sipariş Etiketi Kaldırıldı</value>
@@ -2706,6 +2829,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   <data name="Ninety" xml:space="preserve">
     <value>Doksan</value>
   </data>
+  <data name="DefaultTargetAccount" xml:space="preserve">
+    <value>Varsayılan Hedef Hesabı</value>
+  </data>
   <data name="PrinterName" xml:space="preserve">
     <value>Yazıcı Adı</value>
   </data>
@@ -2726,6 +2852,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="Ticket" xml:space="preserve">
     <value>Adisyon</value>
+  </data>
+  <data name="EntitySelected" xml:space="preserve">
+    <value>Varlık Seçildi</value>
   </data>
   <data name="EveryDay" xml:space="preserve">
     <value>Her gün</value>
@@ -2762,6 +2891,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Sütun Sayısı</value>
+  </data>
+  <data name="WindowScale" xml:space="preserve">
+    <value>Ekran Ölçeği</value>
   </data>
   <data name="DisplayFormat" xml:space="preserve">
     <value>Gösterim Formatı</value>
@@ -2850,6 +2982,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   <data name="Exit" xml:space="preserve">
     <value>Çıkış</value>
   </data>
+  <data name="TargetAccountTypeDesc" xml:space="preserve">
+    <value>Hedef Hesap Tipi (Alacak)</value>
+  </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Yazıyla genel toplam</value>
   </data>
@@ -2885,6 +3020,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>KDV Toplamı</value>
+  </data>
+  <data name="Toggle" xml:space="preserve">
+    <value>Değiştir</value>
   </data>
   <data name="DepartmentPermissions" xml:space="preserve">
     <value>Departman İzinleri</value>

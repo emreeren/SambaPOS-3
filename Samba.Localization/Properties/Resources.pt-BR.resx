@@ -665,9 +665,6 @@ Irá disparar após {1} dias, {2} horas, {3} minutos </value>
   <data name="Eleven" xml:space="preserve">
     <value>Onze</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Pode Abrir o Dashboard</value>
-  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Data da última ordem</value>
   </data>

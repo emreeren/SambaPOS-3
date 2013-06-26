@@ -129,6 +129,9 @@
   <data name="ButtonHeader" xml:space="preserve">
     <value>Knopnaam</value>
   </data>
+  <data name="POS" xml:space="preserve">
+    <value>POS</value>
+  </data>
   <data name="DisplayTicket" xml:space="preserve">
     <value>Bon weergeven</value>
   </data>
@@ -215,7 +218,7 @@
     <value>Totaal Inkomen</value>
   </data>
   <data name="Entities" xml:space="preserve">
-    <value>Eenheden</value>
+    <value>Entiteiten</value>
   </data>
   <data name="AccountDetails" xml:space="preserve">
     <value>Accountgegevens</value>
@@ -308,7 +311,7 @@
     <value>Zoeken</value>
   </data>
   <data name="AveragePrice_ab" xml:space="preserve">
-    <value>Gem.Prijs.</value>
+    <value>Gem.Prijs</value>
   </data>
   <data name="EnterPin" xml:space="preserve">
     <value>VOER PIN IN</value>
@@ -343,6 +346,9 @@
   <data name="Payment_f" xml:space="preserve">
     <value>{0} Betaling</value>
   </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>Bon duur</value>
+  </data>
   <data name="StateFilter" xml:space="preserve">
     <value>Status Filter</value>
   </data>
@@ -366,6 +372,9 @@
   </data>
   <data name="CashContent" xml:space="preserve">
     <value>Contant geld inhoud</value>
+  </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Berekening</value>
   </data>
   <data name="Selection_f" xml:space="preserve">
     <value>{0} Selectie</value>
@@ -402,6 +411,9 @@
   </data>
   <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
     <value>Andere obers bonnen kunt weergeven</value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>Betaalwijze wijzigen</value>
   </data>
   <data name="AccountNameTemplate" xml:space="preserve">
     <value>Account naam sjabloon</value>
@@ -714,10 +726,10 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
     <value>Elf</value>
   </data>
   <data name="BatchCreate" xml:space="preserve">
-    <value>Batch maken</value>
+    <value>Multiple maken</value>
   </data>
   <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Mag Dashboard Openen</value>
+    <value>kunt Beheer openen</value>
   </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Laatste Bestelling Datum</value>
@@ -809,6 +821,9 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
   <data name="UpdateProgramSetting" xml:space="preserve">
     <value>Werk programma-instellingen bij</value>
   </data>
+  <data name="TicketState" xml:space="preserve">
+    <value>Bon status</value>
+  </data>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>Bestelling Tag Groep</value>
   </data>
@@ -864,6 +879,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="TicketTag" xml:space="preserve">
     <value>Bon Tag</value>
   </data>
+  <data name="Display" xml:space="preserve">
+    <value>Weergave</value>
+  </data>
   <data name="Handler" xml:space="preserve">
     <value>Handler</value>
   </data>
@@ -872,6 +890,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="FixedCost" xml:space="preserve">
     <value>Vaste kosten</value>
+  </data>
+  <data name="Amount_f" xml:space="preserve">
+    <value>{0} Bedrag</value>
   </data>
   <data name="CategoryProperties" xml:space="preserve">
     <value>Categorie Eigenschappen</value>
@@ -892,7 +913,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Printerinstellingen</value>
   </data>
   <data name="Incomes" xml:space="preserve">
-    <value>Ontvangsten</value>
+    <value>Inkomens</value>
   </data>
   <data name="CalculatePrice" xml:space="preserve">
     <value>Prijs berekenen</value>
@@ -1030,7 +1051,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Start Bedragen</value>
   </data>
   <data name="EntityTypes" xml:space="preserve">
-    <value>Typen eenheden</value>
+    <value>Entiteittypen</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
     <value>Bon Opening</value>
@@ -1061,6 +1082,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>Transacties kunnen niet leeg zijn</value>
+  </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>Groepsvoettekst</value>
   </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Totale Kosten</value>
@@ -1137,6 +1161,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Kan ontgrendelde bonregels verplaatsen</value>
   </data>
+  <data name="TaxRate" xml:space="preserve">
+    <value>BTW-tarief</value>
+  </data>
   <data name="PaymentScreenSettings" xml:space="preserve">
     <value>Betalingsscherm instellingen</value>
   </data>
@@ -1166,6 +1193,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>Teller Hoogte</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
   </data>
   <data name="Receiveable" xml:space="preserve">
     <value>Te Ontvangen</value>
@@ -1470,6 +1500,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="Billion" xml:space="preserve">
     <value>Miljard</value>
   </data>
+  <data name="GroupKey" xml:space="preserve">
+    <value>Groep-toets</value>
+  </data>
   <data name="UsePlainSum" xml:space="preserve">
     <value>Gebruik onbewerkte som</value>
   </data>
@@ -1487,6 +1520,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="ViewMode" xml:space="preserve">
     <value>Weergavemodus</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Belastbaar bedrag</value>
   </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Bonprinter</value>
@@ -1650,11 +1686,14 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="AccountMap" xml:space="preserve">
     <value>Rekening kaart</value>
   </data>
+  <data name="GroupTotal" xml:space="preserve">
+    <value>Groepstotaal</value>
+  </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Selecteer datumbereik, vernieuw rapport en klik op gerelateerde link om gegevens te exporteren.</value>
   </data>
   <data name="BatchCreate_f" xml:space="preserve">
-    <value>Batch maken {0}</value>
+    <value>Maak multiple {0} aan</value>
   </data>
   <data name="Ticket Moving" xml:space="preserve">
     <value>Bon verplaatsen</value>
@@ -1719,6 +1758,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="TipsTotal" xml:space="preserve">
     <value>Fooi Totaal</value>
   </data>
+  <data name="OrderGrouping" xml:space="preserve">
+    <value>Bestelling groeperen</value>
+  </data>
   <data name="Default_f" xml:space="preserve">
     <value>Standaard {0}</value>
   </data>
@@ -1767,6 +1809,9 @@ Bezoek sectie Rapporten en maak werkperiode Rapporten</value>
   </data>
   <data name="Rounding" xml:space="preserve">
     <value>Afronden</value>
+  </data>
+  <data name="OrderStateValue" xml:space="preserve">
+    <value>Waarde bestelling status</value>
   </data>
   <data name="SqlHint" xml:space="preserve">
     <value>Klik hier voor informatie over het werken met SQL-databases</value>
@@ -1825,6 +1870,9 @@ Doorgaan zonder toevoeging van details?</value>
 Foutbericht:
 </value>
   </data>
+  <data name="CanNavigate_f" xml:space="preserve">
+    <value>Kunt navigeren {0}</value>
+  </data>
   <data name="Six" xml:space="preserve">
     <value>Zes</value>
   </data>
@@ -1878,6 +1926,9 @@ Foutbericht:
   </data>
   <data name="Restaurant" xml:space="preserve">
     <value>Restaurant</value>
+  </data>
+  <data name="OrderTagValue" xml:space="preserve">
+    <value>Tag bestelwaarde</value>
   </data>
   <data name="Total_f" xml:space="preserve">
     <value>Totaal: {0}</value>
@@ -2083,6 +2134,9 @@ Foutbericht:
   <data name="Market" xml:space="preserve">
     <value>Markt</value>
   </data>
+  <data name="TotalTaxableAmount" xml:space="preserve">
+    <value>Totaal belastbaar bedrag</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Sub-knop Hoogte</value>
   </data>
@@ -2185,6 +2239,9 @@ Foutbericht:
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Bon betaald. Uw laatste wijzigingen niet opgeslagen.</value>
   </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Begintijd</value>
+  </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Gebruiker Afmelden</value>
   </data>
@@ -2278,6 +2335,9 @@ Foutbericht:
   <data name="Every15Minutes" xml:space="preserve">
     <value>Elke 15 minuten</value>
   </data>
+  <data name="LastOrderDuration" xml:space="preserve">
+    <value>Laatste bestelling duur</value>
+  </data>
   <data name="DisplayPaymentScreen" xml:space="preserve">
     <value>Betaling scherm weergeven</value>
   </data>
@@ -2341,6 +2401,9 @@ Bon</value>
   </data>
   <data name="ChangeAmountUpdated" xml:space="preserve">
     <value>Aangepast Wisselgeld Bedrag</value>
+  </data>
+  <data name="TaxAmount" xml:space="preserve">
+    <value>BTW-bedrag</value>
   </data>
   <data name="TicketClosing" xml:space="preserve">
     <value>Bon sluiten</value>
@@ -2447,6 +2510,9 @@ Bon</value>
   <data name="LoadTicket" xml:space="preserve">
     <value>Bon laden</value>
   </data>
+  <data name="TicketExplorer" xml:space="preserve">
+    <value>Bon Verkenner</value>
+  </data>
   <data name="TicketTipTotal" xml:space="preserve">
     <value>Fooi Totaal</value>
   </data>
@@ -2489,6 +2555,9 @@ Bon</value>
   <data name="Default" xml:space="preserve">
     <value>Standaard</value>
   </data>
+  <data name="ProductTag" xml:space="preserve">
+    <value>Product Tag</value>
+  </data>
   <data name="TaskType" xml:space="preserve">
     <value>Taaktype</value>
   </data>
@@ -2508,7 +2577,7 @@ Bon</value>
     <value>Telefoon</value>
   </data>
   <data name="BatchCreateDocuments" xml:space="preserve">
-    <value>Batch documenten maken</value>
+    <value>Multiple documenten aanmaken</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Klant</value>

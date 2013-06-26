@@ -563,9 +563,6 @@
   <data name="Eleven" xml:space="preserve">
     <value>Έντεκα</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>Μπορεί Ανοίξει την αρχική οθόνη</value>
-  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Τελευταία ημερομηνία παραγγελίας</value>
   </data>

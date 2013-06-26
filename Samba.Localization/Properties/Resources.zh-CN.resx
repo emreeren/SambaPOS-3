@@ -550,8 +550,8 @@
   <data name="Rule" xml:space="preserve">
     <value>规则</value>
   </data>
-  <data name="LastOrderStatus" xml:space="preserve">
-    <value>最后订单状态</value>
+  <data name="Zero" xml:space="preserve">
+    <value>零</value>
   </data>
   <data name="Thirty" xml:space="preserve">
     <value>三十</value>
@@ -649,9 +649,6 @@
   </data>
   <data name="Eleven" xml:space="preserve">
     <value>十一</value>
-  </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>能进入控制面板</value>
   </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>最后订单日期</value>
@@ -821,9 +818,6 @@
   </data>
   <data name="Receivables" xml:space="preserve">
     <value>未收</value>
-  </data>
-  <data name="Zero" xml:space="preserve">
-    <value>零</value>
   </data>
   <data name="Server" xml:space="preserve">
     <value>服务器</value>
@@ -1143,8 +1137,8 @@
   <data name="Ending" xml:space="preserve">
     <value>结束</value>
   </data>
-  <data name="Thirteen" xml:space="preserve">
-    <value>十三</value>
+  <data name="LastOrderStatus" xml:space="preserve">
+    <value>最后订单状态</value>
   </data>
   <data name="MonWedFri" xml:space="preserve">
     <value>周一，周三，周五</value>
@@ -1633,6 +1627,9 @@
   <data name="Edit_f" xml:space="preserve">
     <value>编辑{0}</value>
   </data>
+  <data name="AutoRefreshInterval" xml:space="preserve">
+    <value>自动刷新间隔</value>
+  </data>
   <data name="Restaurant" xml:space="preserve">
     <value>餐厅</value>
   </data>
@@ -1669,8 +1666,8 @@
   <data name="Script_f" xml:space="preserve">
     <value>{0}脚本</value>
   </data>
-  <data name="AutoRefreshInterval" xml:space="preserve">
-    <value>自动刷新间隔</value>
+  <data name="Thirteen" xml:space="preserve">
+    <value>十三</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>是</value>
