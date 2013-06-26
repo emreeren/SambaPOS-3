@@ -38,6 +38,7 @@ namespace Samba.Presentation.ViewModels
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
         private static readonly IEmailService EmailService = ServiceLocator.Current.GetInstance<IEmailService>();
         private static readonly IDeviceService DeviceService = ServiceLocator.Current.GetInstance<IDeviceService>();
+        private static readonly IMessagingService MessagingService = ServiceLocator.Current.GetInstance<IMessagingService>();
 
         private static bool _registered;
 
@@ -120,7 +121,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
             AutomationService.RegisterEvent(RuleEventNames.DeviceEventGenerated, Resources.DeviceEventGenerated, new { DeviceName = "", EventName = "", EventData = "" });
             AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted);
-            AutomationService.RegisterEvent(RuleEventNames.ValueLooped, "Value Looped", new {Name="", Value = "" });
+            AutomationService.RegisterEvent(RuleEventNames.ValueLooped, "Value Looped", new { Name = "", Value = "" });
         }
 
         private static void RegisterParameterSources()
@@ -454,7 +455,7 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == ActionNames.SendMessage)
                 {
-                    AppServices.MessagingService.SendMessage("ActionMessage", x.Value.GetAsString("Command"));
+                    MessagingService.SendMessage("ActionMessage", x.Value.GetAsString("Command"));
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.SendEmail)

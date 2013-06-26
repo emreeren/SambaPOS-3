@@ -18,13 +18,15 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
     {
         private readonly ITaskService _taskService;
         private readonly ICacheService _cacheService;
+        private readonly IMessagingService _messagingService;
 
-        public TaskEditorViewModel(Widget widget, IApplicationState applicationState, ITaskService taskService, 
-            ICacheService cacheService)
+        public TaskEditorViewModel(Widget widget, IApplicationState applicationState, ITaskService taskService,
+            ICacheService cacheService, IMessagingService messagingService)
             : base(widget, applicationState)
         {
             _taskService = taskService;
             _cacheService = cacheService;
+            _messagingService = messagingService;
             Tasks = new ObservableCollection<TaskViewModel>();
             AddTaskCommand = new CaptionCommand<string>(Resources.Add, OnAddTask);
         }
@@ -63,7 +65,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
                     return;
                 }
                 var task = _taskService.AddNewTask(TaskTypeId, NewTask);
-                var wm = new TaskViewModel(task, this);
+                var wm = new TaskViewModel(task, this, _messagingService);
                 wm.Persist();
                 NewTask = "";
             }
@@ -94,7 +96,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
                     delegate
                     {
                         Tasks.Clear();
-                        Tasks.AddRange(tasks.OrderByDescending(x => x.Id).Select(x => new TaskViewModel(x, this)));
+                        Tasks.AddRange(tasks.OrderByDescending(x => x.Id).Select(x => new TaskViewModel(x, this, _messagingService)));
                     };
 
                 worker.RunWorkerAsync();

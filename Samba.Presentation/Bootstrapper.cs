@@ -67,10 +67,12 @@ namespace Samba.Presentation
 
             ServiceLocator.Current.GetInstance<IApplicationState>().MainDispatcher = Application.Current.Dispatcher;
             var logger = ServiceLocator.Current.GetInstance<ILogService>();
-            AppServices.MessagingService.RegisterMessageListener(new MessageListener());
+
+            var messagingService = ServiceLocator.Current.GetInstance<IMessagingService>();
+            messagingService.RegisterMessageListener(new MessageListener());
 
             if (LocalSettings.StartMessagingClient)
-                AppServices.MessagingService.StartMessagingClient();
+                messagingService.StartMessagingClient();
 
             PresentationServices.Initialize();
 

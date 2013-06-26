@@ -27,6 +27,7 @@ namespace Samba.Modules.PosModule
         private readonly ITicketServiceBase _ticketServiceBase;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
+        private readonly IMessagingService _messagingService;
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly IRegionManager _regionManager;
@@ -60,7 +61,7 @@ namespace Samba.Modules.PosModule
 
         [ImportingConstructor]
         public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            ITicketService ticketService, ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService,
+            ITicketService ticketService, ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService, IMessagingService messagingService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel,
             MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,
             TicketEntityListViewModel ticketEntityListViewModel, TicketTypeListViewModel ticketTypeListViewModel)
@@ -69,6 +70,7 @@ namespace Samba.Modules.PosModule
             _ticketServiceBase = ticketServiceBase;
             _userService = userService;
             _cacheService = cacheService;
+            _messagingService = messagingService;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _regionManager = regionManager;
@@ -471,7 +473,7 @@ namespace Samba.Modules.PosModule
                 else EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
             }
             ExpectedAction = null;
-            AppServices.MessagingService.SendMessage(Messages.TicketRefreshMessage, result.TicketId.ToString(CultureInfo.InvariantCulture));
+            _messagingService.SendMessage(Messages.TicketRefreshMessage, result.TicketId.ToString(CultureInfo.InvariantCulture));
             _applicationStateSetter.SetApplicationLocked(false);
         }
 

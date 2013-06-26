@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Samba.Infrastructure.Settings;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Presentation
 {
@@ -17,6 +18,7 @@ namespace Samba.Presentation
     [Export]
     public partial class MessageClientStatusView : UserControl
     {
+        private readonly IMessagingService _messagingService;
         private readonly Timer _timer;
 
         private void OnTimerTick(object state)
@@ -30,7 +32,7 @@ namespace Samba.Presentation
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
                 new Action(delegate
                 {
-                    if (AppServices.MessagingService.IsConnected)
+                    if (_messagingService.IsConnected)
                     {
                         StatusLabel.Content = Properties.Resources.Connected;
                         StatusLabel.Foreground = Brushes.Green;
@@ -45,8 +47,10 @@ namespace Samba.Presentation
                 }));
         }
 
-        public MessageClientStatusView()
+        [ImportingConstructor]
+        public MessageClientStatusView(IMessagingService messagingService)
         {
+            _messagingService = messagingService;
             InitializeComponent();
             _timer = new Timer(OnTimerTick, null, Timeout.Infinite, 1000);
             if (LocalSettings.StartMessagingClient)

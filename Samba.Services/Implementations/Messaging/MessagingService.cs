@@ -1,11 +1,12 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Messaging;
 using Samba.Infrastructure.Settings;
 
-namespace Samba.Presentation.Services.Common
+namespace Samba.Services.Implementations.Messaging
 {
     internal class MessageData
     {
@@ -13,7 +14,8 @@ namespace Samba.Presentation.Services.Common
         public string Value { get; set; }
     }
 
-    public class MessagingService
+    [Export(typeof(IMessagingService))]
+    public class MessagingService : IMessagingService
     {
         private IMessageListener _messageListener;
         public bool Reconnecting { get; set; }
@@ -31,7 +33,7 @@ namespace Samba.Presentation.Services.Common
 
         public void StartMessagingClient()
         {
-            if(_messageListener != null)
+            if (_messageListener != null)
             {
                 if (!CanStartMessagingClient())
                     throw new Exception("Mesaj istemcisi başlatılamaz.");

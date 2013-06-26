@@ -91,6 +91,7 @@
     <Compile Include="IExpressionService.cs" />
     <Compile Include="ILogService.cs" />
     <Compile Include="IMenuService.cs" />
+    <Compile Include="IMessagingService.cs" />
     <Compile Include="Implementations\AccountModule\AccountService.cs" />
     <Compile Include="Common\ActionData.cs" />
     <Compile Include="Implementations\AutomationModule\AutomationService.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Implementations\LogService.cs" />
     <Compile Include="Implementations\MenuModule\MenuService.cs" />
     <Compile Include="Implementations\MenuModule\PriceListService.cs" />
+    <Compile Include="Implementations\Messaging\MessagingService.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\AbstractLineFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\BoxFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\CenterAlignFormatter.cs" />

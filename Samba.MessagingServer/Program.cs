@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Samba.MessagingServer
@@ -13,6 +15,7 @@ namespace Samba.MessagingServer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentCulture;
             Application.Run(new frmMain());
         }
     }

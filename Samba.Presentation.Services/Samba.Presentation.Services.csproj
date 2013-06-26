@@ -60,7 +60,6 @@
     <Compile Include="Common\ExtensionMethods.cs" />
     <Compile Include="Common\GenericEvent.cs" />
     <Compile Include="Common\IPresentationService.cs" />
-    <Compile Include="Common\MessagingService.cs" />
     <Compile Include="Common\PermissionNames.cs" />
     <Compile Include="Common\PermissionRegistry.cs" />
     <Compile Include="IApplicationState.cs" />

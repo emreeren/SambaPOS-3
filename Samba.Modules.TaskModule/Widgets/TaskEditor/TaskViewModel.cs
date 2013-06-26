@@ -6,19 +6,21 @@ using Samba.Infrastructure.Messaging;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Widgets;
-using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 {
     public class TaskViewModel : ObservableObject
     {
         private readonly IDiagram _widget;
+        private readonly IMessagingService _messagingService;
         public ICaptionCommand ToggleCompletedCommand { get; set; }
 
         public Task Model { get; set; }
-        public TaskViewModel(Task model, IDiagram widget)
+        public TaskViewModel(Task model, IDiagram widget, IMessagingService messagingService)
         {
             _widget = widget;
+            _messagingService = messagingService;
             Model = model;
             ToggleCompletedCommand = new CaptionCommand<string>("¨", OnToggleCompleted);
         }
@@ -32,7 +34,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         {
             Model.LastUpdateTime = DateTime.Now;
             _widget.Refresh();
-            AppServices.MessagingService.SendMessage(Messages.WidgetRefreshMessage, _widget.CreatorName);
+            _messagingService.SendMessage(Messages.WidgetRefreshMessage, _widget.CreatorName);
         }
 
         public string IsCompletedCaption { get { return IsCompleted ? "þ" : "¨"; } }

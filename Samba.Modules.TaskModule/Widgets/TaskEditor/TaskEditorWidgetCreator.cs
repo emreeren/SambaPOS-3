@@ -16,12 +16,14 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
     {
         private readonly ITaskService _taskService;
         private readonly ICacheService _cacheService;
+        private readonly IMessagingService _messagingService;
 
         [ImportingConstructor]
-        public TaskEditorWidgetCreator(ITaskService taskService, ICacheService cacheService)
+        public TaskEditorWidgetCreator(ITaskService taskService, ICacheService cacheService, IMessagingService messagingService)
         {
             _taskService = taskService;
             _cacheService = cacheService;
+            _messagingService = messagingService;
         }
 
         public string GetCreatorName()
@@ -43,7 +45,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new TaskEditorViewModel(widget, applicationState, _taskService, _cacheService);
+            return new TaskEditorViewModel(widget, applicationState, _taskService, _cacheService, _messagingService);
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)

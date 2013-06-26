@@ -16,11 +16,13 @@ namespace Samba.Modules.SettingsModule
     public class SettingsViewModel : VisibleViewModelBase
     {
         private readonly ISettingService _settingService;
+        private readonly IMessagingService _messagingService;
 
         [ImportingConstructor]
-        public SettingsViewModel(ISettingService settingService)
+        public SettingsViewModel(ISettingService settingService,IMessagingService messagingService)
         {
             _settingService = settingService;
+            _messagingService = messagingService;
             SaveSettingsCommand = new CaptionCommand<string>(Resources.Save, OnSaveSettings);
             StartMessagingServerCommand = new CaptionCommand<string>(Resources.StartClientNow, OnStartMessagingServer, CanStartMessagingServer);
             DisplayCommonAppPathCommand = new CaptionCommand<string>(Resources.DisplayAppPath, OnDisplayAppPath);
@@ -39,14 +41,14 @@ namespace Samba.Modules.SettingsModule
             prc.Start();
         }
 
-        private static bool CanStartMessagingServer(string arg)
+        private bool CanStartMessagingServer(string arg)
         {
-            return AppServices.MessagingService.CanStartMessagingClient();
+            return _messagingService.CanStartMessagingClient();
         }
 
-        private static void OnStartMessagingServer(string obj)
+        private void OnStartMessagingServer(string obj)
         {
-            AppServices.MessagingService.StartMessagingClient();
+           _messagingService.StartMessagingClient();
         }
 
         private void OnSaveSettings(string obj)

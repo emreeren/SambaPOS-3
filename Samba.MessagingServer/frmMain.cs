@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Windows.Forms;
 using Samba.Infrastructure.Messaging;
+using Samba.MessagingServer.Properties;
 
 namespace Samba.MessagingServer
 {
@@ -40,7 +41,7 @@ namespace Samba.MessagingServer
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(MessagingServerObject),
                                                                "ChatServer", WellKnownObjectMode.Singleton);
 
-            lbStatus.Text = "Çalışıyor...";
+            lbStatus.Text = Resources.status_working;
             btnStart.Enabled = false;
             btnStop.Enabled = true;
             WindowState = FormWindowState.Minimized;
@@ -52,7 +53,7 @@ namespace Samba.MessagingServer
             {
                 ChannelServices.UnregisterChannel(_channel);
                 _channel = null;
-                lbStatus.Text = "Durdu.";
+                lbStatus.Text = Resources.status_stopped;
                 btnStart.Enabled = true;
                 btnStop.Enabled = false;
             }
