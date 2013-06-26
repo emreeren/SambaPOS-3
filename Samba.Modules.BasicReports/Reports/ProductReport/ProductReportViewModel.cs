@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
@@ -146,20 +147,20 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
 
             var properties = ReportContext.Tickets
                 .SelectMany(x => x.Orders.Where(y => !string.IsNullOrEmpty(y.OrderTags)))
-                .SelectMany(x => x.GetOrderTagValues(y => y.MenuItemId == 0).Select(y => new { Name = y.TagValue, x.Quantity }))
+                .SelectMany(x => x.GetOrderTagValues(y => y.MenuItemId == 0).Select(y => new { Name = y.TagValue, x.Quantity, Total = y.Price * x.Quantity }))
                 .GroupBy(x => new { x.Name })
-                .Select(x => new { x.Key.Name, Quantity = x.Sum(y => y.Quantity) }).ToList();
+                .Select(x => new { x.Key.Name, Quantity = x.Sum(y => y.Quantity), Amount = x.Sum(y => y.Total) }).ToList();
 
             if (properties.Any())
             {
 
-                report.AddColumTextAlignment("ÖzelliklerTablosu", TextAlignment.Left, TextAlignment.Right);
-                report.AddColumnLength("ÖzelliklerTablosu", "60*", "40*");
-                report.AddTable("ÖzelliklerTablosu", Resources.Properties, "");
+                report.AddColumTextAlignment("ÖzelliklerTablosu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
+                report.AddColumnLength("ÖzelliklerTablosu", "50*", "20*", "30*");
+                report.AddTable("ÖzelliklerTablosu", Resources.Properties, "", "");
 
                 foreach (var property in properties.OrderByDescending(x => x.Quantity))
                 {
-                    report.AddRow("ÖzelliklerTablosu", property.Name, property.Quantity.ToString("#.##"));
+                    report.AddRow("ÖzelliklerTablosu", property.Name, property.Quantity.ToString(LocalSettings.ReportQuantityFormat), property.Amount.ToString(LocalSettings.ReportCurrencyFormat));
                 }
             }
             return report.Document;
