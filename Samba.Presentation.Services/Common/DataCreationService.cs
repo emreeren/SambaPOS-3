@@ -224,7 +224,7 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(orderNumerator);
 
             var printBillAutomation = new AutomationCommand { Name = Resources.PrintBill, ButtonHeader = Resources.PrintBill };
-            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = Resources.NewOrders + "," + Resources.Unpaid, VisibleStates = "*", DisplayOnTicket = true, DisplayOnPayment = true });
+            printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = Resources.NewOrders + "," + Resources.Unpaid + ",IsClosed", VisibleStates = "*", DisplayOnTicket = true, DisplayOnPayment = true });
             _workspace.Add(printBillAutomation);
 
             var unlockTicketAutomation = new AutomationCommand { Name = Resources.UnlockTicket, ButtonHeader = Resources.UnlockTicket };
