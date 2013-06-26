@@ -369,13 +369,13 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetTaxAmount(bool taxIncluded, decimal plainSum, decimal preTaxServices)
         {
             var result = CalculatePrice ? TaxValues.Sum(x => x.GetTaxAmount(taxIncluded, GetTaxablePrice(), TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) : 0;
-            return decimal.Round(result, 2, MidpointRounding.AwayFromZero);
+            return result;
         }
 
         public decimal GetTotalTaxAmount(bool taxIncluded, decimal plainSum, decimal preTaxServices)
         {
             var result = CalculatePrice ? TaxValues.Sum(x => x.GetTaxAmount(taxIncluded, GetTaxablePrice(), TaxValues.Sum(y => y.TaxRate), plainSum, preTaxServices)) * Quantity : 0;
-            return decimal.Round(result, 2, MidpointRounding.AwayFromZero);
+            return result;
         }
 
         public decimal GetTotalTaxAmount(bool taxIncluded, decimal plainSum, decimal preTaxServices, int taxTemplateId)

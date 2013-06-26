@@ -21,6 +21,7 @@ namespace Samba.Modules.MenuModule
         public AccountTransactionType AccountTransactionType { get { return Model.AccountTransactionType; } set { Model.AccountTransactionType = value; } }
 
         public decimal Rate { get { return Model.Rate; } set { Model.Rate = value; } }
+        public int Rounding { get { return Model.Rounding; } set { Model.Rounding = value; } }
 
         public override Type GetViewType()
         {

@@ -189,6 +189,7 @@ namespace Samba.Domain.Models.Accounts
                 IsReversed = false;
             }
             Amount = Math.Abs(amount);
+            Amount = Decimal.Round(Amount, 2, MidpointRounding.AwayFromZero);
             ExchangeRate = exchangeRate;
         }
 

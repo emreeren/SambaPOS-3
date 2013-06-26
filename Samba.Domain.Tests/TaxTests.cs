@@ -23,6 +23,7 @@ namespace Samba.Domain.Tests
             Pizza = CreateMenuItem(1, "Pizza", 10);
             Cola = CreateMenuItem(2, "Cola", 5);
             Beer = CreateMenuItem(3, "Beer", 10);
+            Product = CreateMenuItem(4, "Product", 1);
 
             var saleAccountType = new AccountType { Name = "Sales Accounts", Id = 1 };
             var taxAccountType = new AccountType { Name = "Tax Accounts", Id = 2 };
@@ -74,11 +75,11 @@ namespace Samba.Domain.Tests
                 DefaultTargetAccountId = defaultDiscountAccount.Id
             };
 
-            var stateTax = new TaxTemplate { Name = "State Tax", Rate = 25, Id = 1 };
+            var stateTax = new TaxTemplate { Name = "State Tax", Rate = 25, Id = 1, Rounding = 2 };
             stateTax.TaxTemplateMaps.Add(new TaxTemplateMap());
             stateTax.AccountTransactionType = stateTaxTransactionType;
 
-            var localTax = new TaxTemplate { Name = "Local Tax", Rate = 3, Id = 2 };
+            var localTax = new TaxTemplate { Name = "Local Tax", Rate = 3, Id = 2, Rounding = 2 };
             localTax.TaxTemplateMaps.Add(new TaxTemplateMap { MenuItemId = Cola.Id });
             localTax.TaxTemplateMaps.Add(new TaxTemplateMap { MenuItemId = Beer.Id });
             localTax.AccountTransactionType = localTaxTransactionType;
@@ -95,6 +96,7 @@ namespace Samba.Domain.Tests
         public MenuItem Pizza { get; set; }
         public MenuItem Cola { get; set; }
         public MenuItem Beer { get; set; }
+        public MenuItem Product { get; set; }
 
         public IEnumerable<TaxTemplate> TaxTemplates { get; set; }
 
@@ -346,6 +348,48 @@ namespace Samba.Domain.Tests
             order2.CalculatePrice = false;
             ticket.Recalculate();
             Assert.AreEqual(0, ticket.TransactionDocument.AccountTransactions.Sum(x => x.Amount));
+        }
+
+        [Test]
+        public void CanCalculateSampleCase1()
+        {
+            // http://forum2.sambapos.com/index.php/topic,1481.0.html
+
+            var percent8Tax = new TaxTemplate { Name = "% 8 Tax", Rate = 8, AccountTransactionType = new AccountTransactionType() { Id = 2 }, Rounding = 0 };
+            var percent18Tax = new TaxTemplate { Name = "% 18 Tax", Rate = 18, AccountTransactionType = new AccountTransactionType() { Id = 3 }, Rounding = 0 };
+            var tax8 = new List<TaxTemplate> { percent8Tax };
+            var tax18 = new List<TaxTemplate> { percent18Tax };
+            var ticket = Ticket.Create(Department.Default, TicketType, 1, null);
+            ticket.TaxIncluded = true;
+            AddOrderToTicket(ticket, tax8, 6, 16);
+            Assert.AreEqual(96, ticket.GetSum());
+            Assert.AreEqual(7.11, ticket.GetTaxTotal());
+            AddOrderToTicket(ticket, tax8, 10, 3);
+            AddOrderToTicket(ticket, tax8, 10, 3);
+            AddOrderToTicket(ticket, tax8, 3, 10);
+            AddOrderToTicket(ticket, tax18, 9, 1);
+            AddOrderToTicket(ticket, tax8, 7, 1);
+            AddOrderToTicket(ticket, tax8, 18, 3);
+            AddOrderToTicket(ticket, tax8, 5, 2);
+            AddOrderToTicket(ticket, tax8, 5, 2);
+            AddOrderToTicket(ticket, tax8, 28, 3);
+            AddOrderToTicket(ticket, tax8, 32, 3);
+            AddOrderToTicket(ticket, tax8, 10, 2);
+            AddOrderToTicket(ticket, tax8, 10, 2);
+            AddOrderToTicket(ticket, tax18, 9, 1);
+            AddOrderToTicket(ticket, tax18, 105, 2);
+            ticket.Recalculate();
+            Assert.AreEqual(715, ticket.GetSum());
+            Assert.AreEqual(34.78 + 36.07, ticket.GetTaxTotal());
+            Assert.AreEqual(36.07, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
+            Assert.AreEqual(34.78, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
+        }
+
+        private void AddOrderToTicket(Ticket ticket, IList<TaxTemplate> tax, decimal price, decimal quantity)
+        {
+            var order = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Product, tax, Product.Portions[0], "", null);
+            order.Price = price;
+            order.Quantity = quantity;
         }
     }
 }

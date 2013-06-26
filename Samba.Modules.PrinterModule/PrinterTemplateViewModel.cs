@@ -7,6 +7,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.Services.Common;
 using Samba.Services;
 
 namespace Samba.Modules.PrinterModule
@@ -44,13 +45,13 @@ namespace Samba.Modules.PrinterModule
         private void OnLoadTicketTemplate(string obj)
         {
             if (string.IsNullOrEmpty(TemplateText.Text) || MessageBox.Show(string.Format(Resources.ReloadPrinterTemplateConfirmation_f, Resources.TicketTemplate), Resources.Confirmation, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                TemplateText = new TextDocument(_printerService.GetDefaultTicketPrintTemplate());
+                TemplateText = new TextDocument(DataCreationService.GetDefaultTicketPrintTemplate());
         }
 
         private void OnLoadKitchenOrderTemplate(string obj)
         {
             if (string.IsNullOrEmpty(TemplateText.Text) || MessageBox.Show(string.Format(Resources.ReloadPrinterTemplateConfirmation_f, Resources.KitchenOrderTemplate), Resources.Confirmation, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                TemplateText = new TextDocument(_printerService.GetDefaultKitchenPrintTemplate());
+                TemplateText = new TextDocument(DataCreationService.GetDefaultKitchenPrintTemplate());
         }
 
         public override Type GetViewType()

@@ -675,13 +675,13 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetTaxTotal(int taxTemplateAccountTransactionTypeId, decimal preTaxServicesTotal, decimal plainSum)
         {
             var result = Orders.Sum(x => x.GetTotalTaxAmount(TaxIncluded, plainSum, preTaxServicesTotal, taxTemplateAccountTransactionTypeId));
-            return result;
+            return decimal.Round(result, 2, MidpointRounding.AwayFromZero);
         }
 
         public decimal GetTaxTotal()
         {
             var result = Orders.Sum(x => x.GetTotalTaxAmount(TaxIncluded, GetPlainSum(), GetPreTaxServicesTotal()));
-            return result;
+            return decimal.Round(result, 2, MidpointRounding.AwayFromZero);
         }
 
         public IEnumerable<Order> SelectedOrders { get { return Orders.Where(x => x.IsSelected); } }

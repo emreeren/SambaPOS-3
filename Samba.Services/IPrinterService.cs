@@ -18,7 +18,5 @@ namespace Samba.Services
         IDictionary<string, string> GetTagDescriptions();
         void ResetCache();
         string GetPrintingContent(Ticket ticket, string format,int width);
-        string GetDefaultTicketPrintTemplate();
-        string GetDefaultKitchenPrintTemplate();
     }
 }

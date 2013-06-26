@@ -7,7 +7,6 @@ namespace Samba.Domain.Models.Tickets
     [DataContract]
     public class TaxValue
     {
-
         public TaxValue()
         {
 
@@ -19,10 +18,13 @@ namespace Samba.Domain.Models.Tickets
             TaxTemplateId = taxTemplate.Id;
             TaxTemplateName = taxTemplate.Name;
             TaxTempleteAccountTransactionTypeId = taxTemplate.AccountTransactionType.Id;
+            Rounding = taxTemplate.Rounding;
         }
 
         [DataMember(Name = "TR")]
         public decimal TaxRate { get; set; }
+        [DataMember(Name = "RN")]
+        public int Rounding { get; set; }
         [DataMember(Name = "TN")]
         public string TaxTemplateName { get; set; }
         [DataMember(Name = "TT")]
@@ -41,7 +43,10 @@ namespace Samba.Domain.Models.Tickets
             decimal result;
             if (taxIncluded && totalRate > 0)
             {
-                result = decimal.Round((price * TaxRate) / (100 + totalRate), 2, MidpointRounding.AwayFromZero);
+                if (Rounding > 0)
+                    result = decimal.Round((price * TaxRate) / (100 + totalRate), Rounding, MidpointRounding.AwayFromZero);
+                else
+                    result = (price * TaxRate) / (100 + totalRate);
             }
             else if (TaxRate > 0) result = (price * TaxRate) / 100;
             else result = 0;

@@ -25,9 +25,10 @@
                       ItemsSource="{Binding AccountTransactionTypes}"
                       DisplayMemberPath="Name"
                       SelectedItem="{Binding AccountTransactionType}" />
-                    <Label HorizontalAlignment="Left" Content="{LocText Rate,Suffix=':'}">
-                    </Label>
+                    <Label HorizontalAlignment="Left" Content="{LocText Rate,Suffix=':'}"/>
                     <UIControls:FilteredTextBox HorizontalAlignment="Left" Type="Number" MinWidth="50" Text="{Binding Rate}" />
+                    <Label HorizontalAlignment="Left" Content="{LocText Rounding,Suffix=':'}"/>
+                    <UIControls:FilteredTextBox HorizontalAlignment="Left" Type="Digits" MinWidth="50" Text="{Binding Rounding}" />
 
                 </StackPanel>
             </TabItem>
@@ -56,7 +57,7 @@
                          MinWidth="300" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False"
                          CanUserAddRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                         <DataGrid.Columns>
-                           
+
                             <DataGridTemplateColumn Header="{LocText Department}" Width="2*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
