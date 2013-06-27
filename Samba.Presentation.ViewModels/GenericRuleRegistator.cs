@@ -320,7 +320,11 @@ namespace Samba.Presentation.ViewModels
                     var ticketId = x.Value.GetAsInteger("TicketId");
                     if (ticketId > 0)
                         ExtensionMethods.PublishIdEvent(ticketId, EventTopicNames.DisplayTicket);
-                    else EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                    else
+                    {
+                        if (ApplicationState.IsLocked)
+                            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                    }
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.DisplayTicketList)

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Helpers;
@@ -59,6 +60,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void Refresh()
         {
             if (IsRefreshing || DesignMode) return;
