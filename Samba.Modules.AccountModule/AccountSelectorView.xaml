@@ -29,7 +29,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
         <ListView Name="MainListView" FontSize="20" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}"
-				   ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}" Loaded="FrameworkElement_OnLoaded">
+				   ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
             <ListView.View>
                 <GridView>
                     <GridView.ColumnHeaderContainerStyle>
@@ -38,7 +38,7 @@
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
                     <GridView.Columns>
-                        <GridViewColumn Header="Account Name">
+                        <GridViewColumn Header="Account Name" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock MinWidth="250" Text="{Binding Name}"

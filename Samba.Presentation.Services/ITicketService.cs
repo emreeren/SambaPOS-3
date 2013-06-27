@@ -25,8 +25,6 @@ namespace Samba.Presentation.Services
         void RecalculateTicket(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
        
-
-        
         void TagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag, string tagNote);
         void UntagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag);
         bool CanDeselectOrders(IEnumerable<Order> selectedOrders);
@@ -40,5 +38,6 @@ namespace Samba.Presentation.Services
         void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);
         bool CanMakeAccountTransaction(TicketEntity ticketEntity, AccountTransactionType accountTransactionType, decimal targetBalance);
         void UpdateOrderPrice(Order order, string portionName, string priceTag);
+        Account GetAccountForPayment(Ticket ticket, PaymentType paymentType);
     }
 }

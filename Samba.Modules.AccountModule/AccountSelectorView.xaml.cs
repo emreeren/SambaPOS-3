@@ -26,13 +26,14 @@ namespace Samba.Modules.AccountModule
         public AccountSelectorView(AccountSelectorViewModel viewModel)
         {
             DataContext = viewModel;
+            viewModel.Refreshed += viewModel_Refreshed;
             InitializeComponent();
         }
 
-        private void FrameworkElement_OnLoaded(object sender, RoutedEventArgs e)
+        void viewModel_Refreshed(object sender, EventArgs e)
         {
-            (MainListView.View as GridView).Columns[0].Width =
-                (MainListView.View as GridView).Columns[0].ActualWidth;
+            (MainListView.View as GridView).Columns[0].Width = 0;
+            (MainListView.View as GridView).Columns[0].Width = Double.NaN;
         }
     }
 }

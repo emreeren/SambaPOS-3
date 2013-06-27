@@ -214,7 +214,15 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public void PayTicket(Ticket ticket, PaymentType template)
         {
-            AddPayment(ticket, template, template.Account, ticket.GetRemainingAmount());
+            AddPayment(ticket, template, template.Account ?? GetAccountForPayment(ticket, template), ticket.GetRemainingAmount());
+        }
+
+        public Account GetAccountForPayment(Ticket ticket, PaymentType paymentType)
+        {
+            var rt = _cacheService.GetEntityTypes().Where(
+                x => x.AccountTypeId == paymentType.AccountTransactionType.TargetAccountTypeId).Select(x => x.Id);
+            var tr = ticket.TicketEntities.FirstOrDefault(x => rt.Contains(x.EntityTypeId));
+            return tr != null ? _accountService.GetAccountById(tr.AccountId) : null;
         }
 
         public void UpdateTicketNumber(Ticket ticket, Numerator numerator)

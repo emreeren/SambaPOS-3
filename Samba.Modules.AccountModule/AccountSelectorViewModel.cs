@@ -57,6 +57,14 @@ namespace Samba.Modules.AccountModule
         private readonly IPrinterService _printerService;
         private AccountScreen _selectedAccountScreen;
 
+        public event EventHandler Refreshed;
+
+        protected virtual void OnRefreshed()
+        {
+            EventHandler handler = Refreshed;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
         [ImportingConstructor]
         public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState,
             IPrinterService printerService)
@@ -121,6 +129,8 @@ namespace Samba.Modules.AccountModule
 
             RaisePropertyChanged(() => BatchDocumentButtons);
             RaisePropertyChanged(() => AccountButtons);
+
+            OnRefreshed();
         }
 
         public IEnumerable<AccountScreen> AccountScreens
