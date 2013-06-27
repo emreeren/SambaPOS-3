@@ -295,6 +295,8 @@ namespace Samba.Modules.PosModule
             {
                 var taxTemplate = _applicationState.GetTaxTemplates(obj.Value.MenuItemId);
                 SelectedOrder.UpdatePortion(obj.Value, _applicationState.CurrentDepartment.PriceTag, taxTemplate);
+                _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
+                RefreshVisuals();
             }
         }
 
