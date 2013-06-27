@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Samba.Infrastructure.Settings;
-using Samba.Presentation.Services.Common;
 using Samba.Services;
 
 namespace Samba.Presentation
@@ -23,12 +22,6 @@ namespace Samba.Presentation
 
         private void OnTimerTick(object state)
         {
-            if (Application.Current == null)
-            {
-                _timer.Dispose();
-                return;
-            }
-
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
                 new Action(delegate
                 {
@@ -52,12 +45,19 @@ namespace Samba.Presentation
         {
             _messagingService = messagingService;
             InitializeComponent();
+            Application.Current.MainWindow.Closing += MainWindow_Closing;
+
             _timer = new Timer(OnTimerTick, null, Timeout.Infinite, 1000);
             if (LocalSettings.StartMessagingClient)
             {
                 _timer.Change(10000, 10000);
             }
             else StatusLabel.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _timer.Dispose();
         }
     }
 }

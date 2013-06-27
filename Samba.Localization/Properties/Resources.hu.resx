@@ -2834,6 +2834,9 @@ Amíg nyitott blokk van, nem lehet műszakot zárni!</value>
   <data name="TaxTotal" xml:space="preserve">
     <value>Adó összesen</value>
   </data>
+  <data name="Toggle" xml:space="preserve">
+    <value>Váltás</value>
+  </data>
   <data name="DepartmentPermissions" xml:space="preserve">
     <value>Részleg engedélyek</value>
   </data>

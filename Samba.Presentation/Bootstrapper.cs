@@ -60,6 +60,8 @@ namespace Samba.Presentation
                 Environment.Exit(1);
             }
 #endif
+            Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
             LocalizeDictionary.ChangeLanguage(LocalSettings.CurrentLanguage);
 
             InteractionService.UserIntraction = ServiceLocator.Current.GetInstance<IUserInteraction>();

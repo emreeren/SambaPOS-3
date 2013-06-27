@@ -33,6 +33,13 @@ namespace Samba.Infrastructure.Messaging
             }
         }
 
+        public static void Stop()
+        {
+            if (!IsConnected) return;
+            Timer.Dispose();
+            Disconnect();
+        }
+
         public static void Disconnect()
         {
             IsConnected = false;
@@ -45,7 +52,9 @@ namespace Samba.Infrastructure.Messaging
                         _serverObject.Detach(_clientObject);
                 }
                 catch (Exception)
-                { }
+                {
+                    _serverObject = null;
+                }
             }
             finally
             {

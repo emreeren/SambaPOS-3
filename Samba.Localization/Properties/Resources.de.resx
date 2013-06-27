@@ -993,6 +993,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Phone" xml:space="preserve">
     <value>Telefon</value>
   </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Anzahl Summe</value>
+  </data>
   <data name="Permissions" xml:space="preserve">
     <value>Berechtigungen</value>
   </data>

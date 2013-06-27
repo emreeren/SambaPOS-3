@@ -25,7 +25,13 @@ namespace Samba.Presentation
         {
             InitializeComponent();
             _applicationState = applicationState;
+            Application.Current.MainWindow.Closing += MainWindow_Closing;
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
+        }
+
+        void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _timer.Dispose();
         }
 
         private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)

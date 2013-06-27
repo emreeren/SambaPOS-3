@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Samba.Modules.AccountModule
 {
@@ -29,11 +18,17 @@ namespace Samba.Modules.AccountModule
             viewModel.Refreshed += viewModel_Refreshed;
             InitializeComponent();
         }
-
+        
         void viewModel_Refreshed(object sender, EventArgs e)
         {
-            (MainListView.View as GridView).Columns[0].Width = 0;
-            (MainListView.View as GridView).Columns[0].Width = Double.NaN;
+            var view = MainListView.View as GridView;
+            if (view != null)
+            {
+                view.Columns[0].Width = 0;
+                view.Columns[0].Width = Double.NaN;
+                view.Columns[1].Width = 0;
+                view.Columns[1].Width = Double.NaN;
+            }
         }
     }
 }

@@ -26,8 +26,7 @@ namespace Samba.Presentation
 
         protected override void OnExit(ExitEventArgs e)
         {
-            if (MessagingClient.IsConnected)
-                MessagingClient.Disconnect();
+            MessagingClient.Stop();
             ServiceLocator.Current.GetInstance<ITriggerService>().CloseTriggers();
         }
 
