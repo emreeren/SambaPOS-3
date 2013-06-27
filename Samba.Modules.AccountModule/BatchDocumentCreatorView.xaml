@@ -51,10 +51,10 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Header="Selected"/>
-                <DataGridTextColumn MinWidth="250" Binding="{Binding Account.Name}" IsReadOnly="True" Header="Account" SortDirection="Ascending"/>
-                <DataGridTextColumn MinWidth="200" Binding="{Binding Description}" Header="Description"/>
-                <DataGridTemplateColumn Header="Amount" MinWidth="60" CellStyle="{StaticResource RightAlignedGridCell}">
+                <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Header="{LocText Selected}"/>
+                <DataGridTextColumn MinWidth="250" Binding="{Binding Account.Name}" IsReadOnly="True" Header="{LocText Account}" SortDirection="Ascending"/>
+                <DataGridTextColumn MinWidth="200" Binding="{Binding Description}" Header="{LocText Description}"/>
+                <DataGridTemplateColumn Header="{LocText Amount}" MinWidth="60" CellStyle="{StaticResource RightAlignedGridCell}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Margin="5" Text="{Binding Path=Amount,StringFormat='#,#0.00'}" />
