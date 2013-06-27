@@ -34,7 +34,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
 
         public string GetCreatorDescription()
         {
-            return "Resource Grid";
+            return "Entity Grid";
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widget, ContextMenu contextMenu)

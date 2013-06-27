@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Practices.Prism.Events;
-using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
-using Samba.Services;
 
 namespace Samba.Modules.PaymentModule
 {
@@ -17,20 +14,15 @@ namespace Samba.Modules.PaymentModule
     public class PaymentEditor
     {
         private readonly IApplicationState _applicationState;
-        private readonly ICacheService _cacheService;
         private readonly ITicketService _ticketService;
-        private readonly IAccountService _accountService;
         private readonly AccountBalances _accountBalances;
         private Ticket _selectedTicket;
 
         [ImportingConstructor]
-        public PaymentEditor(IApplicationState applicationState, ICacheService cacheService, ITicketService ticketService, IAccountService accountService,
-            AccountBalances accountBalances)
+        public PaymentEditor(IApplicationState applicationState, ITicketService ticketService, AccountBalances accountBalances)
         {
             _applicationState = applicationState;
-            _cacheService = cacheService;
             _ticketService = ticketService;
-            _accountService = accountService;
             _accountBalances = accountBalances;
             _selectedTicket = Ticket.Empty;
 

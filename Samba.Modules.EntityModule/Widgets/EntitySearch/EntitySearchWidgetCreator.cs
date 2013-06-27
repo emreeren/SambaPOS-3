@@ -32,7 +32,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntitySearch
 
         public string GetCreatorDescription()
         {
-            return "Resource Search";
+            return "Entity Search";
         }
 
         public FrameworkElement CreateWidgetControl(IDiagram widget, ContextMenu contextMenu)

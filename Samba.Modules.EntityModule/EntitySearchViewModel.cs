@@ -63,7 +63,7 @@ namespace Samba.Modules.EntityModule
         [ImportingConstructor]
         public EntitySearchViewModel(IApplicationState applicationState, ICacheService cacheService, IEntityService entityService)
         {
-            _updateTimer = new Timer(500);
+            _updateTimer = new Timer(250);
             _updateTimer.Elapsed += UpdateTimerElapsed;
 
             _applicationState = applicationState;
