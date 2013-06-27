@@ -602,6 +602,7 @@ namespace Samba.Services.Implementations
         public void ResetCache()
         {
             _cacheDao.ResetCache();
+            _taxTemplates = null;
             _inventoryTransactionTypes = null;
             _warehouses = null;
             _printers = null;

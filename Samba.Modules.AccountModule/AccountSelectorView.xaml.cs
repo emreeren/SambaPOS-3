@@ -18,7 +18,7 @@ namespace Samba.Modules.AccountModule
     /// <summary>
     /// Interaction logic for AccountSelectorView.xaml
     /// </summary>
-    
+
     [Export]
     public partial class AccountSelectorView : UserControl
     {
@@ -27,6 +27,12 @@ namespace Samba.Modules.AccountModule
         {
             DataContext = viewModel;
             InitializeComponent();
+        }
+
+        private void FrameworkElement_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            (MainListView.View as GridView).Columns[0].Width =
+                (MainListView.View as GridView).Columns[0].ActualWidth;
         }
     }
 }

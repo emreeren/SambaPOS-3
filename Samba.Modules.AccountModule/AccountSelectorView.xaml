@@ -5,76 +5,76 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300" FontSize="16">
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="9*"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="9*"/>
-		</Grid.RowDefinitions>
-		<ItemsControl ItemsSource="{Binding AccountButtons}" Background="LightGray" Grid.ColumnSpan="2">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<FlexButton:FlexButton Margin="2" Content="{Binding Caption}" FontSize="26"
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+        <ItemsControl ItemsSource="{Binding AccountButtons}" Background="LightGray" Grid.ColumnSpan="2">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <FlexButton:FlexButton Margin="2" Content="{Binding Caption}" FontSize="26"
                                            Command="{Binding DataContext.AccountButtonSelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                            CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor}"/>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<UniformGrid Rows="1"/>
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-		</ItemsControl>
-		<ListView FontSize="20" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}"
-				   ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
-			<ListView.View>
-				<GridView>
-					<GridView.ColumnHeaderContainerStyle>
-						<Style>
-							<Setter Property="FrameworkElement.Visibility" Value="Collapsed"/>
-						</Style>
-					</GridView.ColumnHeaderContainerStyle>
-					<GridView.Columns>
-						<GridViewColumn Header="Account Name">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock MinWidth="250" Text="{Binding Name}"
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <ListView Name="MainListView" FontSize="20" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}"
+				   ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}" Loaded="FrameworkElement_OnLoaded">
+            <ListView.View>
+                <GridView>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style>
+                            <Setter Property="FrameworkElement.Visibility" Value="Collapsed"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Account Name">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock MinWidth="250" Text="{Binding Name}"
 													 TextAlignment="Left" />
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-						<GridViewColumn Header="Balance">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding BalanceStr}" TextAlignment="Right" MinWidth="150" />
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-						<!--<GridViewColumn Header="Exchange">
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Balance">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BalanceStr}" TextAlignment="Right" MinWidth="150" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!--<GridViewColumn Header="Exchange">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding ExchangeStr}" TextAlignment="Right" MinWidth="150" />
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>-->
-					</GridView.Columns>
-				</GridView>
-			</ListView.View>
-		</ListView>
-		<StackPanel Grid.Column="1" Grid.Row="1" Background="LightGray">
-			<FlexButton:FlexButton Height="60" FontSize="20" Margin="2" Command="{Binding ShowAccountDetailsCommand}" Content="{Binding ShowAccountDetailsCommand.Caption}"/>
-			<FlexButton:FlexButton Height="60" FontSize="20" Margin="2" Command="{Binding PrintCommand}" Content="{Binding PrintCommand.Caption}"/>
-			<ItemsControl ItemsSource="{Binding BatchDocumentButtons}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<FlexButton:FlexButton Margin="2" Height="60" Content="{Binding ButtonHeader}"
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Column="1" Grid.Row="1" Background="LightGray">
+            <FlexButton:FlexButton Height="60" FontSize="20" Margin="2" Command="{Binding ShowAccountDetailsCommand}" Content="{Binding ShowAccountDetailsCommand.Caption}"/>
+            <FlexButton:FlexButton Height="60" FontSize="20" Margin="2" Command="{Binding PrintCommand}" Content="{Binding PrintCommand.Caption}"/>
+            <ItemsControl ItemsSource="{Binding BatchDocumentButtons}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FlexButton:FlexButton Margin="2" Height="60" Content="{Binding ButtonHeader}"
 								 ButtonColor="{Binding ButtonColor}" Command="{Binding SelectDocumentTypeCommand}" />
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</StackPanel>
-	</Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
 </UserControl>
