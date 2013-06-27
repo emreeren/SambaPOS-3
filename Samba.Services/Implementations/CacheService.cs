@@ -567,7 +567,7 @@ namespace Samba.Services.Implementations
 
         public string GetStateColor(string state)
         {
-            return States.Any(x => x.Name == state) ? States.Single(x => x.Name == state).Color : "Transparent";
+            return States.Any(x => x.Name == state) ? States.Single(x => x.Name == state).Color : "Gainsboro";
         }
 
         public IEnumerable<EntityType> GetEntityTypesByTicketType(int ticketTypeId)

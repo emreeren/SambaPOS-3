@@ -33,9 +33,9 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
             if (DesignMode) return;
             if (_applicationState.SelectedEntityScreen == null) return;
             var si = _applicationState.SelectedEntityScreen.ScreenItems.SingleOrDefault(x => x.Name == Settings.ResourceName);
-            if (si == null) return;
-            var resource = _cacheService.GetEntityById(si.EntityId);
-            EntityOperationRequest<Entity>.Publish(resource, EventTopicNames.EntitySelected,null,null);
+            var resource = si != null ? _cacheService.GetEntityById(si.EntityId) :
+                           Entity.GetNullEntity(_applicationState.SelectedEntityScreen.EntityTypeId);
+            EntityOperationRequest<Entity>.Publish(resource, EventTopicNames.EntitySelected, null, null);
         }
 
         protected override object CreateSettingsObject()
@@ -51,7 +51,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
         public override void Refresh()
         {
             var resourceState = GetResourceState();
-            ButtonColor = _cacheService.GetStateColor(resourceState); 
+            ButtonColor = _cacheService.GetStateColor(resourceState);
         }
 
         [Browsable(false)]
@@ -61,8 +61,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
         {
             if (_applicationState.SelectedEntityScreen == null) return null;
             var si = _applicationState.SelectedEntityScreen.ScreenItems.SingleOrDefault(x => x.Name == Settings.ResourceName);
-            if (si == null) return null;
-            return si.EntityState;
+            return si == null ? null : si.EntityState;
         }
 
         private string _buttonColor;
@@ -79,7 +78,5 @@ namespace Samba.Modules.EntityModule.Widgets.EntityButton
                 }
             }
         }
-
-
     }
 }
