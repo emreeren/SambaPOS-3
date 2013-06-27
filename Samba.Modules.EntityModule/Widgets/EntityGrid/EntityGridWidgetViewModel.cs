@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Threading;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Helpers;
@@ -60,34 +62,21 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
             return result;
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public override void Refresh()
         {
-            if (IsRefreshing || DesignMode) return;
-            using (var worker = new BackgroundWorker())
-            {
-                worker.DoWork += delegate
-                {
-                    IsRefreshing = true;
-                    RefreshSync();
-                };
-                worker.RunWorkerCompleted += (sender, eventArgs) =>
-                {
-                    IsRefreshing = false;
-                };
-                worker.RunWorkerAsync();
-            }
+            System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)RefreshSync);
         }
 
-        protected bool IsRefreshing { get; set; }
+        protected static bool IsRefreshing { get; set; }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RefreshSync()
         {
             var stateFilter = !string.IsNullOrEmpty(Settings.StateFilterName)
                                   ? Settings.StateFilterName
                                   : EntityScreen.StateFilter;
             ResourceSelectorViewModel.Refresh(EntityScreen, stateFilter, _request);
-            
+
         }
     }
 }

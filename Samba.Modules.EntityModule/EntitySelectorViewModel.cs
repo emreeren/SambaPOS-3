@@ -147,6 +147,5 @@ namespace Samba.Modules.EntityModule
             _currentOperationRequest = currentOperationRequest;
             UpdateEntityScreenItems(entityScreen);
         }
-
     }
 }
