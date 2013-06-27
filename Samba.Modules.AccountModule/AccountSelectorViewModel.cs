@@ -21,13 +21,14 @@ namespace Samba.Modules.AccountModule
 {
     public class AccountRowData
     {
-        public AccountRowData(string name, decimal balance, decimal exchange, int accountId, string currencyFormat)
+        public AccountRowData(string name, decimal balance, decimal exchange, int accountId, string currencyFormat, int accountTypeId)
         {
             Name = name;
             Balance = balance;
             if (!string.IsNullOrEmpty(currencyFormat)) Exchange = exchange;
             CurrencyFormat = currencyFormat;
             AccountId = accountId;
+            AccountTypeId = accountTypeId;
         }
 
         protected string CurrencyFormat { get; set; }
@@ -46,6 +47,7 @@ namespace Samba.Modules.AccountModule
         public decimal Balance { get; set; }
         public decimal Exchange { get; set; }
         public string Fill { get; set; }
+        public int AccountTypeId { get; set; }
     }
 
     [Export]
@@ -120,17 +122,25 @@ namespace Samba.Modules.AccountModule
             _batchDocumentButtons = null;
             _selectedAccountScreen = accountScreen;
             _accounts.Clear();
-
+             var rows = new List<AccountRowData>();
+            
             var detailedTemplateNames = accountScreen.AccountScreenValues.Where(x => x.DisplayDetails).Select(x => x.AccountTypeId);
-            _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, x.Key.Id, GetCurrencyFormat(x.Key.ForeignCurrencyId))));
+            _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => rows.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, x.Key.Id, GetCurrencyFormat(x.Key.ForeignCurrencyId), x.Key.AccountTypeId)));
 
             var templateTotals = accountScreen.AccountScreenValues.Where(x => !x.DisplayDetails).Select(x => x.AccountTypeId);
-            _accountService.GetAccountTypeBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => _accounts.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, 0, "")));
+            _accountService.GetAccountTypeBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => rows.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, 0, "", x.Key.Id)));
+
+            _accounts.AddRange(rows.OrderBy(x => GetSortOrder(accountScreen.AccountScreenValues, x.AccountTypeId)).ToList());
 
             RaisePropertyChanged(() => BatchDocumentButtons);
             RaisePropertyChanged(() => AccountButtons);
 
             OnRefreshed();
+        }
+
+        private int GetSortOrder(IEnumerable<AccountScreenValue> values, int accountTypeId)
+        {
+            return values.Single(x => x.AccountTypeId == accountTypeId).SortOrder;
         }
 
         public IEnumerable<AccountScreen> AccountScreens

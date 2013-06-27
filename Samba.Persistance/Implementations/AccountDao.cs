@@ -71,7 +71,7 @@ namespace Samba.Persistance.Implementations
                     .Where(func)
                     .GroupBy(x => x.AccountId)
                     .Select(x => new { Id = x.Key, Amount = x.Sum(y => y.Debit - y.Credit), Exchange = x.Sum(y => y.Exchange) })
-                    .ToDictionary(x => x.Id, x => new BalanceValue { Balance = x.Amount, Exchange = x.Exchange });
+                    .ToDictionary(x => x.Id, x => new BalanceValue { Balance = x.Amount, Exchange = x.Exchange});
 
                 return w.Queryable<Account>().Where(x => accountTypeIds.Contains(x.AccountTypeId)).ToDictionary(x => x, x => transactionValues.ContainsKey(x.Id) ? transactionValues[x.Id] : BalanceValue.Empty);
             }
