@@ -7,18 +7,43 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.Services;
+using Samba.Services;
 
 namespace Samba.Modules.AccountModule.Dashboard
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class AccountTransactionDocumentViewModel : EntityViewModelBase<AccountTransactionDocument>
     {
-        public AccountTransactionDocumentViewModel()
+        private readonly ICacheService _cacheService;
+        private readonly IPrinterService _printerService;
+        private readonly IApplicationState _applicationState;
+
+        [ImportingConstructor]
+        public AccountTransactionDocumentViewModel(ICacheService cacheService, IPrinterService printerService, IApplicationState applicationState)
         {
-            AddItemCommand = new CaptionCommand<string>("Add Item", OnAddItem);
+            _cacheService = cacheService;
+            _printerService = printerService;
+            _applicationState = applicationState;
+            AddItemCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Line), OnAddItem);
+            PrintCommand = new CaptionCommand<string>(Resources.Print, OnPrint, CanPrint);
+        }
+
+        private bool CanPrint(string arg)
+        {
+            return Model.DocumentTypeId > 0;
+        }
+
+        private void OnPrint(string obj)
+        {
+            var printer = _applicationState.GetTransactionPrinter();
+            var printerTemplateId = _cacheService.GetAccountTransactionDocumentTypeById(Model.DocumentTypeId).PrinterTemplateId;
+            var printerTemplate = _cacheService.GetPrinterTemplates().First(x => x.Id == printerTemplateId);
+            _printerService.PrintAccountTransactionDocument(Model, printer, printerTemplate);
         }
 
         public ICaptionCommand AddItemCommand { get; set; }
+        public ICaptionCommand PrintCommand { get; set; }
 
         private ObservableCollection<AccountTransactionViewModel> _accountTransactions;
         public ObservableCollection<AccountTransactionViewModel> AccountTransactions

@@ -3253,4 +3253,19 @@ Error Message:
   <data name="DisplayAsTree" xml:space="preserve">
     <value>Display as Tree</value>
   </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Transaction Printer</value>
+  </data>
+  <data name="AccountTransactionDocumentCreated" xml:space="preserve">
+    <value>Account Transaction Document Created</value>
+  </data>
+  <data name="PrintAccountTransactionDocument" xml:space="preserve">
+    <value>Print Account Transaction Document</value>
+  </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Receipt</value>
+  </data>
+  <data name="CustomerReceiptTemplate" xml:space="preserve">
+    <value>Customer Receipt Template</value>
+  </data>
 </root>

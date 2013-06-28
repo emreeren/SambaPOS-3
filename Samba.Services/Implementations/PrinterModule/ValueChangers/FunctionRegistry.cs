@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -38,7 +40,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>(TagNames.TicketTime, (x, d) => x.Date.ToShortTimeString(), Resources.TicketTime);
             RegisterFunction<Ticket>(TagNames.Date, (x, d) => DateTime.Now.ToShortDateString(), Resources.DayDate);
             RegisterFunction<Ticket>(TagNames.Time, (x, d) => DateTime.Now.ToShortTimeString(), Resources.DayTime);
-            RegisterFunction<Ticket>("{LAST ORDER TIME}", (x, d) => x.LastOrderDate.ToShortTimeString(),Resources.LastOrderTime);
+            RegisterFunction<Ticket>("{LAST ORDER TIME}", (x, d) => x.LastOrderDate.ToShortTimeString(), Resources.LastOrderTime);
             RegisterFunction<Ticket>("{CREATION MINUTES}", (x, d) => x.GetTicketCreationMinuteStr(), Resources.TicketDuration);
             RegisterFunction<Ticket>("{LAST ORDER MINUTES}", (x, d) => x.GetTicketLastOrderMinuteStr(), Resources.LastOrderDuration);
             RegisterFunction<Ticket>(TagNames.TicketId, (x, d) => x.Id.ToString("#"), Resources.UniqueTicketId);
@@ -60,10 +62,10 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{TICKET STATE MINUTES:([^}]+)}", (x, d) => x.GetStateMinuteStr(d), "Ticket State Duration");
             RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => _settingService.ReadSetting(d).StringValue, Resources.SettingValue);
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Calculation), x => x.Calculations.Count > 0);
-            RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(_cacheService.GetEntityTypeIdByEntityName(d)), string.Format(Resources.Name_f,Resources.Entity));
+            RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(_cacheService.GetEntityTypeIdByEntityName(d)), string.Format(Resources.Name_f, Resources.Entity));
             RegisterFunction<Ticket>("{ENTITY DATA:([^}]+)}", GetEntityFieldValue);
             RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.OrderState));
-            RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat),string.Format(Resources.Total_f, Resources.Service));
+            RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Service));
 
             //ORDERS
             RegisterFunction<Order>(TagNames.Quantity, (x, d) => x.Quantity.ToString(LocalSettings.QuantityFormat), Resources.LineItemQuantity);
@@ -79,7 +81,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Order>("{ORDER STATE:([^}]+)}", (x, d) => x.GetStateValue(d).StateValue, Resources.OrderStateValue);
             RegisterFunction<Order>("{ORDER STATE MINUTES:([^}]+)}", (x, d) => x.GetStateMinuteStr(d), "Order State Duration");
             RegisterFunction<Order>("{ORDER TAX RATE:([^}]+)}", (x, d) => x.GetTaxValue(d).TaxRate.ToString(LocalSettings.QuantityFormat), Resources.TaxRate);
-            RegisterFunction<Order>("{ORDER TAX TEMPLATE NAMES}", (x, d) => string.Join(", ", x.GetTaxValues().Select(y => y.TaxTemplateName)), string.Format(Resources.List_f,Resources.TaxTemplate));
+            RegisterFunction<Order>("{ORDER TAX TEMPLATE NAMES}", (x, d) => string.Join(", ", x.GetTaxValues().Select(y => y.TaxTemplateName)), string.Format(Resources.List_f, Resources.TaxTemplate));
             RegisterFunction<Order>("{ITEM ID}", (x, d) => x.MenuItemId.ToString("#"));
             RegisterFunction<Order>("{BARCODE}", (x, d) => GetMenuItem(x.MenuItemId).Barcode);
             RegisterFunction<Order>("{GROUP CODE}", (x, d) => GetMenuItem(x.MenuItemId).GroupCode);
@@ -114,6 +116,55 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<TaxValue>("{TAXABLE AMOUNT}", (x, d) => x.OrderAmount.ToString(LocalSettings.CurrencyFormat), Resources.TaxableAmount, x => x.OrderAmount > 0);
             RegisterFunction<TaxValue>("{TOTAL TAXABLE AMOUNT}", (x, d) => x.TotalAmount.ToString(LocalSettings.CurrencyFormat), Resources.TotalTaxableAmount, x => x.TotalAmount > 0);
             RegisterFunction<TaxValue>("{TAX NAME}", (x, d) => x.Name, string.Format(Resources.Name_f, Resources.TaxTemplate));
+
+            //ACCOUNT TRANSACTON DOCUMENTS
+            RegisterFunction<AccountTransactionDocument>(TagNames.Date, (x, d) => DateTime.Now.ToShortDateString(), Resources.Date);
+            RegisterFunction<AccountTransactionDocument>(TagNames.Time, (x, d) => DateTime.Now.ToShortTimeString(), Resources.Time);
+            RegisterFunction<AccountTransactionDocument>("{DOCUMENT DATE}", (x, d) => x.Date.ToShortDateString(), "Document Date");
+            RegisterFunction<AccountTransactionDocument>("{DOCUMENT TIME}", (x, d) => x.Date.ToShortTimeString(), "Document Time");
+            RegisterFunction<AccountTransactionDocument>("{DESCRIPTION}", (x, d) => x.Name, "Document Description");
+            RegisterFunction<AccountTransactionDocument>("{DOCUMENT BALANCE}", (x, d) => x.AccountTransactions.Sum(y => y.Balance).ToString(LocalSettings.CurrencyFormat), "Document Balance");
+
+            //ACCOUNT TRANSACTIONS
+            RegisterFunction<AccountTransaction>("{DESCRIPTION}", (x, d) => x.Name, "Transaction Description");
+            RegisterFunction<AccountTransaction>("{AMOUNT}", (x, d) => x.Amount.ToString(LocalSettings.CurrencyFormat), "Transaction Amount");
+            RegisterFunction<AccountTransaction>("{EXCHANGE RATE}", (x, d) => x.ExchangeRate.ToString(LocalSettings.QuantityFormat), "Transaction Exchange Rate");
+            RegisterFunction<AccountTransaction>("{TRANSACTION TYPE NAME}", (x, d) => GetTransactionTypeName(x.AccountTransactionTypeId), "Transaction Type Name");
+
+            RegisterFunction<AccountTransaction>("{SOURCE ACCOUNT TYPE}", (x, d) => GetAccountTypeName(x.SourceTransactionValue.AccountTypeId));
+            RegisterFunction<AccountTransaction>("{SOURCE ACCOUNT}", (x, d) => GetAccountName(x.SourceTransactionValue.AccountId));
+            RegisterFunction<AccountTransaction>("{SOURCE DEBIT}", (x, d) => x.SourceTransactionValue.Debit.ToString(LocalSettings.CurrencyFormat));
+            RegisterFunction<AccountTransaction>("{SOURCE CREDIT}", (x, d) => x.SourceTransactionValue.Credit.ToString(LocalSettings.CurrencyFormat));
+            RegisterFunction<AccountTransaction>("{SOURCE AMOUNT}", (x, d) => Math.Abs(x.SourceTransactionValue.Debit - x.SourceTransactionValue.Credit).ToString(LocalSettings.CurrencyFormat));
+            RegisterFunction<AccountTransaction>("{SOURCE BALANCE}", (x, d) => GetAccountBalance(x.SourceTransactionValue.AccountId).ToString(LocalSettings.CurrencyFormat));
+
+            RegisterFunction<AccountTransaction>("{TARGET ACCOUNT TYPE}", (x, d) => GetAccountTypeName(x.TargetTransactionValue.AccountTypeId));
+            RegisterFunction<AccountTransaction>("{TARGET ACCOUNT}", (x, d) => GetAccountName(x.TargetTransactionValue.AccountId));
+            RegisterFunction<AccountTransaction>("{TARGET DEBIT}", (x, d) => x.TargetTransactionValue.Debit.ToString(LocalSettings.CurrencyFormat));
+            RegisterFunction<AccountTransaction>("{TARGET CREDIT}", (x, d) => x.TargetTransactionValue.Credit.ToString(LocalSettings.CurrencyFormat));
+            RegisterFunction<AccountTransaction>("{TARGET AMOUNT}", (x, d) => Math.Abs(x.TargetTransactionValue.Debit - x.TargetTransactionValue.Credit).ToString(LocalSettings.CurrencyFormat));
+            RegisterFunction<AccountTransaction>("{TARGET BALANCE}", (x, d) => GetAccountBalance(x.TargetTransactionValue.AccountId).ToString(LocalSettings.CurrencyFormat));
+
+        }
+
+        private decimal GetAccountBalance(int accountId)
+        {
+            return _accountService.GetAccountBalance(accountId);
+        }
+
+        private string GetAccountName(int accountId)
+        {
+            return _accountService.GetAccountNameById(accountId);
+        }
+
+        private string GetAccountTypeName(int accountTypeId)
+        {
+            return _cacheService.GetAccountTypeById(accountTypeId).Name;
+        }
+
+        private string GetTransactionTypeName(int accountTransactionTypeId)
+        {
+            return _cacheService.GetAccountTransactionTypeById(accountTransactionTypeId).Name;
         }
 
         private string GetEntityFieldValue(Ticket ticket, string data)
@@ -131,9 +182,19 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 Functions.Add(typeof(TModel), new ArrayList());
             }
             Functions[typeof(TModel)].Add(new FunctionData<TModel> { Tag = tag, Func = function, Condition = condition });
+
+            if (string.IsNullOrEmpty(desc))
+            {
+                desc = tag.Trim(new[] { '{', '}' });
+                desc = desc.Replace(":([^}]+)", ":X}");
+                desc = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(desc.ToLower());
+            }
+
             if (!string.IsNullOrEmpty(desc))
             {
-                Descriptions.Add(tag.Replace(":([^}]+)", ":X}"), desc);
+                var key = tag.Replace(":([^}]+)", ":X}");
+                if (!Descriptions.ContainsKey(key))
+                    Descriptions.Add(key, desc);
             }
         }
 

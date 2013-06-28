@@ -5,8 +5,9 @@ using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Helpers;
+using Samba.Services.Implementations.PrinterModule.ValueChangers;
 
-namespace Samba.Services.Implementations.PrinterModule.ValueChangers
+namespace Samba.Services.Implementations.PrinterModule
 {
     [Export]
     public class TicketFormatter

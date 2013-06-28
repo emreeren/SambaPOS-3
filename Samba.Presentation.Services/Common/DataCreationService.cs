@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.Practices.ServiceLocation;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Entities;
@@ -18,7 +17,6 @@ using Samba.Infrastructure.Helpers;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Services;
 
 namespace Samba.Presentation.Services.Common
 {
@@ -157,31 +155,6 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(customerAccountTransactionType);
             _workspace.Add(customerCashPaymentType);
             _workspace.Add(customerCreditCardPaymentType);
-
-            var customerCashDocument = new AccountTransactionDocumentType
-            {
-                Name = string.Format(Resources.Customer_f, Resources.Cash),
-                ButtonHeader = Resources.Cash,
-                DefaultAmount = string.Format("[{0}]", Resources.Balance),
-                DescriptionTemplate = string.Format(Resources.Payment_f, Resources.Cash),
-                MasterAccountTypeId = customerAccountType.Id
-            };
-            customerCashDocument.AddAccountTransactionDocumentTypeMap();
-            customerCashDocument.TransactionTypes.Add(customerCashPaymentType);
-
-            var customerCreditCardDocument = new AccountTransactionDocumentType
-            {
-                Name = string.Format(Resources.Customer_f, Resources.CreditCard),
-                ButtonHeader = Resources.CreditCard,
-                DefaultAmount = string.Format("[{0}]", Resources.Balance),
-                DescriptionTemplate = string.Format(Resources.Payment_f, Resources.CreditCard),
-                MasterAccountTypeId = customerAccountType.Id
-            };
-            customerCreditCardDocument.AddAccountTransactionDocumentTypeMap();
-            customerCreditCardDocument.TransactionTypes.Add(customerCreditCardPaymentType);
-
-            _workspace.Add(customerCashDocument);
-            _workspace.Add(customerCreditCardDocument);
 
             var discountService = new CalculationType
             {
@@ -349,9 +322,11 @@ namespace Samba.Presentation.Services.Common
 
             var ticketPrinterTemplate = new PrinterTemplate { Name = Resources.TicketTemplate, Template = GetDefaultTicketPrintTemplate() };
             var kitchenPrinterTemplate = new PrinterTemplate { Name = Resources.KitchenOrderTemplate, Template = GetDefaultKitchenPrintTemplate() };
+            var customerReceiptTemplate = new PrinterTemplate() { Name = Resources.CustomerReceiptTemplate, Template = GetDefaultCustomerReceiptTemplate() };
 
             _workspace.Add(ticketPrinterTemplate);
             _workspace.Add(kitchenPrinterTemplate);
+            _workspace.Add(customerReceiptTemplate);
 
             var printer1 = new Printer { Name = Resources.TicketPrinter };
             var printer2 = new Printer { Name = Resources.KitchenPrinter };
@@ -367,7 +342,8 @@ namespace Samba.Presentation.Services.Common
             {
                 IsDefault = true,
                 Name = Resources.Server,
-                ReportPrinter = printer1,
+                ReportPrinterId = printer1.Id,
+                TransactionPrinterId = printer1.Id,
             };
 
             var pm1 = new PrinterMap { PrinterId = printer1.Id, PrinterTemplateId = ticketPrinterTemplate.Id };
@@ -389,6 +365,7 @@ namespace Samba.Presentation.Services.Common
                 Name = Resources.PrintOrdersToKitchenPrinter,
                 WhatToPrint = (int)WhatToPrintTypes.Everything,
             };
+
             pj2.PrinterMaps.Add(pm2);
 
             _workspace.Add(pj2);
@@ -556,6 +533,33 @@ namespace Samba.Presentation.Services.Common
             var customerTicketScreen = new EntityScreen { Name = Resources.CustomerTickets, DisplayMode = 0, EntityTypeId = customerEntityType.Id, StateFilter = newOrderState.Name, ColumnCount = 6, RowCount = 6, TicketTypeId = ticketType.Id };
             customerTicketScreen.EntityScreenMaps.Add(new EntityScreenMap());
             _workspace.Add(customerTicketScreen);
+
+            var customerCashDocument = new AccountTransactionDocumentType
+            {
+                Name = string.Format(Resources.Customer_f, Resources.Cash),
+                ButtonHeader = Resources.Cash,
+                DefaultAmount = string.Format("[{0}]", Resources.Balance),
+                DescriptionTemplate = string.Format(Resources.Payment_f, Resources.Cash),
+                MasterAccountTypeId = customerAccountType.Id,
+                PrinterTemplateId = printer1.Id
+            };
+            customerCashDocument.AddAccountTransactionDocumentTypeMap();
+            customerCashDocument.TransactionTypes.Add(customerCashPaymentType);
+
+            var customerCreditCardDocument = new AccountTransactionDocumentType
+            {
+                Name = string.Format(Resources.Customer_f, Resources.CreditCard),
+                ButtonHeader = Resources.CreditCard,
+                DefaultAmount = string.Format("[{0}]", Resources.Balance),
+                DescriptionTemplate = string.Format(Resources.Payment_f, Resources.CreditCard),
+                MasterAccountTypeId = customerAccountType.Id,
+                PrinterTemplateId = printer1.Id
+            };
+            customerCreditCardDocument.AddAccountTransactionDocumentTypeMap();
+            customerCreditCardDocument.TransactionTypes.Add(customerCreditCardPaymentType);
+
+            _workspace.Add(customerCashDocument);
+            _workspace.Add(customerCreditCardDocument);
 
             ImportItems(BatchCreateEntities);
             ImportItems(BatchCreateTransactionTypes);
@@ -1012,6 +1016,24 @@ namespace Samba.Presentation.Services.Common
             return ReplaceTemplateValues(template);
         }
 
+        public static string GetDefaultCustomerReceiptTemplate()
+        {
+            const string template = @"[LAYOUT]
+-- General layout
+<T><%RECEIPT>
+<L00><%DATE>:{DOCUMENT DATE}
+<L00><%TIME>:{DOCUMENT TIME}
+<L00>{DESCRIPTION}
+<F>-
+{TRANSACTIONS}
+<F>-
+
+[TRANSACTIONS]
+<J00>{SOURCE ACCOUNT} | {AMOUNT}
+<J00><%BALANCE>:|{SOURCE BALANCE}";
+            return ReplaceTemplateValues(template);
+        }
+
         private static string ReplaceTemplateValues(string template)
         {
             template = template.Replace("<%TICKET>", Resources.Ticket);
@@ -1023,6 +1045,8 @@ namespace Samba.Presentation.Services.Common
             template = template.Replace("<%CUSTOMER>", Resources.Customer);
             template = template.Replace("<%PHONE>", Resources.Phone);
             template = template.Replace("<%TOTAL>", Resources.Total);
+            template = template.Replace("<%RECEIPT>", Resources.Receipt);
+            template = template.Replace("<%BALANCE>", Resources.Balance);
             return template;
         }
     }

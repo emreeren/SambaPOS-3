@@ -74,7 +74,7 @@ namespace Samba.Modules.BasicReports
                         {
                             ReportContext.CurrentWorkPeriod = ReportContext.ApplicationState.CurrentWorkPeriod;
                             var document = report.GetReportDocument();
-                            ReportContext.PrinterService.PrintReport(document, ReportContext.ApplicationState.CurrentTerminal.ReportPrinter);
+                            ReportContext.PrinterService.PrintReport(document, ReportContext.ApplicationState.GetReportPrinter());
                         }
                     }
                 }

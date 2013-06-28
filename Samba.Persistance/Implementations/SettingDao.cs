@@ -56,7 +56,7 @@ namespace Samba.Persistance.Implementations
 
         public IEnumerable<Terminal> GetTerminals()
         {
-            return Dao.Query<Terminal>(x => x.ReportPrinter);
+            return Dao.Query<Terminal>();
         }
     }
 

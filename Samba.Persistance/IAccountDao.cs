@@ -16,12 +16,13 @@ namespace Samba.Persistance
         Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
         Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
         string GetEntityCustomDataByAccountId(int accountId);
-        void CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, decimal exchangeRate, IEnumerable<Account> accounts);
+        AccountTransactionDocument CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, decimal exchangeRate, IEnumerable<Account> accounts);
         Account GetAccountById(int accountId);
         bool GetIsAccountNameExists(string accountName);
         int CreateAccount(int accountTypeId, string accountName);
         string GetAccountNameById(int accountId);
         int GetAccountIdByName(string accountName);
         IEnumerable<string> GetAccountNames(Expression<Func<Account, bool>> predictate);
+        AccountTransactionDocument GetAccountTransactionDocumentById(int documentId);
     }
 }

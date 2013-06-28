@@ -13,8 +13,11 @@
                 <CheckBox Margin="0,5" IsChecked="{Binding IsDefault, Mode=TwoWay}" Content="{LocText DefaultTerminal}"/>
                 <CheckBox Margin="0,5" IsChecked="{Binding AutoLogout, Mode=TwoWay}" Content="{LocText AutoLogout}"/>
                 <Label Content="{LocText ReportPrinter,Suffix=':'}"/>                
-                <ComboBox HorizontalAlignment="Left" MinWidth="200" IsEditable="True" SelectedItem="{Binding ReportPrinter}"
-                             ItemsSource="{Binding Printers}" DisplayMemberPath="Name" />
+                <ComboBox HorizontalAlignment="Left" MinWidth="200" IsEditable="True" SelectedValue="{Binding ReportPrinterId}" 
+                          SelectedValuePath="Id" ItemsSource="{Binding Printers}" DisplayMemberPath="Name" />
+                <Label Content="{LocText TransactionPrinter,Suffix=':'}"/>                
+                <ComboBox HorizontalAlignment="Left" MinWidth="200" IsEditable="True" SelectedValue="{Binding TransactionPrinterId}" 
+                          SelectedValuePath="Id" ItemsSource="{Binding Printers}" DisplayMemberPath="Name" />
                 <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                      Command="{Binding SaveCommand}" />
                 <Label Content="{Binding Error}" Foreground="Red" />

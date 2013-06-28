@@ -9,8 +9,7 @@ namespace Samba.Modules.BasicReports.Reports
     {
         public static IEnumerable<MenuItemGroupInfo> CalculateMenuGroups(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
-            var menuItemInfoGroups =
-                from c in tickets.SelectMany(x => x.Orders.Where(y => !y.IncreaseInventory).Select(y => new { Ticket = x, Order = y }))
+            var query = from c in tickets.SelectMany(x => x.Orders.Where(y => !y.IncreaseInventory).Select(y => new { Ticket = x, Order = y }))
                 join menuItem in menuItems on c.Order.MenuItemId equals menuItem.Id
                 group c by menuItem.GroupCode into grp
                 select new MenuItemGroupInfo
@@ -20,7 +19,9 @@ namespace Samba.Modules.BasicReports.Reports
                     Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order))
                 };
 
-            var result = menuItemInfoGroups.ToList().OrderByDescending(x => x.Amount);
+            var menuItemInfoGroups = query.ToList();
+                
+            var result = menuItemInfoGroups.OrderByDescending(x => x.Amount);
 
             var sum = menuItemInfoGroups.Sum(x => x.Amount);
             foreach (var menuItemInfoGroup in result)

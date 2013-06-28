@@ -37,6 +37,7 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.RowSpan="2" Background="LightGray">
             <FlexButton:FlexButton Margin="2" Height="60" Command="{Binding SaveCommand}" Content="{Binding SaveCommand.Caption}"/>
+            <FlexButton:FlexButton Margin="2" Height="60" Command="{Binding PrintCommand}" Content="{Binding PrintCommand.Caption}" Visibility="{Binding IsPrintCommandVisible,Converter={StaticResource VisibilityConverter}}"/>
             <FlexButton:FlexButton Margin="2" Height="60" Command="{Binding CancelCommand}" Content="{Binding CancelCommand.Caption}"/>
         </StackPanel>
         <Viewbox Grid.Row="1">

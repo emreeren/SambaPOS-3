@@ -211,7 +211,7 @@ namespace Samba.Modules.AccountModule
                 report.AddRow("Transactions", ad.Date.ToShortDateString(), ad.Name, ad.CreditStr, ad.DebitStr, ad.BalanceStr);
             }
 
-            _printerService.PrintReport(report.Document, _applicationState.CurrentTerminal.ReportPrinter);
+            _printerService.PrintReport(report.Document, _applicationState.GetReportPrinter());
         }
     }
 }

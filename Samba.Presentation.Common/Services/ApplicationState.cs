@@ -317,6 +317,16 @@ namespace Samba.Presentation.Common.Services
                                                  menuItemId);
         }
 
+        public Printer GetReportPrinter()
+        {
+            return _cacheService.GetPrinters().FirstOrDefault(x => x.Id == CurrentTerminal.ReportPrinterId);
+        }
+
+        public Printer GetTransactionPrinter()
+        {
+            return _cacheService.GetPrinters().FirstOrDefault(x => x.Id == CurrentTerminal.TransactionPrinterId);
+        }
+
         public void NotifyEvent(string eventName, object dataObject)
         {
             var terminalId = CurrentTerminal.Id;

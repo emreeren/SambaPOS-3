@@ -218,6 +218,11 @@ namespace Samba.Services.Implementations
             return DocumentTypes.SingleOrDefault(x => x.Name == documentName);
         }
 
+        public AccountTransactionDocumentType GetAccountTransactionDocumentTypeById(int documentId)
+        {
+            return DocumentTypes.SingleOrDefault(x => x.Id == documentId);
+        }
+
         private IEnumerable<ChangePaymentType> _changePaymentTypes;
         public IEnumerable<ChangePaymentType> ChangePaymentTypes
         {

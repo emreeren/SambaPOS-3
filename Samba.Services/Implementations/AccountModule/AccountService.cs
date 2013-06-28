@@ -27,10 +27,15 @@ namespace Samba.Services.Implementations.AccountModule
             _accountDao = accountDao;
         }
 
-        public void CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts)
+        public AccountTransactionDocument CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts)
         {
             var exchangeRate = GetExchangeRate(selectedAccount, documentType.ExchangeTemplate);
-            _accountDao.CreateTransactionDocument(selectedAccount, documentType, description, amount, exchangeRate, accounts);
+            return _accountDao.CreateTransactionDocument(selectedAccount, documentType, description, amount, exchangeRate, accounts);
+        }
+
+        public AccountTransactionDocument GetAccountTransactionDocumentById(int documentId)
+        {
+            return _accountDao.GetAccountTransactionDocumentById(documentId);
         }
 
         public decimal GetAccountBalance(int accountId)
@@ -170,15 +175,15 @@ namespace Samba.Services.Implementations.AccountModule
                     var accounts = GetDocumentAccounts(document);
                     foreach (var account in accounts)
                     {
-                        var map = document.AccountTransactionDocumentAccountMaps.FirstOrDefault(
-                            y => y.AccountId == account.Id);
+                        var map = document.AccountTransactionDocumentAccountMaps.FirstOrDefault(y => y.AccountId == account.Id);
                         if (map != null && map.MappedAccountId > 0)
                         {
                             var targetAccount = new Account { Id = map.MappedAccountId, Name = map.MappedAccountName };
                             var amount = GetDefaultAmount(document, account);
                             if (amount != 0)
-                                CreateTransactionDocument(account, document, "", amount,
-                                                                             new List<Account> { targetAccount });
+                            {
+                                CreateTransactionDocument(account, document, "", amount, new List<Account> { targetAccount });
+                            }
                         }
                     }
                 }

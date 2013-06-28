@@ -8,7 +8,7 @@ using Samba.Services;
 
 namespace Samba.Modules.SettingsModule
 {
-    [Export,PartCreationPolicy(CreationPolicy.NonShared)]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class TerminalViewModel : EntityViewModelBase<Terminal>
     {
         private readonly ISettingService _settingService;
@@ -21,10 +21,11 @@ namespace Samba.Modules.SettingsModule
 
         public bool IsDefault { get { return Model.IsDefault; } set { Model.IsDefault = value; } }
         public bool AutoLogout { get { return Model.AutoLogout; } set { Model.AutoLogout = value; } }
-        public Printer ReportPrinter { get { return Model.ReportPrinter; } set { Model.ReportPrinter = value; } }
+        public int? ReportPrinterId { get { return Model.ReportPrinterId; } set { Model.ReportPrinterId = value.GetValueOrDefault(0); } }
+        public int? TransactionPrinterId { get { return Model.TransactionPrinterId; } set { Model.TransactionPrinterId = value.GetValueOrDefault(0); } }
+
         public IEnumerable<Printer> Printers { get; private set; }
         public IEnumerable<PrinterTemplate> PrinterTemplates { get; private set; }
-
 
         public override Type GetViewType()
         {

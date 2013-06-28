@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
-using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
@@ -25,15 +25,17 @@ namespace Samba.Services.Implementations.PrinterModule
         private readonly ICacheService _cacheService;
         private readonly ILogService _logService;
         private readonly TicketFormatter _ticketFormatter;
+        private readonly AccountTransactionDocumentFormatter _accountTransactionDocumentFormatter;
         private readonly FunctionRegistry _functionRegistry;
 
         [ImportingConstructor]
         public PrinterService(ISettingService settingService, ICacheService cacheService, IExpressionService expressionService, ILogService logService,
-            TicketFormatter ticketFormatter, FunctionRegistry functionRegistry)
+            TicketFormatter ticketFormatter, AccountTransactionDocumentFormatter accountTransactionDocumentFormatter, FunctionRegistry functionRegistry)
         {
             _cacheService = cacheService;
             _logService = logService;
             _ticketFormatter = ticketFormatter;
+            _accountTransactionDocumentFormatter = accountTransactionDocumentFormatter;
             _functionRegistry = functionRegistry;
             _functionRegistry.RegisterFunctions();
         }
@@ -88,10 +90,19 @@ namespace Samba.Services.Implementations.PrinterModule
             return maps.FirstOrDefault();
         }
 
-        public void PrintTicket(Ticket ticket, PrintJob customPrinter, Func<Order, bool> orderSelector)
+        public void PrintTicket(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
         {
             Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
-            PrintOrders(customPrinter, ticket, orderSelector);
+            PrintOrders(printJob, ticket, orderSelector);
+        }
+
+        public void PrintAccountTransactionDocument(AccountTransactionDocument document, Printer printer, PrinterTemplate printerTemplate)
+        {
+            var lines = _accountTransactionDocumentFormatter.GetFormattedDocument(document, printerTemplate);
+            if (lines != null)
+            {
+                PrintJobFactory.CreatePrintJob(printer).DoPrint(lines);
+            }
         }
 
         public void PrintOrders(PrintJob printJob, Ticket ticket, Func<Order, bool> orderSelector)
@@ -102,18 +113,6 @@ namespace Samba.Services.Implementations.PrinterModule
             IEnumerable<Order> ti;
             switch (printJob.WhatToPrint)
             {
-                //case (int)WhatToPrintTypes.NewLines:
-                //    ti = ticket.GetUnlockedOrders();
-                //    break;
-                //case (int)WhatToPrintTypes.GroupedByBarcode:
-                //    ti = GroupLinesByValue(ticket, x => x.Barcode ?? "", "1", true);
-                //    break;
-                //case (int)WhatToPrintTypes.GroupedByGroupCode:
-                //    ti = GroupLinesByValue(ticket, x => x.GroupCode ?? "", Resources.UndefinedWithBrackets);
-                //    break;
-                //case (int)WhatToPrintTypes.GroupedByTag:
-                //    ti = GroupLinesByValue(ticket, x => x.Tag ?? "", Resources.UndefinedWithBrackets);
-                //    break;
                 case (int)WhatToPrintTypes.LastLinesByPrinterLineCount:
                     ti = GetLastOrders(ticket, printJob);
                     break;
@@ -164,30 +163,6 @@ namespace Samba.Services.Implementations.PrinterModule
                 return result;
             }
             return ticket.Orders.ToList();
-        }
-
-        private IEnumerable<Order> GroupLinesByValue(Ticket ticket, Func<MenuItem, string> selector, string defaultValue, bool calcDiscounts = false)
-        {
-            var discounts = calcDiscounts ? ticket.GetPreTaxServicesTotal() : 0;
-            var di = discounts > 0 ? discounts / ticket.GetPlainSum() : 0;
-            var cache = new Dictionary<string, decimal>();
-            foreach (var order in ticket.Orders.OrderBy(x => x.Id).ToList())
-            {
-                var item = order;
-                var value = _cacheService.GetMenuItemData(item.MenuItemId, selector);
-                if (string.IsNullOrEmpty(value)) value = defaultValue;
-                if (!cache.ContainsKey(value))
-                    cache.Add(value, 0);
-                var total = (item.GetTotal());
-                cache[value] += Decimal.Round(total - (total * di), 2);
-            }
-            return cache.Select(x => new Order
-            {
-                MenuItemName = x.Key,
-                Price = x.Value,
-                Quantity = 1,
-                PortionCount = 1
-            });
         }
 
         private void InternalPrintOrders(PrintJob printJob, Ticket ticket, IEnumerable<Order> orders)

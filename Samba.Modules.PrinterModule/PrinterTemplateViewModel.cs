@@ -23,10 +23,12 @@ namespace Samba.Modules.PrinterModule
             _printerService = printerService;
             LoadTicketTemplateCommand = new CaptionCommand<string>("", OnLoadTicketTemplate);
             LoadKitchenOrderTemplateCommand = new CaptionCommand<string>("", OnLoadKitchenOrderTemplate);
+            LoadCustomerReceiptCommand = new CaptionCommand<string>("", OnLoadCustomerReceiptTemplate);
         }
 
         public ICaptionCommand LoadTicketTemplateCommand { get; set; }
         public ICaptionCommand LoadKitchenOrderTemplateCommand { get; set; }
+        public ICaptionCommand LoadCustomerReceiptCommand { get; set; }
 
         public string Template { get { return Model.Template; } set { Model.Template = value; } }
         public bool MergeLines { get { return Model.MergeLines; } set { Model.MergeLines = value; } }
@@ -52,6 +54,12 @@ namespace Samba.Modules.PrinterModule
         {
             if (string.IsNullOrEmpty(TemplateText.Text) || MessageBox.Show(string.Format(Resources.ReloadPrinterTemplateConfirmation_f, Resources.KitchenOrderTemplate), Resources.Confirmation, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 TemplateText = new TextDocument(DataCreationService.GetDefaultKitchenPrintTemplate());
+        }
+
+        private void OnLoadCustomerReceiptTemplate(string obj)
+        {
+            if (string.IsNullOrEmpty(TemplateText.Text) || MessageBox.Show(string.Format(Resources.ReloadPrinterTemplateConfirmation_f, Resources.CustomerReceiptTemplate), Resources.Confirmation, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                TemplateText = new TextDocument(DataCreationService.GetDefaultCustomerReceiptTemplate());
         }
 
         public override Type GetViewType()

@@ -39,7 +39,7 @@
                     <TextBox HorizontalAlignment="Left" MinWidth="170" Text="{Binding DescriptionTemplate}" />
                     <Label MinWidth="120" Content="{LocText ExchangeRate,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="170" Text="{Binding ExchangeTemplate}" />
-                    
+
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <DataGrid MinWidth="170" ItemsSource="{Binding TransactionTypes}" SelectedItem="{Binding SelectedTransactionType, Mode=TwoWay}"
                                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
@@ -73,7 +73,7 @@
             </TabItem>
             <TabItem Header="{LocText BatchCreate}">
                 <StackPanel>
-                    <CheckBox Content="{LocText BatchCreateDocuments}" IsChecked="{Binding BatchCreateDocuments,Mode=TwoWay}"/>
+                    <CheckBox Margin="0,10,0,0" Content="{LocText BatchCreateDocuments}" IsChecked="{Binding BatchCreateDocuments,Mode=TwoWay}"/>
                     <Label Margin="0,5,0,0" MinWidth="120" Content="{LocText Filter,Suffix=':'}"/>
                     <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding FilterDescriptions}" 
                               SelectedItem="{Binding FilterStr}" IsEnabled="{Binding BatchCreateDocuments}"/>
@@ -131,6 +131,14 @@
                                     </TextBlock>
                         </StackPanel>
                     </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="{LocText PrintMapping}">
+                <StackPanel>
+                    <Label MinWidth="120" Content="{LocText PrinterTemplate,Suffix=':'}"/>
+                    <ComboBox HorizontalAlignment="Left" MinWidth="170" DisplayMemberPath="Name"
+                              IsEditable="True" ItemsSource="{Binding PrinterTemplates}"
+                              SelectedValue="{Binding PrinterTemplateId, FallbackValue=0}" SelectedValuePath="Id" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="{LocText Mappings}">

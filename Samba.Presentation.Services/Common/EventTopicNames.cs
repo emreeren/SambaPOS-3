@@ -37,6 +37,7 @@
         public const string MarkTicketAsClosed = "MarkTicketAsClosed";
         public const string LoadTicket = "LoadTicket";
         public const string LoopValues = "LoopValues";
+        public static string PrintAccountTransactionDocument = "PrintAccountTransactionDocument";
     }
 
     public static class RuleEventNames
@@ -74,6 +75,7 @@
         public const string BeforeTicketClosing = "BeforeTicketClosing";
         public const string DeviceEventGenerated = "DeviceEventGenerated";
         public const string ValueLooped = "ValueLooped";
+        public static string AccountTransactionDocumentCreated = "AccountTransactionDocumentCreated";
     }
 
     public static class EventTopicNames

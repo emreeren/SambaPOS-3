@@ -51,6 +51,7 @@ namespace Samba.Domain.Models.Accounts
         public bool BatchCreateDocuments { get; set; }
         public int Filter { get; set; }
         public int SortOrder { get; set; }
+        public int PrinterTemplateId { get; set; }
 
         public string UserString
         {
@@ -59,7 +60,7 @@ namespace Samba.Domain.Models.Accounts
 
         public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount, decimal exchangeRate, IList<Account> accounts)
         {
-            var result = new AccountTransactionDocument { Name = Name };
+            var result = new AccountTransactionDocument { Name = Name, DocumentTypeId = Id };
             foreach (var accountTransactionType in TransactionTypes)
             {
                 var transaction = AccountTransaction.Create(accountTransactionType);

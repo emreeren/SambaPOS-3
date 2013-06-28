@@ -59,6 +59,14 @@ namespace Samba.Domain.Models.Accounts
         public bool IsReversed { get; set; }
         public bool Reversable { get; set; }
 
+        public decimal Balance { get
+        {
+            if (SourceTransactionValue == null || TargetTransactionValue == null) return 0;
+
+            return (SourceTransactionValue.Debit - SourceTransactionValue.Credit) +
+                   (TargetTransactionValue.Debit - TargetTransactionValue.Credit);
+        } }
+
         private IList<AccountTransactionValue> _accountTransactionValues;
         public virtual IList<AccountTransactionValue> AccountTransactionValues
         {

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
@@ -25,20 +26,49 @@ namespace Samba.Modules.AccountModule
 
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;
+        private readonly IPrinterService _printerService;
+        private readonly IApplicationState _applicationState;
         private AccountTransactionDocumentType _selectedDocumentType;
 
         public CaptionCommand<string> CreateDocuments { get; set; }
         public CaptionCommand<string> GoBack { get; set; }
+        public CaptionCommand<string> Print { get; set; }
 
         [ImportingConstructor]
-        public BatchDocumentCreatorViewModel(IAccountService accountService, ICacheService cacheService)
+        public BatchDocumentCreatorViewModel(IAccountService accountService, ICacheService cacheService,
+            IPrinterService printerService, IApplicationState applicationState)
         {
             Accounts = new ObservableCollection<AccountRowViewModel>();
             _accountService = accountService;
             _cacheService = cacheService;
+            _printerService = printerService;
+            _applicationState = applicationState;
             CreateDocuments = new CaptionCommand<string>(string.Format(Resources.Create_f, "").Trim(), OnCreateDocuments, CanCreateDocument);
             GoBack = new CaptionCommand<string>(Resources.Back, OnGoBack);
+            Print = new CaptionCommand<string>(Resources.Print, OnPrint);
         }
+
+        public string Title { get { return SelectedDocumentType != null ? SelectedDocumentType.Name : ""; } }
+        public string Description { get; set; }
+        public ObservableCollection<AccountRowViewModel> Accounts { get; set; }
+        public bool IsPrintButtonVisible { get { return SelectedPrinterTemplate != null && SelectedPrinter != null; } }
+
+        public AccountTransactionDocumentType SelectedDocumentType
+        {
+            get { return _selectedDocumentType; }
+            set
+            {
+                if (Equals(value, _selectedDocumentType)) return;
+                _selectedDocumentType = value;
+                RaisePropertyChanged(() => SelectedDocumentType);
+                RaisePropertyChanged(() => Title);
+                RaisePropertyChanged(() => IsPrintButtonVisible);
+            }
+        }
+
+        public Printer SelectedPrinter { get { return _applicationState.GetTransactionPrinter(); } }
+        public PrinterTemplate SelectedPrinterTemplate { get { return _cacheService.GetPrinterTemplates().FirstOrDefault(x => x.Id == SelectedDocumentType.PrinterTemplateId); } }
+
 
         private void OnGoBack(string obj)
         {
@@ -47,19 +77,52 @@ namespace Samba.Modules.AccountModule
 
         public IEnumerable<AccountType> GetNeededAccountTypes()
         {
-            return
-                SelectedDocumentType.GetNeededAccountTypes().Select(x => _cacheService.GetAccountTypeById(x));
+            return SelectedDocumentType.GetNeededAccountTypes().Select(x => _cacheService.GetAccountTypeById(x));
+        }
+
+        private void OnPrint(string obj)
+        {
+            BatchCreate(CreatePrintDocument);
         }
 
         private void OnCreateDocuments(string obj)
+        {
+            BatchCreate(CreateDocument);
+        }
+
+        private void BatchCreate(Func<AccountRowViewModel, AccountTransactionDocument> action)
         {
             if (Accounts.Where(x => x.IsSelected).Any(x => x.TargetAccounts.Any(y => y.SelectedAccountId == 0))) return;
             Accounts
                 .Where(x => x.IsSelected && x.Amount != 0)
                 .AsParallel()
                 .SetCulture()
-                .ForAll(x => _accountService.CreateTransactionDocument(x.Account, SelectedDocumentType, x.Description, x.Amount, x.TargetAccounts.Select(y => new Account { Id = y.SelectedAccountId, AccountTypeId = y.AccountType.Id })));
+                .ForAll(x => action(x));
+
             SelectedDocumentType.PublishEvent(EventTopicNames.BatchDocumentsCreated);
+        }
+
+        private AccountTransactionDocument CreateDocument(AccountRowViewModel accountRowViewModel)
+        {
+            return _accountService.CreateTransactionDocument(accountRowViewModel.Account,
+                                                       SelectedDocumentType, accountRowViewModel.Description,
+                                                       accountRowViewModel.Amount,
+                                                       accountRowViewModel.TargetAccounts.Select(
+                                                           y =>
+                                                           new Account
+                                                           {
+                                                               Id = y.SelectedAccountId,
+                                                               AccountTypeId = y.AccountType.Id
+                                                           }));
+        }
+
+        private AccountTransactionDocument CreatePrintDocument(AccountRowViewModel accountRowViewModel)
+        {
+            if (SelectedPrinterTemplate == null) return null;
+            if (SelectedPrinter == null) return null;
+            var document = CreateDocument(accountRowViewModel);
+            _printerService.PrintAccountTransactionDocument(document, SelectedPrinter, SelectedPrinterTemplate);
+            return document;
         }
 
         private bool CanCreateDocument(string arg)
@@ -82,22 +145,6 @@ namespace Samba.Modules.AccountModule
         private IEnumerable<Account> GetAccounts(AccountTransactionDocumentType documentType)
         {
             return _accountService.GetDocumentAccounts(documentType);
-        }
-
-        public string Title { get { return SelectedDocumentType != null ? SelectedDocumentType.Name : ""; } }
-        public string Description { get; set; }
-        public ObservableCollection<AccountRowViewModel> Accounts { get; set; }
-
-        public AccountTransactionDocumentType SelectedDocumentType
-        {
-            get { return _selectedDocumentType; }
-            set
-            {
-                if (Equals(value, _selectedDocumentType)) return;
-                _selectedDocumentType = value;
-                RaisePropertyChanged(() => SelectedDocumentType);
-                RaisePropertyChanged(() => Title);
-            }
         }
 
     }

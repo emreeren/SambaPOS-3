@@ -116,6 +116,8 @@
     <Compile Include="Implementations\MenuModule\MenuService.cs" />
     <Compile Include="Implementations\MenuModule\PriceListService.cs" />
     <Compile Include="Implementations\Messaging\MessagingService.cs" />
+    <Compile Include="Implementations\PrinterModule\AccountTransactionDocumentFormatter.cs" />
+    <Compile Include="Implementations\PrinterModule\ValueChangers\AccountTransactionDocumentValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\AbstractLineFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\BoxFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\CenterAlignFormatter.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="Implementations\PrinterModule\Tools\PrinterInfo.cs" />
     <Compile Include="Implementations\PrinterModule\Tools\PrinterTools.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\AbstractValueChanger.cs" />
+    <Compile Include="Implementations\PrinterModule\ValueChangers\AccountTransactionValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\ChangePaymentValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\EntityValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\FunctionData.cs" />
@@ -165,7 +168,7 @@
     <Compile Include="Implementations\PrinterModule\ValueChangers\PreCalculationValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\TagNames.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\TaxValueChanger.cs" />
-    <Compile Include="Implementations\PrinterModule\ValueChangers\TicketFormatter.cs" />
+    <Compile Include="Implementations\PrinterModule\TicketFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\TicketValueChanger.cs" />
     <Compile Include="Implementations\SettingsModule\ProgramSetting.cs" />
     <Compile Include="Implementations\SettingsModule\ProgramSettings.cs" />

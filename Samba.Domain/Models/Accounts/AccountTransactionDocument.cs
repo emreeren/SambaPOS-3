@@ -14,6 +14,7 @@ namespace Samba.Domain.Models.Accounts
         }
 
         public DateTime Date { get; set; }
+        public int DocumentTypeId { get; set; }
 
         private IList<AccountTransaction> _accountTransactions;
         public virtual IList<AccountTransaction> AccountTransactions
@@ -32,7 +33,6 @@ namespace Samba.Domain.Models.Accounts
         public AccountTransaction AddNewTransaction(AccountTransactionType template, IEnumerable<AccountData> accountDataList, decimal amount, decimal exchangeRate)
         {
             var transaction = AccountTransaction.Create(template, accountDataList);
-            //transaction.UpdateAccounts(account.AccountTypeId, account.Id);
             transaction.UpdateAmount(amount, exchangeRate);
             AccountTransactions.Add(transaction);
             return transaction;

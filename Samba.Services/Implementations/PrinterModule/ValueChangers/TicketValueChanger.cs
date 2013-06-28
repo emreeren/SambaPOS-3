@@ -45,7 +45,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             result = _taxValueChanger.Replace(template, result, GetTaxValues(model));
             result = _orderValueChanger.Replace(template, result, model.Orders);
             return result;
-
         }
 
         internal IEnumerable<TaxValue> GetTaxValues(Ticket ticket)

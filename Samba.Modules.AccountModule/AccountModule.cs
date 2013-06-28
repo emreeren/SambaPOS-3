@@ -24,6 +24,8 @@ namespace Samba.Modules.AccountModule
         private readonly IAccountService _accountService;
         private readonly ITicketService _ticketService;
         private readonly ICacheService _cacheService;
+        private readonly IApplicationState _applicationState;
+        private readonly IPrinterService _printerService;
         private readonly AccountSelectorView _accountSelectorView;
         private readonly AccountSelectorViewModel _accountSelectorViewModel;
         private readonly AccountDetailsView _accountDetailsView;
@@ -38,6 +40,8 @@ namespace Samba.Modules.AccountModule
             IAccountService accountService,
             ITicketService ticketService,
             ICacheService cacheService,
+            IApplicationState applicationState,
+            IPrinterService printerService,
             AccountSelectorView accountSelectorView, AccountSelectorViewModel accountSelectorViewModel,
             AccountDetailsView accountDetailsView,
             DocumentCreatorView documentCreatorView,
@@ -49,6 +53,8 @@ namespace Samba.Modules.AccountModule
             _accountService = accountService;
             _ticketService = ticketService;
             _cacheService = cacheService;
+            _applicationState = applicationState;
+            _printerService = printerService;
             _accountSelectorView = accountSelectorView;
             _accountSelectorViewModel = accountSelectorViewModel;
             _accountDetailsView = accountDetailsView;
@@ -70,7 +76,7 @@ namespace Samba.Modules.AccountModule
 
             automationService.RegisterActionType(ActionNames.CreateAccountTransactionDocument, string.Format(Resources.Create_f, Resources.AccountTransactionDocument), new { AccountTransactionDocumentName = "" });
             automationService.RegisterActionType(ActionNames.CreateAccountTransaction, string.Format(Resources.Create_f, Resources.AccountTransaction), new { AccountTransactionTypeName = "", Amount = 0m });
-
+            automationService.RegisterActionType(ActionNames.PrintAccountTransactionDocument, Resources.PrintAccountTransactionDocument, new { DocumentId = 0, PrinterName = "", PrinterTemplateName = "" });
         }
 
         protected override void OnInitialization()
@@ -88,6 +94,29 @@ namespace Samba.Modules.AccountModule
 
         private void OnActionData(EventParameters<ActionData> ep)
         {
+            if (ep.Value.Action.ActionType == ActionNames.PrintAccountTransactionDocument)
+            {
+                var documentId = ep.Value.GetAsInteger("DocumentId");
+                var document = _accountService.GetAccountTransactionDocumentById(documentId);
+                if (document == null) return;
+                var printerName = ep.Value.GetAsString("PrinterName");
+                var printerTemplateName = ep.Value.GetAsString("PrinterTemplateName");
+                var printer = _cacheService.GetPrinters().FirstOrDefault(x => x.Name == printerName);
+                var printerTemplate = _cacheService.GetPrinterTemplates().FirstOrDefault(y => y.Name == printerTemplateName);
+                if (printer == null)
+                {
+                    printer = _applicationState.GetTransactionPrinter();
+                }
+                if (printerTemplate == null)
+                {
+                    var documentType = _cacheService.GetAccountTransactionDocumentTypeById(document.DocumentTypeId);
+                    printerTemplate = _cacheService.GetPrinterTemplates().First(x => x.Id == documentType.PrinterTemplateId);
+                }
+                if (printer == null) return;
+                if (printerTemplate == null) return;
+                _printerService.PrintAccountTransactionDocument(document, printer, printerTemplate);
+            }
+
             if (ep.Value.Action.ActionType == ActionNames.CreateAccountTransactionDocument)
             {
                 var documentName = ep.Value.GetAsString("AccountTransactionDocumentName");

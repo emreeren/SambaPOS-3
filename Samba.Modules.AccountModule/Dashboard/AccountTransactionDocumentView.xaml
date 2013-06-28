@@ -107,10 +107,12 @@
         </DataGrid>
         <StackPanel Grid.Row="2">
             <StackPanel Orientation="Horizontal">
-                <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
+                <Button HorizontalAlignment="Left" Margin="0,10,0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
-                <Button HorizontalAlignment="Left" Margin="4,10" MinWidth="70" Content="{Binding AddItemCommand.Caption}"
+                <Button HorizontalAlignment="Left" Margin="10,10,0,10" MinWidth="70" Content="{Binding AddItemCommand.Caption}"
                  Command="{Binding AddItemCommand}" />
+                <Button HorizontalAlignment="Left" Margin="10,10,0,10" MinWidth="70" Content="{Binding PrintCommand.Caption}"
+                 Command="{Binding PrintCommand}" />
             </StackPanel>
             <Label Content="{Binding Error}" Foreground="Red" />
         </StackPanel>

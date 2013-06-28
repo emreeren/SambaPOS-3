@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
+using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 
@@ -17,13 +20,18 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;
+        private readonly IPrinterService _printerService;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public DocumentCreatorViewModel(IAccountService accountService, ICacheService cacheService)
+        public DocumentCreatorViewModel(IAccountService accountService, ICacheService cacheService, IPrinterService printerService, IApplicationState applicationState)
         {
             _accountService = accountService;
             _cacheService = cacheService;
+            _printerService = printerService;
+            _applicationState = applicationState;
             SaveCommand = new CaptionCommand<string>(Resources.Save, OnSave);
+            PrintCommand = new CaptionCommand<string>("Print", OnPrint);
             CancelCommand = new CaptionCommand<string>(Resources.Cancel, OnCancel);
             EventServiceFactory.EventService.GetEvent<GenericEvent<DocumentCreationData>>().Subscribe(OnDocumentCreation);
         }
@@ -39,6 +47,7 @@ namespace Samba.Modules.AccountModule
             RaisePropertyChanged(() => Description);
             RaisePropertyChanged(() => Amount);
             RaisePropertyChanged(() => AccountName);
+            RaisePropertyChanged(() => IsPrintCommandVisible);
         }
 
         private IEnumerable<AccountSelectViewModel> GetAccountSelectors()
@@ -61,8 +70,12 @@ namespace Samba.Modules.AccountModule
         public AccountTransactionDocumentType DocumentType { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
+        public bool IsPrintCommandVisible { get { return DocumentType.PrinterTemplateId > 0; } }
         public ICaptionCommand SaveCommand { get; set; }
+        public ICaptionCommand PrintCommand { get; set; }
         public ICaptionCommand CancelCommand { get; set; }
+        public Printer SelectedPrinter { get { return _applicationState.GetTransactionPrinter(); } }
+        public PrinterTemplate SelectedPrinterTemplate { get { return _cacheService.GetPrinterTemplates().First(x => x.Id == DocumentType.PrinterTemplateId); } }
 
         private IEnumerable<AccountSelectViewModel> _accountSelectors;
         public IEnumerable<AccountSelectViewModel> AccountSelectors
@@ -82,9 +95,38 @@ namespace Samba.Modules.AccountModule
 
         private void OnSave(string obj)
         {
-            if (AccountSelectors.Any(x => x.SelectedAccountId == 0)) return;
-            _accountService.CreateTransactionDocument(SelectedAccount, DocumentType, Description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTypeId = x.AccountType.Id }));
-            CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedAccount), EventTopicNames.DisplayAccountTransactions);
+            Action(CreateDocument);
+        }
+
+        private void OnPrint(string obj)
+        {
+            Action(PrintDocument);
+        }
+
+        public void Action(Func<AccountTransactionDocument> action)
+        {
+            var document = action();
+            if (document != null)
+            {
+                _applicationState.NotifyEvent(RuleEventNames.AccountTransactionDocumentCreated, new { DocumentType = DocumentType.Name, DocumentId = document.Id });
+                CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedAccount), EventTopicNames.DisplayAccountTransactions);
+            }
+        }
+
+        public AccountTransactionDocument CreateDocument()
+        {
+            if (AccountSelectors.Any(x => x.SelectedAccountId == 0)) return null;
+            return _accountService.CreateTransactionDocument(SelectedAccount, DocumentType, Description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTypeId = x.AccountType.Id }));
+        }
+
+        public AccountTransactionDocument PrintDocument()
+        {
+            if (SelectedPrinter == null) return null;
+            if (SelectedPrinterTemplate == null) return null;
+            var document = CreateDocument();
+            if (document == null) return null;
+            _printerService.PrintAccountTransactionDocument(document, SelectedPrinter, SelectedPrinterTemplate);
+            return document;
         }
     }
 }

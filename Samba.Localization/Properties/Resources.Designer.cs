@@ -187,6 +187,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Transaction Document Created.
+        /// </summary>
+        public static string AccountTransactionDocumentCreated {
+            get {
+                return ResourceManager.GetString("AccountTransactionDocumentCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Transaction Type.
         /// </summary>
         public static string AccountTransactionType {
@@ -1742,6 +1751,15 @@ namespace Samba.Localization.Properties {
         public static string CustomerAccount {
             get {
                 return ResourceManager.GetString("CustomerAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Receipt Template.
+        /// </summary>
+        public static string CustomerReceiptTemplate {
+            get {
+                return ResourceManager.GetString("CustomerReceiptTemplate", resourceCulture);
             }
         }
         
@@ -5403,6 +5421,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print Account Transaction Document.
+        /// </summary>
+        public static string PrintAccountTransactionDocument {
+            get {
+                return ResourceManager.GetString("PrintAccountTransactionDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Print Bill.
         /// </summary>
         public static string PrintBill {
@@ -5762,6 +5789,15 @@ namespace Samba.Localization.Properties {
         public static string RateOrAmount {
             get {
                 return ResourceManager.GetString("RateOrAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Receipt.
+        /// </summary>
+        public static string Receipt {
+            get {
+                return ResourceManager.GetString("Receipt", resourceCulture);
             }
         }
         
@@ -7936,6 +7972,15 @@ namespace Samba.Localization.Properties {
         public static string TransactionMultiplierError {
             get {
                 return ResourceManager.GetString("TransactionMultiplierError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Printer.
+        /// </summary>
+        public static string TransactionPrinter {
+            get {
+                return ResourceManager.GetString("TransactionPrinter", resourceCulture);
             }
         }
         

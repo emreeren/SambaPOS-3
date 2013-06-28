@@ -47,6 +47,7 @@
                         <ContextMenu>
                             <MenuItem Header="{LocText TicketTemplate}" Command="{Binding LoadTicketTemplateCommand}"></MenuItem>
                             <MenuItem Header="{LocText KitchenOrderTemplate}" Command="{Binding LoadKitchenOrderTemplateCommand}"></MenuItem>
+                            <MenuItem Header="{LocText CustomerReceiptTemplate}" Command="{Binding LoadCustomerReceiptCommand}"></MenuItem>
                         </ContextMenu>
                     </uiControls:DropDownButton.DropDown>
                 </uiControls:DropDownButton>

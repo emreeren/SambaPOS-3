@@ -22,7 +22,7 @@ namespace Samba.Services
         int CreateAccount(int accountTypeId, string accountName);
         IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType documentType);
         void CreateBatchAccountTransactionDocument(string documentName);
-        void CreateTransactionDocument(Account account, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts);
-
+        AccountTransactionDocument CreateTransactionDocument(Account account, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts);
+        AccountTransactionDocument GetAccountTransactionDocumentById(int documentId);
     }
 }

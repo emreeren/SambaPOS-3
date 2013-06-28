@@ -32,7 +32,9 @@ namespace Samba.Persistance.Implementations
     {
         public override string GetErrorMessage(Printer model)
         {
-            if (Dao.Exists<Terminal>(x => x.ReportPrinter.Id == model.Id))
+            if (Dao.Exists<Terminal>(x => x.ReportPrinterId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.Terminal);        
+            if (Dao.Exists<Terminal>(x => x.TransactionPrinterId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.Terminal);
             if (Dao.Exists<PrinterMap>(x => x.PrinterId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.PrintJob);
