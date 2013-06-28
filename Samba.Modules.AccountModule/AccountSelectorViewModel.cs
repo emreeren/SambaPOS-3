@@ -21,7 +21,7 @@ namespace Samba.Modules.AccountModule
 {
     public class AccountRowData
     {
-        public AccountRowData(string name, decimal balance, decimal exchange, int accountId, string currencyFormat, int accountTypeId)
+        public AccountRowData(string name, decimal balance, decimal exchange, int accountId, string currencyFormat, int accountTypeId, string groupKey)
         {
             Name = name;
             Balance = balance;
@@ -29,6 +29,7 @@ namespace Samba.Modules.AccountModule
             CurrencyFormat = currencyFormat;
             AccountId = accountId;
             AccountTypeId = accountTypeId;
+            GroupKey = groupKey;
         }
 
         protected string CurrencyFormat { get; set; }
@@ -48,6 +49,7 @@ namespace Samba.Modules.AccountModule
         public decimal Exchange { get; set; }
         public string Fill { get; set; }
         public int AccountTypeId { get; set; }
+        public string GroupKey { get; set; }
     }
 
     [Export]
@@ -122,20 +124,38 @@ namespace Samba.Modules.AccountModule
             _batchDocumentButtons = null;
             _selectedAccountScreen = accountScreen;
             _accounts.Clear();
-             var rows = new List<AccountRowData>();
-            
+            var rows = new List<AccountRowData>();
+
             var detailedTemplateNames = accountScreen.AccountScreenValues.Where(x => x.DisplayDetails).Select(x => x.AccountTypeId);
-            _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => rows.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, x.Key.Id, GetCurrencyFormat(x.Key.ForeignCurrencyId), x.Key.AccountTypeId)));
+            _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => rows.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, x.Key.Id, GetCurrencyFormat(x.Key.ForeignCurrencyId), x.Key.AccountTypeId, GetGroupKey(accountScreen, x.Key.AccountTypeId))));
 
             var templateTotals = accountScreen.AccountScreenValues.Where(x => !x.DisplayDetails).Select(x => x.AccountTypeId);
-            _accountService.GetAccountTypeBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => rows.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, 0, "", x.Key.Id)));
+            _accountService.GetAccountTypeBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => rows.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, 0, "", x.Key.Id, GetGroupKey(accountScreen, x.Key.Id))));
 
-            _accounts.AddRange(rows.OrderBy(x => GetSortOrder(accountScreen.AccountScreenValues, x.AccountTypeId)).ToList());
+            var hideIfZeroBalanceTypeIds =
+                accountScreen.AccountScreenValues.Where(x => x.HideZeroBalanceAccounts).Select(x => x.AccountTypeId).ToList();
+
+            _accounts.AddRange(rows.Where(x => ShouldKeepAccount(x, hideIfZeroBalanceTypeIds))
+                .OrderBy(x => GetSortOrder(accountScreen.AccountScreenValues, x.AccountTypeId))
+                .ThenBy(x => x.Name).ToList());
+
 
             RaisePropertyChanged(() => BatchDocumentButtons);
             RaisePropertyChanged(() => AccountButtons);
 
             OnRefreshed();
+        }
+
+        private static string GetGroupKey(AccountScreen accountScreen, int accountTypeId)
+        {
+            if (!accountScreen.DisplayAsTree) return null;
+            return accountScreen.AccountScreenValues.Single(x => x.AccountTypeId == accountTypeId).AccountTypeName;
+        }
+
+        private static bool ShouldKeepAccount(AccountRowData accountRowData, IList<int> hideIfZeroBalanceTypeIds)
+        {
+            return !hideIfZeroBalanceTypeIds.Contains(accountRowData.AccountTypeId) ||
+                   (hideIfZeroBalanceTypeIds.Contains(accountRowData.AccountTypeId) && accountRowData.Balance != 0);
         }
 
         private int GetSortOrder(IEnumerable<AccountScreenValue> values, int accountTypeId)

@@ -3,8 +3,29 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton" mc:Ignorable="d" 
+			 xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton"
+             xmlns:local="clr-namespace:Samba.Modules.AccountModule" mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300" FontSize="16">
+    
+    <UserControl.Resources>
+        <local:AccountGroupsConverter  x:Key="AccountGroupsConverter" />
+
+        <CollectionViewSource x:Key='viewSource' Source="{Binding Accounts}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="GroupKey" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+        <Style x:Key="GroupLabelStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Name}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="9*"/>
@@ -28,8 +49,8 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <ListView Name="MainListView" FontSize="20" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}"
-				   ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}">
+        <ListView Name="MainListView" FontSize="20" Grid.Column="0" Grid.Row="1" ItemsSource='{Binding Source={StaticResource viewSource}}' SelectedItem="{Binding SelectedAccount}"
+				   ItemContainerStyle="{StaticResource ListViewItemExContainerStyle}" Grid.IsSharedSizeScope="True">
             <ListView.View>
                 <GridView>
                     <GridView.ColumnHeaderContainerStyle>
@@ -41,7 +62,7 @@
                         <GridViewColumn Header="{LocText Name_f, FormatSegment1={LocText Account}}" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock MinWidth="250" Text="{Binding Name}"
+                                    <TextBlock MinWidth="250" Margin="15,0,0,0" Text="{Binding Name}"
 													 TextAlignment="Left" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -63,6 +84,41 @@
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
+            <ItemsControl.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,1,0,5" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Border BorderThickness="0,0,0,1" BorderBrush="Gainsboro">
+                                                <Grid Grid.Row="0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Left"/>
+                                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Right"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Margin="5,0,0,0" Grid.Column="0" Text="{Binding Name}" FontWeight="Bold"
+                                                                        Foreground="Gray" Style="{StaticResource GroupLabelStyle}" />
+                                                    <TextBlock Margin="10,0,0,0" Grid.Column="1" TextAlignment="Right"
+                                                               Text="{Binding Path=Items, Converter={StaticResource AccountGroupsConverter}}" FontWeight="Bold"
+                                                               Foreground="Gray" Style="{StaticResource GroupLabelStyle}" />
+                                                </Grid>
+                                            </Border>
+                                            <ItemsPresenter Grid.Row="1" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ItemsControl.GroupStyle>
         </ListView>
         <StackPanel Grid.Column="1" Grid.Row="1" Background="LightGray">
             <FlexButton:FlexButton Height="60" FontSize="20" Margin="2" Command="{Binding ShowAccountDetailsCommand}" Content="{Binding ShowAccountDetailsCommand.Caption}"/>

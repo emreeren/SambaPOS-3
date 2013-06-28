@@ -31,6 +31,8 @@ namespace Samba.Modules.AccountModule.Dashboard
         public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
         public string FilterType { get { return FilterTypes[Model.Filter]; } set { Model.Filter = FilterTypes.ToList().IndexOf(value); } }
 
+        public bool DisplayAsTree { get { return Model.DisplayAsTree; } set { Model.DisplayAsTree = value; } }
+
         public CaptionCommand<string> AddScreenFilterCommand { get; set; }
 
         private IEnumerable<AccountType> _accountTypes;
@@ -51,7 +53,6 @@ namespace Samba.Modules.AccountModule.Dashboard
             var values = AccountTypes.Where(x => selectedItems.All(y => y.AccountTypeName != x.Name))
                 .Select(x => new AccountScreenValue { AccountTypeName = x.Name, AccountTypeId = x.Id })
                 .ToList<IOrderable>();
-
             var selectedValues = InteractionService.UserIntraction.ChooseValuesFrom(
                 values,
                 selectedItems.ToList<IOrderable>(),

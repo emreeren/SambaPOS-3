@@ -2241,11 +2241,29 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display as Tree.
+        /// </summary>
+        public static string DisplayAsTree {
+            get {
+                return ResourceManager.GetString("DisplayAsTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display at payment screen.
         /// </summary>
         public static string DisplayAtPaymentScreen {
             get {
                 return ResourceManager.GetString("DisplayAtPaymentScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Details.
+        /// </summary>
+        public static string DisplayDetails {
+            get {
+                return ResourceManager.GetString("DisplayDetails", resourceCulture);
             }
         }
         
@@ -3368,6 +3386,15 @@ namespace Samba.Localization.Properties {
         public static string Hidden {
             get {
                 return ResourceManager.GetString("Hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide Accounts With Zero Balance.
+        /// </summary>
+        public static string HideAccountsWithZeroBalance {
+            get {
+                return ResourceManager.GetString("HideAccountsWithZeroBalance", resourceCulture);
             }
         }
         

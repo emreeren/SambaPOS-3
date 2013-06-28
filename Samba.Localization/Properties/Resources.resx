@@ -3244,4 +3244,13 @@ Error Message:
   <data name="QuantityTotal" xml:space="preserve">
     <value>Quantity Total</value>
   </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Hide Accounts With Zero Balance</value>
+  </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>Display Details</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>Display as Tree</value>
+  </data>
 </root>

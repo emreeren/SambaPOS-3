@@ -7,6 +7,7 @@ namespace Samba.Domain.Models.Accounts
         public int AccountTypeId { get; set; }
         public string AccountTypeName { get; set; }
         public bool DisplayDetails { get; set; }
+        public bool HideZeroBalanceAccounts { get; set; }
 
         public string Name
         {

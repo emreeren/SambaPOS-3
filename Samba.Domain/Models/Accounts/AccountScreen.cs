@@ -15,6 +15,7 @@ namespace Samba.Domain.Models.Accounts
         }
 
         public int Filter { get; set; }
+        public bool DisplayAsTree { get; set; }
 
         private IList<AccountScreenValue> _accountScreenValues;
         public virtual IList<AccountScreenValue> AccountScreenValues

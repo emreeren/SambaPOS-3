@@ -8,10 +8,11 @@
 
     <Grid>
         <StackPanel>
-            <Label Content="{LocText Name,Suffix=':'}"/>            
+            <Label Content="{LocText Name,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
-            <Label Content="{LocText FilterType,Suffix=':'}"/>            
+            <Label Content="{LocText FilterType,Suffix=':'}"/>
             <ComboBox ItemsSource="{Binding FilterTypes}" SelectedItem="{Binding FilterType}" HorizontalAlignment="Left" MinWidth="200"/>
+            <CheckBox Margin="0,10,0,0" IsChecked="{Binding DisplayAsTree}" Content="{LocText DisplayAsTree}"></CheckBox>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Margin="2,3" Text="{LocText AccountType, Suffix=':'}"/>
                 <TextBlock Margin="4,3">
@@ -27,7 +28,8 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{LocText AccountType}" IsReadOnly="True"
                                              MinWidth="100" Binding="{Binding AccountTypeName}" />
-                    <DataGridCheckBoxColumn Header="Display Details" Binding="{Binding DisplayDetails}"/>
+                    <DataGridCheckBoxColumn Header="{LocText DisplayDetails}" Binding="{Binding DisplayDetails}"/>
+                    <DataGridCheckBoxColumn Header="{LocText HideAccountsWithZeroBalance}" Binding="{Binding HideZeroBalanceAccounts}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
