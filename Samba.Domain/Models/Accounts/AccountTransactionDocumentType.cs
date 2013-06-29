@@ -64,7 +64,8 @@ namespace Samba.Domain.Models.Accounts
             foreach (var accountTransactionType in TransactionTypes)
             {
                 var transaction = AccountTransaction.Create(accountTransactionType);
-                transaction.Name = description;
+                if (!string.IsNullOrEmpty(description))
+                    transaction.Name = description;
                 transaction.UpdateAmount(amount, exchangeRate);
                 transaction.UpdateAccount(MasterAccountTypeId, account.Id);
                 if (accounts != null && accounts.Count > 0)

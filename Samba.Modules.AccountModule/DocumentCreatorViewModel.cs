@@ -108,7 +108,7 @@ namespace Samba.Modules.AccountModule
             var document = action();
             if (document != null)
             {
-                _applicationState.NotifyEvent(RuleEventNames.AccountTransactionDocumentCreated, new { DocumentType = DocumentType.Name, DocumentId = document.Id });
+                _applicationState.NotifyEvent(RuleEventNames.AccountTransactionDocumentCreated, new { AccountTransactionDocumentName = DocumentType.Name, DocumentId = document.Id });
                 CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedAccount), EventTopicNames.DisplayAccountTransactions);
             }
         }

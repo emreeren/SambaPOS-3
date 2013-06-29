@@ -276,6 +276,9 @@
   <data name="Account" xml:space="preserve">
     <value>حساب</value>
   </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>تم إنشاء حدث للجهاز</value>
+  </data>
   <data name="Liability" xml:space="preserve">
     <value>مطالبة</value>
   </data>
@@ -363,6 +366,9 @@
   <data name="CashContent" xml:space="preserve">
     <value>محتوى النقد</value>
   </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>حساب</value>
+  </data>
   <data name="Selection_f" xml:space="preserve">
     <value>التحديد: {0}</value>
   </data>
@@ -395,6 +401,12 @@
   </data>
   <data name="VoidOrders" xml:space="preserve">
     <value>إلغاء الطلبات</value>
+  </data>
+  <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
+    <value>يستطيع عرض تذاكر الاخرين</value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>تغيير طريقة الدفع</value>
   </data>
   <data name="AccountNameTemplate" xml:space="preserve">
     <value>قالب اسم الحساب</value>
@@ -633,6 +645,9 @@
   <data name="PropertyGroup" xml:space="preserve">
     <value>مجموعة الخاصية</value>
   </data>
+  <data name="PrintReport" xml:space="preserve">
+    <value>اطبع التقرير</value>
+  </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>رسالة خطأ</value>
   </data>
@@ -701,6 +716,9 @@
   </data>
   <data name="Eleven" xml:space="preserve">
     <value>أحد عشر</value>
+  </data>
+  <data name="BatchCreate" xml:space="preserve">
+    <value>إنشاء الدفعية</value>
   </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>تاريخ آخر طلب</value>
@@ -792,6 +810,9 @@
   <data name="UpdateProgramSetting" xml:space="preserve">
     <value>تحديث إعداد البرنامج</value>
   </data>
+  <data name="TicketState" xml:space="preserve">
+    <value>حالة التذاكر</value>
+  </data>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>مجموعة علامة الطلب</value>
   </data>
@@ -855,6 +876,9 @@
   </data>
   <data name="FixedCost" xml:space="preserve">
     <value>تكلفة ثابتة</value>
+  </data>
+  <data name="Amount_f" xml:space="preserve">
+    <value>المبلغ: {0}</value>
   </data>
   <data name="CategoryProperties" xml:space="preserve">
     <value>خصائص المجموعة</value>
@@ -949,6 +973,9 @@
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
     <value>عند تحديد "تعليمات رقمية" ينبغي أن تحتوي كل العلامات على قيم رقمية.</value>
   </data>
+  <data name="MarkTicketAsClosed" xml:space="preserve">
+    <value>علم التذكرة كمغلقة</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>الهاتف</value>
   </data>
@@ -1000,6 +1027,57 @@
   <data name="SortCategories" xml:space="preserve">
     <value>ترتيب الأصناف</value>
   </data>
+  <data name="TicketTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
+-- General layout
+&lt;T&gt;TICKET
+&lt;L00&gt;التاريخ:{TICKET DATE}
+&lt;L00&gt;الوقت:{TIME}
+{ENTITIES}
+&lt;L00&gt;رقم التذكرة:{TICKET NO}
+&lt;F&gt;-
+{ORDERS}
+&lt;F&gt;=
+&lt;EB&gt;
+{DISCOUNTS}
+&lt;J10&gt;مجموع الهدية:|{ORDER STATE TOTAL:Gift}
+&lt;J10&gt;مجموع:|{TICKET TOTAL}
+{PAYMENTS}
+&lt;DB&gt;
+&lt;F&gt;=
+&lt;C10&gt;شكرا لك
+ 
+[DISCOUNTS]
+&lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
+ 
+[PAYMENTS]
+&lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT}
+ 
+[ORDERS]
+-- Default format for orders
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+ 
+[ORDERS:Gift]
+-- Format for gifted orders
+&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
+{ORDER TAGS}
+ 
+[ORDERS:Void]
+-- Nothing will print for void lines
+ 
+[ORDER TAGS]
+-- Format for order tags
+&lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
+ 
+[ENTITIES:Table]
+-- Table entity format
+&lt;L00&gt;Table: {ENTITY NAME}
+ 
+[ENTITIES:Customer]
+-- Customer entity format
+&lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
+  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>تغيير السعر</value>
   </data>
@@ -1030,6 +1108,9 @@
   <data name="ItemProperties" xml:space="preserve">
     <value>خصائص عنصر إضافي</value>
   </data>
+  <data name="Period_f" xml:space="preserve">
+    <value>الفترة: {0}</value>
+  </data>
   <data name="Change_f" xml:space="preserve">
     <value>الصرف: {0}</value>
   </data>
@@ -1038,6 +1119,9 @@
   </data>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>المعاملات يجب أن لا يكون فارغاً</value>
+  </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>تذييل المجموعة</value>
   </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>إجمالي المصروفات</value>
@@ -1068,6 +1152,9 @@
   </data>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>يتعذر حذف ال{0} لانها مستخدمة من قبل {1}</value>
+  </data>
+  <data name="BeforeTicketClosing" xml:space="preserve">
+    <value>قبل إغلاق التذكرة</value>
   </data>
   <data name="Decrease" xml:space="preserve">
     <value>النقصان</value>
@@ -1111,6 +1198,9 @@
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>يستطيع تحريك أسطر التذاكر الغير مقفلة</value>
   </data>
+  <data name="TaxRate" xml:space="preserve">
+    <value>معدل الضريبة</value>
+  </data>
   <data name="PaymentScreenSettings" xml:space="preserve">
     <value>إعدادات شاشة الدفع</value>
   </data>
@@ -1140,6 +1230,9 @@
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>ارتفاع لوحة الأرقام</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>خدمة</value>
   </data>
   <data name="Receiveable" xml:space="preserve">
     <value>مستحقة</value>
@@ -1416,6 +1509,9 @@
   <data name="Billion" xml:space="preserve">
     <value>مليار</value>
   </data>
+  <data name="GroupKey" xml:space="preserve">
+    <value>مفتاح المجموعة</value>
+  </data>
   <data name="UsePlainSum" xml:space="preserve">
     <value>استخدم الجمع المبسط</value>
   </data>
@@ -1434,6 +1530,9 @@
   <data name="ViewMode" xml:space="preserve">
     <value>وضع العرض</value>
   </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>المبلغ الخاضع للضريبة</value>
+  </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>طابعة التذاكر</value>
   </data>
@@ -1451,6 +1550,9 @@
   </data>
   <data name="Source" xml:space="preserve">
     <value>المصدر</value>
+  </data>
+  <data name="DefaultSourceAccount" xml:space="preserve">
+    <value>حساب المصدر الافتراضي</value>
   </data>
   <data name="AddOrder" xml:space="preserve">
     <value>إضافة طلب</value>
@@ -1569,6 +1671,9 @@
   <data name="InternalAccounts" xml:space="preserve">
     <value>الحسابات الداخلية</value>
   </data>
+  <data name="TaxFree" xml:space="preserve">
+    <value>بدون ضريبة</value>
+  </data>
   <data name="POSView" xml:space="preserve">
     <value>عرض نقاط البيع</value>
   </data>
@@ -1589,6 +1694,9 @@
   </data>
   <data name="AccountMap" xml:space="preserve">
     <value>خريطة حساب</value>
+  </data>
+  <data name="GroupTotal" xml:space="preserve">
+    <value>مجموع المجموعة</value>
   </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>حدد نطاق التاريخ ثم حدث التقرير وانقر على الارتباطات ذات الصلة لتصدير البيانات.</value>
@@ -1659,6 +1767,9 @@
   <data name="TipsTotal" xml:space="preserve">
     <value>مجموع الإكراميات</value>
   </data>
+  <data name="OrderGrouping" xml:space="preserve">
+    <value>تجميع الطلبات</value>
+  </data>
   <data name="Default_f" xml:space="preserve">
     <value>الافتراضي: {0}</value>
   </data>
@@ -1673,6 +1784,9 @@
   </data>
   <data name="Transaction" xml:space="preserve">
     <value>عمليات</value>
+  </data>
+  <data name="StartProcess" xml:space="preserve">
+    <value>بدء عملية</value>
   </data>
   <data name="EntityType" xml:space="preserve">
     <value>نوع الكيان</value>
@@ -1704,6 +1818,9 @@
   </data>
   <data name="Rounding" xml:space="preserve">
     <value>تقريب</value>
+  </data>
+  <data name="OrderStateValue" xml:space="preserve">
+    <value>قيمة الدولة أمر</value>
   </data>
   <data name="SqlHint" xml:space="preserve">
     <value>للمزيد من المعلومات حول التعامل مع قواعد بيانات SQL اضغط هنا</value>
@@ -1746,6 +1863,9 @@
   </data>
   <data name="InventoryConsumption" xml:space="preserve">
     <value>استهلاك المخزون</value>
+  </data>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>حساب معين</value>
   </data>
   <data name="Weekday" xml:space="preserve">
     <value>يوم الأسبوع</value>
@@ -1816,6 +1936,9 @@
   <data name="Restaurant" xml:space="preserve">
     <value>مطعم</value>
   </data>
+  <data name="OrderTagValue" xml:space="preserve">
+    <value>قيمة علامة ترتيب</value>
+  </data>
   <data name="Total_f" xml:space="preserve">
     <value>{0} المجموع</value>
   </data>
@@ -1869,6 +1992,9 @@
   </data>
   <data name="Hidden" xml:space="preserve">
     <value>مخفي</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>تسجيل خروج</value>
   </data>
   <data name="LastLinesByPrinterLineCount" xml:space="preserve">
     <value>الاسطر الاخيرة بعدد اسطر الطابعة</value>
@@ -2017,8 +2143,14 @@
   <data name="Market" xml:space="preserve">
     <value>سوق</value>
   </data>
+  <data name="TotalTaxableAmount" xml:space="preserve">
+    <value>مجموع المبلغ الخاضع للضريبة</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>ارتفاع الزر الفرعي</value>
+  </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>كيان البحث</value>
   </data>
   <data name="ThisMonth" xml:space="preserve">
     <value>هذا الشهر</value>
@@ -2273,6 +2405,9 @@
   <data name="ChangeAmountUpdated" xml:space="preserve">
     <value>تحديث مقدار التغيير </value>
   </data>
+  <data name="TaxAmount" xml:space="preserve">
+    <value>مبلغ الضريبة</value>
+  </data>
   <data name="TicketClosing" xml:space="preserve">
     <value>إغلاق التذكرة</value>
   </data>
@@ -2369,8 +2504,14 @@
   <data name="OrderStateGroup" xml:space="preserve">
     <value>مجموعة حالة الطلب</value>
   </data>
+  <data name="AskTicketType" xml:space="preserve">
+    <value>اسأل عن نوع التذكرة</value>
+  </data>
   <data name="Negative" xml:space="preserve">
     <value>سالب</value>
+  </data>
+  <data name="LoadTicket" xml:space="preserve">
+    <value>تحميل التذكرة</value>
   </data>
   <data name="TicketTipTotal" xml:space="preserve">
     <value>مجموع الإكرامية</value>
@@ -2414,6 +2555,9 @@
   <data name="Default" xml:space="preserve">
     <value>الافتراضي</value>
   </data>
+  <data name="ProductTag" xml:space="preserve">
+    <value>علامة المنتج</value>
+  </data>
   <data name="TaskType" xml:space="preserve">
     <value>نوع المهمة</value>
   </data>
@@ -2431,6 +2575,9 @@
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>هاتف</value>
+  </data>
+  <data name="BatchCreateDocuments" xml:space="preserve">
+    <value>دفعة إنشاء الوثائق</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>زبون</value>
@@ -2527,6 +2674,9 @@
   </data>
   <data name="FieldType" xml:space="preserve">
     <value>نوع الحقل</value>
+  </data>
+  <data name="SourceAccountTypeDesc" xml:space="preserve">
+    <value>نوع الحساب المصدر (مدين)</value>
   </data>
   <data name="OrderUntagged" xml:space="preserve">
     <value>إلغي تعليم الطلب</value>
@@ -2652,6 +2802,9 @@
   <data name="Ninety" xml:space="preserve">
     <value>تسعين</value>
   </data>
+  <data name="DefaultTargetAccount" xml:space="preserve">
+    <value>حساب الهدف الافتراضي</value>
+  </data>
   <data name="PrinterName" xml:space="preserve">
     <value>اسم الطابعة</value>
   </data>
@@ -2711,6 +2864,9 @@
   </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>عدد الأعمدة</value>
+  </data>
+  <data name="WindowScale" xml:space="preserve">
+    <value>مقياس الشاشة</value>
   </data>
   <data name="DisplayFormat" xml:space="preserve">
     <value>تنسيق العرض</value>
@@ -2798,6 +2954,9 @@
   </data>
   <data name="Exit" xml:space="preserve">
     <value>خروج</value>
+  </data>
+  <data name="TargetAccountTypeDesc" xml:space="preserve">
+    <value>نوع الحساب المستهدف (الائتمان)</value>
   </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>نص مكتوب القيمة الإجمالية</value>

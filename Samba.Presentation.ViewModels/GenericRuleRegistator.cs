@@ -118,7 +118,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.EntitySelected, Resources.EntitySelected, new { EntityTypeName = "", EntityName = "", EntityCustomData = "", IsTicketSelected = false });
             AutomationService.RegisterEvent(RuleEventNames.EntityUpdated, Resources.EntityUpdated, new { EntityTypeName = "", OpenTicketCount = 0 });
             AutomationService.RegisterEvent(RuleEventNames.EntityStateUpdated, Resources.EntityStateUpdated, new { EntityTypeName = "", StateName = "", State = "" });
-            AutomationService.RegisterEvent(RuleEventNames.AccountTransactionDocumentCreated, Resources.AccountTransactionDocumentCreated, new { DocumentType = "", DocumentId = 0 });
+            AutomationService.RegisterEvent(RuleEventNames.AccountTransactionDocumentCreated, Resources.AccountTransactionDocumentCreated, new { AccountTransactionDocumentName = "", DocumentId = 0 });
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
             AutomationService.RegisterEvent(RuleEventNames.DeviceEventGenerated, Resources.DeviceEventGenerated, new { DeviceName = "", EventName = "", EventData = "" });
             AutomationService.RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted);

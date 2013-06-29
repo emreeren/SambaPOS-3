@@ -95,16 +95,15 @@ namespace Samba.Modules.AccountModule
             if (Accounts.Where(x => x.IsSelected).Any(x => x.TargetAccounts.Any(y => y.SelectedAccountId == 0))) return;
             Accounts
                 .Where(x => x.IsSelected && x.Amount != 0)
-                .AsParallel()
-                .SetCulture()
-                .ForAll(x => action(x));
+                .ToList()
+                .ForEach(x => action(x));
 
             SelectedDocumentType.PublishEvent(EventTopicNames.BatchDocumentsCreated);
         }
 
         private AccountTransactionDocument CreateDocument(AccountRowViewModel accountRowViewModel)
         {
-            return _accountService.CreateTransactionDocument(accountRowViewModel.Account,
+            var document = _accountService.CreateTransactionDocument(accountRowViewModel.Account,
                                                        SelectedDocumentType, accountRowViewModel.Description,
                                                        accountRowViewModel.Amount,
                                                        accountRowViewModel.TargetAccounts.Select(
@@ -114,6 +113,13 @@ namespace Samba.Modules.AccountModule
                                                                Id = y.SelectedAccountId,
                                                                AccountTypeId = y.AccountType.Id
                                                            }));
+            _applicationState.NotifyEvent(RuleEventNames.AccountTransactionDocumentCreated, new
+              {
+                  AccountTransactionDocumentName = SelectedDocumentType.Name,
+                  DocumentId = document.Id
+              });
+
+            return document;
         }
 
         private AccountTransactionDocument CreatePrintDocument(AccountRowViewModel accountRowViewModel)

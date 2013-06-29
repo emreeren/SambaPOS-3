@@ -541,7 +541,7 @@ namespace Samba.Presentation.Services.Common
                 DefaultAmount = string.Format("[{0}]", Resources.Balance),
                 DescriptionTemplate = string.Format(Resources.Payment_f, Resources.Cash),
                 MasterAccountTypeId = customerAccountType.Id,
-                PrinterTemplateId = printer1.Id
+                PrinterTemplateId =  customerReceiptTemplate.Id
             };
             customerCashDocument.AddAccountTransactionDocumentTypeMap();
             customerCashDocument.TransactionTypes.Add(customerCashPaymentType);
@@ -553,7 +553,7 @@ namespace Samba.Presentation.Services.Common
                 DefaultAmount = string.Format("[{0}]", Resources.Balance),
                 DescriptionTemplate = string.Format(Resources.Payment_f, Resources.CreditCard),
                 MasterAccountTypeId = customerAccountType.Id,
-                PrinterTemplateId = printer1.Id
+                PrinterTemplateId = customerReceiptTemplate.Id
             };
             customerCreditCardDocument.AddAccountTransactionDocumentTypeMap();
             customerCreditCardDocument.TransactionTypes.Add(customerCreditCardPaymentType);

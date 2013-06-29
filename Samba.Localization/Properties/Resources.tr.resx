@@ -214,6 +214,9 @@
   <data name="Warehouse" xml:space="preserve">
     <value>Depo</value>
   </data>
+  <data name="CustomerReceiptTemplate" xml:space="preserve">
+    <value>Müşteri Makbuzu Şablonu</value>
+  </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Toplam Gelir</value>
   </data>
@@ -995,6 +998,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Phone" xml:space="preserve">
     <value>Telefon</value>
   </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Ürünler Toplamı</value>
+  </data>
   <data name="Permissions" xml:space="preserve">
     <value>Yetkiler</value>
   </data>
@@ -1139,6 +1145,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="GroupFooter" xml:space="preserve">
     <value>Grup Alt Bölümü</value>
   </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Hesap Hareket Yazıcısı</value>
+  </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Toplam Gider</value>
   </data>
@@ -1241,6 +1250,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>Adisyonda bir değişiklik yapılmış. Son işlemi tekrar yapınız.</value>
   </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>Detayları Göster</value>
+  </data>
   <data name="UserRole" xml:space="preserve">
     <value>Rol</value>
   </data>
@@ -1258,6 +1270,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="SellerWarehouses" xml:space="preserve">
     <value>Satıcı Depoları</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Yükle</value>
   </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Fatura Yazıcısı</value>
@@ -1382,6 +1397,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Thirteen" xml:space="preserve">
     <value>Onüç</value>
+  </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Sıfır Bakiyeli Hesapları Gizle</value>
   </data>
   <data name="MonWedFri" xml:space="preserve">
     <value>Pzts, Çarş ve Cuma</value>
@@ -1831,6 +1849,9 @@ Gizlemek için pin kodunu değiştirin</value>
     <value>Gün Sonu İşlemi Tamamlandı.
 Raporlar bölümünden gün sonu raporlarınızı alınız.</value>
   </data>
+  <data name="PrintAccountTransactionDocument" xml:space="preserve">
+    <value>Hesap Hareketi Belgesi Yazdır</value>
+  </data>
   <data name="WorkPeriodStartDate_f" xml:space="preserve">
     <value>Gün başlama tarihi: {0}</value>
   </data>
@@ -2025,6 +2046,9 @@ Hata Mesajı:
   </data>
   <data name="TagCantBeEmpty_f" xml:space="preserve">
     <value>{0} boş bırakılamaz</value>
+  </data>
+  <data name="AccountTransactionDocumentCreated" xml:space="preserve">
+    <value>Hesap Hareketi Belgesi Oluşturuldu</value>
   </data>
   <data name="ExecutePowershellScript" xml:space="preserve">
     <value>Powershell Komutu Çalıştır</value>
@@ -2507,6 +2531,9 @@ Kapat</value>
   <data name="ProgramSettings" xml:space="preserve">
     <value>Program Ayarları</value>
   </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Makbuz</value>
+  </data>
   <data name="InStock" xml:space="preserve">
     <value>Devir</value>
   </data>
@@ -2674,6 +2701,9 @@ Kapat</value>
   </data>
   <data name="Consumption" xml:space="preserve">
     <value>Tüketim</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Mevcut Şablon Silinip {0} Yüklensin mi?</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Her iki ayda bir</value>
@@ -2929,7 +2959,7 @@ Açık adisyon varken gün sonu yapılamaz.</value>
     <value>Fiyat değiştirmek için önce numaratörden sıfırdan büyük bir fiyat yazınız.</value>
   </data>
   <data name="PrintMapping" xml:space="preserve">
-    <value>Yazdırma Yönlendirmeleri</value>
+    <value>Yazdırma İlişkileri</value>
   </data>
   <data name="Mapping_f" xml:space="preserve">
     <value>{0} İlişkilendirme</value>
@@ -2945,6 +2975,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="StateType" xml:space="preserve">
     <value>Durum Tipi</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>Ağaç Yapısında Göster</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Etiketler</value>

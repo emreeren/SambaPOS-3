@@ -34,6 +34,7 @@
       <Word>{SERVICES}</Word>
       <Word>{PAYMENTS}</Word>
       <Word>{CHANGES}</Word>
+      <Word>{TRANSACTIONS}</Word>
     </Keywords>
 
     <!--<Rule color="Punctuation">
