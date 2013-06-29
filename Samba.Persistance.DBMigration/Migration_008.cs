@@ -1,8 +1,6 @@
 using System.Data.Entity;
 using System.Linq;
 using FluentMigrator;
-using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Services.Common;

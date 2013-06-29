@@ -956,34 +956,34 @@ namespace Samba.Presentation.Services.Common
 <DB>
 <F>=
 <C10>T H A N K   Y O U
- 
+
 [DISCOUNTS]
 <J00>{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
- 
+
 [PAYMENTS]
 <J00>{PAYMENT NAME}|{PAYMENT AMOUNT}
- 
+
 [ORDERS]
 -- Default format for orders
 <J00>- {QUANTITY} {NAME}|{PRICE}
 {ORDER TAGS}
- 
+
 [ORDERS:<%GIFT>]
 -- Format for gifted orders
 <J00>- {QUANTITY} {NAME}|**GIFT**
 {ORDER TAGS}
- 
+
 [ORDERS:<%VOID>]
 -- Nothing will print for void lines
- 
+
 [ORDER TAGS]
 -- Format for order tags
 <J00> * {ORDER TAG NAME} | {ORDER TAG PRICE}
- 
+
 [ENTITIES:<%TABLE>]
 -- Table entity format
 <L00><%TABLE>: {ENTITY NAME}
- 
+
 [ENTITIES:<%CUSTOMER>]
 -- Customer entity format
 <J00><%CUSTOMER>: {ENTITY NAME} | {ENTITY DATA:Phone}";
