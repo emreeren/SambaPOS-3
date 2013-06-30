@@ -19,11 +19,11 @@ namespace Samba.Domain.Models.Entities
 
         public string GetStateValue(string stateName)
         {
-            var sv= EntityStateValues.SingleOrDefault(x => x.StateName == stateName) ?? EntityStateVal.Default;
+            var sv = EntityStateValues.SingleOrDefault(x => x.StateName == stateName) ?? EntityStateVal.Default;
             return sv.State;
         }
 
-        public void SetStateValue(string groupName, string state)
+        public void SetStateValue(string groupName, string state, string quantityExp)
         {
             var sv = EntityStateValues.SingleOrDefault(x => x.StateName == groupName);
             if (sv == null)
@@ -35,7 +35,7 @@ namespace Samba.Domain.Models.Entities
             {
                 sv.State = state;
             }
-
+            sv.Quantity = QuantityFuncParser.Parse(quantityExp, sv.Quantity);
             sv.LastUpdateTime = DateTime.Now;
 
             if (string.IsNullOrEmpty(sv.State))
@@ -57,6 +57,41 @@ namespace Samba.Domain.Models.Entities
             if (string.IsNullOrEmpty(state)) return EntityStateValues.All(x => x.StateName != stateName);
             return EntityStateValues.Any(x => x.StateName == stateName && x.State == state);
 
+        }
+
+        public int GetStateQuantity(string stateName)
+        {
+            var sv = EntityStateValues.SingleOrDefault(x => x.StateName == stateName) ?? EntityStateVal.Default;
+            return sv.Quantity;
+        }
+    }
+
+    public static class QuantityFuncParser
+    {
+        enum Operations
+        {
+            Set, Add, Subtract
+        }
+
+        public static int Parse(string quantityFunc, int currentQuantity)
+        {
+            if (string.IsNullOrEmpty(quantityFunc)) return 0;
+            int value;
+            var qf = quantityFunc;
+            var operation = Operations.Set;
+            if (qf.StartsWith("+"))
+            {
+                operation = Operations.Add;
+            }
+            if (qf.StartsWith("-"))
+            {
+                operation = Operations.Subtract;
+            }
+            var trimmed = quantityFunc.Trim('-', '+', ' ');
+            Int32.TryParse(trimmed, out value);
+            if (operation == Operations.Add) return currentQuantity + value;
+            if (operation == Operations.Subtract) return currentQuantity - value;
+            return value;
         }
     }
 }

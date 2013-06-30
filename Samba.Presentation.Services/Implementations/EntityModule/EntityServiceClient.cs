@@ -20,16 +20,17 @@ namespace Samba.Presentation.Services.Implementations.EntityModule
             _entityDao = entityDao;
         }
 
-        public void UpdateEntityState(int entityId, int entityTypeId, string stateName, string state)
+        public void UpdateEntityState(int entityId, int entityTypeId, string stateName, string state, string quantityExp)
         {
-            _entityDao.UpdateEntityState(entityId, stateName, state);
+            var sv = _entityDao.UpdateEntityState(entityId, stateName, state, quantityExp);
             var rt = _cacheService.GetEntityTypeById(entityTypeId);
             _applicationState.NotifyEvent(RuleEventNames.EntityStateUpdated, new
             {
                 EntityId = entityId,
                 EntityTypeName = rt.Name,
                 StateName = stateName,
-                State = state
+                State = state,
+                Quantity = sv.GetStateQuantity(stateName)
             });
         }
     }

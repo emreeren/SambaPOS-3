@@ -109,9 +109,9 @@ namespace Samba.Persistance.Implementations
             return result.Where(x => x.GetCustomData(fieldName).Contains(searchValue)).ToList();
         }
 
-        public void UpdateEntityState(int entityId, string stateName, string state)
+        public EntityStateValue UpdateEntityState(int entityId, string stateName, string state, string quantityExp)
         {
-            if (entityId == 0) return;
+            if (entityId == 0) return null;
             using (var w = WorkspaceFactory.Create())
             {
                 var stateValue = w.Single<EntityStateValue>(x => x.EntityId == entityId);
@@ -120,8 +120,9 @@ namespace Samba.Persistance.Implementations
                     stateValue = new EntityStateValue { EntityId = entityId };
                     w.Add(stateValue);
                 }
-                stateValue.SetStateValue(stateName, state);
+                stateValue.SetStateValue(stateName, state, quantityExp);
                 w.CommitChanges();
+                return stateValue;
             }
         }
 

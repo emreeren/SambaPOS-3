@@ -541,7 +541,7 @@ namespace Samba.Presentation.Services.Common
                 DefaultAmount = string.Format("[{0}]", Resources.Balance),
                 DescriptionTemplate = string.Format(Resources.Payment_f, Resources.Cash),
                 MasterAccountTypeId = customerAccountType.Id,
-                PrinterTemplateId =  customerReceiptTemplate.Id
+                PrinterTemplateId = customerReceiptTemplate.Id
             };
             customerCashDocument.AddAccountTransactionDocumentTypeMap();
             customerCashDocument.TransactionTypes.Add(customerCashPaymentType);
@@ -607,7 +607,7 @@ namespace Samba.Presentation.Services.Common
                 resource.EntityTypeId = tableTemplate.Id;
                 screen.AddScreenItem(new EntityScreenItem { Name = resource.Name, EntityId = resource.Id });
                 var state = new EntityStateValue { EntityId = resource.Id };
-                state.SetStateValue("Status", "Available");
+                state.SetStateValue("Status", "Available", "");
                 _workspace.Add(state);
             }
 

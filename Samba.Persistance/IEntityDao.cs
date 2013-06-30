@@ -9,7 +9,7 @@ namespace Samba.Persistance
         IEnumerable<Entity> GetEntitiesByState(string state, int entityTypeId);
         List<Entity> FindEntities(EntityType entityType, string searchString, string stateFilter);
         List<Entity> FindEntities(EntityType entityType, string fieldName, string searchValue, string stateFilter);
-        void UpdateEntityState(int entityId, string stateName, string state);
+        EntityStateValue UpdateEntityState(int entityId, string stateName, string state, string quantityExp);
         Entity GetEntityById(int id);
     }
 }

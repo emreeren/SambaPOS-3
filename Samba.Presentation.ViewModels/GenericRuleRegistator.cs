@@ -64,7 +64,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.MoveTaggedOrders, Resources.MoveTaggedOrders, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateOrder, Resources.UpdateOrder, new { Quantity = 0m, Price = 0m, PortionName = "", PriceTag = "", IncreaseInventory = false, DecreaseInventory = false, CalculatePrice = false, Locked = false, AccountTransactionType = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateEntityState, Resources.UpdateEntityState, new { EntityTypeName = "", EntityStateName = "", CurrentState = "", EntityState = "" });
+            AutomationService.RegisterActionType(ActionNames.UpdateEntityState, Resources.UpdateEntityState, new { EntityTypeName = "", EntityStateName = "", CurrentState = "", EntityState = "", QuantityExp = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateProgramSetting, Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
             AutomationService.RegisterActionType(ActionNames.ChangeTicketEntity, Resources.ChangeTicketEntity, new { EntityTypeName = "", EntityName = "" });
@@ -117,7 +117,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });
             AutomationService.RegisterEvent(RuleEventNames.EntitySelected, Resources.EntitySelected, new { EntityTypeName = "", EntityName = "", EntityCustomData = "", IsTicketSelected = false });
             AutomationService.RegisterEvent(RuleEventNames.EntityUpdated, Resources.EntityUpdated, new { EntityTypeName = "", OpenTicketCount = 0 });
-            AutomationService.RegisterEvent(RuleEventNames.EntityStateUpdated, Resources.EntityStateUpdated, new { EntityTypeName = "", StateName = "", State = "" });
+            AutomationService.RegisterEvent(RuleEventNames.EntityStateUpdated, Resources.EntityStateUpdated, new { EntityTypeName = "", StateName = "", State = "", Quantity = 0m });
             AutomationService.RegisterEvent(RuleEventNames.AccountTransactionDocumentCreated, Resources.AccountTransactionDocumentCreated, new { AccountTransactionDocumentName = "", DocumentId = 0 });
             AutomationService.RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
             AutomationService.RegisterEvent(RuleEventNames.DeviceEventGenerated, Resources.DeviceEventGenerated, new { DeviceName = "", EventName = "", EventData = "" });
@@ -378,23 +378,24 @@ namespace Samba.Presentation.ViewModels
                     var entityTypeId = x.Value.GetDataValueAsInt("EntityTypeId");
                     var stateName = x.Value.GetAsString("EntityStateName");
                     var state = x.Value.GetAsString("EntityState");
+                    var quantityExp = x.Value.GetAsString("QuantityExp");
                     if (state != null)
                     {
                         if (entityId > 0 && entityTypeId > 0)
                         {
-                            EntityService.UpdateEntityState(entityId, entityTypeId, stateName, state);
+                            EntityService.UpdateEntityState(entityId, entityTypeId, stateName, state, quantityExp);
                         }
                         else
                         {
                             var ticket = x.Value.GetDataValue<Ticket>("Ticket");
                             if (ticket != null)
                             {
-                                var entityTypeName = x.Value.GetDataValueAsString("EntityTypeName");
+                                var entityTypeName = x.Value.GetAsString("EntityTypeName");
                                 foreach (var ticketEntity in ticket.TicketEntities)
                                 {
                                     var entityType = CacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
                                     if (string.IsNullOrEmpty(entityTypeName.Trim()) || entityType.Name == entityTypeName)
-                                        EntityService.UpdateEntityState(ticketEntity.EntityId, ticketEntity.EntityTypeId, stateName, state);
+                                        EntityService.UpdateEntityState(ticketEntity.EntityId, ticketEntity.EntityTypeId, stateName, state, quantityExp);
                                 }
                             }
                         }

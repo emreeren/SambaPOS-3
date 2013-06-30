@@ -139,13 +139,20 @@ namespace Samba.Services.Implementations.SettingsModule
         public void SaveChanges()
         {
             Workspace.CommitChanges();
-            _workspace = null;
+            ResetCache();
         }
 
         public void ResetCache()
         {
             _workspace = null;
             _customSettingCache.Clear();
+            _settingCache.Clear();
+            _paymentScreenValues = null;
+            _weightBarcodePrefix = null;
+            _autoRoundDiscount = null;
+            _weightBarcodeQuantityLength = null;
+            _weightBarcodeItemLength = null;
+            _weightBarcodeItemFormat = null;
         }
     }
 }

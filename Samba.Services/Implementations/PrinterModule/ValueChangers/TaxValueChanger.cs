@@ -12,7 +12,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         public decimal OrderTotal { get; set; }
         public decimal OrderAmount { get { return OrderTotal - (TaxIncluded ? TaxAmount : 0); } }
         public decimal TotalAmount { get { return OrderTotal; } }
-
     }
 
     [Export]

@@ -20,7 +20,6 @@ namespace Samba.Services.Implementations.ExpressionModule
             Interpreter.SetFunctionCallback("F", FormatFunction);
             Interpreter.SetFunctionCallback("TN", ToNumberFunction);
             Interpreter.SetFunctionCallback("FF", FixFormatFunction);
-
             Interpreter.LexReplace("Ticket", "TicketAccessor");
             Interpreter.LexReplace("Order", "OrderAccessor");
             Interpreter.LexReplace("Entity", "EntityAccessor");
