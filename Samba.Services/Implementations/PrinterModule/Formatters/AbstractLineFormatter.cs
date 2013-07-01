@@ -1,6 +1,6 @@
 ﻿namespace Samba.Services.Implementations.PrinterModule.Formatters
 {
-    internal abstract class AbstractLineFormatter : ILineFormatter
+    public abstract class AbstractLineFormatter : ILineFormatter
     {
         public int FontWidth { get; set; }
         public int FontHeight { get; set; }

@@ -2,6 +2,7 @@
 using System.Printing;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Xps;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Settings;
@@ -46,7 +47,8 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
                         Math.Max((double)pt.PageMediaSize.Height - (ia.OriginHeight + ia.ExtentHeight), pagePadding.Bottom));
                 flowDocument.ColumnWidth = double.PositiveInfinity;
                 flowDocument.FontFamily = new System.Windows.Media.FontFamily(LocalSettings.PrintFontFamily);
-              // Send DocumentPaginator to the printer.
+                flowDocument.FontSize = 12;
+                // Send DocumentPaginator to the printer.
                 docWriter.Write(paginator);
             }
         }

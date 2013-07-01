@@ -41,6 +41,12 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
                 _lastColumnWidths = fmtr.GetColumnWidths();
                 return fmtr;
             }
+            if (documentLine.ToLower().StartsWith("<s"))
+            {
+                var fmtr = new JustifyAlignFormatterBySize(documentLine, maxWidth, true, _lastColumnWidths);
+                _lastColumnWidths = fmtr.GetColumnWidths();
+                return fmtr;
+            }
             return new GenericFormatter(documentLine, maxWidth);
         }
 

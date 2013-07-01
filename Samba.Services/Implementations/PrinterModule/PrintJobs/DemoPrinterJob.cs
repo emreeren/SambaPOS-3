@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Helpers;
@@ -15,7 +16,9 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
         [DllImport("user32.dll", EntryPoint = "FindWindowEx")]
         public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
         [DllImport("User32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
+        public static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, byte[] lParam);
+        [DllImport("User32.dll")]
+        public static extern int SendMessageW(IntPtr hWnd, int uMsg, int wParam, byte[] lParam);
 
         public DemoPrinterJob(Printer printer)
             : base(printer)
@@ -51,7 +54,8 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             if (notepads[0] != null)
             {
                 IntPtr child = FindWindowEx(notepads[0].MainWindowHandle, new IntPtr(0), wname, null);
-                SendMessage(child, 0x000C, 0, text);
+                var bytes = Encoding.Unicode.GetBytes(text);
+                SendMessageW(child, 0x000C, bytes.Length, bytes);
             }
         }
 

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Samba.Services.Implementations.PrinterModule.Formatters
 {
-    internal class JustifyAlignFormatter : AbstractLineFormatter
+    public class JustifyAlignFormatter : AbstractLineFormatter
     {
         private readonly bool _canBreak;
         private readonly int[] _columnWidths;
@@ -33,9 +33,9 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
             return JustifyText(MaxWidth, Line, _canBreak, _columnWidths);
         }
 
-        private static string JustifyText(int maxWidth, string line, bool canBreak, IList<int> columnWidths)
+        private string JustifyText(int maxWidth, string line, bool canBreak, IList<int> columnWidths)
         {
-            var parts = line.Split('|');
+            var parts = Split(line);
             if (parts.Length == 1) return line;
 
             var text = "";
@@ -54,7 +54,17 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
                 return parts[0] + "\r" + text.PadLeft(maxWidth);
             }
 
-            return parts[0].PadRight(maxWidth - text.Length).Substring(0, maxWidth - text.Length) + text;
+            return Merge(maxWidth, parts[0].PadRight(maxWidth - text.Length).Substring(0, maxWidth - text.Length), text);
+        }
+
+        protected virtual string[] Split(string line)
+        {
+            return line.Split('|');
+        }
+
+        protected virtual string Merge(int maxWidth, params string[] parts)
+        {
+            return string.Join("", parts);
         }
 
         public int[] GetColumnWidths()

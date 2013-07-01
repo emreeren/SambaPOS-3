@@ -117,7 +117,7 @@ html
             {
                 if (string.IsNullOrEmpty(_settingsObject.PrintFontFamily) || _settingsObject.PrintFontFamily == "")
                 {
-                    _settingsObject.PrintFontFamily = "Consolas";
+                    _settingsObject.PrintFontFamily = "Lucida Console";
                     SaveSettings();
                     //return "Consolas";
                 }
