@@ -32,9 +32,9 @@ namespace Samba.Domain.Models.Tickets
             else if (CalculationType == 3)
             {
                 if (Amount == currentSum) Amount = 0;
-                else if (DecreaseAmount && Amount > currentSum)
+                else if (currentSum > 0 && DecreaseAmount && Amount > currentSum)
                     Amount = 0;
-                else if (!DecreaseAmount && Amount < currentSum)
+                else if (currentSum > 0 && !DecreaseAmount && Amount < currentSum)
                     Amount = 0;
                 else
                     CalculationAmount = Amount - currentSum;

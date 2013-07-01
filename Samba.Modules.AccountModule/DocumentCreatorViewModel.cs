@@ -70,7 +70,7 @@ namespace Samba.Modules.AccountModule
         public AccountTransactionDocumentType DocumentType { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
-        public bool IsPrintCommandVisible { get { return DocumentType.PrinterTemplateId > 0; } }
+        public bool IsPrintCommandVisible { get { return DocumentType != null && DocumentType.PrinterTemplateId > 0; } }
         public ICaptionCommand SaveCommand { get; set; }
         public ICaptionCommand PrintCommand { get; set; }
         public ICaptionCommand CancelCommand { get; set; }
