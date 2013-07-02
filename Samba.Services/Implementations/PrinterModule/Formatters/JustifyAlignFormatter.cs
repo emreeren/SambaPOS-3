@@ -117,7 +117,7 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
                     lenTotal = Math.Truncate(lenTotal);
                     lenTotal = lenTotal + GetTabLength(lenTotal);
                 }
-                else if (asc > 0 && asc < 127)
+                else if (asc > 0 && asc < 256)
                     lenTotal++;
                 else
                     lenTotal = lenTotal + GetDifference(strWord);
