@@ -535,7 +535,7 @@ namespace Samba.Services.Implementations
         private IEnumerable<InventoryTransactionType> _inventoryTransactionTypes;
         public IEnumerable<InventoryTransactionType> InventoryTransactionTypes
         {
-            get { return _inventoryTransactionTypes??(_inventoryTransactionTypes = _cacheDao.GetInventoryTransactionTypes()); }
+            get { return _inventoryTransactionTypes ?? (_inventoryTransactionTypes = _cacheDao.GetInventoryTransactionTypes()); }
         }
 
         public IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes()
@@ -591,7 +591,8 @@ namespace Samba.Services.Implementations
         public Entity GetEntityByName(string entityTypeName, string entityName)
         {
             var rt = EntityTypes.Single(x => x.Name == entityTypeName);
-            return _cacheDao.GetEntityByName(rt.Id, entityName);
+            var result = _cacheDao.GetEntityByName(rt.Id, entityName);
+            return result ?? Entity.GetNullEntity(rt.Id);
         }
 
         public void ResetTicketTagCache()

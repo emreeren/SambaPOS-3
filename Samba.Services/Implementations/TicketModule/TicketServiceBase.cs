@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -84,12 +85,14 @@ namespace Samba.Services.Implementations.TicketModule
         public IEnumerable<Ticket> GetTicketsByState(string state)
         {
             var sv = string.Format("\"S\":\"{0}\"", state);
-            return Dao.Query<Ticket>(x => x.TicketStates.Contains(sv),
+            var result = Dao.Query<Ticket>(x => x.TicketStates.Contains(sv),
                              x => x.Orders.Select(y => y.ProductTimerValue),
                              x => x.TicketEntities,
                              x => x.Calculations,
                              x => x.Payments,
                              x => x.ChangePayments);
+            result.ToList().ForEach(x => x.TransactionDocument = new AccountTransactionDocument());
+            return result;
         }
     }
 }

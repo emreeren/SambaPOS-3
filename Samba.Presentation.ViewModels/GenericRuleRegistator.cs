@@ -236,8 +236,7 @@ namespace Samba.Presentation.ViewModels
                         if (!string.IsNullOrEmpty(entityTypeName))
                         {
                             var entity = CacheService.GetEntityByName(entityTypeName, entityName);
-                            if (entity != null)
-                                TicketService.UpdateEntity(ticket, entity);
+                            TicketService.UpdateEntity(ticket, entity );
                         }
                     }
                 }

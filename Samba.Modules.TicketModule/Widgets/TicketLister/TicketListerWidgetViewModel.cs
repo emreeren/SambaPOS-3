@@ -104,7 +104,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         internal IList<TicketViewData> GetTicketList()
         {
             var tickets = _ticketService.GetTicketsByState(Settings.State);
-
+      
             if (!string.IsNullOrEmpty(Settings.OrderBy))
             {
                 if (Settings.OrderBy.Contains("{"))
