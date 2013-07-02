@@ -1,17 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using Samba.Infrastructure.Settings;
 
 namespace Samba.Services.Implementations.PrinterModule.Formatters
 {
     public class JustifyAlignFormatter : AbstractLineFormatter
     {
         private readonly bool _canBreak;
+        private readonly double _ratio;
         private readonly int[] _columnWidths;
 
-        public JustifyAlignFormatter(string documentLine, int maxWidth, bool canBreak, int[] columnWidths = null) :
+        public JustifyAlignFormatter(string documentLine, int maxWidth, bool canBreak, double ratio, int[] columnWidths = null) :
             base(documentLine, maxWidth)
         {
             _canBreak = canBreak;
+            _ratio = ratio;
             _columnWidths = CalculateColumnWidths(documentLine, columnWidths);
         }
 
@@ -59,12 +66,85 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
 
         protected virtual string[] Split(string line)
         {
+            line = line.Replace("<t>", '\t'.ToString());
             return line.Split('|');
         }
 
         protected virtual string Merge(int maxWidth, params string[] parts)
         {
+            if (_ratio != 1)
+            {
+                while (HaveSuitablePart(parts) && ActualLength(string.Join("", parts)) > maxWidth)
+                {
+                    var index = GetSuitablePartIndex(parts);
+                    parts[index] = TrimPart(parts[index]);
+                }
+            }
             return string.Join("", parts);
+        }
+
+
+        private string TrimPart(string part)
+        {
+            var index = part.IndexOf("  ", StringComparison.Ordinal);
+            return part.Remove(index, 1);
+        }
+
+        private bool HaveSuitablePart(IEnumerable<string> parts)
+        {
+            return parts.Any(x => x.EndsWith("  "));
+        }
+
+        private int GetSuitablePartIndex(string[] parts)
+        {
+            for (int i = 0; i < parts.Count(); i++)
+            {
+                if (parts[i].EndsWith("  ")) return i;
+            }
+            return -1;
+        }
+
+        public double ActualLength(string str)
+        {
+            double lenTotal = 0;
+            var n = str.Length;
+            for (var i = 0; i < n; i++)
+            {
+                var strWord = str.Substring(i, 1);
+                int asc = Convert.ToChar(strWord);
+                if (asc == 9)
+                {
+                    lenTotal = Math.Truncate(lenTotal);
+                    lenTotal = lenTotal + GetTabLength(lenTotal);
+                }
+                else if (asc > 0 && asc < 127)
+                    lenTotal++;
+                else
+                    lenTotal = lenTotal + GetDifference(strWord);
+            }
+            return lenTotal;
+        }
+
+        public double GetDifference(string c)
+        {
+            if (_ratio > 0) return _ratio;
+            var nsize = GetSize("X");
+            var ssize = GetSize(c);
+            return ssize.Width / nsize.Width;
+        }
+
+        public int GetTabLength(double lenTotal)
+        {
+            var diff = Convert.ToInt32(lenTotal);
+            if (lenTotal >= 8)
+                diff = diff % 8;
+            return 8 - diff;
+        }
+
+        public FormattedText GetSize(string text)
+        {
+            var v = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(LocalSettings.PrintFontFamily), 12, Brushes.Black);
+            return v;
         }
 
         public int[] GetColumnWidths()

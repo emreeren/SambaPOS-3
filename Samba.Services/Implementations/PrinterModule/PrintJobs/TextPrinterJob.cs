@@ -1,4 +1,5 @@
 ﻿using System.Windows.Documents;
+using System.Windows.Media;
 using Samba.Domain.Models.Settings;
 using Samba.Services.Implementations.PrinterModule.Formatters;
 using Samba.Services.Implementations.PrinterModule.Tools;
@@ -16,7 +17,8 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
         {
             var q = PrinterInfo.GetPrinter(Printer.ShareName);
             var text = new FormattedDocument(lines, Printer.CharsPerLine).GetFormattedText();
-            PrintFlowDocument(q, new FlowDocument(new Paragraph(new Run(text))));
+            var run = new Run(text) {Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255))};
+            PrintFlowDocument(q, new FlowDocument(new Paragraph(run)));
         }
 
         public override void DoPrint(FlowDocument document)

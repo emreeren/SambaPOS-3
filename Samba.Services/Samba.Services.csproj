@@ -117,7 +117,6 @@
     <Compile Include="Implementations\MenuModule\PriceListService.cs" />
     <Compile Include="Implementations\Messaging\MessagingService.cs" />
     <Compile Include="Implementations\PrinterModule\AccountTransactionDocumentFormatter.cs" />
-    <Compile Include="Implementations\PrinterModule\Formatters\JustifyAlignFormatterBySize.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\AccountTransactionDocumentValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\AbstractLineFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\BoxFormatter.cs" />

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
+using Samba.Infrastructure.Settings;
 using Samba.Services.Implementations.PrinterModule.Formatters;
 using Samba.Services.Implementations.PrinterModule.Tools;
 
@@ -32,6 +33,8 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             var pd = new PrintDialog { PrintQueue = q };
             if (pd.PrintQueue.FullName == Printer.ShareName || pd.ShowDialog().GetValueOrDefault(false))
             {
+                document.FontFamily = new System.Windows.Media.FontFamily(LocalSettings.PrintFontFamily);
+                document.Typography.EastAsianWidths = FontEastAsianWidths.Half;
                 document.PageHeight = pd.PrintableAreaHeight;
                 document.PageWidth = pd.PrintableAreaWidth;
                 document.PagePadding = new Thickness(25);

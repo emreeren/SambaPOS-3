@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Samba.Services.Implementations.PrinterModule.Formatters
 {
@@ -37,13 +39,15 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
                 return new BoxFormatter(documentLine, maxWidth);
             if (documentLine.ToLower().StartsWith("<j"))
             {
-                var fmtr = new JustifyAlignFormatter(documentLine, maxWidth, true, _lastColumnWidths);
-                _lastColumnWidths = fmtr.GetColumnWidths();
-                return fmtr;
-            }
-            if (documentLine.ToLower().StartsWith("<s"))
-            {
-                var fmtr = new JustifyAlignFormatterBySize(documentLine, maxWidth, true, _lastColumnWidths);
+                var match = Regex.Match(documentLine, "<[j|J][^:]+(:[^>]+)>");
+                var mt = match.Success ? match.Groups[1].Value : "";
+                var ratio = 1d;
+                if (!string.IsNullOrEmpty(mt))
+                {
+                    documentLine = documentLine.Replace(mt + ">", ">");
+                    ratio = Convert.ToDouble(mt.Trim(':'));
+                }
+                var fmtr = new JustifyAlignFormatter(documentLine, maxWidth, true, ratio, _lastColumnWidths);
                 _lastColumnWidths = fmtr.GetColumnWidths();
                 return fmtr;
             }
