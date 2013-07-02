@@ -47,7 +47,6 @@
     <Compile Include="EntityTests.cs" />
     <Compile Include="ExpressionTests.cs" />
     <Compile Include="MefBootstrapper.cs" />
-    <Compile Include="PrinterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,19 +12,28 @@ namespace Samba.Persistance.DBMigration
     {
         public override void Up()
         {
+            var dc = ApplicationContext as DbContext;
+
             Create.Column("HideZeroBalanceAccounts").OnTable("AccountScreenValues").AsBoolean().WithDefaultValue(false);
             Create.Column("DisplayAsTree").OnTable("AccountScreens").AsBoolean().WithDefaultValue(false);
             Create.Column("ReportPrinterId").OnTable("Terminals").AsInt32().WithDefaultValue(0);
-            Delete.ForeignKey("FK_dbo.Terminals_dbo.Printers_ReportPrinter_Id").OnTable("Terminals");
+
+            if (dc.Database.Connection.ConnectionString.EndsWith(".sdf"))
+            {
+                Delete.ForeignKey("FK_dbo.Terminals_dbo.Printers_ReportPrinter_Id").OnTable("Terminals");
+                Delete.Index("IX_ReportPrinter_Id").OnTable("Terminals");
+            }
+            else
+                Delete.ForeignKey("Terminal_ReportPrinter").OnTable("Terminals");
+
             Execute.Sql("Update Terminals set ReportPrinterId = ReportPrinter_Id");
-            Delete.Index("IX_ReportPrinter_Id").OnTable("Terminals");
             Delete.Column("ReportPrinter_Id").FromTable("Terminals");
             Create.Column("TransactionPrinterId").OnTable("Terminals").AsInt32().WithDefaultValue(0);
             Execute.Sql("Update Terminals set TransactionPrinterId = ReportPrinterId");
             Create.Column("DocumentTypeId").OnTable("AccountTransactionDocuments").AsInt32().WithDefaultValue(0);
             Create.Column("PrinterTemplateId").OnTable("AccountTransactionDocumentTypes").AsInt32().WithDefaultValue(0);
 
-            var dc = ApplicationContext as DbContext;
+
 
             if (dc != null)
             {
