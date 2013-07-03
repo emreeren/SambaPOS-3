@@ -479,7 +479,7 @@ namespace Samba.Modules.PosModule
 
         public string GetPrintError()
         {
-            if (SelectedTicket.Orders.Count(x => x.Price == 0 && x.CalculatePrice) > 0)
+            if (SelectedTicket.Orders.Any(x => x.GetValue() == 0 && x.CalculatePrice))
                 return Resources.CantCompleteOperationWhenThereIsZeroPricedProduct;
             if (!SelectedTicket.IsClosed && SelectedTicket.Orders.Count > 0)
             {

@@ -24,11 +24,13 @@ namespace Samba.Services.Implementations.ExpressionModule
             Interpreter.LexReplace("Order", "OrderAccessor");
             Interpreter.LexReplace("Entity", "EntityAccessor");
             Interpreter.LexReplace("Data", "DataAccessor");
+            Interpreter.LexReplace("Helper", "HelperAccessor");
             Interpreter.Context.Plugins.RegisterAll();
             Interpreter.Context.Types.Register(typeof(TicketAccessor), null);
             Interpreter.Context.Types.Register(typeof(OrderAccessor), null);
             Interpreter.Context.Types.Register(typeof(EntityAccessor), null);
             Interpreter.Context.Types.Register(typeof(DataAccessor), null);
+            Interpreter.Context.Types.Register(typeof(HelperAccessor), null);
         }
 
 

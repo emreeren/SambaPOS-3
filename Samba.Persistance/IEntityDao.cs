@@ -11,5 +11,6 @@ namespace Samba.Persistance
         List<Entity> FindEntities(EntityType entityType, string fieldName, string searchValue, string stateFilter);
         EntityStateValue UpdateEntityState(int entityId, string stateName, string state, string quantityExp);
         Entity GetEntityById(int id);
+        void SaveEntity(Entity entity);
     }
 }

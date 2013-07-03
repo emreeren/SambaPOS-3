@@ -24,16 +24,7 @@ namespace Samba.Presentation.ViewModels
             Balances = new Dictionary<int, decimal>();
         }
 
-        private Ticket _selectedTicket;
-        public Ticket SelectedTicket
-        {
-            get { return _selectedTicket; }
-            set
-            {
-                _selectedTicket = value;
-                UpdateBalances();
-            }
-        }
+        public Ticket SelectedTicket { get; set; }
 
         private void UpdateBalances()
         {
@@ -46,6 +37,12 @@ namespace Samba.Presentation.ViewModels
                     if (_applicationState.GetPaymentScreenPaymentTypes().Any(x => x.AccountTransactionType.TargetAccountTypeId == entityType.AccountTypeId))
                     {
                         var balance = _accountService.GetAccountBalance(ticketEntity.AccountId);
+                        balance +=
+                            SelectedTicket.Payments.Where(
+                                x =>
+                                x.Id == 0 &&
+                                x.AccountTransaction.AccountTransactionValues.Any(
+                                    y => y.AccountId == ticketEntity.AccountId)).Sum(x=>x.Amount);
                         Balances.Add(ticketEntity.AccountId, balance);
                     }
                 }

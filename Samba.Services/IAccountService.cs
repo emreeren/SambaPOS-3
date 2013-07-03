@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
-using Samba.Persistance;
 using Samba.Persistance.Common;
 
 namespace Samba.Services
@@ -19,6 +18,7 @@ namespace Samba.Services
         IEnumerable<Account> GetBalancedAccounts(int accountTypeId);
         IEnumerable<string> GetCompletingAccountNames(int accountTypeId, string accountName);
         Account GetAccountById(int accountId);
+        Account GetAccountByName(string accountName);
         int CreateAccount(int accountTypeId, string accountName);
         IEnumerable<Account> GetDocumentAccounts(AccountTransactionDocumentType documentType);
         void CreateBatchAccountTransactionDocument(string documentName);

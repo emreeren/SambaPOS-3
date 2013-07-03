@@ -26,11 +26,11 @@ tr.sample_data=Örnek Veri
 tr.handheld_terminal_app=El terminali uygulamasý
 tr.ce_install_sp3_required=Compact SQL 4.0 çalýþtýrmak için Service Pack 3 gerektiðinden kurulum listesinden kaldýrýldý. Program TXT dosya veritabaný üzerinden çalýþacak.
 
-#define Version "3.0.11"
-#define FileVersion "3011"
+#define Version "3.0.12"
+#define FileVersion "3012"
 #define DbVersion "8"
 
-#define VersionInfo "3.0.11 BETA"
+#define VersionInfo "3.0.12 BETA"
 #define VersionTime GetDateTimeString('yyyy-mm-dd hhnn', '-', ':');
 
 [Setup]
@@ -139,6 +139,7 @@ Source: src\FluentMigrator.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\FluentMigrator.Runner.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\GongSolutions.Wpf.DragDrop.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Omu.ValueInjecter.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Gma.QrCodeNet.Encoding.Net35.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\ICSharpCode.AvalonEdit.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\FluentScript.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Stateless.dll; DestDir: {app}; Flags: ignoreversion

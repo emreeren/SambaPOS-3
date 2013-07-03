@@ -74,7 +74,8 @@ namespace Samba.Modules.AccountModule
 
             SetNavigationCommand(Resources.Accounts, Resources.Common, "Images/Xls.png", 30);
 
-            automationService.RegisterActionType(ActionNames.CreateAccountTransactionDocument, string.Format(Resources.Create_f, Resources.AccountTransactionDocument), new { AccountTransactionDocumentName = "" });
+            automationService.RegisterActionType(ActionNames.CreateAccountTransactionDocument, string.Format(Resources.Create_f, Resources.AccountTransactionDocument), new { AccountTransactionDocumentName = "", AccountName = "", Description = "", Amount = 0m });
+            automationService.RegisterActionType(ActionNames.CreateBatchAccountTransactionDocument, Resources.BatchCreateDocuments, new { AccountTransactionDocumentName = "" });
             automationService.RegisterActionType(ActionNames.CreateAccountTransaction, string.Format(Resources.Create_f, Resources.AccountTransaction), new { AccountTransactionTypeName = "", Amount = 0m });
             automationService.RegisterActionType(ActionNames.PrintAccountTransactionDocument, Resources.PrintAccountTransactionDocument, new { DocumentId = 0, PrinterName = "", PrinterTemplateName = "" });
         }
@@ -120,8 +121,24 @@ namespace Samba.Modules.AccountModule
             if (ep.Value.Action.ActionType == ActionNames.CreateAccountTransactionDocument)
             {
                 var documentName = ep.Value.GetAsString("AccountTransactionDocumentName");
+                var documentType = _cacheService.GetAccountTransactionDocumentTypeByName(documentName);
+                var accountName = ep.Value.GetAsString("AccountName");
+                var description = ep.Value.GetAsString("Description");
+                var amount = ep.Value.GetAsDecimal("Amount");
+                if (amount > 0)
+                {
+                    var account = _accountService.GetAccountByName(accountName);
+                    var document = _accountService.CreateTransactionDocument(account, documentType, description, amount, null);
+                    ep.Value.DataObject.DocumentId = document.Id;
+                }
+            }
+
+            if (ep.Value.Action.ActionType == ActionNames.CreateBatchAccountTransactionDocument)
+            {
+                var documentName = ep.Value.GetAsString("AccountTransactionDocumentName");
                 _accountService.CreateBatchAccountTransactionDocument(documentName);
             }
+
             if (ep.Value.Action.ActionType == ActionNames.CreateAccountTransaction)
             {
                 var ticket = ep.Value.GetDataValue<Ticket>("Ticket");

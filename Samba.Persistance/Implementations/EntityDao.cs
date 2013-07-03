@@ -130,5 +130,10 @@ namespace Samba.Persistance.Implementations
         {
             return Dao.Single<Entity>(x => x.Id == id);
         }
+
+        public void SaveEntity(Entity entity)
+        {
+            Dao.Save(entity);
+        }
     }
 }

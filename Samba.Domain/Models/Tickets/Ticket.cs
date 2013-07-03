@@ -290,10 +290,8 @@ namespace Samba.Domain.Models.Tickets
 
         public decimal GetTaxExcludedSum(Order order)
         {
-            var plainSum = order.GetTotal();
-            var services = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
-            var tax = TaxIncluded ? order.GetTotalTaxAmount(TaxIncluded, plainSum, services) : 0;
-            return plainSum - tax;
+            var tax = TaxIncluded ? order.GetTotalTaxAmount(TaxIncluded, GetPlainSum(), GetPreTaxServicesTotal()) : 0;
+            return order.GetTotal() - tax;
         }
 
         public decimal GetPreTaxServicesTotal()

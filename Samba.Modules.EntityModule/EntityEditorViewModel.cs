@@ -2,7 +2,6 @@
 using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
@@ -20,19 +19,21 @@ namespace Samba.Modules.EntityModule
         private readonly IUserService _userService;
         private readonly ITicketServiceBase _ticketServiceBase;
         private readonly IApplicationState _applicationState;
+        private readonly IEntityService _entityService;
         public ICaptionCommand SaveEntityCommand { get; set; }
         public ICaptionCommand SelectEntityCommand { get; set; }
         public ICaptionCommand CreateAccountCommand { get; set; }
 
         [ImportingConstructor]
         public EntityEditorViewModel(ICacheService cacheService, IAccountService accountService, IUserService userService,
-            ITicketServiceBase ticketServiceBase, IApplicationState applicationState)
+            ITicketServiceBase ticketServiceBase, IApplicationState applicationState, IEntityService entityService)
         {
             _cacheService = cacheService;
             _accountService = accountService;
             _userService = userService;
             _ticketServiceBase = ticketServiceBase;
             _applicationState = applicationState;
+            _entityService = entityService;
             SaveEntityCommand = new CaptionCommand<string>(Resources.Save, OnSaveEntity, CanSelectEntity);
             SelectEntityCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Entity).Replace(" ", "\r"), OnSelectEntity, CanSelectEntity);
             CreateAccountCommand = new CaptionCommand<string>(string.Format(Resources.Create_f, Resources.Account).Replace(" ", "\r"), OnCreateAccount, CanCreateAccount);
@@ -91,7 +92,7 @@ namespace Samba.Modules.EntityModule
         private void SaveSelectedEntity()
         {
             CustomDataViewModel.Update();
-            Dao.Save(SelectedEntity.Model);
+            _entityService.SaveEntity(SelectedEntity.Model);
         }
 
         private EntityOperationRequest<Entity> _operationRequest;
@@ -104,7 +105,6 @@ namespace Samba.Modules.EntityModule
                 var entityType = _cacheService.GetEntityTypeById(obj.Value.SelectedEntity.EntityTypeId);
                 SelectedEntity = new EntitySearchResultViewModel(obj.Value.SelectedEntity, entityType);
                 CustomDataViewModel = new EntityCustomDataViewModel(obj.Value.SelectedEntity, entityType);
-                //SelectedEntity.UpdateDetailedInfo();
                 RaisePropertyChanged(() => CustomDataViewModel);
                 RaisePropertyChanged(() => IsEntitySelectorVisible);
             }

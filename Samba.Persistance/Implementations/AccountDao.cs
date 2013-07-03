@@ -114,6 +114,11 @@ namespace Samba.Persistance.Implementations
             return Dao.Single<Account>(x => x.Id == accountId);
         }
 
+        public Account GetAccountByName(string accountName)
+        {
+            return Dao.Single<Account>(x => x.Name == accountName);
+        }
+
         public bool GetIsAccountNameExists(string accountName)
         {
             return Dao.Exists<Account>(x => x.Name == accountName);

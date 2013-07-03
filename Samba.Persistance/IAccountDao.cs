@@ -18,6 +18,7 @@ namespace Samba.Persistance
         string GetEntityCustomDataByAccountId(int accountId);
         AccountTransactionDocument CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, decimal exchangeRate, IEnumerable<Account> accounts);
         Account GetAccountById(int accountId);
+        Account GetAccountByName(string accountName);
         bool GetIsAccountNameExists(string accountName);
         int CreateAccount(int accountTypeId, string accountName);
         string GetAccountNameById(int accountId);

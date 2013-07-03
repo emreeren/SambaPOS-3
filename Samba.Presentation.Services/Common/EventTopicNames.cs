@@ -24,6 +24,7 @@
         public const string DisplayTicket = "DisplayTicket";
         public const string DisplayPaymentScreen = "DisplayPaymentScreen";
         public const string CreateAccountTransactionDocument = "CreateAccountTransactionDocument";
+        public const string CreateBatchAccountTransactionDocument = "CreateBatchAccountTransactionDocument";
         public const string AddOrder = "AddOrder";
         public const string SendEmail = "SendEmail";
         public const string ExecutePowershellScript = "ExecutePowershellScript";
@@ -37,7 +38,8 @@
         public const string MarkTicketAsClosed = "MarkTicketAsClosed";
         public const string LoadTicket = "LoadTicket";
         public const string LoopValues = "LoopValues";
-        public static string PrintAccountTransactionDocument = "PrintAccountTransactionDocument";
+        public const string PrintAccountTransactionDocument = "PrintAccountTransactionDocument";
+        public const string CreateEntity = "CreateEntity";
     }
 
     public static class RuleEventNames

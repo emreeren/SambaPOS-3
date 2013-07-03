@@ -148,6 +148,11 @@ namespace Samba.Services.Implementations.AccountModule
             return _accountDao.GetAccountById(accountId);
         }
 
+        public Account GetAccountByName(string accountName)
+        {
+            return _accountDao.GetAccountByName(accountName);
+        }
+
         public int CreateAccount(int accountTypeId, string accountName)
         {
             if (accountTypeId == 0 || string.IsNullOrEmpty(accountName)) return 0;

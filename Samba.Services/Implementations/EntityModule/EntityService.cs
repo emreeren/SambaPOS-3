@@ -106,5 +106,14 @@ namespace Samba.Services.Implementations.EntityModule
             }
         }
 
+        public Entity CreateEntity(int entityTypeId, string entityName)
+        {
+            return new Entity {EntityTypeId = entityTypeId, Name = entityName};
+        }
+
+        public void SaveEntity(Entity entity)
+        {
+            _entityDao.SaveEntity(entity);
+        }
     }
 }

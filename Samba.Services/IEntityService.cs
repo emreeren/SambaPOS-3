@@ -17,5 +17,7 @@ namespace Samba.Services
         void UpdateEntityScreen(EntityScreen entityScreen);
         void RemoveWidget(Widget widget);
         List<Entity> SearchEntities(EntityType selectedEntityType, string searchString, string stateFilter);
+        Entity CreateEntity(int entityTypeId, string entityName);
+        void SaveEntity(Entity entity);
     }
 }

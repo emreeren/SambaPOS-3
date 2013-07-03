@@ -44,6 +44,8 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
                 printer.DisableBold();
             else if (line.Tag.TagName == "bmp")
                 printer.PrintBitmap(RemoveTag(data));
+            else if (line.Tag.TagName == "qr")
+                printer.PrintQrCode(RemoveTag(data));
             else if (line.Tag.TagName == "cut")
                 printer.Cut();
             else if (line.Tag.TagName == "beep")

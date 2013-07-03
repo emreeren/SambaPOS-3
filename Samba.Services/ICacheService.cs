@@ -67,6 +67,7 @@ namespace Samba.Services
         PrintJob GetPrintJobByName(string name);
         IEnumerable<EntityType> GetEntityTypes();
         EntityType GetEntityTypeById(int entityTypeId);
+        EntityType GetEntityTypeByName(string entityTypeName);
         int GetEntityTypeIdByEntityName(string entityName);
         IEnumerable<State> GetStates(int stateType);
         string GetStateColor(string entityState);

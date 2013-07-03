@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using Gma.QrCodeNet.Encoding;
+using Gma.QrCodeNet.Encoding.Windows.Render;
+using Samba.Infrastructure.Settings;
 
 namespace Samba.Services.Implementations.PrinterModule.Tools
 {
@@ -232,6 +236,20 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
             }
         }
 
+        public void PrintQrCode(string qrCodeData)
+        {
+            var fileName = LocalSettings.DocumentPath + "\\qr.bmp";
+            var qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
+            var qrCode = qrEncoder.Encode(qrCodeData);
+
+            var renderer = new GraphicsRenderer(new FixedModuleSize(5, QuietZoneModules.Two), Brushes.Black, Brushes.White);
+            using (var stream = new FileStream(fileName, FileMode.Create))
+            {
+                renderer.WriteToStream(qrCode.Matrix, ImageFormat.Bmp, stream);
+            }
+            PrintBitmap(fileName);
+        }
+
         private static BitmapData GetBitmapData(string bmpFileName)
         {
             using (var bitmap = (Bitmap)Image.FromFile(bmpFileName))
@@ -366,6 +384,8 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
                 SendBytesToPrinter(szPrinterName, bytes);
             }
         }
+
+
     }
 }
 

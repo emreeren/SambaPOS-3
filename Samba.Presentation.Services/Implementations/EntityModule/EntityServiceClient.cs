@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Samba.Domain.Models.Entities;
 using Samba.Persistance;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
@@ -33,5 +34,6 @@ namespace Samba.Presentation.Services.Implementations.EntityModule
                 Quantity = sv.GetStateQuantity(stateName)
             });
         }
+
     }
 }

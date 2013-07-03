@@ -33,7 +33,6 @@ namespace Samba.Presentation.ViewModels
         private static readonly IPrinterService PrinterService = ServiceLocator.Current.GetInstance<IPrinterService>();
         private static readonly ISettingService SettingService = ServiceLocator.Current.GetInstance<ISettingService>();
         private static readonly IAutomationService AutomationService = ServiceLocator.Current.GetInstance<IAutomationService>();
-        private static readonly IEntityServiceClient EntityService = ServiceLocator.Current.GetInstance<IEntityServiceClient>();
         private static readonly IMethodQueue MethodQueue = ServiceLocator.Current.GetInstance<IMethodQueue>();
         private static readonly ICacheService CacheService = ServiceLocator.Current.GetInstance<ICacheService>();
         private static readonly IEmailService EmailService = ServiceLocator.Current.GetInstance<IEmailService>();
@@ -64,7 +63,6 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.MoveTaggedOrders, Resources.MoveTaggedOrders, new { OrderTagName = "", OrderTagValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateOrder, Resources.UpdateOrder, new { Quantity = 0m, Price = 0m, PortionName = "", PriceTag = "", IncreaseInventory = false, DecreaseInventory = false, CalculatePrice = false, Locked = false, AccountTransactionType = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
-            AutomationService.RegisterActionType(ActionNames.UpdateEntityState, Resources.UpdateEntityState, new { EntityTypeName = "", EntityStateName = "", CurrentState = "", EntityState = "", QuantityExp = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateProgramSetting, Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
             AutomationService.RegisterActionType(ActionNames.ChangeTicketEntity, Resources.ChangeTicketEntity, new { EntityTypeName = "", EntityName = "" });
@@ -172,8 +170,6 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
             {
-
-
                 if (x.Value.Action.ActionType == ActionNames.LoopValues)
                 {
                     var name = x.Value.GetAsString("Name");
@@ -236,7 +232,7 @@ namespace Samba.Presentation.ViewModels
                         if (!string.IsNullOrEmpty(entityTypeName))
                         {
                             var entity = CacheService.GetEntityByName(entityTypeName, entityName);
-                            TicketService.UpdateEntity(ticket, entity );
+                            TicketService.UpdateEntity(ticket, entity);
                         }
                     }
                 }
@@ -369,36 +365,6 @@ namespace Samba.Presentation.ViewModels
                 if (x.Value.Action.ActionType == ActionNames.CloseActiveTicket)
                 {
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.CloseTicketRequested, true);
-                }
-
-                if (x.Value.Action.ActionType == ActionNames.UpdateEntityState)
-                {
-                    var entityId = x.Value.GetDataValueAsInt("EntityId");
-                    var entityTypeId = x.Value.GetDataValueAsInt("EntityTypeId");
-                    var stateName = x.Value.GetAsString("EntityStateName");
-                    var state = x.Value.GetAsString("EntityState");
-                    var quantityExp = x.Value.GetAsString("QuantityExp");
-                    if (state != null)
-                    {
-                        if (entityId > 0 && entityTypeId > 0)
-                        {
-                            EntityService.UpdateEntityState(entityId, entityTypeId, stateName, state, quantityExp);
-                        }
-                        else
-                        {
-                            var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                            if (ticket != null)
-                            {
-                                var entityTypeName = x.Value.GetAsString("EntityTypeName");
-                                foreach (var ticketEntity in ticket.TicketEntities)
-                                {
-                                    var entityType = CacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
-                                    if (string.IsNullOrEmpty(entityTypeName.Trim()) || entityType.Name == entityTypeName)
-                                        EntityService.UpdateEntityState(ticketEntity.EntityId, ticketEntity.EntityTypeId, stateName, state, quantityExp);
-                                }
-                            }
-                        }
-                    }
                 }
 
                 if (x.Value.Action.ActionType == ActionNames.UpdateProgramSetting)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Samba.Domain.Models.Entities;
 
 namespace Samba.Services.Implementations.ExpressionModule.Accessors
@@ -16,7 +17,9 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
         {
             try
             {
-                return Model.GetType().GetProperty(fieldName).GetValue(Model, null);
+                if (((IDictionary<string, object>)Model).ContainsKey(fieldName))
+                    return ((IDictionary<string, object>)Model)[fieldName];
+                return null;
             }
             catch (Exception)
             {

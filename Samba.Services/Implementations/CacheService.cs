@@ -515,6 +515,11 @@ namespace Samba.Services.Implementations
             return EntityTypes.SingleOrDefault(x => x.Id == entityTypeId);
         }
 
+        public EntityType GetEntityTypeByName(string entityTypeName)
+        {
+            return EntityTypes.SingleOrDefault(x => x.Name == entityTypeName);
+        }
+
         public int GetEntityTypeIdByEntityName(string entityName)
         {
             var rt = EntityTypes.FirstOrDefault(x => x.EntityName == entityName);
