@@ -50,10 +50,10 @@ namespace Samba.Modules.PaymentModule
             selector.Price = GetPrice(order, serviceAmount, sum, ExchangeRate, taxIncluded);
         }
 
-        private decimal GetPrice(Order order, decimal serviceAmount, decimal sum, decimal exchangeRate, bool taxIncluded)
+        private static decimal GetPrice(Order order, decimal serviceAmount, decimal sum, decimal exchangeRate, bool taxIncluded)
         {
             var result = order.GetPrice();
-            var tax = taxIncluded ? 0 : order.GetTaxAmount(taxIncluded, sum, serviceAmount);
+            var tax = taxIncluded ? 0 : order.GetTaxAmount(false, sum, serviceAmount);
             if (serviceAmount != 0 && sum != 0) result += (result * serviceAmount) / sum;
             result += tax;
             result = result / exchangeRate;

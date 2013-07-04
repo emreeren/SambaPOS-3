@@ -50,13 +50,20 @@ namespace Samba.Modules.PaymentModule.Tests
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", tost, taxTemplates, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", hamburger, taxTemplates, new MenuItemPortion { Price = 7, Name = "Adet" }, "", null);
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", hamburger, taxTemplates, new MenuItemPortion { Price = 6, Name = "Adet" }, "", null);
-           ticket.AddCalculation(new CalculationType(){AccountTransactionType=AccountTransactionType.Default,DecreaseAmount = true}, 10);
+            ticket.AddCalculation(new CalculationType() { AccountTransactionType = AccountTransactionType.Default, DecreaseAmount = true }, 10);
             ticket.Recalculate();
 
             var orderSelector = new OrderSelector();
             orderSelector.UpdateTicket(ticket);
             Assert.AreEqual(ticket.GetSum(), orderSelector.Selectors.Sum(x => x.TotalPrice));
-        }
+
+            ticket.TaxIncluded = true;
+            orderSelector = new OrderSelector();
+            orderSelector.UpdateTicket(ticket);
+            Assert.AreEqual(ticket.GetSum(), orderSelector.Selectors.Sum(x => x.TotalPrice));
+
+        }        
+        
 
         [Test]
         public void CanUpdatesTicketCorrectly()

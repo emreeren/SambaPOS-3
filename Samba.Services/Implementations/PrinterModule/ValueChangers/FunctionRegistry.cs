@@ -66,7 +66,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{ENTITY DATA:([^}]+)}", GetEntityFieldValue);
             RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.OrderState));
             RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Service));
-
+            RegisterFunction<Ticket>("{EXCHANGE RATE:([^}]+)}", (x, d) => GexExchangeRate(d),Resources.ExchangeRate);
             //ORDERS
             RegisterFunction<Order>(TagNames.Quantity, (x, d) => x.Quantity.ToString(LocalSettings.QuantityFormat), Resources.LineItemQuantity);
             RegisterFunction<Order>(TagNames.Name, (x, d) => x.MenuItemName + x.GetPortionDesc(), Resources.LineItemName);
@@ -145,6 +145,13 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<AccountTransaction>("{TARGET AMOUNT}", (x, d) => Math.Abs(x.TargetTransactionValue.Debit - x.TargetTransactionValue.Credit).ToString(LocalSettings.CurrencyFormat));
             RegisterFunction<AccountTransaction>("{TARGET BALANCE}", (x, d) => GetAccountBalance(x.TargetTransactionValue.AccountId).ToString(LocalSettings.CurrencyFormat));
 
+        }
+
+        private string GexExchangeRate(string name)
+        {
+            var fc = _cacheService.GetForeignCurrencies()
+                         .FirstOrDefault(y => y.Name == name);
+            return fc != null ? fc.ExchangeRate.ToString(LocalSettings.CurrencyFormat) : "";
         }
 
         private decimal GetAccountBalance(int accountId)
