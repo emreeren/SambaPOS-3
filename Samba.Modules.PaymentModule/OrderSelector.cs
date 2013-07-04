@@ -53,7 +53,7 @@ namespace Samba.Modules.PaymentModule
         private decimal GetPrice(Order order, decimal serviceAmount, decimal sum, decimal exchangeRate, bool taxIncluded)
         {
             var result = order.GetPrice();
-            var tax = order.GetTaxAmount(taxIncluded, sum, serviceAmount);
+            var tax = taxIncluded ? 0 : order.GetTaxAmount(taxIncluded, sum, serviceAmount);
             if (serviceAmount != 0 && sum != 0) result += (result * serviceAmount) / sum;
             result += tax;
             result = result / exchangeRate;
