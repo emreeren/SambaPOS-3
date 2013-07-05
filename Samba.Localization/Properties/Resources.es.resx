@@ -129,6 +129,9 @@
   <data name="ButtonHeader" xml:space="preserve">
     <value>Cabecera de Botón</value>
   </data>
+  <data name="POS" xml:space="preserve">
+    <value>PDV</value>
+  </data>
   <data name="DisplayTicket" xml:space="preserve">
     <value>Mostrar Ticket</value>
   </data>
@@ -210,6 +213,9 @@
   </data>
   <data name="Warehouse" xml:space="preserve">
     <value>Almacen</value>
+  </data>
+  <data name="CustomerReceiptTemplate" xml:space="preserve">
+    <value>Plantilla de recibo del cliente</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Total de Ingresos</value>
@@ -987,6 +993,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Phone" xml:space="preserve">
     <value>Telefono</value>
   </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Cantidad total</value>
+  </data>
   <data name="Permissions" xml:space="preserve">
     <value>Permisos</value>
   </data>
@@ -1131,6 +1140,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="GroupFooter" xml:space="preserve">
     <value>Pie de página de grupo</value>
   </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Impresora de transacciones</value>
+  </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Gastos Totales</value>
   </data>
@@ -1233,6 +1245,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>Recibo cambiado. Los últimos cambios no se guardaron.</value>
   </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>Mostrar detalles</value>
+  </data>
   <data name="UserRole" xml:space="preserve">
     <value>Función de usuario</value>
   </data>
@@ -1250,6 +1265,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="SellerWarehouses" xml:space="preserve">
     <value>Almacenes Proveedores</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Cargar</value>
   </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Impresora factura</value>
@@ -1376,6 +1394,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="Thirteen" xml:space="preserve">
     <value>Trece</value>
+  </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Ocultar cuentas con balance cero</value>
   </data>
   <data name="MonWedFri" xml:space="preserve">
     <value>Lunes, miércoles y viernes</value>
@@ -1826,6 +1847,9 @@ Ajuste el Tipo de Ticket Activo</value>
     <value>Periodo de trabajo termina.
 Visita la sección de informes y crear informes de trabajo por períodos</value>
   </data>
+  <data name="PrintAccountTransactionDocument" xml:space="preserve">
+    <value>Imprimir documento de transacción de cuenta</value>
+  </data>
   <data name="WorkPeriodStartDate_f" xml:space="preserve">
     <value>Fecha del período de trabajo: {0}</value>
   </data>
@@ -1894,6 +1918,9 @@ Seguir sin añadir más detalles?</value>
  
  Mensaje de error: 
 </value>
+  </data>
+  <data name="CanNavigate_f" xml:space="preserve">
+    <value>Puede navegar {0}</value>
   </data>
   <data name="Six" xml:space="preserve">
     <value>Seis</value>
@@ -2017,6 +2044,9 @@ Seguir sin añadir más detalles?</value>
   </data>
   <data name="TagCantBeEmpty_f" xml:space="preserve">
     <value>No se puede dejar vacío {0}</value>
+  </data>
+  <data name="AccountTransactionDocumentCreated" xml:space="preserve">
+    <value>Documento de transacción de cuenta creado</value>
   </data>
   <data name="ExecutePowershellScript" xml:space="preserve">
     <value>Ejecutar Script Powershell</value>
@@ -2261,6 +2291,9 @@ Seguir sin añadir más detalles?</value>
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Recibo pagado. Los últimos cambios no se guardaron.</value>
   </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Hora de inicio</value>
+  </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Salir</value>
   </data>
@@ -2499,6 +2532,9 @@ Recibos</value>
   <data name="ProgramSettings" xml:space="preserve">
     <value>Configuración del programa</value>
   </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Recibo</value>
+  </data>
   <data name="InStock" xml:space="preserve">
     <value>En stock</value>
   </data>
@@ -2528,6 +2564,9 @@ Recibos</value>
   </data>
   <data name="LoadTicket" xml:space="preserve">
     <value>Cargar Ticket</value>
+  </data>
+  <data name="TicketExplorer" xml:space="preserve">
+    <value>Buscador de tickets</value>
   </data>
   <data name="TicketTipTotal" xml:space="preserve">
     <value>Propina total</value>
@@ -2663,6 +2702,9 @@ Recibos</value>
   </data>
   <data name="Consumption" xml:space="preserve">
     <value>Consumo</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Borrar plantilla actual y cargar {0}?</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Cada dos meses</value>
@@ -2934,6 +2976,9 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   </data>
   <data name="StateType" xml:space="preserve">
     <value>Tipo Estado</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>Mostrar como árbol</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Etiquetas</value>

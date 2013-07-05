@@ -146,7 +146,7 @@
     <value>Έκπτωση </value>
   </data>
   <data name="ButtonColor" xml:space="preserve">
-    <value>Χρώμα Button</value>
+    <value>Χρώμα Πλήκτρου</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Έθιμο</value>
@@ -236,7 +236,7 @@
     <value>Δολάριο</value>
   </data>
   <data name="BatchPriceList" xml:space="preserve">
-    <value>Τιμή Επεξεργαστής λίστας</value>
+    <value>Επεξεργασία Τιμοκαταλόγου</value>
   </data>
   <data name="Numerators" xml:space="preserve">
     <value>Αριθμητών</value>
@@ -284,7 +284,7 @@
     <value>Όνομα προτύπου</value>
   </data>
   <data name="PropertyGroupName" xml:space="preserve">
-    <value>Ακίνητα Όνομα ομάδας</value>
+    <value>Όνομα ομάδας ιδιοτήτων</value>
   </data>
   <data name="AddModel_f" xml:space="preserve">
     <value>Νέα προσθήκη {0}</value>
@@ -349,11 +349,14 @@
   <data name="VoidOrders" xml:space="preserve">
     <value>Σειρά ταξινόμησης</value>
   </data>
+  <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
+    <value>Ομαδοποιημένα Σύνολα απο Πρότυπο Φορολόγησης</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
   <data name="Property" xml:space="preserve">
-    <value>Περιουσία</value>
+    <value>Ιδιότητα</value>
   </data>
   <data name="DataConnection" xml:space="preserve">
     <value>Τα δεδομένα συμβολοσειράς σύνδεσης</value>
@@ -419,7 +422,7 @@
     <value>Λίστα Προϊόντων</value>
   </data>
   <data name="AlphanumericButtonValues" xml:space="preserve">
-    <value>Αλφαριθμητικές τιμές</value>
+    <value>Πλήκτρο Αλφαριθμητικών Τιμών</value>
   </data>
   <data name="TotalSales" xml:space="preserve">
     <value>Σύνολο Πωλήσεων</value>
@@ -518,7 +521,7 @@
     <value>Δεν Δράσης</value>
   </data>
   <data name="PropertyGroup" xml:space="preserve">
-    <value>Ομάδα Ακίνητα?</value>
+    <value>Ομάδα Ιδιοτήτων</value>
   </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>Μήνυμα λάθους</value>
@@ -622,6 +625,9 @@
   </data>
   <data name="TotalAmount_f" xml:space="preserve">
     <value>{0} Συνολικό Ποσό:</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Αποθήκες</value>
   </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Αποθήκευση Δωρεάν Ετικέτες</value>
@@ -775,10 +781,10 @@
     <value>Δικαιώματα</value>
   </data>
   <data name="BatchCreateProductsDialogHint" xml:space="preserve">
-    <value>Δημιουργήστε μια γραμμή για κάθε προϊόν με [Όνομα προϊόντος] [Τιμή] μορφή. Οι κατηγορίες πρέπει να ξεκινούν με το σύμβολο # .</value>
+    <value>Δημιουργήστε μια γραμμή για κάθε προϊόν με μορφή [Όνομα προϊόντος] [Τιμή]. Οι κατηγορίες πρέπει να ξεκινούν με το σύμβολο # .</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Ακίνητα</value>
+    <value>Ιδιότητες</value>
   </data>
   <data name="TwiceADay" xml:space="preserve">
     <value>Δύο φορές την ημέρα</value>
@@ -805,7 +811,7 @@
     <value>Δεν γίνονται πράξεις για {0}</value>
   </data>
   <data name="CanChangeDepartment" xml:space="preserve">
-    <value>Μπορεί Αλλαγή Τμήματος</value>
+    <value>Δυνατότητα Αλλαγής Τμήματος</value>
   </data>
   <data name="EndOfDayRecord" xml:space="preserve">
     <value>Τέλος καταχώρησης ημέρας</value>
@@ -894,9 +900,6 @@
   <data name="Day" xml:space="preserve">
     <value>Ημέρα</value>
   </data>
-  <data name="MoveTicketLine" xml:space="preserve">
-    <value>Κίνηση</value>
-  </data>
   <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
     <value>Εισιτήριο μετακόμισε στο {0}. Τελευταίες αλλαγές σας δεν αποθηκεύονται.</value>
   </data>
@@ -939,6 +942,9 @@
   <data name="New_f" xml:space="preserve">
     <value>Νέο {0}</value>
   </data>
+  <data name="SellerWarehouses" xml:space="preserve">
+    <value>Αποθήκες Πωλητή</value>
+  </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Εκτυπωτής Τιμολόγιων
 </value>
@@ -960,6 +966,9 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Αποθήκευση </value>
+  </data>
+  <data name="CanCreateAccount" xml:space="preserve">
+    <value>Μπορεί να δημιουργήσει λογαριασμό </value>
   </data>
   <data name="RateFromPreviousTemplate" xml:space="preserve">
     <value>Ποσοστό από το ποσό του προηγούμενου προτύπου</value>
@@ -1025,7 +1034,7 @@
     <value>Λεπτομέρειες</value>
   </data>
   <data name="ButtonHeight" xml:space="preserve">
-    <value>Ύψος Button</value>
+    <value>Ύψος Πλήκτρου</value>
   </data>
   <data name="Cash" xml:space="preserve">
     <value>Μετρητά</value>
@@ -1052,7 +1061,7 @@
     <value>Κάθε 30 λεπτά</value>
   </data>
   <data name="GroupCode" xml:space="preserve">
-    <value>Κωδικός Κουπονιού</value>
+    <value>Κωδικός Ομάδας</value>
   </data>
   <data name="Tickets" xml:space="preserve">
     <value>Εισιτήρια</value>
@@ -1072,6 +1081,9 @@
   <data name="ExecuteActionsIf" xml:space="preserve">
     <value>Συνθήκες</value>
   </data>
+  <data name="Multiplier" xml:space="preserve">
+    <value>Πολλαπλασιαστής</value>
+  </data>
   <data name="QuarterTil" xml:space="preserve">
     <value>Τέταρτο til</value>
   </data>
@@ -1088,7 +1100,7 @@
     <value>Πενήντα</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Φρεσκάρω</value>
+    <value>Ανανέωση</value>
   </data>
   <data name="Income" xml:space="preserve">
     <value>Έσοδα</value>
@@ -1169,10 +1181,13 @@
     <value>Αυτόματη ανανέωση </value>
   </data>
   <data name="IncomeTransactions" xml:space="preserve">
-    <value>Συναλλαγές εισόδων </value>
+    <value>Συναλλαγές εσόδων </value>
   </data>
   <data name="Confirmation" xml:space="preserve">
     <value>Επιβεβαίωση</value>
+  </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Τοπικές Αποθήκες</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Σύνδεση</value>
@@ -1199,7 +1214,7 @@
     <value>Έγγραφο Συναλλαγής</value>
   </data>
   <data name="BatchCreteProducts" xml:space="preserve">
-    <value>Μαζική Δημιουργία Προϊόντα</value>
+    <value>Μαζική Δημιουργία Προϊόντων</value>
   </data>
   <data name="SambaPOSReporter" xml:space="preserve">
     <value>SambaPOS Αναφορές   </value>
@@ -1226,7 +1241,7 @@
     <value>Προς:</value>
   </data>
   <data name="TransacitonUnitMultiplier" xml:space="preserve">
-    <value>Συναλλαγή Πολλαπλασιαστής Μονάδα</value>
+    <value>Πολλαπλασιαστής Μονάδας Συναλλαγής</value>
   </data>
   <data name="Five" xml:space="preserve">
     <value>Πέντε</value>
@@ -1250,7 +1265,7 @@
     <value>Εσωτερική Λογαριασμοί</value>
   </data>
   <data name="POSView" xml:space="preserve">
-    <value>POS View</value>
+    <value>Εμφάνιση POS</value>
   </data>
   <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
     <value>Δεν είναι δυνατή η ολοκλήρωση αυτής της λειτουργίας, ενώ μηδενική τιμή παραγγελίες υπάρχει.</value>
@@ -1265,7 +1280,7 @@
     <value>Barcodes Βάρος</value>
   </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
-    <value>Επιλέξτε ημερομηνία σειρά, έκθεση ανανέωσης και κάντε κλικ στο σχετικό σύνδεσμο για την εξαγωγή δεδομένων.</value>
+    <value>Επιλέξτε εύρος ημερομηνίας, ανανεώστε την αναφορά και πατήστε τον σχετικό σύνδεσμο για εξαγωγή δεδομένων.</value>
   </data>
   <data name="BatchCreate_f" xml:space="preserve">
     <value>Μαζική Δημιουργία {0}</value>
@@ -1463,8 +1478,8 @@
   <data name="DemoPrinter" xml:space="preserve">
     <value>Εκτυπωτής Demo (σημειωματάριο)</value>
   </data>
-  <data name="Multiplier" xml:space="preserve">
-    <value>Πολλαπλασιαστής</value>
+  <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
+    <value>Επιλέξτε τύπο πληρωμής για την χρήση του προτύπου στο {0}.</value>
   </data>
   <data name="FontSize" xml:space="preserve">
     <value>Μέγεθος γραμματοσειράς </value>
@@ -1484,6 +1499,9 @@
   <data name="Reports" xml:space="preserve">
     <value>Αναφορές</value>
   </data>
+  <data name="AutoRefreshInterval" xml:space="preserve">
+    <value>Περίοδος Αυτόματης Ανανέωσης</value>
+  </data>
   <data name="Yes" xml:space="preserve">
     <value>Ναί</value>
   </data>
@@ -1491,7 +1509,7 @@
     <value>Διαγραφή επιλεγμένων Χαρτογράφηση;</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
-    <value>Τιμές Μερίδα</value>
+    <value>Τιμές Μερίδων</value>
   </data>
   <data name="Hidden" xml:space="preserve">
     <value>Κρυφό</value>
@@ -1557,7 +1575,7 @@
     <value>Κοινός</value>
   </data>
   <data name="InventoryItem" xml:space="preserve">
-    <value>Στοιχείο Απογραφή</value>
+    <value>Είδος Απογραφής</value>
   </data>
   <data name="AccountsLiability" xml:space="preserve">
     <value>Λογαριασμοί Ευθύνη</value>
@@ -1566,7 +1584,7 @@
     <value>Εμφάνιση Popup</value>
   </data>
   <data name="DocumentNo" xml:space="preserve">
-    <value>Αριθμός αρχείου</value>
+    <value>Αριθμός Εγγράφου</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Προϊόντα</value>
@@ -1722,7 +1740,7 @@
     <value>Ανοιχτό</value>
   </data>
   <data name="NumeratorValue" xml:space="preserve">
-    <value>Αξία Αριθμητής</value>
+    <value>Τιμή Πληκτρολογίου Αριθμών</value>
   </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Δευτ. μέσω Παρ.</value>
@@ -1740,7 +1758,7 @@
     <value>Χρώμα</value>
   </data>
   <data name="NumeratorProperties" xml:space="preserve">
-    <value>Ιδιότητες Αριθμητής</value>
+    <value>Ιδιότητες Πληκτρολογίου Αριθμών</value>
   </data>
   <data name="Every15Minutes" xml:space="preserve">
     <value>Κάθε 15 λεπτά</value>
@@ -1819,6 +1837,9 @@
   </data>
   <data name="Line" xml:space="preserve">
     <value>Γραμμή</value>
+  </data>
+  <data name="ClientServerConnectionHelpUrlString" xml:space="preserve">
+    <value>http://www.sambapos.com/en/content/client-server-baglantisi-nasil-yapilir</value>
   </data>
   <data name="Nine" xml:space="preserve">
     <value>Εννέα</value>
@@ -1953,7 +1974,7 @@
     <value>Απογραφή Έκθεση Αγορά</value>
   </data>
   <data name="TerminalView" xml:space="preserve">
-    <value>Προβολή Terminal</value>
+    <value>Προβολή Τερματικού</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Κάθε άλλο μήνα</value>
@@ -1966,6 +1987,9 @@
   </data>
   <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
     <value>Συνολικός χρόνος εργασίας: {0:0} λεπτά</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>Είδος Πεδίου</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Μήνυμα</value>
@@ -2061,8 +2085,8 @@
   <data name="Twenty" xml:space="preserve">
     <value>Είκοσι</value>
   </data>
-  <data name="CanCreateAccount" xml:space="preserve">
-    <value>Μπορεί να δημιουργήσει λογαριασμό </value>
+  <data name="MoveTicketLine" xml:space="preserve">
+    <value>Κίνηση</value>
   </data>
   <data name="Ninety" xml:space="preserve">
     <value>Ενενήντα</value>
@@ -2112,6 +2136,9 @@
   <data name="ColumnCount" xml:space="preserve">
     <value>Πλήθος στηλών</value>
   </data>
+  <data name="DisplayFormat" xml:space="preserve">
+    <value>Διαμόρφωση Οθόνης</value>
+  </data>
   <data name="DisplayUserPath" xml:space="preserve">
     <value>Εμφάνιση διαδρομής χρήστη</value>
   </data>
@@ -2155,7 +2182,7 @@
     <value>Samba Δίκτυο</value>
   </data>
   <data name="NumeratorType" xml:space="preserve">
-    <value>Τύπος Αριθμητής</value>
+    <value>Τύπος Πληκτρολογίου Αριθμών</value>
   </data>
   <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
     <value>Παράκαμψη τοπικές ρυθμίσεις των Windows</value>
@@ -2193,6 +2220,9 @@
   <data name="MenuCategories" xml:space="preserve">
     <value>Κατηγορίες Καταλόγου</value>
   </data>
+  <data name="TicketType" xml:space="preserve">
+    <value>Τύπος Εισητηρίου</value>
+  </data>
   <data name="SelectActions" xml:space="preserve">
     <value>Επιλέξτε Ενέργειες</value>
   </data>
@@ -2200,7 +2230,7 @@
     <value>Ποσοστό έκπτωσης</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value>Επικεφαλίδα  </value>
+    <value>Κεφαλίδα</value>
   </data>
   <data name="CreateAccount" xml:space="preserve">
     <value>Δημιουργία λογαριασμού</value>
