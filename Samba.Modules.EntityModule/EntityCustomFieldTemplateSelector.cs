@@ -2,9 +2,9 @@
 using System.Windows.Controls;
 using Samba.Domain.Models.Entities;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.EntityModule
 {
-    public class ResourceCustomFieldTemplateSelector : DataTemplateSelector
+    public class EntityCustomFieldTemplateSelector : DataTemplateSelector
     {
         public DataTemplate TextTemplate { get; set; }
         public DataTemplate WideTextTemplate { get; set; }

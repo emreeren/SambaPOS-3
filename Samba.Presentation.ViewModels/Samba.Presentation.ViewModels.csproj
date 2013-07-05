@@ -60,11 +60,6 @@
     <Compile Include="MapControllerView.xaml.cs">
       <DependentUpon>MapControllerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EntityCustomDataEditor.xaml.cs">
-      <DependentUpon>EntityCustomDataEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="EntityCustomDataViewModel.cs" />
-    <Compile Include="ResourceCustomFieldTemplateSelector.cs" />
     <Compile Include="CommandButtonViewModel.cs" />
     <Compile Include="PaymentButtonGroupViewModel.cs" />
     <Compile Include="ServiceViewModel.cs" />
@@ -120,10 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MapControllerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="EntityCustomDataEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

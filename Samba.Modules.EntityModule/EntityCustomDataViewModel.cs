@@ -5,12 +5,12 @@ using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.EntityModule
 {
     public class EntityCustomDataViewModel : ObservableObject
     {
         public Entity Model { get; set; }
-        private readonly EntityType _template;
+        public EntityType EntityType { get; set; }
 
         public string GetValue(string name)
         {
@@ -21,9 +21,12 @@ namespace Samba.Presentation.ViewModels
 
         public EntityCustomDataViewModel(Entity model, EntityType template)
         {
-            _template = template;
+            EntityType = template;
             Model = model;
         }
+
+        public bool IsTextBoxVisible { get { return string.IsNullOrWhiteSpace(EntityType.PrimaryFieldFormat); } }
+        public bool IsMaskedTextBoxVisible { get { return !IsTextBoxVisible; } }
 
         private ObservableCollection<CustomDataValue> _customData;
         public ObservableCollection<CustomDataValue> CustomData
@@ -49,11 +52,11 @@ namespace Samba.Presentation.ViewModels
 
         private void GenerateFields(ICollection<CustomDataValue> data)
         {
-            if (_template == null) return;
+            if (EntityType == null) return;
 
-            data.Where(x => _template.EntityCustomFields.All(y => y.Name != x.Name)).ToList().ForEach(x => data.Remove(x));
+            data.Where(x => EntityType.EntityCustomFields.All(y => y.Name != x.Name)).ToList().ForEach(x => data.Remove(x));
 
-            foreach (var cf in _template.EntityCustomFields)
+            foreach (var cf in EntityType.EntityCustomFields)
             {
                 var customField = cf;
                 var d = data.FirstOrDefault(x => x.Name == customField.Name);
@@ -65,6 +68,8 @@ namespace Samba.Presentation.ViewModels
         public void Update()
         {
             Model.CustomData = JsonHelper.Serialize(_customData);
+            RaisePropertyChanged(() => IsMaskedTextBoxVisible);
+            RaisePropertyChanged(() => IsTextBoxVisible);
         }
     }
 }

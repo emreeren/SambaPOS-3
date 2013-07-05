@@ -3,12 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ViewModels="clr-namespace:Samba.Presentation.ViewModels;assembly=Samba.Presentation.ViewModels" 
              xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton"
              xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard;assembly=Samba.Presentation.Controls"
-             xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
+             xmlns:entityModule="clr-namespace:Samba.Modules.EntityModule"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" FontSize="20" Loaded="UserControl_Loaded">
+             d:DesignHeight="300" d:DesignWidth="300" FontSize="20">
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
@@ -19,23 +18,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Margin="5,5,5,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="EntityLabel" Width="auto" />
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Label Margin="0,0,2,2" Grid.Row="0" Grid.Column="0" Content="{Binding PrimaryFieldName}" />
-            <UIControls:MaskedTextBox Name="EntityNameEdit" Margin="0,0,2,2" Grid.Column="1" Grid.Row="0"
-                    PromptChar=" "
-                    UnmaskedText="{Binding SelectedEntity.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-                    InputMask="{Binding PrimaryFieldFormat}"/>
-            <ViewModels:EntityCustomDataEditor Focusable="False" Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding CustomDataViewModel}"/>
-        </Grid>
-
+        <entityModule:EntityCustomDataEditor  Margin="5,5,5,0" Focusable="False" Grid.Row="0" DataContext="{Binding CustomDataViewModel}"/>
+        
         <VirtualKeyboard:KeyboardView3 Grid.Row="1" Margin="5"/>
 
         <StackPanel Grid.Column="1" Grid.RowSpan="2" Background="LightGray">
