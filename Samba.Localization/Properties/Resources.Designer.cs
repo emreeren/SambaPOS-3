@@ -4062,6 +4062,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loop Values.
+        /// </summary>
+        public static string LoopValues {
+            get {
+                return ResourceManager.GetString("LoopValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main Menu.
         /// </summary>
         public static string MainMenu {
@@ -4625,6 +4634,15 @@ namespace Samba.Localization.Properties {
         public static string Number {
             get {
                 return ResourceManager.GetString("Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numberpad Value Entered.
+        /// </summary>
+        public static string NumberpadValueEntered {
+            get {
+                return ResourceManager.GetString("NumberpadValueEntered", resourceCulture);
             }
         }
         
@@ -8441,6 +8459,15 @@ namespace Samba.Localization.Properties {
         public static string UserSales {
             get {
                 return ResourceManager.GetString("UserSales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value Looped.
+        /// </summary>
+        public static string ValueLooped {
+            get {
+                return ResourceManager.GetString("ValueLooped", resourceCulture);
             }
         }
         

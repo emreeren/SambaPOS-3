@@ -51,6 +51,7 @@ namespace Samba.Modules.PosModule
             {
                 _selectedTicket = value;
                 _ticketViewModel.SelectedTicket = value;
+                _menuItemSelectorViewModel.SelectedTicket = value;
                 if (value != null)
                 {
                     var template = _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId);

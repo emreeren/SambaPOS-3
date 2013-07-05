@@ -77,7 +77,8 @@
         public const string BeforeTicketClosing = "BeforeTicketClosing";
         public const string DeviceEventGenerated = "DeviceEventGenerated";
         public const string ValueLooped = "ValueLooped";
-        public static string AccountTransactionDocumentCreated = "AccountTransactionDocumentCreated";
+        public const string AccountTransactionDocumentCreated = "AccountTransactionDocumentCreated";
+        public const string NumberpadValueEntered = "NumberpadValueEntered";
     }
 
     public static class EventTopicNames

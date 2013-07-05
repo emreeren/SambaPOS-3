@@ -181,8 +181,8 @@
                     </Grid.ColumnDefinitions>
                     <TextBox IsReadOnly="True" Focusable="True" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
                          FontSize="30" FontWeight="Bold" Text="{Binding NumeratorValue,Mode=TwoWay}" />
-                    <FxButton:FlexButton MinWidth="40" Grid.Column="3" Grid.Row="0" Content='C' Command="{Binding TypeValueCommand}"
-                         CommandParameter="C" Margin="2,0,0,2" Focusable="False" />
+                    <FxButton:FlexButton MinWidth="40" Grid.Column="3" Grid.Row="0" Content='C' Command="{Binding ClearNumeratorCommand}"
+                         Margin="2,0,0,2" Focusable="False" />
                 </Grid>
                 <UniformGrid Grid.Column="0" Grid.Row="1" Rows="4" Columns="3" Grid.ColumnSpan="2">
                     <FxButton:FlexButton Content="1" Command="{Binding TypeValueCommand}" CommandParameter="1"

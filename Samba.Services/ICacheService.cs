@@ -25,6 +25,7 @@ namespace Samba.Services
         Entity GetEntityById(int entityId);
         ScreenMenu GetScreenMenu(int screenMenuId);
         MenuItem GetMenuItem(Func<MenuItem, bool> expression);
+        MenuItem FindMenuItemByBarcode(string insertedData);
         string GetMenuItemData(int menuItemId, Func<MenuItem, string> selector);
         MenuItemPortion GetMenuItemPortion(int menuItemId, string portionName);
         IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId);

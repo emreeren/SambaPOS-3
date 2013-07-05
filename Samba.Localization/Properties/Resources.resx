@@ -3274,4 +3274,13 @@ Error Message:
   <data name="PrimaryFieldFormat" xml:space="preserve">
     <value>Primary Field Format</value>
   </data>
+  <data name="NumberpadValueEntered" xml:space="preserve">
+    <value>Numberpad Value Entered</value>
+  </data>
+  <data name="ValueLooped" xml:space="preserve">
+    <value>Value Looped</value>
+  </data>
+  <data name="LoopValues" xml:space="preserve">
+    <value>Loop Values</value>
+  </data>
 </root>

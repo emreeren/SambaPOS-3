@@ -72,6 +72,11 @@ namespace Samba.Services.Implementations
             return MenuItems.Single(expression);
         }
 
+        public MenuItem FindMenuItemByBarcode(string insertedData)
+        {
+            return MenuItems.SingleOrDefault(x => x.Barcode == insertedData);
+        }
+
         public string GetMenuItemData(int menuItemId, Func<MenuItem, string> selector)
         {
             return MenuItems.Where(x => x.Id == menuItemId).Select(selector).FirstOrDefault();

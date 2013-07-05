@@ -7,6 +7,7 @@ using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
@@ -28,8 +29,8 @@ namespace Samba.Modules.PosModule
         public ObservableCollection<ScreenSubCategoryButton> SubCategories { get; set; }
         public DelegateCommand<ScreenMenuCategory> CategoryCommand { get; set; }
         public DelegateCommand<ScreenMenuItem> MenuItemCommand { get; set; }
+        public DelegateCommand<string> ClearNumeratorCommand { get; set; }
         public DelegateCommand<string> TypeValueCommand { get; set; }
-        public DelegateCommand<string> FindMenuItemCommand { get; set; }
         public ICaptionCommand IncPageNumberCommand { get; set; }
         public ICaptionCommand DecPageNumberCommand { get; set; }
         public ICaptionCommand SubCategoryCommand { get; set; }
@@ -71,6 +72,8 @@ namespace Samba.Modules.PosModule
 
         public ObservableCollection<ScreenMenuItemData> SelectedMenuItems { get; set; }
 
+        public Ticket SelectedTicket { get; set; }
+
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
         private readonly ISettingService _settingService;
@@ -88,7 +91,7 @@ namespace Samba.Modules.PosModule
             CategoryCommand = new DelegateCommand<ScreenMenuCategory>(OnCategoryCommandExecute);
             MenuItemCommand = new DelegateCommand<ScreenMenuItem>(OnMenuItemCommandExecute);
             TypeValueCommand = new DelegateCommand<string>(OnTypeValueExecute);
-            FindMenuItemCommand = new DelegateCommand<string>(OnFindMenuItemCommand);
+            ClearNumeratorCommand = new DelegateCommand<string>(OnClearNumeratorCommand);
             IncPageNumberCommand = new CaptionCommand<string>(Localization.Properties.Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
             DecPageNumberCommand = new CaptionCommand<string>("<< " + Localization.Properties.Resources.PreviousPage, OnDecPageNumber, CanDecPageNumber);
             SubCategoryCommand = new CaptionCommand<ScreenSubCategoryButton>(".", OnSubCategoryCommand);
@@ -101,6 +104,10 @@ namespace Samba.Modules.PosModule
             SelectedMenuItems = new ObservableCollection<ScreenMenuItemData>();
         }
 
+        private void OnClearNumeratorCommand(string obj)
+        {
+            NumeratorValue = "";
+        }
 
         private bool _filtered;
         private void FilterMenuItems(string numeratorValue)
@@ -162,55 +169,53 @@ namespace Samba.Modules.PosModule
             UpdateMenuButtons(SelectedCategory);
         }
 
-        private void OnFindMenuItemCommand(string obj)
+        private void FindMenuItem()
         {
             var insertedData = NumeratorValue;
             decimal quantity = 1;
             if (NumeratorValue.ToLower().Contains("x"))
             {
                 insertedData = NumeratorValue.Substring(NumeratorValue.ToLower().IndexOf("x") + 1);
-                string q = NumeratorValue.Substring(0, NumeratorValue.ToLower().IndexOf("x"));
+                var q = NumeratorValue.Substring(0, NumeratorValue.ToLower().IndexOf("x"));
                 decimal.TryParse(q, out quantity);
             }
             NumeratorValue = "";
 
-            if (quantity > 0)
+            if (quantity <= 0) return;
+            
+            var weightBarcodePrefix = _settingService.ProgramSettings.WeightBarcodePrefix;
+            if (!string.IsNullOrEmpty(weightBarcodePrefix) && insertedData.StartsWith(weightBarcodePrefix))
             {
-                var weightBarcodePrefix = _settingService.ProgramSettings.WeightBarcodePrefix;
-                if (!string.IsNullOrEmpty(weightBarcodePrefix) && insertedData.StartsWith(weightBarcodePrefix))
+                var itemLength = _settingService.ProgramSettings.WeightBarcodeItemLength;
+                var quantityLength = _settingService.ProgramSettings.WeightBarcodeQuantityLength;
+                if (itemLength > 0 && quantityLength > 0 && insertedData.Length >= itemLength + quantityLength + weightBarcodePrefix.Length)
                 {
-                    var itemLength = _settingService.ProgramSettings.WeightBarcodeItemLength;
-                    var quantityLength = _settingService.ProgramSettings.WeightBarcodeQuantityLength;
-                    if (itemLength > 0 && quantityLength > 0 && insertedData.Length >= itemLength + quantityLength + weightBarcodePrefix.Length)
+                    var bc = insertedData.Substring(weightBarcodePrefix.Length, itemLength);
+                    if (!string.IsNullOrEmpty(_settingService.ProgramSettings.WeightBarcodeItemFormat))
                     {
-                        var bc = insertedData.Substring(weightBarcodePrefix.Length, itemLength);
-                        if (!string.IsNullOrEmpty(_settingService.ProgramSettings.WeightBarcodeItemFormat))
-                        {
-                            int integerValue;
-                            int.TryParse(bc, out integerValue);
-                            if (integerValue > 0)
-                                bc = integerValue.ToString(_settingService.ProgramSettings.WeightBarcodeItemFormat);
-                        }
-                        var qty = insertedData.Substring(weightBarcodePrefix.Length + itemLength, quantityLength);
-                        if (bc.Length > 0 && qty.Length > 0)
-                        {
-                            insertedData = bc;
-                            decimal.TryParse(qty, out quantity);
-                        }
+                        int integerValue;
+                        int.TryParse(bc, out integerValue);
+                        if (integerValue > 0)
+                            bc = integerValue.ToString(_settingService.ProgramSettings.WeightBarcodeItemFormat);
+                    }
+                    var qty = insertedData.Substring(weightBarcodePrefix.Length + itemLength, quantityLength);
+                    if (bc.Length > 0 && qty.Length > 0)
+                    {
+                        insertedData = bc;
+                        decimal.TryParse(qty, out quantity);
                     }
                 }
-                try
-                {
-                    var mi = _cacheService.GetMenuItem(x => x.Barcode == insertedData);
-                    if (mi != null)
-                    {
-                        var si = new ScreenMenuItem { MenuItemId = mi.Id, Name = mi.Name };
-                        var data = new ScreenMenuItemData { ScreenMenuItem = si, Quantity = quantity };
-                        data.PublishEvent(EventTopicNames.ScreenMenuItemDataSelected);
-                    }
-                }
-                catch (Exception) { }
             }
+
+            var mi = _cacheService.FindMenuItemByBarcode(insertedData);
+            if (mi != null)
+            {
+                var si = new ScreenMenuItem { MenuItemId = mi.Id, Name = mi.Name };
+                var data = new ScreenMenuItemData { ScreenMenuItem = si, Quantity = quantity };
+                data.PublishEvent(EventTopicNames.ScreenMenuItemDataSelected);
+            }
+            else
+                _applicationState.NotifyEvent(RuleEventNames.NumberpadValueEntered, new { Ticket = SelectedTicket, Value = insertedData });
         }
 
         private void OnMenuItemCommandExecute(ScreenMenuItem screenMenuItem)
@@ -393,12 +398,13 @@ namespace Samba.Modules.PosModule
             {
                 if (_filtered && MenuItems.Count == 1)
                     MenuItemCommand.Execute(MenuItems[0].ScreenMenuItem);
-                FindMenuItemCommand.Execute("");
+                else
+                    FindMenuItem();
             }
             else if (obj == "\b" && !string.IsNullOrEmpty(NumeratorValue))
                 NumeratorValue = NumeratorValue.Substring(0, NumeratorValue.Length - 1);
             else if (!string.IsNullOrEmpty(obj) && !Char.IsControl(obj[0]))
-                NumeratorValue = obj == "C" ? "" : Helpers.AddTypedValue(NumeratorValue, obj, "#0.");
+                NumeratorValue = Helpers.AddTypedValue(NumeratorValue, obj, "#0.");
         }
 
         public bool HandleTextInput(string text)
