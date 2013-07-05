@@ -38,7 +38,7 @@ namespace Samba.Modules.EntityModule
             }
         }
 
-        public string Name { get { return Model.Name; } }
+        public string Name { get { return FormatEntityName(Model); } }
 
         private string _buttonColor;
         public string ButtonColor
@@ -78,6 +78,12 @@ namespace Samba.Modules.EntityModule
             IsEnabled = Model.EntityId != 0 || !_isTicketSelected;
             if (_isTicketSelected && !_userPermittedToMerge) IsEnabled = false;
             if (EntityState != null) ButtonColor = _cacheService.GetStateColor(EntityState);
+        }
+
+        private string FormatEntityName(EntityScreenItem model)
+        {
+            var et = _cacheService.GetEntityTypeById(_screen.EntityTypeId);
+            return et != null ? et.FormatEntityName(model.Name) : "";
         }
     }
 }

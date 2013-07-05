@@ -3268,4 +3268,10 @@ Error Message:
   <data name="CustomerReceiptTemplate" xml:space="preserve">
     <value>Customer Receipt Template</value>
   </data>
+  <data name="PrimaryFieldName" xml:space="preserve">
+    <value>Primary Field Name</value>
+  </data>
+  <data name="PrimaryFieldFormat" xml:space="preserve">
+    <value>Primary Field Format</value>
+  </data>
 </root>

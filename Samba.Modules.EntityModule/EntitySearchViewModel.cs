@@ -166,6 +166,9 @@ namespace Samba.Modules.EntityModule
             }
         }
 
+        public string PrimaryFieldName { get { return SelectedEntityType != null ? SelectedEntityType.PrimaryFieldName ?? Resources.Name : ""; } }
+        public string PrimaryFieldFormat { get { return SelectedEntityType != null ? SelectedEntityType.PrimaryFieldFormat : null; } }
+
         public IEnumerable<EntityType> EntityTypes { get { return _cacheService.GetEntityTypes(); } }
 
         private EntityType _selectedEntityType;
@@ -183,6 +186,8 @@ namespace Samba.Modules.EntityModule
                 RaisePropertyChanged(() => RemoveEntityCommandCaption);
                 RaisePropertyChanged(() => IsEntitySelectorVisible);
                 RaisePropertyChanged(() => IsInventorySelectorVisible);
+                RaisePropertyChanged(() => PrimaryFieldName);
+                RaisePropertyChanged(() => PrimaryFieldFormat);
                 InvokeSelectedEntityTypeChanged(EventArgs.Empty);
             }
         }

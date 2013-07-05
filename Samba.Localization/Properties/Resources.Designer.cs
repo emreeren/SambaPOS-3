@@ -5412,6 +5412,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Primary Field Format.
+        /// </summary>
+        public static string PrimaryFieldFormat {
+            get {
+                return ResourceManager.GetString("PrimaryFieldFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary Field Name.
+        /// </summary>
+        public static string PrimaryFieldName {
+            get {
+                return ResourceManager.GetString("PrimaryFieldName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Print.
         /// </summary>
         public static string Print {

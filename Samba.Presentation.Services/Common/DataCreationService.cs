@@ -53,10 +53,10 @@ namespace Samba.Presentation.Services.Common
             _workspace.Add(customerAccountType);
             _workspace.CommitChanges();
 
-            var customerEntityType = new EntityType { Name = Resources.Customers, EntityName = Resources.Customer, AccountTypeId = customerAccountType.Id };
+            var customerEntityType = new EntityType { Name = Resources.Customers, EntityName = Resources.Customer, AccountTypeId = customerAccountType.Id, PrimaryFieldName = Resources.Name };
             customerEntityType.EntityCustomFields.Add(new EntityCustomField { EditingFormat = "(###) ### ####", FieldType = 0, Name = Resources.Phone });
             customerEntityType.AccountNameTemplate = "[Name]-[" + Resources.Phone + "]";
-            var tableEntityType = new EntityType { Name = Resources.Tables, EntityName = Resources.Table };
+            var tableEntityType = new EntityType { Name = Resources.Tables, EntityName = Resources.Table, PrimaryFieldName = Resources.Name };
 
             _workspace.Add(customerEntityType);
             _workspace.Add(tableEntityType);

@@ -14,6 +14,8 @@ namespace Samba.Domain.Models.Entities
         public int AccountTypeId { get; set; }
         public int WarehouseTypeId { get; set; }
         public string AccountNameTemplate { get; set; }
+        public string PrimaryFieldName { get; set; }
+        public string PrimaryFieldFormat { get; set; }
 
         private IList<EntityCustomField> _entityCustomFields;
         public virtual IList<EntityCustomField> EntityCustomFields
@@ -68,6 +70,13 @@ namespace Samba.Domain.Models.Entities
         public string UserString
         {
             get { return Name; }
+        }
+
+        public string FormatEntityName(string name)
+        {
+            return string.IsNullOrEmpty(PrimaryFieldFormat)
+              ? name
+              : Int64.Parse(name).ToString(PrimaryFieldFormat);
         }
     }
 }

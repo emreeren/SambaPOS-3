@@ -40,10 +40,10 @@
             <ListView.View>
                 <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource BlueBackground}"
                                  ColumnHeaderTemplate="{StaticResource WrappedHeaderTemplate}">
-                    <GridViewColumn Header="{LocText Name}" ListViewLM:ProportionalColumn.Width="2">
+                    <GridViewColumn Header="{Binding PrimaryFieldName}" ListViewLM:ProportionalColumn.Width="2">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding NameDisplay}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

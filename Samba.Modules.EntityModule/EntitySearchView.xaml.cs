@@ -29,7 +29,7 @@ namespace Samba.Modules.EntityModule
             var gridView = MainListView.View as GridView;
             if (ViewModel != null && gridView != null)
             {
-                gridView.Columns.Where(x => x.Header.ToString() != Localization.Properties.Resources.Name).ToList().ForEach(x => gridView.Columns.Remove(x));
+                gridView.Columns.Where(x => x!=gridView.Columns.First()).ToList().ForEach(x => gridView.Columns.Remove(x));
                 if (ViewModel.SelectedEntityType != null)
                     ViewModel.SelectedEntityType.EntityCustomFields.Where(x => !x.Hidden).Select(CreateColumn).ToList().ForEach(x => gridView.Columns.Add(x));
                 MainListView.RaiseEvent(new RoutedEventArgs(LoadedEvent, MainListView));

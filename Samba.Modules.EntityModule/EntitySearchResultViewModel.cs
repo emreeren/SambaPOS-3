@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Samba.Domain.Models.Entities;
-using Samba.Domain.Models.Tickets;
-using Samba.Localization.Properties;
-using Samba.Persistance.Data;
+﻿using Samba.Domain.Models.Entities;
 using Samba.Presentation.Common;
 using Samba.Presentation.ViewModels;
 
@@ -32,7 +27,24 @@ namespace Samba.Modules.EntityModule
         }
 
         public int Id { get { return Model.Id; } }
-        public string Name { get { return Model.Name; } set { Model.Name = value; RaisePropertyChanged(() => Name); } }
+
+        public string NameDisplay
+        {
+            get { return EntityType.FormatEntityName(Model.Name); }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return Model.Name;
+            }
+            set
+            {
+                Model.Name = value;
+                RaisePropertyChanged(() => Name);
+            }
+        }
 
     }
 }

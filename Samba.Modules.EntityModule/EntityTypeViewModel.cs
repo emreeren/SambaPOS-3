@@ -46,6 +46,9 @@ namespace Samba.Modules.EntityModule
             set { Model.WarehouseTypeId = value != null ? value.Id : 0; }
         }
 
+        public string PrimaryFieldName { get { return Model.PrimaryFieldName; } set { Model.PrimaryFieldName = value; } }
+        public string PrimaryFieldFormat { get { return Model.PrimaryFieldFormat; } set { Model.PrimaryFieldFormat = value; } }
+
         public ICaptionCommand AddCustomFieldCommand { get; set; }
         public ICaptionCommand DeleteCustomFieldCommand { get; set; }
 

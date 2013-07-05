@@ -109,9 +109,9 @@ namespace Samba.Presentation.ViewModels
                 if (Model.Id > 0) sb.AppendFormat("# {0} ", Model.TicketNumber);
                 foreach (var ticketEntity in Model.TicketEntities)
                 {
-                    var rs = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
-                    var entityName = ticketEntity.EntityName;
-                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, entityName));
+                    var entityType = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
+                    var entityName = entityType.FormatEntityName(ticketEntity.EntityName);
+                    sb.AppendLine(string.Format("{0}: {1}", entityType.EntityName, entityName));
                 }
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
 
@@ -132,7 +132,7 @@ namespace Samba.Presentation.ViewModels
                 foreach (var ticketEntity in Model.TicketEntities)
                 {
                     var rs = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
-                    var entityName = ticketEntity.EntityName;
+                    var entityName = rs.FormatEntityName(ticketEntity.EntityName);
                     if (ticketEntity.AccountId > 0)
                     {
                         var balance = _accountBalances.GetAccountBalance(ticketEntity.AccountId);
