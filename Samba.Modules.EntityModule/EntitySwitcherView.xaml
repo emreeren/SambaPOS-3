@@ -14,7 +14,7 @@
                 <DataTemplate>
                     <FxButton:FlexButton Margin="2,2,2,0" FontSize="35" Content="{Binding Caption}" Focusable="False"
                                          Command="{Binding DataContext.SelectEntityCategoryCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                         CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor}"/>
+                                         CommandParameter="{Binding Model}" ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>

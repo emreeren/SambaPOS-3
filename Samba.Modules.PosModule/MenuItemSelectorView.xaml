@@ -19,7 +19,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FxButton:FlexButton Margin="5,0,0,7" Focusable="False" ButtonColor="{Binding ButtonColor}"
+                    <FxButton:FlexButton Margin="5,0,0,7" Focusable="False" ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}"
                          ButtonImage="{Binding ImagePath}" Content="{Binding Caption}" Command="{Binding Command}"
                          CommandParameter="{Binding ScreenMenuItem}" />
                 </DataTemplate>
@@ -48,7 +48,7 @@
                         <DataTemplate>
                             <FxButton:FlexButton FontSize="{Binding FontSize}" Content="{Binding Caption}" Focusable="False" Command="{Binding ButtonCommand}"
                                  CommandParameter="{Binding Category}" Height="{Binding MButtonHeight}" Margin="0,1,0,1"
-                                 ButtonImage="{Binding ImagePath}" ButtonColor="{Binding MButtonColor}" />
+                                 ButtonImage="{Binding ImagePath}" ButtonColor="{Binding MButtonColor,Converter={StaticResource NullBrushConverter}}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -129,7 +129,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <FxButton:FlexButton Content="{Binding Caption}" Focusable="False" Command="{Binding Command}" FontSize="{Binding FontSize}"
-                                 CommandParameter="{Binding }" Height="{Binding Height}" Margin="0,0,0,5" ButtonColor="{Binding ButtonColor}"/>
+                                 CommandParameter="{Binding }" Height="{Binding Height}" Margin="0,0,0,5" ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -149,7 +149,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <FxButton:FlexButton FontSize="{Binding FontSize}" Focusable="False" ButtonColor="{Binding ButtonColor}" Content="{Binding Caption}"
+                                    <FxButton:FlexButton FontSize="{Binding FontSize}" Focusable="False" ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}" Content="{Binding Caption}"
                                      Command="{Binding Command}" CommandParameter="{Binding ScreenMenuItem}" Height="{Binding ButtonHeight}"
                                       Margin="1" ButtonImage="{Binding ImagePath}"/>
                                 </DataTemplate>

@@ -25,7 +25,7 @@ namespace Samba.Modules.EntityModule
             Model = model;
         }
 
-        public bool IsTextBoxVisible { get { return string.IsNullOrWhiteSpace(EntityType.PrimaryFieldFormat); } }
+        public bool IsTextBoxVisible { get { return EntityType != null && string.IsNullOrWhiteSpace(EntityType.PrimaryFieldFormat); } }
         public bool IsMaskedTextBoxVisible { get { return !IsTextBoxVisible; } }
 
         private ObservableCollection<CustomDataValue> _customData;

@@ -153,7 +153,7 @@
 
         <UniformGrid Rows="1" VerticalAlignment="Bottom" Grid.Row="3">
             <FxButton:FlexButton Margin="3" Height="60"
-                 Content="{Binding ToggleRemoveModeCommand.Caption}" Command="{Binding ToggleRemoveModeCommand}" ButtonColor="{Binding RemoveModeButtonColor}" />
+                 Content="{Binding ToggleRemoveModeCommand.Caption}" Command="{Binding ToggleRemoveModeCommand}" ButtonColor="{Binding RemoveModeButtonColor,Converter={StaticResource NullBrushConverter}}" />
             <FxButton:FlexButton  Margin="3" Height="60"
                  Content="{Binding CloseCommand.Caption}" Command="{Binding CloseCommand}" ButtonColor="Red" />
         </UniformGrid>

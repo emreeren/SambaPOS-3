@@ -45,7 +45,7 @@
         </Grid>
 
         <UniformGrid Rows="1" VerticalAlignment="Bottom" Grid.Row="1">
-            <FlexButton:FlexButton Height="60" Margin="3" ButtonColor="{Binding ButtonColor}" Command="{Binding StopTimerCommand}" Content="{Binding StopTimerCommand.Caption}"/>
+            <FlexButton:FlexButton Height="60" Margin="3" ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}" Command="{Binding StopTimerCommand}" Content="{Binding StopTimerCommand.Caption}"/>
             <FlexButton:FlexButton Height="60" Margin="3" Command="{Binding CloseCommand}" Content="{Binding CloseCommand.Caption}"/>
         </UniformGrid>
     </Grid>
