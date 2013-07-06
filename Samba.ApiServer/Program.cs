@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Samba.ApiServer.Lib;
 using Samba.Infrastructure.Settings;
 using Samba.Presentation.Services.Common;
+using Samba.Presentation.Services.Common.DataGeneration;
 
 namespace Samba.ApiServer
 {

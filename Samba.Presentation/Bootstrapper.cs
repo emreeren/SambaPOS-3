@@ -12,6 +12,7 @@ using Samba.Presentation.Common.Services;
 using Samba.Presentation.Properties;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Presentation.Services.Common.DataGeneration;
 using Samba.Presentation.ViewModels;
 using Samba.Services;
 

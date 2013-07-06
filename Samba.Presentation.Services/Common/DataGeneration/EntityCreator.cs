@@ -4,7 +4,7 @@ using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Data;
 using Samba.Persistance.Data;
 
-namespace Samba.Presentation.Services.Common
+namespace Samba.Presentation.Services.Common.DataGeneration
 {
     public static class EntityCreator
     {

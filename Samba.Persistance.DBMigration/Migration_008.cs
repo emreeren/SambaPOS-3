@@ -4,6 +4,7 @@ using FluentMigrator;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Services.Common;
+using Samba.Presentation.Services.Common.DataGeneration;
 
 namespace Samba.Persistance.DBMigration
 {

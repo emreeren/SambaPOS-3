@@ -15,6 +15,7 @@ using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Presentation.Services.Common.DataGeneration;
 
 namespace Samba.Presentation.Tests
 {

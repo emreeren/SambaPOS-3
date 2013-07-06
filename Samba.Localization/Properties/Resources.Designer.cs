@@ -656,6 +656,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Available.
+        /// </summary>
+        public static string Available {
+            get {
+                return ResourceManager.GetString("Available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Average Cost.
         /// </summary>
         public static string AverageCost {
@@ -832,6 +841,15 @@ namespace Samba.Localization.Properties {
         public static string Billion {
             get {
                 return ResourceManager.GetString("Billion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bill Requested.
+        /// </summary>
+        public static string BillRequested {
+            get {
+                return ResourceManager.GetString("BillRequested", resourceCulture);
             }
         }
         
@@ -2940,11 +2958,29 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Execute Kitchen Orders Print Job.
+        /// </summary>
+        public static string ExecuteKitchenOrdersPrintJob {
+            get {
+                return ResourceManager.GetString("ExecuteKitchenOrdersPrintJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Execute Powershell Script.
         /// </summary>
         public static string ExecutePowershellScript {
             get {
                 return ResourceManager.GetString("ExecutePowershellScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execute Bill Print Job.
+        /// </summary>
+        public static string ExecutePrintBillJob {
+            get {
+                return ResourceManager.GetString("ExecutePrintBillJob", resourceCulture);
             }
         }
         
@@ -4485,6 +4521,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Order Adding Rule.
+        /// </summary>
+        public static string NewOrderAddingRule {
+            get {
+                return ResourceManager.GetString("NewOrderAddingRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Orders.
         /// </summary>
         public static string NewOrders {
@@ -4517,6 +4562,15 @@ namespace Samba.Localization.Properties {
         public static string NewTicket {
             get {
                 return ResourceManager.GetString("NewTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Ticket Creating Rule.
+        /// </summary>
+        public static string NewTicketCreatingRule {
+            get {
+                return ResourceManager.GetString("NewTicketCreatingRule", resourceCulture);
             }
         }
         
@@ -4976,6 +5030,15 @@ namespace Samba.Localization.Properties {
         public static string OrderStateValue {
             get {
                 return ResourceManager.GetString("OrderStateValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Status.
+        /// </summary>
+        public static string OrderStatus {
+            get {
+                return ResourceManager.GetString("OrderStatus", resourceCulture);
             }
         }
         
@@ -7522,6 +7585,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket Payment Check.
+        /// </summary>
+        public static string TicketPaymentCheck {
+            get {
+                return ResourceManager.GetString("TicketPaymentCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ticket Permissions.
         /// </summary>
         public static string TicketPermissions {
@@ -8256,6 +8328,24 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update {0}.
+        /// </summary>
+        public static string Update_f {
+            get {
+                return ResourceManager.GetString("Update_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Available Entity Color.
+        /// </summary>
+        public static string UpdateAvailableEntityColor {
+            get {
+                return ResourceManager.GetString("UpdateAvailableEntityColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Entity State.
         /// </summary>
         public static string UpdateEntityState {
@@ -8274,11 +8364,38 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Moved Entity Color.
+        /// </summary>
+        public static string UpdateMovedEntityColor {
+            get {
+                return ResourceManager.GetString("UpdateMovedEntityColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update New Order Entity Color.
+        /// </summary>
+        public static string UpdateNewOrderEntityColor {
+            get {
+                return ResourceManager.GetString("UpdateNewOrderEntityColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Order.
         /// </summary>
         public static string UpdateOrder {
             get {
                 return ResourceManager.GetString("UpdateOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Order Gift State.
+        /// </summary>
+        public static string UpdateOrderGiftState {
+            get {
+                return ResourceManager.GetString("UpdateOrderGiftState", resourceCulture);
             }
         }
         

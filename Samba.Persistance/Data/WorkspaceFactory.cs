@@ -157,6 +157,8 @@ namespace Samba.Persistance.Data
             new TaskExecutor(migrationContext).Execute();
 
             File.Delete(LocalSettings.UserPath + "\\migrate.txt");
+
+            
         }
     }
 }

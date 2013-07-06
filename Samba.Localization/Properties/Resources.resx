@@ -2971,9 +2971,6 @@ Error Message:
   <data name="New" xml:space="preserve">
     <value>New</value>
   </data>
-  <data name="Status" xml:space="preserve">
-    <value>Status</value>
-  </data>
   <data name="Unpaid" xml:space="preserve">
     <value>Unpaid</value>
   </data>
@@ -3282,5 +3279,47 @@ Error Message:
   </data>
   <data name="LoopValues" xml:space="preserve">
     <value>Loop Values</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="BillRequested" xml:space="preserve">
+    <value>Bill Requested</value>
+  </data>
+  <data name="Update_f" xml:space="preserve">
+    <value>Update {0}</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Order Status</value>
+  </data>
+  <data name="UpdateOrderGiftState" xml:space="preserve">
+    <value>Update Order Gift State</value>
+  </data>
+  <data name="ExecutePrintBillJob" xml:space="preserve">
+    <value>Execute Bill Print Job</value>
+  </data>
+  <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
+    <value>Execute Kitchen Orders Print Job</value>
+  </data>
+  <data name="NewTicketCreatingRule" xml:space="preserve">
+    <value>New Ticket Creating Rule</value>
+  </data>
+  <data name="NewOrderAddingRule" xml:space="preserve">
+    <value>New Order Adding Rule</value>
+  </data>
+  <data name="TicketPaymentCheck" xml:space="preserve">
+    <value>Ticket Payment Check</value>
+  </data>
+  <data name="UpdateNewOrderEntityColor" xml:space="preserve">
+    <value>Update New Order Entity Color</value>
+  </data>
+  <data name="UpdateAvailableEntityColor" xml:space="preserve">
+    <value>Update Available Entity Color</value>
+  </data>
+  <data name="UpdateMovedEntityColor" xml:space="preserve">
+    <value>Update Moved Entity Color</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
 </root>

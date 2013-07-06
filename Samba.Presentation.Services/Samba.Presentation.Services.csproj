@@ -53,8 +53,10 @@
     <Compile Include="Common\AppScreenChangeData.cs" />
     <Compile Include="Common\AppScreens.cs" />
     <Compile Include="Common\AppServices.cs" />
-    <Compile Include="Common\DataCreationService.cs" />
-    <Compile Include="Common\EntityCreator.cs" />
+    <Compile Include="Common\DataGeneration\DataCreationService.cs" />
+    <Compile Include="Common\DataGeneration\EntityCreator.cs" />
+    <Compile Include="Common\DataGeneration\ParameterBuilder.cs" />
+    <Compile Include="Common\DataGeneration\RuleGenerator.cs" />
     <Compile Include="Common\EntityOperationRequest.cs" />
     <Compile Include="Common\EventServiceFactory.cs" />
     <Compile Include="Common\EventTopicNames.cs" />

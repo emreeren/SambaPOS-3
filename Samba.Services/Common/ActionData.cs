@@ -37,7 +37,8 @@ namespace Samba.Services.Common
 
         public string GetAsString(string parameterName)
         {
-            return Action.GetFormattedParameter(parameterName, DataObject, ParameterValues);
+            var result = Action.GetFormattedParameter(parameterName, DataObject, ParameterValues);
+            return !string.IsNullOrEmpty(result) ? result : "";
         }
 
         public decimal GetAsDecimal(string parameterName)
