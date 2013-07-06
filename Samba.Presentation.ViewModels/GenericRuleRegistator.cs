@@ -25,6 +25,7 @@ namespace Samba.Presentation.ViewModels
 {
     public static class GenericRuleRegistator
     {
+        private static readonly IEntityService EntityService = ServiceLocator.Current.GetInstance<IEntityService>();
         private static readonly IDepartmentService DepartmentService = ServiceLocator.Current.GetInstance<IDepartmentService>();
         private static readonly ITicketService TicketService = ServiceLocator.Current.GetInstance<ITicketService>();
         private static readonly IApplicationState ApplicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
@@ -65,7 +66,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateProgramSetting, Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
-            AutomationService.RegisterActionType(ActionNames.ChangeTicketEntity, Resources.ChangeTicketEntity, new { EntityTypeName = "", EntityName = "" });
+            AutomationService.RegisterActionType(ActionNames.ChangeTicketEntity, Resources.ChangeTicketEntity, new { EntityTypeName = "", EntityName = "", EntitySearchValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketCalculation, Resources.UpdateTicketCalculation, new { CalculationType = "", Amount = 0m });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 });
             AutomationService.RegisterActionType(ActionNames.CloseActiveTicket, Resources.CloseTicket);
@@ -230,9 +231,33 @@ namespace Samba.Presentation.ViewModels
                     {
                         var entityTypeName = x.Value.GetAsString("EntityTypeName");
                         var entityName = x.Value.GetAsString("EntityName");
-                        if (!string.IsNullOrEmpty(entityTypeName))
+                        var customDataSearchValue = x.Value.GetAsString("EntitySearchValue");
+                        var entityType = CacheService.GetEntityTypeByName(entityTypeName);
+                        if (entityType != null)
                         {
-                            var entity = CacheService.GetEntityByName(entityTypeName, entityName);
+                            Entity entity = null;
+                            if (!string.IsNullOrEmpty(customDataSearchValue))
+                            {
+
+                                var entities = EntityService.SearchEntities(entityType,
+                                                                            customDataSearchValue,
+                                                                            null);
+                                if (entities.Count == 1)
+                                {
+                                    entity = entities.First();
+                                }
+                            }
+                            
+                            if (entity == null)
+                            {
+                                entity = CacheService.GetEntityByName(entityTypeName, entityName);
+                            }
+                            
+                            if (entity == null)
+                            {
+                                entity = Entity.GetNullEntity(entityType.Id);
+                            }
+
                             TicketService.UpdateEntity(ticket, entity);
                         }
                     }

@@ -331,7 +331,7 @@ namespace Samba.Modules.EntityModule
             RaisePropertyChanged(() => EntityTypes);
         }
 
-        private void ClearSearchValues()
+        internal void ClearSearchValues()
         {
             FoundEntities.Clear();
             SearchString = "";
