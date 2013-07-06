@@ -54,6 +54,7 @@
     <Compile Include="Common\AppScreens.cs" />
     <Compile Include="Common\AppServices.cs" />
     <Compile Include="Common\DataCreationService.cs" />
+    <Compile Include="Common\EntityCreator.cs" />
     <Compile Include="Common\EntityOperationRequest.cs" />
     <Compile Include="Common\EventServiceFactory.cs" />
     <Compile Include="Common\EventTopicNames.cs" />

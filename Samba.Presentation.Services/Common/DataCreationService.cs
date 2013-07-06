@@ -322,7 +322,7 @@ namespace Samba.Presentation.Services.Common
 
             var ticketPrinterTemplate = new PrinterTemplate { Name = Resources.TicketTemplate, Template = GetDefaultTicketPrintTemplate() };
             var kitchenPrinterTemplate = new PrinterTemplate { Name = Resources.KitchenOrderTemplate, Template = GetDefaultKitchenPrintTemplate() };
-            var customerReceiptTemplate = new PrinterTemplate() { Name = Resources.CustomerReceiptTemplate, Template = GetDefaultCustomerReceiptTemplate() };
+            var customerReceiptTemplate = new PrinterTemplate { Name = Resources.CustomerReceiptTemplate, Template = GetDefaultCustomerReceiptTemplate() };
 
             _workspace.Add(ticketPrinterTemplate);
             _workspace.Add(kitchenPrinterTemplate);
@@ -732,43 +732,9 @@ namespace Samba.Presentation.Services.Common
             return result;
         }
 
-
         public IEnumerable<Entity> BatchCreateEntities(string[] values, IWorkspace workspace)
         {
-            IList<Entity> result = new List<Entity>();
-            if (values.Length > 0)
-            {
-                var templates = workspace.All<EntityType>().ToList();
-                EntityType currentTemplate = null;
-
-                foreach (var item in values)
-                {
-                    if (item.StartsWith("#"))
-                    {
-                        var templateName = item.Trim('#', ' ');
-                        currentTemplate = templates.SingleOrDefault(x => x.Name.ToLower() == templateName.ToLower());
-                        if (currentTemplate == null)
-                        {
-                            using (var w = WorkspaceFactory.Create())
-                            {
-                                currentTemplate = new EntityType { Name = templateName };
-                                w.Add(currentTemplate);
-                                w.CommitChanges();
-                            }
-                        }
-                    }
-                    else if (currentTemplate != null)
-                    {
-                        var accountName = item.ToLower().Trim();
-                        if (workspace.Single<Entity>(x => x.Name.ToLower() == accountName) == null)
-                        {
-                            var account = new Entity { Name = item, EntityTypeId = currentTemplate.Id };
-                            result.Add(account);
-                        }
-                    }
-                }
-            }
-            return result;
+            return EntityCreator.ImportText(values, workspace);
         }
 
         public IEnumerable<AccountTransactionType> BatchCreateTransactionTypes(string[] values, IWorkspace workspace)

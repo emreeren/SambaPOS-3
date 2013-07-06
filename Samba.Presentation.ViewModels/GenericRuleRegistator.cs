@@ -247,18 +247,21 @@ namespace Samba.Presentation.ViewModels
                                     entity = entities.First();
                                 }
                             }
-                            
+
                             if (entity == null)
                             {
                                 entity = CacheService.GetEntityByName(entityTypeName, entityName);
                             }
-                            
+
                             if (entity == null)
                             {
                                 entity = Entity.GetNullEntity(entityType.Id);
                             }
 
                             TicketService.UpdateEntity(ticket, entity);
+                            x.Value.DataObject.EntityName = entity.Name;
+                            x.Value.DataObject.EntityId = entity.Id;
+                            x.Value.DataObject.CustomData = entity.CustomData;
                         }
                     }
                 }
