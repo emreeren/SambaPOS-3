@@ -467,6 +467,7 @@ namespace Samba.Services.Implementations
                     DisplayOnPayment = x.DisplayOnPayment,
                     DisplayOnTicket = x.DisplayOnTicket,
                     DisplayOnOrders = x.DisplayOnOrders,
+                    DisplayOnTicketList = x.DisplayOnTicketList,
                     EnabledStates = x.EnabledStates,
                     VisibleStates = x.VisibleStates
                 });

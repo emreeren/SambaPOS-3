@@ -11,6 +11,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -19,18 +20,77 @@ namespace Samba.Modules.PosModule
     [Export]
     public class TicketListViewModel : ObservableObject
     {
+        private readonly ICaptionCommand _executeAutomationCommand;
         private readonly ITicketService _ticketService;
         private readonly ITicketServiceBase _ticketServiceBase;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public TicketListViewModel(ITicketService ticketService, ITicketServiceBase ticketServiceBase)
+        public TicketListViewModel(ITicketService ticketService, ITicketServiceBase ticketServiceBase, IApplicationState applicationState)
         {
             _ticketService = ticketService;
             _ticketServiceBase = ticketServiceBase;
+            _applicationState = applicationState;
             _tickets = new List<TicketButtonViewModel>();
             AddTicketCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Ticket).Replace(" ", "\r"), OnAddTicket, CanAddTicket);
             MergeTicketsCommand = new CaptionCommand<string>(Resources.MergeTickets.Replace(" ", "\r"), OnMergeTickets, CanMergeTickets);
             CloseCommand = new CaptionCommand<string>(Resources.Close.Replace(" ", "\r"), OnCloseCommand);
+            _executeAutomationCommand = new CaptionCommand<AutomationCommandData>("", OnExecuteAutomationCommand, CanExecuteAutomationCommand);
+        }
+
+        public IEnumerable<CommandButtonViewModel<object>> CommandButtons { get; set; }
+
+        private IEnumerable<CommandButtonViewModel<object>> CreateCommandButtons()
+        {
+            var result = new List<CommandButtonViewModel<object>>();
+
+            if (SelectedEntity != null)
+            {
+
+                result.AddRange(_applicationState.GetAutomationCommands().Where(x => x.DisplayOnTicketList)
+                    .Select(x => new CommandButtonViewModel<object>
+                    {
+                        Caption = x.AutomationCommand.Name,
+                        Command = _executeAutomationCommand,
+                        Color = x.AutomationCommand.Color,
+                        FontSize = x.AutomationCommand.FontSize,
+                        Parameter = x
+                    }));
+
+                result.Add(new CommandButtonViewModel<object>
+                               {
+                                   Caption = MergeTicketsCommand.Caption,
+                                   Command = MergeTicketsCommand,
+                                   FontSize = 40,
+                                   Color = "Gainsboro"
+                               });
+
+                result.Add(new CommandButtonViewModel<object>
+                               {
+                                   Caption = CloseCommand.Caption,
+                                   Command = CloseCommand,
+                                   FontSize = 40,
+                                   Color = "Red"
+                               });
+            }
+            return result;
+        }
+
+        private bool CanExecuteAutomationCommand(AutomationCommandData arg)
+        {
+            return SelectedEntity != null;
+        }
+
+        private void OnExecuteAutomationCommand(AutomationCommandData obj)
+        {
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { AutomationCommandName = obj.AutomationCommand.Name, Value = GetTicketIds() });
+        }
+
+        private string GetTicketIds()
+        {
+            if (Tickets.Any(x => x.IsSelected))
+                return string.Join(",", Tickets.Where(x => x.IsSelected).Select(x => x.TicketId));
+            return string.Join(",", Tickets.Select(x => x.TicketId));
         }
 
         private bool CanAddTicket(string arg)
@@ -116,6 +176,8 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => RowCount);
             RaisePropertyChanged(() => TotalRemainingAmountLabel);
             RaisePropertyChanged(() => ListName);
+            CommandButtons = CreateCommandButtons();
+            RaisePropertyChanged(() => CommandButtons);
         }
 
         private void ItemSelectionChanged()

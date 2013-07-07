@@ -125,10 +125,24 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <UniformGrid Grid.Row="2" Rows="1">
+        <!--<UniformGrid Grid.Row="2" Rows="1">
             <FlexButton:FlexButton FontSize="40" Margin="0,0,3,0" Command="{Binding MergeTicketsCommand}" Content="{Binding MergeTicketsCommand.Caption}"/>
             <FlexButton:FlexButton FontSize="40" Command="{Binding AddTicketCommand}" Content="{Binding AddTicketCommand.Caption}"/>
             <FlexButton:FlexButton FontSize="40" Margin="3,0,0,0" Command="{Binding CloseCommand}" Content="{Binding CloseCommand.Caption}" ButtonColor="Red"/>
-        </UniformGrid>
+        </UniformGrid>-->
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding CommandButtons}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <FlexButton:FlexButton FontSize="{Binding FontSize}" Focusable="False" ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" Command="{Binding Command}"
+                                             CommandParameter="{Binding Parameter}" Content="{Binding Caption}" Margin="3,3,3,0">
+                    </FlexButton:FlexButton>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>
