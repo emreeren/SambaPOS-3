@@ -154,7 +154,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                return !Model.DecreaseInventory ? TextDecorations.Strikethrough : null;
+                return Model.DecreaseInventory || Model.IncreaseInventory ? null : TextDecorations.Strikethrough;
             }
         }
 
