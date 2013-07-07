@@ -14,10 +14,21 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             Name = "";
         }
 
-        public string Key { get; set; }
-        public string Name { get; set; }
+        public string Key
+        {
+            get { return _key; }
+            set { _key = value ?? ""; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value ?? ""; }
+        }
 
         private static GroupingKey _empty;
+        private string _key;
+        private string _name;
         public static GroupingKey Empty { get { return _empty ?? (_empty = new GroupingKey()); } }
 
         public bool Equals(GroupingKey other)
@@ -81,7 +92,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             var groupKeyName = grouping.Key.Name ?? "";
             var templateStr = template.GetPart(templateKey) ?? "";
             templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{GROUP KEY}", () => (groupKeyName));
-            templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{GROUP SUM}", 
+            templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{GROUP SUM}",
                                               () => grouping.Sum(x => GetSumSelector(x)).ToString(LocalSettings.CurrencyFormat));
             templateStr = Helper.FormatDataIf(grouping.Key != null, templateStr, "{QUANTITY SUM}",
                                               () => grouping.Sum(x => GetQuantitySelector(x)).ToString(LocalSettings.QuantityFormat));
