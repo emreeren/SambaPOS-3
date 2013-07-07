@@ -332,7 +332,8 @@ namespace Samba.Presentation.Common.Services
             var terminalId = CurrentTerminal.Id;
             var departmentId = CurrentDepartment.Id;
             var roleId = CurrentLoggedInUser.UserRole.Id;
-            _notificationService.NotifyEvent(eventName, dataObject, terminalId, departmentId, roleId, x => x.PublishEvent(EventTopicNames.ExecuteEvent, true));
+            var ticketTypeId = CurrentTicketType.Id;
+            _notificationService.NotifyEvent(eventName, dataObject, terminalId, departmentId, roleId, ticketTypeId, x => x.PublishEvent(EventTopicNames.ExecuteEvent, true));
         }
 
         public void ResetState()

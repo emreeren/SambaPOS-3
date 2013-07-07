@@ -14,12 +14,14 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             Name = "";
         }
 
+        private string _key;
         public string Key
         {
             get { return _key; }
             set { _key = value ?? ""; }
         }
 
+        private string _name;
         public string Name
         {
             get { return _name; }
@@ -27,8 +29,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         }
 
         private static GroupingKey _empty;
-        private string _key;
-        private string _name;
         public static GroupingKey Empty { get { return _empty ?? (_empty = new GroupingKey()); } }
 
         public bool Equals(GroupingKey other)

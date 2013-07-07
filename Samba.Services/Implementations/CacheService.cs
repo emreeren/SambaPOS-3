@@ -34,12 +34,13 @@ namespace Samba.Services.Implementations
         private IEnumerable<AppRule> _rules;
         public IEnumerable<AppRule> Rules { get { return _rules ?? (_rules = _cacheDao.GetRules()); } }
 
-        public IEnumerable<AppRule> GetAppRules(string eventName, int terminalId, int departmentId, int userRoleId)
+        public IEnumerable<AppRule> GetAppRules(string eventName, int terminalId, int departmentId, int userRoleId, int ticketTypeId)
         {
             var maps = Rules.Where(x => x.EventName == eventName).SelectMany(x => x.AppRuleMaps)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
+                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId)
+                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId);
             return Rules.Where(x => maps.Any(y => y.AppRuleId == x.Id)).OrderBy(x => x.SortOrder);
         }
 

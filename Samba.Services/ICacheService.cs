@@ -19,7 +19,7 @@ namespace Samba.Services
         void ResetCache();
         void ResetOrderTagCache();
         void ResetTicketTagCache();
-        IEnumerable<AppRule> GetAppRules(string eventName, int terminalId, int departmentId, int userRoleId);
+        IEnumerable<AppRule> GetAppRules(string eventName, int terminalId, int departmentId, int userRoleId, int ticketTypeId);
         IEnumerable<AppAction> GetActions();
         Account GetAccountById(int accountId);
         Entity GetEntityById(int entityId);
@@ -73,7 +73,7 @@ namespace Samba.Services
         IEnumerable<State> GetStates(int stateType);
         string GetStateColor(string entityState);
         IEnumerable<EntityType> GetEntityTypesByTicketType(int ticketTypeId);
-        IEnumerable<Entity> GetEntities(int entityTypeId,string stateData);
+        IEnumerable<Entity> GetEntities(int entityTypeId, string stateData);
         Entity GetEntityByName(string entityTypeName, string entityName);
         IEnumerable<PrinterTemplate> GetPrinterTemplates();
         IEnumerable<Printer> GetPrinters();

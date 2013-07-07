@@ -26,11 +26,11 @@ namespace Samba.Services.Implementations.AutomationModule
             _expressionService = expressionService;
         }
 
-        public void NotifyEvent(string eventName, object dataParameter, int terminalId, int departmentId, int userRoleId, Action<ActionData> dataAction)
+        public void NotifyEvent(string eventName, object dataParameter, int terminalId, int departmentId, int userRoleId, int ticketTypeId, Action<ActionData> dataAction)
         {
             var dataObject = dataParameter.ToDynamic();
             _settingService.ClearSettingCache();
-            var rules = _cacheService.GetAppRules(eventName, terminalId, departmentId, userRoleId);
+            var rules = _cacheService.GetAppRules(eventName, terminalId, departmentId, userRoleId, ticketTypeId);
             foreach (var rule in rules.Where(x => string.IsNullOrEmpty(x.EventConstraints) || SatisfiesConditions(x, dataObject)))
             {
                 if (!CanExecuteRule(rule, dataObject)) continue;
