@@ -6594,6 +6594,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set Widget Value.
+        /// </summary>
+        public static string SetWidgetValue {
+            get {
+                return ResourceManager.GetString("SetWidgetValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seven.
         /// </summary>
         public static string Seven {

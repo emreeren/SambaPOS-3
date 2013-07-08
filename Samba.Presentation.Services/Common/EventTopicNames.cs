@@ -40,6 +40,7 @@
         public const string LoopValues = "LoopValues";
         public const string PrintAccountTransactionDocument = "PrintAccountTransactionDocument";
         public const string CreateEntity = "CreateEntity";
+        public static string SetWidgetValue = "SetWidgetValue";
     }
 
     public static class RuleEventNames
@@ -151,6 +152,7 @@
         public const string ActivateMenuView = "ActivateMenuView";
         public const string RegenerateSelectedTicket = "RegenerateSelectedTicket";
         public const string SetSelectedTicket = "SetSelectedTicket";
+        public const string SetWidgetValue = "SetWidgetValue";
     }
 
     public static class FunctionNames

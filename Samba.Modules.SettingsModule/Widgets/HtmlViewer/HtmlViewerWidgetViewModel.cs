@@ -1,10 +1,10 @@
 using System.ComponentModel;
-using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
+using Samba.Presentation.Services.Common;
+using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.SettingsModule.Widgets.HtmlViewer
 {
@@ -28,7 +28,14 @@ namespace Samba.Modules.SettingsModule.Widgets.HtmlViewer
         public HtmlViewerWidgetViewModel(Widget model, IApplicationState applicationState)
             : base(model, applicationState)
         {
-
+            EventServiceFactory.EventService.GetEvent<GenericEvent<WidgetEventData>>().Subscribe(
+                x =>
+                {
+                    if (x.Value.WidgetName == Name)
+                    {
+                        Url = x.Value.Value;
+                    }
+                });
         }
 
         protected override object CreateSettingsObject()

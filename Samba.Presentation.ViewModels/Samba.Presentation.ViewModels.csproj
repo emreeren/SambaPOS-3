@@ -74,6 +74,7 @@
     <Compile Include="SelectedOrdersData.cs" />
     <Compile Include="TicketTagViewModel.cs" />
     <Compile Include="TicketTotalsViewModel.cs" />
+    <Compile Include="WidgetEventData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">

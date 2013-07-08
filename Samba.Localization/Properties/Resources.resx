@@ -3322,4 +3322,7 @@ Error Message:
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="SetWidgetValue" xml:space="preserve">
+    <value>Set Widget Value</value>
+  </data>
 </root>

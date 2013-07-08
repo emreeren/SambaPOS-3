@@ -13,6 +13,7 @@ namespace Samba.Persistance.DBMigration
         public override void Up()
         {
             Create.Column("DisplayOnTicketList").OnTable("AutomationCommandMaps").AsBoolean().WithDefaultValue(false);
+            Create.Column("Name").OnTable("Widgets").AsString(128).Nullable();
         }
 
         public override void Down()

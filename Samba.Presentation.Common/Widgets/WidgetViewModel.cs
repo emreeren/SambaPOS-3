@@ -31,6 +31,8 @@ namespace Samba.Presentation.Common.Widgets
             }
         }
 
+        public string Name { get { return Model.Name; } set { Model.Name = value; } }
+
         private object _settingsObject;
 
         [Browsable(false)]

@@ -84,6 +84,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.SendMessage, Resources.BroadcastMessage, new { Command = "" });
             AutomationService.RegisterActionType(ActionNames.StartProcess, Resources.StartProcess, new { FileName = "", Arguments = "", UseShellExecute = false, IsHidden = false });
             AutomationService.RegisterActionType(ActionNames.LoopValues, Resources.LoopValues, new { Name = "", Values = "" });
+            AutomationService.RegisterActionType(ActionNames.SetWidgetValue, Resources.SetWidgetValue, new { WidgetName = "", Value = "" });
         }
 
         private static void RegisterRules()
@@ -158,6 +159,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterParameterSource("EntityScreenName", () => Dao.Distinct<EntityScreen>(x => x.Name));
             AutomationService.RegisterParameterSource("PrinterTemplateName", () => Dao.Distinct<PrinterTemplate>(x => x.Name));
             AutomationService.RegisterParameterSource("PrinterName", () => Dao.Distinct<Printer>(x => x.Name));
+            AutomationService.RegisterParameterSource("WidgetName", () => Dao.Distinct<Widget>(x => x.Name));
         }
 
         private static void ResetCache()
@@ -172,6 +174,17 @@ namespace Samba.Presentation.ViewModels
         {
             EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
             {
+                if (x.Value.Action.ActionType == ActionNames.SetWidgetValue)
+                {
+                    var widgetName = x.Value.GetAsString("WidgetName");
+                    var value = x.Value.GetAsString("Value");
+                    if (!string.IsNullOrEmpty(widgetName) && !string.IsNullOrEmpty(value))
+                    {
+                        var data = new WidgetEventData { WidgetName = widgetName, Value = value };
+                        data.PublishEvent(EventTopicNames.SetWidgetValue);
+                    }
+                }
+
                 if (x.Value.Action.ActionType == ActionNames.LoopValues)
                 {
                     var name = x.Value.GetAsString("Name");

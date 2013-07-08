@@ -5,6 +5,7 @@ namespace Samba.Domain.Models.Entities
 {
     public class Widget : ValueClass
     {
+        public string Name { get; set; }
         public int EntityScreenId { get; set; }
         public int XLocation { get; set; }
         public int YLocation { get; set; }

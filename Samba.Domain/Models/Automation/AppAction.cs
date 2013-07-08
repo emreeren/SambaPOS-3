@@ -52,7 +52,7 @@ namespace Samba.Domain.Models.Automation
 
             var parameters = (parameterValues ?? "")
                 .Split('#')
-                .Select(y => y.Split('='))
+                .Select(y => y.Split(new[] { '=' }, 2))
                 .Where(x => x.Length > 1)
                 .ToDictionary(x => x[0], x => x[1]);
 

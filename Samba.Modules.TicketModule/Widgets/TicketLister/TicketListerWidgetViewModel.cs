@@ -11,6 +11,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Presentation.ViewModels;
 using Samba.Services;
 
 namespace Samba.Modules.TicketModule.Widgets.TicketLister
@@ -23,6 +24,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         private readonly ICacheService _cacheService;
         private readonly IAutomationDao _automationDao;
 
+        [Browsable(false)]
         public DelegateCommand<TicketViewData> ItemSelectionCommand { get; set; }
 
         public TicketListerWidgetViewModel(Widget model, IApplicationState applicationState, ITicketServiceBase ticketService,
@@ -44,6 +46,15 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
                     && x.Value.Command == Messages.TicketRefreshMessage)
                 {
                     Refresh();
+                }
+            });
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<WidgetEventData>>().Subscribe(
+            x =>
+            {
+                if (x.Value.WidgetName == Name)
+                {
+                    State = x.Value.Value;
                 }
             });
         }
@@ -103,8 +114,8 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
 
         internal IList<TicketViewData> GetTicketList()
         {
-            var tickets = _ticketService.GetTicketsByState(Settings.State);
-      
+            var tickets = _ticketService.GetTicketsByState(State);
+
             if (!string.IsNullOrEmpty(Settings.OrderBy))
             {
                 if (Settings.OrderBy.Contains("{"))
@@ -112,43 +123,43 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
                     tickets = tickets.OrderBy(x => _printerService.GetPrintingContent(x, Settings.OrderBy, 0));
                 }
                 else switch (Settings.OrderBy)
-                {
-                    case "Id":
-                        tickets = tickets.OrderBy(x => x.Id);
-                        break;
-                    case "Ticket No":
-                        tickets = tickets.OrderBy(x => x.TicketNumber);
-                        break;
-                    case "Last Order":
-                        tickets = tickets.OrderBy(x => x.LastOrderDate);
-                        break;
-                    default:
-                        {
-                            var entityTypeName = Settings.OrderBy;
-                            var entityFieldName = "";
-                            if (entityTypeName.Contains(":"))
+                    {
+                        case "Id":
+                            tickets = tickets.OrderBy(x => x.Id);
+                            break;
+                        case "Ticket No":
+                            tickets = tickets.OrderBy(x => x.TicketNumber);
+                            break;
+                        case "Last Order":
+                            tickets = tickets.OrderBy(x => x.LastOrderDate);
+                            break;
+                        default:
                             {
-                                var parts = entityTypeName.Split(':');
-                                entityTypeName = parts[0];
-                                entityFieldName = parts[1];
-                            }
-                            var entityType = _cacheService.GetEntityTypeIdByEntityName(entityTypeName);
-                            if (entityType > 0)
-                            {
-                                if (string.IsNullOrEmpty(entityFieldName))
-                                    tickets = tickets.OrderBy(x => x.GetEntityName(entityType));
-                                else
+                                var entityTypeName = Settings.OrderBy;
+                                var entityFieldName = "";
+                                if (entityTypeName.Contains(":"))
                                 {
-                                    tickets =
-                                        tickets.OrderBy(
-                                            x =>
-                                            x.TicketEntities.First(y => y.EntityTypeId == entityType)
-                                             .GetCustomData(entityFieldName));
+                                    var parts = entityTypeName.Split(':');
+                                    entityTypeName = parts[0];
+                                    entityFieldName = parts[1];
+                                }
+                                var entityType = _cacheService.GetEntityTypeIdByEntityName(entityTypeName);
+                                if (entityType > 0)
+                                {
+                                    if (string.IsNullOrEmpty(entityFieldName))
+                                        tickets = tickets.OrderBy(x => x.GetEntityName(entityType));
+                                    else
+                                    {
+                                        tickets =
+                                            tickets.OrderBy(
+                                                x =>
+                                                x.TicketEntities.First(y => y.EntityTypeId == entityType)
+                                                 .GetCustomData(entityFieldName));
+                                    }
                                 }
                             }
-                        }
-                        break;
-                }
+                            break;
+                    }
             }
 
             return tickets.Select(x => new TicketViewData
@@ -168,6 +179,14 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
 
         [Browsable(false)]
         public TicketListerWidgetSettings Settings { get { return SettingsObject as TicketListerWidgetSettings; } }
+
+        private string _state;
+        [Browsable(false)]
+        public string State
+        {
+            get { return _state ?? (_state = Settings.State); }
+            set { _state = value; Refresh(); }
+        }
 
         protected override object CreateSettingsObject()
         {
