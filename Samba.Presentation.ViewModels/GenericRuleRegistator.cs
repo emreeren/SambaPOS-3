@@ -240,11 +240,12 @@ namespace Samba.Presentation.ViewModels
                 if (x.Value.Action.ActionType == ActionNames.ChangeTicketEntity)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
-                    if (ticket == null && x.Value.GetAsBoolean("CanCreateTicket") &&  !ApplicationState.IsLocked)
+                    if ((ticket == null || ticket == Ticket.Empty) && x.Value.GetAsBoolean("CanCreateTicket") && !ApplicationState.IsLocked)
                     {
                         ticket = TicketService.OpenTicket(0);
                         ticket.PublishEvent(EventTopicNames.SetSelectedTicket);
                     }
+
                     if (ticket != null)
                     {
                         var entityTypeName = x.Value.GetAsString("EntityTypeName");
@@ -253,6 +254,12 @@ namespace Samba.Presentation.ViewModels
                         var entityType = CacheService.GetEntityTypeByName(entityTypeName);
                         if (entityType != null)
                         {
+                            if (string.IsNullOrEmpty(entityName) && string.IsNullOrEmpty(customDataSearchValue))
+                            {
+                                CommonEventPublisher.PublishEntityOperation(Entity.GetNullEntity(entityType.Id), EventTopicNames.SelectEntity, EventTopicNames.EntitySelected);
+                                return;
+                            }
+
                             Entity entity = null;
                             if (!string.IsNullOrEmpty(customDataSearchValue))
                             {
@@ -271,15 +278,18 @@ namespace Samba.Presentation.ViewModels
                                 entity = CacheService.GetEntityByName(entityTypeName, entityName);
                             }
 
-                            if (entity == null)
+                            if (entity == null && string.IsNullOrEmpty(entityName) && string.IsNullOrEmpty(customDataSearchValue))
                             {
                                 entity = Entity.GetNullEntity(entityType.Id);
                             }
 
-                            TicketService.UpdateEntity(ticket, entity);
-                            x.Value.DataObject.EntityName = entity.Name;
-                            x.Value.DataObject.EntityId = entity.Id;
-                            x.Value.DataObject.CustomData = entity.CustomData;
+                            if (entity != null)
+                            {
+                                TicketService.UpdateEntity(ticket, entity);
+                                x.Value.DataObject.EntityName = entity.Name;
+                                x.Value.DataObject.EntityId = entity.Id;
+                                x.Value.DataObject.CustomData = entity.CustomData;
+                            }
                         }
                     }
                 }
