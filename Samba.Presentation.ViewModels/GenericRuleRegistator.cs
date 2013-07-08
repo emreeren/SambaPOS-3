@@ -403,6 +403,12 @@ namespace Samba.Presentation.ViewModels
 
                 if (x.Value.Action.ActionType == ActionNames.CreateTicket)
                 {
+                    var ticketId = x.Value.GetDataValueAsInt("TicketId");
+                    if (ticketId > 0 && !ApplicationState.IsLocked)
+                    {
+                        var ticket = TicketService.OpenTicket(ticketId);
+                        ticket.PublishEvent(EventTopicNames.SetSelectedTicket);
+                    }
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.CreateTicket);
                 }
 

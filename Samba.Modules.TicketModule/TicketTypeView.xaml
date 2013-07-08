@@ -46,6 +46,7 @@
                                              MinWidth="100" Binding="{Binding EntityTypeName}" />
                 <DataGridTextColumn Header="{LocText State}" MinWidth="100" Binding="{Binding State}" />
                 <DataGridCheckBoxColumn Header="{LocText AskBeforeCreatingTicket}" Binding="{Binding AskBeforeCreatingTicket}"/>
+                <DataGridCheckBoxColumn Header="{LocText Copy}" Binding="{Binding CopyToNewTickets}"/>
             </DataGrid.Columns>
         </DataGrid>
 

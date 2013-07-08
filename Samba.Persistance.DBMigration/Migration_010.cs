@@ -1,9 +1,4 @@
-using System.Data.Entity;
-using System.Linq;
 using FluentMigrator;
-using Samba.Domain.Models.Settings;
-using Samba.Localization.Properties;
-using Samba.Presentation.Services.Common;
 
 namespace Samba.Persistance.DBMigration
 {
@@ -14,6 +9,8 @@ namespace Samba.Persistance.DBMigration
         {
             Create.Column("DisplayOnTicketList").OnTable("AutomationCommandMaps").AsBoolean().WithDefaultValue(false);
             Create.Column("Name").OnTable("Widgets").AsString(128).Nullable();
+            Create.Column("CopyToNewTickets").OnTable("EntityTypeAssignments").AsBoolean().WithDefaultValue(false);
+            Execute.Sql("Update EntityTypeAssignments set CopyToNewTickets=1");
         }
 
         public override void Down()
