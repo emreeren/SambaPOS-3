@@ -13,6 +13,7 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
             set { _model = value; }
         }
 
+        public static int Id { get { return Model.Id; } }
         public static int OrderCount { get { return Model.Orders.Count; } }
         public static decimal RemainingAmount { get { return Model.GetRemainingAmount(); } }
         public static void RemovePayments(List<object> items)

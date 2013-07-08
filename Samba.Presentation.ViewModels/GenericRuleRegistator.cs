@@ -66,7 +66,7 @@ namespace Samba.Presentation.ViewModels
             AutomationService.RegisterActionType(ActionNames.UpdateOrderState, Resources.UpdateOrderState, new { StateName = "", GroupOrder = 0, CurrentState = "", State = "", StateOrder = 0, StateValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateProgramSetting, Resources.UpdateProgramSetting, new { SettingName = "", SettingValue = "", UpdateType = Resources.Update, IsLocal = true });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketTag, Resources.UpdateTicketTag, new { TagName = "", TagValue = "" });
-            AutomationService.RegisterActionType(ActionNames.ChangeTicketEntity, Resources.ChangeTicketEntity, new { EntityTypeName = "", EntityName = "", EntitySearchValue = "" });
+            AutomationService.RegisterActionType(ActionNames.ChangeTicketEntity, Resources.ChangeTicketEntity, new { CanCreateTicket = false, EntityTypeName = "", EntityName = "", EntitySearchValue = "" });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketCalculation, Resources.UpdateTicketCalculation, new { CalculationType = "", Amount = 0m });
             AutomationService.RegisterActionType(ActionNames.UpdateTicketState, Resources.UpdateTicketState, new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 });
             AutomationService.RegisterActionType(ActionNames.CloseActiveTicket, Resources.CloseTicket);
@@ -240,6 +240,11 @@ namespace Samba.Presentation.ViewModels
                 if (x.Value.Action.ActionType == ActionNames.ChangeTicketEntity)
                 {
                     var ticket = x.Value.GetDataValue<Ticket>("Ticket");
+                    if (ticket == null && x.Value.GetAsBoolean("CanCreateTicket") &&  !ApplicationState.IsLocked)
+                    {
+                        ticket = TicketService.OpenTicket(0);
+                        ticket.PublishEvent(EventTopicNames.SetSelectedTicket);
+                    }
                     if (ticket != null)
                     {
                         var entityTypeName = x.Value.GetAsString("EntityTypeName");

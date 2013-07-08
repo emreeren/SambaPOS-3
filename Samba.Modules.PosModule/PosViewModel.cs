@@ -277,7 +277,8 @@ namespace Samba.Modules.PosModule
             OpenTicket(0);
             foreach (var ticketEntity in tr)
             {
-                _ticketService.UpdateEntity(SelectedTicket, ticketEntity.EntityTypeId, ticketEntity.EntityId, ticketEntity.EntityName, ticketEntity.AccountTypeId, ticketEntity.AccountId, ticketEntity.EntityCustomData);
+                if (_applicationState.CurrentTicketType.EntityTypeAssignments.Any(x => x.EntityTypeId == ticketEntity.EntityTypeId))
+                    _ticketService.UpdateEntity(SelectedTicket, ticketEntity.EntityTypeId, ticketEntity.EntityId, ticketEntity.EntityName, ticketEntity.AccountTypeId, ticketEntity.AccountId, ticketEntity.EntityCustomData);
             }
         }
 

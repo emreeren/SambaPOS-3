@@ -83,7 +83,7 @@ namespace Samba.Modules.PosModule
 
         private void OnExecuteAutomationCommand(AutomationCommandData obj)
         {
-            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { AutomationCommandName = obj.AutomationCommand.Name, Value = GetTicketIds() });
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = Tickets.FirstOrDefault(), Tickets, AutomationCommandName = obj.AutomationCommand.Name, Value = GetTicketIds() });
         }
 
         private string GetTicketIds()
