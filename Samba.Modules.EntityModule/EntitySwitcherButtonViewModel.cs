@@ -17,7 +17,7 @@ namespace Samba.Modules.EntityModule
             _displayActiveScreen = displayActiveScreen;
         }
 
-        public string Caption { get { return Model.Name; } }
+        public string Caption { get { return _applicationState.IsLandscape ? Model.Name : Model.Name.Replace(" ", "\r"); } }
         public string ButtonColor { get { return Model != _applicationState.SelectedEntityScreen || !_displayActiveScreen ? "Gainsboro" : "Gray"; } }
         public void Refresh() { RaisePropertyChanged(() => ButtonColor); }
     }
