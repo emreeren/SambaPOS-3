@@ -59,10 +59,13 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <ListBox ItemsSource="{Binding SelectedMenuItems}" >
+                <ListBox ItemsSource="{Binding SelectedMenuItems}" UIControls:ListBoxBehavior.ScrollOnNewItem="true">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding ScreenMenuItem.Name}"></TextBlock>
+                            <DockPanel>
+                                <TextBlock MinWidth="20" Text="{Binding Quantity}"></TextBlock>
+                                <TextBlock Text="{Binding ScreenMenuItem.Name}"></TextBlock>
+                            </DockPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

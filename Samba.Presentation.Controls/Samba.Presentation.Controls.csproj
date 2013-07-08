@@ -109,6 +109,7 @@
     <Compile Include="Interaction\ValueChooserForm.xaml.cs">
       <DependentUpon>ValueChooserForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIControls\ListBoxBehavior.cs" />
     <Compile Include="VirtualKeyboard\KeyboardView3.xaml.cs">
       <DependentUpon>KeyboardView3.xaml</DependentUpon>
     </Compile>
