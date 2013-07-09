@@ -272,10 +272,10 @@ namespace Samba.Modules.EntityModule
 
         private bool CanRemoveEntity(string arg)
         {
-            return _applicationState.IsLocked && _currentEntitySelectionRequest != null &&
+            return (_applicationState.IsLocked && _currentEntitySelectionRequest != null &&
                    _currentEntitySelectionRequest.SelectedEntity != null &&
                    ((SelectedEntity != null && _currentEntitySelectionRequest.SelectedEntity.Id == SelectedEntity.Id) ||
-                    _currentEntitySelectionRequest.SelectedEntity.Id == 0);
+                    _currentEntitySelectionRequest.SelectedEntity.Id == 0 || _currentEntitySelectionRequest.SelectedEntity == null));
         }
 
         private bool CanCreateEntity(string arg)

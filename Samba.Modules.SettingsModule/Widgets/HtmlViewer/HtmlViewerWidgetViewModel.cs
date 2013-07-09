@@ -21,6 +21,7 @@ namespace Samba.Modules.SettingsModule.Widgets.HtmlViewer
             set
             {
                 _url = value;
+                if (!string.IsNullOrEmpty(_url)) _url = _url.Replace("\r\n", " ");
                 RaisePropertyChanged(() => Url);
             }
         }
