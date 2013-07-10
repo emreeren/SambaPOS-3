@@ -123,7 +123,7 @@ namespace Samba.Persistance.Implementations
 
         public IEnumerable<AccountScreen> GetAccountScreens()
         {
-            return Dao.Query<AccountScreen>(x => x.AccountScreenValues);
+            return Dao.Query<AccountScreen>(x => x.AccountScreenValues).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<ScreenMenu> GetScreenMenus()

@@ -304,7 +304,7 @@ namespace Samba.Domain.Models.Tickets
         {
             var plainSum = GetPlainSum();
             var postServices = CalculateServices(Calculations.Where(x => !x.IncludeTax), plainSum);
-            var tax = CalculateTax(plainSum, postServices);
+            var tax = TaxIncluded ? 0 : CalculateTax(plainSum, postServices);
             return CalculateServices(Calculations.Where(x => x.IncludeTax), plainSum + postServices + tax);
         }
 

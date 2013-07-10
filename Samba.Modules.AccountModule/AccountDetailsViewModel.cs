@@ -96,8 +96,7 @@ namespace Samba.Modules.AccountModule
             if (SelectedAccount != null)
             {
                 var templates = _applicationState.GetAccountTransactionDocumentTypes(SelectedAccount.AccountTypeId)
-                    .Where(x => !string.IsNullOrEmpty(x.ButtonHeader));
-                templates = templates.Where(x=>x.TransactionTypes.Any(y=>y.CanMakeAccountTransaction(SelectedAccount)));
+                    .Where(x => !string.IsNullOrEmpty(x.ButtonHeader) && x.CanMakeAccountTransaction(SelectedAccount));
                 DocumentTypes.AddRange(templates.Select(x => new DocumentTypeButtonViewModel(x, SelectedAccount)));
             }
         }

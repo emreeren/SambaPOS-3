@@ -7,7 +7,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
 {
-    public class AccountScreen : EntityClass
+    public class AccountScreen : EntityClass, IOrderable
     {
         public AccountScreen()
         {
@@ -16,6 +16,8 @@ namespace Samba.Domain.Models.Accounts
 
         public int Filter { get; set; }
         public bool DisplayAsTree { get; set; }
+        public int SortOrder { get; set; }
+        public string UserString { get { return Name; } }
 
         private IList<AccountScreenValue> _accountScreenValues;
         public virtual IList<AccountScreenValue> AccountScreenValues
@@ -23,6 +25,5 @@ namespace Samba.Domain.Models.Accounts
             get { return _accountScreenValues; }
             set { _accountScreenValues = value; }
         }
-
     }
 }

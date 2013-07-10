@@ -325,6 +325,7 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                                  {
                                      TicketTypeId = x.Key.TicketTypeId,
                                      TicketCount = x.Count(),
+                                     Discount = x.Sum(y => y.GetPreTaxServicesTotal()),
                                      Amount = x.Sum(y => y.GetSum()) - x.Sum(y => y.CalculateTax(y.GetPlainSum(), y.GetPreTaxServicesTotal())) - x.Sum(y => y.GetPostTaxServicesTotal()),
                                      Tax = x.Sum(y => y.CalculateTax(y.GetPlainSum(), y.GetPreTaxServicesTotal())),
                                      Services = x.Sum(y => y.GetPostTaxServicesTotal())
@@ -339,8 +340,25 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                 }
             }
 
+            var discountSum = ticketGropus.Sum(x => x.Discount);
+
+            if (discountSum != 0)
+            {
+                report.AddRow(rpKey, string.Format(Resources.Total_f, header.ToUpper()).ToUpper(),
+                              ticketGropus.Sum(x => x.Amount - x.Discount).ToString(ReportContext.CurrencyFormat));
+                var services = ReportContext.Tickets.SelectMany(x => x.Calculations).Where(x => !x.IncludeTax).OrderBy(x => x.Order);
+                services.GroupBy(x => x.CalculationTypeId).ToList().ForEach(
+                    x =>
+                    {
+                        var template = ReportContext.CalculationTypes.SingleOrDefault(y => y.Id == x.Key);
+                        var title = template != null ? "  " + template.Name : Resources.UndefinedWithBrackets;
+                        report.AddRow(rpKey, title,
+                                      x.Sum(y => y.CalculationAmount).ToString(ReportContext.CurrencyFormat));
+                    });
+            }
+
             report.AddRow(rpKey, string.Format(Resources.Total_f, header.ToUpper()).ToUpper(),
-                          ticketGropus.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
+                                      ticketGropus.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
 
             var taxSum = ticketGropus.Sum(x => x.Tax);
             var serviceSum = ticketGropus.Sum(x => x.Services);
@@ -348,11 +366,12 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             {
                 if (serviceSum != 0)
                 {
-                    ReportContext.Tickets.SelectMany(x => x.Calculations).Where(x => x.IncludeTax).GroupBy(x => x.CalculationTypeId).ToList().ForEach(
+                    var services = ReportContext.Tickets.SelectMany(x => x.Calculations).Where(x => x.IncludeTax).OrderBy(x => x.Order);
+                    services.GroupBy(x => x.CalculationTypeId).ToList().ForEach(
                         x =>
                         {
                             var template = ReportContext.CalculationTypes.SingleOrDefault(y => y.Id == x.Key);
-                            var title = template != null ? template.Name : Resources.UndefinedWithBrackets;
+                            var title = template != null ? "  " + template.Name : Resources.UndefinedWithBrackets;
                             report.AddRow(rpKey, title,
                                           x.Sum(y => y.CalculationAmount).ToString(ReportContext.CurrencyFormat));
                         });

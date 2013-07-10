@@ -150,7 +150,7 @@ namespace Samba.Modules.AccountModule
 
         private IEnumerable<Account> GetAccounts(AccountTransactionDocumentType documentType)
         {
-            return _accountService.GetDocumentAccounts(documentType);
+            return _accountService.GetDocumentAccounts(documentType).Where(documentType.CanMakeAccountTransaction);
         }
 
     }

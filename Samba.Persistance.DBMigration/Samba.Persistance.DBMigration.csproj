@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migration_011.cs" />
     <Compile Include="Migration_010.cs" />
     <Compile Include="Migration_009.cs" />
     <Compile Include="Migration_008.cs" />

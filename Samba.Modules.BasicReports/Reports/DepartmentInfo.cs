@@ -6,6 +6,7 @@ namespace Samba.Modules.BasicReports.Reports
     {
         public int TicketTypeId { get; set; }
         public decimal Amount { get; set; }
+        public decimal Discount { get; set; }
         public decimal Tax { get; set; }
         public decimal Services { get; set; }
         public int TicketCount { get; set; }

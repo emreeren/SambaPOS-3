@@ -115,5 +115,10 @@ namespace Samba.Domain.Models.Accounts
             }
             return result;
         }
+
+        public bool CanMakeAccountTransaction(Account selectedAccount)
+        {
+            return TransactionTypes.Any(x => x.CanMakeAccountTransaction(selectedAccount));
+        }
     }
 }
