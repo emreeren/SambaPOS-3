@@ -9,6 +9,7 @@ namespace Samba.Persistance.DBMigration
         {
             Create.Column("SortOrder").OnTable("AccountScreens").AsInt32().WithDefaultValue(0);
             Create.Column("LastModifiedUserName").OnTable("Tickets").AsString(128).Nullable();
+            Create.Column("AccountBalanceDisplayFormat").OnTable("EntityTypes").AsString(128).Nullable();
         }
 
         public override void Down()

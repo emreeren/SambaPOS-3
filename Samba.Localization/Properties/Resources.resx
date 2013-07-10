@@ -3325,4 +3325,7 @@ Error Message:
   <data name="SetWidgetValue" xml:space="preserve">
     <value>Set Widget Value</value>
   </data>
+  <data name="AccountBalanceDisplayFormat" xml:space="preserve">
+    <value>Account Balance Display Format</value>
+  </data>
 </root>

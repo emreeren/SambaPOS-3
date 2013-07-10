@@ -16,6 +16,7 @@ namespace Samba.Domain.Models.Entities
         public string AccountNameTemplate { get; set; }
         public string PrimaryFieldName { get; set; }
         public string PrimaryFieldFormat { get; set; }
+        public string AccountBalanceDisplayFormat { get; set; }
 
         private IList<EntityCustomField> _entityCustomFields;
         public virtual IList<EntityCustomField> EntityCustomFields

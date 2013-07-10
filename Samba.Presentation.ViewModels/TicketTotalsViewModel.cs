@@ -131,15 +131,20 @@ namespace Samba.Presentation.ViewModels
                 if (Model.Id > 0) sb.AppendFormat("# {0} ", Model.TicketNumber);
                 foreach (var ticketEntity in Model.TicketEntities)
                 {
-                    var rs = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
-                    var entityName = rs.FormatEntityName(ticketEntity.EntityName);
+                    var entityType = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
+                    var entityName = entityType.FormatEntityName(ticketEntity.EntityName);
                     if (ticketEntity.AccountId > 0)
                     {
                         var balance = _accountBalances.GetAccountBalance(ticketEntity.AccountId);
                         if (balance != 0)
-                            entityName = string.Format("{0} {1}", entityName, balance.ToString(LocalSettings.ReportCurrencyFormat));
+                        {
+                            var format = !string.IsNullOrEmpty(entityType.AccountBalanceDisplayFormat)
+                                             ? entityType.AccountBalanceDisplayFormat
+                                             : LocalSettings.ReportCurrencyFormat;
+                            entityName = string.Format("{0} {1}", entityName, balance.ToString(format));
+                        }
                     }
-                    sb.AppendLine(string.Format("{0}: {1}", rs.EntityName, entityName));
+                    sb.AppendLine(string.Format("{0}: {1}", entityType.EntityName, entityName));
                 }
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
 
@@ -200,6 +205,18 @@ namespace Samba.Presentation.ViewModels
             PostServices.ForEach(x => x.Refresh());
             PreServices.ForEach(x => x.Refresh());
 
+        }
+
+        public void RefreshAccountBalances()
+        {
+            if(_accountBalances.SelectedTicket != Model)
+            {
+                _accountBalances.SelectedTicket = Model;
+                if (Model != null)
+                {
+                    _accountBalances.Refresh();
+                }
+            }
         }
     }
 }

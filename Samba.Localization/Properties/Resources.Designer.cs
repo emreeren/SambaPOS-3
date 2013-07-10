@@ -88,6 +88,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Balance Display Format.
+        /// </summary>
+        public static string AccountBalanceDisplayFormat {
+            get {
+                return ResourceManager.GetString("AccountBalanceDisplayFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Details.
         /// </summary>
         public static string AccountDetails {

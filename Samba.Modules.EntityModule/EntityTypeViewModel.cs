@@ -48,6 +48,7 @@ namespace Samba.Modules.EntityModule
 
         public string PrimaryFieldName { get { return Model.PrimaryFieldName; } set { Model.PrimaryFieldName = value; } }
         public string PrimaryFieldFormat { get { return Model.PrimaryFieldFormat; } set { Model.PrimaryFieldFormat = value; } }
+        public string AccountBalanceDisplayFormat { get { return Model.AccountBalanceDisplayFormat; } set { Model.AccountBalanceDisplayFormat = value; } }
 
         public ICaptionCommand AddCustomFieldCommand { get; set; }
         public ICaptionCommand DeleteCustomFieldCommand { get; set; }

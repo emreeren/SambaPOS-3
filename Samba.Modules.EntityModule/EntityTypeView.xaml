@@ -35,6 +35,8 @@
                     <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding AccountTypes}" SelectedItem="{Binding AccountType}" DisplayMemberPath="Name" IsEditable="True"/>
                     <Label Content="{LocText AccountNameTemplate,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding AccountNameTemplate}" />
+                    <Label Content="{LocText AccountBalanceDisplayFormat,Suffix=':'}"/>
+                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding AccountBalanceDisplayFormat}" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="{LocText CustomFields}">
