@@ -588,6 +588,8 @@ namespace Samba.Modules.PosModule
         {
             RaisePropertyChanged(() => IsPortrait);
             RaisePropertyChanged(() => IsLandscape);
+            RaisePropertyChanged(() => IsAddOrderButtonVisible);
+            RaisePropertyChanged(() => IsModifyOrderButtonVisible);
         }
 
         private void RefreshSelectedOrders()

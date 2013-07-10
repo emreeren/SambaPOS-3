@@ -29,6 +29,7 @@ namespace Samba.Presentation.ViewModels
         private void UpdateBalances()
         {
             Balances.Clear();
+            if (SelectedTicket == null) return;
             foreach (var ticketEntity in SelectedTicket.TicketEntities)
             {
                 if (ticketEntity.AccountId > 0)
