@@ -4,12 +4,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Microsoft.Practices.Prism.Commands;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization;
 using Samba.Localization.Properties;
-using Samba.Persistance;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services.Common;
 

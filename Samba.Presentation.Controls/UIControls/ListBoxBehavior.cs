@@ -41,24 +41,24 @@ namespace Samba.Presentation.Controls.UIControls
             if (newValue)
             {
                 listBox.Loaded += new RoutedEventHandler(ListBox_Loaded);
-                listBox.Unloaded += new RoutedEventHandler(ListBox_Unloaded);
+                //listBox.Unloaded += new RoutedEventHandler(ListBox_Unloaded);
             }
             else
             {
                 listBox.Loaded -= ListBox_Loaded;
-                listBox.Unloaded -= ListBox_Unloaded;
+                //listBox.Unloaded -= ListBox_Unloaded;
                 if (Associations.ContainsKey(listBox))
                     Associations[listBox].Dispose();
             }
         }
 
-        static void ListBox_Unloaded(object sender, RoutedEventArgs e)
-        {
-            var listBox = (ListBox)sender;
-            if (Associations.ContainsKey(listBox))
-                Associations[listBox].Dispose();
-            listBox.Unloaded -= ListBox_Unloaded;
-        }
+        //static void ListBox_Unloaded(object sender, RoutedEventArgs e)
+        //{
+        //    var listBox = (ListBox)sender;
+        //    if (Associations.ContainsKey(listBox))
+        //        Associations[listBox].Dispose();
+        //    listBox.Unloaded -= ListBox_Unloaded;
+        //}
 
         static void ListBox_Loaded(object sender, RoutedEventArgs e)
         {
