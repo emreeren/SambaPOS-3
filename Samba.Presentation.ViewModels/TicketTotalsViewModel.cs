@@ -206,17 +206,5 @@ namespace Samba.Presentation.ViewModels
             PreServices.ForEach(x => x.Refresh());
 
         }
-
-        public void RefreshAccountBalances()
-        {
-            if(_accountBalances.SelectedTicket != Model)
-            {
-                _accountBalances.SelectedTicket = Model;
-                if (Model != null)
-                {
-                    _accountBalances.Refresh();
-                }
-            }
-        }
     }
 }

@@ -36,6 +36,7 @@ namespace Samba.Modules.PosModule
         private readonly TicketTagListViewModel _ticketTagListViewModel;
         private readonly TicketEntityListViewModel _ticketEntityListViewModel;
         private readonly TicketTypeListViewModel _ticketTypeListViewModel;
+        private readonly AccountBalances _accountBalances;
         private readonly MenuItemSelectorView _menuItemSelectorView;
         private readonly TicketViewModel _ticketViewModel;
         private readonly TicketOrdersViewModel _ticketOrdersViewModel;
@@ -54,6 +55,8 @@ namespace Samba.Modules.PosModule
                 _menuItemSelectorViewModel.SelectedTicket = value;
                 if (value != null)
                 {
+                    _accountBalances.SelectedTicket = value;
+                    _accountBalances.Refresh();
                     var template = _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId);
                     if (template != null) _menuItemSelectorViewModel.UpdateCurrentScreenMenu(template.ScreenMenuId);
                 }
@@ -65,7 +68,7 @@ namespace Samba.Modules.PosModule
             ITicketService ticketService, ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService, IMessagingService messagingService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel,
             MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,
-            TicketEntityListViewModel ticketEntityListViewModel, TicketTypeListViewModel ticketTypeListViewModel)
+            TicketEntityListViewModel ticketEntityListViewModel, TicketTypeListViewModel ticketTypeListViewModel, AccountBalances accountBalances)
         {
             _ticketService = ticketService;
             _ticketServiceBase = ticketServiceBase;
@@ -83,6 +86,7 @@ namespace Samba.Modules.PosModule
             _ticketTagListViewModel = ticketTagListViewModel;
             _ticketEntityListViewModel = ticketEntityListViewModel;
             _ticketTypeListViewModel = ticketTypeListViewModel;
+            _accountBalances = accountBalances;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersChanged);
@@ -170,6 +174,7 @@ namespace Samba.Modules.PosModule
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedEntity);
+                    _accountBalances.Refresh();
                     if (_applicationState.SelectedEntityScreen != null
                         && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0
                         && _applicationState.TempEntityScreen != null
@@ -277,7 +282,7 @@ namespace Samba.Modules.PosModule
             OpenTicket(0);
             foreach (var ticketEntity in tr)
             {
-                if (_applicationState.CurrentTicketType.EntityTypeAssignments.Any(x =>x.CopyToNewTickets && x.EntityTypeId == ticketEntity.EntityTypeId))
+                if (_applicationState.CurrentTicketType.EntityTypeAssignments.Any(x => x.CopyToNewTickets && x.EntityTypeId == ticketEntity.EntityTypeId))
                     _ticketService.UpdateEntity(SelectedTicket, ticketEntity.EntityTypeId, ticketEntity.EntityId, ticketEntity.EntityName, ticketEntity.AccountTypeId, ticketEntity.AccountId, ticketEntity.EntityCustomData);
             }
         }

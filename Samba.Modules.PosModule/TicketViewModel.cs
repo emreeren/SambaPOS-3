@@ -520,7 +520,6 @@ namespace Samba.Modules.PosModule
         public void UpdateSelectedTicketTitle()
         {
             _totals.Model = SelectedTicket;
-            _totals.RefreshAccountBalances();
             SelectedTicketTitle = _totals.TitleWithAccountBalances.Trim() == "#" ? Resources.NewTicket : _totals.TitleWithAccountBalances;
         }
 
