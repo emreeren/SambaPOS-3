@@ -17,7 +17,7 @@
         </Style>
     </UserControl.Resources>
     <Border BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}">
-        <ScrollViewer Name="Scroller" UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Focusable="False" Name="Scroller" UIControls:KineticBehaviour.HandleKineticScrolling="True" VerticalScrollBarVisibility="Auto">
             <ItemsControl BorderThickness="0" Background="{Binding TicketBackground}" AlternationCount="2"
                              ItemsSource="{Binding ItemsViewSource.View}" HorizontalContentAlignment="Stretch">
                 <ItemsControl.GroupStyle>

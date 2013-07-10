@@ -54,6 +54,7 @@ namespace Samba.Modules.PosModule
                     break;
                 case EventTopicNames.ActivatePosView:
                     if (IsPortrait) Grid2.SelectedIndex = 0;
+                    LayoutTabControl.BackgroundFocus();
                     break;
                 case EventTopicNames.DisableLandscape:
                     DisableLandscapeMode();
