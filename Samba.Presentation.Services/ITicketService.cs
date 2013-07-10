@@ -16,7 +16,7 @@ namespace Samba.Presentation.Services
         TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId);
         TicketCommitResult MergeTickets(IEnumerable<int> ticketIds);
         Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template);
-        void AddPayment(Ticket ticket, PaymentType paymentType, Account account, decimal tenderedAmount);
+        void AddPayment(Ticket ticket, PaymentType paymentType, Account account, decimal amount, decimal tenderedAmount);
         void AddChangePayment(Ticket ticket, ChangePaymentType paymentType, Account account, decimal amount);
         void PayTicket(Ticket ticket, PaymentType template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
@@ -24,7 +24,7 @@ namespace Samba.Presentation.Services
         void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountTypeId, int accountId, string entityCustomData);
         void RecalculateTicket(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
-       
+
         void TagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag, string tagNote);
         void UntagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag);
         bool CanDeselectOrders(IEnumerable<Order> selectedOrders);

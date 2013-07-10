@@ -187,12 +187,12 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             return result;
         }
 
-        public void AddPayment(Ticket ticket, PaymentType paymentType, Account account, decimal tenderedAmount)
+        public void AddPayment(Ticket ticket, PaymentType paymentType, Account account, decimal amount, decimal tenderedAmount)
         {
             if (account == null) return;
             var remainingAmount = ticket.GetRemainingAmount();
             var changeAmount = tenderedAmount > remainingAmount ? tenderedAmount - remainingAmount : 0;
-            ticket.AddPayment(paymentType, account, tenderedAmount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
+            ticket.AddPayment(paymentType, account, amount, GetExchangeRate(account), _applicationState.CurrentLoggedInUser.Id);
             _applicationState.NotifyEvent(RuleEventNames.PaymentProcessed,
                 new
                 {
@@ -214,7 +214,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
         public void PayTicket(Ticket ticket, PaymentType template)
         {
-            AddPayment(ticket, template, template.Account ?? GetAccountForPayment(ticket, template), ticket.GetRemainingAmount());
+            var amount = ticket.GetRemainingAmount();
+            AddPayment(ticket, template, template.Account ?? GetAccountForPayment(ticket, template), amount, amount);
         }
 
         public Account GetAccountForPayment(Ticket ticket, PaymentType paymentType)

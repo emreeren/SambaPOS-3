@@ -55,21 +55,21 @@ namespace Samba.Modules.PaymentModule
                        : SelectedTicket.GetRemainingAmount();
         }
 
-        public void UpdateTicketPayment(PaymentType paymentType, ChangePaymentType changeTemplate, decimal paymentDueAmount, decimal tenderedAmount)
+        public void UpdateTicketPayment(PaymentType paymentType, ChangePaymentType changeTemplate, decimal paymentDueAmount, decimal paidAmount, decimal tenderedAmount)
         {
             var paymentAccount = paymentType.Account ?? _ticketService.GetAccountForPayment(SelectedTicket, paymentType);
 
-            if (paymentDueAmount > SelectedTicket.GetRemainingAmount() && tenderedAmount > SelectedTicket.GetRemainingAmount())
+            if (paymentDueAmount > SelectedTicket.GetRemainingAmount() && paidAmount > SelectedTicket.GetRemainingAmount())
             {
                 var account = _accountBalances.GetActiveAccount();
                 if (account != null)
                 {
                     var ticketAmount = SelectedTicket.GetRemainingAmount();
-                    var accountAmount = tenderedAmount - ticketAmount;
+                    var accountAmount = paidAmount - ticketAmount;
                     var accountBalance = _accountBalances.GetAccountBalance(account.Id);
                     if (accountAmount > accountBalance) accountAmount = accountBalance;
                     if (ticketAmount > 0)
-                        _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, ticketAmount);
+                        _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, ticketAmount, tenderedAmount);
                     if (accountAmount > 0)
                         _ticketService.AddAccountTransaction(SelectedTicket, account, paymentAccount, accountAmount, ExchangeRate);
                 }
@@ -77,11 +77,11 @@ namespace Samba.Modules.PaymentModule
             }
             else
             {
-                _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, tenderedAmount);
-                if (tenderedAmount > paymentDueAmount && changeTemplate != null)
+                _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, paidAmount, tenderedAmount);
+                if (paidAmount > paymentDueAmount && changeTemplate != null)
                 {
                     _ticketService.AddChangePayment(SelectedTicket, changeTemplate, changeTemplate.Account,
-                                                    tenderedAmount - paymentDueAmount);
+                                                    paidAmount - paymentDueAmount);
                 }
             }
         }
