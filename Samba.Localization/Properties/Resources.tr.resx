@@ -1815,6 +1815,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="RateOrAmount" xml:space="preserve">
     <value>Oran veya Tutar</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Hazır</value>
+  </data>
   <data name="Parameters" xml:space="preserve">
     <value>Parametreler</value>
   </data>
@@ -1822,7 +1825,7 @@ Gizlemek için pin kodunu değiştirin</value>
     <value>Hareket</value>
   </data>
   <data name="StartProcess" xml:space="preserve">
-    <value>Süreci Başlat</value>
+    <value>Program Çalıştır</value>
   </data>
   <data name="EntityType" xml:space="preserve">
     <value>Varlık Tipi</value>
@@ -2161,6 +2164,9 @@ Hata Mesajı:
   <data name="TicketNumerator" xml:space="preserve">
     <value>Adisyon Numaratörü</value>
   </data>
+  <data name="Update_f" xml:space="preserve">
+    <value> {0} Güncelle</value>
+  </data>
   <data name="Eighteen" xml:space="preserve">
     <value>Onsekiz</value>
   </data>
@@ -2281,6 +2287,9 @@ Hata Mesajı:
   <data name="EntityScreens" xml:space="preserve">
     <value>Varlık Ekranları</value>
   </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Sipariş Durumu</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
@@ -2388,6 +2397,9 @@ Hata Mesajı:
   </data>
   <data name="Every15Minutes" xml:space="preserve">
     <value>Her 15 dakikada bir</value>
+  </data>
+  <data name="TicketPaymentCheck" xml:space="preserve">
+    <value>Belge Ödendi Kontolü</value>
   </data>
   <data name="LastOrderDuration" xml:space="preserve">
     <value>Son Sipariş Süresi</value>
@@ -2510,11 +2522,17 @@ Kapat</value>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Toplam Çalışma Zamanı: {0:0} saat {1:0} dakika</value>
   </data>
+  <data name="UpdateNewOrderEntityColor" xml:space="preserve">
+    <value>Yeni Sipariş Varlık Rengini Güncelle</value>
+  </data>
   <data name="TaggingType" xml:space="preserve">
     <value>Etiket Tipi</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Olay Adı</value>
+  </data>
+  <data name="NewOrderAddingRule" xml:space="preserve">
+    <value>Yeni Sipariş Ekleme Kuralı</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Karakter Seti</value>
@@ -2656,6 +2674,9 @@ Kapat</value>
   </data>
   <data name="TicketsMerged" xml:space="preserve">
     <value>Adsiyonlar Birleştirildi</value>
+  </data>
+  <data name="NewTicketCreatingRule" xml:space="preserve">
+    <value>Yeni Belge Oluşturma Kuralı</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>Sıralama Tipi</value>

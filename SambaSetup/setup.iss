@@ -161,6 +161,7 @@ Source: src\de\Samba.Localization.resources.dll; DestDir: {app}\de\; Flags: igno
 Source: src\cs\Samba.Localization.resources.dll; DestDir: {app}\cs\; Flags: ignoreversion
 Source: src\nl\Samba.Localization.resources.dll; DestDir: {app}\nl\; Flags: ignoreversion
 Source: src\he\Samba.Localization.resources.dll; DestDir: {app}\he\; Flags: ignoreversion
+Source: src\fr\Samba.Localization.resources.dll; DestDir: {app}\fr\; Flags: ignoreversion
 
 [Components]
 Name: pos; Description: Samba POS; Types: full compact custom; Flags: fixed
@@ -296,6 +297,7 @@ Name: {app}\de
 Name: {app}\cs
 Name: {app}\nl
 Name: {app}\he
+Name: {app}\fr
 
 Name: {commonappdata}\Ozgu Tech\SambaPOS3
 

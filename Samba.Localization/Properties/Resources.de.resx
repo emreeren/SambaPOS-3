@@ -160,6 +160,9 @@
   <data name="Currency" xml:space="preserve">
     <value>Währung</value>
   </data>
+  <data name="NumberpadValueEntered" xml:space="preserve">
+    <value>Ziffernfeld-Wert eingegeben</value>
+  </data>
   <data name="ButtonColor" xml:space="preserve">
     <value>Buttonfarbe</value>
   </data>
@@ -205,14 +208,23 @@
   <data name="UserRoleList" xml:space="preserve">
     <value>Role-Liste</value>
   </data>
+  <data name="UpdateOrderGiftState" xml:space="preserve">
+    <value>aktualisiere Trinkgeldstatus der Bestellung</value>
+  </data>
   <data name="ClearFilter" xml:space="preserve">
     <value>Filter entfernen</value>
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
     <value>Preisliste wechseln</value>
   </data>
+  <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
+    <value>führe Küchenbeleg-Druckauftrag aus</value>
+  </data>
   <data name="Warehouse" xml:space="preserve">
     <value>Lager</value>
+  </data>
+  <data name="CustomerReceiptTemplate" xml:space="preserve">
+    <value>Kunden Beleg Vorlage</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Gesamteinnahmen</value>
@@ -981,6 +993,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Product" xml:space="preserve">
     <value>Produkt</value>
   </data>
+  <data name="PrimaryFieldFormat" xml:space="preserve">
+    <value>Primärfeldformat</value>
+  </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
     <value>ausgewählte Artikel löschen</value>
   </data>
@@ -1034,6 +1049,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="NoTransactionsFoundFor_f" xml:space="preserve">
     <value>Keine Transaktionen für {0}</value>
+  </data>
+  <data name="PrimaryFieldName" xml:space="preserve">
+    <value>Primärfeldname</value>
   </data>
   <data name="CanChangeDepartment" xml:space="preserve">
     <value>Kann Abteilung ändern</value>
@@ -1140,6 +1158,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="GroupFooter" xml:space="preserve">
     <value>Gruppen-Fußzeile</value>
   </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Transaktionsdrucker</value>
+  </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Gesamtentnahmen</value>
   </data>
@@ -1184,6 +1205,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="Duration" xml:space="preserve">
     <value>Dauer</value>
+  </data>
+  <data name="UpdateAvailableEntityColor" xml:space="preserve">
+    <value>aktualisiere Freie Einheiten Farbe</value>
   </data>
   <data name="Minute" xml:space="preserve">
     <value>Minute</value>
@@ -1241,6 +1265,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>Beleg geändert. Ihre letzte Änderung wurde nicht gespeichert.</value>
+  </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>Details anzeigen</value>
   </data>
   <data name="UserRole" xml:space="preserve">
     <value>User-Role</value>
@@ -1320,6 +1347,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="ReleaseLock" xml:space="preserve">
     <value>Sperre aufheben</value>
   </data>
+  <data name="SetWidgetValue" xml:space="preserve">
+    <value>setze Steuerelement Wert</value>
+  </data>
   <data name="Sales" xml:space="preserve">
     <value>Verkauf</value>
   </data>
@@ -1398,6 +1428,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="Thirteen" xml:space="preserve">
     <value>Dreizehn</value>
+  </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Blende Konten mit Null-Summen aus</value>
   </data>
   <data name="MonWedFri" xml:space="preserve">
     <value>Mo, Mi, Fr</value>
@@ -1536,6 +1569,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="One" xml:space="preserve">
     <value>Ein</value>
+  </data>
+  <data name="LoopValues" xml:space="preserve">
+    <value>durchlaufe Werte</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Hinzufügen</value>
@@ -1813,6 +1849,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="RateOrAmount" xml:space="preserve">
     <value>Prozentsatz oder Höhe</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Frei</value>
+  </data>
   <data name="Parameters" xml:space="preserve">
     <value>Parameter</value>
   </data>
@@ -1846,6 +1885,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="WorkPeriodEndsMessage" xml:space="preserve">
     <value>Die Arbeitszeit ist beendet.
 Besuchen Sie die Berichtesektion und erstellen Sie einen Bericht für die Arbeitszeit.</value>
+  </data>
+  <data name="PrintAccountTransactionDocument" xml:space="preserve">
+    <value>drucke Konto-Transaktions-Dokument</value>
   </data>
   <data name="WorkPeriodStartDate_f" xml:space="preserve">
     <value>Arbeitszeit begonnen am: {0}</value>
@@ -1988,6 +2030,9 @@ Fehlernachricht:
   <data name="FontSize" xml:space="preserve">
     <value>Schriftgröße</value>
   </data>
+  <data name="BillRequested" xml:space="preserve">
+    <value>Rechnung Angefragt</value>
+  </data>
   <data name="ImagePath" xml:space="preserve">
     <value>Imagepfad</value>
   </data>
@@ -2011,6 +2056,9 @@ Fehlernachricht:
   </data>
   <data name="AutoRefreshInterval" xml:space="preserve">
     <value>automatisches Auffrischungsintervall</value>
+  </data>
+  <data name="UpdateMovedEntityColor" xml:space="preserve">
+    <value>aktualisiere Verschiebe Einheit Farbe</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
@@ -2038,6 +2086,9 @@ Fehlernachricht:
   </data>
   <data name="TagCantBeEmpty_f" xml:space="preserve">
     <value>{0} kann nicht leer gelassen werden.</value>
+  </data>
+  <data name="AccountTransactionDocumentCreated" xml:space="preserve">
+    <value>Konto-Transaktions-Dokument erstellt</value>
   </data>
   <data name="ExecutePowershellScript" xml:space="preserve">
     <value>Powershell Script ausführen</value>
@@ -2149,6 +2200,9 @@ Fehlernachricht:
   </data>
   <data name="TicketNumerator" xml:space="preserve">
     <value>Beleg-Zähler</value>
+  </data>
+  <data name="Update_f" xml:space="preserve">
+    <value>Aktualisiere {0}</value>
   </data>
   <data name="Eighteen" xml:space="preserve">
     <value>Achtzehn</value>
@@ -2270,6 +2324,9 @@ Fehlernachricht:
   <data name="EntityScreens" xml:space="preserve">
     <value>Einheitsmasken</value>
   </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Bestell Status</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
@@ -2377,6 +2434,9 @@ Fehlernachricht:
   </data>
   <data name="Every15Minutes" xml:space="preserve">
     <value>Alle 15 Minuten</value>
+  </data>
+  <data name="TicketPaymentCheck" xml:space="preserve">
+    <value>Abrechnungsbeleg</value>
   </data>
   <data name="LastOrderDuration" xml:space="preserve">
     <value>Zeitspanne der letzten Bestellung</value>
@@ -2502,11 +2562,17 @@ schliessen</value>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Arbeitszeit gesamt: {0:0} Stunden {1:0} Minuten</value>
   </data>
+  <data name="UpdateNewOrderEntityColor" xml:space="preserve">
+    <value>aktualisiere Neue Bestellung Einheiten Farbe</value>
+  </data>
   <data name="TaggingType" xml:space="preserve">
     <value>Taging Typ</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Name des Ereignisses</value>
+  </data>
+  <data name="NewOrderAddingRule" xml:space="preserve">
+    <value>Neue Bestellung-Hinzufügen Regel</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Zeichensatz</value>
@@ -2522,6 +2588,9 @@ schliessen</value>
   </data>
   <data name="ProgramSettings" xml:space="preserve">
     <value>Programm-Einstellungen</value>
+  </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Beleg</value>
   </data>
   <data name="InStock" xml:space="preserve">
     <value>Auf Lager</value>
@@ -2646,6 +2715,9 @@ schliessen</value>
   <data name="TicketsMerged" xml:space="preserve">
     <value>Belege zusammengeführt</value>
   </data>
+  <data name="NewTicketCreatingRule" xml:space="preserve">
+    <value>Neue Beleg-Erstellungs Regel</value>
+  </data>
   <data name="SortType" xml:space="preserve">
     <value>Sortierart</value>
   </data>
@@ -2699,6 +2771,9 @@ schliessen</value>
   </data>
   <data name="StateController" xml:space="preserve">
     <value>Status-Kontrollor</value>
+  </data>
+  <data name="ValueLooped" xml:space="preserve">
+    <value>Wert durchlaufen</value>
   </data>
   <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
     <value>Beleg-Tagnamen sollten einzigartig sein</value>
@@ -2793,6 +2868,9 @@ Die Arbeitszeit kann nicht beendet werden.</value>
   </data>
   <data name="PinCode" xml:space="preserve">
     <value>Pin Code</value>
+  </data>
+  <data name="ExecutePrintBillJob" xml:space="preserve">
+    <value>führe Rechnungs-Druckauftrag aus</value>
   </data>
   <data name="DiscountPercentSign" xml:space="preserve">
     <value>Rabatt %</value>
@@ -2967,6 +3045,9 @@ Die Arbeitszeit kann nicht beendet werden.</value>
   </data>
   <data name="StateType" xml:space="preserve">
     <value>Statustyp</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>Als Baum anzeigen</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>
