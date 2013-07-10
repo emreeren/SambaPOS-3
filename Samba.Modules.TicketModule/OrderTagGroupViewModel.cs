@@ -125,7 +125,7 @@ namespace Samba.Modules.TicketModule
     {
         public OrderTagGroupValidator()
         {
-            RuleFor(x => x.MaxSelectedItems).GreaterThan(x => x.MinSelectedItems).When(x => x.MaxSelectedItems > 0);
+            RuleFor(x => x.MaxSelectedItems).GreaterThanOrEqualTo(x => x.MinSelectedItems).When(x => x.MaxSelectedItems > 0);
             RuleFor(x => x.MaxSelectedItems).Equal(1).When(x => !string.IsNullOrEmpty(x.GroupTag));
             RuleFor(x => x.OrderTags).NotEmpty().When(x => !string.IsNullOrEmpty(x.GroupTag));
             Custom(x =>
