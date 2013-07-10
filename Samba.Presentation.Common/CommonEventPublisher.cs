@@ -23,7 +23,7 @@ namespace Samba.Presentation.Common
 
         public static void PublishEntityOperation<T>(T entity, string requestedEvent, string expectedEvent = "", string data = "")
         {
-            EntityOperationRequest<T>.Publish(entity, requestedEvent, expectedEvent, data);
+            OperationRequest<T>.Publish(entity, requestedEvent, expectedEvent, data);
         }
     }
 }

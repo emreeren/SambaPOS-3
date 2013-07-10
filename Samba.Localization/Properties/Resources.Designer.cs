@@ -4386,6 +4386,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Modify Order.
+        /// </summary>
+        public static string ModifyOrder {
+            get {
+                return ResourceManager.GetString("ModifyOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Month.
         /// </summary>
         public static string Month {

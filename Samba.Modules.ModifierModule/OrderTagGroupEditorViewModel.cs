@@ -11,6 +11,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
+using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -92,14 +93,18 @@ namespace Samba.Modules.ModifierModule
             }
         }
 
+        public OperationRequest<SelectedOrdersData> CurrentOperationRequest { get; set; }
+
         private void OnToggleRemoveMode(string obj)
         {
             RemoveMode = !RemoveMode;
         }
 
-        private static void OnCloseCommandExecuted(string obj)
+        private void OnCloseCommandExecuted(string obj)
         {
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
+            EventServiceFactory.EventService.PublishEvent(CurrentOperationRequest != null
+                                                              ? CurrentOperationRequest.GetExpectedEvent()
+                                                              : EventTopicNames.ActivatePosView);
         }
 
         private void OnPortionSelected(MenuItemPortion obj)

@@ -65,7 +65,7 @@ namespace Samba.Modules.EntityModule
 
         public ObservableCollection<IDiagram> Widgets { get; set; }
 
-        public void Refresh(EntityScreen entityScreen, EntityOperationRequest<Entity> currentOperationRequest)
+        public void Refresh(EntityScreen entityScreen, OperationRequest<Entity> currentOperationRequest)
         {
             _entityService.UpdateEntityScreen(entityScreen);
             if (_currentEntityScreen != entityScreen || Widgets == null)

@@ -147,7 +147,7 @@ namespace Samba.Modules.PosModule
         {
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.CreateTicket, true);
             var r = SelectedEntity as Entity;
-            new EntityOperationRequest<Entity>(r, null).PublishEvent(EventTopicNames.EntitySelected, true);
+            new OperationRequest<Entity>(r, null).PublishEvent(EventTopicNames.EntitySelected, true);
         }
 
         public void UpdateListByEntity(Entity entity)

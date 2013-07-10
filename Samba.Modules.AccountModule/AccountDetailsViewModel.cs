@@ -42,7 +42,7 @@ namespace Samba.Modules.AccountModule
             AccountDetails = new ObservableCollection<AccountDetailViewModel>();
             DocumentTypes = new ObservableCollection<DocumentTypeButtonViewModel>();
             AccountSummaries = new ObservableCollection<AccountSummaryViewModel>();
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountData>>>().Subscribe(OnDisplayAccountTransactions);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<AccountData>>>().Subscribe(OnDisplayAccountTransactions);
         }
 
         public AccountType SelectedAccountType { get; set; }
@@ -72,7 +72,7 @@ namespace Samba.Modules.AccountModule
         public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
 
         private string _filterType;
-        private EntityOperationRequest<AccountData> _currentOperationRequest;
+        private OperationRequest<AccountData> _currentOperationRequest;
 
         public string FilterType
         {
@@ -155,11 +155,11 @@ namespace Samba.Modules.AccountModule
             RaisePropertyChanged(() => TotalBalance);
         }
 
-        private void OnDisplayAccountTransactions(EventParameters<EntityOperationRequest<AccountData>> obj)
+        private void OnDisplayAccountTransactions(EventParameters<OperationRequest<AccountData>> obj)
         {
             if (obj.Topic == EventTopicNames.DisplayAccountTransactions)
             {
-                var account = _accountService.GetAccountById(obj.Value.SelectedEntity.AccountId);
+                var account = _accountService.GetAccountById(obj.Value.SelectedItem.AccountId);
                 if (obj.Value != null && !string.IsNullOrEmpty(obj.Value.GetExpectedEvent()))
                     _currentOperationRequest = obj.Value;
                 SelectedAccount = account;

@@ -36,7 +36,7 @@ namespace Samba.Modules.EntityModule
             SaveEntityCommand = new CaptionCommand<string>(Resources.Save, OnSaveEntity, CanSelectEntity);
             SelectEntityCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Entity).Replace(" ", "\r"), OnSelectEntity, CanSelectEntity);
             CreateAccountCommand = new CaptionCommand<string>(string.Format(Resources.Create_f, Resources.Account).Replace(" ", "\r"), OnCreateAccount, CanCreateAccount);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Entity>>>().Subscribe(OnEditEntity);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<Entity>>>().Subscribe(OnEditEntity);
         }
 
         public bool IsEntitySelectorVisible
@@ -97,16 +97,16 @@ namespace Samba.Modules.EntityModule
             _entityService.SaveEntity(SelectedEntity.Model);
         }
 
-        private EntityOperationRequest<Entity> _operationRequest;
+        private OperationRequest<Entity> _operationRequest;
 
-        private void OnEditEntity(EventParameters<EntityOperationRequest<Entity>> obj)
+        private void OnEditEntity(EventParameters<OperationRequest<Entity>> obj)
         {
             if (obj.Topic == EventTopicNames.EditEntityDetails)
             {
                 _operationRequest = obj.Value;
-                var entityType = _cacheService.GetEntityTypeById(obj.Value.SelectedEntity.EntityTypeId);
-                SelectedEntity = new EntitySearchResultViewModel(obj.Value.SelectedEntity, entityType);
-                CustomDataViewModel = new EntityCustomDataViewModel(obj.Value.SelectedEntity, entityType);
+                var entityType = _cacheService.GetEntityTypeById(obj.Value.SelectedItem.EntityTypeId);
+                SelectedEntity = new EntitySearchResultViewModel(obj.Value.SelectedItem, entityType);
+                CustomDataViewModel = new EntityCustomDataViewModel(obj.Value.SelectedItem, entityType);
                 RaisePropertyChanged(() => CustomDataViewModel);
                 RaisePropertyChanged(() => IsEntitySelectorVisible);
                 RaisePropertyChanged(() => PrimaryFieldName);

@@ -44,7 +44,9 @@
                 </Style>
             </StackPanel.Resources>
             <FxButton:FlexButton Command="{Binding AddOrderCommand}" Content="{Binding AddOrderCommand.Caption}"
-                         Visibility="{Binding IsPortrait,Converter={StaticResource VisibilityConverter}}"/>
+                         Visibility="{Binding IsAddOrderButtonVisible,Converter={StaticResource VisibilityConverter}}"/>
+            <FxButton:FlexButton Command="{Binding ModifyOrderCommand}" Content="{Binding ModifyOrderCommand.Caption}"
+                         Visibility="{Binding IsModifyOrderButtonVisible,Converter={StaticResource VisibilityConverter}}"/>
             <ItemsControl ItemsSource="{Binding EntityButtons,NotifyOnTargetUpdated=True}"
                          HorizontalAlignment="Stretch" Visibility="{Binding IsNothingSelected,Converter={StaticResource VisibilityConverter}}">
                 <ItemsControl.ItemsPanel>

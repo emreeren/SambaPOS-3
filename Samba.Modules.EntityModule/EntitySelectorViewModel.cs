@@ -32,7 +32,7 @@ namespace Samba.Modules.EntityModule
         private readonly IEntityService _entityService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
-        private EntityOperationRequest<Entity> _currentOperationRequest;
+        private OperationRequest<Entity> _currentOperationRequest;
 
         [ImportingConstructor]
         public EntitySelectorViewModel(IApplicationState applicationState, IEntityService entityService,
@@ -129,7 +129,7 @@ namespace Samba.Modules.EntityModule
                 EntityScreenItems = new ObservableCollection<EntityScreenItemViewModel>();
                 EntityScreenItems.AddRange(entityData.Select(x => new
                     EntityScreenItemViewModel(_cacheService, x, SelectedEntityScreen, EntitySelectionCommand,
-                   _currentOperationRequest != null && _currentOperationRequest.SelectedEntity != null,
+                   _currentOperationRequest != null && _currentOperationRequest.SelectedItem != null,
                    _userService.IsUserPermittedFor(PermissionNames.MergeTickets))));
             }
             else
@@ -141,7 +141,7 @@ namespace Samba.Modules.EntityModule
             }
         }
 
-        public void Refresh(EntityScreen entityScreen, string stateFilter, EntityOperationRequest<Entity> currentOperationRequest)
+        public void Refresh(EntityScreen entityScreen, string stateFilter, OperationRequest<Entity> currentOperationRequest)
         {
             StateFilter = stateFilter;
             _currentOperationRequest = currentOperationRequest;

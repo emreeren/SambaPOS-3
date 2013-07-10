@@ -89,11 +89,10 @@ namespace Samba.Modules.PosModule
             _accountBalances = accountBalances;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnTicketEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
             EventServiceFactory.EventService.GetEvent<GenericIdEvent>().Subscribe(OnTicketIdPublished);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Entity>>>().Subscribe(OnEntitySelectedForTicket);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<Entity>>>().Subscribe(OnEntitySelectedForTicket);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagGroup>>().Subscribe(OnTicketTagSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketStateData>>().Subscribe(OnTicketStateSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketType>>().Subscribe(OnTicketTypeChanged);
@@ -119,7 +118,7 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.TicketTypeSelected && obj.Value != null)
             {
                 _applicationState.TempTicketType = obj.Value;
-                new EntityOperationRequest<Entity>(_lastSelectedEntity, null).PublishEvent(EventTopicNames.EntitySelected, true);
+                new OperationRequest<Entity>(_lastSelectedEntity, null).PublishEvent(EventTopicNames.EntitySelected, true);
             }
         }
 
@@ -165,24 +164,24 @@ namespace Samba.Modules.PosModule
             }
         }
 
-        private void OnEntitySelectedForTicket(EventParameters<EntityOperationRequest<Entity>> eventParameters)
+        private void OnEntitySelectedForTicket(EventParameters<OperationRequest<Entity>> eventParameters)
         {
             if (eventParameters.Topic == EventTopicNames.EntitySelected)
             {
-                FireEntitySelectedRule(eventParameters.Value.SelectedEntity);
+                FireEntitySelectedRule(eventParameters.Value.SelectedItem);
                 if (SelectedTicket != null)
                 {
-                    _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedEntity);
+                    _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedItem);
                     if (_applicationState.SelectedEntityScreen != null
-                        && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0
+                        && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedItem.Id > 0
                         && _applicationState.TempEntityScreen != null
-                        && eventParameters.Value.SelectedEntity.EntityTypeId == _applicationState.TempEntityScreen.EntityTypeId)
+                        && eventParameters.Value.SelectedItem.EntityTypeId == _applicationState.TempEntityScreen.EntityTypeId)
                         CloseTicket();
                     else DisplaySingleTicket();
                 }
                 else
                 {
-                    var openTickets = _ticketServiceBase.GetOpenTicketIds(eventParameters.Value.SelectedEntity.Id).ToList();
+                    var openTickets = _ticketServiceBase.GetOpenTicketIds(eventParameters.Value.SelectedItem.Id).ToList();
                     if (!openTickets.Any())
                     {
                         if (_applicationState.SelectedEntityScreen != null &&
@@ -190,7 +189,7 @@ namespace Samba.Modules.PosModule
                             _cacheService.GetTicketTypes().Count() > 1 &&
                             _applicationState.TempTicketType == null)
                         {
-                            _lastSelectedEntity = eventParameters.Value.SelectedEntity;
+                            _lastSelectedEntity = eventParameters.Value.SelectedItem;
                             DisplayTicketTypeList();
                             return;
                         }
@@ -202,12 +201,12 @@ namespace Samba.Modules.PosModule
                         }
 
                         OpenTicket(0);
-                        _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedEntity);
+                        _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedItem);
                     }
                     else if (openTickets.Count > 1)
                     {
-                        _lastSelectedEntity = eventParameters.Value.SelectedEntity;
-                        _ticketListViewModel.UpdateListByEntity(eventParameters.Value.SelectedEntity);
+                        _lastSelectedEntity = eventParameters.Value.SelectedItem;
+                        _ticketListViewModel.UpdateListByEntity(eventParameters.Value.SelectedItem);
                         DisplayTicketList();
                         return;
                     }
@@ -316,15 +315,6 @@ namespace Samba.Modules.PosModule
                     DisplayMenuScreen();
                     CloseTicket();
                     break;
-            }
-        }
-
-        private void OnSelectedOrdersChanged(EventParameters<SelectedOrdersData> obj)
-        {
-            if (obj.Topic == EventTopicNames.SelectedOrdersChanged)
-            {
-                if (obj.Value.SelectedOrders == null || obj.Value.SelectedOrders.Count() != 1)
-                    DisplayMenuScreen();
             }
         }
 

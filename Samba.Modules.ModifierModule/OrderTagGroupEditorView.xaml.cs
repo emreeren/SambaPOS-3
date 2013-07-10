@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using Samba.Presentation.Common;
+using Samba.Presentation.Services.Common;
+using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.ModifierModule
 {

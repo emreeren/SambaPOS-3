@@ -30,7 +30,7 @@ namespace Samba.Modules.EntityModule
             if (handler != null) handler(this, e);
         }
 
-        private EntityOperationRequest<Entity> _currentEntitySelectionRequest;
+        private OperationRequest<Entity> _currentEntitySelectionRequest;
 
         public DelegateCommand<string> SelectEntityCommand { get; set; }
         public DelegateCommand<string> CreateEntityCommand { get; set; }
@@ -273,9 +273,9 @@ namespace Samba.Modules.EntityModule
         private bool CanRemoveEntity(string arg)
         {
             return (_applicationState.IsLocked && _currentEntitySelectionRequest != null &&
-                   _currentEntitySelectionRequest.SelectedEntity != null &&
-                   ((SelectedEntity != null && _currentEntitySelectionRequest.SelectedEntity.Id == SelectedEntity.Id) ||
-                    _currentEntitySelectionRequest.SelectedEntity.Id == 0 || _currentEntitySelectionRequest.SelectedEntity == null));
+                   _currentEntitySelectionRequest.SelectedItem != null &&
+                   ((SelectedEntity != null && _currentEntitySelectionRequest.SelectedItem.Id == SelectedEntity.Id) ||
+                    _currentEntitySelectionRequest.SelectedItem.Id == 0 || _currentEntitySelectionRequest.SelectedItem == null));
         }
 
         private bool CanCreateEntity(string arg)
@@ -312,17 +312,17 @@ namespace Samba.Modules.EntityModule
             ClearSearchValues();
         }
 
-        public void RefreshSelectedEntity(EntityOperationRequest<Entity> value)
+        public void RefreshSelectedEntity(OperationRequest<Entity> value)
         {
             ClearSearchValues();
             _currentEntitySelectionRequest = value;
 
-            if (_currentEntitySelectionRequest != null && _currentEntitySelectionRequest.SelectedEntity != null && !string.IsNullOrEmpty(_currentEntitySelectionRequest.SelectedEntity.Name))
+            if (_currentEntitySelectionRequest != null && _currentEntitySelectionRequest.SelectedItem != null && !string.IsNullOrEmpty(_currentEntitySelectionRequest.SelectedItem.Name))
             {
                 ClearSearchValues();
-                if (_currentEntitySelectionRequest.SelectedEntity.Name != "*" && _currentEntitySelectionRequest.SelectedEntity.EntityTypeId == SelectedEntityType.Id)
+                if (_currentEntitySelectionRequest.SelectedItem.Name != "*" && _currentEntitySelectionRequest.SelectedItem.EntityTypeId == SelectedEntityType.Id)
                 {
-                    FoundEntities.Add(new EntitySearchResultViewModel(_currentEntitySelectionRequest.SelectedEntity, SelectedEntityType));
+                    FoundEntities.Add(new EntitySearchResultViewModel(_currentEntitySelectionRequest.SelectedItem, SelectedEntityType));
                 }
             }
 
@@ -386,7 +386,7 @@ namespace Samba.Modules.EntityModule
             }
         }
 
-        public void Refresh(int entityType, string stateFilter, EntityOperationRequest<Entity> currentOperationRequest)
+        public void Refresh(int entityType, string stateFilter, OperationRequest<Entity> currentOperationRequest)
         {
             StateFilter = stateFilter;
             SelectedEntityType = _cacheService.GetEntityTypeById(entityType);

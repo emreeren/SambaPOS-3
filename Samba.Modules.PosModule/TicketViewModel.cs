@@ -13,7 +13,6 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
-using Samba.Presentation.Controls.Interaction;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
@@ -49,6 +48,7 @@ namespace Samba.Modules.PosModule
         public ICaptionCommand RemoveTicketTagCommand { get; set; }
         public ICaptionCommand ChangePriceCommand { get; set; }
         public ICaptionCommand AddOrderCommand { get; set; }
+        public ICaptionCommand ModifyOrderCommand { get; set; }
 
         public DelegateCommand<EntityType> SelectEntityCommand { get; set; }
         public DelegateCommand<CommandContainerButton> ExecuteAutomationCommnand { get; set; }
@@ -114,6 +114,8 @@ namespace Samba.Modules.PosModule
 
         public bool IsPortrait { get { return !_applicationState.IsLandscape; } }
         public bool IsLandscape { get { return _applicationState.IsLandscape; } }
+        public bool IsAddOrderButtonVisible { get { return IsPortrait && IsNothingSelected; } }
+        public bool IsModifyOrderButtonVisible { get { return IsPortrait && IsItemsSelected; } }
         public bool IsItemsSelected { get { return SelectedOrders.Any(); } }
         public bool IsItemsSelectedAndUnlocked { get { return SelectedOrders.Any() && SelectedOrders.Count(x => x.Locked) == 0; } }
         public bool IsItemsSelectedAndLocked { get { return SelectedOrders.Any() && SelectedOrders.Count(x => !x.Locked) == 0; } }
@@ -188,6 +190,7 @@ namespace Samba.Modules.PosModule
             RemoveTicketLockCommand = new CaptionCommand<string>(Resources.ReleaseLock, OnRemoveTicketLock, CanRemoveTicketLock);
             ChangePriceCommand = new CaptionCommand<string>(Resources.ChangePrice, OnChangePrice, CanChangePrice);
             AddOrderCommand = new CaptionCommand<string>(Resources.AddOrder.Replace(" ", Environment.NewLine), OnAddOrder, CanAddOrder);
+            ModifyOrderCommand = new CaptionCommand<string>(Resources.ModifyOrder.Replace(" ", Environment.NewLine), OnModifyOrder, CanModifyOrder);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<OrderViewModel>>().Subscribe(OnSelectedOrdersChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnRefreshTicket);
@@ -197,6 +200,17 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommandValueData>>().Subscribe(OnAutomationCommandValueSelected);
 
             SelectedTicket = Ticket.Empty;
+        }
+
+        private bool CanModifyOrder(string arg)
+        {
+            return SelectedOrders.Any();
+        }
+
+        private void OnModifyOrder(string obj)
+        {
+            var so = new SelectedOrdersData { SelectedOrders = SelectedOrders, Ticket = SelectedTicket };
+            OperationRequest<SelectedOrdersData>.Publish(so, EventTopicNames.DisplayTicketOrderDetails, EventTopicNames.ActivatePosView, "");
         }
 
         private bool CanAddOrder(string arg)
@@ -286,7 +300,7 @@ namespace Samba.Modules.PosModule
         {
             var ticketEntity = SelectedTicket.TicketEntities.SingleOrDefault(x => x.EntityTypeId == obj.Id);
             var selectedEntity = ticketEntity != null ? _cacheService.GetEntityById(ticketEntity.EntityId) : Entity.GetNullEntity(obj.Id);
-            EntityOperationRequest<Entity>.Publish(selectedEntity, EventTopicNames.SelectEntity, EventTopicNames.EntitySelected, "");
+            OperationRequest<Entity>.Publish(selectedEntity, EventTopicNames.SelectEntity, EventTopicNames.EntitySelected, "");
         }
 
         private void OnPortionSelected(EventParameters<MenuItemPortion> obj)
@@ -359,8 +373,11 @@ namespace Samba.Modules.PosModule
 
                 RefreshSelectedItems();
 
-                var so = new SelectedOrdersData { SelectedOrders = SelectedOrders, Ticket = SelectedTicket };
-                so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+                if (_applicationState.IsLandscape)
+                {
+                    var so = new SelectedOrdersData { SelectedOrders = SelectedOrders, Ticket = SelectedTicket };
+                    OperationRequest<SelectedOrdersData>.Publish(so, EventTopicNames.DisplayTicketOrderDetails, EventTopicNames.ActivatePosView, "");
+                }
             }
         }
 
@@ -563,6 +580,8 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsItemsSelectedAndLocked);
             RaisePropertyChanged(() => IsTicketSelected);
             RaisePropertyChanged(() => OrderAutomationCommands);
+            RaisePropertyChanged(() => IsAddOrderButtonVisible);
+            RaisePropertyChanged(() => IsModifyOrderButtonVisible);
         }
 
         public void RefreshLayout()

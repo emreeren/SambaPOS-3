@@ -3328,4 +3328,7 @@ Error Message:
   <data name="AccountBalanceDisplayFormat" xml:space="preserve">
     <value>Account Balance Display Format</value>
   </data>
+  <data name="ModifyOrder" xml:space="preserve">
+    <value>Modify Order</value>
+  </data>
 </root>

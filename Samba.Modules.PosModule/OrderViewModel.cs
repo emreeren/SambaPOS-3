@@ -196,7 +196,7 @@ namespace Samba.Modules.PosModule
         {
             Selected = !Selected;
             if (!Selected) ResetSelectedQuantity();
-            this.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+            this.PublishEvent(EventTopicNames.SelectedOrdersChanged,true);
         }
 
         private void UpdateItemColor()

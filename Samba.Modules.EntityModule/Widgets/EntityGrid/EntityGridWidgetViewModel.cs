@@ -27,7 +27,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
             ResourceSelectorViewModel = new EntitySelectorViewModel(applicationState, entityService, userService, cacheService);
         }
 
-        readonly EntityOperationRequest<Entity> _request = new EntityOperationRequest<Entity>(null, EventTopicNames.EntitySelected);
+        readonly OperationRequest<Entity> _request = new OperationRequest<Entity>(null, EventTopicNames.EntitySelected);
 
 
         [Browsable(false)]

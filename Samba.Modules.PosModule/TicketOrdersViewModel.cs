@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Data;
+using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
@@ -15,11 +16,13 @@ namespace Samba.Modules.PosModule
     public class TicketOrdersViewModel : ObservableObject
     {
         private readonly ITicketService _ticketService;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public TicketOrdersViewModel(ITicketService ticketService)
+        public TicketOrdersViewModel(ITicketService ticketService, IApplicationState applicationState)
         {
             _ticketService = ticketService;
+            _applicationState = applicationState;
             _orders = new ObservableCollection<OrderViewModel>();
             _itemsViewSource = new CollectionViewSource { Source = _orders };
             _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
@@ -77,10 +80,8 @@ namespace Samba.Modules.PosModule
         {
             if (Orders.Any(x => x.Selected))
             {
-                foreach (var item in Orders.Where(x => x.Selected))
-                    item.NotSelected();
-                var so = new SelectedOrdersData { SelectedOrders = SelectedTicket.SelectedOrders, Ticket = SelectedTicket };
-                so.PublishEvent(EventTopicNames.SelectedOrdersChanged);
+                foreach (var item in Orders.Where(x => x.Selected)) item.NotSelected();
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
             }
         }
 
@@ -126,10 +127,14 @@ namespace Samba.Modules.PosModule
         public void AddOrder(ScreenMenuItemData data)
         {
             var ti = AddOrder(data.ScreenMenuItem.MenuItemId, data.Quantity, data.ScreenMenuItem.ItemPortion, data.ScreenMenuItem.OrderTagTemplate);
-
             if (data.ScreenMenuItem.AutoSelect && ti != null)
             {
-                ti.ItemSelectedCommand.Execute(ti);
+                ti.ToggleSelection();
+                if (!_applicationState.IsLandscape)
+                {
+                    var so = new SelectedOrdersData { SelectedOrders = new List<Order> { ti.Model }, Ticket = SelectedTicket };
+                    OperationRequest<SelectedOrdersData>.Publish(so, EventTopicNames.DisplayTicketOrderDetails, EventTopicNames.RefreshSelectedTicket, "");
+                }
             }
         }
     }

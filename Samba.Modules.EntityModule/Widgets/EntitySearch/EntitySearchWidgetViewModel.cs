@@ -14,7 +14,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntitySearch
     {
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
-        private EntityOperationRequest<Entity> _request = new EntityOperationRequest<Entity>(null, EventTopicNames.EntitySelected);
+        private OperationRequest<Entity> _request = new OperationRequest<Entity>(null, EventTopicNames.EntitySelected);
 
         public EntitySearchWidgetViewModel(Widget model, IApplicationState applicationState, ICacheService cacheService, IEntityService entityService)
             : base(model, applicationState)
@@ -22,7 +22,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntitySearch
             _applicationState = applicationState;
             _cacheService = cacheService;
             EntitySearchViewModel = new EntitySearchViewModel(applicationState, cacheService, entityService) { IsKeyboardVisible = false };
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Entity>>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<Entity>>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.SelectEntity)
                 {

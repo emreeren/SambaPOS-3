@@ -131,6 +131,7 @@ namespace Samba.Modules.PosModule
 
         private void OnCloseMenuView(string obj)
         {
+            //EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
         }
 

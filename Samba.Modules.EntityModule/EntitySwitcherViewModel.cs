@@ -26,7 +26,7 @@ namespace Samba.Modules.EntityModule
         private readonly EntityDashboardView _entityDashboardView;
         private readonly EntityDashboardViewModel _entityDashboardViewModel;
 
-        private EntityOperationRequest<Entity> _currentOperationRequest;
+        private OperationRequest<Entity> _currentOperationRequest;
 
         [ImportingConstructor]
         public EntitySwitcherViewModel(IRegionManager regionManager,
@@ -59,7 +59,7 @@ namespace Samba.Modules.EntityModule
                 }
             });
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Entity>>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<Entity>>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.SelectEntity)
                 {
@@ -72,7 +72,7 @@ namespace Samba.Modules.EntityModule
             });
         }
 
-        private EntityScreen UpdateEntityScreens(EntityOperationRequest<Entity> value)
+        private EntityScreen UpdateEntityScreens(OperationRequest<Entity> value)
         {
             var entityScreens =
                 _applicationState.IsLocked ?
@@ -82,21 +82,21 @@ namespace Samba.Modules.EntityModule
             _entityScreens = entityScreens.OrderBy(x => x.SortOrder).ToList();
             _entitySwitcherButtons = null;
             var selectedScreen = _applicationState.SelectedEntityScreen;
-            if (value != null && value.SelectedEntity != null && _applicationState.CurrentDepartment != null)
+            if (value != null && value.SelectedItem != null && _applicationState.CurrentDepartment != null)
             {
                 if (_applicationState.IsLocked || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
-                    _entityScreens = _entityScreens.Where(x => x.EntityTypeId == value.SelectedEntity.EntityTypeId).OrderBy(x => x.SortOrder);
+                    _entityScreens = _entityScreens.Where(x => x.EntityTypeId == value.SelectedItem.EntityTypeId).OrderBy(x => x.SortOrder);
                 if (!_entityScreens.Any())
                     return entityScreens.ElementAt(0);
-                if (selectedScreen == null || selectedScreen.EntityTypeId != value.SelectedEntity.EntityTypeId)
+                if (selectedScreen == null || selectedScreen.EntityTypeId != value.SelectedItem.EntityTypeId)
                 {
                     selectedScreen = null;
                     if (!string.IsNullOrEmpty(value.Data))
                     {
-                        selectedScreen = _entityScreens.Where(x => x.DisplayMode == 1).First(x => x.EntityTypeId == value.SelectedEntity.EntityTypeId);
+                        selectedScreen = _entityScreens.Where(x => x.DisplayMode == 1).First(x => x.EntityTypeId == value.SelectedItem.EntityTypeId);
                     }
                     if (selectedScreen == null)
-                        selectedScreen = _entityScreens.First(x => x.EntityTypeId == value.SelectedEntity.EntityTypeId);
+                        selectedScreen = _entityScreens.First(x => x.EntityTypeId == value.SelectedItem.EntityTypeId);
                 }
                 if (selectedScreen == null) selectedScreen = _entityScreens.ElementAt(0);
             }

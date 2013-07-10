@@ -57,7 +57,7 @@
     <Compile Include="Common\DataGeneration\EntityCreator.cs" />
     <Compile Include="Common\DataGeneration\ParameterBuilder.cs" />
     <Compile Include="Common\DataGeneration\RuleGenerator.cs" />
-    <Compile Include="Common\EntityOperationRequest.cs" />
+    <Compile Include="Common\OperationRequest.cs" />
     <Compile Include="Common\EventServiceFactory.cs" />
     <Compile Include="Common\EventTopicNames.cs" />
     <Compile Include="Common\ExtensionMethods.cs" />

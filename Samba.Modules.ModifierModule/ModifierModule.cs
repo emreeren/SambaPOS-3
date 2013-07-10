@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Automation;
@@ -51,8 +50,7 @@ namespace Samba.Modules.ModifierModule
 
             _regionManager = regionManager;
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<SelectedOrdersData>>().Subscribe(OnSelectedOrdersDataEvent);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnDisplayTicketDetailsScreen);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<SelectedOrdersData>>>().Subscribe(OnSelectedOrdersDataEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<TicketTagData>>().Subscribe(OnTicketTagDataSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommand>>().Subscribe(OnAutomationCommandEvent);
@@ -84,12 +82,6 @@ namespace Samba.Modules.ModifierModule
             }
         }
 
-        private void OnDisplayTicketDetailsScreen(EventParameters<EventAggregator> obj)
-        {
-            if (obj.Topic == EventTopicNames.DisplayTicketOrderDetails)
-                DisplayTicketDetailsScreen();
-        }
-
         protected override void OnInitialization()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(OrderTagGroupEditorView));
@@ -99,8 +91,9 @@ namespace Samba.Modules.ModifierModule
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(AutomationCommandSelectorView));
         }
 
-        public void DisplayTicketDetailsScreen()
+        public void DisplayTicketDetailsScreen(OperationRequest<SelectedOrdersData> currentOperationRequest)
         {
+            _selectedOrdersViewModel.CurrentOperationRequest = currentOperationRequest;
             _regionManager.ActivateRegion(RegionNames.PosSubRegion, _selectedOrdersView);
             _ticketNoteEditorView.TicketNote.BackgroundFocus();
         }
@@ -126,19 +119,23 @@ namespace Samba.Modules.ModifierModule
             _regionManager.ActivateRegion(RegionNames.PosSubRegion, _productTimerEditorView);
         }
 
-        private void OnSelectedOrdersDataEvent(EventParameters<SelectedOrdersData> selectedOrdersEvent)
+        private void OnSelectedOrdersDataEvent(EventParameters<OperationRequest<SelectedOrdersData>> selectedOrdersEvent)
         {
-            if (selectedOrdersEvent.Topic == EventTopicNames.SelectedOrdersChanged)
+            if (selectedOrdersEvent.Topic == EventTopicNames.DisplayTicketOrderDetails)
             {
-                _selectedOrders = selectedOrdersEvent.Value.SelectedOrders.ToList();
+                _selectedOrders = selectedOrdersEvent.Value.SelectedItem.SelectedOrders.ToList();
 
-                if (_selectedOrdersViewModel.ShouldDisplay(selectedOrdersEvent.Value.Ticket, _selectedOrders))
+                if (_selectedOrdersViewModel.ShouldDisplay(selectedOrdersEvent.Value.SelectedItem.Ticket, _selectedOrders))
                 {
-                    DisplayTicketDetailsScreen();
+                    DisplayTicketDetailsScreen(selectedOrdersEvent.Value);
                 }
-                else if (_productTimerEditorViewModel.ShouldDisplay(selectedOrdersEvent.Value.Ticket, _selectedOrders.ToList()))
+                else if (_productTimerEditorViewModel.ShouldDisplay(selectedOrdersEvent.Value.SelectedItem.Ticket, _selectedOrders.ToList()))
                 {
                     DisplayProdcutTimerEdior(_selectedOrders.First());
+                }
+                else
+                {
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
                 }
             }
         }

@@ -35,7 +35,7 @@ namespace Samba.Modules.PosModule
 
         private void OnSelectEntity(Entity obj)
         {
-            new EntityOperationRequest<Entity>(obj, null).PublishEvent(EventTopicNames.EntitySelected, true);
+            new OperationRequest<Entity>(obj, null).PublishEvent(EventTopicNames.EntitySelected, true);
         }
 
         public ObservableCollection<Entity> EntityList { get; set; }

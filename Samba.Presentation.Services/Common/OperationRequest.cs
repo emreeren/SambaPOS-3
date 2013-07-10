@@ -1,28 +1,28 @@
 ﻿namespace Samba.Presentation.Services.Common
 {
-    public class EntityOperationRequest<T>
+    public class OperationRequest<T>
     {
         private readonly string _expectedEvent;
 
-        public EntityOperationRequest(T selectedEntity, string expectedEvent)
+        public OperationRequest(T selectedItem, string expectedEvent)
         {
-            SelectedEntity = selectedEntity;
+            SelectedItem = selectedItem;
             _expectedEvent = expectedEvent;
             Data = "";
         }
 
-        public T SelectedEntity { get; set; }
+        public T SelectedItem { get; set; }
         public string Data { get; set; }
 
         public void Publish(T selectedEntity)
         {
-            SelectedEntity = selectedEntity;
+            SelectedItem = selectedEntity;
             this.PublishEvent(_expectedEvent);
         }
 
-        public static void Publish(T selectedEntity, string requestedEvent, string expectedEvent, string data)
+        public static void Publish(T selectedItem, string requestedEvent, string expectedEvent, string data)
         {
-            var request = new EntityOperationRequest<T>(selectedEntity, expectedEvent) { Data = data };
+            var request = new OperationRequest<T>(selectedItem, expectedEvent) { Data = data };
             request.PublishEvent(requestedEvent);
         }
 

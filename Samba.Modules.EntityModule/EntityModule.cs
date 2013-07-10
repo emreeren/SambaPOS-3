@@ -58,13 +58,13 @@ namespace Samba.Modules.EntityModule
             _regionManager.RegisterViewWithRegion(RegionNames.EntityScreenRegion, typeof(EntityEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.EntityScreenRegion, typeof(EntityDashboardView));
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<Entity>>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<Entity>>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.SelectEntity) ActivateEntitySwitcher();
                 if (x.Topic == EventTopicNames.EditEntityDetails) ActivateEntityEditor();
             });
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<EntityOperationRequest<AccountData>>>().Subscribe(x =>
+            EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<AccountData>>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.SelectEntity) ActivateEntitySwitcher();
             });
