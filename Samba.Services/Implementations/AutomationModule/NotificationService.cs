@@ -34,7 +34,7 @@ namespace Samba.Services.Implementations.AutomationModule
             foreach (var rule in rules.Where(x => string.IsNullOrEmpty(x.EventConstraints) || SatisfiesConditions(x, dataObject)))
             {
                 if (!CanExecuteRule(rule, dataObject)) continue;
-                foreach (var actionContainer in rule.Actions.Where(x => CanExecuteAction(x, dataObject)))
+                foreach (var actionContainer in rule.Actions.OrderBy(x => x.SortOrder).Where(x => CanExecuteAction(x, dataObject)))
                 {
                     var container = actionContainer;
                     var action = _cacheService.GetActions().Single(x => x.Id == container.AppActionId);
