@@ -170,11 +170,9 @@ namespace Samba.Modules.PosModule
             if (eventParameters.Topic == EventTopicNames.EntitySelected)
             {
                 FireEntitySelectedRule(eventParameters.Value.SelectedEntity);
-
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedEntity);
-                    _accountBalances.Refresh();
                     if (_applicationState.SelectedEntityScreen != null
                         && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedEntity.Id > 0
                         && _applicationState.TempEntityScreen != null
@@ -369,6 +367,7 @@ namespace Samba.Modules.PosModule
             }
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketView", UriKind.Relative));
+            _accountBalances.Refresh();
             _ticketViewModel.RefreshSelectedItems();
             _ticketViewModel.RefreshVisuals();
         }
