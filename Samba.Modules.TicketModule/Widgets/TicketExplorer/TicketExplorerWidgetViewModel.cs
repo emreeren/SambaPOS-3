@@ -13,7 +13,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketExplorer
              ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService)
             : base(model, applicationState)
         {
-            TicketExplorerViewModel = new TicketExplorerViewModel(ticketServiceBase, userService, cacheService);
+            TicketExplorerViewModel = new TicketExplorerViewModel(ticketServiceBase, userService, cacheService, applicationState);
         }
 
         [Browsable(false)]

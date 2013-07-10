@@ -85,6 +85,7 @@ namespace Samba.Domain.Models.Tickets
         public int DepartmentId { get; set; }
         public int TicketTypeId { get; set; }
         public string Note { get; set; }
+        public string LastModifiedUserName { get; set; }
 
         public string TicketTags
         {
@@ -206,6 +207,7 @@ namespace Samba.Domain.Models.Tickets
 
             order.UpdateProductTimer(timer);
             Orders.Add(order);
+            LastModifiedUserName = userName;
             return order;
         }
 

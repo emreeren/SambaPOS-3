@@ -23,16 +23,18 @@ namespace Samba.Modules.TicketModule
         private readonly ITicketServiceBase _ticketServiceBase;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
+        private readonly IApplicationState _applicationState;
 
         public ICaptionCommand DisplayTicketCommand { get; set; }
 
         [ImportingConstructor]
         public TicketExplorerViewModel(ITicketServiceBase ticketServiceBase,
-            IUserService userService, ICacheService cacheService)
+            IUserService userService, ICacheService cacheService, IApplicationState applicationState)
         {
             _ticketServiceBase = ticketServiceBase;
             _userService = userService;
             _cacheService = cacheService;
+            _applicationState = applicationState;
 
             ResetFilters();
 
@@ -142,8 +144,10 @@ namespace Samba.Modules.TicketModule
                 StartDate = DateTime.Today;
                 EndDate = DateTime.Now;
             }
-            Tickets = _ticketServiceBase.GetFilteredTickets(StartDate, EndDate, Filters).Select(
-                    x => new TicketExplorerRowData(x, _ticketServiceBase)).ToList();
+            var tickets = _ticketServiceBase.GetFilteredTickets(StartDate, EndDate, Filters);
+            if (!_userService.IsUserPermittedFor(PermissionNames.DisplayOtherWaitersTickets))
+                tickets = tickets.Where(x => x.LastModifiedUserName == _applicationState.CurrentLoggedInUser.Name);
+            Tickets = tickets.Select(x => new TicketExplorerRowData(x, _ticketServiceBase)).ToList();
             Total = Tickets.Sum(x => x.Sum);
             RaisePropertyChanged(() => CanChanageDateFilter);
         }
