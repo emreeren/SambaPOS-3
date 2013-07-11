@@ -83,7 +83,7 @@ namespace Samba.Modules.MenuModule
         public double FontSize
         {
             get { return Model.FontSize; }
-            set { Model.FontSize = value; RaisePropertyChanged(()=>FontSize);}
+            set { Model.FontSize = value; RaisePropertyChanged(() => FontSize); }
         }
 
         [LocalizedDisplayName(ResourceStrings.Header)]
@@ -104,7 +104,10 @@ namespace Samba.Modules.MenuModule
         public string Tag
         {
             get { return Model.SubMenuTag; }
-            set { Model.SubMenuTag = value; RaisePropertyChanged(() => Tag); }
+            set
+            {
+                Model.SubMenuTag = value.Trim(new[] { ' ', '\b' }); RaisePropertyChanged(() => Tag);
+            }
         }
 
         [LocalizedDisplayName(ResourceStrings.Portion)]
