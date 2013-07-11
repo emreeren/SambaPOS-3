@@ -128,10 +128,7 @@ namespace Samba.Persistance.Implementations
 
         public IEnumerable<ScreenMenu> GetScreenMenus()
         {
-            return Dao.Query<ScreenMenu>(
-                    x => x.Categories,
-                    x => x.Categories.Select(z => z.ScreenMenuItems.Select(w => w.OrderTagTemplate.OrderTagTemplateValues.Select(x1 => x1.OrderTag))),
-                    x => x.Categories.Select(z => z.ScreenMenuItems.Select(w => w.OrderTagTemplate.OrderTagTemplateValues.Select(x1 => x1.OrderTagGroup))));
+            return Dao.Query<ScreenMenu>(x => x.Categories.Select(z => z.ScreenMenuItems));
         }
 
         public IEnumerable<EntityScreen> GetEntityScreens()

@@ -540,7 +540,7 @@ namespace Samba.Presentation.ViewModels
                         var portionName = x.Value.GetAsString("PortionName");
                         var quantity = x.Value.GetAsDecimal("Quantity");
                         var tag = x.Value.GetAsString("Tag");
-                        var order = TicketService.AddOrder(ticket, menuItem.Id, quantity, portionName, null);
+                        var order = TicketService.AddOrder(ticket, menuItem.Id, quantity, portionName);
                         if (order != null) order.Tag = tag;
                         order.PublishEvent(EventTopicNames.OrderAdded);
                     }

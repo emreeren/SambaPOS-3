@@ -2258,9 +2258,6 @@ Continue without adding details?</value>
   <data name="TaggingType" xml:space="preserve">
     <value>Tagging Type</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Order Tag Template</value>
-  </data>
   <data name="DefaultOrderTag" xml:space="preserve">
     <value>Default Order Tag</value>
   </data>

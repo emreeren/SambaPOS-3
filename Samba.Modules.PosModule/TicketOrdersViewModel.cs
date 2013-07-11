@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Data;
-using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services;
@@ -115,10 +114,10 @@ namespace Samba.Modules.PosModule
             return result;
         }
 
-        public OrderViewModel AddOrder(int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
+        public OrderViewModel AddOrder(int menuItemId, decimal quantity, string portionName)
         {
             ClearSelectedOrders();
-            var order = _ticketService.AddOrder(SelectedTicket, menuItemId, quantity, portionName, template);
+            var order = _ticketService.AddOrder(SelectedTicket, menuItemId, quantity, portionName);
             var result = order == null ? null : Add(order);
             order.PublishEvent(EventTopicNames.OrderAdded);
             return result;
@@ -126,7 +125,7 @@ namespace Samba.Modules.PosModule
 
         public void AddOrder(ScreenMenuItemData data)
         {
-            var ti = AddOrder(data.ScreenMenuItem.MenuItemId, data.Quantity, data.ScreenMenuItem.ItemPortion, data.ScreenMenuItem.OrderTagTemplate);
+            var ti = AddOrder(data.ScreenMenuItem.MenuItemId, data.Quantity, data.ScreenMenuItem.ItemPortion);
             if (data.ScreenMenuItem.AutoSelect && ti != null)
             {
                 ti.ToggleSelection();

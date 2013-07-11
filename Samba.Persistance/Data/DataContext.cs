@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
@@ -47,8 +46,6 @@ namespace Samba.Persistance.Data
         public DbSet<OrderTag> OrderTags { get; set; }
         public DbSet<OrderTagGroup> OrderTagGroups { get; set; }
         public DbSet<OrderTagMap> OrderTagMaps { get; set; }
-        public DbSet<OrderTagTemplate> OrderTagTemplates { get; set; }
-        public DbSet<OrderTagTemplateValue> OrderTagTemplateValues { get; set; }
         public DbSet<ProductTimer> Productimers { get; set; }
         public DbSet<ProdcutTimerMap> ProductTimerMaps { get; set; }
         public DbSet<ProductTimerValue> ProductTimerValues { get; set; }

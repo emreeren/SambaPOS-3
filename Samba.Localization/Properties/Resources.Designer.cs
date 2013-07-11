@@ -5124,15 +5124,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Order Tag Template.
-        /// </summary>
-        public static string OrderTagTemplate {
-            get {
-                return ResourceManager.GetString("OrderTagTemplate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Order Tag Value.
         /// </summary>
         public static string OrderTagValue {

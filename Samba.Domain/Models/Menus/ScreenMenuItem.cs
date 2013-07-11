@@ -29,8 +29,6 @@ namespace Samba.Domain.Models.Menus
         public double FontSize { get; set; }
         public string SubMenuTag { get; set; }
         public string ItemPortion { get; set; }
-        public virtual OrderTagTemplate OrderTagTemplate { get; set; }
-
         public MenuItem MenuItem;
     }
 }

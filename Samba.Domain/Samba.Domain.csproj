@@ -116,8 +116,6 @@
     <Compile Include="Models\Tickets\CalculationSelector.cs" />
     <Compile Include="Models\Tickets\CalculationSelectorMap.cs" />
     <Compile Include="Models\Tickets\OrderTagMap.cs" />
-    <Compile Include="Models\Tickets\OrderTagTemplate.cs" />
-    <Compile Include="Models\Tickets\OrderTagTemplateValue.cs" />
     <Compile Include="Models\Tickets\Calculation.cs" />
     <Compile Include="Models\Tickets\CalculationType.cs" />
     <Compile Include="Models\Menus\TaxTemplate.cs" />

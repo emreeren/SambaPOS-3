@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Windows.Media;
 using PropertyTools.DataAnnotations;
 using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization;
 using Samba.Presentation.Common;
@@ -16,7 +13,6 @@ namespace Samba.Modules.MenuModule
         public ScreenMenuItemViewModel(IWorkspace workspace, ScreenMenuItem model)
         {
             Model = model;
-            _workspace = workspace;
         }
 
         [Browsable(false)]
@@ -115,25 +111,6 @@ namespace Samba.Modules.MenuModule
         {
             get { return Model.ItemPortion; }
             set { Model.ItemPortion = value; RaisePropertyChanged(() => Portion); }
-        }
-
-        [LocalizedDisplayName(ResourceStrings.OrderTagTemplate)]
-        public string OrderTagTemplateName
-        {
-            get { return Model.OrderTagTemplate != null ? Model.OrderTagTemplate.Name : ""; }
-            set
-            {
-                Model.OrderTagTemplate = OrderTagTemplates.FirstOrDefault(x => x.Name == value);
-                RaisePropertyChanged(() => OrderTagTemplateName);
-            }
-        }
-
-        private IEnumerable<OrderTagTemplate> _orderTagTemplates;
-        private readonly IWorkspace _workspace;
-
-        protected IEnumerable<OrderTagTemplate> OrderTagTemplates
-        {
-            get { return _orderTagTemplates ?? (_orderTagTemplates = _workspace.All<OrderTagTemplate>()); }
         }
     }
 }

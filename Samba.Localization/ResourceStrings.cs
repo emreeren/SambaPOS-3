@@ -10,7 +10,6 @@ namespace Samba.Localization
         public const string AutoRefreshInterval = "AutoRefreshInterval";
         public const string AutoRefresh = "AutoRefresh";
         public const string FontSize = "FontSize";
-        public const string OrderTagTemplate = "OrderTagTemplate";
         public const string SubMenuTags = "SubMenuTags";
         public const string Location = "Location";
         public const string MaxItems = "MaxItems";

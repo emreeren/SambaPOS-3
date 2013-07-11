@@ -549,7 +549,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
-        public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template)
+        public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName)
         {
             if (ticket.IsLocked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;
             if (!ticket.CanSubmit) return null;
@@ -565,8 +565,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 _applicationState.GetTaxTemplates(menuItem.Id).ToList(), portion, priceTag, productTimer);
 
             order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, 3, MidpointRounding.AwayFromZero) : quantity;
-
-            if (template != null) template.OrderTagTemplateValues.ToList().ForEach(x => order.ToggleOrderTag(x.OrderTagGroup, x.OrderTag, 0, ""));
             RecalculateTicket(ticket);
             _applicationState.NotifyEvent(RuleEventNames.OrderAdded, new { Ticket = ticket, Order = order, MenuItemName = order.MenuItemName, MenuItemTag = menuItem.Tag, MenuItemGroupCode = menuItem.GroupCode });
 

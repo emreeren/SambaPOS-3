@@ -15,7 +15,7 @@ namespace Samba.Presentation.Services
         TicketCommitResult CloseTicket(Ticket ticket);
         TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId);
         TicketCommitResult MergeTickets(IEnumerable<int> ticketIds);
-        Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, OrderTagTemplate template);
+        Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName);
         void AddPayment(Ticket ticket, PaymentType paymentType, Account account, decimal amount, decimal tenderedAmount);
         void AddChangePayment(Ticket ticket, ChangePaymentType paymentType, Account account, decimal amount);
         void PayTicket(Ticket ticket, PaymentType template);
