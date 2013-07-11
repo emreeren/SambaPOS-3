@@ -79,5 +79,6 @@ namespace Samba.Services
         IEnumerable<Printer> GetPrinters();
         IEnumerable<Warehouse> GetWarehouses();
         IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes();
+        EntityScreen GetEntityScreenByName(string screenName);
     }
 }

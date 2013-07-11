@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FBD6AAAB-3205-43FB-B931-029E793296C2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samba.Kiosk</RootNamespace>
+    <AssemblyName>Samba.Kiosk</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Common.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MefBootstrapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">
+      <Project>{2386F6A0-91B2-4D1A-8DBC-92109924AFFE}</Project>
+      <Name>Samba.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj">
+      <Project>{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}</Project>
+      <Name>Samba.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
+      <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
+      <Name>Samba.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.AutomationModule\Samba.Modules.AutomationModule.csproj">
+      <Project>{eaa09b33-28ad-4f33-a2e8-4dbcb42457d0}</Project>
+      <Name>Samba.Modules.AutomationModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.EntityModule\Samba.Modules.EntityModule.csproj">
+      <Project>{0c2b6973-e2c6-4076-9828-ebe0e81405a6}</Project>
+      <Name>Samba.Modules.EntityModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Modules.SettingsModule\Samba.Modules.SettingsModule.csproj">
+      <Project>{3b7cf671-e246-4284-9deb-f7f8cd784ed1}</Project>
+      <Name>Samba.Modules.SettingsModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Common\Samba.Presentation.Common.csproj">
+      <Project>{FE1A894E-D55E-4CEA-980A-1C678A2453FC}</Project>
+      <Name>Samba.Presentation.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Controls\Samba.Presentation.Controls.csproj">
+      <Project>{3C52B602-3CB1-45EE-B9A7-93B24C760A88}</Project>
+      <Name>Samba.Presentation.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Presentation.Services\Samba.Presentation.Services.csproj">
+      <Project>{7DD8848C-3ADB-45B3-BD49-10AF3AEE2521}</Project>
+      <Name>Samba.Presentation.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samba.Services\Samba.Services.csproj">
+      <Project>{413B698C-0D7D-4FCD-9F16-AF51AED4E647}</Project>
+      <Name>Samba.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

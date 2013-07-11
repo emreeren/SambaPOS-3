@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 
 namespace Samba.Modules.EntityModule
@@ -16,6 +15,11 @@ namespace Samba.Modules.EntityModule
     [Export]
     public partial class EntityDashboardView : UserControl
     {
+        public EntityDashboardView()
+        {
+            InitializeComponent();
+        }
+
         [ImportingConstructor]
         public EntityDashboardView(EntityDashboardViewModel viewModel)
         {

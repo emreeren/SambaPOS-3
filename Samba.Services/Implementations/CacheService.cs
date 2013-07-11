@@ -555,6 +555,11 @@ namespace Samba.Services.Implementations
             return InventoryTransactionTypes;
         }
 
+        public EntityScreen GetEntityScreenByName(string screenName)
+        {
+            return EntityScreens.FirstOrDefault(x => x.Name == screenName);
+        }
+
         private IEnumerable<Printer> _printers;
         public IEnumerable<Printer> Printers
         {
