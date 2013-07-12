@@ -124,7 +124,7 @@ namespace Samba.Presentation.Common.Services
                 CurrentDepartment.Model.PublishEvent(EventTopicNames.SelectedDepartmentChanged);
                 SetCurrentTicketType(_cacheService.GetTicketTypeById(CurrentDepartment.TicketTypeId));
             }
-            SetLocalSetting("DEPARTMENT", department.Name);
+            SetLocalSetting("DEPARTMENT", CurrentDepartment.Name);
         }
 
         public void SetCurrentDepartment(int departmentId)

@@ -89,6 +89,7 @@ csx
 *.build.csdef
 
 # Others
+[Aa]ddons
 _[Pp]rivate
 [Bb]in
 [Oo]bj
