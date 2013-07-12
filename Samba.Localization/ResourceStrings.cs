@@ -43,5 +43,9 @@ namespace Samba.Localization
         public const string ButtonHeight = "ButtonHeight";
         public const string CategoryName = "CategoryName";
         public const string FastMenu = "FastMenu";
+        public const string OrderTags = "OrderTag";
+        public const string OrderStates = "OrderState";
+        public const string AutomationCommand = "AutomationCommand";
+        public const string AutomationCommandValue = "Value";
     }
 }

@@ -537,7 +537,8 @@ namespace Samba.Modules.PosModule
         public void UpdateSelectedTicketTitle()
         {
             _totals.Model = SelectedTicket;
-            SelectedTicketTitle = _totals.TitleWithAccountBalances.Trim() == "#" ? Resources.NewTicket : _totals.TitleWithAccountBalances;
+            var result = _totals.TitleWithAccountBalancesAndState;
+            SelectedTicketTitle = result.Trim() == "#" ? Resources.NewTicket : result;
         }
 
         public bool IsTaggedWith(string tagGroup)

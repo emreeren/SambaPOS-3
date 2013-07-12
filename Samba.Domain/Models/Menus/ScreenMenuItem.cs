@@ -1,10 +1,8 @@
-﻿using System;
-using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data;
+﻿using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Menus
 {
-    public class ScreenMenuItem :ValueClass, IOrderable
+    public class ScreenMenuItem : ValueClass, IOrderable
     {
         public ScreenMenuItem()
         {
@@ -30,5 +28,9 @@ namespace Samba.Domain.Models.Menus
         public string SubMenuTag { get; set; }
         public string ItemPortion { get; set; }
         public MenuItem MenuItem;
+        public string OrderTags { get; set; }
+        public string OrderStates { get; set; }
+        public string AutomationCommand { get; set; }
+        public string AutomationCommandValue { get; set; }
     }
 }

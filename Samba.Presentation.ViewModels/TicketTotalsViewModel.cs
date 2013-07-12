@@ -122,6 +122,17 @@ namespace Samba.Presentation.ViewModels
             }
         }
 
+        public string TitleWithAccountBalancesAndState
+        {
+            get
+            {
+                var result = TitleWithAccountBalances;
+                var state = Model.GetStateData();
+                if (!string.IsNullOrEmpty(state)) result += Environment.NewLine + state;
+                return result;
+            }
+        }
+
         public string TitleWithAccountBalances
         {
             get

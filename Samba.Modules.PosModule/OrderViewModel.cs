@@ -199,7 +199,7 @@ namespace Samba.Modules.PosModule
             this.PublishEvent(EventTopicNames.SelectedOrdersChanged,true);
         }
 
-        private void UpdateItemColor()
+        public void UpdateItemColor()
         {
             if (Selected)
             {

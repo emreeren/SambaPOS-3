@@ -146,6 +146,11 @@ namespace Samba.Services.Implementations
             return OrderTagGroups.FirstOrDefault(x => x.Name == tagName);
         }
 
+        public OrderTagGroup GetOrderTagGroupByOrderTagName(string orderTag)
+        {
+            return OrderTagGroups.FirstOrDefault(x => x.OrderTags.Any(y => y.Name == orderTag));
+        }
+
         private IEnumerable<TaxTemplate> _taxTemplates;
         public IEnumerable<TaxTemplate> TaxTemplates
         {
@@ -474,6 +479,11 @@ namespace Samba.Services.Implementations
             return result.OrderBy(x => x.AutomationCommand.SortOrder);
         }
 
+        public AutomationCommand GetAutomationCommandByName(string automationCommand)
+        {
+            return AutomationCommands.FirstOrDefault(x => x.Name == automationCommand);
+        }
+
         private IEnumerable<AccountType> _accountTypes;
         public IEnumerable<AccountType> AccountTypes
         {
@@ -559,6 +569,8 @@ namespace Samba.Services.Implementations
         {
             return EntityScreens.FirstOrDefault(x => x.Name == screenName);
         }
+
+
 
         private IEnumerable<Printer> _printers;
         public IEnumerable<Printer> Printers

@@ -8,6 +8,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.ViewModels;
+using Samba.Services;
 
 namespace Samba.Modules.PosModule
 {
@@ -16,12 +17,14 @@ namespace Samba.Modules.PosModule
     {
         private readonly ITicketService _ticketService;
         private readonly IApplicationState _applicationState;
+        private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
-        public TicketOrdersViewModel(ITicketService ticketService, IApplicationState applicationState)
+        public TicketOrdersViewModel(ITicketService ticketService, IApplicationState applicationState, ICacheService cacheService)
         {
             _ticketService = ticketService;
             _applicationState = applicationState;
+            _cacheService = cacheService;
             _orders = new ObservableCollection<OrderViewModel>();
             _itemsViewSource = new CollectionViewSource { Source = _orders };
             _itemsViewSource.GroupDescriptions.Add(new PropertyGroupDescription("GroupObject"));
@@ -126,15 +129,93 @@ namespace Samba.Modules.PosModule
         public void AddOrder(ScreenMenuItemData data)
         {
             var ti = AddOrder(data.ScreenMenuItem.MenuItemId, data.Quantity, data.ScreenMenuItem.ItemPortion);
-            if (data.ScreenMenuItem.AutoSelect && ti != null)
+            if (ti != null)
             {
-                ti.ToggleSelection();
-                if (!_applicationState.IsLandscape)
+                UpdateOrderTags(SelectedTicket, ti.Model, data.ScreenMenuItem.OrderTags);
+                UpdateOrderStates(SelectedTicket, ti.Model, data.ScreenMenuItem.OrderStates);
+                ExecuteAutomationCommand(SelectedTicket, ti.Model, data.ScreenMenuItem.AutomationCommand, data.ScreenMenuItem.AutomationCommandValue);
+                ti.UpdateItemColor();
+                if (data.ScreenMenuItem.AutoSelect)
                 {
-                    var so = new SelectedOrdersData { SelectedOrders = new List<Order> { ti.Model }, Ticket = SelectedTicket };
-                    OperationRequest<SelectedOrdersData>.Publish(so, EventTopicNames.DisplayTicketOrderDetails, EventTopicNames.RefreshSelectedTicket, "");
+                    ti.ToggleSelection();
+                    if (!_applicationState.IsLandscape)
+                    {
+                        var so = new SelectedOrdersData { SelectedOrders = new List<Order> { ti.Model }, Ticket = SelectedTicket };
+                        OperationRequest<SelectedOrdersData>.Publish(so, EventTopicNames.DisplayTicketOrderDetails, EventTopicNames.RefreshSelectedTicket, "");
+                    }
                 }
             }
+        }
+
+        private void UpdateOrderTags(Ticket ticket, Order order, string orderTags)
+        {
+            if (string.IsNullOrEmpty(orderTags)) return;
+            foreach (var orderTag in orderTags.Split(','))
+            {
+                if (orderTag.Contains("="))
+                {
+                    var parts = orderTag.Split('=');
+                    UpdateOrderTag(ticket, order, parts[0], parts[1]);
+                }
+                else
+                {
+                    UpdateOrderTag(ticket, order, "", orderTag);
+                }
+            }
+        }
+
+        private void UpdateOrderTag(Ticket ticket, Order order, string orderTagGroup, string orderTag)
+        {
+            var ot = string.IsNullOrEmpty(orderTagGroup)
+                ? _cacheService.GetOrderTagGroupByOrderTagName(orderTag)
+                : _cacheService.GetOrderTagGroupByName(orderTagGroup);
+            if (ot != null)
+            {
+                var otn = ot.OrderTags.First(x => x.Name == orderTag);
+                _ticketService.TagOrders(ticket, new List<Order> { order }, ot, otn, "");
+            }
+        }
+
+        private void UpdateOrderStates(Ticket ticket, Order order, string orderStates)
+        {
+            if (string.IsNullOrEmpty(orderStates)) return;
+
+            orderStates.Split(',')
+                           .Where(x => x.Contains('='))
+                           .Select(x => x.Split(new[] { '=' }, 2))
+                           .ToList()
+                           .ForEach(x => UpdateOrderState(ticket, order, x[0], x[1]));
+        }
+
+        private void UpdateOrderState(Ticket ticket, Order order, string stateName, string state)
+        {
+            _ticketService.UpdateOrderStates(ticket, new List<Order> { order }, stateName, null, 0, state, 0, "");
+        }
+
+        private void ExecuteAutomationCommand(Ticket selectedTicket, Order order, string automationCommand, string automationCommandValue)
+        {
+            if (string.IsNullOrEmpty(automationCommand)) return;
+
+            if (string.IsNullOrEmpty(automationCommandValue))
+            {
+                var ac = _cacheService.GetAutomationCommandByName(automationCommand);
+                if (ac != null)
+                {
+                    if (!string.IsNullOrEmpty(ac.Values))
+                    {
+                        ac.PublishEvent(EventTopicNames.SelectAutomationCommandValue);
+                        return;
+                    }
+                }
+            }
+
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
+            {
+                Ticket = selectedTicket,
+                Order = order,
+                AutomationCommandName = automationCommand,
+                Value = automationCommandValue ?? ""
+            });
         }
     }
 }

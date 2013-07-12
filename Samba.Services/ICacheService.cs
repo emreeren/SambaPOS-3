@@ -60,6 +60,7 @@ namespace Samba.Services
         CalculationType GetCalculationTypeByName(string name);
         IEnumerable<CalculationSelector> GetCalculationSelectors(int ticketTypeId, int terminalId, int departmentId, int userRoleId);
         IEnumerable<AutomationCommandData> GetAutomationCommands(int ticketTypeId, int terminalId, int departmentId, int userRoleId);
+        AutomationCommand GetAutomationCommandByName(string automationCommand);
         IEnumerable<ChangePaymentType> GetChangePaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId);
         ChangePaymentType GetChangePaymentTypeById(int id);
         AccountType GetAccountTypeById(int accountTypeId);
@@ -80,5 +81,6 @@ namespace Samba.Services
         IEnumerable<Warehouse> GetWarehouses();
         IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes();
         EntityScreen GetEntityScreenByName(string screenName);
+        OrderTagGroup GetOrderTagGroupByOrderTagName(string orderTag);
     }
 }

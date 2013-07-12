@@ -4,6 +4,7 @@ using PropertyTools.DataAnnotations;
 using Samba.Domain.Models.Menus;
 using Samba.Infrastructure.Data;
 using Samba.Localization;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.MenuModule
@@ -111,6 +112,34 @@ namespace Samba.Modules.MenuModule
         {
             get { return Model.ItemPortion; }
             set { Model.ItemPortion = value; RaisePropertyChanged(() => Portion); }
+        }
+
+        [LocalizedDisplayName(ResourceStrings.OrderTags)]
+        public string OrderTags
+        {
+            get { return Model.OrderTags; }
+            set { Model.OrderTags = value; RaisePropertyChanged(() => OrderTags); }
+        }
+
+        [LocalizedDisplayName(ResourceStrings.OrderStates)]
+        public string OrderStates
+        {
+            get { return Model.OrderStates; }
+            set { Model.OrderStates = value; RaisePropertyChanged(() => OrderStates); }
+        }
+
+        [LocalizedDisplayName(ResourceStrings.AutomationCommand)]
+        public string AutomationCommand
+        {
+            get { return Model.AutomationCommand; }
+            set { Model.AutomationCommand = value; RaisePropertyChanged(() => AutomationCommand); }
+        }
+
+        [LocalizedDisplayName(ResourceStrings.AutomationCommandValue)]
+        public string AutomationCommandValue
+        {
+            get { return Model.AutomationCommandValue; }
+            set { Model.AutomationCommandValue = value; RaisePropertyChanged(() => AutomationCommandValue); }
         }
     }
 }
