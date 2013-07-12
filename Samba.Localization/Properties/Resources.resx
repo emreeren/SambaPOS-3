@@ -3328,4 +3328,7 @@ Error Message:
   <data name="ModifyOrder" xml:space="preserve">
     <value>Modify Order</value>
   </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>Print {0}</value>
+  </data>
 </root>

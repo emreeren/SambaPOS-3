@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
@@ -63,10 +64,12 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => _settingService.ReadSetting(d).StringValue, Resources.SettingValue);
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Calculation), x => x.Calculations.Count > 0);
             RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(_cacheService.GetEntityTypeIdByEntityName(d)), string.Format(Resources.Name_f, Resources.Entity));
-            RegisterFunction<Ticket>("{ENTITY DATA:([^}]+)}", GetEntityFieldValue);
+            RegisterFunction<Ticket>("{ENTITY DATA:([^}]+)}", GetEntityFieldValue, "Entity Custom Data");
+            RegisterFunction<Ticket>("{ENTITY BALANCE:([^}]+)}", GetEntityBalance, "Entity Account Balance");
             RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.OrderState));
             RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Service));
-            RegisterFunction<Ticket>("{EXCHANGE RATE:([^}]+)}", (x, d) => GexExchangeRate(d),Resources.ExchangeRate);
+            RegisterFunction<Ticket>("{EXCHANGE RATE:([^}]+)}", (x, d) => GexExchangeRate(d), Resources.ExchangeRate);
+
             //ORDERS
             RegisterFunction<Order>(TagNames.Quantity, (x, d) => x.Quantity.ToString(LocalSettings.QuantityFormat), Resources.LineItemQuantity);
             RegisterFunction<Order>(TagNames.Name, (x, d) => x.MenuItemName + x.GetPortionDesc(), Resources.LineItemName);
@@ -96,6 +99,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<TicketEntity>("{ENTITY NAME}", (x, d) => x.EntityName, string.Format(Resources.Name_f, Resources.Entity));
             RegisterFunction<TicketEntity>("{ENTITY BALANCE}", (x, d) => _accountService.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), Resources.AccountBalance, x => x.AccountId > 0);
             RegisterFunction<TicketEntity>("{ENTITY DATA:([^}]+)}", (x, d) => x.GetCustomData(d), Resources.CustomFields);
+
+            //ENTITIES
+            RegisterFunction<Entity>("{ENTITY NAME}", (x, d) => x.Name);
+            RegisterFunction<Entity>("{ENTITY BALANCE}", (x, d) => _accountService.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), "", x => x.AccountId > 0);
+            RegisterFunction<Entity>("{ENTITY DATA:([^}]+)}", (x, d) => x.GetCustomData(d));
 
             //CALCULATIONS
             RegisterFunction<Calculation>("{CALCULATION NAME}", (x, d) => x.Name, string.Format(Resources.Name_f, Resources.Calculation));
@@ -179,6 +187,19 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             var parts = data.Split(':');
             var et = _cacheService.GetEntityTypeIdByEntityName(parts[0]);
             return ticket.GetEntityFieldValue(et, parts[1]);
+        }
+
+        private string GetEntityBalance(Ticket ticket, string data)
+        {
+            var parts = data.Split(':');
+            var etId = _cacheService.GetEntityTypeIdByEntityName(parts[0]);
+            var te = ticket.TicketEntities.FirstOrDefault(x => x.EntityTypeId == etId);
+            if (te != null && te.AccountId > 0)
+            {
+                var balance = GetAccountBalance(te.AccountId);
+                return balance.ToString(LocalSettings.CurrencyFormat);
+            }
+            return "";
         }
 
         public void RegisterFunction<TModel>(string tag, Func<TModel, string, string> function, string desc = "", Func<TModel, bool> condition = null)

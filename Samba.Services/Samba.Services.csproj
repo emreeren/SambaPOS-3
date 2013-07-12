@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AutomationCommandData.cs" />
+    <Compile Include="Common\IActionProcessor.cs" />
     <Compile Include="Common\IDevice.cs" />
     <Compile Include="Common\IPrinterProcessor.cs" />
     <Compile Include="Common\IProgramSetting.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Implementations\MenuModule\PriceListService.cs" />
     <Compile Include="Implementations\Messaging\MessagingService.cs" />
     <Compile Include="Implementations\PrinterModule\AccountTransactionDocumentFormatter.cs" />
+    <Compile Include="Implementations\PrinterModule\EntityFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\AccountTransactionDocumentValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\AbstractLineFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\BoxFormatter.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Implementations\PrinterModule\ValueChangers\AccountTransactionValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\ChangePaymentValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\EntityValueChanger.cs" />
+    <Compile Include="Implementations\PrinterModule\ValueChangers\TicketEntityValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\FunctionData.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\FunctionRegistry.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\Helper.cs" />

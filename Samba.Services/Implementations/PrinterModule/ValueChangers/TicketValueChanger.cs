@@ -9,7 +9,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
     [Export]
     public class TicketValueChanger : AbstractValueChanger<Ticket>
     {
-        private readonly EntityValueChanger _entityValueChanger;
+        private readonly TicketEntityValueChanger _entityValueChanger;
         private readonly PreCalculationValueChanger _preCalculationValueChanger;
         private readonly PostCalculationValueChanger _postCalculationValueChanger;
         private readonly PaymentValueChanger _paymentValueChanger;
@@ -18,7 +18,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         private readonly TaxValueChanger _taxValueChanger;
 
         [ImportingConstructor]
-        public TicketValueChanger(EntityValueChanger entityValueChanger, PreCalculationValueChanger preCalculationValueChanger, PostCalculationValueChanger postCalculationValueChanger,
+        public TicketValueChanger(TicketEntityValueChanger entityValueChanger, PreCalculationValueChanger preCalculationValueChanger, PostCalculationValueChanger postCalculationValueChanger,
             PaymentValueChanger paymentValueChanger, ChangePaymentValueChanger changePaymentValueChanger, OrderValueChanger orderValueChanger, TaxValueChanger taxValueChanger)
         {
             _entityValueChanger = entityValueChanger;

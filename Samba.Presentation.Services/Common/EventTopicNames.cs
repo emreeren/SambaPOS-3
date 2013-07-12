@@ -40,7 +40,8 @@
         public const string LoopValues = "LoopValues";
         public const string PrintAccountTransactionDocument = "PrintAccountTransactionDocument";
         public const string CreateEntity = "CreateEntity";
-        public static string SetWidgetValue = "SetWidgetValue";
+        public const string SetWidgetValue = "SetWidgetValue";
+        public const string PrintEntity = "PrintEntity";
     }
 
     public static class RuleEventNames

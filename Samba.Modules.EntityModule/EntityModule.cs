@@ -26,16 +26,18 @@ namespace Samba.Modules.EntityModule
         private readonly EntitySwitcherView _entitySwitcherView;
         private readonly IEntityService _entityService;
         private readonly IEntityServiceClient _entityServiceClient;
+        private readonly IPrinterService _printerService;
 
         [ImportingConstructor]
         public EntityModule(IRegionManager regionManager,
             IUserService userService, IApplicationStateSetter applicationStateSetter, ICacheService cacheService, IAccountService accountService,
-            EntitySwitcherView entitySwitcherView, IAutomationService automationService, IEntityService entityService, IEntityServiceClient entityServiceClient,
-            EntityEditorView entityEditorView)
+            EntitySwitcherView entitySwitcherView, IAutomationService automationService, IEntityService entityService,
+            IEntityServiceClient entityServiceClient, IPrinterService printerService, EntityEditorView entityEditorView)
         {
             _entitySwitcherView = entitySwitcherView;
             _entityService = entityService;
             _entityServiceClient = entityServiceClient;
+            _printerService = printerService;
             _entityEditorView = entityEditorView;
             _regionManager = regionManager;
             _applicationStateSetter = applicationStateSetter;
@@ -48,6 +50,8 @@ namespace Samba.Modules.EntityModule
 
             automationService.RegisterActionType(ActionNames.CreateEntity, string.Format(Resources.Create_f, Resources.Entity), new { EntityTypeName = "", EntityName = "", CreateAccount = false });
             automationService.RegisterActionType(ActionNames.UpdateEntityState, Resources.UpdateEntityState, new { EntityTypeName = "", EntityStateName = "", CurrentState = "", EntityState = "", QuantityExp = "" });
+            automationService.RegisterActionType(ActionNames.PrintEntity, string.Format(Resources.Print_f, Resources.Entity), new { EntityId = 0, PrinterName = "", PrinterTemplateName = "" });
+
         }
 
         protected override void OnInitialization()
@@ -74,6 +78,20 @@ namespace Samba.Modules.EntityModule
 
         private void OnActionData(EventParameters<ActionData> actionData)
         {
+            if (actionData.Value.Action.ActionType == ActionNames.PrintEntity)
+            {
+                var entityId = actionData.Value.GetAsInteger("EntityId");
+                var entity = entityId > 0 ? _cacheService.GetEntityById(entityId) : actionData.Value.GetDataValue<Entity>("Entity");
+                if (entity == null) return;
+                var printerName = actionData.Value.GetAsString("PrinterName");
+                var printerTemplateName = actionData.Value.GetAsString("PrinterTemplateName");
+                var printer = _cacheService.GetPrinters().FirstOrDefault(x => x.Name == printerName);
+                var printerTemplate = _cacheService.GetPrinterTemplates().FirstOrDefault(y => y.Name == printerTemplateName);
+                if (printer == null) return;
+                if (printerTemplate == null) return;
+                _printerService.PrintEntity(entity, printer, printerTemplate);
+            }
+
             if (actionData.Value.Action.ActionType == ActionNames.CreateEntity)
             {
                 var entityTypeName = actionData.Value.GetAsString("EntityTypeName");

@@ -16,5 +16,6 @@ namespace Samba.Services
         void RegisterActionType(string actionType, string actionName, object parameterObject = null);
         void RegisterEvent(string eventKey, string eventName, object constraintObject = null);
         void RegisterParameterSource(string username, Func<IEnumerable<string>> func);
+        void ProcessAction(string actionType, ActionData actionData);
     }
 }

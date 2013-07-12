@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
@@ -25,16 +26,18 @@ namespace Samba.Services.Implementations.PrinterModule
         private readonly ICacheService _cacheService;
         private readonly ILogService _logService;
         private readonly TicketFormatter _ticketFormatter;
+        private readonly EntityFormatter _entityFormatter;
         private readonly AccountTransactionDocumentFormatter _accountTransactionDocumentFormatter;
         private readonly FunctionRegistry _functionRegistry;
 
         [ImportingConstructor]
         public PrinterService(ISettingService settingService, ICacheService cacheService, IExpressionService expressionService, ILogService logService,
-            TicketFormatter ticketFormatter, AccountTransactionDocumentFormatter accountTransactionDocumentFormatter, FunctionRegistry functionRegistry)
+            TicketFormatter ticketFormatter, EntityFormatter entityFormatter, AccountTransactionDocumentFormatter accountTransactionDocumentFormatter, FunctionRegistry functionRegistry)
         {
             _cacheService = cacheService;
             _logService = logService;
             _ticketFormatter = ticketFormatter;
+            _entityFormatter = entityFormatter;
             _accountTransactionDocumentFormatter = accountTransactionDocumentFormatter;
             _functionRegistry = functionRegistry;
             _functionRegistry.RegisterFunctions();
@@ -99,6 +102,15 @@ namespace Samba.Services.Implementations.PrinterModule
         public void PrintAccountTransactionDocument(AccountTransactionDocument document, Printer printer, PrinterTemplate printerTemplate)
         {
             var lines = _accountTransactionDocumentFormatter.GetFormattedDocument(document, printerTemplate);
+            if (lines != null)
+            {
+                PrintJobFactory.CreatePrintJob(printer).DoPrint(lines);
+            }
+        }
+
+        public void PrintEntity(Entity entity, Printer printer, PrinterTemplate printerTemplate)
+        {
+            var lines = _entityFormatter.GetFormattedDocument(entity, printerTemplate);
             if (lines != null)
             {
                 PrintJobFactory.CreatePrintJob(printer).DoPrint(lines);
