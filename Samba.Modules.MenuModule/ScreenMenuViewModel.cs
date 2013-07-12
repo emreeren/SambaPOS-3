@@ -109,7 +109,7 @@ namespace Samba.Modules.MenuModule
 
         private void OnEditCategoryItemProperties(string obj)
         {
-            InteractionService.UserIntraction.EditProperties(SelectedCategory.ScreenMenuItems.Select(x => new ScreenMenuItemViewModel(Workspace, x)).ToList());
+            InteractionService.UserIntraction.EditProperties(SelectedCategory.ScreenMenuItems.Select(x => new ScreenMenuItemViewModel(x)).ToList());
         }
 
         private void OnEditCategoryItems(string value)

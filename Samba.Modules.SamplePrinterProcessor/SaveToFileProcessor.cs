@@ -32,8 +32,7 @@ namespace Samba.Modules.SamplePrinterProcessor
             return result;
         }
 
-        public string Name { get { return "SaveToFile"; } }
-
+        public string Name { get { return "Save To File"; } }
 
         public string[] Process(Ticket ticket, IList<Order> orders, string[] formattedLines)
         {

@@ -27,7 +27,7 @@
                     <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Text="{Binding MaxSelectedItems}"
                          Type="Digits" />
                     <CheckBox Margin="0,10,0,0" Content="{LocText AddTagPriceToOrderPrice}"
-                         IsChecked="{Binding AddTagPriceToOrderPrice}" />                    
+                         IsChecked="{Binding AddTagPriceToOrderPrice}" />
                     <CheckBox Margin="0,5,0,0" Content="{LocText TaxFree}"
                          IsChecked="{Binding TaxFree}" />
                     <CheckBox Margin="0,5,0,0" Content="{LocText FreeTagging}"
@@ -44,6 +44,7 @@
                             <Label Content="{LocText ButtonHeight,Suffix=':'}"/>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
                                  MinWidth="50" Text="{Binding ButtonHeight}" />
+                            <CheckBox Margin="0,5" Content="{LocText Hidden}" IsChecked="{Binding Hidden}"/>
                         </UniformGrid>
                     </GroupBox>
                 </StackPanel>

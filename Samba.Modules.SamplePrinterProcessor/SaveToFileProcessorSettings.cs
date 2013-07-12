@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using PropertyTools.DataAnnotations;
 using Samba.Services;
 
 namespace Samba.Modules.SamplePrinterProcessor
@@ -15,6 +12,7 @@ namespace Samba.Modules.SamplePrinterProcessor
             _settingService = settingService;
         }
 
+        [FilePath(".*")]
         public string FileName { get; set; }
 
         public void Save()

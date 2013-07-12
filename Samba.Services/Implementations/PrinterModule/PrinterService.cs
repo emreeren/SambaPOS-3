@@ -234,7 +234,16 @@ namespace Samba.Services.Implementations.PrinterModule
                 var printerMap = printJob.PrinterMaps[0];
                 var printerTemplate = PrinterTemplates.Single(x => x.Id == printerMap.PrinterTemplateId);
                 var content = printerTemplate.Template.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                PrintJobFactory.CreatePrintJob(PrinterById(printerMap.PrinterId)).DoPrint(content);
+                var printer = PrinterById(printerMap.PrinterId);
+                var processor = GetPrinterProcessor(printer.ShareName);
+                if (processor != null)
+                {
+                    content = processor.Process(null, null, content);
+                }
+                if (content != null)
+                {
+                    PrintJobFactory.CreatePrintJob(PrinterById(printerMap.PrinterId)).DoPrint(content);
+                }
             }
         }
 

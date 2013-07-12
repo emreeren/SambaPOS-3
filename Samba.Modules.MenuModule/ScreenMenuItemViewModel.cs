@@ -2,16 +2,14 @@
 using System.Windows.Media;
 using PropertyTools.DataAnnotations;
 using Samba.Domain.Models.Menus;
-using Samba.Infrastructure.Data;
 using Samba.Localization;
-using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.MenuModule
 {
     public class ScreenMenuItemViewModel : ObservableObject
     {
-        public ScreenMenuItemViewModel(IWorkspace workspace, ScreenMenuItem model)
+        public ScreenMenuItemViewModel(ScreenMenuItem model)
         {
             Model = model;
         }

@@ -11,6 +11,7 @@ namespace Samba.Persistance.DBMigration
             Create.Column("OrderStates").OnTable("ScreenMenuItems").AsString(128).Nullable();
             Create.Column("AutomationCommand").OnTable("ScreenMenuItems").AsString(128).Nullable();
             Create.Column("AutomationCommandValue").OnTable("ScreenMenuItems").AsString(128).Nullable();
+            Create.Column("Hidden").OnTable("OrderTagGroups").AsBoolean().WithDefaultValue(false);
         }
 
         public override void Down()

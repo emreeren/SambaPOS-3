@@ -31,8 +31,9 @@ namespace Samba.Services
         IEnumerable<MenuItemPortion> GetMenuItemPortions(int menuItemId);
         ProductTimer GetProductTimer(int ticketTypeId, int terminalId, int departmentId, int userRoleId, int menuItemId);
         IEnumerable<OrderTagGroup> GetOrderTagGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId, params int[] menuItemIds);
-        IEnumerable<TaxTemplate> GetTaxTemplates(int ticketTypeId, int terminalId, int departmentId, int userRoleId, int menuItemId);
         OrderTagGroup GetOrderTagGroupByName(string tagName);
+        OrderTagGroup GetOrderTagGroupByOrderTagName(string orderTag);
+        IEnumerable<TaxTemplate> GetTaxTemplates(int ticketTypeId, int terminalId, int departmentId, int userRoleId, int menuItemId);
         IEnumerable<TicketTagGroup> GetTicketTagGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId);
         IEnumerable<string> GetTicketTagGroupNames();
         TicketTagGroup GetTicketTagGroupById(int id);
@@ -81,6 +82,6 @@ namespace Samba.Services
         IEnumerable<Warehouse> GetWarehouses();
         IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes();
         EntityScreen GetEntityScreenByName(string screenName);
-        OrderTagGroup GetOrderTagGroupByOrderTagName(string orderTag);
+
     }
 }

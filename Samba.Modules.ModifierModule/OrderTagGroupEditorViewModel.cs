@@ -39,8 +39,6 @@ namespace Samba.Modules.ModifierModule
             GroupedOrderTagGroups = new ObservableCollection<GroupedOrderTagViewModel>();
         }
 
-
-
         private void ResetValues(Ticket selectedTicket)
         {
             SelectedTicket = null;
@@ -145,7 +143,6 @@ namespace Samba.Modules.ModifierModule
             RemoveMode = false;
         }
 
-
         private void OnFreeTagSelected(OrderTagGroupViewModel obj)
         {
             if (string.IsNullOrEmpty(obj.FreeTagName) || string.IsNullOrEmpty(obj.FreeTagName.Trim())) return;
@@ -170,7 +167,6 @@ namespace Samba.Modules.ModifierModule
             RemoveMode = false;
             OrderTagGroups.Where(x => x.OrderTags.Any(y => y.Name == obj.FreeTagName)).ToList().ForEach(x => x.Refresh());
         }
-
 
         private void SetSelectedTicket(Ticket ticketViewModel)
         {
@@ -199,7 +195,7 @@ namespace Samba.Modules.ModifierModule
 
                 RaisePropertyChanged(() => IsPortionsVisible);
 
-                var orderTagGroups = _applicationState.GetOrderTagGroups(SelectedOrder.MenuItemId).ToList();
+                var orderTagGroups = _applicationState.GetOrderTagGroups(SelectedOrder.MenuItemId).Where(x => !x.Hidden).ToList();
 
                 OrderTagGroups.AddRange(
                     orderTagGroups
