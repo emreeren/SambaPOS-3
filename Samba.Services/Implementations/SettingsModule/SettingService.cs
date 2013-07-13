@@ -36,11 +36,6 @@ namespace Samba.Services.Implementations.SettingsModule
             return Terminals.SingleOrDefault(x => x.IsDefault);
         }
 
-        public IEnumerable<string> GetTerminalNames()
-        {
-            return Terminals.Select(x => x.Name);
-        }
-
         public IEnumerable<Terminal> GetTerminals()
         {
             return Terminals;

@@ -6,9 +6,9 @@ using Samba.Presentation.Services.Common;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Presentation
 {
-    public static class GenericRuleRegistator
+    public static class GenericRegistator
     {
         private static readonly IApplicationState ApplicationState = ServiceLocator.Current.GetInstance<IApplicationState>();
         private static readonly IActionService ActionService = ServiceLocator.Current.GetInstance<IActionService>();
@@ -34,7 +34,6 @@ namespace Samba.Presentation.ViewModels
                 }
             });
         }
-
 
         private static void RegisterNotifiers()
         {

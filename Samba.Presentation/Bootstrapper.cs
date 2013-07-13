@@ -13,7 +13,6 @@ using Samba.Presentation.Properties;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Presentation.Services.Common.DataGeneration;
-using Samba.Presentation.ViewModels;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -84,7 +83,6 @@ namespace Samba.Presentation
 
             try
             {
-                GenericRuleRegistator.RegisterOnce();
                 var creationService = new DataCreationService();
                 creationService.CreateData();
             }
@@ -113,6 +111,8 @@ namespace Samba.Presentation
                 LocalSettings.SaveSettings();
                 Environment.Exit(1);
             }
+
+            GenericRegistator.RegisterOnce();            
 
             var rm = Container.GetExportedValue<IRegionManager>();
             rm.RegisterViewWithRegion("MessageRegion", typeof(WorkPeriodStatusView));

@@ -19,7 +19,7 @@ namespace Samba.Modules.SettingsModule
         private readonly IMessagingService _messagingService;
 
         [ImportingConstructor]
-        public SettingsViewModel(ISettingService settingService,IMessagingService messagingService)
+        public SettingsViewModel(ISettingService settingService, IMessagingService messagingService)
         {
             _settingService = settingService;
             _messagingService = messagingService;
@@ -48,7 +48,7 @@ namespace Samba.Modules.SettingsModule
 
         private void OnStartMessagingServer(string obj)
         {
-           _messagingService.StartMessagingClient();
+            _messagingService.StartMessagingClient();
         }
 
         private void OnSaveSettings(string obj)
@@ -136,7 +136,7 @@ namespace Samba.Modules.SettingsModule
         private IEnumerable<string> _terminalNames;
         public IEnumerable<string> TerminalNames
         {
-            get { return _terminalNames ?? (_terminalNames = _settingService.GetTerminalNames()); }
+            get { return _terminalNames ?? (_terminalNames = _settingService.GetTerminals().Select(x => x.Name)); }
         }
 
         private IEnumerable<CultureInfo> _supportedLanguages;

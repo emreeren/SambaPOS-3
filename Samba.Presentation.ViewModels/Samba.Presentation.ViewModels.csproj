@@ -63,7 +63,6 @@
     <Compile Include="CommandButtonViewModel.cs" />
     <Compile Include="PaymentButtonGroupViewModel.cs" />
     <Compile Include="ServiceViewModel.cs" />
-    <Compile Include="GenericRuleRegistator.cs" />
     <Compile Include="MenuItemPortionViewModel.cs" />
     <Compile Include="PaymentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

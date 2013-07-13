@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Tickets;
 using Samba.Services.Common;
 
 namespace Samba.Services
@@ -10,7 +8,6 @@ namespace Samba.Services
     {
         Terminal GetTerminalByName(string name);
         Terminal GetDefaultTerminal();
-        IEnumerable<string> GetTerminalNames();
         IEnumerable<Terminal> GetTerminals();
         IProgramSettings ProgramSettings { get; }
         IProgramSetting GetProgramSetting(string settingName);

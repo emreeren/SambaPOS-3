@@ -20,17 +20,15 @@ namespace Samba.Services.Implementations.AutomationModule
     public class ActionService : IActionService
     {
         private readonly IAutomationService _automationService;
-        private readonly ISettingService _settingService;
         private readonly IDeviceService _deviceService;
 
         [ImportMany]
         public IEnumerable<IActionProcessor> ActionProcessors { get; set; }
 
         [ImportingConstructor]
-        public ActionService(IAutomationService automationService, ISettingService settingService, IDeviceService deviceService)
+        public ActionService(IAutomationService automationService, IDeviceService deviceService)
         {
             _automationService = automationService;
-            _settingService = settingService;
             _deviceService = deviceService;
         }
 
@@ -103,7 +101,7 @@ namespace Samba.Services.Implementations.AutomationModule
         {
             _automationService.RegisterParameterSource("UserName", () => Dao.Distinct<User>(x => x.Name));
             _automationService.RegisterParameterSource("DepartmentName", () => Dao.Distinct<Department>(x => x.Name));
-            _automationService.RegisterParameterSource("TerminalName", () => _settingService.GetTerminalNames());
+            _automationService.RegisterParameterSource("TerminalName", () => Dao.Distinct<Terminal>(x => x.Name));
             _automationService.RegisterParameterSource("DeviceName", () => _deviceService.GetDeviceNames());
             _automationService.RegisterParameterSource("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
             _automationService.RegisterParameterSource("MenuItemName", () => Dao.Distinct<MenuItem>(yz => yz.Name));
