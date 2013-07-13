@@ -15,11 +15,10 @@ namespace Samba.Presentation.Controls.Interaction
             InitializeComponent();
             Height = Application.Current.MainWindow.WindowState == WindowState.Normal
                 ? SystemParameters.WorkArea.Bottom
-                : SystemParameters.PrimaryScreenHeight-25;
+                : SystemParameters.PrimaryScreenHeight - 25;
             Width = 250;
             Top = 0;
             Left = SystemParameters.PrimaryScreenWidth - Width;
-            Show();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -29,11 +28,12 @@ namespace Samba.Presentation.Controls.Interaction
 
         private void SetWindowStyle()
         {
-            var hwnd = new WindowInteropHelper(this).Handle;
-            const int gwlExstyle = (-20);
+            var helper = new WindowInteropHelper(this);
+            const int gwlExstyle = -20;
             const int wsExNoactivate = 0x08000000;
             const int wsExToolWindow = 0x00000080;
-            NativeWin32.SetWindowLong(hwnd, gwlExstyle, (IntPtr)(wsExNoactivate | wsExToolWindow));
+            NativeWin32.SetWindowLong(helper.Handle, gwlExstyle, (IntPtr)(wsExNoactivate | wsExNoactivate));
+
         }
     }
 }

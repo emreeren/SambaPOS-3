@@ -76,6 +76,7 @@ namespace Samba.Presentation.Controls.Interaction
             if (obj.Action != null)
                 obj.Action(obj.ActionParameter);
             _popupList.Remove(obj);
+            Application.Current.MainWindow.Focus();
         }
 
         public void Add(string title, string content, string headerColor, Action<object> action, object actionParameter)
