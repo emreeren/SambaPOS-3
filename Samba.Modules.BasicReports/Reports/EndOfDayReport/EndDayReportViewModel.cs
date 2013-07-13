@@ -197,11 +197,13 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
                 var tagGroups = dict.Select(x => new TicketTagInfo { Amount = x.Value.Sum(y => y.GetPlainSum()), TicketCount = x.Value.Count, TagName = x.Key }).OrderBy(x => x.TagName);
 
-                var tagGrp = tagGroups.GroupBy(x => x.TagName.Split(':')[0]);
-
-                report.AddColumTextAlignment("Etiket", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
-                report.AddColumnLength("Etiket", "45*", "Auto", "35*");
-                report.AddTable("Etiket", Resources.TicketTag.ToPlural(), "", "");
+                var tagGrp = tagGroups.GroupBy(x => x.TagName.Split(':')[0]).ToList();
+                if (tagGrp.Any())
+                {
+                    report.AddColumTextAlignment("Etiket", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
+                    report.AddColumnLength("Etiket", "45*", "Auto", "35*");
+                    report.AddTable("Etiket", Resources.TicketTag.ToPlural(), "", "");
+                }
 
                 foreach (var grp in tagGrp)
                 {
@@ -266,11 +268,14 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             var owners = ReportContext.Tickets.SelectMany(ticket => ticket.Orders.Where(x => !x.IncreaseInventory).Select(order => new { Ticket = ticket, Order = order }))
                 .GroupBy(x => new { x.Order.CreatingUserName })
-                .Select(x => new UserInfo { UserName = x.Key.CreatingUserName, Amount = x.Sum(y => MenuGroupBuilder.CalculateOrderTotal(y.Ticket, y.Order)) });
+                .Select(x => new UserInfo { UserName = x.Key.CreatingUserName, Amount = x.Sum(y => MenuGroupBuilder.CalculateOrderTotal(y.Ticket, y.Order)) }).ToList();
 
-            report.AddColumTextAlignment("Garson", TextAlignment.Left, TextAlignment.Right);
-            report.AddColumnLength("Garson", "65*", "35*");
-            report.AddTable("Garson", Resources.UserSales, "");
+            if (owners.Any())
+            {
+                report.AddColumTextAlignment("Garson", TextAlignment.Left, TextAlignment.Right);
+                report.AddColumnLength("Garson", "65*", "35*");
+                report.AddTable("Garson", Resources.UserSales, "");
+            }
 
             foreach (var ownerInfo in owners)
             {
