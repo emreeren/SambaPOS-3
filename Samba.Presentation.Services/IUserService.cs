@@ -8,7 +8,6 @@ namespace Samba.Presentation.Services
     public interface IUserService : IPresentationService
     {
         string GetUserName(int userId);
-        IEnumerable<string> GetUserNames();
         IEnumerable<Department> PermittedDepartments { get; }
         bool ContainsUser(int userId);
         bool IsDefaultUserConfigured { get; }

@@ -8,6 +8,7 @@ using Samba.Persistance;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.UserModule
 {
@@ -56,11 +57,6 @@ namespace Samba.Presentation.Services.Implementations.UserModule
         public string GetUserName(int userId)
         {
             return userId > 0 ? Users.Single(x => x.Id == userId).Name : "-";
-        }
-
-        public IEnumerable<string> GetUserNames()
-        {
-            return Users.Select(x => x.Name);
         }
 
         public User LoginUser(string pinValue)

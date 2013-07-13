@@ -6,6 +6,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Common.DataGeneration
 {

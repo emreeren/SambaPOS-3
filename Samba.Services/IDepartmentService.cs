@@ -6,7 +6,6 @@ namespace Samba.Services
     public interface IDepartmentService 
     {
         Department GetDepartment(int id);
-        IEnumerable<string> GetDepartmentNames();
         IEnumerable<Department> GetDepartments();
         void UpdatePriceTag(string departmentName,string priceTag);
         void ResetCache();

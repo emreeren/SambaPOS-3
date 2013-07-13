@@ -29,11 +29,6 @@ namespace Samba.Services.Implementations.DepartmentModule
             return id == 0 ? null : Departments.First(x => x.Id == id);
         }
 
-        public IEnumerable<string> GetDepartmentNames()
-        {
-            return Departments.Select(x => x.Name);
-        }
-
         public IEnumerable<Department> GetDepartments()
         {
             return Departments;

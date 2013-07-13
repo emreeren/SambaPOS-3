@@ -6,6 +6,6 @@ namespace Samba.Services
     {
         bool CanProcessAction(string actionType);
         void ProcessAction(string actionType, ActionData actionData);
-        void RegisterActions();
+        void Register();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Dynamic;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Helpers;
@@ -7,8 +6,7 @@ using Samba.Persistance;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
-using Samba.Presentation.Services.Common;
-using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.AutomationModule.WidgetCreators
 {

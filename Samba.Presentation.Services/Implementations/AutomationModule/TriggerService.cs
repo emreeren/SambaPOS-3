@@ -5,6 +5,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Cron;
 using Samba.Persistance.Data;
 using Samba.Presentation.Services.Common;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.AutomationModule
 {

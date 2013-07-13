@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.Composition;
-using Samba.Domain.Models.Entities;
 using Samba.Persistance;
-using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.EntityModule
 {

@@ -11,8 +11,8 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
-using Samba.Presentation.ViewModels;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.Widgets.TicketLister
 {
