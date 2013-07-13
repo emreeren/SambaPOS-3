@@ -32,11 +32,6 @@ namespace Samba.Services.Implementations.AutomationModule
             _deviceService = deviceService;
         }
 
-        public bool CanProcessAction(string actionType)
-        {
-            return ActionProcessors.Any(x => x.Handles(actionType));
-        }
-
         public void ProcessAction(string actionType, ActionData actionData)
         {
             var actionProcessor = ActionProcessors.FirstOrDefault(x => x.Handles(actionType));

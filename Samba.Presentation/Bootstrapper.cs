@@ -110,9 +110,7 @@ namespace Samba.Presentation
                 }
                 LocalSettings.SaveSettings();
                 Environment.Exit(1);
-            }
-
-            GenericRegistator.RegisterOnce();            
+            }        
 
             var rm = Container.GetExportedValue<IRegionManager>();
             rm.RegisterViewWithRegion("MessageRegion", typeof(WorkPeriodStatusView));

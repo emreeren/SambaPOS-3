@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
 using Samba.Localization.Properties;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 using Samba.Services.Common;
 
-namespace Samba.Presentation.Common.ActionProcessors
+namespace Samba.Modules.AutomationModule.ActionProcessors
 {
     [Export(typeof(IActionProcessor))]
     class SendMessage : ActionProcessor

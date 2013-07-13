@@ -7,6 +7,7 @@ using Samba.Domain.Models.Automation;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 using Samba.Services.Common;
@@ -16,9 +17,15 @@ namespace Samba.Modules.AutomationModule
     [ModuleExport(typeof(AutomationModule))]
     class AutomationModule : ModuleBase
     {
+        private readonly IActionService _actionService;
+        private readonly IApplicationState _applicationState;
+
         [ImportingConstructor]
-        public AutomationModule(IAutomationService automationService)
+        public AutomationModule(IAutomationService automationService, IActionService actionService, IApplicationState applicationState)
         {
+            _actionService = actionService;
+            _applicationState = applicationState;
+
             AddDashboardCommand<EntityCollectionViewModelBase<RuleActionViewModel, AppAction>>(Resources.RuleActions, Resources.Automation, 45);
             AddDashboardCommand<EntityCollectionViewModelBase<RuleViewModel, AppRule>>(Resources.Rules, Resources.Automation, 45);
             AddDashboardCommand<TriggerListViewModel>(Resources.Trigger.ToPlural(), Resources.Automation, 45);
@@ -26,6 +33,22 @@ namespace Samba.Modules.AutomationModule
             AddDashboardCommand<EntityCollectionViewModelBase<ScriptViewModel, Script>>(Resources.Script.ToPlural(), Resources.Automation, 45);
 
             HighlightingManager.Instance.RegisterHighlighting("SambaDSL", null, () => LoadHighlightingDefinition("SambaDSL.xshd"));
+
+        }
+
+        protected override void OnInitialization()
+        {
+            base.OnInitialization();
+            _actionService.Register();
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x => _actionService.ProcessAction(x.Value.Action.ActionType, x.Value));
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(x =>
+            {
+                if (x.Topic == EventTopicNames.MessageReceivedEvent && x.Value.Command == "ActionMessage")
+                {
+                    _applicationState.NotifyEvent(RuleEventNames.MessageReceived, new { Command = x.Value.Data });
+                }
+            });
         }
 
         public static IHighlightingDefinition LoadHighlightingDefinition(string resourceName)
