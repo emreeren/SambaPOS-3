@@ -68,7 +68,20 @@ namespace Samba.Modules.AccountModule
         }
 
         public Printer SelectedPrinter { get { return _applicationState.GetTransactionPrinter(); } }
-        public PrinterTemplate SelectedPrinterTemplate { get { return _cacheService.GetPrinterTemplates().FirstOrDefault(x => x.Id == SelectedDocumentType.PrinterTemplateId); } }
+        public PrinterTemplate SelectedPrinterTemplate
+        {            
+            get
+            {
+                try
+                {
+                    return _cacheService.GetPrinterTemplates().FirstOrDefault(x => x.Id == SelectedDocumentType.PrinterTemplateId);
+                }
+                catch (NullReferenceException)
+                {
+                    return null;
+                }
+            }
+        }
 
 
         private void OnGoBack(string obj)
