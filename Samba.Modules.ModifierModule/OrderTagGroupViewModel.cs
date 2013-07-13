@@ -67,7 +67,7 @@ namespace Samba.Modules.ModifierModule
 
         public void CreateOrderTagButton(OrderTagData orderTagData)
         {
-            if (!OrderTags.Any(x => x.Name == orderTagData.SelectedOrderTag.Name))
+            if (OrderTags.All(x => x.Name != orderTagData.SelectedOrderTag.Name))
             {
                 OrderTags.Add(new OrderTagButtonViewModel(_selectedOrders, orderTagData.OrderTagGroup, orderTagData.SelectedOrderTag));
             }

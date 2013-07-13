@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Samba.Modules.ModifierModule
     [Export]
     public class TicketTagEditorViewModel : ObservableObject
     {
+        private static readonly AlphanumComparator AlphanumericComparator = new AlphanumComparator();
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
         private readonly ITicketService _ticketService;
@@ -132,7 +134,11 @@ namespace Samba.Modules.ModifierModule
                        x => x.Name == tagGroup.Name).SelectMany(x => x.TicketTags).ToList();
             }
 
-            ticketTags.Sort(new AlphanumComparator());
+            if (tagGroup.FreeTagging)
+                ticketTags.Sort(AlphanumericComparator);
+            else
+                ticketTags.Sort((x, y) => x.SortOrder.CompareTo(y.SortOrder));
+
             TicketTags.AddRange(ticketTags);
 
             if (SelectedTicket.IsTaggedWith(tagGroup.Name))

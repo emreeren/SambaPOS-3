@@ -23,15 +23,15 @@
                     <CheckBox Margin="0,1" IsChecked="{Binding AskBeforeCreatingTicket}" Content="{LocText AskBeforeCreatingTicket}"/>
                     <CheckBox Margin="0,1" IsChecked="{Binding FreeTagging}" Content="{LocText FreeTagging}"/>
                     <CheckBox Margin="0,1,0,5" IsChecked="{Binding SaveFreeTags}" Content="{LocText SaveFreeTags}"/>
-                    
+
                     <Label Content="{LocText TaggingType,Suffix=':'}"/>
-                    
+
                     <ComboBox HorizontalAlignment="Left" Margin="0,1,0,5" MinWidth="150" SelectedItem="{Binding DataType}" 
                               ItemsSource="{Binding DataTypes}" />
                     <GroupBox Header="{LocText ButtonColor}" Padding="5"
                               HorizontalAlignment="Left">
                         <StackPanel>
-                            <Label Content="{LocText WhenTagSelected,Suffix=':'}"/>                            
+                            <Label Content="{LocText WhenTagSelected,Suffix=':'}"/>
                             <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColorWhenTagSelected}" />
                             <Label Content="{LocText WhenTagNotSelected,Suffix=':'}"/>
                             <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColorWhenNoTagSelected}" />
@@ -54,6 +54,7 @@
                             <ContextMenu>
                                 <MenuItem Command="{Binding AddTicketTagCommand}" Header="{Binding AddTicketTagCommand.Caption}" />
                                 <MenuItem Command="{Binding DeleteTicketTagCommand}" Header="{Binding DeleteTicketTagCommand.Caption}" />
+                                <MenuItem Command="{Binding SortTicketTagsCommand}" Header="{Binding SortTicketTagsCommand.Caption}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>
@@ -68,6 +69,11 @@
                             <TextBlock Text="{Binding Path=DeleteTicketTagCommand.Caption}" />
                         </Hyperlink>
                     </TextBlock>
+                    <TextBlock Margin="2,3">
+                        <Hyperlink Command="{Binding SortTicketTagsCommand}">
+                            <TextBlock Text="{Binding Path=SortTicketTagsCommand.Caption}" />
+                        </Hyperlink>
+                    </TextBlock>
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -79,7 +85,7 @@
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
                         <Label Content="{LocText Mappings,Suffix=':'}"/>
-                        
+
                         <TextBlock Margin="2,5">
                             <Hyperlink Command="{Binding MapController.AddMapCommand}">
                                 <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />

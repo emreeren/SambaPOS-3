@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.ViewModels;
@@ -15,6 +16,7 @@ namespace Samba.Modules.TicketModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class TicketTagGroupViewModel : EntityViewModelBaseWithMap<TicketTagGroup, TicketTagMap, AbstractMapViewModel<TicketTagMap>>
     {
+        private readonly IUserInteraction _userInteraction;
         private readonly IList<string> _tagTypes = new[] { Resources.Alphanumeric, Resources.Numeric, Resources.Price };
         public IList<string> DataTypes { get { return _tagTypes; } }
 
@@ -24,6 +26,7 @@ namespace Samba.Modules.TicketModule
         public TicketTagViewModel SelectedTicketTag { get; set; }
         public ICaptionCommand AddTicketTagCommand { get; set; }
         public ICaptionCommand DeleteTicketTagCommand { get; set; }
+        public ICaptionCommand SortTicketTagsCommand { get; set; }
 
         public string DataType { get { return DataTypes[Model.DataType]; } set { Model.DataType = DataTypes.IndexOf(value); } }
 
@@ -35,15 +38,30 @@ namespace Samba.Modules.TicketModule
         public string ButtonColorWhenNoTagSelected { get { return Model.ButtonColorWhenNoTagSelected; } set { Model.ButtonColorWhenNoTagSelected = value; } }
 
         [ImportingConstructor]
-        public TicketTagGroupViewModel()
+        public TicketTagGroupViewModel(IUserInteraction userInteraction)
         {
+            _userInteraction = userInteraction;
             AddTicketTagCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Tag), OnAddTicketTagExecuted);
             DeleteTicketTagCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Tag), OnDeleteTicketTagExecuted, CanDeleteTicketTag);
+            SortTicketTagsCommand = new CaptionCommand<string>(string.Format(Resources.Sort_f, Resources.Tag),
+                                                               OnSortTicketTags, CanSortTicketTags);
+        }
+
+        private void OnSortTicketTags(string obj)
+        {
+            _userInteraction.SortItems(Model.TicketTags, string.Format(Resources.Sort_f, Resources.TicketTag), "");
+            _ticketTags = null;
+            RaisePropertyChanged(() => TicketTags);
+        }
+
+        private bool CanSortTicketTags(string arg)
+        {
+            return TicketTags.Any() && !FreeTagging;
         }
 
         private static ObservableCollection<TicketTagViewModel> GetTicketTags(TicketTagGroup ticketTagGroup)
         {
-            return new ObservableCollection<TicketTagViewModel>(ticketTagGroup.TicketTags.Select(item => new TicketTagViewModel(item)));
+            return new ObservableCollection<TicketTagViewModel>(ticketTagGroup.TicketTags.OrderBy(x => x.SortOrder).Select(item => new TicketTagViewModel(item)));
         }
 
         public override string GetModelTypeString()
@@ -75,6 +93,14 @@ namespace Samba.Modules.TicketModule
             var ti = new TicketTag { Name = Resources.NewTag };
             Model.TicketTags.Add(ti);
             TicketTags.Add(new TicketTagViewModel(ti));
+            ti.SortOrder = Model.TicketTags.Max(x => x.SortOrder) + 1;
+        }
+
+        protected override void OnSave(string value)
+        {
+            if (Model.FreeTagging)
+                Model.TicketTags.ToList().ForEach(x => x.SortOrder = 0);
+            base.OnSave(value);
         }
 
         protected override string GetSaveErrorMessage()
