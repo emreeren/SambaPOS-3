@@ -83,7 +83,6 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-
         private void OnGoBack(string obj)
         {
             SelectedDocumentType.PublishEvent(EventTopicNames.BatchDocumentsCreated);

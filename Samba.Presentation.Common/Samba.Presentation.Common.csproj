@@ -103,6 +103,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionProcessors\AddLineToTextFile.cs" />
     <Compile Include="ActionProcessors\Helper.cs" />
     <Compile Include="ActionProcessors\LoopValues.cs" />
     <Compile Include="ActionProcessors\RefreshCache.cs" />
