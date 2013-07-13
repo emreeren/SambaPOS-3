@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Infrastructure;
 using Samba.Services.Implementations.AutomationModule;
 
 namespace Samba.Services.Common
 {
+    [Export]
     public class RuleActionTypeRegistry
     {
         public IDictionary<string, RuleEvent> RuleEvents = new Dictionary<string, RuleEvent>();
@@ -27,13 +29,8 @@ namespace Samba.Services.Common
                 });
         }
 
-        public IDictionary<string, IActionType> ActionTypes = new Dictionary<string, IActionType>();
-
-        public void RegisterActionType(IActionType actionType)
-        {
-            if (!ActionTypes.ContainsKey(actionType.ActionKey))
-                ActionTypes.Add(actionType.ActionKey, actionType);
-        }
+        [ImportMany]
+        public IEnumerable<IActionType> ActionTypes { get; set; }
 
         public IEnumerable<RuleConstraint> GetEventConstraints(string eventName)
         {
@@ -61,6 +58,12 @@ namespace Samba.Services.Common
                 return new[] { OperatorConstants.Equal, OperatorConstants.NotEqual, OperatorConstants.Greater, OperatorConstants.Less };
             }
             return new[] { OperatorConstants.Equal, OperatorConstants.NotEqual, OperatorConstants.Contain, OperatorConstants.NotContain };
+        }
+
+        public void ProcessAction(string actionType, ActionData actionData)
+        {
+            var actionProcessor = ActionTypes.FirstOrDefault(x => x.Handles(actionType));
+            if (actionProcessor != null) actionProcessor.Process(actionData);
         }
     }
 }

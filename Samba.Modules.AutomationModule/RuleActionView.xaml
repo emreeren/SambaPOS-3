@@ -43,7 +43,7 @@
                 <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
                 <Label HorizontalAlignment="Left" Content="{LocText ActionType, Suffix=':'}" />
                 <ComboBox HorizontalAlignment="Left" MinWidth="200" SelectedValue="{Binding SelectedActionType}"
-                 ItemsSource="{Binding ActionTypes}" SelectedValuePath="ActionType" DisplayMemberPath="ActionName" />
+                 ItemsSource="{Binding ActionTypes}" SelectedValuePath="ActionKey" DisplayMemberPath="ActionName" />
 
                 <Label Visibility="{Binding IsParameterLabelVisible,Converter={StaticResource VisibilityConverter},FallbackValue=Collapsed}"
                    HorizontalAlignment="Left" Content="{LocText Parameters, Suffix=':'}" />

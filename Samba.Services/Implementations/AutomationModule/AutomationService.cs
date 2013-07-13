@@ -23,20 +23,16 @@ namespace Samba.Services.Implementations.AutomationModule
         private readonly IDeviceService _deviceService;
         private readonly RuleActionTypeRegistry _ruleActionTypeRegistry;
 
-        [ImportMany]
-        public IEnumerable<IActionType> ActionProcessors { get; set; }
-
         [ImportingConstructor]
-        public AutomationService(IDeviceService deviceService)
+        public AutomationService(IDeviceService deviceService, RuleActionTypeRegistry ruleActionTypeRegistry)
         {
             _deviceService = deviceService;
-            _ruleActionTypeRegistry = new RuleActionTypeRegistry();
+            _ruleActionTypeRegistry = ruleActionTypeRegistry;
         }
 
         public void ProcessAction(string actionType, ActionData actionData)
         {
-            var actionProcessor = ActionProcessors.FirstOrDefault(x => x.Handles(actionType));
-            if (actionProcessor != null) actionProcessor.Process(actionData);
+            _ruleActionTypeRegistry.ProcessAction(actionType, actionData);
         }
 
         public IEnumerable<RuleConstraint> CreateRuleConstraints(string eventConstraints)
@@ -67,12 +63,12 @@ namespace Samba.Services.Implementations.AutomationModule
 
         public IActionType GetActionType(string value)
         {
-            return _ruleActionTypeRegistry.ActionTypes[value];
+            return _ruleActionTypeRegistry.ActionTypes.First(x => x.ActionKey == value);
         }
 
         public IEnumerable<IActionType> GetActionTypes()
         {
-            return _ruleActionTypeRegistry.ActionTypes.Values;
+            return _ruleActionTypeRegistry.ActionTypes;
         }
 
         public IEnumerable<ParameterValue> CreateParameterValues(IActionType actionProcessor)
@@ -90,16 +86,7 @@ namespace Samba.Services.Implementations.AutomationModule
         public void Register()
         {
             RegisterRules();
-            RegisterActions();
             RegisterParameterSources();
-        }
-
-        private void RegisterActions()
-        {
-            foreach (var actionProcessor in ActionProcessors)
-            {
-                _ruleActionTypeRegistry.RegisterActionType(actionProcessor);
-            }
         }
 
         private void RegisterRules()
