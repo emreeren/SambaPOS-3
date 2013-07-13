@@ -52,7 +52,7 @@ namespace Samba.Modules.AccountModule
         public string Title { get { return SelectedDocumentType != null ? SelectedDocumentType.Name : ""; } }
         public string Description { get; set; }
         public ObservableCollection<AccountRowViewModel> Accounts { get; set; }
-        public bool IsPrintButtonVisible { get { return SelectedPrinterTemplate != null && SelectedPrinter != null; } }
+        public bool IsPrintButtonVisible { get { return SelectedDocumentType != null && SelectedPrinterTemplate != null && SelectedPrinter != null; } }
 
         public AccountTransactionDocumentType SelectedDocumentType
         {
@@ -69,7 +69,7 @@ namespace Samba.Modules.AccountModule
 
         public Printer SelectedPrinter { get { return _applicationState.GetTransactionPrinter(); } }
         public PrinterTemplate SelectedPrinterTemplate
-        {            
+        {
             get
             {
                 try
