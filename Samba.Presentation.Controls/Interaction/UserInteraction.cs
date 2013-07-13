@@ -14,7 +14,6 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using FlexButton;
-using Samba.Services;
 
 namespace Samba.Presentation.Controls.Interaction
 {
@@ -108,7 +107,7 @@ namespace Samba.Presentation.Controls.Interaction
         private PopupWindow _popupWindow;
 
         [ImportingConstructor]
-        public UserInteraction(IAutomationService automationService, IMethodQueue methodQueue)
+        public UserInteraction(IMethodQueue methodQueue)
         {
             _methodQueue = methodQueue;
             _popupDataViewModel = new PopupDataViewModel();

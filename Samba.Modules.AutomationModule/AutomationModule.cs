@@ -17,13 +17,13 @@ namespace Samba.Modules.AutomationModule
     [ModuleExport(typeof(AutomationModule))]
     class AutomationModule : ModuleBase
     {
-        private readonly IActionService _actionService;
+        private readonly IAutomationService _automationService;
         private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public AutomationModule(IAutomationService automationService, IActionService actionService, IApplicationState applicationState)
+        public AutomationModule(IAutomationService automationService, IApplicationState applicationState)
         {
-            _actionService = actionService;
+            _automationService = automationService;
             _applicationState = applicationState;
 
             AddDashboardCommand<EntityCollectionViewModelBase<RuleActionViewModel, AppAction>>(Resources.RuleActions, Resources.Automation, 45);
@@ -39,9 +39,9 @@ namespace Samba.Modules.AutomationModule
         protected override void OnInitialization()
         {
             base.OnInitialization();
-            _actionService.Register();
+            _automationService.Register();
 
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x => _actionService.ProcessAction(x.Value.Action.ActionType, x.Value));
+            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x => _automationService.ProcessAction(x.Value.Action.ActionType, x.Value));
             EventServiceFactory.EventService.GetEvent<GenericEvent<Message>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.MessageReceivedEvent && x.Value.Command == "ActionMessage")

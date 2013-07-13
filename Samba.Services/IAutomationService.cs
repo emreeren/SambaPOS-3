@@ -13,9 +13,8 @@ namespace Samba.Services
         RuleActionType GetActionType(string value);
         IEnumerable<RuleActionType> GetActionTypes();
         IEnumerable<ParameterValue> CreateParameterValues(RuleActionType actionType);
-        void RegisterActionType(string actionType, string actionName, object parameterObject = null);
-        void RegisterEvent(string eventKey, string eventName, object constraintObject = null);
-        void RegisterParameterSource(string username, Func<IEnumerable<string>> func);
-
+        void ProcessAction(string actionType, ActionData value);
+        void RegisterParameterSource(string reportname, Func<IEnumerable<string>> func);
+        void Register();
     }
 }

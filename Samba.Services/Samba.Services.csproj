@@ -100,7 +100,6 @@
     <Compile Include="IMessagingService.cs" />
     <Compile Include="Implementations\AccountModule\AccountService.cs" />
     <Compile Include="Common\ActionData.cs" />
-    <Compile Include="Implementations\AutomationModule\ActionService.cs" />
     <Compile Include="Implementations\AutomationModule\AutomationService.cs" />
     <Compile Include="Implementations\AutomationModule\NotificationService.cs" />
     <Compile Include="Implementations\AutomationModule\OperatorConstants.cs" />
@@ -120,7 +119,6 @@
     <Compile Include="Implementations\ExpressionModule\Accessors\TicketAccessor.cs" />
     <Compile Include="Implementations\ExpressionModule\ExpressionEngine.cs" />
     <Compile Include="Implementations\ExpressionModule\ExpressionService.cs" />
-    <Compile Include="IActionService.cs" />
     <Compile Include="Implementations\LogService.cs" />
     <Compile Include="Implementations\MenuModule\MenuService.cs" />
     <Compile Include="Implementations\MenuModule\PriceListService.cs" />

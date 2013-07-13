@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Media;
+using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Entities;
+using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Settings;
+using Samba.Domain.Models.Tickets;
+using Samba.Domain.Models.Users;
+using Samba.Localization.Properties;
+using Samba.Persistance.Data;
 using Samba.Services.Common;
 
 namespace Samba.Services.Implementations.AutomationModule
@@ -9,12 +20,23 @@ namespace Samba.Services.Implementations.AutomationModule
     [Export(typeof(IAutomationService))]
     class AutomationService : IAutomationService
     {
+        private readonly IDeviceService _deviceService;
         private readonly RuleActionTypeRegistry _ruleActionTypeRegistry;
 
+        [ImportMany]
+        public IEnumerable<IActionProcessor> ActionProcessors { get; set; }
+
         [ImportingConstructor]
-        public AutomationService()
+        public AutomationService(IDeviceService deviceService)
         {
+            _deviceService = deviceService;
             _ruleActionTypeRegistry = new RuleActionTypeRegistry();
+        }
+
+        public void ProcessAction(string actionType, ActionData actionData)
+        {
+            var actionProcessor = ActionProcessors.FirstOrDefault(x => x.Handles(actionType));
+            if (actionProcessor != null) actionProcessor.Process(actionData);
         }
 
         public IEnumerable<RuleConstraint> CreateRuleConstraints(string eventConstraints)
@@ -28,7 +50,7 @@ namespace Samba.Services.Implementations.AutomationModule
             _ruleActionTypeRegistry.RegisterActionType(actionType, actionName, parameterObject);
         }
 
-        public void RegisterEvent(string eventKey, string eventName, object constraintObject)
+        public void RegisterEvent(string eventKey, string eventName, object constraintObject = null)
         {
             _ruleActionTypeRegistry.RegisterEvent(eventKey, eventName, constraintObject);
         }
@@ -70,6 +92,95 @@ namespace Samba.Services.Implementations.AutomationModule
             ParameterSources.Add(parameterName, action);
         }
 
+        public void Register()
+        {
+            RegisterRules();
+            RegisterActions();
+            RegisterParameterSources();
+        }
+
+        private void RegisterActions()
+        {
+            foreach (var actionProcessor in ActionProcessors)
+            {
+                RegisterActionType(actionProcessor.ActionType, actionProcessor.ActionName, actionProcessor.DefaultData);
+            }
+        }
+
+        private void RegisterRules()
+        {
+            RegisterEvent(RuleEventNames.ApplicationScreenChanged, Resources.ApplicationScreenChanged, new { PreviousScreen = "", CurrentScreen = "" });
+            RegisterEvent(RuleEventNames.AutomationCommandExecuted, Resources.AutomationCommandExecuted, new { AutomationCommandName = "", Value = "" });
+            RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
+            RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { RoleName = "" });
+            RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { RoleName = "" });
+            RegisterEvent(RuleEventNames.WorkPeriodStarts, Resources.WorkPeriodStarted);
+            RegisterEvent(RuleEventNames.BeforeWorkPeriodEnds, Resources.BeforeWorkPeriodEnds);
+            RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
+            RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated, new { TicketTypeName = "" });
+            RegisterEvent(RuleEventNames.TicketMoving, Resources.Ticket_Moving);
+            RegisterEvent(RuleEventNames.TicketMoved, Resources.TicketMoved);
+            RegisterEvent(RuleEventNames.TicketOpened, Resources.TicketOpened, new { OrderCount = 0 });
+            RegisterEvent(RuleEventNames.BeforeTicketClosing, Resources.BeforeTicketClosing, new { TicketId = 0, RemainingAmount = 0m, TotalAmount = 0m });
+            RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0, RemainingAmount = 0m, TotalAmount = 0m });
+            RegisterEvent(RuleEventNames.TicketsMerged, Resources.TicketsMerged);
+            RegisterEvent(RuleEventNames.TicketEntityChanged, Resources.TicketEntityChanged, new { EntityTypeName = "", OrderCount = 0, OldEntityName = "", NewEntityName = "", CustomData = "" });
+            RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
+            RegisterEvent(RuleEventNames.TicketStateUpdated, Resources.TicketStateUpdated, new { StateName = "", State = "", StateValue = "", Quantity = 0, TicketState = "" });
+            RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { PreviousTotal = 0m, TicketTotal = 0m, RemainingAmount = 0m, DiscountTotal = 0m, PaymentTotal = 0m });
+            RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", TenderedAmount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m, SelectedQuantity = 0m });
+            RegisterEvent(RuleEventNames.ChangeAmountChanged, Resources.ChangeAmountUpdated, new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
+            RegisterEvent(RuleEventNames.OrderAdded, Resources.OrderAddedToTicket, new { MenuItemGroupCode = "", MenuItemTag = "", MenuItemName = "" });
+            RegisterEvent(RuleEventNames.OrderMoved, Resources.OrderMoved, new { MenuItemName = "" });
+            RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
+            RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
+            RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });
+            RegisterEvent(RuleEventNames.EntitySelected, Resources.EntitySelected, new { EntityTypeName = "", EntityName = "", EntityCustomData = "", IsTicketSelected = false });
+            RegisterEvent(RuleEventNames.EntityUpdated, Resources.EntityUpdated, new { EntityTypeName = "", OpenTicketCount = 0 });
+            RegisterEvent(RuleEventNames.EntityStateUpdated, Resources.EntityStateUpdated, new { EntityTypeName = "", StateName = "", State = "", Quantity = 0m });
+            RegisterEvent(RuleEventNames.AccountTransactionDocumentCreated, Resources.AccountTransactionDocumentCreated, new { AccountTransactionDocumentName = "", DocumentId = 0 });
+            RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
+            RegisterEvent(RuleEventNames.DeviceEventGenerated, Resources.DeviceEventGenerated, new { DeviceName = "", EventName = "", EventData = "" });
+            RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted);
+            RegisterEvent(RuleEventNames.ValueLooped, Resources.ValueLooped, new { Name = "", Value = "" });
+            RegisterEvent(RuleEventNames.NumberpadValueEntered, Resources.NumberpadValueEntered, new { Value = "" });
+        }
+
+        private void RegisterParameterSources()
+        {
+            RegisterParameterSource("UserName", () => Dao.Distinct<User>(x => x.Name));
+            RegisterParameterSource("DepartmentName", () => Dao.Distinct<Department>(x => x.Name));
+            RegisterParameterSource("TerminalName", () => Dao.Distinct<Terminal>(x => x.Name));
+            RegisterParameterSource("DeviceName", () => _deviceService.GetDeviceNames());
+            RegisterParameterSource("TriggerName", () => Dao.Select<Trigger, string>(yz => yz.Name, y => !string.IsNullOrEmpty(y.Expression)));
+            RegisterParameterSource("MenuItemName", () => Dao.Distinct<MenuItem>(yz => yz.Name));
+            RegisterParameterSource("PriceTag", () => Dao.Distinct<MenuItemPriceDefinition>(x => x.PriceTag));
+            RegisterParameterSource("Color", () => typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.Name));
+            RegisterParameterSource("TaxTemplate", () => Dao.Distinct<TaxTemplate>(x => x.Name));
+            RegisterParameterSource("CalculationType", () => Dao.Distinct<CalculationType>(x => x.Name));
+            RegisterParameterSource("TagName", () => Dao.Distinct<TicketTagGroup>(x => x.Name));
+            RegisterParameterSource("OrderTagName", () => Dao.Distinct<OrderTagGroup>(x => x.Name));
+            RegisterParameterSource("State", () => Dao.Distinct<State>(x => x.Name));
+            RegisterParameterSource("EntityState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 0));
+            RegisterParameterSource("TicketState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 1));
+            RegisterParameterSource("OrderState", () => Dao.Distinct<State>(x => x.Name, x => x.StateType == 2));
+            RegisterParameterSource("StateName", () => Dao.Distinct<State>(x => x.GroupName));
+            RegisterParameterSource("EntityStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 0));
+            RegisterParameterSource("TicketStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 1));
+            RegisterParameterSource("OrderStateName", () => Dao.Distinct<State>(x => x.GroupName, x => x.StateType == 2));
+            RegisterParameterSource("EntityTypeName", () => Dao.Distinct<EntityType>(x => x.Name));
+            RegisterParameterSource("AutomationCommandName", () => Dao.Distinct<AutomationCommand>(x => x.Name));
+            RegisterParameterSource("PrintJobName", () => Dao.Distinct<PrintJob>(x => x.Name));
+            RegisterParameterSource("PaymentTypeName", () => Dao.Distinct<PaymentType>(x => x.Name));
+            RegisterParameterSource("AccountTransactionTypeName", () => Dao.Distinct<AccountTransactionType>(x => x.Name));
+            RegisterParameterSource("AccountTransactionDocumentName", () => Dao.Distinct<AccountTransactionDocumentType>(x => x.Name));
+            RegisterParameterSource("UpdateType", () => new[] { Resources.Update, Resources.Increase, Resources.Decrease, Resources.Toggle });
+            RegisterParameterSource("TicketTypeName", () => Dao.Distinct<TicketType>(x => x.Name));
+            RegisterParameterSource("EntityScreenName", () => Dao.Distinct<EntityScreen>(x => x.Name));
+            RegisterParameterSource("PrinterTemplateName", () => Dao.Distinct<PrinterTemplate>(x => x.Name));
+            RegisterParameterSource("PrinterName", () => Dao.Distinct<Printer>(x => x.Name));
+            RegisterParameterSource("WidgetName", () => Dao.Distinct<Widget>(x => x.Name));
+        }
 
     }
 }

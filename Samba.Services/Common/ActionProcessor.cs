@@ -1,17 +1,21 @@
-﻿namespace Samba.Services.Common
+﻿using System.Dynamic;
+using Samba.Infrastructure;
+
+namespace Samba.Services.Common
 {
     public abstract class ActionProcessor : IActionProcessor
     {
-        private object _defaultData;
-
         public bool Handles(string actionType)
         {
-            return actionType == ActionKey;
+            return actionType == ActionType;
         }
 
-        public string ActionKey { get { return GetActionKey(); } }
+        private ExpandoObject _parameterObject;
+        public ExpandoObject ParameterObject { get { return _parameterObject ?? (_parameterObject = DefaultData.ToDynamic()); } }
+
+        public string ActionType { get { return GetActionKey(); } }
         public string ActionName { get { return GetActionName(); } }
-        public object DefaultData { get { return _defaultData ?? (_defaultData = GetDefaultData()); } }
+        public object DefaultData { get { return GetDefaultData(); } }
 
         public abstract void Process(ActionData actionData);
         protected abstract object GetDefaultData();

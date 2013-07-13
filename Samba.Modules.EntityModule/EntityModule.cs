@@ -8,7 +8,6 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
-using Samba.Services;
 
 namespace Samba.Modules.EntityModule
 {
@@ -22,7 +21,7 @@ namespace Samba.Modules.EntityModule
 
         [ImportingConstructor]
         public EntityModule(IRegionManager regionManager, IUserService userService, IApplicationStateSetter applicationStateSetter,
-            EntitySwitcherView entitySwitcherView, IAutomationService automationService, EntityEditorView entityEditorView)
+            EntitySwitcherView entitySwitcherView, EntityEditorView entityEditorView)
         {
             _entitySwitcherView = entitySwitcherView;
             _entityEditorView = entityEditorView;
