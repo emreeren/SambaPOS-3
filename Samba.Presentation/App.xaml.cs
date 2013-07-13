@@ -21,7 +21,6 @@ namespace Samba.Presentation
 #else
             RunInReleaseMode();
 #endif
-            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
         protected override void OnExit(ExitEventArgs e)

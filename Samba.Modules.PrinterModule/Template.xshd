@@ -19,7 +19,7 @@
     </Span>
     
     <!-- span for escape sequences -->
-    <Span color="Comment" begin="--" end="\n"/>
+    <Span color="Comment" begin="-- " end="\n"/>
     <Span color="Comment"  multiline="true">
       <Begin>/\*</Begin>
       <End>\*/</End>

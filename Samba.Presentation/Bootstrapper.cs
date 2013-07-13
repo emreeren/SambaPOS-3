@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition.Hosting;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Microsoft.Practices.Prism.MefExtensions;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.ServiceLocation;
@@ -110,7 +111,7 @@ namespace Samba.Presentation
                 }
                 LocalSettings.SaveSettings();
                 Environment.Exit(1);
-            }        
+            }
 
             var rm = Container.GetExportedValue<IRegionManager>();
             rm.RegisterViewWithRegion("MessageRegion", typeof(WorkPeriodStatusView));
@@ -123,12 +124,14 @@ namespace Samba.Presentation
                 Application.Current.MainWindow.FlowDirection = FlowDirection.RightToLeft;
             }
 
-            Application.Current.MainWindow.Show();
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ShellInitialized);
-            InteractionService.UserIntraction.ToggleSplashScreen();
             ServiceLocator.Current.GetInstance<ITriggerService>().UpdateCronObjects();
             ServiceLocator.Current.GetInstance<IDeviceService>().InitializeDevices();
             ServiceLocator.Current.GetInstance<IApplicationState>().NotifyEvent(RuleEventNames.ApplicationStarted, new { });
+            InteractionService.UserIntraction.ToggleSplashScreen();
+
+            Application.Current.MainWindow.Show();
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.ShellInitialized);
+            Mouse.UpdateCursor();
         }
     }
 }
