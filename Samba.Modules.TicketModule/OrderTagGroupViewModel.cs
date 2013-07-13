@@ -74,7 +74,9 @@ namespace Samba.Modules.TicketModule
 
         private void OnAddPropertyExecuted(string obj)
         {
-            OrderTags.Add(new OrderTagViewModel(MenuItem.AddDefaultMenuItemProperty(Model), _menuService));
+            var orderTag = MenuItem.AddDefaultMenuItemProperty(Model);
+            orderTag.SortOrder = OrderTags.Max(x => x.Model.SortOrder) + 1;
+            OrderTags.Add(new OrderTagViewModel(orderTag, _menuService));
         }
 
         private IEnumerable<OrderTagViewModel> GetOrderTags(OrderTagGroup baseModel)

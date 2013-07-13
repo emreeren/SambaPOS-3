@@ -54,7 +54,7 @@ namespace Samba.Modules.ModifierModule
 
         private static IEnumerable<OrderTagButtonViewModel> GetOrderTags(IEnumerable<Order> selectedOrders, OrderTagGroup baseModel)
         {
-            return baseModel.OrderTags.Select(item => new OrderTagButtonViewModel(selectedOrders, baseModel, item));
+            return baseModel.OrderTags.OrderBy(x => x.SortOrder).Select(item => new OrderTagButtonViewModel(selectedOrders, baseModel, item));
         }
 
         public void Refresh()

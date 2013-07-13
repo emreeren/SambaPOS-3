@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -60,7 +61,7 @@ namespace Samba.Modules.TicketModule
             if (value > 0)
             {
                 if (MenuItem == null || MenuItem.Id != value)
-                    MenuItem = _menuService.GetMenuItemById(value);
+                    MenuItem = MenuItems.FirstOrDefault(x => x.Id == value);
             }
         }
     }

@@ -63,7 +63,7 @@
                     <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding OrderTags}" SelectedItem="{Binding SelectedOrderTag, Mode=TwoWay}"
                          HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
                          AutoGenerateColumns="False" CanUserSortColumns="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
-                         CellEditEnding="DataGrid_CellEditEnding">
+                         CellEditEnding="DataGrid_CellEditEnding" PreviewTextInput="DataGrid_PreviewTextInput" PreparingCellForEdit="DataGrid_PreparingCellForEdit">
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="HorizontalContentAlignment" Value="Center">
@@ -105,6 +105,7 @@
                             <ContextMenu>
                                 <MenuItem Command="{Binding AddOrderTagCommand}" Header="{Binding AddOrderTagCommand.Caption}" />
                                 <MenuItem Command="{Binding DeleteOrderTagCommand}" Header="{Binding DeleteOrderTagCommand.Caption}" />
+                                <MenuItem Command="{Binding SortOrderTagsCommand}" Header="{Binding SortOrderTagsCommand.Caption}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>
@@ -117,6 +118,11 @@
                         <TextBlock Margin="2,3">
                             <Hyperlink Command="{Binding DeleteOrderTagCommand}">
                                 <TextBlock Text="{Binding Path=DeleteOrderTagCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>                        
+                        <TextBlock Margin="2,3">
+                            <Hyperlink Command="{Binding SortOrderTagsCommand}">
+                                <TextBlock Text="{Binding Path=SortOrderTagsCommand.Caption}" />
                             </Hyperlink>
                         </TextBlock>
                     </StackPanel>

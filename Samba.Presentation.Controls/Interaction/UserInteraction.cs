@@ -220,7 +220,7 @@ namespace Samba.Presentation.Controls.Interaction
         public bool AskQuestion(string question)
         {
             return
-                MessageBox.Show(question, "Soru", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) ==
+                MessageBox.Show(question, Resources.Question, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) ==
                 MessageBoxResult.Yes;
         }
 
@@ -272,8 +272,12 @@ namespace Samba.Presentation.Controls.Interaction
         {
             if (LocalSettings.WindowScale > 0)
             {
-                (control.LayoutTransform as ScaleTransform).ScaleX = LocalSettings.WindowScale;
-                (control.LayoutTransform as ScaleTransform).ScaleY = LocalSettings.WindowScale;
+                var scaleTransform = (control.LayoutTransform as ScaleTransform);
+                if (scaleTransform != null)
+                {
+                    scaleTransform.ScaleX = LocalSettings.WindowScale;
+                    scaleTransform.ScaleY = LocalSettings.WindowScale;
+                }
             }
         }
 
