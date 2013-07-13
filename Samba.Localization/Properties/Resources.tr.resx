@@ -385,6 +385,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Mutfak Yazıcısı</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Ayarlar</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>Deyim Hatalı</value>
   </data>
@@ -416,7 +419,7 @@
     <value>Diğer Personellerin Belgelerini Görebilir</value>
   </data>
   <data name="ChangePayment" xml:space="preserve">
-    <value>Ödeme Değiştir</value>
+    <value>Para Üstü</value>
   </data>
   <data name="AccountNameTemplate" xml:space="preserve">
     <value>Hesap İsmi Şablonu</value>
@@ -631,7 +634,7 @@ Mesaj:
     <value>Etiket</value>
   </data>
   <data name="OrderTagPrice" xml:space="preserve">
-    <value>#Etiket: Sipariş Etiketi Fiyatı</value>
+    <value>Sipariş Etiketi Fiyatı</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Tarih</value>
@@ -853,8 +856,8 @@ Mesaj:
   <data name="PaymentType" xml:space="preserve">
     <value>Ödeme Tipi</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Ayarlar</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>Satır Sayısı</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
@@ -1465,7 +1468,7 @@ Gizlemek için pin kodunu değiştirin</value>
     <value>CSV Üretici</value>
   </data>
   <data name="OrderTagName" xml:space="preserve">
-    <value>#Etiket: Sipariş Etiketi Adı</value>
+    <value>Sipariş Etiketi Adı</value>
   </data>
   <data name="WarehouseType" xml:space="preserve">
     <value>Depo Tipi</value>
@@ -1722,8 +1725,8 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Rapor İzinleri</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Adisyon Etiketi Seçildi</value>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>İlişkili Hesap</value>
   </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Gramaj Barkodları</value>
@@ -1763,9 +1766,6 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Websitesi</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Satır Sayısı</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Limiti Kaldır</value>
@@ -1905,9 +1905,6 @@ Bilgi eklemeden devam etmek istiyor musunuz?</value>
   </data>
   <data name="InventoryConsumption" xml:space="preserve">
     <value>Stok Kullanımı</value>
-  </data>
-  <data name="MappedAccount" xml:space="preserve">
-    <value>İlişkili Hesap</value>
   </data>
   <data name="Weekday" xml:space="preserve">
     <value>Hafta</value>
@@ -2174,7 +2171,7 @@ Hata Mesajı:
     <value>Bu {0}</value>
   </data>
   <data name="OrderTagQuantity" xml:space="preserve">
-    <value>#Etiket: Sipariş Etiketi Miktar</value>
+    <value>Sipariş Etiketi Miktar</value>
   </data>
   <data name="LastPaidOrders" xml:space="preserve">
     <value>Son Ödenen Siparişler</value>
@@ -2356,8 +2353,8 @@ Hata Mesajı:
   <data name="Empty" xml:space="preserve">
     <value>Boş</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Sipariş Etiketi Şablonu</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Adisyon Etiketi Seçildi</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>Deyim Oluşturucu</value>

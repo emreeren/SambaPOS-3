@@ -375,6 +375,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>طابعة المطبخ</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>إعدادات</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>خطأ في التعبير</value>
   </data>
@@ -837,8 +840,8 @@
   <data name="PaymentType" xml:space="preserve">
     <value>نوع الدفع</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>إعدادات</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>عدد الاسطر</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>رمز المشرف: 1234
@@ -1686,8 +1689,8 @@
   <data name="ReportPermissions" xml:space="preserve">
     <value>أذونات التقارير</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>علامة التذكرة المختارة</value>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>حساب معين</value>
   </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>وزن الباركود</value>
@@ -1727,9 +1730,6 @@
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>الموقع الاليكتروني لـ SambaPOS</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>عدد الاسطر</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>إزالة حد</value>
@@ -1863,9 +1863,6 @@
   </data>
   <data name="InventoryConsumption" xml:space="preserve">
     <value>استهلاك المخزون</value>
-  </data>
-  <data name="MappedAccount" xml:space="preserve">
-    <value>حساب معين</value>
   </data>
   <data name="Weekday" xml:space="preserve">
     <value>يوم الأسبوع</value>
@@ -2299,8 +2296,8 @@
   <data name="Empty" xml:space="preserve">
     <value>فارغ</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>قالب علامة الطلب</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>علامة التذكرة المختارة</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>منشئ التعبير</value>

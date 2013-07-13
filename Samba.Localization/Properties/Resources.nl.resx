@@ -1987,8 +1987,8 @@ Foutbericht:
   <data name="Logout" xml:space="preserve">
     <value>Uitloggen</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Bon Tag Geselecteerd</value>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Nieuwe regels voor Printregel aantal</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Valutasymbool</value>
@@ -2293,8 +2293,8 @@ Foutbericht:
   <data name="Empty" xml:space="preserve">
     <value>Leeg</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Bestelling Tag Sjabloon</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Bon Tag Geselecteerd</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>Opbouwfunctie voor expressies</value>
@@ -2789,9 +2789,6 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>Oude einde-dag gegevens kan niet verwijderen</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Nieuwe regels voor Printregel aantal</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Kan oude bonnen weergeven</value>

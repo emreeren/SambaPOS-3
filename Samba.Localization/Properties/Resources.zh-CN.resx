@@ -1419,9 +1419,6 @@
   <data name="ReportPermissions" xml:space="preserve">
     <value>报表权限</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>票据标签选中</value>
-  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>重量条码</value>
   </data>
@@ -1964,8 +1961,8 @@
   <data name="Empty" xml:space="preserve">
     <value>空</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>订单标签模板</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>票据标签选中</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>表达式生成器</value>

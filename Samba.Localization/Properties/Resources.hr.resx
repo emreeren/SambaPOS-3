@@ -1470,9 +1470,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Dopuštenja izvještaja</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Ticket Tag Selected</value>
-  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Weight Barcodes</value>
   </data>
@@ -2007,8 +2004,8 @@ Greška:
   <data name="Empty" xml:space="preserve">
     <value>Prazno</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Order Tag Template</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Ticket Tag Selected</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>Kreiranje formule</value>

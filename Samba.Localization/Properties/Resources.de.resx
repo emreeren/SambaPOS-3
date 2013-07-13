@@ -1570,9 +1570,6 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="One" xml:space="preserve">
     <value>Ein</value>
   </data>
-  <data name="LoopValues" xml:space="preserve">
-    <value>durchlaufe Werte</value>
-  </data>
   <data name="Add" xml:space="preserve">
     <value>Hinzufügen</value>
   </data>
@@ -2078,8 +2075,8 @@ Fehlernachricht:
   <data name="Logout" xml:space="preserve">
     <value>Abmelden</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Beleg Tag ausgewählt</value>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Letzte Zeilen der Druckerzeilenzahl</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Währungs-Symbol</value>
@@ -2393,8 +2390,8 @@ Fehlernachricht:
   <data name="Empty" xml:space="preserve">
     <value>Leer</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Bestellungs Tagvorlage</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Beleg Tag ausgewählt</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>Expression Builder</value>
@@ -2914,8 +2911,8 @@ Die Arbeitszeit kann nicht beendet werden.</value>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>Alte Arbeitszeitberichte können nicht gelöscht werden</value>
   </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Letzte Zeilen der Druckerzeilenzahl</value>
+  <data name="LoopValues" xml:space="preserve">
+    <value>durchlaufe Werte</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Kann alte Belege anzeigen</value>

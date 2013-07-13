@@ -1972,8 +1972,8 @@ Hibaüzenet:
   <data name="Logout" xml:space="preserve">
     <value>Kilépés</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Blokk címke kiválasztva</value>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Új sorok a Nyomtatandó sorok száma alapján</value>
   </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Pénznemszimbólum</value>
@@ -2281,8 +2281,8 @@ Hibaüzenet:
   <data name="Empty" xml:space="preserve">
     <value>Üres</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Rendelés Címke Sablon</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Blokk címke kiválasztva</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>Kifejezésszerkesztő</value>
@@ -2782,9 +2782,6 @@ Amíg nyitott blokk van, nem lehet műszakot zárni!</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>A múltbéli zárás adatok nem törölhetőek</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Új sorok a Nyomtatandó sorok száma alapján</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Régi Blokkokat megjeleníthet</value>

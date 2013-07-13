@@ -1560,9 +1560,6 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Hak Akses laporan</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Pilih Tandai Tiket</value>
-  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Berat Barcode</value>
   </data>
@@ -2131,8 +2128,8 @@ Pesan Error:
   <data name="Empty" xml:space="preserve">
     <value>Kosong</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Label Template Pesanan</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Pilih Tandai Tiket</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>Ekspresi Builder</value>

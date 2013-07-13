@@ -370,6 +370,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Stampante Cucina</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Impostazioni</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>Errore nell'espressione</value>
   </data>
@@ -824,8 +827,8 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   <data name="PaymentType" xml:space="preserve">
     <value>Tipo di Pagamento</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Impostazioni</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>Contatore linee</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
@@ -1605,9 +1608,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Segnalazione di autorizzazioni</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Ticket Tag selezionato</value>
-  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Peso codici a barre</value>
   </data>
@@ -1643,9 +1643,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Sito</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Contatore linee</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Rimuovere Limite</value>
@@ -2197,8 +2194,8 @@ Messaggio di errore:
   <data name="Empty" xml:space="preserve">
     <value>Vuoto</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Ordine Tag Modello</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Ticket Tag selezionato</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>Generatore di espressioni</value>

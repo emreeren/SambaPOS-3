@@ -1257,9 +1257,6 @@ La modification du code PIN permet de masquer cette astuce</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Rapports des autorisations</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Balise Ticket sélectionnée</value>
-  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Codes à barres Poids</value>
   </data>
@@ -1705,8 +1702,8 @@ Continuer sans ajouter de détails?</value>
   <data name="Empty" xml:space="preserve">
     <value>Vide</value>
   </data>
-  <data name="OrderTagTemplate" xml:space="preserve">
-    <value>Trier les modèle de balise</value>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Balise Ticket sélectionnée</value>
   </data>
   <data name="ExpressionBuilder" xml:space="preserve">
     <value>Générateur d'expression</value>
