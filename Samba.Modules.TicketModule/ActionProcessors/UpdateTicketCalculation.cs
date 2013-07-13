@@ -9,8 +9,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class UpdateTicketCalculation : ActionProcessor
+    [Export(typeof(IActionType))]
+    class UpdateTicketCalculation : ActionType
     {
         private readonly ICacheService _cacheService;
         private readonly ITicketService _ticketService;

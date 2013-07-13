@@ -69,9 +69,9 @@ namespace Samba.Modules.AutomationModule
             }
         }
 
-        public IEnumerable<RuleActionType> ActionTypes { get { return _automationService.GetActionTypes(); } }
+        public IEnumerable<IActionType> ActionTypes { get { return _automationService.GetActionTypes(); } }
 
-        private IEnumerable<ParameterValue> CreateParemeterValues(RuleActionType actionType)
+        private IEnumerable<ParameterValue> CreateParemeterValues(IActionType actionType)
         {
             return _automationService.CreateParameterValues(actionType);
         }

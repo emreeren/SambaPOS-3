@@ -7,8 +7,8 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class UpdatePriceTag : ActionProcessor
+    [Export(typeof(IActionType))]
+    class UpdatePriceTag : ActionType
     {
         private readonly IDepartmentService _departmentService;
         private readonly IMethodQueue _methodQueue;

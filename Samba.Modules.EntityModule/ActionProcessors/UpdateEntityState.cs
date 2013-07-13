@@ -12,8 +12,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.EntityModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class UpdateEntityState : ActionProcessor
+    [Export(typeof(IActionType))]
+    class UpdateEntityState : ActionType
     {
         private readonly IEntityServiceClient _entityServiceClient;
         private readonly ICacheService _cacheService;

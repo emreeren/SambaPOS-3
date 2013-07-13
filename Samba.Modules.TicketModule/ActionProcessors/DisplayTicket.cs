@@ -10,8 +10,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class DisplayTicket : ActionProcessor
+    [Export(typeof(IActionType))]
+    class DisplayTicket : ActionType
     {
         private readonly IApplicationState _applicationState;
 

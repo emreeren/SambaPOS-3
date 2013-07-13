@@ -10,8 +10,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.PaymentModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class DisplayPaymentScreen : ActionProcessor
+    [Export(typeof(IActionType))]
+    class DisplayPaymentScreen : ActionType
     {
         public override void Process(ActionData actionData)
         {

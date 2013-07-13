@@ -12,8 +12,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class CreateAccountTransaction : ActionProcessor
+    [Export(typeof(IActionType))]
+    class CreateAccountTransaction : ActionType
     {
         private readonly ICacheService _cacheService;
         private readonly ITicketService _ticketService;

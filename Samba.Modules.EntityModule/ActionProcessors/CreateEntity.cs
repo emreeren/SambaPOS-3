@@ -7,8 +7,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.EntityModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class CreateEntity : ActionProcessor
+    [Export(typeof(IActionType))]
+    class CreateEntity : ActionType
     {
         private readonly ICacheService _cacheService;
         private readonly IEntityService _entityService;

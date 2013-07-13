@@ -5,8 +5,8 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Controls.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class ShowMessage : ActionProcessor
+    [Export(typeof(IActionType))]
+    class ShowMessage : ActionType
     {
         private readonly IUserInteraction _userInteraction;
 

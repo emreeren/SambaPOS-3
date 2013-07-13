@@ -27,17 +27,12 @@ namespace Samba.Services.Common
                 });
         }
 
-        public IDictionary<string, RuleActionType> ActionTypes = new Dictionary<string, RuleActionType>();
+        public IDictionary<string, IActionType> ActionTypes = new Dictionary<string, IActionType>();
 
-        public void RegisterActionType(string actionType, string actionName, object parameterObject = null)
+        public void RegisterActionType(IActionType actionType)
         {
-            if (!ActionTypes.ContainsKey(actionType))
-                ActionTypes.Add(actionType, new RuleActionType
-                                                {
-                                                    ActionName = actionName,
-                                                    ActionType = actionType,
-                                                    ParameterObject = parameterObject.ToDynamic()
-                                                });
+            if (!ActionTypes.ContainsKey(actionType.ActionKey))
+                ActionTypes.Add(actionType.ActionKey, actionType);
         }
 
         public IEnumerable<RuleConstraint> GetEventConstraints(string eventName)

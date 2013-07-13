@@ -9,8 +9,8 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Controls.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class DisplayPopup : ActionProcessor
+    [Export(typeof(IActionType))]
+    class DisplayPopup : ActionType
     {
         private readonly IUserInteraction _userInteraction;
 

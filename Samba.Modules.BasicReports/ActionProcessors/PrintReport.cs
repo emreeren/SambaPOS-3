@@ -9,8 +9,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class PrintReport : ActionProcessor
+    [Export(typeof(IActionType))]
+    class PrintReport : ActionType
     {
         public override void Process(ActionData actionData)
         {

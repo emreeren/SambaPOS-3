@@ -10,8 +10,8 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class RefreshCache : ActionProcessor
+    [Export(typeof(IActionType))]
+    class RefreshCache : ActionType
     {
         private readonly IMethodQueue _methodQueue;
         private readonly ITriggerService _triggerService;

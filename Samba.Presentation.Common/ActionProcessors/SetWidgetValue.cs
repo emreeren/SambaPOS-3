@@ -10,8 +10,8 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class SetWidgetValue : ActionProcessor
+    [Export(typeof(IActionType))]
+    class SetWidgetValue : ActionType
     {
         public override void Process(ActionData actionData)
         {

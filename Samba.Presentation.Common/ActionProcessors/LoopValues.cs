@@ -6,8 +6,8 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class LoopValues : ActionProcessor
+    [Export(typeof(IActionType))]
+    class LoopValues : ActionType
     {
         private readonly IApplicationState _applicationState;
 

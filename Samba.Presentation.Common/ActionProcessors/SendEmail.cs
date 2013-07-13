@@ -10,8 +10,8 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class SendEmail : ActionProcessor
+    [Export(typeof(IActionType))]
+    class SendEmail : ActionType
     {
         private readonly IEmailService _emailService;
 

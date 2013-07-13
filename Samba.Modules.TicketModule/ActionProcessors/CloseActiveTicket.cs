@@ -9,8 +9,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class CloseActiveTicket : ActionProcessor
+    [Export(typeof(IActionType))]
+    class CloseActiveTicket : ActionType
     {
         public override void Process(ActionData actionData)
         {

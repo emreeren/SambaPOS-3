@@ -8,8 +8,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class SaveReportToFile : ActionProcessor
+    [Export(typeof(IActionType))]
+    class SaveReportToFile : ActionType
     {
         public override void Process(ActionData actionData)
         {

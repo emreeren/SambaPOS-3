@@ -6,8 +6,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.AutomationModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class SendMessage : ActionProcessor
+    [Export(typeof(IActionType))]
+    class SendMessage : ActionType
     {
         private readonly IMessagingService _messagingService;
 

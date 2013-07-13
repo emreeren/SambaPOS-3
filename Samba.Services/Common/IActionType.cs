@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Samba.Services.Common
 {
-    public interface IActionProcessor
+    public interface IActionType
     {
-        string ActionType { get; }
+        string ActionKey { get; }
         string ActionName { get; }
         object DefaultData { get; }
         ExpandoObject ParameterObject { get; }

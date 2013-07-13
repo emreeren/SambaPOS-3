@@ -11,8 +11,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.PrinterModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class ExecutePrintJob : ActionProcessor
+    [Export(typeof(IActionType))]
+    class ExecutePrintJob : ActionType
     {
         private readonly ITicketService _ticketService;
         private readonly IApplicationState _applicationState;

@@ -11,7 +11,7 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
+    [Export(typeof(IActionType))]
     class TagOrder : OrderTagOperation
     {
         [ImportingConstructor]

@@ -11,8 +11,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class PrintAccountTransactionDocument : ActionProcessor
+    [Export(typeof(IActionType))]
+    class PrintAccountTransactionDocument : ActionType
     {
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;

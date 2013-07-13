@@ -14,8 +14,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class ChangeTicketEntity : ActionProcessor
+    [Export(typeof(IActionType))]
+    class ChangeTicketEntity : ActionType
     {
         private readonly ITicketService _ticketService;
         private readonly IApplicationState _applicationState;

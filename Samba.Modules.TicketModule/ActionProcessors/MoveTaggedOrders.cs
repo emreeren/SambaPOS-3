@@ -11,8 +11,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class MoveTaggedOrders : ActionProcessor
+    [Export(typeof(IActionType))]
+    class MoveTaggedOrders : ActionType
     {
         private readonly ITicketService _ticketService;
 

@@ -10,8 +10,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class UnlockTicket : ActionProcessor
+    [Export(typeof(IActionType))]
+    class UnlockTicket : ActionType
     {
         public override void Process(ActionData actionData)
         {

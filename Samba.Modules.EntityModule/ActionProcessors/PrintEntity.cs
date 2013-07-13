@@ -8,8 +8,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.EntityModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class PrintEntity : ActionProcessor
+    [Export(typeof(IActionType))]
+    class PrintEntity : ActionType
     {
         private readonly ICacheService _cacheService;
         private readonly IPrinterService _printerService;

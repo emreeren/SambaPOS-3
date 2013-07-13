@@ -7,7 +7,7 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    abstract class OrderTagOperation : ActionProcessor
+    abstract class OrderTagOperation : ActionType
     {
         private readonly ICacheService _cacheService;
         private readonly ITicketService _ticketService;

@@ -24,7 +24,7 @@ namespace Samba.Services.Implementations.AutomationModule
         private readonly RuleActionTypeRegistry _ruleActionTypeRegistry;
 
         [ImportMany]
-        public IEnumerable<IActionProcessor> ActionProcessors { get; set; }
+        public IEnumerable<IActionType> ActionProcessors { get; set; }
 
         [ImportingConstructor]
         public AutomationService(IDeviceService deviceService)
@@ -43,11 +43,6 @@ namespace Samba.Services.Implementations.AutomationModule
         {
             return eventConstraints.Split('#')
                 .Select(x => new RuleConstraint(x));
-        }
-
-        public void RegisterActionType(string actionType, string actionName, object parameterObject)
-        {
-            _ruleActionTypeRegistry.RegisterActionType(actionType, actionName, parameterObject);
         }
 
         public void RegisterEvent(string eventKey, string eventName, object constraintObject = null)
@@ -70,20 +65,20 @@ namespace Samba.Services.Implementations.AutomationModule
             return _ruleActionTypeRegistry.GetParameterNames(eventName);
         }
 
-        public RuleActionType GetActionType(string value)
+        public IActionType GetActionType(string value)
         {
             return _ruleActionTypeRegistry.ActionTypes[value];
         }
 
-        public IEnumerable<RuleActionType> GetActionTypes()
+        public IEnumerable<IActionType> GetActionTypes()
         {
             return _ruleActionTypeRegistry.ActionTypes.Values;
         }
 
-        public IEnumerable<ParameterValue> CreateParameterValues(RuleActionType actionType)
+        public IEnumerable<ParameterValue> CreateParameterValues(IActionType actionProcessor)
         {
-            if (actionType.ParameterObject != null)
-                return actionType.ParameterObject.Select(x => new ParameterValue(x.Key, x.Value.GetType()));
+            if (actionProcessor.ParameterObject != null)
+                return actionProcessor.ParameterObject.Select(x => new ParameterValue(x.Key, x.Value.GetType()));
             return new List<ParameterValue>();
         }
 
@@ -103,7 +98,7 @@ namespace Samba.Services.Implementations.AutomationModule
         {
             foreach (var actionProcessor in ActionProcessors)
             {
-                RegisterActionType(actionProcessor.ActionType, actionProcessor.ActionName, actionProcessor.DefaultData);
+                _ruleActionTypeRegistry.RegisterActionType(actionProcessor);
             }
         }
 

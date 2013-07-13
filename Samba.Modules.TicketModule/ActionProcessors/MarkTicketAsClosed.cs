@@ -6,8 +6,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class MarkTicketAsClosed : ActionProcessor
+    [Export(typeof(IActionType))]
+    class MarkTicketAsClosed : ActionType
     {
         public override void Process(ActionData actionData)
         {

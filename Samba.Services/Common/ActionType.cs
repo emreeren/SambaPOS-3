@@ -3,17 +3,17 @@ using Samba.Infrastructure;
 
 namespace Samba.Services.Common
 {
-    public abstract class ActionProcessor : IActionProcessor
+    public abstract class ActionType : IActionType
     {
         public bool Handles(string actionType)
         {
-            return actionType == ActionType;
+            return actionType == ActionKey;
         }
 
         private ExpandoObject _parameterObject;
         public ExpandoObject ParameterObject { get { return _parameterObject ?? (_parameterObject = DefaultData.ToDynamic()); } }
 
-        public string ActionType { get { return GetActionKey(); } }
+        public string ActionKey { get { return GetActionKey(); } }
         public string ActionName { get { return GetActionName(); } }
         public object DefaultData { get { return GetDefaultData(); } }
 

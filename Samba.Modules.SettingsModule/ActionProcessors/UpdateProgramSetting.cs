@@ -10,8 +10,8 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.SettingsModule.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class UpdateProgramSetting : ActionProcessor
+    [Export(typeof(IActionType))]
+    class UpdateProgramSetting : ActionType
     {
         private readonly ISettingService _settingService;
 

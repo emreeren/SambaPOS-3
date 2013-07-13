@@ -11,8 +11,8 @@ using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ActionProcessors
 {
-    [Export(typeof(IActionProcessor))]
-    class SetActiveTicketType : ActionProcessor
+    [Export(typeof(IActionType))]
+    class SetActiveTicketType : ActionType
     {
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
