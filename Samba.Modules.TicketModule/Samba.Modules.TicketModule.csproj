@@ -86,6 +86,25 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionProcessors\AddOrder.cs" />
+    <Compile Include="ActionProcessors\ChangeTicketEntity.cs" />
+    <Compile Include="ActionProcessors\CloseActiveTicket.cs" />
+    <Compile Include="ActionProcessors\CreateTicket.cs" />
+    <Compile Include="ActionProcessors\DisplayTicket.cs" />
+    <Compile Include="ActionProcessors\LoadTicket.cs" />
+    <Compile Include="ActionProcessors\LockTicket.cs" />
+    <Compile Include="ActionProcessors\MarkTicketAsClosed.cs" />
+    <Compile Include="ActionProcessors\MoveTaggedOrders.cs" />
+    <Compile Include="ActionProcessors\UnlockTicket.cs" />
+    <Compile Include="ActionProcessors\UntagOrder.cs" />
+    <Compile Include="ActionProcessors\Helper.cs" />
+    <Compile Include="ActionProcessors\OrderTagOperation.cs" />
+    <Compile Include="ActionProcessors\TagOrder.cs" />
+    <Compile Include="ActionProcessors\UpdateOrder.cs" />
+    <Compile Include="ActionProcessors\UpdateOrderState.cs" />
+    <Compile Include="ActionProcessors\UpdateTicketCalculation.cs" />
+    <Compile Include="ActionProcessors\UpdateTicketState.cs" />
+    <Compile Include="ActionProcessors\UpdateTicketTag.cs" />
     <Compile Include="CalculationSelectorView.xaml.cs">
       <DependentUpon>CalculationSelectorView.xaml</DependentUpon>
     </Compile>

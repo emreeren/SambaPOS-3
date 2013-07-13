@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionContainerViewModel.cs" />
+    <Compile Include="ActionProcessors\ExecuteScript.cs" />
     <Compile Include="AutomationCommandMapViewModel.cs" />
     <Compile Include="AutomationModule.cs" />
     <Compile Include="AutomationCommandView.xaml.cs">

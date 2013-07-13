@@ -54,6 +54,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionProcessors\CreateEntity.cs" />
+    <Compile Include="ActionProcessors\PrintEntity.cs" />
+    <Compile Include="ActionProcessors\UpdateEntityState.cs" />
     <Compile Include="EntityCustomDataEditor.xaml.cs">
       <DependentUpon>EntityCustomDataEditor.xaml</DependentUpon>
     </Compile>

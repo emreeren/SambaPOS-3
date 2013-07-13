@@ -55,6 +55,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionProcessors\PrintReport.cs" />
+    <Compile Include="ActionProcessors\SaveReportToFile.cs" />
     <Compile Include="BasicReportModule.cs" />
     <Compile Include="BasicReportView.xaml.cs">
       <DependentUpon>BasicReportView.xaml</DependentUpon>

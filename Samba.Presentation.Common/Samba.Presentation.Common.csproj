@@ -103,10 +103,20 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionProcessors\Helper.cs" />
+    <Compile Include="ActionProcessors\LoopValues.cs" />
+    <Compile Include="ActionProcessors\RefreshCache.cs" />
+    <Compile Include="ActionProcessors\SendEmail.cs" />
+    <Compile Include="ActionProcessors\SendMessage.cs" />
+    <Compile Include="ActionProcessors\SetActiveTicketType.cs" />
+    <Compile Include="ActionProcessors\SetWidgetValue.cs" />
+    <Compile Include="ActionProcessors\StartProcess.cs" />
+    <Compile Include="ActionProcessors\UpdatePriceTag.cs" />
     <Compile Include="Commands\CustomCommand.cs" />
     <Compile Include="ElementSpy.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="RegionService.cs" />
+    <Compile Include="Widgets\WidgetEventData.cs" />
     <Compile Include="Widgets\IWidgetCreator.cs" />
     <Compile Include="ModelBase\AbstractMapViewModel.cs" />
     <Compile Include="ModelBase\EntityViewModelBaseWithMap.cs" />

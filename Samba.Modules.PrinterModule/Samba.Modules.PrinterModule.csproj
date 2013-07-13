@@ -55,6 +55,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionProcessors\ExecutePrintJob.cs" />
     <Compile Include="PrinterMapViewModel.cs" />
     <Compile Include="PrinterModule.cs" />
     <Compile Include="PrinterTemplateView.xaml.cs">

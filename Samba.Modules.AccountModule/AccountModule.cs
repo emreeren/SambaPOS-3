@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.Composition;
-using System.Linq;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Modules.AccountModule.Dashboard;
 using Samba.Presentation.Common;
@@ -12,7 +10,6 @@ using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {
@@ -21,11 +18,6 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IRegionManager _regionManager;
         private readonly IUserService _userService;
-        private readonly IAccountService _accountService;
-        private readonly ITicketService _ticketService;
-        private readonly ICacheService _cacheService;
-        private readonly IApplicationState _applicationState;
-        private readonly IPrinterService _printerService;
         private readonly AccountSelectorView _accountSelectorView;
         private readonly AccountSelectorViewModel _accountSelectorViewModel;
         private readonly AccountDetailsView _accountDetailsView;
@@ -37,11 +29,6 @@ namespace Samba.Modules.AccountModule
         public AccountModule(IRegionManager regionManager,
             IAutomationService automationService,
             IUserService userService,
-            IAccountService accountService,
-            ITicketService ticketService,
-            ICacheService cacheService,
-            IApplicationState applicationState,
-            IPrinterService printerService,
             AccountSelectorView accountSelectorView, AccountSelectorViewModel accountSelectorViewModel,
             AccountDetailsView accountDetailsView,
             DocumentCreatorView documentCreatorView,
@@ -50,11 +37,6 @@ namespace Samba.Modules.AccountModule
         {
             _regionManager = regionManager;
             _userService = userService;
-            _accountService = accountService;
-            _ticketService = ticketService;
-            _cacheService = cacheService;
-            _applicationState = applicationState;
-            _printerService = printerService;
             _accountSelectorView = accountSelectorView;
             _accountSelectorViewModel = accountSelectorViewModel;
             _accountDetailsView = accountDetailsView;
@@ -73,11 +55,6 @@ namespace Samba.Modules.AccountModule
             PermissionRegistry.RegisterPermission(PermissionNames.CreateAccount, PermissionCategories.Account, Resources.CanCreateAccount);
 
             SetNavigationCommand(Resources.Accounts, Resources.Common, "Images/Xls.png", 30);
-
-            automationService.RegisterActionType(ActionNames.CreateAccountTransactionDocument, string.Format(Resources.Create_f, Resources.AccountTransactionDocument), new { AccountTransactionDocumentName = "", AccountName = "", Description = "", Amount = 0m });
-            automationService.RegisterActionType(ActionNames.CreateBatchAccountTransactionDocument, Resources.BatchCreateDocuments, new { AccountTransactionDocumentName = "" });
-            automationService.RegisterActionType(ActionNames.CreateAccountTransaction, string.Format(Resources.Create_f, Resources.AccountTransaction), new { AccountTransactionTypeName = "", Amount = 0m });
-            automationService.RegisterActionType(ActionNames.PrintAccountTransactionDocument, Resources.PrintAccountTransactionDocument, new { DocumentId = 0, PrinterName = "", PrinterTemplateName = "" });
         }
 
         protected override void OnInitialization()
@@ -90,79 +67,8 @@ namespace Samba.Modules.AccountModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<AccountTransactionDocumentType>>().Subscribe(OnTransactionDocumentEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<DocumentCreationData>>().Subscribe(OnDocumentCreationData);
             EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<AccountData>>>().Subscribe(OnAccountDataEvent);
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(OnActionData);
         }
 
-        private void OnActionData(EventParameters<ActionData> ep)
-        {
-            if (ep.Value.Action.ActionType == ActionNames.PrintAccountTransactionDocument)
-            {
-                var documentId = ep.Value.GetAsInteger("DocumentId");
-                var document = _accountService.GetAccountTransactionDocumentById(documentId);
-                if (document == null) return;
-                var printerName = ep.Value.GetAsString("PrinterName");
-                var printerTemplateName = ep.Value.GetAsString("PrinterTemplateName");
-                var printer = _cacheService.GetPrinters().FirstOrDefault(x => x.Name == printerName);
-                var printerTemplate = _cacheService.GetPrinterTemplates().FirstOrDefault(y => y.Name == printerTemplateName);
-                if (printer == null)
-                {
-                    printer = _applicationState.GetTransactionPrinter();
-                }
-                if (printerTemplate == null)
-                {
-                    var documentType = _cacheService.GetAccountTransactionDocumentTypeById(document.DocumentTypeId);
-                    printerTemplate = _cacheService.GetPrinterTemplates().First(x => x.Id == documentType.PrinterTemplateId);
-                }
-                if (printer == null) return;
-                if (printerTemplate == null) return;
-                _printerService.PrintAccountTransactionDocument(document, printer, printerTemplate);
-            }
-
-            if (ep.Value.Action.ActionType == ActionNames.CreateAccountTransactionDocument)
-            {
-                var documentName = ep.Value.GetAsString("AccountTransactionDocumentName");
-                var documentType = _cacheService.GetAccountTransactionDocumentTypeByName(documentName);
-                var accountName = ep.Value.GetAsString("AccountName");
-                var description = ep.Value.GetAsString("Description");
-                var amount = ep.Value.GetAsDecimal("Amount");
-                if (amount > 0)
-                {
-                    var account = _accountService.GetAccountByName(accountName);
-                    var document = _accountService.CreateTransactionDocument(account, documentType, description, amount, null);
-                    ep.Value.DataObject.DocumentId = document.Id;
-                }
-            }
-
-            if (ep.Value.Action.ActionType == ActionNames.CreateBatchAccountTransactionDocument)
-            {
-                var documentName = ep.Value.GetAsString("AccountTransactionDocumentName");
-                _accountService.CreateBatchAccountTransactionDocument(documentName);
-            }
-
-            if (ep.Value.Action.ActionType == ActionNames.CreateAccountTransaction)
-            {
-                var ticket = ep.Value.GetDataValue<Ticket>("Ticket");
-                if (ticket != null)
-                {
-                    var amount = ep.Value.GetAsDecimal("Amount");
-                    var transactionName = ep.Value.GetAsString("AccountTransactionTypeName");
-                    if (!string.IsNullOrEmpty(transactionName))
-                    {
-                        var accountTransactionType = _cacheService.GetAccountTransactionTypeByName(transactionName);
-                        if (accountTransactionType != null)
-                        {
-                            var ts = ticket.TicketEntities.FirstOrDefault(x => _ticketService.CanMakeAccountTransaction(x, accountTransactionType, 0));
-                            if (ts != null)
-                            {
-                                //todo test
-                                var account = _cacheService.GetAccountById(ts.AccountId);
-                                ticket.TransactionDocument.AddNewTransaction(accountTransactionType, ticket.GetTicketAccounts(), amount, 1);
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
         private void OnTransactionDocumentEvent(EventParameters<AccountTransactionDocumentType> ep)
         {

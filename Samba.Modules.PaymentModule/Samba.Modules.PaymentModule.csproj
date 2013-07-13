@@ -49,6 +49,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionProcessors\DisplayPaymentScreen.cs" />
     <Compile Include="ChangeTemplatesView.xaml.cs">
       <DependentUpon>ChangeTemplatesView.xaml</DependentUpon>
     </Compile>

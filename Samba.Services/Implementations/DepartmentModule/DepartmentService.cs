@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance;
+using Samba.Persistance.Data;
 
 namespace Samba.Services.Implementations.DepartmentModule
 {
@@ -36,6 +37,19 @@ namespace Samba.Services.Implementations.DepartmentModule
         public IEnumerable<Department> GetDepartments()
         {
             return Departments;
+        }
+
+        public void UpdatePriceTag(string departmentName, string priceTag)
+        {
+            using (var workspace = WorkspaceFactory.Create())
+            {
+                var department = workspace.Single<Department>(y => y.Name == departmentName);
+                if (department != null)
+                {
+                    department.PriceTag = priceTag;
+                    workspace.CommitChanges();
+                }
+            }
         }
 
         public void ResetCache()

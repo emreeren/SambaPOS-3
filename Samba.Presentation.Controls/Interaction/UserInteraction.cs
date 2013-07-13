@@ -13,10 +13,8 @@ using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
-using Samba.Presentation.Services.Common;
 using FlexButton;
 using Samba.Services;
-using Samba.Services.Common;
 
 namespace Samba.Presentation.Controls.Interaction
 {
@@ -114,29 +112,6 @@ namespace Samba.Presentation.Controls.Interaction
         {
             _methodQueue = methodQueue;
             _popupDataViewModel = new PopupDataViewModel();
-
-            automationService.RegisterActionType("ShowMessage", Resources.ShowMessage, new { Message = "" });
-            automationService.RegisterActionType("DisplayPopup", Resources.DisplayPopup, new { Title = "", Message = "", Color = "" });
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(x =>
-            {
-                if (x.Value.Action.ActionType == "ShowMessage")
-                {
-                    var param = x.Value.GetAsString("Message");
-                    if (!string.IsNullOrEmpty(param))
-                        GiveFeedback(param);
-                }
-
-                if (x.Value.Action.ActionType == "DisplayPopup")
-                {
-                    var title = x.Value.GetAsString("Title");
-                    var message = x.Value.GetAsString("Message");
-                    var color = x.Value.GetAsString("Color");
-                    color = string.IsNullOrEmpty(color.Trim()) ? "DarkRed" : color;
-                    if (!string.IsNullOrEmpty(message.Trim()))
-                        DisplayPopup(title, message, color);
-                }
-            });
         }
 
         public PopupWindow PopupWindow

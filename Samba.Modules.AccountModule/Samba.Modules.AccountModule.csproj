@@ -70,6 +70,10 @@
     <Compile Include="AccountGroupsConverter.cs" />
     <Compile Include="AccountRowViewModel.cs" />
     <Compile Include="AccountSelectViewModel.cs" />
+    <Compile Include="ActionProcessors\CreateAccountTransaction.cs" />
+    <Compile Include="ActionProcessors\CreateAccountTransactionDocument.cs" />
+    <Compile Include="ActionProcessors\CreateBatchAccountTransactionDocument.cs" />
+    <Compile Include="ActionProcessors\PrintAccountTransactionDocument.cs" />
     <Compile Include="BatchDocumentCreatorView.xaml.cs">
       <DependentUpon>BatchDocumentCreatorView.xaml</DependentUpon>
     </Compile>

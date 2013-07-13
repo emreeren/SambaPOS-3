@@ -11,9 +11,6 @@ namespace Samba.Services.Implementations.AutomationModule
     {
         private readonly RuleActionTypeRegistry _ruleActionTypeRegistry;
 
-        [ImportMany]
-        public IEnumerable<IActionProcessor> ActionProcessors { get; set; }
-
         [ImportingConstructor]
         public AutomationService()
         {
@@ -73,10 +70,6 @@ namespace Samba.Services.Implementations.AutomationModule
             ParameterSources.Add(parameterName, action);
         }
 
-        public void ProcessAction(string actionType, ActionData actionData)
-        {
-            var actionProcessor = ActionProcessors.FirstOrDefault(x => x.Handles(actionType));
-            if (actionProcessor != null) actionProcessor.Process(actionData);
-        }
+
     }
 }

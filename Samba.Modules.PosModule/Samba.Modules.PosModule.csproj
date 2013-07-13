@@ -52,6 +52,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionProcessors\DisplayTicketList.cs" />
     <Compile Include="CommandContainerButton.cs" />
     <Compile Include="TicketTypeListView.xaml.cs">
       <DependentUpon>TicketTypeListView.xaml</DependentUpon>

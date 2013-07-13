@@ -1,4 +1,4 @@
-﻿namespace Samba.Presentation.ViewModels
+﻿namespace Samba.Presentation.Common.Widgets
 {
     public class WidgetEventData
     {

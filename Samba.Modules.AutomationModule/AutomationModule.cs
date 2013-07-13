@@ -16,39 +16,16 @@ namespace Samba.Modules.AutomationModule
     [ModuleExport(typeof(AutomationModule))]
     class AutomationModule : ModuleBase
     {
-        private readonly IExpressionService _expressionService;
-
         [ImportingConstructor]
-        public AutomationModule(IExpressionService expressionService, IAutomationService automationService)
+        public AutomationModule(IAutomationService automationService)
         {
-            _expressionService = expressionService;
             AddDashboardCommand<EntityCollectionViewModelBase<RuleActionViewModel, AppAction>>(Resources.RuleActions, Resources.Automation, 45);
             AddDashboardCommand<EntityCollectionViewModelBase<RuleViewModel, AppRule>>(Resources.Rules, Resources.Automation, 45);
             AddDashboardCommand<TriggerListViewModel>(Resources.Trigger.ToPlural(), Resources.Automation, 45);
             AddDashboardCommand<EntityCollectionViewModelBase<AutomationCommandViewModel, AutomationCommand>>(Resources.AutomationCommand.ToPlural(), Resources.Automation, 45);
             AddDashboardCommand<EntityCollectionViewModelBase<ScriptViewModel, Script>>(Resources.Script.ToPlural(), Resources.Automation, 45);
 
-            automationService.RegisterActionType(ActionNames.ExecuteScript, Resources.ExecuteScript, new { ScriptName = "" });
-
             HighlightingManager.Instance.RegisterHighlighting("SambaDSL", null, () => LoadHighlightingDefinition("SambaDSL.xshd"));
-        }
-
-        protected override void OnInitialization()
-        {
-            base.OnInitialization();
-            EventServiceFactory.EventService.GetEvent<GenericEvent<ActionData>>().Subscribe(OnActionData);
-        }
-
-        private void OnActionData(EventParameters<ActionData> obj)
-        {
-            if (obj.Value.Action.ActionType == ActionNames.ExecuteScript)
-            {
-                var script = obj.Value.GetAsString("ScriptName");
-                if (!string.IsNullOrEmpty(script))
-                {
-                    _expressionService.EvalCommand(script, "", obj.Value.DataObject, true);
-                }
-            }
         }
 
         public static IHighlightingDefinition LoadHighlightingDefinition(string resourceName)

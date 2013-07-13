@@ -60,6 +60,8 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionProcessors\DisplayPopup.cs" />
+    <Compile Include="ActionProcessors\ShowMessage.cs" />
     <Compile Include="Browser\BrowserControl.xaml.cs">
       <DependentUpon>BrowserControl.xaml</DependentUpon>
     </Compile>
