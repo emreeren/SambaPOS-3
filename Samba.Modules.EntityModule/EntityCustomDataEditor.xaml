@@ -11,7 +11,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="150" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="150" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
             </Grid>
         </DataTemplate>
 
@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <UIControls:FilteredTextBox Margin="0,0,2,2" Grid.Column="1" Type="Number" MinWidth="100" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"/>
+                <UIControls:FilteredTextBox Margin="0,0,2,2" Grid.Column="1" Type="Number" MinWidth="100" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
             </Grid>
         </DataTemplate>
 
@@ -33,7 +33,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" MinHeight="40"/>
+                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AcceptsReturn="True" MinHeight="40"/>
             </Grid>
         </DataTemplate>
 

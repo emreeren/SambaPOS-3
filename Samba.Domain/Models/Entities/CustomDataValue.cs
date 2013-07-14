@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Samba.Domain.Models.Entities
 {
@@ -7,8 +8,11 @@ namespace Samba.Domain.Models.Entities
     {
         [DataMember]
         public string Name { get; set; }
+
         [DataMember]
         public string Value { get; set; }
+
         public EntityCustomField CustomField { get; set; }
     }
+
 }

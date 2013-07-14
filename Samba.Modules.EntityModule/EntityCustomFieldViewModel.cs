@@ -11,7 +11,7 @@ namespace Samba.Modules.EntityModule
         private string[] _fieldTypes;
         public string[] FieldTypes
         {
-            get { return _fieldTypes ?? (_fieldTypes = new[] { "String", "WideString", "Number" }); }
+            get { return _fieldTypes ?? (_fieldTypes = new[] { "String", "WideString", "Number", "Query" }); }
         }
 
         public string FieldType

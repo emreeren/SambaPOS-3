@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Samba.Infrastructure.Data;
 
@@ -14,6 +15,14 @@ namespace Samba.Domain.Models.Entities
         public bool IsString { get { return FieldType == 0; } }
         public bool IsWideString { get { return FieldType == 1; } }
         public bool IsNumber { get { return FieldType == 2; } }
-        public IEnumerable<string> Values { get { return (ValueSource ?? "").Split(',').Select(x => x.Trim()); } }
+        public bool IsQuery { get { return FieldType == 3; } }
+
+        private IEnumerable<string> _values;
+        public IEnumerable<string> Values { get { return _values ?? (_values = GetValues()); } }
+
+        private IEnumerable<string> GetValues()
+        {
+            return File.Exists(ValueSource) ? File.ReadAllLines(ValueSource) : (ValueSource ?? "").Split(',').Select(x => x.Trim());
+        }
     }
 }
