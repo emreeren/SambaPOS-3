@@ -120,8 +120,9 @@ namespace Samba.Modules.EntityModule
                     var format = entityCustomField.EditingFormat;
 
                     for (var i = 0; i < valueParts.Count; i++)
-                        format = format.Replace("$" + i + 1, valueParts[i]);
+                        format = format.Replace("$" + (i + 1), valueParts[i]);
 
+                    format = format.Replace("\r", Environment.NewLine);
                     var formatParts = format.Split(';');
 
                     foreach (var fieldParts in formatParts.Where(x => x.Contains('=')).Select(formatPart => formatPart.Split(new[] { '=' }, 2)))

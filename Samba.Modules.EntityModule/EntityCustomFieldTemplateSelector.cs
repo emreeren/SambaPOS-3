@@ -14,7 +14,7 @@ namespace Samba.Modules.EntityModule
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            var pv = item as CustomDataValue;
+            var pv = item as CustomDataValueViewModel;
             if (pv != null)
             {
                 if (!pv.CustomField.IsQuery && !string.IsNullOrEmpty(pv.CustomField.EditingFormat)) return MaskedTemplate;
