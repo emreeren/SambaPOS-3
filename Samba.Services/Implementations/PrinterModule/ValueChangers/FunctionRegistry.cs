@@ -69,6 +69,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.OrderState));
             RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Service));
             RegisterFunction<Ticket>("{EXCHANGE RATE:([^}]+)}", (x, d) => GexExchangeRate(d), Resources.ExchangeRate);
+            RegisterFunction<Ticket>("{TICKET QUANTITY SUM}", (x, d) => x.Orders.Sum(y => y.Quantity).ToString(LocalSettings.QuantityFormat));
 
             //ORDERS
             RegisterFunction<Order>(TagNames.Quantity, (x, d) => x.Quantity.ToString(LocalSettings.QuantityFormat), Resources.LineItemQuantity);
