@@ -12,5 +12,11 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
             var date = DateTime.Now;
             return string.Format("{0}{1:00}{2:00}{3:00}{4:00}{5:000}", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Millisecond);
         }
+
+        public static string GetDateTime()
+        {
+            var date = DateTime.Now;
+            return date.ToShortDateString() + " " + date.ToShortTimeString();
+        }
     }
 }
