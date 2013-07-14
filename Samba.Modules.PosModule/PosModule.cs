@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Samba.Domain.Models.Entities;
@@ -44,6 +45,14 @@ namespace Samba.Modules.PosModule
                 x =>
                 {
                     if (x.Topic == EventTopicNames.PaymentRequestedForTicket) Activate();
+                });
+            EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
+                x =>
+                {
+                    if (x.Topic == EventTopicNames.RefreshSelectedTicket)
+                    {
+                        _posView.BackgroundFocus();
+                    }
                 });
         }
 

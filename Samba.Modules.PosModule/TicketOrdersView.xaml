@@ -6,7 +6,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Focusable="False">
+             d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style x:Key="GroupLabelStyle" TargetType="TextBlock">
             <Style.Triggers>
