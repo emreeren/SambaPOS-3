@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ActionProcessors
 {
-    [Export]
+    [Export(typeof(IActionType))]
     class AddLineToTextFile : ActionType
     {
         private readonly ILogService _logService;

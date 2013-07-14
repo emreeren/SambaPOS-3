@@ -68,7 +68,7 @@ namespace Samba.Presentation.Services.Implementations.UserModule
             if (user != User.Nobody)
             {
                 user.PublishEvent(EventTopicNames.UserLoggedIn);
-                _applicationState.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = user, RoleName = user.UserRole.Name });
+                _applicationState.NotifyEvent(RuleEventNames.UserLoggedIn, new { User = user, UserName = user.Name, RoleName = user.UserRole.Name });
             }
             return user;
         }
@@ -78,7 +78,7 @@ namespace Samba.Presentation.Services.Implementations.UserModule
             var user = _applicationState.CurrentLoggedInUser;
             Debug.Assert(user != User.Nobody);
             user.PublishEvent(EventTopicNames.UserLoggedOut);
-            _applicationState.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = user, RoleName = user.UserRole.Name });
+            _applicationState.NotifyEvent(RuleEventNames.UserLoggedOut, new { User = user, UserName = user.Name, RoleName = user.UserRole.Name });
             _applicationStateSetter.SetCurrentLoggedInUser(User.Nobody);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ResetCache, true);
         }
