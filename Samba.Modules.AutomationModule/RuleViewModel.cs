@@ -51,7 +51,7 @@ namespace Samba.Modules.AutomationModule
             }
 
             Model.Actions.Clear();
-            choosenValues.Cast<ActionContainer>().OrderBy(x=>x.SortOrder).ToList().ForEach(x => Model.Actions.Add(x));
+            choosenValues.Cast<ActionContainer>().OrderBy(x => x.SortOrder).ToList().ForEach(x => Model.Actions.Add(x));
             _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService, _automationDao)));
 
             RaisePropertyChanged(() => Actions);
@@ -82,6 +82,8 @@ namespace Samba.Modules.AutomationModule
         public IEnumerable<RuleEvent> Events { get { return _automationService.GetRuleEvents(); } }
 
         public ICaptionCommand SelectActionsCommand { get; set; }
+
+        public string GroupValue { get { return Events.Any(x => x.EventKey == EventName) ? Events.First(x => x.EventKey == EventName).EventName : ""; } }
 
         public string EventName
         {
