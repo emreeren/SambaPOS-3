@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
 using FluentValidation;
 using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
-using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.PrinterModule
@@ -26,17 +24,22 @@ namespace Samba.Modules.PrinterModule
     public class PrinterViewModel : EntityViewModelBase<Printer>
     {
         private readonly IPrinterService _printerService;
+        private readonly IUserInteraction _userInteraction;
 
         [ImportingConstructor]
-        public PrinterViewModel(IPrinterService printerService)
+        public PrinterViewModel(IPrinterService printerService, IUserInteraction userInteraction)
         {
             _printerService = printerService;
+            _userInteraction = userInteraction;
             EditProcessorSettingsCommand = new CaptionCommand<string>(Resources.Settings, OnEditProcessorSettings);
+            EditCustomPrinterSettingsCommand = new CaptionCommand<string>(Resources.Settings,
+                                                                          OnEditCustomPrinterSettings, CanEditCustomPrinterSettings);
         }
 
         public ICaptionCommand EditProcessorSettingsCommand { get; set; }
+        public ICaptionCommand EditCustomPrinterSettingsCommand { get; set; }
 
-        public IList<string> PrinterTypes { get { return new[] { Resources.TicketPrinter, Resources.Text, Resources.Html, Resources.PortPrinter, Resources.DemoPrinter, Resources.WindowsPrinter }; } }
+        public IList<string> PrinterTypes { get { return new[] { Resources.TicketPrinter, Resources.Text, Resources.Html, Resources.PortPrinter, Resources.DemoPrinter, Resources.WindowsPrinter, "Custom Printer" }; } }
 
         public string ShareName
         {
@@ -55,23 +58,31 @@ namespace Samba.Modules.PrinterModule
             {
                 Model.PrinterType = PrinterTypes.IndexOf(value);
                 Description = GetPrinterTypeDescription(Model.PrinterType);
+                if (!IsCustomPrinter) CustomPrinterName = "";
+                RaisePropertyChanged(() => IsCustomPrinter);
             }
         }
 
         public int CodePage { get { return Model.CodePage; } set { Model.CodePage = value; } }
         public int CharsPerLine { get { return Model.CharsPerLine; } set { Model.CharsPerLine = value; } }
         public int PageHeight { get { return Model.PageHeight; } set { Model.PageHeight = value; } }
+
+        private string _description;
         public string Description
         {
             get { return _description; }
             set { _description = value; RaisePropertyChanged(() => Description); }
         }
 
+        public string CustomPrinterName { get { return Model.CustomPrinterName; } set { Model.CustomPrinterName = value; } }
+        public string CustomPrinterData { get { return Model.CustomPrinterData; } set { Model.CustomPrinterData = value; } }
+
         public bool IsProcessorSelected { get { return _printerService.GetPrinterProcessor(ShareName) != null; } }
+        public bool IsCustomPrinter { get { return Model.IsCustomPrinter; } }
+
+        public IEnumerable<string> CustomPrinterNames { get { return _printerService.GetCustomPrinterNames(); } }
 
         private IEnumerable<string> _printerNames;
-        private string _description;
-
         public IEnumerable<string> PrinterNames
         {
             get { return _printerNames ?? (_printerNames = GetPrinterNames()); }
@@ -83,6 +94,18 @@ namespace Samba.Modules.PrinterModule
             result.AddRange(_printerService.GetPrinterNames());
             result.AddRange(_printerService.GetProcessorNames());
             return result;
+        }
+
+        private bool CanEditCustomPrinterSettings(string arg)
+        {
+            return !string.IsNullOrEmpty(CustomPrinterName);
+        }
+
+        private void OnEditCustomPrinterSettings(string obj)
+        {
+            var settingsObject = _printerService.GetCustomPrinterData(CustomPrinterName, CustomPrinterData);
+            _userInteraction.EditProperties(settingsObject);
+            Model.UpdateCustomSettings(settingsObject);
         }
 
         private void OnEditProcessorSettings(string obj)

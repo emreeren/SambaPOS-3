@@ -4,18 +4,20 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
 {
     public static class PrintJobFactory
     {
-        public static AbstractPrintJob CreatePrintJob(Printer printer)
+        public static AbstractPrintJob CreatePrintJob(Printer printer, IPrinterService printerService)
         {
-            if (printer.PrinterType == 1)
+            if (printer.IsTextPrinter)
                 return new TextPrinterJob(printer);
-            if (printer.PrinterType == 2)
+            if (printer.IsHtmlPrinter)
                 return new HtmlPrinterJob(printer);
-            if (printer.PrinterType == 3)
+            if (printer.IsPortPrinter)
                 return new PortPrinterJob(printer);
-            if (printer.PrinterType == 4)
+            if (printer.IsDemoPrinter)
                 return new DemoPrinterJob(printer);
-            if (printer.PrinterType == 5)
+            if (printer.IsWindowsPrinter)
                 return new WindowsPrinterJob(printer);
+            if (printer.IsCustomPrinter)
+                return new CustomPrinterJob(printer, printerService);
             return new SlipPrinterJob(printer);
         }
     }

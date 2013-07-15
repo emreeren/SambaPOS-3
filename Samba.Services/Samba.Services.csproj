@@ -68,6 +68,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
@@ -76,6 +77,7 @@
     <Compile Include="Common\ActionType.cs" />
     <Compile Include="Common\AutomationCommandData.cs" />
     <Compile Include="Common\IActionType.cs" />
+    <Compile Include="Common\ICustomPrinter.cs" />
     <Compile Include="Common\IDevice.cs" />
     <Compile Include="Common\IPrinterProcessor.cs" />
     <Compile Include="Common\IProgramSetting.cs" />
@@ -123,7 +125,10 @@
     <Compile Include="Implementations\MenuModule\PriceListService.cs" />
     <Compile Include="Implementations\Messaging\MessagingService.cs" />
     <Compile Include="Implementations\PrinterModule\AccountTransactionDocumentFormatter.cs" />
+    <Compile Include="Implementations\PrinterModule\CustomPrinters\SaveToFilePrinter.cs" />
+    <Compile Include="Implementations\PrinterModule\CustomPrinters\UrlPrinter.cs" />
     <Compile Include="Implementations\PrinterModule\EntityFormatter.cs" />
+    <Compile Include="Implementations\PrinterModule\PrintJobs\CustomPrinterJob.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\AccountTransactionDocumentValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\AbstractLineFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\BoxFormatter.cs" />

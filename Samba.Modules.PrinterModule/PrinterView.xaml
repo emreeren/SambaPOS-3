@@ -20,9 +20,17 @@
             <ComboBox HorizontalAlignment="Left" MinWidth="250" IsEditable="True" ItemsSource="{Binding PrinterNames}"
                  Text="{Binding ShareName}" />
             <Label Content="{LocText PrinterType,Suffix=':'}"/>
-            <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding PrinterTypes}"
-                 SelectedItem="{Binding PrinterType}" />
-
+            <StackPanel Orientation="Horizontal">
+                <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding PrinterTypes}"
+                          SelectedItem="{Binding PrinterType}" />
+                <ComboBox Margin="5,0" HorizontalAlignment="Left" MinWidth="100" ItemsSource="{Binding CustomPrinterNames}" 
+                          SelectedItem="{Binding CustomPrinterName}" Visibility="{Binding IsCustomPrinter,Converter={StaticResource VisibilityConverter}}"/>
+                <TextBlock Margin="2,5" Visibility="{Binding IsCustomPrinter,Converter={StaticResource VisibilityConverter}}">
+                    <Hyperlink Command="{Binding EditCustomPrinterSettingsCommand}">
+                        <TextBlock Text="{Binding Path=EditCustomPrinterSettingsCommand.Caption}" />
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
             <Label Content="{LocText CharacterSet,Suffix=':'}"/>
 
             <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" MinWidth="100" Text="{Binding CodePage}" />

@@ -14,6 +14,8 @@ namespace Samba.Services
         IEnumerable<string> GetPrinterNames();
         IEnumerable<string> GetProcessorNames();
         IPrinterProcessor GetPrinterProcessor(string processorName);
+        IEnumerable<string> GetCustomPrinterNames();
+        ICustomPrinter GetCustomPrinter(string customPrinterName);
         void PrintTicket(Ticket ticket, PrintJob printer, Func<Order, bool> orderSelector);
         void PrintAccountTransactionDocument(AccountTransactionDocument document, Printer printer, PrinterTemplate printerTemplate);
         void PrintEntity(Entity entity, Printer printer, PrinterTemplate printerTemplate);
@@ -22,5 +24,6 @@ namespace Samba.Services
         IDictionary<string, string> GetTagDescriptions();
         void ResetCache();
         string GetPrintingContent(Ticket ticket, string format, int width);
+        object GetCustomPrinterData(string customPrinterName, string customPrinterData);
     }
 }

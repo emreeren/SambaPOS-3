@@ -46,6 +46,9 @@ namespace Samba.Services.Implementations.PrinterModule
         [ImportMany]
         public IEnumerable<IPrinterProcessor> PrinterProcessors { get; set; }
 
+        [ImportMany]
+        public IEnumerable<ICustomPrinter> CustomPrinters { get; set; }
+
         public IEnumerable<Printer> Printers
         {
             get { return _cacheService.GetPrinters(); }
@@ -76,6 +79,16 @@ namespace Samba.Services.Implementations.PrinterModule
             return PrinterProcessors.Select(x => x.Name);
         }
 
+        public IEnumerable<string> GetCustomPrinterNames()
+        {
+            return CustomPrinters.Select(x => x.Name);
+        }
+
+        public ICustomPrinter GetCustomPrinter(string customPrinterName)
+        {
+            return CustomPrinters.FirstOrDefault(x => x.Name == customPrinterName);
+        }
+
         private PrinterMap GetPrinterMapForItem(IEnumerable<PrinterMap> printerMaps, int menuItemId)
         {
             var menuItemGroupCode = _cacheService.GetMenuItemData(menuItemId, x => x.GroupCode);
@@ -104,7 +117,7 @@ namespace Samba.Services.Implementations.PrinterModule
             var lines = _accountTransactionDocumentFormatter.GetFormattedDocument(document, printerTemplate);
             if (lines != null)
             {
-                PrintJobFactory.CreatePrintJob(printer).DoPrint(lines);
+                Print(printer, lines);
             }
         }
 
@@ -113,7 +126,7 @@ namespace Samba.Services.Implementations.PrinterModule
             var lines = _entityFormatter.GetFormattedDocument(entity, printerTemplate);
             if (lines != null)
             {
-                PrintJobFactory.CreatePrintJob(printer).DoPrint(lines);
+                Print(printer, lines);
             }
         }
 
@@ -214,7 +227,6 @@ namespace Samba.Services.Implementations.PrinterModule
         {
             Debug.Assert(orders != null, "orders != null");
             var lns = orders.ToList();
-            if (!lns.Any()) return;
             if (map == null)
             {
                 MessageBox.Show(Resources.GeneralPrintErrorMessage);
@@ -224,19 +236,20 @@ namespace Samba.Services.Implementations.PrinterModule
             var printer = PrinterById(map.PrinterId);
             var prinerTemplate = PrinterTemplateById(map.PrinterTemplateId);
             if (printer == null || string.IsNullOrEmpty(printer.ShareName) || prinerTemplate == null) return;
+            if (!printer.IsCustomPrinter && !lns.Any()) return;
             var ticketLines = _ticketFormatter.GetFormattedTicket(ticket, lns, prinerTemplate);
 
             var processor = GetPrinterProcessor(printer.ShareName);
             if (processor != null)
                 ticketLines = processor.Process(ticket, lns, ticketLines);
             if (ticketLines != null)
-                PrintJobFactory.CreatePrintJob(printer).DoPrint(ticketLines);
+                Print(printer, ticketLines);
         }
 
         public void PrintReport(FlowDocument document, Printer printer)
         {
             if (printer == null || string.IsNullOrEmpty(printer.ShareName)) return;
-            PrintJobFactory.CreatePrintJob(printer).DoPrint(document);
+            Print(printer, document);
         }
 
         public void ExecutePrintJob(PrintJob printJob)
@@ -254,10 +267,12 @@ namespace Samba.Services.Implementations.PrinterModule
                 }
                 if (content != null)
                 {
-                    PrintJobFactory.CreatePrintJob(PrinterById(printerMap.PrinterId)).DoPrint(content);
+                    Print(printer, content);
                 }
             }
         }
+
+
 
         public IPrinterProcessor GetPrinterProcessor(string processorName)
         {
@@ -276,9 +291,25 @@ namespace Samba.Services.Implementations.PrinterModule
 
         public string GetPrintingContent(Ticket ticket, string format, int width)
         {
-            var lines = _ticketFormatter.GetFormattedTicket(ticket, ticket.Orders, new PrinterTemplate() { Template = format });
+            var lines = _ticketFormatter.GetFormattedTicket(ticket, ticket.Orders, new PrinterTemplate { Template = format });
             var result = new FormattedDocument(lines, width).GetFormattedText();
             return result;
+        }
+
+        public object GetCustomPrinterData(string customPrinterName, string customPrinterData)
+        {
+            var printer = GetCustomPrinter(customPrinterName);
+            return printer != null ? printer.GetSettingsObject(customPrinterData) : "";
+        }
+
+        private void Print(Printer printer, FlowDocument document)
+        {
+            PrintJobFactory.CreatePrintJob(printer, this).DoPrint(document);
+        }
+
+        private void Print(Printer printer, string[] document)
+        {
+            PrintJobFactory.CreatePrintJob(printer, this).DoPrint(document);
         }
     }
 }

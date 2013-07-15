@@ -185,6 +185,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         private string GetEntityFieldValue(Ticket ticket, string data)
         {
+            if (!data.Contains(':')) return "";
             var parts = data.Split(':');
             var et = _cacheService.GetEntityTypeIdByEntityName(parts[0]);
             return ticket.GetEntityFieldValue(et, parts[1]);
