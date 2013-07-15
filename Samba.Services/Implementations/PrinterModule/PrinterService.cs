@@ -44,9 +44,6 @@ namespace Samba.Services.Implementations.PrinterModule
         }
 
         [ImportMany]
-        public IEnumerable<IPrinterProcessor> PrinterProcessors { get; set; }
-
-        [ImportMany]
         public IEnumerable<ICustomPrinter> CustomPrinters { get; set; }
 
         public IEnumerable<Printer> Printers
@@ -72,11 +69,6 @@ namespace Samba.Services.Implementations.PrinterModule
         public IEnumerable<string> GetPrinterNames()
         {
             return PrinterInfo.GetPrinterNames();
-        }
-
-        public IEnumerable<string> GetProcessorNames()
-        {
-            return PrinterProcessors.Select(x => x.Name);
         }
 
         public IEnumerable<string> GetCustomPrinterNames()
@@ -238,10 +230,6 @@ namespace Samba.Services.Implementations.PrinterModule
             if (printer == null || string.IsNullOrEmpty(printer.ShareName) || prinerTemplate == null) return;
             if (!printer.IsCustomPrinter && !lns.Any()) return;
             var ticketLines = _ticketFormatter.GetFormattedTicket(ticket, lns, prinerTemplate);
-
-            var processor = GetPrinterProcessor(printer.ShareName);
-            if (processor != null)
-                ticketLines = processor.Process(ticket, lns, ticketLines);
             if (ticketLines != null)
                 Print(printer, ticketLines);
         }
@@ -260,23 +248,8 @@ namespace Samba.Services.Implementations.PrinterModule
                 var printerTemplate = PrinterTemplates.Single(x => x.Id == printerMap.PrinterTemplateId);
                 var content = printerTemplate.Template.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 var printer = PrinterById(printerMap.PrinterId);
-                var processor = GetPrinterProcessor(printer.ShareName);
-                if (processor != null)
-                {
-                    content = processor.Process(null, null, content);
-                }
-                if (content != null)
-                {
-                    Print(printer, content);
-                }
+                Print(printer, content);
             }
-        }
-
-
-
-        public IPrinterProcessor GetPrinterProcessor(string processorName)
-        {
-            return PrinterProcessors.FirstOrDefault(x => x.Name == processorName);
         }
 
         public IDictionary<string, string> GetTagDescriptions()

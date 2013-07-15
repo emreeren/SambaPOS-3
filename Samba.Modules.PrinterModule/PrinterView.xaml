@@ -9,14 +9,7 @@
         <StackPanel>
             <Label Content="{LocText PrinterName,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" Width="250" Text="{Binding Name}" />
-            <StackPanel Orientation="Horizontal">
-                <Label Content="{LocText ShareNameAndPortName,Suffix=':'}"/>
-                <TextBlock Margin="2,5" Visibility="{Binding IsProcessorSelected,Converter={StaticResource VisibilityConverter}}">
-                    <Hyperlink Command="{Binding EditProcessorSettingsCommand}">
-                        <TextBlock Text="{Binding Path=EditProcessorSettingsCommand.Caption}" />
-                    </Hyperlink>
-                </TextBlock>
-            </StackPanel>
+            <Label Content="{LocText ShareNameAndPortName,Suffix=':'}"/>
             <ComboBox HorizontalAlignment="Left" MinWidth="250" IsEditable="True" ItemsSource="{Binding PrinterNames}"
                  Text="{Binding ShareName}" />
             <Label Content="{LocText PrinterType,Suffix=':'}"/>

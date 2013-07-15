@@ -12,8 +12,6 @@ namespace Samba.Services
     public interface IPrinterService
     {
         IEnumerable<string> GetPrinterNames();
-        IEnumerable<string> GetProcessorNames();
-        IPrinterProcessor GetPrinterProcessor(string processorName);
         IEnumerable<string> GetCustomPrinterNames();
         ICustomPrinter GetCustomPrinter(string customPrinterName);
         void PrintTicket(Ticket ticket, PrintJob printer, Func<Order, bool> orderSelector);

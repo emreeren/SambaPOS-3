@@ -31,12 +31,10 @@ namespace Samba.Modules.PrinterModule
         {
             _printerService = printerService;
             _userInteraction = userInteraction;
-            EditProcessorSettingsCommand = new CaptionCommand<string>(Resources.Settings, OnEditProcessorSettings);
             EditCustomPrinterSettingsCommand = new CaptionCommand<string>(Resources.Settings,
                                                                           OnEditCustomPrinterSettings, CanEditCustomPrinterSettings);
         }
 
-        public ICaptionCommand EditProcessorSettingsCommand { get; set; }
         public ICaptionCommand EditCustomPrinterSettingsCommand { get; set; }
 
         public IList<string> PrinterTypes { get { return new[] { Resources.TicketPrinter, Resources.Text, Resources.Html, Resources.PortPrinter, Resources.DemoPrinter, Resources.WindowsPrinter, "Custom Printer" }; } }
@@ -44,11 +42,7 @@ namespace Samba.Modules.PrinterModule
         public string ShareName
         {
             get { return Model.ShareName; }
-            set
-            {
-                Model.ShareName = value;
-                RaisePropertyChanged(() => IsProcessorSelected);
-            }
+            set { Model.ShareName = value; }
         }
 
         public string PrinterType
@@ -58,7 +52,11 @@ namespace Samba.Modules.PrinterModule
             {
                 Model.PrinterType = PrinterTypes.IndexOf(value);
                 Description = GetPrinterTypeDescription(Model.PrinterType);
-                if (!IsCustomPrinter) CustomPrinterName = "";
+                if (!IsCustomPrinter)
+                {
+                    CustomPrinterName = "";
+                    CustomPrinterData = "";
+                }
                 RaisePropertyChanged(() => IsCustomPrinter);
             }
         }
@@ -77,7 +75,6 @@ namespace Samba.Modules.PrinterModule
         public string CustomPrinterName { get { return Model.CustomPrinterName; } set { Model.CustomPrinterName = value; } }
         public string CustomPrinterData { get { return Model.CustomPrinterData; } set { Model.CustomPrinterData = value; } }
 
-        public bool IsProcessorSelected { get { return _printerService.GetPrinterProcessor(ShareName) != null; } }
         public bool IsCustomPrinter { get { return Model.IsCustomPrinter; } }
 
         public IEnumerable<string> CustomPrinterNames { get { return _printerService.GetCustomPrinterNames(); } }
@@ -92,7 +89,6 @@ namespace Samba.Modules.PrinterModule
         {
             var result = new List<string>();
             result.AddRange(_printerService.GetPrinterNames());
-            result.AddRange(_printerService.GetProcessorNames());
             return result;
         }
 
@@ -106,12 +102,6 @@ namespace Samba.Modules.PrinterModule
             var settingsObject = _printerService.GetCustomPrinterData(CustomPrinterName, CustomPrinterData);
             _userInteraction.EditProperties(settingsObject);
             Model.UpdateCustomSettings(settingsObject);
-        }
-
-        private void OnEditProcessorSettings(string obj)
-        {
-            var processor = _printerService.GetPrinterProcessor(ShareName);
-            if (processor != null) processor.EditSettings();
         }
 
         public override Type GetViewType()

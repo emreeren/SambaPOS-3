@@ -79,7 +79,6 @@
     <Compile Include="Common\IActionType.cs" />
     <Compile Include="Common\ICustomPrinter.cs" />
     <Compile Include="Common\IDevice.cs" />
-    <Compile Include="Common\IPrinterProcessor.cs" />
     <Compile Include="Common\IProgramSetting.cs" />
     <Compile Include="Common\IProgramSettings.cs" />
     <Compile Include="Common\OrderTagData.cs" />

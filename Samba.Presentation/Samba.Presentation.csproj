@@ -256,10 +256,6 @@
       <Project>{0FE1BF9D-225A-4D7F-8AB5-102138110999}</Project>
       <Name>Samba.Modules.PrinterModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samba.Modules.SamplePrinterProcessor\Samba.Modules.SamplePrinterProcessor.csproj">
-      <Project>{64e71acc-7c1b-4356-b01b-257f1aefc330}</Project>
-      <Name>Samba.Modules.SamplePrinterProcessor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samba.Modules.TaskModule\Samba.Modules.TaskModule.csproj">
       <Project>{3E45DB85-2314-4874-BC75-44838CB129A4}</Project>
       <Name>Samba.Modules.TaskModule</Name>
