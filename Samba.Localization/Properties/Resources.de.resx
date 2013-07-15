@@ -1126,7 +1126,7 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
     <value>Einheitstypen</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
-    <value>Beleg geöffnet</value>
+    <value>Beleg öffnen</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Breite</value>

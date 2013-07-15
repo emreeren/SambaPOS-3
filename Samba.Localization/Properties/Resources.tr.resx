@@ -2577,7 +2577,7 @@ Kapat</value>
     <value>Negatif</value>
   </data>
   <data name="LoadTicket" xml:space="preserve">
-    <value>Adisyon Bul</value>
+    <value>Adisyon Yükle</value>
   </data>
   <data name="TicketExplorer" xml:space="preserve">
     <value>Belge Gezgini</value>
