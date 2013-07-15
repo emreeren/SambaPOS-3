@@ -717,13 +717,11 @@ namespace Samba.Presentation.Services.Common.DataGeneration
         private static void CreateDefaultCurrenciesIfNeeded()
         {
             LocalSettings.ReportCurrencyFormat = "#,0.00;(#,0.00);-";
-            LocalSettings.ReportQuantityFormat = "#.##;-#.##;-";
+            LocalSettings.ReportQuantityFormat = "0.##;-0.##;-";
             LocalSettings.CurrencyFormat = "#,#0.00";
-            LocalSettings.QuantityFormat = "#,##.##";
+            LocalSettings.QuantityFormat = "#,#0.##";
             LocalSettings.PrintoutCurrencyFormat = "#,#0.00;-#,#0.00;";
         }
-
-
 
         public static string GetDefaultTicketPrintTemplate()
         {
