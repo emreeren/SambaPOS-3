@@ -455,7 +455,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanEditTicketNote(string arg)
         {
-            return !SelectedTicket.IsClosed;
+            return SelectedTicket != Ticket.Empty && !SelectedTicket.IsClosed;
         }
 
         private void OnEditTicketNote(string obj)

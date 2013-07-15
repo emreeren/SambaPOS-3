@@ -122,6 +122,13 @@ namespace Samba.Modules.EntityModule
                     for (var i = 0; i < valueParts.Count; i++)
                         format = format.Replace("$" + (i + 1), valueParts[i]);
 
+                    var index = valueParts.Count;
+                    while (valueParts.Contains("$") && index < 20)
+                    {
+                        format = format.Replace("$" + index, "");
+                        index++;
+                    }
+
                     format = format.Replace("\r", Environment.NewLine);
                     var formatParts = format.Split(';');
 
@@ -137,7 +144,7 @@ namespace Samba.Modules.EntityModule
             return handled;
         }
 
-        private List<string> ParseCsv(string input)
+        private static List<string> ParseCsv(string input)
         {
             var sv = new List<string>();
             var regexObj = new Regex(@"""[^""\r\n]*""|'[^'\r\n]*'|[^,\r\n]*");

@@ -13,7 +13,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <TextBox Name="TicketNote" FontSize="22" Margin="3" MinHeight="60" AcceptsReturn="True" TextWrapping="Wrap"
-                 Text="{Binding SelectedTicket.Note}"/>
+                 Text="{Binding SelectedTicket.Note,UpdateSourceTrigger=PropertyChanged}"/>
         <VirtualKeyboard:KeyboardView3 Margin="3,0,3,0" Grid.Row="1"/>
         <FxButton:FlexButton Grid.Row="2" Margin="3" Height="65"
              Content="{Binding CloseCommand.Caption}" Command="{Binding CloseCommand}" ButtonColor="Red" />
