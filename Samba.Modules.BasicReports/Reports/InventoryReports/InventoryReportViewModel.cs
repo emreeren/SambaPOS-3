@@ -38,20 +38,25 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 
             foreach (var warehouseConsumption in lastPeriodicConsumption.WarehouseConsumptions.OrderBy(GetWarehouseOrder))
             {
-                var warehouse =
-                    _cacheService.GetWarehouses().SingleOrDefault(x => x.Id == warehouseConsumption.WarehouseId) ??
-                    Warehouse.Undefined;
-                var inventoryTableSlug = "InventoryTable_" + warehouseConsumption.WarehouseId;
-                report.AddColumTextAlignment(inventoryTableSlug, TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
-                report.AddColumnLength(inventoryTableSlug, "55*", "15*", "30*");
-                report.AddTable(inventoryTableSlug, warehouse.Name, "", "");
-
-                foreach (var periodicConsumptionItem in warehouseConsumption.PeriodicConsumptionItems)
+                if (warehouseConsumption.PeriodicConsumptionItems.Any(x => x.GetPhysicalInventory() != 0))
                 {
-                    report.AddRow(inventoryTableSlug,
-                        periodicConsumptionItem.InventoryItemName,
-                        periodicConsumptionItem.UnitName,
-                        periodicConsumptionItem.GetPhysicalInventory().ToString(LocalSettings.ReportQuantityFormat));
+                    var warehouse =
+                       _cacheService.GetWarehouses().SingleOrDefault(x => x.Id == warehouseConsumption.WarehouseId) ??
+                       Warehouse.Undefined;
+
+                    var inventoryTableSlug = "InventoryTable_" + warehouseConsumption.WarehouseId;
+
+                    report.AddColumTextAlignment(inventoryTableSlug, TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
+                    report.AddColumnLength(inventoryTableSlug, "55*", "15*", "30*");
+                    report.AddTable(inventoryTableSlug, warehouse.Name, "", "");
+
+                    foreach (var periodicConsumptionItem in warehouseConsumption.PeriodicConsumptionItems.Where(x => x.GetPhysicalInventory() != 0))
+                    {
+                        report.AddRow(inventoryTableSlug,
+                                      periodicConsumptionItem.InventoryItemName,
+                                      periodicConsumptionItem.UnitName,
+                                      periodicConsumptionItem.GetPhysicalInventory().ToString(LocalSettings.ReportQuantityFormat));
+                    }
                 }
             }
 
