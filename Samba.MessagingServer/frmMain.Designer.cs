@@ -61,7 +61,9 @@
             // edPort
             // 
             resources.ApplyResources(this.edPort, "edPort");
+            this.edPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Samba.MessagingServer.Properties.Settings.Default, "MessageServerPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.edPort.Name = "edPort";
+            this.edPort.Text = global::Samba.MessagingServer.Properties.Settings.Default.MessageServerPort;
             // 
             // lbStatus
             // 
