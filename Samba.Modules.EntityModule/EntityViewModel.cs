@@ -137,7 +137,9 @@ namespace Samba.Modules.EntityModule
     {
         public EntityValidator()
         {
+#if !DEBUG
             RuleFor(x => x.EntityTypeId).GreaterThan(0);
+#endif
         }
     }
 }

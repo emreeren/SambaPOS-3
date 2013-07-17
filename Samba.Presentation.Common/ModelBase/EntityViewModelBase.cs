@@ -158,7 +158,9 @@ namespace Samba.Presentation.Common.ModelBase
     {
         public EntityValidator()
         {
+#if !DEBUG		
             RuleFor(x => x.Name).NotEmpty();
+#endif
         }
     }
 }
