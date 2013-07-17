@@ -93,7 +93,7 @@ namespace Samba.Modules.TicketModule
             var ti = new TicketTag { Name = Resources.NewTag };
             Model.TicketTags.Add(ti);
             TicketTags.Add(new TicketTagViewModel(ti));
-            ti.SortOrder = Model.TicketTags.Max(x => x.SortOrder) + 1;
+            ti.SortOrder = Model.TicketTags.Any() ? Model.TicketTags.Max(x => x.SortOrder) + 1 : 0;
         }
 
         protected override void OnSave(string value)

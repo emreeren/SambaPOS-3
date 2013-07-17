@@ -80,7 +80,7 @@ namespace Samba.Modules.EntityModule
                     data =
                     new ObservableCollection<CustomDataValueViewModel>(
                         JsonHelper.Deserialize<List<CustomDataValue>>(customData)
-                        .Select(x => new CustomDataValueViewModel(x, CustomDataValueUpdatingEvent)));
+                        .Select(x => new CustomDataValueViewModel(x, CustomDataValueUpdating)));
             }
             finally
             {
@@ -102,13 +102,13 @@ namespace Samba.Modules.EntityModule
                 if (d == null)
                 {
                     var customDataValue = new CustomDataValue { Name = cf.Name, CustomField = cf };
-                    data.Add(new CustomDataValueViewModel(customDataValue, CustomDataValueUpdatingEvent));
+                    data.Add(new CustomDataValueViewModel(customDataValue, CustomDataValueUpdating));
                 }
                 else d.CustomField = cf;
             }
         }
 
-        bool CustomDataValueUpdatingEvent(EntityCustomField entityCustomField, string oldValue, string newValue)
+        bool CustomDataValueUpdating(EntityCustomField entityCustomField, string oldValue, string newValue)
         {
             var handled = false;
             if (entityCustomField.IsQuery && !string.IsNullOrEmpty(entityCustomField.EditingFormat) && entityCustomField.EditingFormat.Contains('='))

@@ -75,7 +75,7 @@ namespace Samba.Modules.TicketModule
         private void OnAddPropertyExecuted(string obj)
         {
             var orderTag = MenuItem.AddDefaultMenuItemProperty(Model);
-            orderTag.SortOrder = OrderTags.Max(x => x.Model.SortOrder) + 1;
+            orderTag.SortOrder = OrderTags.Any() ? OrderTags.Max(x => x.Model.SortOrder) + 1 : 0;
             OrderTags.Add(new OrderTagViewModel(orderTag, _menuService));
         }
 
