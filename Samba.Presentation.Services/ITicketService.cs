@@ -17,6 +17,7 @@ namespace Samba.Presentation.Services
         TicketCommitResult MergeTickets(IEnumerable<int> ticketIds);
         Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName);
         void AddPayment(Ticket ticket, PaymentType paymentType, Account account, decimal amount, decimal tenderedAmount);
+        Account GetAccountForPayment(Ticket ticket, PaymentType paymentType);
         void AddChangePayment(Ticket ticket, ChangePaymentType paymentType, Account account, decimal amount);
         void PayTicket(Ticket ticket, PaymentType template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
@@ -37,6 +38,5 @@ namespace Samba.Presentation.Services
         void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);
         bool CanMakeAccountTransaction(TicketEntity ticketEntity, AccountTransactionType accountTransactionType, decimal targetBalance);
         void UpdateOrderPrice(Order order, string portionName, string priceTag);
-        Account GetAccountForPayment(Ticket ticket, PaymentType paymentType);
     }
 }
