@@ -160,6 +160,9 @@
   <data name="Currency" xml:space="preserve">
     <value>Para Birimi</value>
   </data>
+  <data name="NumberpadValueEntered" xml:space="preserve">
+    <value>Numaratörden Değer Girildiğinde</value>
+  </data>
   <data name="ButtonColor" xml:space="preserve">
     <value>Düğme Rengi</value>
   </data>
@@ -205,11 +208,17 @@
   <data name="UserRoleList" xml:space="preserve">
     <value>Rol Listesi</value>
   </data>
+  <data name="UpdateOrderGiftState" xml:space="preserve">
+    <value>Siparişin İkram Durumunu Güncelle</value>
+  </data>
   <data name="ClearFilter" xml:space="preserve">
     <value>Temizle</value>
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
     <value>Fiyat listesini değiştir</value>
+  </data>
+  <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
+    <value>Siparişleri Mutfağa Yazdırma Görevi Başlat</value>
   </data>
   <data name="Warehouse" xml:space="preserve">
     <value>Depo</value>
@@ -844,6 +853,9 @@ Mesaj:
   <data name="TransactionMultiplierError" xml:space="preserve">
     <value>Hareket Çarpanı sıfır olmamalı</value>
   </data>
+  <data name="AccountBalanceDisplayFormat" xml:space="preserve">
+    <value>Hesap Bakiyesi Gösterim Biçimi</value>
+  </data>
   <data name="Costs" xml:space="preserve">
     <value>Maliyetler</value>
   </data>
@@ -989,6 +1001,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Product" xml:space="preserve">
     <value>Ürün</value>
   </data>
+  <data name="PrimaryFieldFormat" xml:space="preserve">
+    <value>Temel Alan Biçimi</value>
+  </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
     <value>Seçili elemanları sil</value>
   </data>
@@ -1042,6 +1057,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="NoTransactionsFoundFor_f" xml:space="preserve">
     <value>{0} bulunmamaktadır</value>
+  </data>
+  <data name="PrimaryFieldName" xml:space="preserve">
+    <value>Temel Alan Adı</value>
   </data>
   <data name="CanChangeDepartment" xml:space="preserve">
     <value>Departman değiştirebilir</value>
@@ -1196,6 +1214,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Duration" xml:space="preserve">
     <value>Süre</value>
   </data>
+  <data name="UpdateAvailableEntityColor" xml:space="preserve">
+    <value>Mevcut Varlık Rengini Güncelle</value>
+  </data>
   <data name="Minute" xml:space="preserve">
     <value>Dakika</value>
   </data>
@@ -1333,6 +1354,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="ReleaseLock" xml:space="preserve">
     <value>Kilidi Kaldır</value>
+  </data>
+  <data name="SetWidgetValue" xml:space="preserve">
+    <value>Widget Değerini kur</value>
   </data>
   <data name="Sales" xml:space="preserve">
     <value>Satışlar</value>
@@ -1481,6 +1505,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="DisplayAtPaymentScreen" xml:space="preserve">
     <value>Ödeme ekranında göster</value>
+  </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>{0} Yazdır</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Uyarı</value>
@@ -1685,6 +1712,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="DayOperations" xml:space="preserve">
     <value>Gün İşlemleri</value>
+  </data>
+  <data name="ModifyOrder" xml:space="preserve">
+    <value>Siparişi Güncelle</value>
   </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Benzersiz Adisyon Numarası</value>
@@ -1996,6 +2026,9 @@ Hata Mesajı:
   <data name="FontSize" xml:space="preserve">
     <value>Font Büyüklüğü</value>
   </data>
+  <data name="BillRequested" xml:space="preserve">
+    <value>Adisyon İstendi</value>
+  </data>
   <data name="ImagePath" xml:space="preserve">
     <value>Resim Yolu</value>
   </data>
@@ -2019,6 +2052,9 @@ Hata Mesajı:
   </data>
   <data name="AutoRefreshInterval" xml:space="preserve">
     <value>Otomatik Yenileme Süresi</value>
+  </data>
+  <data name="UpdateMovedEntityColor" xml:space="preserve">
+    <value>Taşınan Varlık Rengini Güncelle</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Evet</value>
@@ -2162,7 +2198,7 @@ Hata Mesajı:
     <value>Adisyon Numaratörü</value>
   </data>
   <data name="Update_f" xml:space="preserve">
-    <value> {0} Güncelle</value>
+    <value>{0} Güncelle</value>
   </data>
   <data name="Eighteen" xml:space="preserve">
     <value>Onsekiz</value>
@@ -2415,6 +2451,9 @@ Hata Mesajı:
   </data>
   <data name="Excluded" xml:space="preserve">
     <value>Hariç</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Soru</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Önceki</value>
@@ -2823,6 +2862,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   <data name="PinCode" xml:space="preserve">
     <value>Pin Kodu</value>
   </data>
+  <data name="ExecutePrintBillJob" xml:space="preserve">
+    <value>Adisyon Yazdırma Görevini Çalıştır</value>
+  </data>
   <data name="DiscountPercentSign" xml:space="preserve">
     <value>% İskonto</value>
   </data>
@@ -2864,6 +2906,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>Geçmiş günsonu belgeleri silinemez.</value>
+  </data>
+  <data name="LoopValues" xml:space="preserve">
+    <value>Değerleri Döngüye Ata</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Eski Adisyonları görüntüleyebilir</value>

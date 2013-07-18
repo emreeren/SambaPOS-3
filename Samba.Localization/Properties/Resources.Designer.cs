@@ -5268,6 +5268,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pay Ticket.
+        /// </summary>
+        public static string PayTicket {
+            get {
+                return ResourceManager.GetString("PayTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Period: {0}.
         /// </summary>
         public static string Period_f {

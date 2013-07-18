@@ -3334,4 +3334,7 @@ Error Message:
   <data name="Question" xml:space="preserve">
     <value>Question</value>
   </data>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Pay Ticket</value>
+  </data>
 </root>

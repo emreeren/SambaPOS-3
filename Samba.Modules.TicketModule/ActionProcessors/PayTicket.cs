@@ -1,18 +1,19 @@
 ﻿using System.ComponentModel.Composition;
 using Samba.Domain.Models.Tickets;
+using Samba.Localization.Properties;
 using Samba.Presentation.Services;
 using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    [Export(typeof(IActionType))] //MEF
+    [Export(typeof(IActionType))]
     class PayTicket : ActionType
     {
         private readonly ITicketService _ticketService;
         private readonly ICacheService _cacheService;
 
-        [ImportingConstructor] //MEF 
+        [ImportingConstructor]
         public PayTicket(ITicketService ticketService, ICacheService cacheService)
         {
             _ticketService = ticketService;
@@ -31,6 +32,7 @@ namespace Samba.Modules.TicketModule.ActionProcessors
                 {
                     _ticketService.PayTicket(ticket, paymentType);
                 }
+                actionData.DataObject.RemainingAmount = 0m;
             }
         }
 
@@ -41,7 +43,7 @@ namespace Samba.Modules.TicketModule.ActionProcessors
 
         protected override string GetActionName()
         {
-            return "Pay Ticket";
+            return Resources.PayTicket;
         }
 
         protected override string GetActionKey()

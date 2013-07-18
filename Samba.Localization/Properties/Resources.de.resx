@@ -848,6 +848,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="TransactionMultiplierError" xml:space="preserve">
     <value>Transaktions-Multiplikator darf nicht 0 sein.</value>
   </data>
+  <data name="AccountBalanceDisplayFormat" xml:space="preserve">
+    <value>Kontostand Anzeige Format</value>
+  </data>
   <data name="Costs" xml:space="preserve">
     <value>Kosten</value>
   </data>
@@ -1510,6 +1513,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="DisplayAtPaymentScreen" xml:space="preserve">
     <value>auf Zahlungsmaske anzeigen</value>
   </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>Drucke {0}</value>
+  </data>
   <data name="Warning" xml:space="preserve">
     <value>Warnung</value>
   </data>
@@ -1713,6 +1719,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="DayOperations" xml:space="preserve">
     <value>Arbeitszeiten</value>
+  </data>
+  <data name="ModifyOrder" xml:space="preserve">
+    <value>Bestellung ändern</value>
   </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Eindeutige Beleg Id</value>
@@ -2455,6 +2464,9 @@ Fehlernachricht:
   </data>
   <data name="Excluded" xml:space="preserve">
     <value>Exklusive</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Frage</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Vorherige</value>
