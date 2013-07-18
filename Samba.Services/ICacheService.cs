@@ -83,5 +83,6 @@ namespace Samba.Services
         IEnumerable<InventoryTransactionType> GetInventoryTransactionTypes();
         EntityScreen GetEntityScreenByName(string screenName);
 
+        PaymentType GetPaymentTypeByName(string paymentTypeName);
     }
 }
