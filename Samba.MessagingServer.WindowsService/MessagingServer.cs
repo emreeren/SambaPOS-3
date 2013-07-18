@@ -23,7 +23,6 @@ namespace Samba.MessagingServer.WindowsService
 
         protected override void OnStart(string[] args)
         {
-            if (Properties.Settings.Default.AutoStartServer)
                 StartServer();
         }
 

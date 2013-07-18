@@ -28,14 +28,14 @@ namespace Samba.MessagingServer.WindowsService
         /// </summary>
         private void InitializeComponent()
         {
-            this.serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
+            this.ProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
             this.MessagingServerInstaller = new System.ServiceProcess.ServiceInstaller();
             // 
-            // serviceProcessInstaller1
+            // ProcessInstaller
             // 
-            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.NetworkService;
-            this.serviceProcessInstaller1.Password = null;
-            this.serviceProcessInstaller1.Username = null;
+            this.ProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalService;
+            this.ProcessInstaller.Password = null;
+            this.ProcessInstaller.Username = null;
             // 
             // MessagingServerInstaller
             // 
@@ -46,14 +46,14 @@ namespace Samba.MessagingServer.WindowsService
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
-            this.serviceProcessInstaller1,
+            this.ProcessInstaller,
             this.MessagingServerInstaller});
 
         }
 
         #endregion
 
-        private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller1;
+        private System.ServiceProcess.ServiceProcessInstaller ProcessInstaller;
         private System.ServiceProcess.ServiceInstaller MessagingServerInstaller;
     }
 }
