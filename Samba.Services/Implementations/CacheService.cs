@@ -570,7 +570,10 @@ namespace Samba.Services.Implementations
             return EntityScreens.FirstOrDefault(x => x.Name == screenName);
         }
 
-
+        public PaymentType GetPaymentTypeByName(string paymentTypeName)
+        {
+            return PaymentTypes.Single(x => x.Name == paymentTypeName);
+        }
 
         private IEnumerable<Printer> _printers;
         public IEnumerable<Printer> Printers
