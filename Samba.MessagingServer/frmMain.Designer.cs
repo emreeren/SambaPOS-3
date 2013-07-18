@@ -33,10 +33,17 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.edPort = new System.Windows.Forms.TextBox();
             this.lbStatus = new System.Windows.Forms.Label();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.WindowsService = new System.Windows.Forms.GroupBox();
+            this.UninstallService = new System.Windows.Forms.Button();
+            this.InstallService = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.edPort = new System.Windows.Forms.TextBox();
+            this.UpdateUiTimer = new System.Windows.Forms.Timer(this.components);
+            this.StartService = new System.Windows.Forms.Button();
+            this.StopService = new System.Windows.Forms.Button();
+            this.WindowsService.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
@@ -58,13 +65,6 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // edPort
-            // 
-            resources.ApplyResources(this.edPort, "edPort");
-            this.edPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Samba.MessagingServer.Properties.Settings.Default, "MessageServerPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.edPort.Name = "edPort";
-            this.edPort.Text = global::Samba.MessagingServer.Properties.Settings.Default.MessageServerPort;
-            // 
             // lbStatus
             // 
             resources.ApplyResources(this.lbStatus, "lbStatus");
@@ -76,6 +76,30 @@
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             // 
+            // WindowsService
+            // 
+            resources.ApplyResources(this.WindowsService, "WindowsService");
+            this.WindowsService.Controls.Add(this.StopService);
+            this.WindowsService.Controls.Add(this.StartService);
+            this.WindowsService.Controls.Add(this.UninstallService);
+            this.WindowsService.Controls.Add(this.InstallService);
+            this.WindowsService.Name = "WindowsService";
+            this.WindowsService.TabStop = false;
+            // 
+            // UninstallService
+            // 
+            resources.ApplyResources(this.UninstallService, "UninstallService");
+            this.UninstallService.Name = "UninstallService";
+            this.UninstallService.UseVisualStyleBackColor = true;
+            this.UninstallService.Click += new System.EventHandler(this.UninstallService_Click);
+            // 
+            // InstallService
+            // 
+            resources.ApplyResources(this.InstallService, "InstallService");
+            this.InstallService.Name = "InstallService";
+            this.InstallService.UseVisualStyleBackColor = true;
+            this.InstallService.Click += new System.EventHandler(this.InstallService_Click);
+            // 
             // checkBox1
             // 
             resources.ApplyResources(this.checkBox1, "checkBox1");
@@ -84,10 +108,36 @@
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // edPort
+            // 
+            this.edPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Samba.MessagingServer.Properties.Settings.Default, "MessageServerPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            resources.ApplyResources(this.edPort, "edPort");
+            this.edPort.Name = "edPort";
+            this.edPort.Text = global::Samba.MessagingServer.Properties.Settings.Default.MessageServerPort;
+            // 
+            // UpdateUiTimer
+            // 
+            this.UpdateUiTimer.Tick += new System.EventHandler(this.UpdateUiTimer_Tick);
+            // 
+            // StartService
+            // 
+            resources.ApplyResources(this.StartService, "StartService");
+            this.StartService.Name = "StartService";
+            this.StartService.UseVisualStyleBackColor = true;
+            this.StartService.Click += new System.EventHandler(this.StartService_Click);
+            // 
+            // StopService
+            // 
+            resources.ApplyResources(this.StopService, "StopService");
+            this.StopService.Name = "StopService";
+            this.StopService.UseVisualStyleBackColor = true;
+            this.StopService.Click += new System.EventHandler(this.StopService_Click);
+            // 
             // frmMain
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.WindowsService);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.lbStatus);
             this.Controls.Add(this.edPort);
@@ -102,6 +152,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Shown += new System.EventHandler(this.frmMain_Shown);
             this.Resize += new System.EventHandler(this.frmMain_Resize);
+            this.WindowsService.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,6 +167,12 @@
         private System.Windows.Forms.Label lbStatus;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.GroupBox WindowsService;
+        private System.Windows.Forms.Button InstallService;
+        private System.Windows.Forms.Button UninstallService;
+        private System.Windows.Forms.Timer UpdateUiTimer;
+        private System.Windows.Forms.Button StopService;
+        private System.Windows.Forms.Button StartService;
     }
 }
 
