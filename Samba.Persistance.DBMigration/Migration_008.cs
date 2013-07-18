@@ -17,6 +17,7 @@ namespace Samba.Persistance.DBMigration
 
             Create.Column("HideZeroBalanceAccounts").OnTable("AccountScreenValues").AsBoolean().WithDefaultValue(false);
             Create.Column("DisplayAsTree").OnTable("AccountScreens").AsBoolean().WithDefaultValue(false);
+            
             Create.Column("ReportPrinterId").OnTable("Terminals").AsInt32().WithDefaultValue(0);
 
             if (dc.Database.Connection.ConnectionString.EndsWith(".sdf"))
