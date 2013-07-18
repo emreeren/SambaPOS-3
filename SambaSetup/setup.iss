@@ -90,6 +90,7 @@ Source: src\Samba.Domain.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Infrastructure.Data.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Infrastructure.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.MessagingServer.exe; DestDir: {app}; Flags: ignoreversion
+Source: src\Samba.MessagingServer.WindowsService.exe; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.AccountModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.AutomationModule.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Samba.Modules.BasicReports.dll; DestDir: {app}; Flags: ignoreversion
