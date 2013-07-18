@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+ï»¿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <assemblyIdentity version="1.0.0.0" name="MyApplication.app"/>
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
         <!-- UAC-Manifestoptionen
-          Wenn Sie die Zugangsebene für das Windows-Benutzerkonto ändern möchten, ersetzen Sie den 
+          Wenn Sie die Zugangsebene fÃ¼r das Windows-Benutzerkonto Ã¤ndern mÃ¶chten, ersetzen Sie den 
           requestedExecutionLevel-Knoten durch eines der folgenden Elemente.
 
         <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
@@ -13,8 +13,8 @@
         <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
 
             Durch Angeben des requestedExecutionLevel-Knotens wird die Datei- und Registrierungsvirtualisierung deaktiviert.
-            Wenn Sie Datei- und Registrierungsvirtualisierung für Abwärts- 
-            kompatibilität verwenden möchten, löschen Sie den requestedExecutionLevel-Knoten.
+            Wenn Sie Datei- und Registrierungsvirtualisierung fÃ¼r AbwÃ¤rts- 
+            kompatibilitÃ¤t verwenden mÃ¶chten, lÃ¶schen Sie den requestedExecutionLevel-Knoten.
         -->
         <requestedExecutionLevel level="highestAvailable" uiAccess="false" />
       </requestedPrivileges>
@@ -24,7 +24,7 @@
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
     <application>
       <!-- Eine Liste aller Windows-Versionen, mit denen die Anwendung kompatibel ist. 
-      Windows wählt automatisch die am stärksten kompatible Umgebung aus.-->
+      Windows wÃ¤hlt automatisch die am stÃ¤rksten kompatible Umgebung aus.-->
 
       <!-- Wenn die Anwendung mit Windows Vista kompatibel ist, heben Sie die Auskommentierung des folgenden supportedOS-Knotens auf-->
       <!--<supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"></supportedOS>-->
@@ -38,7 +38,7 @@
     </application>
   </compatibility>
 
-  <!-- Designs für allgemeine Windows-Steuerelemente und -Dialogfelder (Windows XP und höher) aktivieren -->
+  <!-- Designs fÃ¼r allgemeine Windows-Steuerelemente und -Dialogfelder (Windows XP und hÃ¶her) aktivieren -->
   <!-- <dependency>
     <dependentAssembly>
       <assemblyIdentity

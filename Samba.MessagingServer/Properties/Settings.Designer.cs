@@ -41,10 +41,10 @@ namespace Samba.MessagingServer.Properties {
         public string MessageServerPort {
             get {
                 return ((string)(this["MessageServerPort"]));
-    }
+            }
             set {
                 this["MessageServerPort"] = value;
-}
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Samba.MessagingServer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentCulture;
-            Application.Run(new frmMain());
+            Application.Run(new FrmMain());
         }
     }
 }

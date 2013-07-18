@@ -1,67 +1,51 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 using Samba.Infrastructure.Messaging;
-using Samba.MessagingServer.Properties;
 
 namespace Samba.MessagingServer.WindowsService
 {
     public partial class MessagingServer : ServiceBase
     {
+        internal static readonly string MessagingServerPortFile = string.Format("{0}{1}",
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+            @"\Ozgu Tech\SambaPOS3\MessagingServerPort.dat");
+        internal static readonly int StdPort = 8080;
+        private static TcpChannel _channel;
+
         public MessagingServer()
         { InitializeComponent(); }
 
-        protected override void OnStart(string[] args)
-        {
-                StartServer();
-        }
+        public int MessagingServerPort
+        { 
+            get
+            { 
+                if (!File.Exists(MessagingServerPortFile))
+                { File.WriteAllText(MessagingServerPortFile, StdPort.ToString()); }
 
-        private static TcpChannel _channel;
-
-        private void StartServer()
-        {
-            var port = Convert.ToInt32(Settings.Default.MessageServerPort);
-            var serverProv = new BinaryServerFormatterSinkProvider
-            { TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full };
-
-            var clientProv = new BinaryClientFormatterSinkProvider();
-
-            IDictionary props = new Hashtable();
-            props["port"] = port;
-
-            _channel = new TcpChannel(props, clientProv, serverProv);
-            ChannelServices.RegisterChannel(_channel, false);
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(MessagingServerObject),
-                "ChatServer", WellKnownObjectMode.Singleton);
-        }
-
-        private void StopServer()
-        {
-            if (_channel != null)
+                return Convert.ToInt32(File.ReadAllText(MessagingServerPortFile));
+            }
+            set
             {
-                ChannelServices.UnregisterChannel(_channel);
-                _channel = null;
+                File.WriteAllText(MessagingServerPortFile, value.ToString());
+                if (EventLog != null)
+                {
+                    EventLog.WriteEntry(string.Format("Setting MessagingServerPort to {0}.", value.ToString()));
+                }
             }
         }
 
-        protected override void OnStop()
-        { StopServer(); }
+        protected override void OnContinue()
+        { StartServer(); }
 
         protected override void OnPause()
         { StopServer(); }
-
-        protected override void OnContinue()
-        { StartServer(); }
 
         protected override bool OnPowerEvent(PowerBroadcastStatus powerStatus)
         {
@@ -93,8 +77,70 @@ namespace Samba.MessagingServer.WindowsService
         }
 
         protected override void OnShutdown()
-        {             
-            StopServer();
+        { StopServer(); }
+
+        // Argument "Port=8080" sets the Port to 8080!
+        protected override void OnStart(string[] args)
+        {
+            Dictionary<string, string> argsDic = ParseArgs(args);
+
+            string argsEventLogString = string.Empty;
+
+            foreach (KeyValuePair<string, string> arg in argsDic)
+            { argsEventLogString += string.Format("{0}: {1}", arg.Key, arg.Value); }
+
+            if (argsEventLogString != string.Empty)
+            {
+                argsEventLogString = string.Format("OnStart Arguments:\n{0}", argsEventLogString);
+                EventLog.WriteEntry(argsEventLogString);
+            }
+
+            if (argsDic.ContainsKey("Port") && argsDic["Port"] != string.Empty)
+            { MessagingServerPort = Convert.ToInt32(argsDic["Port"]); }
+
+            StartServer();
+        }
+  
+        protected override void OnStop()
+        { StopServer(); }
+
+        private Dictionary<string, string> ParseArgs(string[] args)
+        {
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+
+            foreach (string arg in args)
+            {
+                var split = arg.Split('=');
+                if (split != null && split[0] != null && split[1] != null && split[0] != string.Empty)
+                { ret.Add(split[0], split[1]); }
+            }
+            return ret;
+        }
+
+        private void StartServer()
+        {
+            EventLog.WriteEntry(string.Format("Starting MessagingServer on port {0}.", MessagingServerPort));
+            var serverProv = new BinaryServerFormatterSinkProvider
+                                                                  { TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full };
+
+            var clientProv = new BinaryClientFormatterSinkProvider();
+
+            IDictionary props = new Hashtable();
+            props["port"] = MessagingServerPort;
+
+            _channel = new TcpChannel(props, clientProv, serverProv);
+            ChannelServices.RegisterChannel(_channel, false);
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(MessagingServerObject),
+                "ChatServer", WellKnownObjectMode.Singleton);
+        }
+
+        private void StopServer()
+        {
+            if (_channel != null)
+            {
+                ChannelServices.UnregisterChannel(_channel);
+                _channel = null;
+            }
         }
     }
 }

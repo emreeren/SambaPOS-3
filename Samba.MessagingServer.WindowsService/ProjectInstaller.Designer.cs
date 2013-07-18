@@ -1,4 +1,4 @@
-namespace Samba.MessagingServer.WindowsService
+ï»¿namespace Samba.MessagingServer.WindowsService
 {
     partial class ProjectInstaller
     {
@@ -10,7 +10,7 @@ namespace Samba.MessagingServer.WindowsService
         /// <summary> 
         /// Verwendete Ressourcen bereinigen.
         /// </summary>
-        /// <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        /// <param name="disposing">True, wenn verwaltete Ressourcen gelÃ¶scht werden sollen; andernfalls False.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -23,8 +23,8 @@ namespace Samba.MessagingServer.WindowsService
         #region Vom Komponenten-Designer generierter Code
 
         /// <summary>
-        /// Erforderliche Methode für die Designerunterstützung.
-        /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+        /// Erforderliche Methode fÃ¼r die DesignerunterstÃ¼tzung.
+        /// Der Inhalt der Methode darf nicht mit dem Code-Editor geÃ¤ndert werden.
         /// </summary>
         private void InitializeComponent()
         {
@@ -39,7 +39,8 @@ namespace Samba.MessagingServer.WindowsService
             // 
             // MessagingServerInstaller
             // 
-            this.MessagingServerInstaller.DisplayName = "SambaPOS 3 MessagingServer-WindowsService";
+            this.MessagingServerInstaller.Description = "This service enables the updating of the POS screen";
+            this.MessagingServerInstaller.DisplayName = "SambaPOS 3 MessagingServer";
             this.MessagingServerInstaller.ServiceName = "SambaPOS3-MessagingServer";
             this.MessagingServerInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 

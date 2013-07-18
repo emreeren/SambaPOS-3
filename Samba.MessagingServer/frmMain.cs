@@ -1,39 +1,23 @@
 ﻿using System;
-using System.Collections;
-using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.ServiceProcess;
+using System.Threading;
 using System.Windows.Forms;
-using Samba.Infrastructure.Messaging;
-using Samba.MessagingServer.Properties;
+using Samba.MessagingServer.WindowsService;
 
 namespace Samba.MessagingServer
 {
-    public partial class frmMain : Form
+    public partial class FrmMain : Form
     {
         private static TcpChannel _channel;
 
-        public frmMain()
+        public FrmMain()
         {
             InitializeComponent();
+            edPort.Text = ServiceHelper.MessagingServerPort.ToString();
             CheckServices();
             UpdateUiTimer.Start();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        { StartServer(); }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (_channel != null)
-            {
-                ChannelServices.UnregisterChannel(_channel);
-                _channel = null;
-                lbStatus.Text = Resources.status_stopped;
-                btnStart.Enabled = true;
-                btnStop.Enabled = false;
-            }
         }
 
         private void CheckServices()
@@ -87,14 +71,14 @@ namespace Samba.MessagingServer
             }
         }
 
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmMainFormClosing(object sender, FormClosingEventArgs e)
         {
             if (_channel != null)
             { ChannelServices.UnregisterChannel(_channel); }
             Properties.Settings.Default.Save();
         }
 
-        private void frmMain_Resize(object sender, EventArgs e)
+        private void FrmMainResize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
             { Hide(); }
@@ -102,16 +86,13 @@ namespace Samba.MessagingServer
             { Show(); }
         }
 
-        private void frmMain_Shown(object sender, EventArgs e)
-        {
-            if (Properties.Settings.Default.AutoStartServer)
-            { StartServer(); }
-        }
+        private void FrmMainShown(object sender, EventArgs e)
+        { }
 
-        private void InstallService_Click(object sender, EventArgs e)
+        private void InstallServiceClick(object sender, EventArgs e)
         { ServiceHelper.InstallWindowsService(); }
 
-        private void notifyIcon1_Click(object sender, EventArgs e)
+        private void NotifyIcon1Click(object sender, EventArgs e)
         {
             if (WindowState != FormWindowState.Minimized)
             { WindowState = FormWindowState.Minimized; }
@@ -119,7 +100,7 @@ namespace Samba.MessagingServer
             WindowState = FormWindowState.Normal;
         }
 
-        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        private void NotifyIcon1DoubleClick(object sender, EventArgs e)
         {
             if (WindowState != FormWindowState.Minimized)
             { WindowState = FormWindowState.Minimized; }
@@ -127,42 +108,26 @@ namespace Samba.MessagingServer
             WindowState = FormWindowState.Normal;
         }
 
-        private void StartServer()
-        {
-            var port = Convert.ToInt32(edPort.Text);
-            var serverProv = new BinaryServerFormatterSinkProvider
-            { TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full };
+        private void StartServiceClick(object sender, EventArgs e)
+        { ServiceHelper.StartService(); }
 
-            var clientProv = new BinaryClientFormatterSinkProvider();
+        private void StopServiceClick(object sender, EventArgs e)
+        { ServiceHelper.StopService(); }
 
-            IDictionary props = new Hashtable();
-            props["port"] = port;
-
-            _channel = new TcpChannel(props, clientProv, serverProv);
-            ChannelServices.RegisterChannel(_channel, false);
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(MessagingServerObject),
-                                                               "ChatServer", WellKnownObjectMode.Singleton);
-
-            lbStatus.Text = Resources.status_working;
-            btnStart.Enabled = false;
-            btnStop.Enabled = true;
-            WindowState = FormWindowState.Minimized;
-        }
-
-        private void UninstallService_Click(object sender, EventArgs e)
+        private void UninstallServiceClick(object sender, EventArgs e)
         { ServiceHelper.UninstallWindowsService(); }
 
-        private void UpdateUiTimer_Tick(object sender, EventArgs e)
-        { CheckServices(); }
-
-        private void StartService_Click(object sender, EventArgs e)
-        {
-            ServiceHelper.StartService();
-        }
-
-        private void StopService_Click(object sender, EventArgs e)
+        private void UpdatePortBtClick(object sender, EventArgs e)
         {
             ServiceHelper.StopService();
+            while (ServiceHelper.CheckServiceStatus() == ServiceControllerStatus.StopPending)
+            {
+                Thread.Sleep(100);
+            }
+            ServiceHelper.StartService(new string[] { string.Format("Port={0}", edPort.Text) });
         }
-        }
+
+        private void UpdateUiTimerTick(object sender, EventArgs e)
+        { CheckServices(); }
+    }
 }
