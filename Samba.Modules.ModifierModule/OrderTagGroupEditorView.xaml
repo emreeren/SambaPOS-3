@@ -120,9 +120,9 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,5,0,10" >
 
                                     <Label FontSize="18" Content="{LocText Name,Suffix=':'}" />
-                                    <TextBox FontSize="18" FontWeight="Normal" MinWidth="120" Text="{Binding FreeTagName}" Loaded="TextBox_Loaded" ></TextBox>
+                                    <TextBox VerticalContentAlignment="Center" FontSize="18" FontWeight="Normal" MinWidth="120" Text="{Binding FreeTagName,UpdateSourceTrigger=PropertyChanged}" Loaded="TextBox_Loaded" ></TextBox>
                                     <Label FontSize="18" Content="{LocText Price,Suffix=':'}"/>
-                                    <UIControls:FilteredTextBox FontSize="18" FontWeight="Normal" MinWidth="70" Type="Number" Text="{Binding FreeTagPriceStr}"/>
+                                    <UIControls:FilteredTextBox VerticalContentAlignment="Center" FontSize="18" FontWeight="Normal" MinWidth="70" Type="Number" Text="{Binding FreeTagPriceStr,UpdateSourceTrigger=PropertyChanged}"/>
                                     <FxButton:FlexButton Margin="5,0" Padding="3" MinWidth="50" Command="{Binding DataContext.FreeTagSelectedCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                                      Content="{LocText Add}" CommandParameter="{Binding}"/>
                                 </StackPanel>
