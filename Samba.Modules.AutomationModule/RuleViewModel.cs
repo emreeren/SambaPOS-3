@@ -52,7 +52,7 @@ namespace Samba.Modules.AutomationModule
 
             Model.Actions.Clear();
             choosenValues.Cast<ActionContainer>().OrderBy(x => x.SortOrder).ToList().ForEach(x => Model.Actions.Add(x));
-            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService, _automationDao)));
+            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.OrderBy(x => x.SortOrder).Select(x => new ActionContainerViewModel(x, this, _automationService, _automationDao)));
 
             RaisePropertyChanged(() => Actions);
 
@@ -117,7 +117,7 @@ namespace Samba.Modules.AutomationModule
         {
             MapController = new MapController<AppRuleMap, AbstractMapViewModel<AppRuleMap>>(Model.AppRuleMaps, Workspace);
 
-            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.Select(x => new ActionContainerViewModel(x, this, _automationService, _automationDao)));
+            _actions = new ObservableCollection<ActionContainerViewModel>(Model.Actions.OrderBy(x => x.SortOrder).Select(x => new ActionContainerViewModel(x, this, _automationService, _automationDao)));
 
             if (!string.IsNullOrEmpty(Model.EventConstraints))
             {
