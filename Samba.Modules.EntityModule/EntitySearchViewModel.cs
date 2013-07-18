@@ -87,7 +87,7 @@ namespace Samba.Modules.EntityModule
         private string _searchString;
         public string SearchString
         {
-            get { return string.IsNullOrEmpty(_searchString) ? null : _searchString.TrimStart('+', '0'); }
+            get { return string.IsNullOrEmpty(_searchString) ? null : _searchString; }
             set
             {
                 if (value != _searchString)
