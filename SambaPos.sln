@@ -54,7 +54,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Service Layer", "2. Serv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Services", "Samba.Services\Samba.Services.csproj", "{413B698C-0D7D-4FCD-9F16-AF51AED4E647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.MessagingServer", "Samba.MessagingServer\Samba.MessagingServer.csproj", "{A31255F4-E8D8-4D8E-B25A-48FB7ED059F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.MessagingServerServiceTool", "Samba.MessagingServerServiceTool\Samba.MessagingServerServiceTool.csproj", "{A31255F4-E8D8-4D8E-B25A-48FB7ED059F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samba.Infrastructure.Data", "Samba.Infrastructure.Data\Samba.Infrastructure.Data.csproj", "{2D64F506-D566-4CA5-A19C-BCB5F9A2E7F4}"
 EndProject

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.ServiceProcess;
@@ -75,7 +75,6 @@ namespace Samba.MessagingServer
         {
             if (_channel != null)
             { ChannelServices.UnregisterChannel(_channel); }
-            Properties.Settings.Default.Save();
         }
 
         private void FrmMainResize(object sender, EventArgs e)
@@ -121,9 +120,7 @@ namespace Samba.MessagingServer
         {
             ServiceHelper.StopService();
             while (ServiceHelper.CheckServiceStatus() == ServiceControllerStatus.StopPending)
-            {
-                Thread.Sleep(100);
-            }
+            { Thread.Sleep(100); }
             ServiceHelper.StartService(new string[] { string.Format("Port={0}", edPort.Text) });
         }
 
