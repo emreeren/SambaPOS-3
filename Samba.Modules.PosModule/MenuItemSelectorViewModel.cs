@@ -46,6 +46,8 @@ namespace Samba.Modules.PosModule
             set { _selectedCategory = value; RaisePropertyChanged(() => SelectedCategory); }
         }
 
+        public string QuickNumeratorValue { get { return !string.IsNullOrEmpty(NumeratorValue) ? NumeratorValue : (QuickNumeratorValues.FirstOrDefault()); } set { NumeratorValue = value; } }
+
         public string NumeratorValue
         {
             get { return _applicationState.NumberPadValue ?? ""; }
@@ -54,6 +56,8 @@ namespace Samba.Modules.PosModule
                 _applicationStateSetter.SetNumberpadValue(value);
                 FilterMenuItems(_applicationState.NumberPadValue);
                 RaisePropertyChanged(() => NumeratorValue);
+                RaisePropertyChanged(() => IsNumberpadEditorVisible);
+                RaisePropertyChanged(() => QuickNumeratorValue);
             }
         }
 
@@ -65,6 +69,7 @@ namespace Samba.Modules.PosModule
 
         public bool IsQuickNumeratorVisible { get { return SelectedCategory != null && SelectedCategory.IsQuickNumeratorVisible; } }
         public bool IsNumeratorVisible { get { return SelectedCategory != null && SelectedCategory.IsNumeratorVisible; } }
+        public bool IsNumberpadEditorVisible { get { return IsNumeratorVisible || (IsQuickNumeratorVisible && !string.IsNullOrEmpty(NumeratorValue) && QuickNumeratorValues.All(x => x != NumeratorValue)) || (!IsQuickNumeratorVisible && !string.IsNullOrEmpty(NumeratorValue)); } }
         public bool IsPageNumberNavigatorVisible { get { return SelectedCategory != null && SelectedCategory.PageCount > 1; } }
         public VerticalAlignment MenuItemsVerticalAlignment { get { return SelectedCategory != null && SelectedCategory.MenuItemButtonHeight > 0 ? VerticalAlignment.Top : VerticalAlignment.Stretch; } }
         public VerticalAlignment CategoriesVerticalAlignment { get { return Categories != null && Categories.Count > 0 && double.IsNaN(Categories[0].MButtonHeight) ? VerticalAlignment.Stretch : VerticalAlignment.Top; } }
@@ -184,7 +189,7 @@ namespace Samba.Modules.PosModule
             NumeratorValue = "";
 
             if (quantity <= 0) return;
-            
+
             var weightBarcodePrefix = _settingService.ProgramSettings.WeightBarcodePrefix;
             if (!string.IsNullOrEmpty(weightBarcodePrefix) && insertedData.StartsWith(weightBarcodePrefix))
             {
@@ -227,8 +232,8 @@ namespace Samba.Modules.PosModule
                 decimal.TryParse(NumeratorValue, out selectedMultiplier);
 
             if (IsQuickNumeratorVisible)
-                NumeratorValue = QuickNumeratorValues[0];
-            if (IsNumeratorVisible)
+                NumeratorValue = QuickNumeratorValues[0] != "1" ? QuickNumeratorValues[0] : "";
+            if (IsNumberpadEditorVisible)
                 NumeratorValue = "";
 
             if (selectedMultiplier > 0)
@@ -330,7 +335,7 @@ namespace Samba.Modules.PosModule
             if (IsQuickNumeratorVisible)
             {
                 QuickNumeratorValues = string.IsNullOrEmpty(category.NumeratorValues) ? new[] { "1", "2", "3", "4", "5" } : category.NumeratorValues.Split(',');
-                NumeratorValue = QuickNumeratorValues[0];
+                NumeratorValue = QuickNumeratorValues[0] != "1" ? QuickNumeratorValues[0] : "";
             }
             else NumeratorValue = "";
 
@@ -338,6 +343,7 @@ namespace Samba.Modules.PosModule
 
             RaisePropertyChanged(() => IsQuickNumeratorVisible);
             RaisePropertyChanged(() => IsNumeratorVisible);
+            RaisePropertyChanged(() => IsNumberpadEditorVisible);
             RaisePropertyChanged(() => QuickNumeratorValues);
             RaisePropertyChanged(() => AlphaButtonValues);
             RaisePropertyChanged(() => MenuItemsVerticalAlignment);
@@ -411,12 +417,12 @@ namespace Samba.Modules.PosModule
 
         public bool HandleTextInput(string text)
         {
-            if (IsNumeratorVisible)
-            {
-                OnTypeValueExecute(text);
-                return true;
-            }
-            return false;
+            //if (IsNumeratorVisible)
+            //{
+            OnTypeValueExecute(text);
+            return true;
+            //}
+            //return false;
         }
     }
 }

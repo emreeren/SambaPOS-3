@@ -70,6 +70,7 @@ namespace Samba.Domain.Models.Menus
 
         public bool IsQuickNumeratorVisible { get { return NumeratorType == 1; } }
         public bool IsNumeratorVisible { get { return NumeratorType == 2; } }
+
         public int MaxItems { get; set; }
 
         public void AddMenuItem(MenuItem menuItem)
