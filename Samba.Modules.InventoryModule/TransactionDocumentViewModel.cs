@@ -28,8 +28,8 @@ namespace Samba.Modules.InventoryModule
             _applicationState = applicationState;
             _inventoryService = inventoryService;
             _cacheService = cacheService;
-            AddTransactionItemCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Line), OnAddTransactionItem, CanAddTransactionItem);
-            DeleteTransactionItemCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Line), OnDeleteTransactionItem, CanDeleteTransactionItem);
+            AddTransactionItemCommand = new CaptionCommand<string>(Resources.Add, OnAddTransactionItem, CanAddTransactionItem);
+            DeleteTransactionItemCommand = new CaptionCommand<string>(Resources.Delete, OnDeleteTransactionItem, CanDeleteTransactionItem);
         }
 
         public DateTime Date
@@ -149,7 +149,7 @@ namespace Samba.Modules.InventoryModule
 
         public void ExecuteTransactionItemCommand()
         {
-            if(AddTransactionItemCommand.CanExecute(""))
+            if (AddTransactionItemCommand.CanExecute(""))
                 AddTransactionItemCommand.Execute("");
         }
     }

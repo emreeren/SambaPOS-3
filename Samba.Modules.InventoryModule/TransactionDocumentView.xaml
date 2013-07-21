@@ -14,165 +14,167 @@
 
             <Label Content="{LocText DocumentNo,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
-            <Label Content="{LocText InventoryItems,Suffix=':'}"/>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-            <UIControls:EnhancedDataGrid Name="InventoryTransactionGrid" ItemsSource="{Binding TransactionItems}" SelectedItem="{Binding SelectedTransactionItem, Mode=TwoWay}"
-                     HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3"
-                     AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
-                     PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
-                     PreparingCellForEdit="DataGrid_PreparingCellForEdit">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="{LocText Transaction}" CellStyle="{StaticResource LeftAlignedGridCell}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="3" Text="{Binding InventoryTransactionType.Name}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
-                                    <ComboBox Name="cb" IsEditable="True" 
-                                          ItemsSource="{Binding InventoryTransactionTypes}" 
-                                          SelectedItem="{Binding InventoryTransactionType,UpdateSourceTrigger=PropertyChanged}" 
-                                          DisplayMemberPath="Name" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="{LocText Source}" CellStyle="{StaticResource LeftAlignedGridCell}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="3" Text="{Binding SourceWarehouse.Name}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <Grid FocusManager.FocusedElement="{Binding ElementName=cb1}">
-                                    <ComboBox Name="cb1" IsEditable="True" 
-                                          ItemsSource="{Binding SourceWarehouses}"
-                                          SelectedItem="{Binding SourceWarehouse,UpdateSourceTrigger=PropertyChanged}" 
-                                          DisplayMemberPath="Name" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
-
-                    <DataGridTemplateColumn Header="{LocText Target}" CellStyle="{StaticResource LeftAlignedGridCell}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="3" Text="{Binding TargetWarehouse.Name}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <Grid FocusManager.FocusedElement="{Binding ElementName=cb2}">
-                                    <ComboBox Name="cb2" IsEditable="True" 
-                                          ItemsSource="{Binding TargetWarehouses}" 
-                                          SelectedValue="{Binding TargetWarehouse,UpdateSourceTrigger=PropertyChanged}" 
-                                          DisplayMemberPath="Name" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{LocText InventoryItemName}"
-                             MinWidth="100" CellStyle="{StaticResource LeftAlignedGridCell}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="3" Text="{Binding Name}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
-                                    <ComboBox Name="cb" IsEditable="True" ItemsSource="{Binding InventoryItemNames}" SelectedItem="{Binding Name,UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{LocText Quantity}"
-                             CellStyle="{StaticResource RightAlignedGridCell}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="3" Text="{Binding Path=Quantity,StringFormat='#,#0.##'}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <Grid FocusManager.FocusedElement="{Binding ElementName=tb}">
-                                    <UIControls:FilteredTextBox Type="Number" Text="{Binding Path=Quantity,StringFormat='#,##.##'}"
-                                             Name="tb" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{LocText Unit}"
-                             CellStyle="{StaticResource LeftAlignedGridCell}">
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding UnitNames}" SelectedItem="{Binding UnitName}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="3" Text="{Binding UnitName}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{LocText UnitPrice}"
-                             MinWidth="70" CellStyle="{StaticResource RightAlignedGridCell}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="3" Text="{Binding Path=Price,StringFormat='#,#0.00'}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <Grid FocusManager.FocusedElement="{Binding ElementName=tb1}">
-                                    <UIControls:FilteredTextBox Type="Number" Text="{Binding Path=Price,StringFormat='#,#0.00'}"
-                                             Name="tb1" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="{LocText Total}"
-                             MinWidth="70" CellStyle="{StaticResource RightAlignedGridCell}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="3" Text="{Binding Path=TotalPrice,StringFormat='#,#0.00'}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <Grid FocusManager.FocusedElement="{Binding ElementName=tb2}">
-                                    <UIControls:FilteredTextBox Type="Number" Text="{Binding Path=TotalPrice,StringFormat='#,#0.00'}"
-                                             Name="tb2" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Command="{Binding AddTransactionItemCommand}" Header="{Binding AddTransactionItemCommand.Caption}" />
-                        <MenuItem Command="{Binding DeleteTransactionItemCommand}" Header="{Binding DeleteTransactionItemCommand.Caption}" />
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-            </UIControls:EnhancedDataGrid>
-            <StackPanel Margin="10">
-                <TextBlock Margin="2,3">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{LocText InventoryItems,Suffix=':'}"/>
+                <TextBlock Margin="5">
                         <Hyperlink Command="{Binding AddTransactionItemCommand}">
                             <TextBlock Text="{Binding Path=AddTransactionItemCommand.Caption}" />
                         </Hyperlink>
                     </TextBlock>
-                <TextBlock Margin="2,3">
+                <TextBlock Margin="5">
                         <Hyperlink Command="{Binding DeleteTransactionItemCommand}">
                             <TextBlock Text="{Binding Path=DeleteTransactionItemCommand.Caption}" />
                         </Hyperlink>
                     </TextBlock>
             </StackPanel>
         </StackPanel>
+
+        <UIControls:EnhancedDataGrid Name="InventoryTransactionGrid" ItemsSource="{Binding TransactionItems}" SelectedItem="{Binding SelectedTransactionItem, Mode=TwoWay}"
+                     HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" Grid.Row="1"
+                     AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
+                     PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
+                     PreparingCellForEdit="DataGrid_PreparingCellForEdit">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="{LocText Transaction}" CellStyle="{StaticResource LeftAlignedGridCell}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding InventoryTransactionType.Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
+                                <ComboBox Name="cb" IsEditable="True" 
+                                          ItemsSource="{Binding InventoryTransactionTypes}" 
+                                          SelectedItem="{Binding InventoryTransactionType,UpdateSourceTrigger=PropertyChanged}" 
+                                          DisplayMemberPath="Name" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="{LocText Source}" CellStyle="{StaticResource LeftAlignedGridCell}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding SourceWarehouse.Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid FocusManager.FocusedElement="{Binding ElementName=cb1}">
+                                <ComboBox Name="cb1" IsEditable="True" 
+                                          ItemsSource="{Binding SourceWarehouses}"
+                                          SelectedItem="{Binding SourceWarehouse,UpdateSourceTrigger=PropertyChanged}" 
+                                          DisplayMemberPath="Name" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="{LocText Target}" CellStyle="{StaticResource LeftAlignedGridCell}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding TargetWarehouse.Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid FocusManager.FocusedElement="{Binding ElementName=cb2}">
+                                <ComboBox Name="cb2" IsEditable="True" 
+                                          ItemsSource="{Binding TargetWarehouses}" 
+                                          SelectedValue="{Binding TargetWarehouse,UpdateSourceTrigger=PropertyChanged}" 
+                                          DisplayMemberPath="Name" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{LocText InventoryItemName}"
+                             MinWidth="100" CellStyle="{StaticResource LeftAlignedGridCell}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
+                                <ComboBox Name="cb" IsEditable="True" ItemsSource="{Binding InventoryItemNames}" SelectedItem="{Binding Name,UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{LocText Quantity}"
+                             CellStyle="{StaticResource RightAlignedGridCell}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding Path=Quantity,StringFormat='#,#0.##'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid FocusManager.FocusedElement="{Binding ElementName=tb}">
+                                <UIControls:FilteredTextBox Type="Number" Text="{Binding Path=Quantity,StringFormat='#,##.##'}"
+                                             Name="tb" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{LocText Unit}"
+                             CellStyle="{StaticResource LeftAlignedGridCell}">
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding UnitNames}" SelectedItem="{Binding UnitName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding UnitName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{LocText UnitPrice}"
+                             MinWidth="70" CellStyle="{StaticResource RightAlignedGridCell}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding Path=Price,StringFormat='#,#0.00'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid FocusManager.FocusedElement="{Binding ElementName=tb1}">
+                                <UIControls:FilteredTextBox Type="Number" Text="{Binding Path=Price,StringFormat='#,#0.00'}"
+                                             Name="tb1" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{LocText Total}"
+                             MinWidth="70" CellStyle="{StaticResource RightAlignedGridCell}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3" Text="{Binding Path=TotalPrice,StringFormat='#,#0.00'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Grid FocusManager.FocusedElement="{Binding ElementName=tb2}">
+                                <UIControls:FilteredTextBox Type="Number" Text="{Binding Path=TotalPrice,StringFormat='#,#0.00'}"
+                                             Name="tb2" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="{Binding AddTransactionItemCommand}" Header="{Binding AddTransactionItemCommand.Caption}" />
+                    <MenuItem Command="{Binding DeleteTransactionItemCommand}" Header="{Binding DeleteTransactionItemCommand.Caption}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </UIControls:EnhancedDataGrid>
+
+
         <StackPanel Grid.Row="2">
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
