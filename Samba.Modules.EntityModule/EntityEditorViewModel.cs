@@ -128,6 +128,7 @@ namespace Samba.Modules.EntityModule
             set
             {
                 _selectedEntity = value;
+                SelectedEntity.AccountCustomDataViewModel.UpdateNewEntityQueryFields();
                 RaisePropertyChanged(() => SelectedEntity);
                 RaisePropertyChanged(() => SelectEntityCommandCaption);
             }

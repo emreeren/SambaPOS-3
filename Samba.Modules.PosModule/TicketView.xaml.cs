@@ -14,8 +14,8 @@ namespace Samba.Modules.PosModule
     [Export]
     public partial class TicketView : UserControl
     {
-        private readonly GridLength _buttonColumnLenght = new GridLength(1, GridUnitType.Star);
-        private readonly GridLength _ticketColumnLenght = new GridLength(4, GridUnitType.Star);
+        private readonly GridLength _buttonColumnLenght = new GridLength(2, GridUnitType.Star);
+        private readonly GridLength _ticketColumnLenght = new GridLength(7, GridUnitType.Star);
         private TicketViewModel _ticketViewModel;
 
         [ImportingConstructor]

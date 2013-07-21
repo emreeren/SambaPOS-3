@@ -14,8 +14,8 @@
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Name="Column1" Width="*" />
-            <ColumnDefinition Name="Column2" Width="4*" />
+            <ColumnDefinition Name="Column1" Width="2*" />
+            <ColumnDefinition Name="Column2" Width="7*" />
         </Grid.ColumnDefinitions>
         <!--TITLE AREA-->
         <Label Name="TitleLabel" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedTicketTitle}" Margin="0,0,3,0"

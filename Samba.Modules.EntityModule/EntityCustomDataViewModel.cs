@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
@@ -28,13 +26,19 @@ namespace Samba.Modules.EntityModule
             {
                 if (value != Model.Value)
                 {
-                    var actionResult = SetValueAction(CustomField, Model.Value, value);
-                    if (!actionResult)
-                        Model.Value = value;
-                    RaisePropertyChanged(() => Value);
+                    UpdateValue(value);
                 }
             }
         }
+
+        public void UpdateValue(string value)
+        {
+            var actionResult = SetValueAction(CustomField, Model.Value, value);
+            if (!actionResult)
+                Model.Value = value;
+            RaisePropertyChanged(() => Value);
+        }
+
         public EntityCustomField CustomField { get { return Model.CustomField; } set { Model.CustomField = value; } }
         public Func<EntityCustomField, string, string, bool> SetValueAction { get; set; }
         public void SetValue(string value)
@@ -161,9 +165,21 @@ namespace Samba.Modules.EntityModule
 
         public void Update()
         {
-            Model.CustomData = JsonHelper.Serialize(_customData.Select(x => x.Model).ToList());
-            RaisePropertyChanged(() => IsMaskedTextBoxVisible);
-            RaisePropertyChanged(() => IsTextBoxVisible);
+            if (_customData != null)
+            {
+                Model.CustomData = JsonHelper.Serialize(_customData.Select(x => x.Model).ToList());
+                RaisePropertyChanged(() => IsMaskedTextBoxVisible);
+                RaisePropertyChanged(() => IsTextBoxVisible);
+            }
+        }
+
+        public void UpdateNewEntityQueryFields()
+        {
+            if (Model.Id == 0 && CustomData.Any())
+            {
+                CustomData.Where(x => x.CustomField.IsQuery).ToList().ForEach(x => x.UpdateValue(x.Model.Value));
+                Update();
+            }
         }
     }
 }

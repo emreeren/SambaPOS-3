@@ -76,7 +76,10 @@ namespace Samba.Domain.Models.Tickets
         public void Close()
         {
             if (RemainingAmount == 0 && !HasActiveTimers())
+            {
                 IsClosed = true;
+                PaidItems.Clear();
+            }
         }
 
         public decimal RemainingAmount { get; set; }
@@ -218,10 +221,6 @@ namespace Samba.Domain.Models.Tickets
             Payments.Add(payment);
             LastPaymentDate = DateTime.Now;
             RemainingAmount = GetRemainingAmount();
-            if (RemainingAmount == 0)
-            {
-                PaidItems.Clear();
-            }
         }
 
         public void AddChangePayment(ChangePaymentType changePaymentType, Account account, decimal amount, decimal exchangeRate, int userId)
