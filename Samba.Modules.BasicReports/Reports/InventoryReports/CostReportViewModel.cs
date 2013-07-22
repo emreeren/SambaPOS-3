@@ -10,8 +10,8 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
     class CostReportViewModel : ReportViewModelBase
     {
-        public CostReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService)
-            : base(userService, applicationState, logService)
+        public CostReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService, ISettingService settingService)
+            : base(userService, applicationState, logService, settingService)
         {
         }
 
@@ -26,7 +26,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
             var report = new SimpleReport("8cm");
             AddDefaultReportHeader(report, ReportContext.CurrentWorkPeriod, Resources.CostReport);
 
-            var costItems = ReportContext.PeriodicConsumptions.SelectMany(x => x.WarehouseConsumptions).SelectMany(x=>x.CostItems)
+            var costItems = ReportContext.PeriodicConsumptions.SelectMany(x => x.WarehouseConsumptions).SelectMany(x => x.CostItems)
                 .GroupBy(x => new { ItemName = x.Name, x.PortionName })
                 .Select(x => new { x.Key.ItemName, x.Key.PortionName, TotalQuantity = x.Sum(y => y.Quantity), TotalCost = x.Sum(y => y.Cost * y.Quantity) }).ToList();
 

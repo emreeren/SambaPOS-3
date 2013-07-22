@@ -29,6 +29,7 @@ namespace Samba.Modules.BasicReports
         public static IApplicationState ApplicationState { get; set; }
         public static ILogService LogService { get; set; }
         public static ICacheService CacheService { get; set; }
+        public static ISettingService SettingService { get; set; }
 
         private static IList<ReportViewModelBase> _reports;
         public static IList<ReportViewModelBase> Reports
@@ -40,15 +41,15 @@ namespace Samba.Modules.BasicReports
         {
             return new List<ReportViewModelBase>
                           {
-                              new EndDayReportViewModel(UserService,ApplicationState,LogService),
-                              new ProductReportViewModel(UserService,ApplicationState,LogService),
-                              new LiabilityReportViewModel(UserService,ApplicationState,LogService),
-                              new ReceivableReportViewModel(UserService,ApplicationState,LogService),
-                              new InternalAccountsViewModel(UserService,ApplicationState,LogService),
-                              new PurchaseReportViewModel(UserService,ApplicationState,LogService),
-                              new InventoryReportViewModel(UserService,ApplicationState,CacheService,LogService),
-                              new CostReportViewModel(UserService,ApplicationState,LogService),
-                              new CsvBuilderViewModel(UserService,ApplicationState,LogService)
+                              new EndDayReportViewModel(UserService,ApplicationState,LogService,SettingService),
+                              new ProductReportViewModel(UserService,ApplicationState,LogService,SettingService),
+                              new LiabilityReportViewModel(UserService,ApplicationState,LogService,SettingService),
+                              new ReceivableReportViewModel(UserService,ApplicationState,LogService,SettingService),
+                              new InternalAccountsViewModel(UserService,ApplicationState,LogService,SettingService),
+                              new PurchaseReportViewModel(UserService,ApplicationState,LogService,SettingService),
+                              new InventoryReportViewModel(UserService,ApplicationState,CacheService,LogService,SettingService),
+                              new CostReportViewModel(UserService,ApplicationState,LogService,SettingService),
+                              new CsvBuilderViewModel(UserService,ApplicationState,LogService,SettingService)
                           };
         }
 

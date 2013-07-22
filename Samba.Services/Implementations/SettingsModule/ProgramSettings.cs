@@ -49,6 +49,18 @@ namespace Samba.Services.Implementations.SettingsModule
             set { GetPaymentScreenValues().StringValue = value; }
         }
 
+        public string UserInfo
+        {
+            get { return GetUserInfo().StringValue; }
+            set { GetUserInfo().StringValue = value; }
+        }
+
+        private ProgramSetting _userInfo;
+        public ProgramSetting GetUserInfo()
+        {
+            return _userInfo ?? (_userInfo = GetSetting("UserInfo"));
+        }
+
         private ProgramSetting _paymentScreenValues;
         public ProgramSetting GetPaymentScreenValues()
         {

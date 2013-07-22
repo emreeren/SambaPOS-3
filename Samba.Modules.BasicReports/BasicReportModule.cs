@@ -21,7 +21,7 @@ namespace Samba.Modules.BasicReports
         public BasicReportModule(IRegionManager regionManager, BasicReportView basicReportView,
             IWorkPeriodService workPeriodService, IPrinterService printerService, ICacheService cacheService,
             IInventoryService inventoryService, IUserService userService, IAutomationService automationService,
-            IApplicationState applicationState, ILogService logService)
+            IApplicationState applicationState, ILogService logService, ISettingService settingService)
             : base(regionManager, AppScreens.ReportView)
         {
             ReportContext.PrinterService = printerService;
@@ -31,6 +31,7 @@ namespace Samba.Modules.BasicReports
             ReportContext.ApplicationState = applicationState;
             ReportContext.CacheService = cacheService;
             ReportContext.LogService = logService;
+            ReportContext.SettingService = settingService;
 
             _userService = userService;
 

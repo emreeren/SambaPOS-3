@@ -8544,6 +8544,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User Information.
+        /// </summary>
+        public static string UserInformation {
+            get {
+                return ResourceManager.GetString("UserInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User List.
         /// </summary>
         public static string UserList {

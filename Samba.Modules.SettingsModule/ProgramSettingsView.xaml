@@ -7,6 +7,12 @@
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <StackPanel>
+            <GroupBox Header="{LocText GeneralSettings}" HorizontalAlignment="Left" MinWidth="300">
+                <StackPanel Margin="5">
+                    <Label Content="{LocText UserInformation, Suffix=':'}"/>
+                    <TextBox HorizontalAlignment="Stretch" Text="{Binding UserInfo}" AcceptsReturn="True" />
+                </StackPanel>
+            </GroupBox>
             <GroupBox Header="{LocText PaymentScreenSettings}" HorizontalAlignment="Left" MinWidth="300">
                 <StackPanel Margin="5">
                     <Label Content="{LocText AutoRounding, Suffix=':'}"/>
@@ -21,9 +27,9 @@
                     <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" Width="50" Text="{Binding WeightBarcodePrefix}" />
                     <Label Content="{LocText WeightBarcodeItemIdLength,Suffix=':'}"/>
                     <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" Width="50" Text="{Binding WeightBarcodeItemLength}" />
-                    <Label Content="{LocText WeightBarcodeItemIdFormat,Suffix=':'}"/>                    
+                    <Label Content="{LocText WeightBarcodeItemIdFormat,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" Width="50" Text="{Binding WeightBarcodeItemFormat}" />
-                    <Label Content="{LocText WeightBarcodeQuantityLength,Suffix=':'}"/>                    
+                    <Label Content="{LocText WeightBarcodeQuantityLength,Suffix=':'}"/>
                     <UIControls:FilteredTextBox Type="Digits" HorizontalAlignment="Left" Width="50" Text="{Binding WeightBarcodeQuantityLength}" />
                 </StackPanel>
             </GroupBox>

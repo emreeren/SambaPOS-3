@@ -11,8 +11,8 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
 {
     public class ProductReportViewModel : ReportViewModelBase
     {
-        public ProductReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService)
-            : base(userService, applicationState, logService)
+        public ProductReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService, ISettingService settingService)
+            : base(userService, applicationState, logService, settingService)
         {
         }
 

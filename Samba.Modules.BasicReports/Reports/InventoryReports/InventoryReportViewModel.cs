@@ -15,8 +15,8 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
     {
         private readonly ICacheService _cacheService;
 
-        public InventoryReportViewModel(IUserService userService, IApplicationState applicationState, ICacheService cacheService, ILogService logService)
-            : base(userService, applicationState, logService)
+        public InventoryReportViewModel(IUserService userService, IApplicationState applicationState, ICacheService cacheService, ILogService logService, ISettingService settingService)
+            : base(userService, applicationState, logService, settingService)
         {
             _cacheService = cacheService;
         }

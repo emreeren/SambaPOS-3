@@ -3337,4 +3337,7 @@ Error Message:
   <data name="PayTicket" xml:space="preserve">
     <value>Pay Ticket</value>
   </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>User Information</value>
+  </data>
 </root>

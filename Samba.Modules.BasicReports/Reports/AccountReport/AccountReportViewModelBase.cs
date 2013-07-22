@@ -12,8 +12,8 @@ namespace Samba.Modules.BasicReports.Reports.AccountReport
 {
     public abstract class AccountReportViewModelBase : ReportViewModelBase
     {
-        protected AccountReportViewModelBase(IUserService userService, IApplicationState applicationState, ILogService logService)
-            : base(userService, applicationState, logService)
+        protected AccountReportViewModelBase(IUserService userService, IApplicationState applicationState, ILogService logService, ISettingService settingService)
+            : base(userService, applicationState, logService, settingService)
         {
 
         }

@@ -10,8 +10,8 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {
     class PurchaseReportViewModel : ReportViewModelBase
     {
-        public PurchaseReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService)
-            : base(userService, applicationState, logService)
+        public PurchaseReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService, ISettingService settingService)
+            : base(userService, applicationState, logService, settingService)
         {
         }
 
@@ -31,7 +31,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
                 .GroupBy(x => new { x.InventoryItem.GroupCode })
                 .Select(x => new { ItemName = x.Key.GroupCode, Total = x.Sum(y => y.Price * y.Quantity) }).ToList();
 
-            if (transactionGroups.Count() > 0)
+            if (transactionGroups.Any())
             {
                 report.AddColumTextAlignment("GrupToplam", TextAlignment.Left, TextAlignment.Right);
                 report.AddColumnLength("GrupToplam", "60*", "40*");

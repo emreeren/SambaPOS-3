@@ -59,12 +59,15 @@ namespace Samba.Modules.BasicReports
         public bool CanUserChangeDates { get { return UserService.IsUserPermittedFor(PermissionNames.ChangeReportDate); } }
 
         private readonly ILogService _logService;
+        private readonly ISettingService _settingService;
+
         public IUserService UserService { get; set; }
         public IApplicationState ApplicationState { get; set; }
 
-        protected ReportViewModelBase(IUserService userService, IApplicationState applicationState,ILogService logService)
+        protected ReportViewModelBase(IUserService userService, IApplicationState applicationState, ILogService logService, ISettingService settingService)
         {
             _logService = logService;
+            _settingService = settingService;
             _links = new List<string>();
             UserService = userService;
             ApplicationState = applicationState;
@@ -193,6 +196,7 @@ namespace Samba.Modules.BasicReports
                 {
                     LocalSettings.UpdateThreadLanguage();
                     var doc = GetReport();
+                    AddDefaultReportFooter(doc);
                     XamlWriter.Save(doc, memStream);
                     memStream.Position = 0;
                 };
@@ -258,7 +262,8 @@ namespace Samba.Modules.BasicReports
 
         public void AddDefaultReportHeader(SimpleReport report, WorkPeriod workPeriod, string caption)
         {
-            report.AddHeader("Samba POS");
+            var userInfo = _settingService.ProgramSettings.UserInfo;
+            report.AddHeader(!string.IsNullOrEmpty(userInfo) ? userInfo : "SambaPOS");
             report.AddHeader(caption);
             if (workPeriod.EndDate > workPeriod.StartDate)
                 report.AddHeader(workPeriod.StartDate.ToString("dd MMMM yyyy HH:mm") +
@@ -268,6 +273,13 @@ namespace Samba.Modules.BasicReports
                 report.AddHeader(workPeriod.StartDate.ToString("dd MMMM yyyy HH:mm") +
                 " - " + DateTime.Now.ToString("dd MMMM yyyy HH:mm"));
             }
+        }
+
+        public void AddDefaultReportFooter(FlowDocument report)
+        {
+            var p = new Paragraph { TextAlignment = TextAlignment.Left, FontSize = 12 };
+            p.Inlines.Add(new Run("Powered by SambaPOS V3") { FontWeight = FontWeights.Bold });
+            report.Blocks.Add(p);
         }
     }
 }
