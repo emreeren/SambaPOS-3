@@ -1,4 +1,4 @@
-﻿namespace Samba.MessagingServer
+namespace Samba.MessagingServer
 {
     partial class frmMain
     {
