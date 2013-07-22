@@ -242,6 +242,23 @@ namespace Samba.Services.Implementations.PrinterModule
 
         public void ExecutePrintJob(PrintJob printJob)
         {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+                new Action(
+                    delegate
+                    {
+                        try
+                        {
+                            InternalExecutePrintJob(printJob);
+                        }
+                        catch (Exception e)
+                        {
+                            _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
+                        }
+                    }));
+        }
+
+        public void InternalExecutePrintJob(PrintJob printJob)
+        {
             if (printJob.PrinterMaps.Count > 0)
             {
                 var printerMap = printJob.PrinterMaps[0];

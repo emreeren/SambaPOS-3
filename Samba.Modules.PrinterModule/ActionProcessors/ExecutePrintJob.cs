@@ -34,7 +34,7 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
             var pjName = actionData.GetAsString("PrintJobName");
             if (!string.IsNullOrEmpty(pjName))
             {
-                _ticketService.UpdateTicketNumber(ticket, _applicationState.CurrentTicketType.TicketNumerator);
+               
                 var j = _cacheService.GetPrintJobByName(pjName);
 
                 if (j != null)
@@ -57,6 +57,7 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                             if (!string.IsNullOrWhiteSpace(orderStateValue))
                                 expression = expression.And(ex => ex.IsInState(orderStateValue));
                         }
+                        _ticketService.UpdateTicketNumber(ticket, _applicationState.CurrentTicketType.TicketNumerator);
                         _printerService.PrintTicket(ticket, j, expression.Compile());
                     }
                     else
