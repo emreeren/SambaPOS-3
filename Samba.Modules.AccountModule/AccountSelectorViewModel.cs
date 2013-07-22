@@ -3,55 +3,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
-using Samba.Infrastructure.Settings;
-using Samba.Localization;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {
-    public class AccountRowData
-    {
-        public AccountRowData(string name, decimal balance, decimal exchange, int accountId, string currencyFormat, int accountTypeId, string groupKey)
-        {
-            Name = name;
-            Balance = balance;
-            if (!string.IsNullOrEmpty(currencyFormat)) Exchange = exchange;
-            CurrencyFormat = currencyFormat;
-            AccountId = accountId;
-            AccountTypeId = accountTypeId;
-            GroupKey = groupKey;
-        }
-
-        protected string CurrencyFormat { get; set; }
-        public int AccountId { get; set; }
-        public string BalanceStr
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(ExchangeStr)
-                    ? ExchangeStr
-                    : Balance.ToString(LocalSettings.ReportCurrencyFormat);
-            }
-        }
-        public string ExchangeStr { get { return Exchange != Balance ? string.Format(CurrencyFormat, Exchange) : ""; } }
-        public string Name { get; set; }
-        public decimal Balance { get; set; }
-        public decimal Exchange { get; set; }
-        public string Fill { get; set; }
-        public int AccountTypeId { get; set; }
-        public string GroupKey { get; set; }
-    }
-
     [Export]
     public class AccountSelectorViewModel : ObservableObject
     {
@@ -69,11 +34,15 @@ namespace Samba.Modules.AccountModule
             if (handler != null) handler(this, EventArgs.Empty);
         }
 
+        public ICaptionCommand ShowAccountDetailsCommand { get; set; }
+        public ICaptionCommand PrintCommand { get; set; }
+        public ICaptionCommand AccountButtonSelectedCommand { get; set; }
+
         [ImportingConstructor]
         public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState,
             IPrinterService printerService)
         {
-            _accounts = new ObservableCollection<AccountRowData>();
+            _accounts = new ObservableCollection<AccountScreenRowModel>();
             _accountService = accountService;
             _cacheService = cacheService;
             _applicationState = applicationState;
@@ -108,61 +77,6 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private void OnAccountScreenSelected(AccountScreen accountScreen)
-        {
-            UpdateAccountScreen(accountScreen);
-        }
-
-        private string GetCurrencyFormat(int currencyId)
-        {
-            return _cacheService.GetCurrencySymbol(currencyId);
-        }
-
-        private void UpdateAccountScreen(AccountScreen accountScreen)
-        {
-            if (accountScreen == null) return;
-            _batchDocumentButtons = null;
-            _selectedAccountScreen = accountScreen;
-            _accounts.Clear();
-            var rows = new List<AccountRowData>();
-
-            var detailedTemplateNames = accountScreen.AccountScreenValues.Where(x => x.DisplayDetails).Select(x => x.AccountTypeId);
-            _accountService.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter()).ToList().ForEach(x => rows.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, x.Key.Id, GetCurrencyFormat(x.Key.ForeignCurrencyId), x.Key.AccountTypeId, GetGroupKey(accountScreen, x.Key.AccountTypeId))));
-
-            var templateTotals = accountScreen.AccountScreenValues.Where(x => !x.DisplayDetails).Select(x => x.AccountTypeId);
-            _accountService.GetAccountTypeBalances(templateTotals.ToList(), GetFilter()).ToList().ForEach(x => rows.Add(new AccountRowData(x.Key.Name, x.Value.Balance, x.Value.Exchange, 0, "", x.Key.Id, GetGroupKey(accountScreen, x.Key.Id))));
-
-            var hideIfZeroBalanceTypeIds =
-                accountScreen.AccountScreenValues.Where(x => x.HideZeroBalanceAccounts).Select(x => x.AccountTypeId).ToList();
-
-            _accounts.AddRange(rows.Where(x => ShouldKeepAccount(x, hideIfZeroBalanceTypeIds))
-                .OrderBy(x => GetSortOrder(accountScreen.AccountScreenValues, x.AccountTypeId))
-                .ThenBy(x => x.Name).ToList());
-
-
-            RaisePropertyChanged(() => BatchDocumentButtons);
-            RaisePropertyChanged(() => AccountButtons);
-
-            OnRefreshed();
-        }
-
-        private static string GetGroupKey(AccountScreen accountScreen, int accountTypeId)
-        {
-            if (!accountScreen.DisplayAsTree) return null;
-            return accountScreen.AccountScreenValues.Single(x => x.AccountTypeId == accountTypeId).AccountTypeName;
-        }
-
-        private static bool ShouldKeepAccount(AccountRowData accountRowData, IList<int> hideIfZeroBalanceTypeIds)
-        {
-            return !hideIfZeroBalanceTypeIds.Contains(accountRowData.AccountTypeId) ||
-                   (hideIfZeroBalanceTypeIds.Contains(accountRowData.AccountTypeId) && accountRowData.Balance != 0);
-        }
-
-        private int GetSortOrder(IEnumerable<AccountScreenValue> values, int accountTypeId)
-        {
-            return values.Single(x => x.AccountTypeId == accountTypeId).SortOrder;
-        }
-
         public IEnumerable<AccountScreen> AccountScreens
         {
             get { return _cacheService.GetAccountScreens(); }
@@ -174,33 +88,18 @@ namespace Samba.Modules.AccountModule
             get { return _accountButtons ?? (_accountButtons = AccountScreens.Select(x => new AccountButton(x, _cacheService))); }
         }
 
-        private readonly ObservableCollection<AccountRowData> _accounts;
-        public ObservableCollection<AccountRowData> Accounts
+        private readonly ObservableCollection<AccountScreenRowModel> _accounts;
+        public ObservableCollection<AccountScreenRowModel> Accounts
         {
             get { return _accounts; }
         }
 
-        public ICaptionCommand ShowAccountDetailsCommand { get; set; }
-        public ICaptionCommand PrintCommand { get; set; }
-        public ICaptionCommand AccountButtonSelectedCommand { get; set; }
+        public AccountScreenRowModel SelectedAccount { get; set; }
 
-        public AccountRowData SelectedAccount { get; set; }
 
-        private Expression<Func<AccountTransactionValue, bool>> GetFilter()
+        private void OnAccountScreenSelected(AccountScreen accountScreen)
         {
-            if (_selectedAccountScreen == null || _selectedAccountScreen.Filter == 0) return null;
-            //Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod
-            if (_selectedAccountScreen.Filter == 1)
-            {
-                var date = DateTime.Now.MonthStart();
-                return x => x.Date >= date;
-            }
-            if (_selectedAccountScreen.Filter == 3)
-            {
-                var date = _applicationState.CurrentWorkPeriod.StartDate;
-                return x => x.Date >= date;
-            }
-            return null;
+            UpdateAccountScreen(accountScreen);
         }
 
         private bool CanShowAccountDetails(string arg)
@@ -213,6 +112,21 @@ namespace Samba.Modules.AccountModule
             CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedAccount.AccountId), EventTopicNames.DisplayAccountTransactions, EventTopicNames.ActivateAccountSelector);
         }
 
+        private void UpdateAccountScreen(AccountScreen accountScreen)
+        {
+            if (accountScreen == null) return;
+            _batchDocumentButtons = null;
+            _selectedAccountScreen = accountScreen;
+
+            _accounts.Clear();
+            _accounts.AddRange(_accountService.GetAccountScreenRows(accountScreen, _applicationState.CurrentWorkPeriod));
+
+            RaisePropertyChanged(() => BatchDocumentButtons);
+            RaisePropertyChanged(() => AccountButtons);
+
+            OnRefreshed();
+        }
+        
         public void Refresh()
         {
             UpdateAccountScreen(_selectedAccountScreen ?? (_selectedAccountScreen = AccountScreens.FirstOrDefault()));

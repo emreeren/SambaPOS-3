@@ -7,10 +7,11 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
+using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Localization;
 using Samba.Persistance;
-using Samba.Persistance.Common;
+using Samba.Services.Common;
 
 namespace Samba.Services.Implementations.AccountModule
 {
@@ -19,12 +20,14 @@ namespace Samba.Services.Implementations.AccountModule
     {
         private readonly ICacheService _cacheService;
         private readonly IAccountDao _accountDao;
+        private readonly AccountRowBuilder _accountRowBuilder;
 
         [ImportingConstructor]
-        public AccountService(ICacheService cacheService, IAccountDao accountDao)
+        public AccountService(ICacheService cacheService, IAccountDao accountDao, AccountRowBuilder accountRowBuilder)
         {
             _cacheService = cacheService;
             _accountDao = accountDao;
+            _accountRowBuilder = accountRowBuilder;
         }
 
         public AccountTransactionDocument CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts)
@@ -48,14 +51,9 @@ namespace Samba.Services.Implementations.AccountModule
             return _accountDao.GetAccountExchangeBalance(accountId);
         }
 
-        public Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter)
+        public IEnumerable<AccountScreenRowModel> GetAccountScreenRows(AccountScreen accountScreen, WorkPeriod currentWorkPeriod)
         {
-            return _accountDao.GetAccountBalances(accountTypeIds, filter);
-        }
-
-        public Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter)
-        {
-            return _accountDao.GetAccountTypeBalances(accountTypeIds, filter);
+            return _accountRowBuilder.GetAccountScreenRows(accountScreen, currentWorkPeriod);
         }
 
         public string GetCustomData(Account account, string fieldName)

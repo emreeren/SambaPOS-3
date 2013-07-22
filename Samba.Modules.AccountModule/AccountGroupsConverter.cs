@@ -2,9 +2,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
 using System.Windows.Data;
 using Samba.Infrastructure.Settings;
+using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {
@@ -16,7 +16,7 @@ namespace Samba.Modules.AccountModule
                 return "null";
 
             var items = (ReadOnlyObservableCollection<object>)value;
-            var balance = items.Cast<AccountRowData>().Sum(x => x.Balance);
+            var balance = items.Cast<AccountScreenRowModel>().Sum(x => x.Balance);
             return balance.ToString(LocalSettings.ReportCurrencyFormat);
         }
 

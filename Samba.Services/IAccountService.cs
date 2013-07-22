@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using Samba.Domain.Models.Accounts;
-using Samba.Persistance.Common;
+using Samba.Domain.Models.Settings;
+using Samba.Services.Common;
 
 namespace Samba.Services
 {
     public interface IAccountService
     {
         decimal GetAccountBalance(int accountId);
-        Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
-        Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
+        IEnumerable<AccountScreenRowModel> GetAccountScreenRows(AccountScreen accountScreen, WorkPeriod currentWorkPeriod);
         string GetDescription(AccountTransactionDocumentType documentType, Account account);
         decimal GetDefaultAmount(AccountTransactionDocumentType documentType, Account account);
         string GetAccountNameById(int accountId);

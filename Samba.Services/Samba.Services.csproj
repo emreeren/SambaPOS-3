@@ -98,6 +98,8 @@
     <Compile Include="ILogService.cs" />
     <Compile Include="IMenuService.cs" />
     <Compile Include="IMessagingService.cs" />
+    <Compile Include="Implementations\AccountModule\AccountRowBuilder.cs" />
+    <Compile Include="Common\AccountScreenRowModel.cs" />
     <Compile Include="Implementations\AccountModule\AccountService.cs" />
     <Compile Include="Common\ActionData.cs" />
     <Compile Include="Implementations\AutomationModule\AutomationService.cs" />
