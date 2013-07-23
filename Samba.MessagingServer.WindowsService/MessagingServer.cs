@@ -16,7 +16,7 @@ namespace Samba.MessagingServer.WindowsService
         internal static readonly string MessagingServerPortFile = string.Format("{0}{1}",
             Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
             @"\Ozgu Tech\SambaPOS3\MessagingServerPort.dat");
-        internal static readonly int StdPort = 8080;
+        internal static readonly int StdPort = 8383;
         private static TcpChannel _channel;
 
         public MessagingServer()
