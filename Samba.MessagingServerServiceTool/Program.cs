@@ -2,8 +2,9 @@ using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
+using Samba.MessagingServerServiceTool;
 
-namespace Samba.MessagingServer
+namespace Samba.MessagingServerServiceTool
 {
     static class Program
     {

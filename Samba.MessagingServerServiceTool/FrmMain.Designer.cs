@@ -1,4 +1,6 @@
-namespace Samba.MessagingServer
+using Samba.MessagingServerServiceTool;
+
+namespace Samba.MessagingServerServiceTool
 {
     partial class FrmMain
     {
