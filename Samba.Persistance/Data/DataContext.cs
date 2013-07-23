@@ -186,6 +186,10 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<MenuItemPrice>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<MenuItemPortion>().HasMany(p => p.Prices).WithRequired().HasForeignKey(x => x.MenuItemPortionId);
 
+            modelBuilder.Entity<AccountScreenValue>().HasKey(p => new { p.Id, p.AccountScreenId });
+            modelBuilder.Entity<AccountScreenValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<AccountScreen>().HasMany(p => p.AccountScreenValues).WithRequired().HasForeignKey(x => x.AccountScreenId);
+
             const int qscale = 3;
             const int scale = 2;
             const int precision = 16;
