@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Samba.Localization.Properties;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
@@ -64,7 +61,7 @@ namespace Samba.Modules.AccountModule.ActionProcessors
             }
             if (printer == null) return;
             if (printerTemplate == null) return;
-            _printerService.PrintAccountTransactionDocument(document, printer, printerTemplate);
+            _printerService.PrintObject(document, printer, printerTemplate);
         }
     }
 }

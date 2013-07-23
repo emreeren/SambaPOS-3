@@ -47,7 +47,7 @@ namespace Samba.Modules.EntityModule.ActionProcessors
             var printerTemplate = _cacheService.GetPrinterTemplates().FirstOrDefault(y => y.Name == printerTemplateName);
             if (printer == null) return;
             if (printerTemplate == null) return;
-            _printerService.PrintEntity(entity, printer, printerTemplate);
+            _printerService.PrintObject(entity, printer, printerTemplate);
         }
     }
 }

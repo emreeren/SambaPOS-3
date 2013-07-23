@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
-using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
@@ -26,22 +23,23 @@ namespace Samba.Services.Implementations.PrinterModule
         private readonly ICacheService _cacheService;
         private readonly ILogService _logService;
         private readonly TicketFormatter _ticketFormatter;
-        private readonly EntityFormatter _entityFormatter;
-        private readonly AccountTransactionDocumentFormatter _accountTransactionDocumentFormatter;
         private readonly FunctionRegistry _functionRegistry;
+        private readonly TicketPrintTaskBuilder _ticketPrintTaskBuilder;
 
         [ImportingConstructor]
-        public PrinterService(ISettingService settingService, ICacheService cacheService, IExpressionService expressionService, ILogService logService,
-            TicketFormatter ticketFormatter, EntityFormatter entityFormatter, AccountTransactionDocumentFormatter accountTransactionDocumentFormatter, FunctionRegistry functionRegistry)
+        PrinterService(ISettingService settingService, ICacheService cacheService, IExpressionService expressionService, ILogService logService,
+            TicketFormatter ticketFormatter, FunctionRegistry functionRegistry, TicketPrintTaskBuilder ticketPrintTaskBuilder)
         {
             _cacheService = cacheService;
             _logService = logService;
             _ticketFormatter = ticketFormatter;
-            _entityFormatter = entityFormatter;
-            _accountTransactionDocumentFormatter = accountTransactionDocumentFormatter;
             _functionRegistry = functionRegistry;
+            _ticketPrintTaskBuilder = ticketPrintTaskBuilder;
             _functionRegistry.RegisterFunctions();
         }
+
+        [ImportMany]
+        public IEnumerable<IDocumentFormatter> DocumentFormatters { get; set; }
 
         [ImportMany]
         public IEnumerable<ICustomPrinter> CustomPrinters { get; set; }
@@ -61,11 +59,6 @@ namespace Samba.Services.Implementations.PrinterModule
             return Printers.Single(x => x.Id == id);
         }
 
-        private PrinterTemplate PrinterTemplateById(int printerTemplateId)
-        {
-            return PrinterTemplates.Single(x => x.Id == printerTemplateId);
-        }
-
         public IEnumerable<string> GetPrinterNames()
         {
             return PrinterInfo.GetPrinterNames();
@@ -81,157 +74,27 @@ namespace Samba.Services.Implementations.PrinterModule
             return CustomPrinters.FirstOrDefault(x => x.Name == customPrinterName);
         }
 
-        private PrinterMap GetPrinterMapForItem(IEnumerable<PrinterMap> printerMaps, int menuItemId)
-        {
-            var menuItemGroupCode = _cacheService.GetMenuItemData(menuItemId, x => x.GroupCode);
-            Debug.Assert(printerMaps != null);
-            var maps = printerMaps.ToList();
-
-            maps = maps.Count(x => x.MenuItemGroupCode == menuItemGroupCode) > 0
-                       ? maps.Where(x => x.MenuItemGroupCode == menuItemGroupCode).ToList()
-                       : maps.Where(x => x.MenuItemGroupCode == null).ToList();
-
-            maps = maps.Count(x => x.MenuItemId == menuItemId) > 0
-                       ? maps.Where(x => x.MenuItemId == menuItemId).ToList()
-                       : maps.Where(x => x.MenuItemId == 0).ToList();
-
-            return maps.FirstOrDefault();
-        }
-
         public void PrintTicket(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
         {
-            Debug.Assert(!string.IsNullOrEmpty(ticket.TicketNumber));
-            PrintOrders(printJob, ticket, orderSelector);
-        }
-
-        public void PrintAccountTransactionDocument(AccountTransactionDocument document, Printer printer, PrinterTemplate printerTemplate)
-        {
-            var lines = _accountTransactionDocumentFormatter.GetFormattedDocument(document, printerTemplate);
-            if (lines != null)
-            {
-                Print(printer, lines);
-            }
-        }
-
-        public void PrintEntity(Entity entity, Printer printer, PrinterTemplate printerTemplate)
-        {
-            var lines = _entityFormatter.GetFormattedDocument(entity, printerTemplate);
-            if (lines != null)
-            {
-                Print(printer, lines);
-            }
-        }
-
-        public void PrintOrders(PrintJob printJob, Ticket ticket, Func<Order, bool> orderSelector)
-        {
             ticket = ObjectCloner.Clone2(ticket);
-            if (printJob.ExcludeTax)
-                ticket.TaxIncluded = false;
-            IEnumerable<Order> ti;
-            switch (printJob.WhatToPrint)
+            var tasks = _ticketPrintTaskBuilder.GetPrintTasksForTicket(ticket, printJob, orderSelector);
+            foreach (var ticketPrintTask in tasks.Where(x => x != null && x.Printer != null && x.Lines != null))
             {
-                case (int)WhatToPrintTypes.LastLinesByPrinterLineCount:
-                    ti = GetLastOrders(ticket, printJob);
-                    break;
-                case (int)WhatToPrintTypes.LastPaidOrders:
-                    ti = GetLastPaidOrders(ticket);
-                    break;
-                default:
-                    ti = ticket.Orders.Where(orderSelector).OrderBy(x => x.Id).ToList();
-                    break;
+                Print(ticketPrintTask.Printer, ticketPrintTask.Lines);
             }
-
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
-                new Action(
-                    delegate
-                    {
-                        try
-                        {
-                            InternalPrintOrders(printJob, ticket, ti);
-                        }
-                        catch (Exception e)
-                        {
-                            _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
-                        }
-                    }));
         }
 
-        private static IEnumerable<Order> GetLastPaidOrders(Ticket ticket)
+        public void PrintObject(object item, Printer printer, PrinterTemplate printerTemplate)
         {
-            IEnumerable<PaidItem> paidItems = ticket.GetPaidItems().ToList();
-            var result = paidItems.Select(x => ticket.Orders.First(y => y.MenuItemId + "_" + y.Price == x.Key)).ToList();
-            foreach (var order in result)
+            var formatter = DocumentFormatters.FirstOrDefault(x => x.ObjectType == item.GetType());
+            if (formatter != null)
             {
-                order.Quantity = paidItems.First(x => x.Key == order.MenuItemId + "_" + order.Price).Quantity;
-            }
-            return result;
-        }
-
-        private IEnumerable<Order> GetLastOrders(Ticket ticket, PrintJob printJob)
-        {
-            if (ticket.Orders.Count > 1)
-            {
-                var printMap = printJob.PrinterMaps.Count == 1 ? printJob.PrinterMaps[0]
-                    : GetPrinterMapForItem(printJob.PrinterMaps, ticket.Orders.Last().MenuItemId);
-                var result = ticket.Orders.OrderByDescending(x => x.CreatedDateTime).ToList();
-                var printer = PrinterById(printMap.PrinterId);
-                if (printer.PageHeight > 0)
-                    result = result.Take(printer.PageHeight).ToList();
-                return result;
-            }
-            return ticket.Orders.ToList();
-        }
-
-        private void InternalPrintOrders(PrintJob printJob, Ticket ticket, IEnumerable<Order> orders)
-        {
-            if (printJob.PrinterMaps.Count == 1
-                && printJob.PrinterMaps[0].MenuItemId == 0
-                && printJob.PrinterMaps[0].MenuItemGroupCode == null)
-            {
-                PrintOrderLines(ticket, orders, printJob.PrinterMaps[0]);
-                return;
-            }
-
-            var ordersCache = new Dictionary<PrinterMap, IList<Order>>();
-
-            foreach (var item in orders)
-            {
-                var p = GetPrinterMapForItem(printJob.PrinterMaps, item.MenuItemId);
-                if (p != null)
+                var lines = formatter.GetFormattedDocument(item, printerTemplate);
+                if (lines != null)
                 {
-                    var lmap = p;
-                    var pmap = ordersCache.SingleOrDefault(
-                            x => x.Key.PrinterId == lmap.PrinterId && x.Key.PrinterTemplateId == lmap.PrinterTemplateId).Key;
-                    if (pmap == null)
-                        ordersCache.Add(p, new List<Order>());
-                    else p = pmap;
-                    ordersCache[p].Add(item);
+                    Print(printer, lines);
                 }
             }
-
-            foreach (var order in ordersCache)
-            {
-                PrintOrderLines(ticket, order.Value, order.Key);
-            }
-        }
-
-        private void PrintOrderLines(Ticket ticket, IEnumerable<Order> orders, PrinterMap map)
-        {
-            Debug.Assert(orders != null, "orders != null");
-            var lns = orders.ToList();
-            if (map == null)
-            {
-                MessageBox.Show(Resources.GeneralPrintErrorMessage);
-                _logService.Log(Resources.GeneralPrintErrorMessage);
-                return;
-            }
-            var printer = PrinterById(map.PrinterId);
-            var prinerTemplate = PrinterTemplateById(map.PrinterTemplateId);
-            if (printer == null || string.IsNullOrEmpty(printer.ShareName) || prinerTemplate == null) return;
-            if (!printer.IsCustomPrinter && !lns.Any()) return;
-            var ticketLines = _ticketFormatter.GetFormattedTicket(ticket, lns, prinerTemplate);
-            if (ticketLines != null)
-                Print(printer, ticketLines);
         }
 
         public void PrintReport(FlowDocument document, Printer printer)

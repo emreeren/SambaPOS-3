@@ -125,11 +125,14 @@
     <Compile Include="Implementations\MenuModule\MenuService.cs" />
     <Compile Include="Implementations\MenuModule\PriceListService.cs" />
     <Compile Include="Implementations\Messaging\MessagingService.cs" />
-    <Compile Include="Implementations\PrinterModule\AccountTransactionDocumentFormatter.cs" />
+    <Compile Include="Implementations\PrinterModule\ObjectFormatters\AccountTransactionDocumentFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\CustomPrinters\SaveToFilePrinter.cs" />
     <Compile Include="Implementations\PrinterModule\CustomPrinters\UrlPrinter.cs" />
-    <Compile Include="Implementations\PrinterModule\EntityFormatter.cs" />
+    <Compile Include="Implementations\PrinterModule\ObjectFormatters\EntityFormatter.cs" />
+    <Compile Include="Implementations\PrinterModule\IDocumentFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\PrintJobs\CustomPrinterJob.cs" />
+    <Compile Include="Implementations\PrinterModule\TicketPrintTaskBuilder.cs" />
+    <Compile Include="Implementations\PrinterModule\TicketPrintTask.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\AccountTransactionDocumentValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\AbstractLineFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\BoxFormatter.cs" />

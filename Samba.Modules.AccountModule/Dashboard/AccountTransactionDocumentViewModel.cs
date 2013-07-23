@@ -39,7 +39,7 @@ namespace Samba.Modules.AccountModule.Dashboard
             var printer = _applicationState.GetTransactionPrinter();
             var printerTemplateId = _cacheService.GetAccountTransactionDocumentTypeById(Model.DocumentTypeId).PrinterTemplateId;
             var printerTemplate = _cacheService.GetPrinterTemplates().First(x => x.Id == printerTemplateId);
-            _printerService.PrintAccountTransactionDocument(Model, printer, printerTemplate);
+            _printerService.PrintObject(Model, printer, printerTemplate);
         }
 
         public ICaptionCommand AddItemCommand { get; set; }

@@ -5,10 +5,10 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Services.Implementations.PrinterModule.ValueChangers;
 
-namespace Samba.Services.Implementations.PrinterModule
+namespace Samba.Services.Implementations.PrinterModule.ObjectFormatters
 {
-    [Export]
-    public class AccountTransactionDocumentFormatter
+    [Export(typeof(IDocumentFormatter))]
+    public class AccountTransactionDocumentFormatter : IDocumentFormatter
     {
         private readonly IExpressionService _expressionService;
         private readonly ISettingService _settingService;
@@ -37,5 +37,15 @@ namespace Samba.Services.Implementations.PrinterModule
             return data;
         }
 
+
+        public Type ObjectType
+        {
+            get { return typeof(AccountTransactionDocument); }
+        }
+
+        public string[] GetFormattedDocument(object item, PrinterTemplate printerTemplate)
+        {
+            return GetFormattedDocument(item as AccountTransactionDocument, printerTemplate);
+        }
     }
 }

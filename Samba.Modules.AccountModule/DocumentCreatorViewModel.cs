@@ -126,7 +126,7 @@ namespace Samba.Modules.AccountModule
             if (SelectedPrinterTemplate == null) return null;
             var document = CreateDocument();
             if (document == null) return null;
-            _printerService.PrintAccountTransactionDocument(document, SelectedPrinter, SelectedPrinterTemplate);
+            _printerService.PrintObject(document, SelectedPrinter, SelectedPrinterTemplate);
             return document;
         }
     }
