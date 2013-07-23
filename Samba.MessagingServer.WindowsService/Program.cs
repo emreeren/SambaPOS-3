@@ -2,6 +2,7 @@
 using System.Configuration.Install;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.ServiceProcess;
 
 namespace Samba.MessagingServer.WindowsService

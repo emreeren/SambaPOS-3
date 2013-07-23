@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">
-      <Project>{B184E8F8-A507-4C3D-B580-184E3776A95C}</Project>
+      <Project>{b184e8f8-a507-4c3d-b580-184e3776a95c}</Project>
       <Name>Samba.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
@@ -86,6 +86,10 @@
 copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)SambaSetup\src"
 
 :End</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>net stop SambaPOS3-MessagingServer
+Exit /b 0</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

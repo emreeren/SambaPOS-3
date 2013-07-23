@@ -129,6 +129,10 @@ copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)\SambaSetup\src"
 
 :End</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>net stop SambaPOS3-MessagingServer
+Exit /b 0</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
