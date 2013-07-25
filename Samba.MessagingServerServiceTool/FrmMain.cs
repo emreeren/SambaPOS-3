@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Samba.MessagingServer.WindowsService;
 
-namespace Samba.MessagingServer
+namespace Samba.MessagingServerServiceTool
 {
     public partial class FrmMain : Form
     {
@@ -15,6 +15,7 @@ namespace Samba.MessagingServer
         public FrmMain()
         {
             InitializeComponent();
+            DisableAll();
             edPort.Text = ServiceHelper.MessagingServerPort.ToString();
             CheckServices();
             UpdateUiTimer.Start();
@@ -30,10 +31,12 @@ namespace Samba.MessagingServer
                 UninstallService.Enabled = false;
                 StopService.Enabled = false;
                 StartService.Enabled = false;
+                updatePortBt.Enabled = false;
             }
             else
             {
                 InstallService.Enabled = false;
+                updatePortBt.Enabled = true;
                 UninstallService.Enabled = true;
                 switch (status)
                 {
@@ -71,6 +74,15 @@ namespace Samba.MessagingServer
             }
         }
 
+        private void DisableAll()
+        {
+            InstallService.Enabled = false;
+            UninstallService.Enabled = false;
+            StopService.Enabled = false;
+            StartService.Enabled = false;
+            updatePortBt.Enabled = false;
+        }
+
         private void FrmMainFormClosing(object sender, FormClosingEventArgs e)
         {
             if (_channel != null)
@@ -89,7 +101,10 @@ namespace Samba.MessagingServer
         { }
 
         private void InstallServiceClick(object sender, EventArgs e)
-        { ServiceHelper.InstallWindowsService(); }
+        {
+            DisableAll();
+            ServiceHelper.InstallWindowsService();
+        }
 
         private void NotifyIcon1Click(object sender, EventArgs e)
         {
@@ -108,16 +123,26 @@ namespace Samba.MessagingServer
         }
 
         private void StartServiceClick(object sender, EventArgs e)
-        { ServiceHelper.StartService(); }
+        {
+            DisableAll();
+            ServiceHelper.StartService();
+        }
 
         private void StopServiceClick(object sender, EventArgs e)
-        { ServiceHelper.StopService(); }
+        {
+            DisableAll();
+            ServiceHelper.StopService();
+        }
 
         private void UninstallServiceClick(object sender, EventArgs e)
-        { ServiceHelper.UninstallWindowsService(); }
+        {
+            DisableAll();
+            ServiceHelper.UninstallWindowsService();
+        }
 
         private void UpdatePortBtClick(object sender, EventArgs e)
         {
+            DisableAll();
             ServiceHelper.StopService();
             while (ServiceHelper.CheckServiceStatus() == ServiceControllerStatus.StopPending)
             { Thread.Sleep(100); }

@@ -19,6 +19,9 @@ en.sample_data=Sample Data
 en.handheld_terminal_app=Handheld terminal app
 en.ce_install_sp3_required=Compact SQL 4.0 removed from packages list because Service Pack 3 required for Compact SQL 4.0 installation. Program will run with TXT database.
 
+en.InstallService=install WindowsService %1
+en.StartService=start WindowsService %1
+
 tr.full_setup=Tam Kurulum
 tr.compact_setup=Normal Kurulum
 tr.custom_setup=Özel Kurulum
@@ -187,6 +190,13 @@ Name: {group}\Samba Data; Filename: {commonappdata}\Ozgu Tech\SambaPOS3\
 
 [Run]
 Filename: {app}\Samba.Presentation.exe; Description: {cm:LaunchProgram,Samba POS}; Flags: nowait postinstall skipifsilent unchecked
+Filename: {app}\Samba.MessagingServerServiceTool.exe; Description: {cm:LaunchProgram,MessagingServer ServiceTool}; Flags: nowait postinstall skipifsilent unchecked runascurrentuser
+Filename: {app}\Samba.MessagingServer.exe; Description: {cm:LaunchProgram,MessagingServer (Standalone)}; Flags: nowait postinstall skipifsilent unchecked
+;Filename: {app}\Samba.MessagingServer.WindowsService.exe; Parameters: "--install"; Description: {cm:InstallService,MessagingServer.WindowsService}; Flags: nowait postinstall skipifsilent unchecked*/
+;Filename: {app}\Samba.MessagingServer.WindowsService.exe; Parameters: "--start"; Description: {cm:StartService,MessagingServer.WindowsService}; Flags: nowait postinstall skipifsilent unchecked
+
+[UninstallRun]
+Filename: {app}\Samba.MessagingServer.exe; Parameters: "--uninstall"; Flags: runascurrentuser
 
 [Code]
 function CreateVersion(): boolean;
