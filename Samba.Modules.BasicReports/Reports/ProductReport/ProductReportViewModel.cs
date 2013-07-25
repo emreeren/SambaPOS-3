@@ -72,7 +72,7 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
                     menuItemInfo.Name,
                     string.Format("{0:0.##}", menuItemInfo.Quantity),
                     menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat));
-                PrintPortionsSections(report, ReportContext.Tickets, ReportContext.MenuItems, menuItemInfo, "ÜrünTablosu");
+                PrintPortionsSections(report, ReportContext.MenuItems, menuItemInfo, "ÜrünTablosu");
             }
 
             report.AddRow("ÜrünTablosu", Resources.Total, "", menuItems.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
@@ -88,11 +88,13 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
                 report.AddColumnLength("IadeTablosu", "50*", "Auto", "25*");
                 report.AddTable("IadeTablosu", Resources.MenuItem, Resources.Quantity, Resources.Amount);
 
-                foreach (MenuItemSellInfo menuItemInfo in returnedMenuItems)
-                { report.AddRow("IadeTablosu",
-                                  menuItemInfo.Name,
-                                  string.Format("{0:0.##}", menuItemInfo.Quantity),
-                    menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat)); }
+                foreach (var menuItemInfo in returnedMenuItems)
+                {
+                    report.AddRow("IadeTablosu",
+                                    menuItemInfo.Name,
+                                    string.Format("{0:0.##}", menuItemInfo.Quantity),
+                      menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat));
+                }
 
                 report.AddRow("IadeTablosu", Resources.Total, "",
                               returnedMenuItems.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
@@ -147,20 +149,20 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
 
             //----------------------
 
-            var properties = ReportContext.Tickets
+            var orderTags = ReportContext.Tickets
                 .SelectMany(x => x.Orders.Where(y => !string.IsNullOrEmpty(y.OrderTags)))
                 .SelectMany(x => x.GetOrderTagValues(y => y.MenuItemId == 0).Select(y => new { Name = y.TagValue, x.Quantity, Total = y.Price * x.Quantity }))
                 .GroupBy(x => new { x.Name })
                 .Select(x => new { x.Key.Name, Quantity = x.Sum(y => y.Quantity), Amount = x.Sum(y => y.Total) }).ToList();
 
-            if (properties.Any())
+            if (orderTags.Any())
             {
 
                 report.AddColumTextAlignment("ÖzelliklerTablosu", TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
                 report.AddColumnLength("ÖzelliklerTablosu", "50*", "20*", "30*");
                 report.AddTable("ÖzelliklerTablosu", Resources.Properties, "", "");
 
-                foreach (var property in properties.OrderByDescending(x => x.Quantity))
+                foreach (var property in orderTags.OrderByDescending(x => x.Quantity))
                 {
                     report.AddRow("ÖzelliklerTablosu", property.Name, property.Quantity.ToString(LocalSettings.ReportQuantityFormat), property.Amount.ToString(LocalSettings.ReportCurrencyFormat));
                 }
@@ -168,17 +170,19 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             return report.Document;
         }
 
-        private void PrintPortionsSections(SimpleReport report, IEnumerable<Ticket> tickets, IEnumerable<MenuItem> items, MenuItemSellInfo menuItem, string reportTable)
+        private static void PrintPortionsSections(SimpleReport report, IEnumerable<MenuItem> items, MenuItemSellInfo menuItem, string reportTable)
         {
-            var realMenuItem = (from item in items where item.Name == menuItem.Name select item).FirstOrDefault();
+            var realMenuItem = items.FirstOrDefault(x => x.Name == menuItem.Name);
 
-            var returnedMenuItems = MenuGroupBuilder.CalculatePortionsItems(ReportContext.Tickets, realMenuItem)
+            var menuItemGroups = MenuGroupBuilder.CalculatePortionsItems(ReportContext.Tickets, realMenuItem)
                                                     .OrderByDescending(x => x.Quantity);
-            if (returnedMenuItems.Any())
+            if (menuItemGroups.Count() > 1)
             {
-                foreach (var menuItemInfo in returnedMenuItems)
-                { report.AddRow(reportTable, menuItemInfo.Name, string.Format("({0:0.##})", menuItemInfo.Quantity),
-                     "(" + menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat) + ")"); }
+                foreach (var menuItemInfo in menuItemGroups)
+                {
+                    report.AddRow(reportTable, menuItemInfo.Name, string.Format("({0:0.##})", menuItemInfo.Quantity),
+                       "(" + menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat) + ")");
+                }
             }
         }
 

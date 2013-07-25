@@ -73,8 +73,7 @@ namespace Samba.Modules.BasicReports.Reports
 
         public static IEnumerable<MenuItemSellInfo> CalculatePortionsItems(IEnumerable<Ticket> tickets, MenuItem menuItem)
         {
-            var menuItems = new List<MenuItem>();
-            menuItems.Add(menuItem);
+            var menuItems = new List<MenuItem> {menuItem};
 
             var menuItemSellInfos =
                                    from c in tickets.SelectMany(x => x.Orders
