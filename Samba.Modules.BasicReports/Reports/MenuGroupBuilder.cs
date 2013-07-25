@@ -44,7 +44,6 @@ namespace Samba.Modules.BasicReports.Reports
             return result;
         }
 
-
         public static IEnumerable<MenuItemSellInfo> CalculateMenuItems(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
             var menuItemSellInfos =
