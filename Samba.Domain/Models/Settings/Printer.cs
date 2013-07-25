@@ -13,16 +13,7 @@ namespace Samba.Domain.Models.Settings
         public int CharsPerLine { get; set; }
         public int PageHeight { get; set; }
         public string CustomPrinterName { get; set; }
-        private string _customPrinterData;
-        public string CustomPrinterData
-        {
-            get { return _customPrinterData; }
-            set
-            {
-                _customPrinterData = value;
-                //_customData = null;
-            }
-        }
+        public string CustomPrinterData { get; set; }
 
         public bool IsTicketPrinter { get { return PrinterType == 0; } }
         public bool IsTextPrinter { get { return PrinterType == 1; } }
@@ -37,27 +28,6 @@ namespace Samba.Domain.Models.Settings
             CharsPerLine = 42;
             CodePage = 857;
         }
-
-        //private Dictionary<string, string> _customData;
-        //private string _customPrinterData;
-
-        //public Dictionary<string, string> CustomData
-        //{
-        //    get { return _customData ?? (_customData = JsonHelper.Deserialize<Dictionary<string, string>>(CustomPrinterData)); }
-        //}
-
-        //public string GetCustomDataValue(string name)
-        //{
-        //    return CustomData.ContainsKey(name) ? CustomData[name] : "";
-        //}
-
-        //public void SetCustomData(string name, string value)
-        //{
-        //    if (!CustomData.ContainsKey(name))
-        //        CustomData.Add(name, "");
-        //    CustomData[name] = value;
-        //    CustomPrinterData = JsonHelper.Serialize(CustomData);
-        //}
 
         public void UpdateCustomSettings(object settingsObject)
         {

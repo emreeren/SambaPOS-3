@@ -91,5 +91,8 @@ namespace Samba.Modules.AutomationModule
         {
             return Resources.RuleAction;
         }
+
+        public string GroupValue { get { return ActionTypes.Any(x => x.ActionKey == SelectedActionType) ? ActionTypes.First(x => x.ActionKey == SelectedActionType).ActionName : ""; } }
+
     }
 }

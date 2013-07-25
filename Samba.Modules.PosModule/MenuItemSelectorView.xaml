@@ -36,7 +36,7 @@
                 <RowDefinition Height="60*" Name="MenuItemRow" />
                 <RowDefinition Height="40*" Name="NumeratorRow" />
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.RowSpan="4" Grid.Column="0" Margin="3,0,7,1" UIControls:KineticBehaviour.HandleKineticScrolling="True"
+            <ScrollViewer Grid.RowSpan="4" Grid.Column="0" Margin="3,0,5,1" UIControls:KineticBehaviour.HandleKineticScrolling="True"
                  VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Categories,NotifyOnTargetUpdated=True}" TargetUpdated="ItemsControl_TargetUpdated">
                     <ItemsControl.ItemsPanel>
