@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
+using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -69,6 +72,7 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
                     menuItemInfo.Name,
                     string.Format("{0:0.##}", menuItemInfo.Quantity),
                     menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat));
+                PrintPortionsSections(report, ReportContext.Tickets, ReportContext.MenuItems, menuItemInfo, "ÜrünTablosu");
             }
 
             report.AddRow("ÜrünTablosu", Resources.Total, "", menuItems.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
@@ -84,13 +88,11 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
                 report.AddColumnLength("IadeTablosu", "50*", "Auto", "25*");
                 report.AddTable("IadeTablosu", Resources.MenuItem, Resources.Quantity, Resources.Amount);
 
-                foreach (var menuItemInfo in returnedMenuItems)
-                {
-                    report.AddRow("IadeTablosu",
+                foreach (MenuItemSellInfo menuItemInfo in returnedMenuItems)
+                { report.AddRow("IadeTablosu",
                                   menuItemInfo.Name,
                                   string.Format("{0:0.##}", menuItemInfo.Quantity),
-                                  menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat));
-                }
+                    menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat)); }
 
                 report.AddRow("IadeTablosu", Resources.Total, "",
                               returnedMenuItems.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
@@ -164,6 +166,20 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
                 }
             }
             return report.Document;
+        }
+
+        private void PrintPortionsSections(SimpleReport report, IEnumerable<Ticket> tickets, IEnumerable<MenuItem> items, MenuItemSellInfo menuItem, string reportTable)
+        {
+            var realMenuItem = (from item in items where item.Name == menuItem.Name select item).FirstOrDefault();
+
+            var returnedMenuItems = MenuGroupBuilder.CalculatePortionsItems(ReportContext.Tickets, realMenuItem)
+                                                    .OrderByDescending(x => x.Quantity);
+            if (returnedMenuItems.Any())
+            {
+                foreach (var menuItemInfo in returnedMenuItems)
+                { report.AddRow(reportTable, menuItemInfo.Name, string.Format("({0:0.##})", menuItemInfo.Quantity),
+                     "(" + menuItemInfo.Amount.ToString(ReportContext.CurrencyFormat) + ")"); }
+            }
         }
 
         //private static void PrepareModificationTable(SimpleReport report, Func<Order, bool> predicate, string title)

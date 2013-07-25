@@ -71,6 +71,27 @@ namespace Samba.Modules.BasicReports.Reports
             return result;
         }
 
+        public static IEnumerable<MenuItemSellInfo> CalculatePortionsItems(IEnumerable<Ticket> tickets, MenuItem menuItem)
+        {
+            var menuItems = new List<MenuItem>();
+            menuItems.Add(menuItem);
+
+            var menuItemSellInfos =
+                                   from c in tickets.SelectMany(x => x.Orders
+                                                                      .Where(y => y.DecreaseInventory && y.MenuItemName== menuItem.Name)
+                                                                      .Select(y => new { Ticket = x, Order = y }))
+                                   join menuI in menuItems on c.Order.MenuItemId equals menuI.Id
+                                   group c by c.Order.PortionName
+                                   into grp select new MenuItemSellInfo
+                                   {
+                                       Name = "\t." + grp.Key,
+                                       Quantity = grp.Sum(y => y.Order.Quantity),
+                                       Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order))
+                                   };
+           var result = menuItemSellInfos.ToList().OrderByDescending(x => x.Quantity);
+
+            return result;
+        }
 
         public static decimal CalculateOrderTotal(Ticket ticket, Order order)
         {
