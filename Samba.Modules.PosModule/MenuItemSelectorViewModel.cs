@@ -46,7 +46,21 @@ namespace Samba.Modules.PosModule
             set { _selectedCategory = value; RaisePropertyChanged(() => SelectedCategory); }
         }
 
-        public string QuickNumeratorValue { get { return !string.IsNullOrEmpty(NumeratorValue) ? NumeratorValue : (QuickNumeratorValues.FirstOrDefault()); } set { NumeratorValue = value; } }
+        public string QuickNumeratorValue
+        {
+            get
+            {
+                try
+                {
+                    return !string.IsNullOrEmpty(NumeratorValue) ? NumeratorValue : (QuickNumeratorValues.FirstOrDefault());
+                }
+                catch (ArgumentNullException)
+                {
+                    return null;
+                }
+            }
+            set { NumeratorValue = value; }
+        } // Bug: Produces a Exception on a newly added Numerator
 
         public string NumeratorValue
         {
