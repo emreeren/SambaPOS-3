@@ -61,7 +61,9 @@ namespace Samba.Domain.Models.Tickets
             {
                 _ticketNumber = value;
                 if (TransactionDocument != null)
+                {
                     TransactionDocument.Name = string.Format("Ticket Transaction [{0}]", TicketNumber);
+                }
             }
         }
 
@@ -217,6 +219,7 @@ namespace Samba.Domain.Models.Tickets
         public void AddPayment(PaymentType paymentType, Account account, decimal amount, decimal exchangeRate, int userId)
         {
             var transaction = TransactionDocument.AddNewTransaction(paymentType.AccountTransactionType, GetTicketAccounts(account), amount, exchangeRate);
+            transaction.UpdateDescription(transaction.Name + " [" + account.Name + "]");
             var payment = new Payment { AccountTransaction = transaction, Amount = amount, Name = account.Name, PaymentTypeId = paymentType.Id, UserId = userId };
             Payments.Add(payment);
             LastPaymentDate = DateTime.Now;

@@ -231,6 +231,14 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (string.IsNullOrEmpty(ticket.TicketNumber))
             {
                 ticket.TicketNumber = _settingService.GetNextString(numerator.Id);
+                var ticketType = _cacheService.GetTicketTypeById(ticket.TicketTypeId);
+                var transaction =
+                    ticket.TransactionDocument.AccountTransactions.FirstOrDefault(
+                        x => x.AccountTransactionTypeId == ticketType.SaleTransactionType.Id);
+                if (transaction != null)
+                {
+                    transaction.UpdateDescription(string.Format("{0} [#{1}]", transaction.Name, ticket.TicketNumber));
+                }
             }
         }
 

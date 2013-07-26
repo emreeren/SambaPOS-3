@@ -119,7 +119,7 @@ namespace Samba.Modules.AccountModule
         public AccountTransactionDocument CreateDocument()
         {
             var description = Description;
-            if (Description != _description) description = _description + " - " + Description;
+            if (Description != _description) description = string.Format("{0}  [{1}]", _description, Description);
             if (AccountSelectors.Any(x => x.SelectedAccountId == 0)) return null;
             return _accountService.CreateTransactionDocument(SelectedAccount, DocumentType, description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTypeId = x.AccountType.Id }));
         }
