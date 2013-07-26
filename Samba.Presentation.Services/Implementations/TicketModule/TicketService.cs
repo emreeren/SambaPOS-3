@@ -513,7 +513,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var transactionType = _cacheService.FindAccountTransactionType(sourceAccount.AccountTypeId, targetAccount.AccountTypeId, sourceAccount.Id, targetAccount.Id);
             if (transactionType != null)
             {
-                ticket.TransactionDocument.AddNewTransaction(transactionType, ticket.GetTicketAccounts(), amount, exchangeRate);
+                var transaction = ticket.TransactionDocument.AddNewTransaction(transactionType, ticket.GetTicketAccounts(), amount, exchangeRate);
+                transaction.UpdateDescription(string.Format("{0} - {1}: {2}", transaction.Name, Resources.TicketNumber, ticket.TicketNumber));
             }
         }
 

@@ -23,6 +23,7 @@ namespace Samba.Modules.AccountModule
         private readonly ICacheService _cacheService;
         private readonly IPrinterService _printerService;
         private readonly IApplicationState _applicationState;
+        private string _description;
 
         [ImportingConstructor]
         public DocumentCreatorViewModel(IAccountService accountService, ICacheService cacheService, IPrinterService printerService, IApplicationState applicationState)
@@ -39,9 +40,10 @@ namespace Samba.Modules.AccountModule
 
         private void OnDocumentCreation(EventParameters<DocumentCreationData> obj)
         {
+            _description = _accountService.GetDescription(obj.Value.DocumentType, obj.Value.Account);
             SelectedAccount = obj.Value.Account;
             DocumentType = obj.Value.DocumentType;
-            Description = _accountService.GetDescription(obj.Value.DocumentType, obj.Value.Account);
+            Description = _description;
             Amount = _accountService.GetDefaultAmount(obj.Value.DocumentType, obj.Value.Account);
             AccountSelectors = GetAccountSelectors().ToList();
 
@@ -116,8 +118,10 @@ namespace Samba.Modules.AccountModule
 
         public AccountTransactionDocument CreateDocument()
         {
+            var description = Description;
+            if (Description != _description) description = _description + " - " + Description;
             if (AccountSelectors.Any(x => x.SelectedAccountId == 0)) return null;
-            return _accountService.CreateTransactionDocument(SelectedAccount, DocumentType, Description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTypeId = x.AccountType.Id }));
+            return _accountService.CreateTransactionDocument(SelectedAccount, DocumentType, description, Amount, AccountSelectors.Select(x => new Account { Id = x.SelectedAccountId, AccountTypeId = x.AccountType.Id }));
         }
 
         public AccountTransactionDocument PrintDocument()

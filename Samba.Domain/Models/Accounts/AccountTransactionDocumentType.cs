@@ -64,8 +64,6 @@ namespace Samba.Domain.Models.Accounts
             foreach (var accountTransactionType in TransactionTypes)
             {
                 var transaction = AccountTransaction.Create(accountTransactionType);
-                if (!string.IsNullOrEmpty(description))
-                    transaction.Name = description;
                 transaction.UpdateAmount(amount, exchangeRate);
                 transaction.UpdateAccount(MasterAccountTypeId, account.Id);
                 if (accounts != null && accounts.Count > 0)
@@ -84,11 +82,14 @@ namespace Samba.Domain.Models.Accounts
                         if (ac != null) transaction.SetTargetAccount(ac.AccountTypeId, ac.Id);
                     }
                 }
+                if (!string.IsNullOrEmpty(description))
+                {
+                    transaction.UpdateDescription(description);
+                }
                 result.AccountTransactions.Add(transaction);
             }
             return result;
         }
-
 
         public void AddAccountTransactionDocumentTypeMap()
         {

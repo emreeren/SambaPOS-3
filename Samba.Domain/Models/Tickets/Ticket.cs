@@ -226,6 +226,7 @@ namespace Samba.Domain.Models.Tickets
         public void AddChangePayment(ChangePaymentType changePaymentType, Account account, decimal amount, decimal exchangeRate, int userId)
         {
             var transaction = TransactionDocument.AddNewTransaction(changePaymentType.AccountTransactionType, GetTicketAccounts(account), amount, exchangeRate);
+            transaction.UpdateDescription(transaction.Name + " [" + account.Name + "]");
             var payment = new ChangePayment { AccountTransaction = transaction, Amount = amount, Name = account.Name, ChangePaymentTypeId = changePaymentType.Id, UserId = userId };
             ChangePayments.Add(payment);
         }
