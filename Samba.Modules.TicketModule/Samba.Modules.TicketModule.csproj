@@ -114,6 +114,7 @@
       <DependentUpon>ChangePaymentTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ChangePaymentTypeViewModel.cs" />
+    <Compile Include="MenuAssignmentViewModel.cs" />
     <Compile Include="OrderTagGroupView.xaml.cs">
       <DependentUpon>OrderTagGroupView.xaml</DependentUpon>
     </Compile>

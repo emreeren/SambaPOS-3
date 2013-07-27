@@ -58,7 +58,7 @@ namespace Samba.Modules.PosModule
                     _accountBalances.SelectedTicket = value;
                     _accountBalances.Refresh();
                     var template = _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId);
-                    if (template != null) _menuItemSelectorViewModel.UpdateCurrentScreenMenu(template.ScreenMenuId);
+                    if (template != null) _menuItemSelectorViewModel.UpdateCurrentScreenMenu(template.GetScreenMenuId(_applicationState.CurrentTerminal));
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace Samba.Modules.PosModule
                 if (x.Topic == EventTopicNames.ResetCache && _applicationState.CurrentTicketType != null)
                 {
                     _menuItemSelectorViewModel.Reset();
-                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(_applicationState.CurrentTicketType.ScreenMenuId);
+                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(_applicationState.CurrentTicketType.GetScreenMenuId(_applicationState.CurrentTerminal));
                 }
             });
         }
@@ -112,7 +112,7 @@ namespace Samba.Modules.PosModule
         {
             if (obj.Topic == EventTopicNames.TicketTypeChanged && obj.Value != null)
             {
-                _menuItemSelectorViewModel.UpdateCurrentScreenMenu(obj.Value.ScreenMenuId);
+                _menuItemSelectorViewModel.UpdateCurrentScreenMenu(obj.Value.GetScreenMenuId(_applicationState.CurrentTerminal));
             }
 
             if (obj.Topic == EventTopicNames.TicketTypeSelected && obj.Value != null)

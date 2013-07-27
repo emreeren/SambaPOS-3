@@ -50,10 +50,10 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="2,3" Text="{LocText EntityType, Suffix=':'}"/>
                         <TextBlock Margin="4,3">
-                                        <Hyperlink Command="{Binding AddEntityTypeCommand}">
-                                            <TextBlock Text="{Binding Path=AddEntityTypeCommand.Caption}" />
-                                        </Hyperlink>
-                                    </TextBlock>
+                            <Hyperlink Command="{Binding AddEntityTypeCommand}">
+                                <TextBlock Text="{Binding Path=AddEntityTypeCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
                     </StackPanel>
                     <DataGrid ItemsSource="{Binding EntityTypeAssignments}" HorizontalAlignment="Stretch" 
                               GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" Grid.Row="1"
@@ -62,7 +62,7 @@
                               Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="{LocText EntityType}" IsReadOnly="True"
-                                             MinWidth="100" Binding="{Binding EntityTypeName}" />
+                                                MinWidth="100" Binding="{Binding EntityTypeName}" />
                             <DataGridTextColumn Header="{LocText State}" MinWidth="100" Binding="{Binding State}" />
                             <DataGridCheckBoxColumn Header="{LocText AskBeforeCreatingTicket}" Binding="{Binding AskBeforeCreatingTicket}"/>
                             <DataGridCheckBoxColumn Header="{LocText Copy}" Binding="{Binding CopyToNewTickets}"/>
@@ -70,8 +70,46 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="{LocText Mappings}">
-   
+            <TabItem Header="{LocText Mapping_f, FormatSegment1={LocText Menu}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="2,3" Text="{LocText Menu, Suffix=':'}"/>
+                        <TextBlock Margin="4,3">
+                            <Hyperlink Command="{Binding AddMenuCommand}">
+                                <TextBlock Text="{Binding Path=AddMenuCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                    <DataGrid ItemsSource="{Binding MenuAssignments}" HorizontalAlignment="Stretch" 
+                              GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" Grid.Row="1"
+                              CanUserAddRows="False" CanUserDeleteRows="False"
+                              AutoGenerateColumns="False" CanUserSortColumns="False" 
+                              Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{LocText Terminal}" IsReadOnly="True"
+                                                MinWidth="100" Binding="{Binding TerminalName}" />
+                            <DataGridTemplateColumn Header="{LocText Menu}" MinWidth="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="3" Text="{Binding MenuName}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Grid FocusManager.FocusedElement="{Binding ElementName=cbMenu}">
+                                            <ComboBox Name="cbMenu"  HorizontalAlignment="Stretch" SelectedItem="{Binding MenuName, UpdateSourceTrigger=PropertyChanged}"
+                                                          ItemsSource="{Binding MenuNames}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1">

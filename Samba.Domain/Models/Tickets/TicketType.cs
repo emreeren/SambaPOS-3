@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
@@ -10,6 +11,7 @@ namespace Samba.Domain.Models.Tickets
         public TicketType()
         {
             _entityTypeAssignments = new List<EntityTypeAssignment>();
+            _menuAssignments = new List<MenuAssignment>();
         }
 
         public int ScreenMenuId { get; set; }
@@ -27,7 +29,21 @@ namespace Samba.Domain.Models.Tickets
             set { _entityTypeAssignments = value; }
         }
 
+        private IList<MenuAssignment> _menuAssignments;
+        public virtual IList<MenuAssignment> MenuAssignments
+        {
+            get { return _menuAssignments; }
+            set { _menuAssignments = value; }
+        }
+
         private static TicketType _default;
         public static TicketType Default { get { return _default ?? (_default = new TicketType { SaleTransactionType = AccountTransactionType.Default }); } }
+
+        public int GetScreenMenuId(Terminal terminal)
+        {
+            if (terminal == null) return ScreenMenuId;
+            var result = MenuAssignments.FirstOrDefault(x => x.TerminalId == terminal.Id);
+            return result != null ? result.MenuId : ScreenMenuId;
+        }
     }
 }

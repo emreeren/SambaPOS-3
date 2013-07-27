@@ -26,16 +26,20 @@ namespace Samba.Modules.TicketModule
     {
         private readonly IMenuService _menuService;
         private readonly ICacheDao _cacheDao;
+        private readonly ISettingService _settingService;
 
         [ImportingConstructor]
-        public TicketTypeViewModel(IMenuService menuService, ICacheDao cacheDao)
+        public TicketTypeViewModel(IMenuService menuService, ICacheDao cacheDao, ISettingService settingService)
         {
             _menuService = menuService;
             _cacheDao = cacheDao;
-            AddEntityTypeCommand = new CaptionCommand<string>(Resources.Add, OnAddEntityType);
+            _settingService = settingService;
+            AddEntityTypeCommand = new CaptionCommand<string>(Resources.Select, OnAddEntityType);
+            AddMenuCommand = new CaptionCommand<string>(Resources.Select, OnAddMenu);
         }
 
         public CaptionCommand<string> AddEntityTypeCommand { get; set; }
+        public CaptionCommand<string> AddMenuCommand { get; set; }
         public int ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value; } }
         public Numerator TicketNumerator { get { return Model.TicketNumerator; } set { Model.TicketNumerator = value; } }
         public Numerator OrderNumerator { get { return Model.OrderNumerator; } set { Model.OrderNumerator = value; } }
@@ -46,12 +50,6 @@ namespace Samba.Modules.TicketModule
         public IEnumerable<EntityType> EntityTypes
         {
             get { return _entityTypes ?? (_entityTypes = _cacheDao.GetEntityTypes()); }
-        }
-
-        private ObservableCollection<EntityTypeAssignment> _entityTypeAssignments;
-        public ObservableCollection<EntityTypeAssignment> EntityTypeAssignments
-        {
-            get { return _entityTypeAssignments ?? (_entityTypeAssignments = new ObservableCollection<EntityTypeAssignment>(Model.EntityTypeAssignments)); }
         }
 
         private IEnumerable<ScreenMenu> _screenMenus;
@@ -66,6 +64,43 @@ namespace Samba.Modules.TicketModule
 
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
         public IEnumerable<AccountTransactionType> AccountTransactionTypes { get { return _accountTransactionTypes ?? (_accountTransactionTypes = Workspace.All<AccountTransactionType>()); } }
+
+        private ObservableCollection<MenuAssignmentViewModel> _menuAssignments;
+        public ObservableCollection<MenuAssignmentViewModel> MenuAssignments
+        {
+            get { return _menuAssignments ?? (_menuAssignments = new ObservableCollection<MenuAssignmentViewModel>(GetMenuAssignmentViewModels())); }
+        }
+
+        private ObservableCollection<EntityTypeAssignment> _entityTypeAssignments;
+        public ObservableCollection<EntityTypeAssignment> EntityTypeAssignments
+        {
+            get { return _entityTypeAssignments ?? (_entityTypeAssignments = new ObservableCollection<EntityTypeAssignment>(Model.EntityTypeAssignments)); }
+        }
+
+        private IEnumerable<MenuAssignmentViewModel> GetMenuAssignmentViewModels()
+        {
+            return Model.MenuAssignments.Select(x => new MenuAssignmentViewModel(x, ScreenMenus));
+        }
+
+        private void OnAddMenu(string obj)
+        {
+            var selectedItems = Model.MenuAssignments;
+            var values = _settingService.GetTerminals().Where(x => selectedItems.All(y => y.TerminalId != x.Id))
+                .Select(x => new MenuAssignment { TerminalName = x.Name, TerminalId = x.Id })
+                .ToList<IOrderable>();
+            var selectedValues = InteractionService.UserIntraction.ChooseValuesFrom(
+                values,
+                selectedItems.ToList<IOrderable>(),
+                Resources.Terminal.ToPlural(),
+                string.Format(Resources.SelectItemsFor_f, Resources.Terminal.ToPlural(), Model.Name,
+                              Resources.TicketType),
+                Resources.Terminal,
+                Resources.Terminal.ToPlural());
+
+            Model.InjectFrom<EntityInjection>(new { MenuAssignments = selectedValues.Cast<MenuAssignment>().ToList() });
+            _menuAssignments = null;
+            RaisePropertyChanged(() => MenuAssignments);
+        }
 
         private void OnAddEntityType(string obj)
         {

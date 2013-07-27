@@ -9,6 +9,8 @@ namespace Samba.Domain.Models.Tickets
             CopyToNewTickets = true;
         }
 
+        public int TicketTypeId { get; set; }
+
         public int EntityTypeId { get; set; }
         public string EntityTypeName { get; set; }
 

@@ -190,6 +190,14 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<AccountScreenValue>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<AccountScreen>().HasMany(p => p.AccountScreenValues).WithRequired().HasForeignKey(x => x.AccountScreenId);
 
+            modelBuilder.Entity<EntityTypeAssignment>().HasKey(p => new { p.Id, p.TicketTypeId });
+            modelBuilder.Entity<EntityTypeAssignment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<TicketType>().HasMany(p => p.EntityTypeAssignments).WithRequired().HasForeignKey(x => x.TicketTypeId);        
+            
+            modelBuilder.Entity<MenuAssignment>().HasKey(p => new { p.Id, p.TicketTypeId });
+            modelBuilder.Entity<MenuAssignment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<TicketType>().HasMany(p => p.MenuAssignments).WithRequired().HasForeignKey(x => x.TicketTypeId);
+
             const int qscale = 3;
             const int scale = 2;
             const int precision = 16;
