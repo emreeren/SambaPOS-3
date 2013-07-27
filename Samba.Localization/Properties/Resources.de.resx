@@ -924,6 +924,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Rule_f" xml:space="preserve">
     <value>{0} Regel</value>
   </data>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Bezahle Beleg</value>
+  </data>
   <data name="PrinterOptions" xml:space="preserve">
     <value>Druckereinstellungen</value>
   </data>

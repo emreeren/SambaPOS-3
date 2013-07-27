@@ -183,15 +183,14 @@ namespace Samba.Presentation
         {
             if (e.ClickCount == 2)
             {
-                if (Keyboard.Modifiers == (ModifierKeys.Alt | ModifierKeys.Shift))
-                {
-                    throw new Exception("Demo exception");
-                }
-
                 if (Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
                 {
-                    (MainGrid.LayoutTransform as ScaleTransform).ScaleX = 1;
-                    (MainGrid.LayoutTransform as ScaleTransform).ScaleY = 1;
+                    var lt = MainGrid.LayoutTransform as ScaleTransform;
+                    if (lt != null)
+                    {
+                        lt.ScaleX = 1;
+                        lt.ScaleY = 1;
+                    }
                     return;
                 }
 
@@ -206,15 +205,11 @@ namespace Samba.Presentation
                     WindowState = WindowState.Maximized;
                 }
             }
-            
-
         }
 
         private void UIElement_OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (Keyboard.Modifiers != (ModifierKeys.Control | ModifierKeys.Shift)) return;
-            //if ((Keyboard.Modifiers & ModifierKeys.Shift) == 0) return;
-            //if ((Keyboard.Modifiers & ModifierKeys.Control) == 0) return;
             var val = e.Delta / 3000d;
             var sc = MainGrid.LayoutTransform as ScaleTransform;
             if (sc == null || sc.ScaleX + val < 0.05) return;

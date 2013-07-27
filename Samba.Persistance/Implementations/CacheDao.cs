@@ -138,7 +138,7 @@ namespace Samba.Persistance.Implementations
 
         public IEnumerable<TicketType> GetTicketTypes()
         {
-            return Dao.Query<TicketType>(x => x.SaleTransactionType, x => x.OrderNumerator, x => x.TicketNumerator, x => x.EntityTypeAssignments).OrderBy(x => x.SortOrder);
+            return Dao.Query<TicketType>(x => x.SaleTransactionType, x => x.OrderNumerator, x => x.TicketNumerator, x => x.EntityTypeAssignments, x => x.MenuAssignments).OrderBy(x => x.SortOrder);
         }
 
         public IEnumerable<TaskType> GetTaskTypes()

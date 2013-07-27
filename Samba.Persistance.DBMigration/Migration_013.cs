@@ -30,7 +30,7 @@ namespace Samba.Persistance.DBMigration
                 .FromTable("EntityTypeAssignments").ForeignColumn("TicketTypeId")
                 .ToTable("TicketTypes").PrimaryColumn("Id");
 
-            Create.Index("IX_TicketTypeId").OnTable("AccountScreenValues").OnColumn("TicketTypeId").Ascending();
+            Create.Index("IX_TicketTypeId").OnTable("EntityTypeAssignments").OnColumn("TicketTypeId").Ascending();
 
             //-- Menu Assignment Table
 
