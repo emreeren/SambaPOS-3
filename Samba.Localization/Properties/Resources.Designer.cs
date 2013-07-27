@@ -7930,6 +7930,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Toggle Calculation.
+        /// </summary>
+        public static string ToggleCalculation {
+            get {
+                return ResourceManager.GetString("ToggleCalculation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Toggle Values.
         /// </summary>
         public static string ToggleValues {

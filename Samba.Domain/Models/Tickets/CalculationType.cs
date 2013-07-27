@@ -19,6 +19,7 @@ namespace Samba.Domain.Models.Tickets
         public bool IncludeTax { get; set; }
         public bool DecreaseAmount { get; set; }
         public bool UsePlainSum { get; set; }
+        public bool ToggleCalculation { get; set; }
         public virtual AccountTransactionType AccountTransactionType { get; set; }
     }
 }

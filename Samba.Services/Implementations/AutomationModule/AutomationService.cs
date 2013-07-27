@@ -106,7 +106,7 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterEvent(RuleEventNames.BeforeTicketClosing, Resources.BeforeTicketClosing, new { TicketId = 0, RemainingAmount = 0m, TotalAmount = 0m });
             RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0, RemainingAmount = 0m, TotalAmount = 0m });
             RegisterEvent(RuleEventNames.TicketsMerged, Resources.TicketsMerged);
-            RegisterEvent(RuleEventNames.TicketEntityChanged, Resources.TicketEntityChanged, new { EntityTypeName = "", OrderCount = 0, OldEntityName = "", NewEntityName = "", CustomData = "" });
+            RegisterEvent(RuleEventNames.TicketEntityChanged, Resources.TicketEntityChanged, new { EntityTypeName = "", OrderCount = 0, OldEntityName = "", NewEntityName = "", OldCustomData = "", CustomData = "" });
             RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
             RegisterEvent(RuleEventNames.TicketStateUpdated, Resources.TicketStateUpdated, new { StateName = "", State = "", StateValue = "", Quantity = 0, TicketState = "" });
             RegisterEvent(RuleEventNames.TicketTotalChanged, Resources.TicketTotalChanged, new { PreviousTotal = 0m, TicketTotal = 0m, RemainingAmount = 0m, DiscountTotal = 0m, PaymentTotal = 0m });

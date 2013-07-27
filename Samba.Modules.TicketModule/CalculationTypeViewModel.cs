@@ -36,6 +36,7 @@ namespace Samba.Modules.TicketModule
         public bool IncludeTax { get { return Model.IncludeTax; } set { Model.IncludeTax = value; } }
         public bool DecreaseAmount { get { return Model.DecreaseAmount; } set { Model.DecreaseAmount = value; } }
         public bool UsePlainSum { get { return Model.UsePlainSum; } set { Model.UsePlainSum = value; } }
+        public bool ToggleCalculation { get { return Model.ToggleCalculation; } set { Model.ToggleCalculation = value; } }
 
         private IEnumerable<AccountTransactionType> _accountTransactionTypes;
         public IEnumerable<AccountTransactionType> AccountTransactionTypes { get { return _accountTransactionTypes ?? (_accountTransactionTypes = Workspace.All<AccountTransactionType>()); } }

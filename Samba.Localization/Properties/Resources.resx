@@ -3340,4 +3340,7 @@ Error Message:
   <data name="UserInformation" xml:space="preserve">
     <value>User Information</value>
   </data>
+  <data name="ToggleCalculation" xml:space="preserve">
+    <value>Toggle Calculation</value>
+  </data>
 </root>

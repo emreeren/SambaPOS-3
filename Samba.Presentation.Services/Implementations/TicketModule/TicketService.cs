@@ -55,6 +55,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var currentEntityId = currentEntity != null ? currentEntity.EntityId : 0;
             var newEntityName = entityName;
             var oldEntityName = currentEntity != null ? currentEntity.EntityName : "";
+            var newEntityData = entityCustomData;
+            var oldEntityData = currentEntity != null ? currentEntity.EntityCustomData : "";
 
             if (currentEntity != null && currentEntity.EntityId != entityId)
             {
@@ -70,7 +72,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
 
             ticket.UpdateEntity(entityTypeId, entityId, entityName, accountTypeId, accountId, entityCustomData);
 
-            if (currentEntityId != entityId)
+            if (currentEntityId != entityId || oldEntityName != newEntityName || newEntityData != oldEntityData)
             {
                 var entityType = _cacheService.GetEntityTypeById(entityTypeId);
                 _applicationState.NotifyEvent(RuleEventNames.TicketEntityChanged,
@@ -83,7 +85,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                         OldEntityName = oldEntityName,
                         NewEntityName = newEntityName,
                         OrderCount = ticket.Orders.Count,
-                        CustomData = entityCustomData
+                        OldCustomData = oldEntityData,
+                        CustomData = newEntityData
                     });
             }
         }

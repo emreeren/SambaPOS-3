@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignWidth="300">
 
     <Grid>
         <Grid.RowDefinitions >
@@ -28,9 +28,10 @@
             <Label HorizontalAlignment="Left" Content="Max Amount:" />
             <UIControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="50" Type="Number"
                  Text="{Binding MaxAmount}" />
-            <CheckBox Margin="0,5,0,0" IsChecked="{Binding IncludeTax}" Content="{LocText IncludeTax}"/>            
+            <CheckBox Margin="0,5,0,0" IsChecked="{Binding IncludeTax}" Content="{LocText IncludeTax}"/>
             <CheckBox IsChecked="{Binding DecreaseAmount}" Content="{LocText DecreaseAmount}"/>
             <CheckBox IsChecked="{Binding UsePlainSum}" Content="{LocText UsePlainSum}"/>
+            <CheckBox IsChecked="{Binding ToggleCalculation}" Content="{LocText ToggleCalculation}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1">

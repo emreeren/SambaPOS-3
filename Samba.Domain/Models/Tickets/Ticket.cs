@@ -365,7 +365,7 @@ namespace Samba.Domain.Models.Tickets
                 Calculations.Add(calculation);
                 TransactionDocument.AddSingletonTransaction(calculation.AccountTransactionTypeId, calculationType.AccountTransactionType, GetTicketAccounts());
             }
-            else if (calculation.Amount == amount)
+            else if (calculationType.ToggleCalculation && calculation.Amount == amount)
             {
                 amount = 0;
             }
@@ -627,6 +627,7 @@ namespace Samba.Domain.Models.Tickets
                 r.EntityId = entityId;
                 r.EntityName = entityName;
                 r.EntityTypeId = entityTypeId;
+                r.EntityCustomData = entityCustomData;
             }
             else if (r != null && entityId == 0)
                 TicketEntities.Remove(r);
