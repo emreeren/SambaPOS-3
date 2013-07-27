@@ -15,6 +15,7 @@ namespace Samba.Presentation.Services
         void SetApplicationLocked(bool isLocked);
         void SetNumberpadValue(string value);
         void SetCurrentTicketType(TicketType ticketType);
+        void SetCurrentTerminal(string terminalName);
         void ResetWorkPeriods();
     }
 }

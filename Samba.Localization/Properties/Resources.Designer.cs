@@ -6585,6 +6585,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set Current Terminal.
+        /// </summary>
+        public static string SetCurrentTerminal {
+            get {
+                return ResourceManager.GetString("SetCurrentTerminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Setting Name.
         /// </summary>
         public static string SettingName {

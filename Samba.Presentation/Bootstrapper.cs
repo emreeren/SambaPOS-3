@@ -63,6 +63,7 @@ namespace Samba.Presentation
             }
 #endif
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            System.Net.ServicePointManager.Expect100Continue = false;
 
             LocalizeDictionary.ChangeLanguage(LocalSettings.CurrentLanguage);
 
@@ -126,7 +127,6 @@ namespace Samba.Presentation
 
             ServiceLocator.Current.GetInstance<ITriggerService>().UpdateCronObjects();
             ServiceLocator.Current.GetInstance<IDeviceService>().InitializeDevices();
-            ServiceLocator.Current.GetInstance<IApplicationState>().NotifyEvent(RuleEventNames.ApplicationStarted, new { });
             InteractionService.UserIntraction.ToggleSplashScreen();
 
             Application.Current.MainWindow.Show();

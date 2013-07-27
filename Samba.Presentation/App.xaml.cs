@@ -5,6 +5,7 @@ using Samba.Infrastructure;
 using Samba.Infrastructure.Messaging;
 using Samba.Presentation.Common.ErrorReport;
 using Samba.Presentation.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation
 {
@@ -21,6 +22,7 @@ namespace Samba.Presentation
 #else
             RunInReleaseMode();
 #endif
+            ServiceLocator.Current.GetInstance<IApplicationState>().NotifyEvent(RuleEventNames.ApplicationStarted, new { Arguments = string.Join(" ", e.Args) });
         }
 
         protected override void OnExit(ExitEventArgs e)

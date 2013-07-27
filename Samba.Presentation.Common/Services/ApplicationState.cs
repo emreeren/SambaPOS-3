@@ -178,6 +178,11 @@ namespace Samba.Presentation.Common.Services
             }
         }
 
+        public void SetCurrentTerminal(string terminalName)
+        {
+            _terminal = _settingService.GetTerminalByName(terminalName);
+        }
+
         public string NumberPadValue
         {
             get { return _settingService.ReadLocalSetting("NUMBERPAD").StringValue; }

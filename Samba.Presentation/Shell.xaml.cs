@@ -183,6 +183,11 @@ namespace Samba.Presentation
         {
             if (e.ClickCount == 2)
             {
+                if (Keyboard.Modifiers == (ModifierKeys.Alt | ModifierKeys.Shift))
+                {
+                    throw new Exception("Demo exception");
+                }
+
                 if (Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
                 {
                     (MainGrid.LayoutTransform as ScaleTransform).ScaleX = 1;
@@ -201,6 +206,8 @@ namespace Samba.Presentation
                     WindowState = WindowState.Maximized;
                 }
             }
+            
+
         }
 
         private void UIElement_OnMouseWheel(object sender, MouseWheelEventArgs e)

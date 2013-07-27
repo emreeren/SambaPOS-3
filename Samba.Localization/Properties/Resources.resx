@@ -3343,4 +3343,7 @@ Error Message:
   <data name="ToggleCalculation" xml:space="preserve">
     <value>Toggle Calculation</value>
   </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Set Current Terminal</value>
+  </data>
 </root>
