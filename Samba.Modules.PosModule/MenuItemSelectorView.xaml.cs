@@ -54,7 +54,7 @@ namespace Samba.Modules.PosModule
         private void DisableLandscapeMode()
         {
             _viewModel.IsSelectedItemsVisible = true;
-            SelectedItemsRow.Height = _auto40;
+            SelectedItemsRow.Height = _auto25;
         }
 
         private void ItemsControl_TargetUpdated(object sender, DataTransferEventArgs e)

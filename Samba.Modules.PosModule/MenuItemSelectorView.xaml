@@ -59,19 +59,21 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <ListBox ItemsSource="{Binding SelectedMenuItems}" UIControls:ListBoxBehavior.ScrollOnNewItem="true">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <TextBlock MinWidth="20" Text="{Binding Quantity}"></TextBlock>
-                                <TextBlock Text="{Binding ScreenMenuItem.Name}"></TextBlock>
-                            </DockPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <Border BorderThickness="1" BorderBrush="Silver">
+                    <ListBox BorderThickness="0" ItemsSource="{Binding SelectedMenuItems}" UIControls:ListBoxBehavior.ScrollOnNewItem="true">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <TextBlock FontSize="18" MinWidth="20" Text="{Binding Quantity}"></TextBlock>
+                                    <TextBlock FontSize="18" Text="{Binding ScreenMenuItem.Name}"></TextBlock>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
                 <StackPanel Grid.Column="1">
                     <FxButton:FlexButton Command="{Binding CloseMenuViewCommand}" Content="{Binding CloseMenuViewCommand.Caption}" 
-                                         Height="45" ButtonColor="Red" Margin="3,0"/>
+                                         Height="40" ButtonColor="Red" Margin="3,0"/>
                 </StackPanel>
             </Grid>
 
