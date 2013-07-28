@@ -9,6 +9,7 @@ namespace Samba.Domain.Models.Automation
         public bool DisplayOnPayment { get; set; }
         public bool DisplayOnOrders { get; set; }
         public bool DisplayOnTicketList { get; set; }
+        public bool DisplayUnderTicket { get; set; }
         public string EnabledStates { get; set; }
         public string VisibleStates { get; set; }
 

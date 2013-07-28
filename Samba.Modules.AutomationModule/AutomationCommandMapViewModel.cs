@@ -7,7 +7,7 @@ namespace Samba.Modules.AutomationModule
 {
     public class AutomationCommandMapViewModel : AbstractMapViewModel<AutomationCommandMap>
     {
-        private readonly IList<string> _screens = new[] { Resources.Ticket, Resources.Payment, string.Format("{0}&{1}", Resources.Ticket, Resources.Payment), Resources.OrderLine,string.Format(Resources.List_f,Resources.Ticket) };
+        private readonly IList<string> _screens = new[] { Resources.Ticket, Resources.Payment, string.Format("{0}&{1}", Resources.Ticket, Resources.Payment), Resources.OrderLine, string.Format(Resources.List_f, Resources.Ticket), Resources.DisplayUnderTicket };
         public IList<string> Screens { get { return _screens; } }
         public string Screen { get { return Screens[ScreenId]; } set { ScreenId = Screens.IndexOf(value); } }
         public string EnabledStates { get { return Model.EnabledStates; } set { Model.EnabledStates = value; } }
@@ -17,6 +17,7 @@ namespace Samba.Modules.AutomationModule
         {
             get
             {
+                if (Model.DisplayUnderTicket) return 5;
                 if (Model.DisplayOnTicketList) return 4;
                 if (Model.DisplayOnOrders) return 3;
                 if (Model.DisplayOnTicket && Model.DisplayOnPayment) return 2;
@@ -29,6 +30,7 @@ namespace Samba.Modules.AutomationModule
                 Model.DisplayOnTicket = value == 2 || value == 0;
                 Model.DisplayOnOrders = value == 3;
                 Model.DisplayOnTicketList = value == 4;
+                Model.DisplayUnderTicket = value == 5;
             }
         }
     }

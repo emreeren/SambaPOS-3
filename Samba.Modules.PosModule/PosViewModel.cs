@@ -172,7 +172,8 @@ namespace Samba.Modules.PosModule
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedItem);
-                    if (_applicationState.SelectedEntityScreen != null
+                    if (_applicationState.CurrentDepartment!= null && _applicationState.CurrentDepartment.TicketCreationMethod==0
+                        &&_applicationState.SelectedEntityScreen != null
                         && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedItem.Id > 0
                         && _applicationState.TempEntityScreen != null
                         && eventParameters.Value.SelectedItem.EntityTypeId == _applicationState.TempEntityScreen.EntityTypeId)

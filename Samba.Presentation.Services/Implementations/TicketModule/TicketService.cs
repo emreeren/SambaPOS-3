@@ -472,6 +472,11 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             return true;
         }
 
+        public bool CanSettleTicket(Ticket ticket)
+        {
+            return CanCloseTicket(ticket) && (ticket.GetRemainingAmount() > 0 || ticket.Orders.Count > 0);
+        }
+
         public void RefreshAccountTransactions(Ticket ticket)
         {
             foreach (var template in from order in ticket.Orders.GroupBy(x => x.AccountTransactionTypeId)

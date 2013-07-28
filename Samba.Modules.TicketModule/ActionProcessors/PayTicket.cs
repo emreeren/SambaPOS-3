@@ -24,7 +24,7 @@ namespace Samba.Modules.TicketModule.ActionProcessors
         {
             var ticket = actionData.GetDataValue<Ticket>("Ticket");
 
-            if (ticket != null)
+            if (ticket != null && ticket != Ticket.Empty && _ticketService.CanSettleTicket(ticket))
             {
                 var paymentTypeName = actionData.GetAsString("PaymentTypeName");
                 var paymentType = _cacheService.GetPaymentTypeByName(paymentTypeName);

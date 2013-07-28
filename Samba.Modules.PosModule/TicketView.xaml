@@ -32,7 +32,25 @@
         <ContentControl Grid.Row="3" Grid.Column="1" Margin="0,0,3,0" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketTotalsRegion}"/>
 
         <!--PAYMENT BUTTONS AREA-->
-        <ContentControl Grid.Row="4" Grid.Column="1" cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketPaymentRegion}"/>
+
+            <ItemsControl  Grid.Row="4" Grid.Column="1" ItemsSource="{Binding UnderTicketAutomationCommands,NotifyOnTargetUpdated=True}"
+                         HorizontalAlignment="Stretch">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="1"></UniformGrid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FxButton:FlexButton Margin="0,0,3,3" Command="{Binding DataContext.ExecuteAutomationCommnand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                             CommandParameter="{Binding .}" Content="{Binding Display}"
+                                             FontSize="{Binding FontSize}"
+                                             ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}" 
+                                             Visibility="{Binding IsVisible,Converter={StaticResource VisibilityConverter}}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <!--<ContentControl  cal:RegionManager.RegionName="{x:Static cmn:RegionNames.TicketPaymentRegion}"/>-->
 
         <!--COMMAND BUTTONS AREA-->
         <StackPanel Name="CommandButtonsColumn" Grid.Column="0" Grid.RowSpan="5" Grid.Row="0" VerticalAlignment="Top" Margin="0,0,3,0">

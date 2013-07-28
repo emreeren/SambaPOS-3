@@ -31,6 +31,7 @@ namespace Samba.Presentation.Services
         bool CanDeselectOrder(Order order);
         OrderTagGroup GetMandantoryOrderTagGroup(Order order);
         bool CanCloseTicket(Ticket ticket);
+        bool CanSettleTicket(Ticket ticket);
         void RefreshAccountTransactions(Ticket ticket);
         void UpdateOrderStates(Ticket ticket, IList<Order> orders, string stateName, string currentState, int groupOrder, string state, int stateOrder, string stateValue);
         void UpdateTicketState(Ticket ticket, string stateName, string currentState, string state, string stateValue, int quantity = 0);

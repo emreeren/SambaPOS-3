@@ -148,6 +148,11 @@ namespace Samba.Modules.PosModule
             get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayOnOrders && x.CommandContainer.CanDisplay(SelectedTicket)); }
         }
 
+        public IEnumerable<CommandContainerButton> UnderTicketAutomationCommands
+        {
+            get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayUnderTicket && x.CommandContainer.CanDisplay(SelectedTicket)); }
+        }
+
         public IEnumerable<TicketTagButton> TicketTagButtons
         {
             get
@@ -262,10 +267,10 @@ namespace Samba.Modules.PosModule
                 ClearSelectedItems();
                 ClearSelection = true;
                 RefreshVisuals();
-                if (SelectedTicket != Ticket.Empty)
-                {
-                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                }
+                //if (SelectedTicket != Ticket.Empty)
+                //{
+                //    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                //}
             }
         }
 
@@ -570,6 +575,7 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => IsNothingSelectedAndTicketTagged);
             RaisePropertyChanged(() => TicketTagButtons);
             RaisePropertyChanged(() => TicketAutomationCommands);
+            RaisePropertyChanged(() => UnderTicketAutomationCommands);
         }
 
         public void RefreshSelectedItems()
