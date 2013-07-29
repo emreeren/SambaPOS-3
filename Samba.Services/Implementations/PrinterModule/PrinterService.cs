@@ -8,6 +8,7 @@ using System.Windows.Threading;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
+using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Services.Common;
 using Samba.Services.Implementations.PrinterModule.Formatters;
@@ -77,11 +78,25 @@ namespace Samba.Services.Implementations.PrinterModule
         public void PrintTicket(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
         {
             ticket = ObjectCloner.Clone2(ticket);
-            var tasks = _ticketPrintTaskBuilder.GetPrintTasksForTicket(ticket, printJob, orderSelector);
-            foreach (var ticketPrintTask in tasks.Where(x => x != null && x.Printer != null && x.Lines != null))
-            {
-                Print(ticketPrintTask.Printer, ticketPrintTask.Lines);
-            }
+
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+                    new Action(
+                        delegate
+                        {
+                            try
+                            {
+                                LocalSettings.UpdateThreadLanguage();
+                                var tasks = _ticketPrintTaskBuilder.GetPrintTasksForTicket(ticket, printJob, orderSelector);
+                                foreach (var ticketPrintTask in tasks.Where(x => x != null && x.Printer != null && x.Lines != null))
+                                {
+                                    Print(ticketPrintTask.Printer, ticketPrintTask.Lines);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
+                            }
+                        }));
         }
 
         public void PrintObject(object item, Printer printer, PrinterTemplate printerTemplate)
@@ -111,6 +126,7 @@ namespace Samba.Services.Implementations.PrinterModule
                     {
                         try
                         {
+                            LocalSettings.UpdateThreadLanguage();
                             InternalExecutePrintJob(printJob);
                         }
                         catch (Exception e)
