@@ -39,10 +39,10 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
         }
 
         public static decimal Sum { get { return Model.GetSum(); } }
-        public static string SumS { get { return Sum.ToString(LocalSettings.CurrencyFormat); } }
+        public static string SumF { get { return Sum.ToString(LocalSettings.CurrencyFormat); } }
         public static decimal Due { get { return RemainingAmount; } }
-        public static string DueS { get { return Due.ToString(LocalSettings.CurrencyFormat); } }
+        public static string DueF { get { return Due.ToString(LocalSettings.CurrencyFormat); } }
         public static decimal SSum(string state) { return Model.GetOrderStateTotal(state); }
-        public static string SSumS(string state) { return SSum(state).ToString(LocalSettings.CurrencyFormat); }
+        public static string SSumF(string state) { return SSum(state).ToString(LocalSettings.CurrencyFormat); }
     }
 }
