@@ -71,7 +71,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
-                    <Grid KeyboardNavigation.TabNavigation="Local">
+                    <Grid KeyboardNavigation.TabNavigation="Local" Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0"/>
                             <ColumnDefinition Width="*"/>

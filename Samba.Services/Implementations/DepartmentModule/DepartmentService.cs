@@ -26,7 +26,7 @@ namespace Samba.Services.Implementations.DepartmentModule
 
         public Department GetDepartment(int id)
         {
-            return id == 0 ? null : Departments.First(x => x.Id == id);
+            return id == 0 || Departments.All(x => x.Id != id) ? null : Departments.First(x => x.Id == id);
         }
 
         public IEnumerable<Department> GetDepartments()

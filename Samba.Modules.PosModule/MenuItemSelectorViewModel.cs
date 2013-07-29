@@ -46,7 +46,11 @@ namespace Samba.Modules.PosModule
             set { _selectedCategory = value; RaisePropertyChanged(() => SelectedCategory); }
         }
 
-        public string QuickNumeratorValue { get { return !string.IsNullOrEmpty(NumeratorValue) ? NumeratorValue : (QuickNumeratorValues.FirstOrDefault()); } set { NumeratorValue = value; } }
+        public string QuickNumeratorValue
+        {
+            get { return !string.IsNullOrEmpty(NumeratorValue) ? NumeratorValue : QuickNumeratorValues.FirstOrDefault(); }
+            set { NumeratorValue = value; }
+        }
 
         public string NumeratorValue
         {
@@ -105,6 +109,7 @@ namespace Samba.Modules.PosModule
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnEvent);
             NumeratorValue = "";
+            QuickNumeratorValues = new[] { "1", "2", "3", "4", "5" };
 
             SubCategories = new ObservableCollection<ScreenSubCategoryButton>();
             SelectedMenuItems = new ObservableCollection<ScreenMenuItemData>();

@@ -238,7 +238,7 @@ namespace Samba.Modules.PosModule
             {
                 if (SelectedOrders.Any())
                 {
-                    foreach (var selectedOrder in SelectedOrders)
+                    foreach (var selectedOrder in SelectedOrders.ToList())
                     {
                         _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
                         {
@@ -263,10 +263,6 @@ namespace Samba.Modules.PosModule
                 ClearSelectedItems();
                 ClearSelection = true;
                 RefreshVisuals();
-                //if (SelectedTicket != Ticket.Empty)
-                //{
-                //    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                //}
             }
         }
 

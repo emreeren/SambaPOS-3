@@ -118,6 +118,7 @@ namespace Samba.Presentation.Common.Services
 
         public void SetCurrentDepartment(Department department)
         {
+            if (department == null) return;
             if (CurrentDepartment == null || department != CurrentDepartment.Model)
             {
                 CurrentDepartment = new CurrentDepartmentData { Model = department };

@@ -93,10 +93,12 @@ namespace Samba.Modules.EntityModule
                     selectedScreen = null;
                     if (!string.IsNullOrEmpty(value.Data))
                     {
-                        selectedScreen = _entityScreens.Where(x => x.DisplayMode == 1).First(x => x.EntityTypeId == value.SelectedItem.EntityTypeId);
+                        selectedScreen = _entityScreens.Where(x => x.DisplayMode == 1).FirstOrDefault(x => x.EntityTypeId == value.SelectedItem.EntityTypeId);
                     }
                     if (selectedScreen == null)
-                        selectedScreen = _entityScreens.First(x => x.EntityTypeId == value.SelectedItem.EntityTypeId);
+                    {
+                        selectedScreen = _entityScreens.FirstOrDefault(x => x.EntityTypeId == value.SelectedItem.EntityTypeId);
+                    }
                 }
                 if (selectedScreen == null) selectedScreen = _entityScreens.ElementAt(0);
             }

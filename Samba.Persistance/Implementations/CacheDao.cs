@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
@@ -128,7 +130,11 @@ namespace Samba.Persistance.Implementations
 
         public IEnumerable<ScreenMenu> GetScreenMenus()
         {
-            return Dao.Query<ScreenMenu>(x => x.Categories.Select(z => z.ScreenMenuItems));
+            var time = DateTime.Now.Ticks;
+            var result = Dao.Query<ScreenMenu>(x => x.Categories.Select(z => z.ScreenMenuItems));
+            var time2 = DateTime.Now.Ticks;
+            Debug.WriteLine("Screen Menu: " + new TimeSpan(time2 - time).TotalMilliseconds);
+            return result;
         }
 
         public IEnumerable<EntityScreen> GetEntityScreens()

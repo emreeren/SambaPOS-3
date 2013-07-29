@@ -13,16 +13,14 @@ namespace Samba.Modules.DepartmentModule
     {
         private readonly IApplicationState _applicationState;
         private readonly IUserService _userService;
-        private readonly ICacheService _cacheService;
         private readonly IApplicationStateSetter _applicationStateSetter;
 
         public DepartmentSelectorViewModel(IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
-            IUserService userService, ICacheService cacheService)
+            IUserService userService)
         {
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
             _userService = userService;
-            _cacheService = cacheService;
             EventServiceFactory.EventService.GetEvent<GenericEvent<IApplicationState>>().Subscribe(OnSelectedTicketChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkPeriodChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<User>>().Subscribe(OnUserLoggedIn);

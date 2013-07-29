@@ -6,8 +6,7 @@
              mc:Ignorable="d" 
              xmlns:local="clr-namespace:Samba.Modules.NavigationModule"
              d:DesignHeight="600" d:DesignWidth="600"
-             d:DataContext="{d:DesignInstance local:NavigationViewModel, IsDesignTimeCreatable=True}"
-             Margin="-5">
+             d:DataContext="{d:DesignInstance local:NavigationViewModel, IsDesignTimeCreatable=True}">
     <Grid>
 
         <Border Opacity="0.5">

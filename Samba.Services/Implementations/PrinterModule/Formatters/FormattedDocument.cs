@@ -47,7 +47,7 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
                     documentLine = documentLine.Replace(mt + ">", ">");
                     ratio = Convert.ToDouble(mt.Trim(':'));
                 }
-                var fmtr = new JustifyAlignFormatter(documentLine, maxWidth, true, ratio, _lastColumnWidths);
+                var fmtr = new JustifyAlignFormatter(documentLine, maxWidth, false, ratio, _lastColumnWidths);
                 _lastColumnWidths = fmtr.GetColumnWidths();
                 return fmtr;
             }
