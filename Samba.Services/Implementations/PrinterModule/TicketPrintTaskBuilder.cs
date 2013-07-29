@@ -43,7 +43,7 @@ namespace Samba.Services.Implementations.PrinterModule
             switch (printJob.WhatToPrint)
             {
                 case (int)WhatToPrintTypes.LastLinesByPrinterLineCount:
-                    ti = GetLastOrders(ticket, printJob);
+                    ti = GetLastOrders(ticket, printJob, orderSelector);
                     break;
                 case (int)WhatToPrintTypes.LastPaidOrders:
                     ti = GetLastPaidOrders(ticket);
@@ -66,13 +66,13 @@ namespace Samba.Services.Implementations.PrinterModule
             return result;
         }
 
-        private IEnumerable<Order> GetLastOrders(Ticket ticket, PrintJob printJob)
+        private IEnumerable<Order> GetLastOrders(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
         {
             if (ticket.Orders.Count > 1)
             {
                 var printMap = printJob.PrinterMaps.Count == 1 ? printJob.PrinterMaps[0]
                     : GetPrinterMapForItem(printJob.PrinterMaps, ticket.Orders.Last().MenuItemId);
-                var result = ticket.Orders.OrderByDescending(x => x.CreatedDateTime).ToList();
+                var result = ticket.Orders.Where(orderSelector).OrderByDescending(x => x.CreatedDateTime).ToList();
                 var printer = PrinterById(printMap.PrinterId);
                 if (printer.PageHeight > 0)
                     result = result.Take(printer.PageHeight).ToList();

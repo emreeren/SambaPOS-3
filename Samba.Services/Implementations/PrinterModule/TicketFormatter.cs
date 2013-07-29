@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure;
+using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Helpers;
 using Samba.Services.Implementations.PrinterModule.ValueChangers;
 
@@ -26,17 +28,18 @@ namespace Samba.Services.Implementations.PrinterModule
 
         public string[] GetFormattedTicket(Ticket ticket, IEnumerable<Order> lines, PrinterTemplate printerTemplate)
         {
+            var dataObject = new { Ticket = ObjectCloner.Clone2(ticket) };
             var orders = printerTemplate.MergeLines ? MergeLines(lines.ToList()) : lines.ToList();
             ticket.Orders.Clear();
             orders.ToList().ForEach(ticket.Orders.Add);
             var content = _ticketValueChanger.GetValue(printerTemplate, ticket);
-            content = UpdateExpressions(content);
+            content = UpdateExpressions(content, dataObject);
             return content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
         }
 
-        private string UpdateExpressions(string data)
+        private string UpdateExpressions(string data, object dataObject)
         {
-            data = _expressionService.ReplaceExpressionValues(data);
+            data = _expressionService.ReplaceExpressionValues(data, dataObject.ToDynamic());
             data = _settingService.ReplaceSettingValues(data);
             return data;
         }

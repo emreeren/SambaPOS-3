@@ -38,20 +38,28 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
             if (documentLine.ToLower().StartsWith("<bx"))
                 return new BoxFormatter(documentLine, maxWidth);
             if (documentLine.ToLower().StartsWith("<j"))
-            {
-                var match = Regex.Match(documentLine, "<[j|J][^:]+(:[^>]+)>");
-                var mt = match.Success ? match.Groups[1].Value : "";
-                var ratio = 1d;
-                if (!string.IsNullOrEmpty(mt))
-                {
-                    documentLine = documentLine.Replace(mt + ">", ">");
-                    ratio = Convert.ToDouble(mt.Trim(':'));
-                }
-                var fmtr = new JustifyAlignFormatter(documentLine, maxWidth, false, ratio, _lastColumnWidths);
-                _lastColumnWidths = fmtr.GetColumnWidths();
-                return fmtr;
-            }
+                return GetJustifiedFormatter(documentLine, maxWidth, true);
+            if (documentLine.ToLower().StartsWith("<p"))
+                return GetJustifiedFormatter(documentLine, maxWidth, false);
+
             return new GenericFormatter(documentLine, maxWidth);
+        }
+
+        private static ILineFormatter GetJustifiedFormatter(string documentLine, int maxWidth, bool shouldBreak)
+        {
+            documentLine = documentLine.Replace("<p", "<j");
+            documentLine = documentLine.Replace("<P", "<J");
+            var match = Regex.Match(documentLine, "<[j|J][^:]+(:[^>]+)>");
+            var mt = match.Success ? match.Groups[1].Value : "";
+            var ratio = 1d;
+            if (!string.IsNullOrEmpty(mt))
+            {
+                documentLine = documentLine.Replace(mt + ">", ">");
+                ratio = Convert.ToDouble(mt.Trim(':'));
+            }
+            var fmtr = new JustifyAlignFormatter(documentLine, maxWidth, shouldBreak, ratio, _lastColumnWidths);
+            _lastColumnWidths = fmtr.GetColumnWidths();
+            return fmtr;
         }
 
         public IEnumerable<string> GetFormattedDocument()
