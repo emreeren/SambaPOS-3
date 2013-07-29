@@ -9,7 +9,5 @@ namespace Samba.Domain.Models.Tickets
     public class PaymentTypeMap : AbstractMap
     {
         public int PaymentTypeId { get; set; }
-        public bool DisplayAtPaymentScreen { get; set; }
-        public bool DisplayUnderTicket { get; set; }
     }
 }

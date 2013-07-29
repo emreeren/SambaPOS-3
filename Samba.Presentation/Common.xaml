@@ -67,6 +67,29 @@
         </Setter>
     </Style>
 
+    <Style x:Key="BorderlessTabControlStyle" TargetType="{x:Type TabControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid KeyboardNavigation.TabNavigation="Local">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TabPanel Grid.Column="0" Margin="0" x:Name="HeaderPanel" Background="Transparent" IsItemsHost="True" Panel.ZIndex="1" KeyboardNavigation.TabIndex="1"/>
+                        <ContentPresenter Grid.Column="1"  Margin="0" x:Name="PART_SelectedContentHost" ContentSource="SelectedContent"/>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="CollapsedTextStyle" TargetType="TextBlock">
         <Setter Property="Margin" Value="3"/>
         <Style.Triggers>

@@ -21,12 +21,12 @@ namespace Samba.Modules.PosModule
 
         public AutomationCommandData CommandContainer { get { return _commandContainer; } }
         public string Color { get { return CommandContainer.AutomationCommand.Color; } }
-        public string ButtonHeader { get { return CommandContainer.AutomationCommand.ButtonHeader??""; } }
+        public string ButtonHeader { get { return CommandContainer.AutomationCommand.ButtonHeader ?? ""; } }
         public string Name { get { return CommandContainer.AutomationCommand.Name; } }
         public int FontSize { get { return CommandContainer.AutomationCommand.FontSize; } }
         public string SelectedValue { get; set; }
         public string Caption { get { return !string.IsNullOrEmpty(SelectedValue) ? SelectedValue : ButtonHeader; } }
-        public string Display { get { return Caption.Replace(" ", Environment.NewLine); } }
+        public string Display { get { return Caption.Replace("\\r", Environment.NewLine); } }
         public List<string> Values { get { return (CommandContainer.AutomationCommand.Values ?? "").Split('|').ToList(); } }
 
         public bool IsVisible

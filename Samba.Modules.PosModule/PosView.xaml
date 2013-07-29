@@ -9,8 +9,8 @@
              FocusVisualStyle="{x:Null}"
              Focusable="True"
              PreviewTextInput="UserControl_PreviewTextInput" Loaded="UserControl_Loaded">
-   
-    <TabControl Name="LayoutTabControl" Background="Transparent" FocusVisualStyle="{x:Null}"
+
+    <TabControl Name="LayoutTabControl" Background="Transparent" FocusVisualStyle="{x:Null}" Style="{StaticResource BorderlessTabControlStyle}"
                     Grid.Column="0" BorderThickness="0"
                     Margin="0" Padding="0">
         <TabControl.ItemContainerStyle>
@@ -52,11 +52,12 @@
                 </TabControl.ItemContainerStyle>
             </TabControl>
         </Grid>
-        
-        <TabControl Name="Grid2" FocusVisualStyle="{x:Null}"
+
+        <TabControl Name="Grid2" FocusVisualStyle="{x:Null}" Style="{StaticResource BorderlessTabControlStyle}"
                     Background="Transparent"
                     BorderThickness="0"
-                    Margin="-2,-5,-2,-2" Padding="0">
+                    Margin="-1"
+                    Padding="0">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Visibility" Value="Collapsed"/>

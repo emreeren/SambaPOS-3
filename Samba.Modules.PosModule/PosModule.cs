@@ -67,7 +67,6 @@ namespace Samba.Modules.PosModule
             _regionManager.Regions[RegionNames.PosSubRegion].Add(_menuItemSelectorView, "MenuItemSelectorView");
             _regionManager.RegisterViewWithRegion(RegionNames.TicketOrdersRegion, typeof(TicketOrdersView));
             _regionManager.RegisterViewWithRegion(RegionNames.TicketInfoRegion, typeof(TicketInfoView));
-            _regionManager.RegisterViewWithRegion(RegionNames.TicketPaymentRegion, typeof(PaymentButtonView));
             _regionManager.RegisterViewWithRegion(RegionNames.TicketTotalsRegion, typeof(TicketTotalsView));
         }
 

@@ -221,7 +221,7 @@ namespace Samba.Presentation.Services.Common.DataGeneration
                 Account = cashAccount,
                 Name = cashAccount.Name
             };
-            cashPayment.PaymentTypeMaps.Add(new PaymentTypeMap { DisplayAtPaymentScreen = true });
+            cashPayment.PaymentTypeMaps.Add(new PaymentTypeMap());
 
             var creditCardPayment = new PaymentType
             {
@@ -229,7 +229,7 @@ namespace Samba.Presentation.Services.Common.DataGeneration
                 Account = creditCardAccount,
                 Name = creditCardAccount.Name
             };
-            creditCardPayment.PaymentTypeMaps.Add(new PaymentTypeMap { DisplayAtPaymentScreen = true });
+            creditCardPayment.PaymentTypeMaps.Add(new PaymentTypeMap());
 
             var voucherPayment = new PaymentType
             {
@@ -237,14 +237,14 @@ namespace Samba.Presentation.Services.Common.DataGeneration
                 Account = voucherAccount,
                 Name = voucherAccount.Name
             };
-            voucherPayment.PaymentTypeMaps.Add(new PaymentTypeMap { DisplayAtPaymentScreen = true });
+            voucherPayment.PaymentTypeMaps.Add(new PaymentTypeMap());
 
             var accountPayment = new PaymentType
             {
                 AccountTransactionType = customerAccountTransactionType,
                 Name = Resources.CustomerAccount
             };
-            accountPayment.PaymentTypeMaps.Add(new PaymentTypeMap { DisplayAtPaymentScreen = true });
+            accountPayment.PaymentTypeMaps.Add(new PaymentTypeMap());
 
             _workspace.Add(cashPayment);
             _workspace.Add(creditCardPayment);

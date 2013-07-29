@@ -261,21 +261,9 @@ namespace Samba.Services.Implementations
             get { return _paymentTypes ?? (_paymentTypes = _cacheDao.GetPaymentTypes()); }
         }
 
-        public IEnumerable<PaymentType> GetUnderTicketPaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
-        {
-            var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
-                .Where(x => x.DisplayUnderTicket)
-                .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
-                .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
-                .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)
-                .Where(x => x.UserRoleId == 0 || x.UserRoleId == userRoleId);
-            return PaymentTypes.Where(x => maps.Any(y => y.PaymentTypeId == x.Id)).OrderBy(x => x.SortOrder);
-        }
-
         public IEnumerable<PaymentType> GetPaymentScreenPaymentTypes(int ticketTypeId, int terminalId, int departmentId, int userRoleId)
         {
             var maps = PaymentTypes.SelectMany(x => x.PaymentTypeMaps)
-                .Where(x => x.DisplayAtPaymentScreen)
                 .Where(x => x.TicketTypeId == 0 || x.TicketTypeId == ticketTypeId)
                 .Where(x => x.TerminalId == 0 || x.TerminalId == terminalId)
                 .Where(x => x.DepartmentId == 0 || x.DepartmentId == departmentId)

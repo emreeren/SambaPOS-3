@@ -121,7 +121,6 @@
     <Compile Include="OrderTagGroupViewModel.cs" />
     <Compile Include="OrderTagMapViewModel.cs" />
     <Compile Include="OrderTagViewModel.cs" />
-    <Compile Include="PaymentTypeMapViewModel.cs" />
     <Compile Include="PaymentTypeView.xaml.cs">
       <DependentUpon>PaymentTypeView.xaml</DependentUpon>
     </Compile>

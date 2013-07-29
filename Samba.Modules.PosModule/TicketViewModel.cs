@@ -86,13 +86,10 @@ namespace Samba.Modules.PosModule
                 _totals.Model = _selectedTicket;
                 _ticketOrdersViewModel.SelectedTicket = _selectedTicket;
                 _ticketInfo.SelectedTicket = _selectedTicket;
-                _paymentButtonViewModel.SelectedTicket = _selectedTicket;
                 RaisePropertyChanged(() => EntityButtons);
                 RaisePropertyChanged(() => TicketAutomationCommands);
             }
         }
-
-        private readonly PaymentButtonViewModel _paymentButtonViewModel;
 
         private readonly TicketInfoViewModel _ticketInfo;
         public TicketInfoViewModel TicketInfo { get { return _ticketInfo; } }
@@ -169,7 +166,7 @@ namespace Samba.Modules.PosModule
         public TicketViewModel(IApplicationState applicationState, IExpressionService expressionService,
             ITicketService ticketService, IAccountService accountService, IEntityServiceClient locationService, IUserService userService,
             ICacheService cacheService, TicketOrdersViewModel ticketOrdersViewModel,
-            TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel, PaymentButtonViewModel paymentButtonViewModel)
+            TicketTotalsViewModel totals, TicketInfoViewModel ticketInfoViewModel)
         {
             _ticketService = ticketService;
             _userService = userService;
@@ -179,7 +176,6 @@ namespace Samba.Modules.PosModule
             _ticketOrdersViewModel = ticketOrdersViewModel;
             _totals = totals;
             _ticketInfo = ticketInfoViewModel;
-            _paymentButtonViewModel = paymentButtonViewModel;
 
             SelectEntityCommand = new DelegateCommand<EntityType>(OnSelectEntity, CanSelectEntity);
             ExecuteAutomationCommnand = new DelegateCommand<CommandContainerButton>(OnExecuteAutomationCommand, CanExecuteAutomationCommand);

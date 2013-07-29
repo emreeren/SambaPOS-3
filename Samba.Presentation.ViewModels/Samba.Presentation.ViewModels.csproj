@@ -61,7 +61,6 @@
       <DependentUpon>MapControllerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommandButtonViewModel.cs" />
-    <Compile Include="PaymentButtonGroupViewModel.cs" />
     <Compile Include="ServiceViewModel.cs" />
     <Compile Include="MenuItemPortionViewModel.cs" />
     <Compile Include="PaymentViewModel.cs" />

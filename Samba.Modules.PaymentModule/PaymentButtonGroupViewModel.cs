@@ -6,8 +6,9 @@ using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
+using Samba.Presentation.ViewModels;
 
-namespace Samba.Presentation.ViewModels
+namespace Samba.Modules.PaymentModule
 {
     public class PaymentButtonGroupViewModel : ObservableObject
     {

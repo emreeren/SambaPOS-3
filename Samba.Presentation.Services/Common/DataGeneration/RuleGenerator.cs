@@ -6,6 +6,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
+using Samba.Persistance.Data;
 using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Common.DataGeneration
@@ -100,6 +101,8 @@ namespace Samba.Presentation.Services.Common.DataGeneration
             DeleteEntity<AutomationCommand>(workspace, "Cancel_f", "Gift");
             DeleteEntity<AutomationCommand>(workspace, "Void");
             DeleteEntity<AutomationCommand>(workspace, "Cancel_f", "Void");
+            DeleteEntity<AutomationCommand>(workspace, "CloseTicket");
+            DeleteEntity<AutomationCommand>(workspace, "Settle");
 
             DeleteEntity<State>(workspace, "NewOrders");
             DeleteEntity<State>(workspace, "Available");
@@ -112,6 +115,7 @@ namespace Samba.Presentation.Services.Common.DataGeneration
             DeleteEntity<AppAction>(workspace, "UpdateEntityState");
             DeleteEntity<AppAction>(workspace, "Create_f", "Ticket");
             DeleteEntity<AppAction>(workspace, "CloseTicket");
+            DeleteEntity<AppAction>(workspace, "DisplayPaymentScreen");
             DeleteEntity<AppAction>(workspace, "ExecutePrintBillJob");
             DeleteEntity<AppAction>(workspace, "ExecuteKitchenOrdersPrintJob");
             DeleteEntity<AppAction>(workspace, "LockTicket");
@@ -136,10 +140,21 @@ namespace Samba.Presentation.Services.Common.DataGeneration
             DeleteEntity<AppRule>(workspace, "Rule_f", "UnlockTicket");
             DeleteEntity<AppRule>(workspace, "Rule_f", "Create_f", "Ticket");
             DeleteEntity<AppRule>(workspace, "UpdateMergedTicketsState");
+
+            DeleteEntity<AppRule>(workspace, "Rule_f", "CloseTicket");
+            DeleteEntity<AppRule>(workspace, "Rule_f", "Settle");
         }
 
         public void GenerateSystemRules(IWorkspace workspace)
         {
+            var closeTicketAutomation = new AutomationCommand { Name = Resources.CloseTicket, ButtonHeader = Resources.Close, SortOrder = -1, Color = "#FFFF0000" };
+            closeTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = "*", VisibleStates = "*", DisplayUnderTicket = true });
+            workspace.Add(closeTicketAutomation);
+
+            var settleAutomation = new AutomationCommand { Name = Resources.Settle, ButtonHeader = Resources.Settle, SortOrder = -2 };
+            settleAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = "*", VisibleStates = "*", DisplayUnderTicket = true });
+            workspace.Add(settleAutomation);
+
             var printBillAutomation = new AutomationCommand { Name = Resources.PrintBill, ButtonHeader = Resources.PrintBill, SortOrder = -1 };
             printBillAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = Resources.NewOrders + "," + Resources.Unpaid + ",IsClosed", VisibleStates = "*", DisplayOnTicket = true, DisplayOnPayment = true });
             workspace.Add(printBillAutomation);
@@ -188,6 +203,7 @@ namespace Samba.Presentation.Services.Common.DataGeneration
                                             SortOrder = -1
                                         };
             workspace.Add(updateOrderAction);
+
             var updateTicketStatusAction = new AppAction { ActionType = ActionNames.UpdateTicketState, Name = Resources.UpdateTicketStatus, Parameter = Params().Add("StateName", Resources.Status).Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString(), SortOrder = -1 };
             workspace.Add(updateTicketStatusAction);
             var updateOrderStatusAction = new AppAction { ActionType = ActionNames.UpdateOrderState, Name = string.Format(Resources.Update_f, Resources.OrderStatus), Parameter = Params().Add("StateName", "Status").Add("State", "[:Status]").Add("CurrentState", "[:Current Status]").ToString(), SortOrder = -1 };
@@ -211,6 +227,8 @@ namespace Samba.Presentation.Services.Common.DataGeneration
             workspace.Add(createTicketAction);
             var closeTicketAction = new AppAction { ActionType = ActionNames.CloseActiveTicket, Name = Resources.CloseTicket, Parameter = "", SortOrder = -1 };
             workspace.Add(closeTicketAction);
+            var displayPaymentScreenAction = new AppAction { ActionType = ActionNames.DisplayPaymentScreen, Name = Resources.DisplayPaymentScreen, Parameter = "", SortOrder = -1 };
+            workspace.Add(displayPaymentScreenAction);
             var printBillAction = new AppAction { ActionType = ActionNames.ExecutePrintJob, Name = Resources.ExecutePrintBillJob, Parameter = Params().Add("PrintJobName", Resources.PrintBill).ToString(), SortOrder = -1 };
             workspace.Add(printBillAction);
             var printKitchenOrdersAction = new AppAction { ActionType = ActionNames.ExecutePrintJob, Name = Resources.ExecuteKitchenOrdersPrintJob, Parameter = Params().Add("PrintJobName", Resources.PrintOrdersToKitchenPrinter).Add("OrderStateName", "Status").Add("OrderState", Resources.New).ToString(), SortOrder = -1 };
@@ -320,6 +338,16 @@ namespace Samba.Presentation.Services.Common.DataGeneration
             updateMergedTicket.Actions.Add(new ActionContainer(updateTicketStatusAction) { ParameterValues = string.Format("Status={0}", Resources.NewOrders) });
             updateMergedTicket.AddRuleMap();
             workspace.Add(updateMergedTicket);
+
+            var closeTicketRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.CloseTicket), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;" + Resources.CloseTicket, SortOrder = -1 };
+            closeTicketRule.Actions.Add(new ActionContainer(closeTicketAction));
+            closeTicketRule.AddRuleMap();
+            workspace.Add(closeTicketRule);
+
+            var settleTicketRule = new AppRule { Name = string.Format(Resources.Rule_f, Resources.Settle), EventName = RuleEventNames.AutomationCommandExecuted, EventConstraints = "AutomationCommandName;=;" + Resources.Settle, SortOrder = -1 };
+            settleTicketRule.Actions.Add(new ActionContainer(displayPaymentScreenAction));
+            settleTicketRule.AddRuleMap();
+            workspace.Add(settleTicketRule);
 
             workspace.CommitChanges();
         }

@@ -44,7 +44,6 @@ namespace Samba.Presentation.Services
         IEnumerable<OrderTagGroup> GetOrderTagGroups(params int[] menuItemIds);
         IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId);
         IEnumerable<AccountTransactionDocumentType> GetBatchDocumentTypes(IEnumerable<string> accountTypeNamesList);
-        IEnumerable<PaymentType> GetUnderTicketPaymentTypes();
         IEnumerable<PaymentType> GetPaymentScreenPaymentTypes();
         IEnumerable<ChangePaymentType> GetChangePaymentTypes();
         IEnumerable<TicketTagGroup> GetTicketTagGroups();

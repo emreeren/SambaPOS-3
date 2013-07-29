@@ -71,6 +71,7 @@
       <DependentUpon>OrderSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OrderSelectorViewModel.cs" />
+    <Compile Include="PaymentButtonGroupViewModel.cs" />
     <Compile Include="PaymentButtonsView.xaml.cs">
       <DependentUpon>PaymentButtonsView.xaml</DependentUpon>
     </Compile>

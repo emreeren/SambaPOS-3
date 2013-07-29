@@ -11,7 +11,7 @@ using Samba.Presentation.Common.ModelBase;
 namespace Samba.Modules.TicketModule
 {
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
-    public class PaymentTypeViewModel : EntityViewModelBaseWithMap<PaymentType, PaymentTypeMap, PaymentTypeMapViewModel>
+    public class PaymentTypeViewModel : EntityViewModelBaseWithMap<PaymentType, PaymentTypeMap, AbstractMapViewModel<PaymentTypeMap>>
     {
         [ImportingConstructor]
         public PaymentTypeViewModel()
@@ -83,7 +83,7 @@ namespace Samba.Modules.TicketModule
         protected override void Initialize()
         {
             base.Initialize();
-            MapController = new MapController<PaymentTypeMap, PaymentTypeMapViewModel>(Model.PaymentTypeMaps, Workspace);
+            MapController = new MapController<PaymentTypeMap, AbstractMapViewModel<PaymentTypeMap>>(Model.PaymentTypeMaps, Workspace);
         }
     }
 

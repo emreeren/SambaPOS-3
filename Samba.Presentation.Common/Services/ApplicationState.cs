@@ -250,14 +250,6 @@ namespace Samba.Presentation.Common.Services
                                                        CurrentLoggedInUser.UserRole.Id);
         }
 
-        public IEnumerable<PaymentType> GetUnderTicketPaymentTypes()
-        {
-            return _cacheService.GetUnderTicketPaymentTypes(CurrentTicketType.Id,
-                                                            CurrentTerminal.Id,
-                                                            CurrentDepartment.Id,
-                                                            CurrentLoggedInUser.UserRole.Id);
-        }
-
         public IEnumerable<PaymentType> GetPaymentScreenPaymentTypes()
         {
             return _cacheService.GetPaymentScreenPaymentTypes(CurrentTicketType.Id,

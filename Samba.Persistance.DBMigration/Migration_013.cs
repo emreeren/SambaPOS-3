@@ -1,9 +1,5 @@
 using System.Data.Entity;
-using System.Linq;
 using FluentMigrator;
-using Samba.Domain.Models.Menus;
-using Samba.Domain.Models.Settings;
-using Samba.Domain.Models.Tickets;
 
 namespace Samba.Persistance.DBMigration
 {

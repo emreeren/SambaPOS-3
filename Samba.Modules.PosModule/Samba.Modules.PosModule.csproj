@@ -68,10 +68,6 @@
     <Compile Include="MenuItemSelectorViewModel.cs" />
     <Compile Include="OrderTagValueViewModel.cs" />
     <Compile Include="OrderViewModel.cs" />
-    <Compile Include="PaymentButtonView.xaml.cs">
-      <DependentUpon>PaymentButtonView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PaymentButtonViewModel.cs" />
     <Compile Include="PosModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PosView.xaml.cs">
@@ -159,10 +155,6 @@
     <Page Include="TicketEntityListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PaymentButtonView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PosView.xaml">
       <Generator>MSBuild:Compile</Generator>

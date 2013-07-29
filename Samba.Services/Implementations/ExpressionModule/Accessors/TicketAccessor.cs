@@ -27,12 +27,12 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
             if (state.Contains(":"))
             {
                 var parts = state.Split(new[] { ':' }, 2);
-                return IsInState(parts[0], parts[1]);
+                return InState(parts[0], parts[1]);
             }
             return Model.IsInState("*", state);
         }
 
-        public static bool IsInState(string stateName, string state)
+        public static bool InState(string stateName, string state)
         {
             return Model.IsInState(stateName, state);
         }
