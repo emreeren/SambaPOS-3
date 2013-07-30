@@ -53,6 +53,43 @@ namespace Samba.Services.Tests
         }
 
         [Test]
+        public void CanTestTicketState()
+        {
+            var ticket = new Ticket(1);
+            ticket.SetStateValue("Status", "New", "");
+            var result = ExpressionService.Eval("result = Ticket.IsInState('New')", (new { Ticket = ticket }).ToDynamic(), false);
+            Assert.AreEqual(true, result);
+            result = ExpressionService.Eval("result = Ticket.InState('Status','New')", (new { Ticket = ticket }).ToDynamic(), false);
+            Assert.AreEqual(true, result);
+            ticket.SetStateValue("Status", "Paid", "");
+            result = ExpressionService.Eval("result = Ticket.InState('Status','New')", (new { Ticket = ticket }).ToDynamic(), false);
+            Assert.AreEqual(false, result);
+        }
+
+        [Test]
+        public void CanSupportFluentSyntax()
+        {
+            var ticket = new Ticket(1);
+            ticket.SetStateValue("Status", "New", "");
+            var result = ExpressionService.Eval("result = IsInState Ticket 'New'", (new { Ticket = ticket }).ToDynamic(), false);
+            Assert.AreEqual(true, result);
+            result = ExpressionService.Eval("result = Ticket IsInState 'New'", (new { Ticket = ticket }).ToDynamic(), false);
+            Assert.AreEqual(true, result);            
+            result = ExpressionService.Eval("result = Ticket InState 'Status','New'", (new { Ticket = ticket }).ToDynamic(), false);
+            Assert.AreEqual(true, result);
+        }       
+        
+        [Test]
+        public void CanSupportOverloadedMethods()
+        {
+            var ticket = new Ticket(1);
+            ticket.SetStateValue("Status", "New", "");
+            var result = ExpressionService.Eval("result = Ticket.GetState('Status') is 'New'", (new { Ticket = ticket }).ToDynamic(), false);
+            Assert.AreEqual(true, result);
+            
+        }
+
+        [Test]
         public void CanDivideValues()
         {
             var result = ExpressionService.Eval("10 / 2");

@@ -38,11 +38,18 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
             return Model.IsInState(stateName, state);
         }
 
+        public static string GetState(string stateName)
+        {
+            return Model.GetStateStr(stateName);
+        }
+
         public static decimal Sum { get { return Model.GetSum(); } }
         public static string SumF { get { return Sum.ToString(LocalSettings.CurrencyFormat); } }
         public static decimal Due { get { return RemainingAmount; } }
         public static string DueF { get { return Due.ToString(LocalSettings.CurrencyFormat); } }
         public static decimal SSum(string state) { return Model.GetOrderStateTotal(state); }
         public static string SSumF(string state) { return SSum(state).ToString(LocalSettings.CurrencyFormat); }
+
+
     }
 }
