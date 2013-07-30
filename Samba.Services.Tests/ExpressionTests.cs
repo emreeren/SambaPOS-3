@@ -74,16 +74,29 @@ namespace Samba.Services.Tests
             var result = ExpressionService.Eval("result = IsInState Ticket 'New'", (new { Ticket = ticket }).ToDynamic(), false);
             Assert.AreEqual(true, result);
             result = ExpressionService.Eval("result = Ticket IsInState 'New'", (new { Ticket = ticket }).ToDynamic(), false);
-            Assert.AreEqual(true, result);            
+            Assert.AreEqual(true, result);
             result = ExpressionService.Eval("result = Ticket InState 'Status','New'", (new { Ticket = ticket }).ToDynamic(), false);
             Assert.AreEqual(true, result);
-        }       
-        
+        }
+
         [Test]
         public void CanSupporIsKeyword()
         {
-            var result = ExpressionService.Eval("result = 1 == 1", null, false);
+            var result = ExpressionService.Eval("result = 1 is 1", null, false);
             Assert.AreEqual(true, result);
+            result = ExpressionService.Eval("if 1 is 1 then result = true", null, false);
+            Assert.AreEqual(true, result);
+            result = ExpressionService.Eval("if 2 is any of (3,4,1,2) then result = true", null, false);
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void CanSupportStringMethods()
+        {
+            var result = ExpressionService.Eval("result = 'EMRE'.substr(0,2)", null, "");
+            Assert.AreEqual("EM", result);
+            var result1 = ExpressionService.Eval("result = 'EMRE'.length is 4", null, false);
+            Assert.AreEqual(true, result1);
         }
 
         [Test]
