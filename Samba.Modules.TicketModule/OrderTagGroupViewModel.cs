@@ -42,6 +42,7 @@ namespace Samba.Modules.TicketModule
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
         public int FontSize { get { return Model.FontSize; } set { Model.FontSize = value; } }
+        public string ButtonColor { get { return Model.ButtonColor; } set { Model.ButtonColor = value; } }
         public int MaxSelectedItems { get { return Model.MaxSelectedItems; } set { Model.MaxSelectedItems = value; } }
         public int MinSelectedItems { get { return Model.MinSelectedItems; } set { Model.MinSelectedItems = value; } }
         public bool FreeTagging { get { return Model.FreeTagging; } set { Model.FreeTagging = value; } }

@@ -22,7 +22,7 @@ namespace Samba.Modules.ModifierModule
         }
 
         public string Name { get { return Model.Name; } set { Model.Name = value; } }
-        public string Color { get { return _selectedOrders != null && _selectedOrders.All(x => x.IsTaggedWith(Model)) ? "Red" : "Gainsboro"; } }
+        public string Color { get { return _selectedOrders != null && _selectedOrders.All(x => x.IsTaggedWith(Model)) ? "Red" : OrderTagGroup.ButtonColor ?? "Gainsboro"; } }
         public string DisplayText
         {
             get
@@ -37,7 +37,7 @@ namespace Samba.Modules.ModifierModule
                 return Name;
             }
         }
-        public int FontSize { get { return OrderTagGroup.FontSize > 0 ? OrderTagGroup.FontSize : 14; } }
+        public int FontSize { get { return OrderTagGroup.FontSize > 0 ? OrderTagGroup.FontSize : 16; } }
 
         public void Refresh()
         {

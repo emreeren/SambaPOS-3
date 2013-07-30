@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
+             xmlns:PropertyEditorLibrary="clr-namespace:PropertyTools.Wpf;assembly=PropertyTools.Wpf"
              mc:Ignorable="d" d:DesignWidth="500">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -38,6 +39,8 @@
                         <UniformGrid HorizontalAlignment="Left" Columns="2">
                             <Label Content="{LocText GroupTag,Suffix=':'}"/>
                             <TextBox Margin="0,0,0,2" HorizontalAlignment="Left" MinWidth="100" Text="{Binding GroupTag}" />
+                            <Label Content="{LocText ButtonColor,Suffix=':'}"/>
+                            <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150" SelectedColor="{Binding ButtonColor}" />
                             <Label Content="{LocText ColumnCount,Suffix=':'}"/>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
                                  MinWidth="50" Text="{Binding ColumnCount}" />
@@ -122,7 +125,7 @@
                             <Hyperlink Command="{Binding DeleteOrderTagCommand}">
                                 <TextBlock Text="{Binding Path=DeleteOrderTagCommand.Caption}" />
                             </Hyperlink>
-                        </TextBlock>                        
+                        </TextBlock>
                         <TextBlock Margin="2,3">
                             <Hyperlink Command="{Binding SortOrderTagsCommand}">
                                 <TextBlock Text="{Binding Path=SortOrderTagsCommand.Caption}" />

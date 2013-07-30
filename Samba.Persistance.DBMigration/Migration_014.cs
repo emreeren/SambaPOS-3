@@ -15,6 +15,7 @@ namespace Samba.Persistance.DBMigration
             var dc = ApplicationContext as DbContext;
             Create.Column("DisplayUnderTicket").OnTable("AutomationCommandMaps").AsBoolean().WithDefaultValue(false);
             Create.Column("FontSize").OnTable("OrderTagGroups").AsInt32().WithDefaultValue(0);
+            Create.Column("ButtonColor").OnTable("OrderTagGroups").AsString(128).WithDefaultValue(0);
         }
 
         public override void Down()

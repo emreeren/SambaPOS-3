@@ -16,6 +16,7 @@ namespace Samba.Domain.Models.Tickets
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
         public int FontSize { get; set; }
+        public string ButtonColor { get; set; }
         public int MaxSelectedItems { get; set; }
         public int MinSelectedItems { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
