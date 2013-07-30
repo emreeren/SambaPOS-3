@@ -66,8 +66,10 @@ namespace Samba.Modules.DepartmentModule
     {
         public DepartmentValidator()
         {
+#if !DEBUG
             RuleFor(x => x.TicketTypeId).GreaterThan(0);
             RuleFor(x => x.WarehouseId).GreaterThan(0);
+#endif
         }
     }
 
