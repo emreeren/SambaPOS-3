@@ -15,6 +15,7 @@ namespace Samba.Domain.Models.Tickets
 
         public int ColumnCount { get; set; }
         public int ButtonHeight { get; set; }
+        public int FontSize { get; set; }
         public int MaxSelectedItems { get; set; }
         public int MinSelectedItems { get; set; }
         public bool AddTagPriceToOrderPrice { get; set; }
@@ -44,6 +45,7 @@ namespace Samba.Domain.Models.Tickets
             _orderTagMaps = new List<OrderTagMap>();
             ColumnCount = 5;
             ButtonHeight = 65;
+            FontSize = 14;
         }
 
         public OrderTag AddOrderTag(string name, decimal price)

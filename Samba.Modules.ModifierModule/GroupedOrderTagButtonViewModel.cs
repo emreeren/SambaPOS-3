@@ -63,5 +63,7 @@ namespace Samba.Modules.ModifierModule
             }
         }
 
+        public int FontSize { get { return OrderTagGroup.FontSize > 0 ? OrderTagGroup.FontSize : 14; } }
+
     }
 }

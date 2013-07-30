@@ -23,6 +23,7 @@ namespace Samba.Modules.ModifierModule
 
         public int ButtonHeight { get { return Model.ButtonHeight; } set { Model.ButtonHeight = value; } }
         public int ColumnCount { get { return Model.ColumnCount; } set { Model.ColumnCount = value; } }
+        public int FontSize { get { return Model.FontSize; } set { Model.FontSize = value; } }
 
         public OrderTagGroup Model { get; private set; }
         public string Name { get { return Model.Name; } }

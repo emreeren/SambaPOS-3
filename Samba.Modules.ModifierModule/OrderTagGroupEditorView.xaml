@@ -100,7 +100,7 @@
                                          Command="{Binding DataContext.GroupedOrderTagSelectedCommand, 
                                          RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType={x:Type ItemsControl}}}"
                                          CommandParameter="{Binding}">
-                                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Name}" />
+                                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Name}" FontSize="{Binding FontSize}"/>
                                     </FxButton:FlexButton>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -139,8 +139,8 @@
                                                          Height="{Binding DataContext.ButtonHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                                          Command="{Binding DataContext.OrderTagSelectedCommand, 
                                                          RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType={x:Type ItemsControl}}}"
-                                                         CommandParameter="{Binding}">
-                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding DisplayText}" />
+                                                         CommandParameter="{Binding}" >
+                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding DisplayText}" FontSize="{Binding FontSize}"/>
                                         </FxButton:FlexButton>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

@@ -44,6 +44,9 @@
                             <Label Content="{LocText ButtonHeight,Suffix=':'}"/>
                             <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
                                  MinWidth="50" Text="{Binding ButtonHeight}" />
+                            <Label Content="{LocText FontSize,Suffix=':'}"/>
+                            <UIControls:FilteredTextBox Type="Digits" Margin="0,0,0,2" HorizontalAlignment="Left"
+                                 MinWidth="50" Text="{Binding FontSize}" />
                             <CheckBox Margin="0,5" Content="{LocText Hidden}" IsChecked="{Binding Hidden}"/>
                         </UniformGrid>
                     </GroupBox>
