@@ -113,7 +113,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             {
                 var portionName = sale.PortionName;
                 var menuItemId = sale.MenuItemId;
-                var recipe = _inventoryDao.GetRecipe(portionName, menuItemId);
+                var recipe = _cacheService.GetRecipe(portionName, menuItemId);
                 pc.UpdateConsumption(recipe, sale.Total, warehouseId);
                 pc.CreateCostItem(recipe, sale.MenuItemName, sale.Total, warehouseId);
             }
@@ -153,7 +153,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
         {
             foreach (var warehouseConsumption in pc.WarehouseConsumptions)
             {
-                var recipes = GetSales(workPeriod, warehouseConsumption.WarehouseId).Select(sale => _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId));
+                var recipes = GetSales(workPeriod, warehouseConsumption.WarehouseId).Select(sale => _cacheService.GetRecipe(sale.PortionName, sale.MenuItemId));
                 pc.UpdateFinalCost(recipes.ToList(), warehouseConsumption.WarehouseId);
             }
         }
@@ -187,7 +187,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
 
             var currentConsumption = (
                 from sale in GetSales(_applicationState.CurrentWorkPeriod, inventoryItem.Id, warehouse.Id)
-                let recipe = _inventoryDao.GetRecipe(sale.PortionName, sale.MenuItemId)
+                let recipe = _cacheService.GetRecipe(sale.PortionName, sale.MenuItemId)
                 let rip = recipe.RecipeItems.Where(x => x.InventoryItem.Id == inventoryItem.Id)
                 select (rip.Sum(x => x.Quantity) * sale.Total) / (inventoryItem.Multiplier)).Sum();
 

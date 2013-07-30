@@ -15,6 +15,8 @@ namespace Samba.Persistance.Implementations
     [Export(typeof(IInventoryDao))]
     class InventoryDao : IInventoryDao
     {
+       
+
         [ImportingConstructor]
         public InventoryDao()
         {
@@ -65,7 +67,7 @@ namespace Samba.Persistance.Implementations
 
         public Recipe GetRecipe(string portionName, int menuItemId)
         {
-            return Dao.Single<Recipe>(x => x.Portion.Name == portionName && x.Portion.MenuItemId == menuItemId, x => x.Portion, x => x.RecipeItems, x => x.RecipeItems.Select(y => y.InventoryItem));
+           return Dao.Single<Recipe>(x => x.Portion.Name == portionName && x.Portion.MenuItemId == menuItemId, x => x.Portion, x => x.RecipeItems, x => x.RecipeItems.Select(y => y.InventoryItem));
         }
 
         public IEnumerable<string> GetGroupCodes()

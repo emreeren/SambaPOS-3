@@ -616,6 +616,17 @@ namespace Samba.Services.Implementations
             return result ?? Entity.GetNullEntity(rt.Id);
         }
 
+        private IEnumerable<Recipe> _recipes;
+        public IEnumerable<Recipe> Recipes
+        {
+            get { return _recipes ?? (_recipes = Dao.Query<Recipe>(x => x.Portion, x => x.RecipeItems, x => x.RecipeItems.Select(y => y.InventoryItem))); }
+        }
+
+        public Recipe GetRecipe(string portionName, int menuItemId)
+        {
+            return Recipes.Single(x => x.Portion.Name == portionName && x.Portion.MenuItemId == menuItemId);
+        }
+
         public void ResetTicketTagCache()
         {
             _ticketTagGroups = null;
@@ -629,6 +640,7 @@ namespace Samba.Services.Implementations
         public void ResetCache()
         {
             _cacheDao.ResetCache();
+            _recipes = null;
             _taxTemplates = null;
             _inventoryTransactionTypes = null;
             _warehouses = null;

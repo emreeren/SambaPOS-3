@@ -83,5 +83,6 @@ namespace Samba.Services
         EntityScreen GetEntityScreenByName(string screenName);
 
         PaymentType GetPaymentTypeByName(string paymentTypeName);
+        Recipe GetRecipe(string portionName, int menuItemId);
     }
 }
