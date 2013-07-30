@@ -114,8 +114,11 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                 var portionName = sale.PortionName;
                 var menuItemId = sale.MenuItemId;
                 var recipe = _cacheService.GetRecipe(portionName, menuItemId);
-                pc.UpdateConsumption(recipe, sale.Total, warehouseId);
-                pc.CreateCostItem(recipe, sale.MenuItemName, sale.Total, warehouseId);
+                if (recipe != null)
+                {
+                    pc.UpdateConsumption(recipe, sale.Total, warehouseId);
+                    pc.CreateCostItem(recipe, sale.MenuItemName, sale.Total, warehouseId);
+                }
             }
         }
 
