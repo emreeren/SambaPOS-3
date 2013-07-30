@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows;
+using FluentValidation;
 using Samba.Domain.Models.Menus;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -64,11 +65,12 @@ namespace Samba.Modules.MenuModule
                 InteractionService.UserIntraction
                     .GetStringFromUser(Resources.Categories, Resources.AddCategoryHint)
                     .Where(x => !Categories.Select(y => y.Name).Contains(x)).Distinct().ToList();
-            
-            foreach (string val in values)
+
+            foreach (string val in values.Where(x => Model.Categories.All(y => y.Name != x.Trim())))
             {
                 Categories.Add(new ScreenMenuCategoryViewModel(Model.AddCategory(val)));
             }
+
             if (values.Any())
             {
                 var answer = InteractionService.UserIntraction.AskQuestion(
@@ -171,6 +173,20 @@ namespace Samba.Modules.MenuModule
         private bool CanSortCategories(string arg)
         {
             return Categories.Count > 1;
+        }
+
+        protected override AbstractValidator<ScreenMenu> GetValidator()
+        {
+            return new ScreenMenuValidatior();
+        }
+    }
+
+    internal class ScreenMenuValidatior : AbstractValidator<ScreenMenu>
+    {
+        public ScreenMenuValidatior()
+        {
+            RuleFor(x => x.Categories)
+                .Must(x => x.GroupBy(y => y.Name).All(y => y.Count() == 1)).WithMessage("All Category Names should be unique.");
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Fluentscript.Lib.Parser.PluginSupport
         /// </summary>
         public ExprPluginBase()
         {
-            this._id = "ComLib." + this.GetType().Name.Replace("Plugin", string.Empty);
+            this._id = "Fluentscript.Lib." + this.GetType().Name.Replace("Plugin", string.Empty);
         }
 
 

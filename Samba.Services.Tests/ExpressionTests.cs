@@ -80,13 +80,10 @@ namespace Samba.Services.Tests
         }       
         
         [Test]
-        public void CanSupportOverloadedMethods()
+        public void CanSupporIsKeyword()
         {
-            var ticket = new Ticket(1);
-            ticket.SetStateValue("Status", "New", "");
-            var result = ExpressionService.Eval("result = Ticket.GetState('Status') is 'New'", (new { Ticket = ticket }).ToDynamic(), false);
+            var result = ExpressionService.Eval("result = 1 == 1", null, false);
             Assert.AreEqual(true, result);
-            
         }
 
         [Test]

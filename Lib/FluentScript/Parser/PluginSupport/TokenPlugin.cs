@@ -45,7 +45,7 @@ namespace Fluentscript.Lib.Parser.PluginSupport
         /// </summary>
         public TokenPlugin()
         {
-            this.Id = "ComLib." + this.GetType().Name.Replace("Plugin", string.Empty);
+            this.Id = "Fluentscript.Lib." + this.GetType().Name.Replace("Plugin", string.Empty);
         }
 
 
