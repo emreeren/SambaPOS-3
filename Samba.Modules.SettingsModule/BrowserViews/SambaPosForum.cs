@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Samba.Localization.Properties;
 
 namespace Samba.Modules.SettingsModule.BrowserViews
 {
@@ -7,8 +8,8 @@ namespace Samba.Modules.SettingsModule.BrowserViews
     {
         public SambaPosForum()
         {
-            header = "SambaPOS Forum"; //TODO: make localisation-string
-            url = "http://forum2.sambapos.com";
+            Header = string.Format("SambaPOS {0}", Resources.Forum);
+            Url = "http://forum2.sambapos.com";
         }
     }
 }

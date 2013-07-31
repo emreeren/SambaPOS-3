@@ -3346,4 +3346,19 @@ Error Message:
   <data name="SetCurrentTerminal" xml:space="preserve">
     <value>Set Current Terminal</value>
   </data>
+  <data name="Wiki" xml:space="preserve">
+    <value>Wiki</value>
+  </data>
+  <data name="Development" xml:space="preserve">
+    <value>Development</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Forum</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
 </root>

@@ -77,7 +77,6 @@
         public const string LogData = "Log Data";
         public const string ResetNumerator = "Reset Numerator";
         public const string WorkPeriodStatusChanged = "WorkPeriod Status Changed";
-        public const string BrowseUrl = "Browse Url";
         public const string ActivateNavigation = "Activate Navigation";
         public const string NavigationCommandAdded = "Navigation Command Added";
         public const string DashboardCommandAdded = "Dashboard Command Added";

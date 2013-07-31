@@ -22,10 +22,10 @@ namespace Samba.Modules.SettingsModule
             AddDashboardCommand<EntityCollectionViewModelBase<StateViewModel, State>>(Resources.State.ToPlural(), Resources.Settings, 21);
             AddDashboardCommand<ProgramSettingsViewModel>(Resources.ProgramSettings, Resources.Settings, 22);
             AddDashboardCommand<SambaPosWebsite>(Resources.SambaPosWebsite, Resources.SambaNetwork, 90);
-            AddDashboardCommand<SambaPosDocumentation>("SambaPOS Documentation", Resources.SambaNetwork, 91); //TODO: make localisation-string
-            AddDashboardCommand<SambaPosForum>("SambaPOS Forum", Resources.SambaNetwork, 92); //TODO: make localisation-string
-            AddDashboardCommand<SambaPosDevelopment>("SambaPOS Development", Resources.SambaNetwork, 93); //TODO: make localisation-string
-            AddDashboardCommand<SambaPosWiki>("SambaPOS Wiki", Resources.SambaNetwork, 94); //TODO: make localisation-string
+            AddDashboardCommand<SambaPosDocumentation>(string.Format("SambaPOS {0}", Resources.Documentation), Resources.SambaNetwork, 91);
+            AddDashboardCommand<SambaPosForum>(string.Format("SambaPOS {0}", Resources.Forum), Resources.SambaNetwork, 92);
+            AddDashboardCommand<SambaPosDevelopment>(string.Format("SambaPOS {0}", Resources.Development), Resources.SambaNetwork, 93);
+            AddDashboardCommand<SambaPosWiki>(string.Format("SambaPOS {0}", Resources.Wiki), Resources.SambaNetwork, 94);
         }
     }
 }

@@ -2205,6 +2205,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Development.
+        /// </summary>
+        public static string Development {
+            get {
+                return ResourceManager.GetString("Development", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device Event Generated.
         /// </summary>
         public static string DeviceEventGenerated {
@@ -2408,6 +2417,15 @@ namespace Samba.Localization.Properties {
         public static string Divide {
             get {
                 return ResourceManager.GetString("Divide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documentation.
+        /// </summary>
+        public static string Documentation {
+            get {
+                return ResourceManager.GetString("Documentation", resourceCulture);
             }
         }
         
@@ -3251,6 +3269,15 @@ namespace Samba.Localization.Properties {
         public static string Forty {
             get {
                 return ResourceManager.GetString("Forty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forum.
+        /// </summary>
+        public static string Forum {
+            get {
+                return ResourceManager.GetString("Forum", resourceCulture);
             }
         }
         
@@ -8742,6 +8769,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Website.
+        /// </summary>
+        public static string Website {
+            get {
+                return ResourceManager.GetString("Website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Week.
         /// </summary>
         public static string Week {
@@ -8828,6 +8864,15 @@ namespace Samba.Localization.Properties {
         public static string Width {
             get {
                 return ResourceManager.GetString("Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wiki.
+        /// </summary>
+        public static string Wiki {
+            get {
+                return ResourceManager.GetString("Wiki", resourceCulture);
             }
         }
         
