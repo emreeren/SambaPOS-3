@@ -35,7 +35,7 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
 
         public override void DoPrint(FlowDocument document)
         {
-            DoPrint(PrinterTools.FlowDocumentToSlipPrinterFormat(document));
+            DoPrint(PrinterTools.FlowDocumentToSlipPrinterFormat(document,Printer.CharsPerLine));
         }
 
         private static void SendToNotepad(Printer printer, string text)

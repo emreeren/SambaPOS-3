@@ -38,7 +38,7 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
             if (documentLine.ToLower().StartsWith("<bx"))
                 return new BoxFormatter(documentLine, maxWidth);
             if (documentLine.ToLower().StartsWith("<j"))
-                return GetJustifiedFormatter(documentLine, maxWidth, true);
+                return GetJustifiedFormatter(documentLine, maxWidth, false);
             if (documentLine.ToLower().StartsWith("<p"))
                 return GetJustifiedFormatter(documentLine, maxWidth, false);
 

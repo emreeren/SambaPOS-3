@@ -17,7 +17,7 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
 
         public override void DoPrint(FlowDocument document)
         {
-            DoPrint(PrinterTools.FlowDocumentToSlipPrinterFormat(document));
+            DoPrint(PrinterTools.FlowDocumentToSlipPrinterFormat(document, 0));
         }
 
         public override void DoPrint(string[] lines)
@@ -29,7 +29,7 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             if (!text.ToLower().Contains("<style>"))
                 text = LocalSettings.DefaultHtmlReportHeader + text;
 
-            var xaml = HtmlToXamlConverter.ConvertHtmlToXaml(text, false);
+            var xaml = HtmlToXamlConverter.ConvertHtmlToXaml(text.Replace("\r\n",""), false);
 
             PrintFlowDocument(q, PrinterTools.XamlToFlowDocument(xaml));
         }
@@ -43,12 +43,13 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             var list = new List<string>();
             foreach (var line in lines)
             {
+
                 if (line.StartsWith("<F>") && line.Length > 3)
-                    list.Add(string.Format("<span>{0}</span>", line[3].ToString().PadLeft(Printer.CharsPerLine, line[3])));
+                    list.Add(string.Format("<span>{0}</span>", line[3].ToString().PadLeft(lines.Max(x => x.Length), line[3])));
                 if (line.StartsWith("<T>"))
                     list.Add(string.Format("<B>{0}</B>", RemoveTag(line)));
                 if (line.StartsWith("<C") && line.Length > 3 && (line[2] == '>' || char.IsDigit(line[2])))
-                    list.Add(string.Format("<Center>{0}</Center>", RemoveTag(line)));
+                    list.Add(string.Format("<span>{0}</span>", RemoveTag(line)));
                 if (line.StartsWith("<L") && line.Length > 3 && (line[2] == '>' || char.IsDigit(line[2])))
                     list.Add(string.Format("<span>{0}</span>", RemoveTag(line)));
                 if (line.StartsWith("<EB>"))
@@ -70,7 +71,7 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
                     tables[tableName].Add(RemoveTag(line));
                 }
 
-                if (!line.Contains("<"))
+                if (!line.Contains("<") && !string.IsNullOrEmpty(line.Trim()))
                     list.Add(line);
 
                 lastLine = line;
@@ -98,12 +99,22 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             int colCount = GetColumnCount(lines) + 1;
             var colWidths = new int[colCount];
 
-            for (int i = 0; i < colCount; i++)
+            var maxCol = lines.Select(x => x.Split('|').Length).Max();
+
+            for (int i = 0; i < lines.Count; i++)
             {
-                colWidths[i] = GetMaxLine(lines, i);
+                if (lines[i].Split('|').Length < maxCol)
+                    lines[i] = lines[i].Replace("|", "| |");
             }
 
-            colWidths[colCount - 1] = (maxWidth - colWidths.Sum()) + colWidths[colCount - 1];
+            for (int i = 0; i < colCount; i++)
+            {
+                colWidths[i] = GetMaxLine(lines, i) + 1;
+            }
+
+            if (colWidths.Sum() < maxWidth)
+                colWidths[colCount - 1] = (maxWidth - colWidths.Sum()) + colWidths[colCount - 1];
+
             if (colWidths[colCount - 1] < 1) colWidths[colCount - 1] = 1;
 
             for (int i = 0; i < lines.Count; i++)
@@ -119,27 +130,24 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             var parts = s.Split('|');
             for (int i = 0; i < parts.Length; i++)
             {
-                if (i == parts.Length - 1)
-                    parts[i] = parts[i].PadLeft(colWidths[i]);
+                if (i == 0)
+                    parts[i] = parts[i].Trim().PadRight(colWidths[i]);
                 else
-                    parts[i] = parts[i].PadRight(colWidths[i]);
+                    parts[i] = parts[i].Trim().PadLeft(colWidths[i]);
             }
             return string.Join("", parts);
         }
 
         private static int GetMaxLine(IEnumerable<string> lines, int columnNo)
         {
-            var result = 0;
-            foreach (var val in lines)
-            {
-                if (!val.Contains("|")) continue;
-                int start = columnNo > 0 ? val.IndexOf("|", columnNo) : 0;
-                var v = val.Substring(start);
-                if (v.StartsWith("|")) v = v.Substring(1);
-                if (v.Contains("|")) v = v.Substring(0, v.IndexOf("|"));
-                result = v.Length + 1 > result ? v.Length + 1 : result;
-            }
-            return result;
+            return lines.Select(x => GetSize(x, '|', columnNo)).Max() + 1;
+        }
+
+        private static int GetSize(string val, char sep, int index)
+        {
+            var parts = val.Split(sep);
+            if (index > parts.Length - 1) return 0;
+            return parts[index].Trim().Length;
         }
 
         private static int GetColumnCount(IEnumerable<string> value)
