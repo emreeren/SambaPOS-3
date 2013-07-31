@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 
 namespace Samba.Modules.EntityModule
@@ -50,21 +51,15 @@ namespace Samba.Modules.EntityModule
 
     public class EntityCustomDataViewModel : ObservableObject
     {
-        public Entity Model { get; set; }
-        public EntityType EntityType { get; set; }
-
-        public string GetValue(string name)
-        {
-            return CustomData.Any(x => x.Name == name)
-                ? CustomData.Single(x => x.Name == name).Value
-                : string.Empty;
-        }
-
         public EntityCustomDataViewModel(Entity model, EntityType template)
         {
             EntityType = template;
             Model = model;
         }
+
+        public Entity Model { get; set; }
+        public EntityType EntityType { get; set; }
+        public string PrimaryFieldName { get { return GetPrimaryFieldName(); } }
 
         public bool IsTextBoxVisible { get { return EntityType != null && string.IsNullOrWhiteSpace(EntityType.PrimaryFieldFormat); } }
         public bool IsMaskedTextBoxVisible { get { return !IsTextBoxVisible; } }
@@ -91,6 +86,19 @@ namespace Samba.Modules.EntityModule
                 GenerateFields(data);
             }
             return data;
+        }
+
+        private string GetPrimaryFieldName()
+        {
+            if (EntityType == null) return "";
+            return !string.IsNullOrEmpty(EntityType.PrimaryFieldName) ? EntityType.PrimaryFieldName : Resources.Name;
+        }
+
+        public string GetValue(string name)
+        {
+            return CustomData.Any(x => x.Name == name)
+                ? CustomData.Single(x => x.Name == name).Value
+                : string.Empty;
         }
 
         private void GenerateFields(ICollection<CustomDataValueViewModel> data)
@@ -170,6 +178,7 @@ namespace Samba.Modules.EntityModule
                 Model.CustomData = JsonHelper.Serialize(_customData.Select(x => x.Model).ToList());
                 RaisePropertyChanged(() => IsMaskedTextBoxVisible);
                 RaisePropertyChanged(() => IsTextBoxVisible);
+                RaisePropertyChanged(() => PrimaryFieldName);
             }
         }
 

@@ -55,7 +55,9 @@ namespace Samba.Domain.Models.Entities
 
             var result = AccountNameTemplate;
             result = result.Replace("[Id]", entity.Id.ToString(CultureInfo.InvariantCulture));
-            result = result.Replace("[Name]", entity.Name);
+            result = !string.IsNullOrEmpty(PrimaryFieldName) 
+                ? result.Replace("[" + PrimaryFieldName + "]", entity.Name) 
+                : result.Replace("[Name]", entity.Name);
             while (Regex.IsMatch(result, "\\[([^\\]]+)\\]"))
             {
                 var match = Regex.Match(result, "\\[([^\\]]+)\\]");

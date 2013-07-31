@@ -128,7 +128,7 @@ namespace Samba.Presentation.Controls.UIControls
 
         private void MaskedTextBoxLoaded(object sender, RoutedEventArgs e)
         {
-            _provider = new MaskedTextProvider(InputMask ?? " ", CultureInfo.CurrentCulture);
+            _provider = new MaskedTextProvider(!string.IsNullOrEmpty(InputMask) ? InputMask : " ", CultureInfo.CurrentCulture);
 
             _provider.Set(String.IsNullOrWhiteSpace(UnmaskedText) ? String.Empty : UnmaskedText);
 

@@ -34,7 +34,7 @@ namespace Samba.Modules.CidMonitor
         public void Initialize()
         {
             if (IsInitialized) return;
-            CustomerType = _cacheService.GetEntityTypes().SingleOrDefault(x => x.Name == Resources.Customers);            
+            CustomerType = _cacheService.GetEntityTypes().SingleOrDefault(x => x.Name == Resources.Customers);
             try
             {
                 var frmMain = new FrmMain();
@@ -87,7 +87,7 @@ namespace Samba.Modules.CidMonitor
 
         private void OnClick(object phoneNumber)
         {
-            OperationRequest<Entity>.Publish(Entity.GetNullEntity(CustomerType.Id), EventTopicNames.SelectEntity, EventTopicNames.EntitySelected, string.Format("{0}:{1}", Resources.Phone, phoneNumber));
+            OperationRequest<Entity>.Publish(Entity.GetNullEntity(CustomerType.Id), EventTopicNames.SelectEntity, EventTopicNames.EntitySelected, phoneNumber.ToString());
         }
     }
 }

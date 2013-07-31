@@ -52,9 +52,6 @@ namespace Samba.Modules.EntityModule
             }
         }
 
-        public string PrimaryFieldName { get { return SelectedEntity != null ? SelectedEntity.EntityType.PrimaryFieldName ?? Resources.Name : ""; } }
-        public string PrimaryFieldFormat { get { return SelectedEntity != null ? SelectedEntity.EntityType.PrimaryFieldFormat : null; } }
-
         private bool CanCreateAccount(string arg)
         {
             if (CustomDataViewModel == null) return false;
@@ -109,8 +106,6 @@ namespace Samba.Modules.EntityModule
                 CustomDataViewModel = new EntityCustomDataViewModel(obj.Value.SelectedItem, entityType);
                 RaisePropertyChanged(() => CustomDataViewModel);
                 RaisePropertyChanged(() => IsEntitySelectorVisible);
-                RaisePropertyChanged(() => PrimaryFieldName);
-                RaisePropertyChanged(() => PrimaryFieldFormat);
             }
         }
 

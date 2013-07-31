@@ -76,7 +76,7 @@
                 <ColumnDefinition SharedSizeGroup="EntityLabel" Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Margin="0,0,2,2"  Grid.Column="0" Content="{Binding EntityType.PrimaryFieldName}" />
+            <Label Margin="0,0,2,2"  Grid.Column="0" Content="{Binding PrimaryFieldName}" />
             <UIControls:MaskedTextBox Name="EntityNameEdit" Margin="0,0,2,2" Grid.Column="1" Visibility="{Binding IsMaskedTextBoxVisible,Converter={StaticResource VisibilityConverter}}"
                     PromptChar=" "
                     UnmaskedText="{Binding Model.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
