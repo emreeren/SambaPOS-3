@@ -70,6 +70,11 @@ namespace Samba.Services.Implementations.AccountModule
                 var date = DateTime.Now.MonthStart();
                 return x => x.Date >= date;
             }
+            if (selectedAccountScreen.Filter == 2)
+            {
+                var date = DateTime.Now.StartOfWeek();
+                return x => x.Date >= date;
+            }
             if (selectedAccountScreen.Filter == 3)
             {
                 var date = currentWorkPeriod.StartDate;

@@ -87,7 +87,11 @@ namespace Samba.Modules.CidMonitor
 
         private void OnClick(object phoneNumber)
         {
-            OperationRequest<Entity>.Publish(Entity.GetNullEntity(CustomerType.Id), EventTopicNames.SelectEntity, EventTopicNames.EntitySelected, phoneNumber.ToString());
+            var phone = phoneNumber.ToString();
+            if (string.IsNullOrEmpty(CustomerType.PrimaryFieldName) &&
+                CustomerType.EntityCustomFields.Any(x => x.Name == Resources.Phone))
+                phone = Resources.Phone + ":" + phone;
+            OperationRequest<Entity>.Publish(Entity.GetNullEntity(CustomerType.Id), EventTopicNames.SelectEntity, EventTopicNames.EntitySelected, phone);
         }
     }
 }

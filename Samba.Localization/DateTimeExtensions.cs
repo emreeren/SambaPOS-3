@@ -81,5 +81,18 @@ namespace Samba.Localization
 
             return firstMonday.AddDays(weekOfYear * 7);
         }
+
+        public static DateTime StartOfWeek(this DateTime dt)
+        {
+            var startOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+            int diff = dt.DayOfWeek - startOfWeek;
+            if (diff < 0)
+            {
+                diff += 7;
+            }
+
+            return dt.AddDays(-1 * diff).Date;
+        }
+
     }
 }
