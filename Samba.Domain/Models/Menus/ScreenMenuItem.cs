@@ -11,12 +11,13 @@ namespace Samba.Domain.Models.Menus
             SubMenuTag = "";
         }
 
-        public string Name { get; set; }
         public string UserString
         {
             get { return MenuItem != null ? MenuItem.Name + " [" + MenuItem.GroupCode + "]" : Name; }
         }
+        public string Caption { get { return Name.Replace("\\r", " "); } }
 
+        public string Name { get; set; }
         public int ScreenMenuCategoryId { get; set; }
         public int MenuItemId { get; set; }
         public int SortOrder { get; set; }

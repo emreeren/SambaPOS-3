@@ -65,7 +65,7 @@
                             <DataTemplate>
                                 <DockPanel>
                                     <TextBlock FontSize="18" MinWidth="20" Text="{Binding Quantity}"></TextBlock>
-                                    <TextBlock FontSize="18" Text="{Binding ScreenMenuItem.Name}"></TextBlock>
+                                    <TextBlock FontSize="18" Text="{Binding ScreenMenuItem.Caption}"></TextBlock>
                                 </DockPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
