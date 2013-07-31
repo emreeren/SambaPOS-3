@@ -59,6 +59,15 @@
       <DependentUpon>BrowserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BrowserViewModel.cs" />
+    <Compile Include="BrowserViews\SambaPosDevelopment.cs" />
+    <Compile Include="BrowserViews\SambaPosDocumentation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BrowserViews\SambaPosForum.cs" />
+    <Compile Include="BrowserViews\SambaPosWebsite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BrowserViews\SambaPosWiki.cs" />
     <Compile Include="ForeignCurrencyViewModel.cs" />
     <Compile Include="ProgramSettingsView.xaml.cs">
       <DependentUpon>ProgramSettingsView.xaml</DependentUpon>
@@ -155,6 +164,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>IF NOT "$(ConfigurationName)"=="Release" GOTO End
