@@ -14,9 +14,8 @@ namespace Samba.Persistance.DBMigration
         {
             var dc = ApplicationContext as DbContext;
 
-
             var closeTicketAutomation = new AutomationCommand { Name = Resources.CloseTicket, ButtonHeader = Resources.Close, SortOrder = -1, Color = "#FFFF0000",FontSize = 40};
-            closeTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = "*", VisibleStates = "*", DisplayUnderTicket = true });
+            closeTicketAutomation.AutomationCommandMaps.Add(new AutomationCommandMap { EnabledStates = string.Format("{0},{1},{2},{3},IsClosed", Resources.New, Resources.NewOrders, Resources.Unpaid, Resources.Locked), VisibleStates = "*", DisplayUnderTicket = true });
             dc.Set<AutomationCommand>().Add(closeTicketAutomation);
 
             var settleAutomation = new AutomationCommand { Name = Resources.Settle, ButtonHeader = Resources.Settle, SortOrder = -2 ,FontSize = 40};
