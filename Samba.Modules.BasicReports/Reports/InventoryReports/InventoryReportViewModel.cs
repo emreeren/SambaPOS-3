@@ -5,9 +5,9 @@ using System.Windows.Documents;
 using Samba.Domain.Models.Inventory;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
-using Samba.Presentation.Common;
 using Samba.Presentation.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports.Reports.InventoryReports
 {

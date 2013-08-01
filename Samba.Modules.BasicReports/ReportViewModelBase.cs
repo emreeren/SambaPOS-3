@@ -21,6 +21,7 @@ using Samba.Presentation.Common.ErrorReport;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.BasicReports
 {

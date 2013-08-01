@@ -11,6 +11,8 @@ using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Localization;
 using Samba.Persistance;
+using Samba.Persistance.Data;
+using Samba.Persistance.Specification;
 using Samba.Services.Common;
 
 namespace Samba.Services.Implementations.AccountModule
@@ -41,6 +43,11 @@ namespace Samba.Services.Implementations.AccountModule
             return _accountDao.GetAccountTransactionDocumentById(documentId);
         }
 
+        public AccountTransactionSummary GetAccountTransactionSummary(Account selectedAccount, WorkPeriod currentWorkPeriod)
+        {
+            return new AccountTransactionSummary(_cacheService, selectedAccount, currentWorkPeriod);
+        }
+
         public decimal GetAccountBalance(int accountId)
         {
             return _accountDao.GetAccountBalance(accountId);
@@ -51,7 +58,7 @@ namespace Samba.Services.Implementations.AccountModule
             return _accountDao.GetAccountExchangeBalance(accountId);
         }
 
-        public IEnumerable<AccountScreenRowModel> GetAccountScreenRows(AccountScreen accountScreen, WorkPeriod currentWorkPeriod)
+        public IEnumerable<AccountScreenRow> GetAccountScreenRows(AccountScreen accountScreen, WorkPeriod currentWorkPeriod)
         {
             return _accountRowBuilder.GetAccountScreenRows(accountScreen, currentWorkPeriod);
         }

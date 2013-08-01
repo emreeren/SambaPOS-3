@@ -1,16 +1,15 @@
 ﻿using System;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Settings;
-using Samba.Presentation.Common;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Services.Common
 {
-    public class AccountDetailViewModel : ObservableObject
+    public class AccountDetailData 
     {
         private readonly Account _account;
         public AccountTransactionValue Model { get; set; }
 
-        public AccountDetailViewModel(AccountTransactionValue model, Account account)
+        public AccountDetailData(AccountTransactionValue model, Account account)
         {
             _account = account;
             Model = model;
@@ -19,12 +18,7 @@ namespace Samba.Modules.AccountModule
         public string Name { get { return Model.Name; } }
         public DateTime Date { get { return Model.Date; } }
 
-        private bool _isBold;
-        public bool IsBold
-        {
-            get { return _isBold; }
-            set { _isBold = value; RaisePropertyChanged(() => IsBold); }
-        }
+        public bool IsBold { get; set; }
 
         public decimal Debit { get { return _account.ForeignCurrencyId > 0 && Model.Exchange > 0 ? Math.Abs(Model.Exchange) : Model.Debit; } }
         public decimal Credit { get { return _account.ForeignCurrencyId > 0 && Model.Exchange < 0 ? Math.Abs(Model.Exchange) : Model.Credit; } }

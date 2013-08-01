@@ -11,13 +11,14 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
+using Samba.Persistance;
 
 namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 {
     [Export]
     public class FunctionRegistry
     {
-        private readonly IAccountService _accountService;
+        private readonly IAccountDao _accountDao;
         private readonly IDepartmentService _departmentService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
@@ -26,9 +27,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         public IDictionary<string, string> Descriptions = new Dictionary<string, string>();
 
         [ImportingConstructor]
-        public FunctionRegistry(IAccountService accountService, IDepartmentService departmentService, ISettingService settingService, ICacheService cacheService)
+        public FunctionRegistry(IAccountDao accountDao, IDepartmentService departmentService, ISettingService settingService, ICacheService cacheService)
         {
-            _accountService = accountService;
+            _accountDao = accountDao;
             _departmentService = departmentService;
             _settingService = settingService;
             _cacheService = cacheService;
@@ -98,12 +99,12 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
             //TICKET RESOURCES
             RegisterFunction<TicketEntity>("{ENTITY NAME}", (x, d) => x.EntityName, string.Format(Resources.Name_f, Resources.Entity));
-            RegisterFunction<TicketEntity>("{ENTITY BALANCE}", (x, d) => _accountService.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), Resources.AccountBalance, x => x.AccountId > 0);
+            RegisterFunction<TicketEntity>("{ENTITY BALANCE}", (x, d) => _accountDao.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), Resources.AccountBalance, x => x.AccountId > 0);
             RegisterFunction<TicketEntity>("{ENTITY DATA:([^}]+)}", (x, d) => x.GetCustomData(d), Resources.CustomFields);
 
             //ENTITIES
             RegisterFunction<Entity>("{ENTITY NAME}", (x, d) => x.Name);
-            RegisterFunction<Entity>("{ENTITY BALANCE}", (x, d) => _accountService.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), "", x => x.AccountId > 0);
+            RegisterFunction<Entity>("{ENTITY BALANCE}", (x, d) => _accountDao.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), "", x => x.AccountId > 0);
             RegisterFunction<Entity>("{ENTITY DATA:([^}]+)}", (x, d) => x.GetCustomData(d));
 
             //CALCULATIONS
@@ -165,12 +166,12 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         private decimal GetAccountBalance(int accountId)
         {
-            return _accountService.GetAccountBalance(accountId);
+            return _accountDao.GetAccountBalance(accountId);
         }
 
         private string GetAccountName(int accountId)
         {
-            return _accountService.GetAccountNameById(accountId);
+            return _accountDao.GetAccountNameById(accountId);
         }
 
         private string GetAccountTypeName(int accountTypeId)

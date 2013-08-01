@@ -162,6 +162,7 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterParameterSource("PrinterTemplateName", () => Dao.Distinct<PrinterTemplate>(x => x.Name));
             RegisterParameterSource("PrinterName", () => Dao.Distinct<Printer>(x => x.Name));
             RegisterParameterSource("WidgetName", () => Dao.Distinct<Widget>(x => x.Name));
+            RegisterParameterSource("AccountScreenName", () => Dao.Distinct<AccountScreen>(x => x.Name));
         }
 
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
@@ -23,7 +22,7 @@ namespace Samba.Modules.AccountModule
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
-        private readonly IPrinterService _printerService;
+        private readonly IReportServiceClient _reportServiceClient;
         private AccountScreen _selectedAccountScreen;
 
         public event EventHandler Refreshed;
@@ -40,13 +39,13 @@ namespace Samba.Modules.AccountModule
 
         [ImportingConstructor]
         public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState,
-            IPrinterService printerService)
+            IReportServiceClient reportServiceClient)
         {
-            _accounts = new ObservableCollection<AccountScreenRowModel>();
+            _accounts = new ObservableCollection<AccountScreenRow>();
             _accountService = accountService;
             _cacheService = cacheService;
             _applicationState = applicationState;
-            _printerService = printerService;
+            _reportServiceClient = reportServiceClient;
             ShowAccountDetailsCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(' ', '\r'), OnShowAccountDetails, CanShowAccountDetails);
             PrintCommand = new CaptionCommand<string>(Resources.Print, OnPrint);
             AccountButtonSelectedCommand = new CaptionCommand<AccountScreen>("", OnAccountScreenSelected);
@@ -88,13 +87,13 @@ namespace Samba.Modules.AccountModule
             get { return _accountButtons ?? (_accountButtons = AccountScreens.Select(x => new AccountButton(x, _cacheService))); }
         }
 
-        private readonly ObservableCollection<AccountScreenRowModel> _accounts;
-        public ObservableCollection<AccountScreenRowModel> Accounts
+        private readonly ObservableCollection<AccountScreenRow> _accounts;
+        public ObservableCollection<AccountScreenRow> Accounts
         {
             get { return _accounts; }
         }
 
-        public AccountScreenRowModel SelectedAccount { get; set; }
+        public AccountScreenRow SelectedAccount { get; set; }
 
 
         private void OnAccountScreenSelected(AccountScreen accountScreen)
@@ -126,7 +125,7 @@ namespace Samba.Modules.AccountModule
 
             OnRefreshed();
         }
-        
+
         public void Refresh()
         {
             UpdateAccountScreen(_selectedAccountScreen ?? (_selectedAccountScreen = AccountScreens.FirstOrDefault()));
@@ -134,21 +133,7 @@ namespace Samba.Modules.AccountModule
 
         private void OnPrint(string obj)
         {
-            var report = new SimpleReport("");
-            report.AddParagraph("Header");
-            report.AddParagraphLine("Header", string.Format(_selectedAccountScreen.Name), true);
-            report.AddParagraphLine("Header", "");
-
-            report.AddColumnLength("Transactions", "60*", "40*");
-            report.AddColumTextAlignment("Transactions", TextAlignment.Left, TextAlignment.Right);
-            report.AddTable("Transactions", string.Format(Resources.Name_f, Resources.Account), Resources.Balance);
-
-            foreach (var ad in Accounts)
-            {
-                report.AddRow("Transactions", ad.Name, ad.BalanceStr);
-            }
-
-            _printerService.PrintReport(report.Document, _applicationState.GetReportPrinter());
+            _reportServiceClient.PrintAccountScreen(_selectedAccountScreen);
         }
     }
 }

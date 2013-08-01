@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace Samba.Presentation.Common
+namespace Samba.Services.Common
 {
     public class SimpleReport
     {

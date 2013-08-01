@@ -24,14 +24,14 @@ namespace Samba.Services.Implementations.AccountModule
             _cacheService = cacheService;
         }
 
-        public IEnumerable<AccountScreenRowModel> GetAccountScreenRows(AccountScreen accountScreen, WorkPeriod currentWorkPeriod)
+        public IEnumerable<AccountScreenRow> GetAccountScreenRows(AccountScreen accountScreen, WorkPeriod currentWorkPeriod)
         {
-            var rows = new List<AccountScreenRowModel>();
+            var rows = new List<AccountScreenRow>();
             var detailedTemplateNames = accountScreen.AccountScreenValues.Where(x => x.DisplayDetails).Select(x => x.AccountTypeId);
-            _accountDao.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter(accountScreen, currentWorkPeriod)).ToList().ForEach(x => rows.Add(AccountScreenRowModel.Create(x, _cacheService.GetCurrencySymbol(x.Key.ForeignCurrencyId), GetGroupKey(accountScreen, x.Key.AccountTypeId))));
+            _accountDao.GetAccountBalances(detailedTemplateNames.ToList(), GetFilter(accountScreen, currentWorkPeriod)).ToList().ForEach(x => rows.Add(AccountScreenRow.Create(x, _cacheService.GetCurrencySymbol(x.Key.ForeignCurrencyId), GetGroupKey(accountScreen, x.Key.AccountTypeId))));
 
             var templateTotals = accountScreen.AccountScreenValues.Where(x => !x.DisplayDetails).Select(x => x.AccountTypeId);
-            _accountDao.GetAccountTypeBalances(templateTotals.ToList(), GetFilter(accountScreen, currentWorkPeriod)).ToList().ForEach(x => rows.Add(AccountScreenRowModel.Create(x, GetGroupKey(accountScreen, x.Key.Id))));
+            _accountDao.GetAccountTypeBalances(templateTotals.ToList(), GetFilter(accountScreen, currentWorkPeriod)).ToList().ForEach(x => rows.Add(AccountScreenRow.Create(x, GetGroupKey(accountScreen, x.Key.Id))));
 
             var hideIfZeroBalanceTypeIds =
                 accountScreen.AccountScreenValues.Where(x => x.HideZeroBalanceAccounts).Select(x => x.AccountTypeId).ToList();
@@ -50,7 +50,7 @@ namespace Samba.Services.Implementations.AccountModule
             return accountScreen.AccountScreenValues.Single(x => x.AccountTypeId == accountTypeId).AccountTypeName;
         }
 
-        private static bool ShouldKeepAccount(AccountScreenRowModel accountRowData, ICollection<int> hideIfZeroBalanceTypeIds)
+        private static bool ShouldKeepAccount(AccountScreenRow accountRowData, ICollection<int> hideIfZeroBalanceTypeIds)
         {
             return !hideIfZeroBalanceTypeIds.Contains(accountRowData.AccountTypeId) ||
                    (hideIfZeroBalanceTypeIds.Contains(accountRowData.AccountTypeId) && accountRowData.Balance != 0);

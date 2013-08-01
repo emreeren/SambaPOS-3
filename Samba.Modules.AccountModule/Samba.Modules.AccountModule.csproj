@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountButton.cs" />
-    <Compile Include="AccountDetailViewModel.cs" />
     <Compile Include="AccountDetailsView.xaml.cs">
       <DependentUpon>AccountDetailsView.xaml</DependentUpon>
     </Compile>
@@ -73,7 +72,9 @@
     <Compile Include="ActionProcessors\CreateAccountTransaction.cs" />
     <Compile Include="ActionProcessors\CreateAccountTransactionDocument.cs" />
     <Compile Include="ActionProcessors\CreateBatchAccountTransactionDocument.cs" />
+    <Compile Include="ActionProcessors\PrintAccountScreen.cs" />
     <Compile Include="ActionProcessors\PrintAccountTransactionDocument.cs" />
+    <Compile Include="ActionProcessors\PrintAccountTransactions.cs" />
     <Compile Include="BatchDocumentCreatorView.xaml.cs">
       <DependentUpon>BatchDocumentCreatorView.xaml</DependentUpon>
     </Compile>
@@ -86,7 +87,6 @@
       <DependentUpon>AccountSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountSelectorViewModel.cs" />
-    <Compile Include="AccountSummaryViewModel.cs" />
     <Compile Include="AccountModule.cs" />
     <Compile Include="Dashboard\AccountTransactionDocumentAccountMapViewModel.cs" />
     <Compile Include="Dashboard\AccountTransactionDocumentTypeView.xaml.cs">

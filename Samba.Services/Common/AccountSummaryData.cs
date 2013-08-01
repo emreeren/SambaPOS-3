@@ -1,12 +1,10 @@
 ﻿using Samba.Infrastructure.Settings;
-using Samba.Presentation.Common;
 
-namespace Samba.Modules.AccountModule
+namespace Samba.Services.Common
 {
-    public class AccountSummaryViewModel : ObservableObject
+    public class AccountSummaryData 
     {
-        
-        public AccountSummaryViewModel(string caption, decimal debit, decimal credit)
+        public AccountSummaryData(string caption, decimal debit, decimal credit)
         {
             _caption = caption;
             _debit = debit;

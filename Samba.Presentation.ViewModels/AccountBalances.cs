@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
+using Samba.Persistance;
 using Samba.Presentation.Services;
 using Samba.Services;
 
@@ -13,14 +14,14 @@ namespace Samba.Presentation.ViewModels
     {
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
-        private readonly IAccountService _accountService;
+        private readonly IAccountDao _accountDao;
 
         [ImportingConstructor]
-        public AccountBalances(IApplicationState applicationState,ICacheService cacheService, IAccountService accountService)
+        public AccountBalances(IApplicationState applicationState, ICacheService cacheService, IAccountDao accountDao)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
-            _accountService = accountService;
+            _accountDao = accountDao;
             Balances = new Dictionary<int, decimal>();
         }
 
@@ -37,13 +38,13 @@ namespace Samba.Presentation.ViewModels
                     var entityType = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
                     if (_applicationState.GetPaymentScreenPaymentTypes().Any(x => x.AccountTransactionType.TargetAccountTypeId == entityType.AccountTypeId))
                     {
-                        var balance = _accountService.GetAccountBalance(ticketEntity.AccountId);
+                        var balance = _accountDao.GetAccountBalance(ticketEntity.AccountId);
                         balance +=
                             SelectedTicket.Payments.Where(
                                 x =>
                                 x.Id == 0 &&
                                 x.AccountTransaction.AccountTransactionValues.Any(
-                                    y => y.AccountId == ticketEntity.AccountId)).Sum(x=>x.Amount);
+                                    y => y.AccountId == ticketEntity.AccountId)).Sum(x => x.Amount);
                         Balances.Add(ticketEntity.AccountId, balance);
                     }
                 }
@@ -74,7 +75,7 @@ namespace Samba.Presentation.ViewModels
 
         public Account GetActiveAccount()
         {
-            return Balances.Count == 1 ? _accountService.GetAccountById(Balances.First().Key) : null;
+            return Balances.Count == 1 ? _accountDao.GetAccountById(Balances.First().Key) : null;
         }
 
         public int GetActiveAccountId()

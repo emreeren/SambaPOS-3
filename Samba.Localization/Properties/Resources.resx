@@ -3361,4 +3361,10 @@ Error Message:
   <data name="Documentation" xml:space="preserve">
     <value>Documentation</value>
   </data>
+  <data name="PrintAccountScreen" xml:space="preserve">
+    <value>Print Account Screen</value>
+  </data>
+  <data name="PrintAccountTransactions" xml:space="preserve">
+    <value>Print Account Transactions</value>
+  </data>
 </root>

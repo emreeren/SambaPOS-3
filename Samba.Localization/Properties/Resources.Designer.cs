@@ -5574,11 +5574,29 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print Account Screen.
+        /// </summary>
+        public static string PrintAccountScreen {
+            get {
+                return ResourceManager.GetString("PrintAccountScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Print Account Transaction Document.
         /// </summary>
         public static string PrintAccountTransactionDocument {
             get {
                 return ResourceManager.GetString("PrintAccountTransactionDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print Account Transactions.
+        /// </summary>
+        public static string PrintAccountTransactions {
+            get {
+                return ResourceManager.GetString("PrintAccountTransactions", resourceCulture);
             }
         }
         

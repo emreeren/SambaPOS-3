@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Windows;
 using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
-using Samba.Localization;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
-using Samba.Persistance.Specification;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.AccountModule
 {
@@ -25,28 +21,28 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IApplicationState _applicationState;
         private readonly IAccountService _accountService;
-        private readonly IPrinterService _printerService;
         private readonly ICacheService _cacheService;
+        private readonly IReportService _reportService;
 
         [ImportingConstructor]
         public AccountDetailsViewModel(IApplicationState applicationState, IAccountService accountService,
-            IPrinterService printerService, ICacheService cacheService)
+            ICacheService cacheService, IReportService reportService)
         {
             _applicationState = applicationState;
             _accountService = accountService;
-            _printerService = printerService;
             _cacheService = cacheService;
+            _reportService = reportService;
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
             DisplayTicketCommand = new CaptionCommand<string>(Resources.FindTicket.Replace(" ", "\r"), OnDisplayTicket);
             PrintAccountCommand = new CaptionCommand<string>(Resources.Print, OnPrintAccount);
-            AccountDetails = new ObservableCollection<AccountDetailViewModel>();
+            AccountDetails = new ObservableCollection<AccountDetailData>();
             DocumentTypes = new ObservableCollection<DocumentTypeButtonViewModel>();
-            AccountSummaries = new ObservableCollection<AccountSummaryViewModel>();
+            AccountSummaries = new ObservableCollection<AccountSummaryData>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<AccountData>>>().Subscribe(OnDisplayAccountTransactions);
         }
 
         public AccountType SelectedAccountType { get; set; }
-        public AccountDetailViewModel FocusedAccountTransaction { get; set; }
+        public AccountDetailData FocusedAccountTransaction { get; set; }
 
         private Account _selectedAccount;
         public Account SelectedAccount
@@ -66,8 +62,8 @@ namespace Samba.Modules.AccountModule
         }
 
         public ObservableCollection<DocumentTypeButtonViewModel> DocumentTypes { get; set; }
-        public ObservableCollection<AccountDetailViewModel> AccountDetails { get; set; }
-        public ObservableCollection<AccountSummaryViewModel> AccountSummaries { get; set; }
+        public ObservableCollection<AccountDetailData> AccountDetails { get; set; }
+        public ObservableCollection<AccountSummaryData> AccountSummaries { get; set; }
 
         public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
 
@@ -101,56 +97,14 @@ namespace Samba.Modules.AccountModule
             }
         }
 
-        private Expression<Func<AccountTransactionValue, bool>> GetCurrentRange(Expression<Func<AccountTransactionValue, bool>> activeSpecification)
-        {
-            if (FilterType == Resources.Month) return activeSpecification.And(x => x.Date >= DateTime.Now.MonthStart());
-            if (FilterType == Resources.WorkPeriod) return activeSpecification.And(x => x.Date >= _applicationState.CurrentWorkPeriod.StartDate);
-            return activeSpecification;
-        }
-
-        private Expression<Func<AccountTransactionValue, bool>> GetPastRange(Expression<Func<AccountTransactionValue, bool>> activeSpecification)
-        {
-            if (FilterType == Resources.Month) return activeSpecification.And(x => x.Date < DateTime.Now.MonthStart());
-            if (FilterType == Resources.WorkPeriod) return activeSpecification.And(x => x.Date < _applicationState.CurrentWorkPeriod.StartDate);
-            return activeSpecification;
-        }
-
         private void DisplayTransactions()
         {
+            var transactionData = _accountService.GetAccountTransactionSummary(SelectedAccount, _applicationState.CurrentWorkPeriod);
+
             AccountDetails.Clear();
+            AccountDetails.AddRange(transactionData.Transactions);
             AccountSummaries.Clear();
-
-            var transactions = Dao.Query(GetCurrentRange(x => x.AccountId == SelectedAccount.Id)).OrderBy(x => x.Date);
-            AccountDetails.AddRange(transactions.Select(x => new AccountDetailViewModel(x, SelectedAccount)));
-
-            if (FilterType != Resources.All)
-            {
-                var pastDebit = Dao.Sum(x => x.Debit, GetPastRange(x => x.AccountId == SelectedAccount.Id));
-                var pastCredit = Dao.Sum(x => x.Credit, GetPastRange(x => x.AccountId == SelectedAccount.Id));
-                var pastExchange = Dao.Sum(x => x.Exchange, GetPastRange(x => x.AccountId == SelectedAccount.Id));
-                if (pastCredit > 0 || pastDebit > 0)
-                {
-                    AccountSummaries.Add(new AccountSummaryViewModel(Resources.Total, AccountDetails.Sum(x => x.Debit), AccountDetails.Sum(x => x.Credit)));
-                    var detailValue =
-                        new AccountDetailViewModel(new AccountTransactionValue
-                                                       {
-                                                           Name = Resources.PastTransactions,
-                                                           Credit = pastCredit,
-                                                           Debit = pastDebit,
-                                                           Exchange = pastExchange
-                                                       }, SelectedAccount);
-                    AccountDetails.Insert(0, detailValue);
-                    detailValue.IsBold = true;
-                }
-            }
-
-            AccountSummaries.Add(new AccountSummaryViewModel(Resources.GrandTotal, AccountDetails.Sum(x => x.Debit), AccountDetails.Sum(x => x.Credit)));
-
-            for (var i = 0; i < AccountDetails.Count; i++)
-            {
-                AccountDetails[i].Balance = (AccountDetails[i].Debit - AccountDetails[i].Credit);
-                if (i > 0) (AccountDetails[i].Balance) += (AccountDetails[i - 1].Balance);
-            }
+            AccountSummaries.AddRange(transactionData.Summaries);
 
             RaisePropertyChanged(() => TotalBalance);
         }
@@ -194,24 +148,7 @@ namespace Samba.Modules.AccountModule
 
         private void OnPrintAccount(string obj)
         {
-            var report = new SimpleReport("");
-            report.AddParagraph("Header");
-            report.AddParagraphLine("Header", Resources.AccountTransaction.ToPlural(), true);
-            report.AddParagraphLine("Header", "");
-            report.AddParagraphLine("Header", string.Format("{0}: {1}", string.Format(Resources.Name_f, Resources.Account), SelectedAccount.Name));
-            report.AddParagraphLine("Header", string.Format("{0}: {1}", Resources.Balance, TotalBalance));
-            report.AddParagraphLine("Header", "");
-
-            report.AddColumnLength("Transactions", "15*", "35*", "15*", "15*", "20*");
-            report.AddColumTextAlignment("Transactions", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right, TextAlignment.Right);
-            report.AddTable("Transactions", Resources.Date, Resources.Description, Resources.Credit, Resources.Debit, Resources.Balance);
-
-            foreach (var ad in AccountDetails)
-            {
-                report.AddRow("Transactions", ad.Date.ToShortDateString(), ad.Name, ad.CreditStr, ad.DebitStr, ad.BalanceStr);
-            }
-
-            _printerService.PrintReport(report.Document, _applicationState.GetReportPrinter());
+            _reportService.PrintAccountTransactions(SelectedAccount, _applicationState.CurrentWorkPeriod, _applicationState.GetReportPrinter());
         }
     }
 }

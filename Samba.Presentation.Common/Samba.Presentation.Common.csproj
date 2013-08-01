@@ -134,7 +134,6 @@
     <Compile Include="Commands\CategoryCommand.cs" />
     <Compile Include="Commands\CommandCategory.cs" />
     <Compile Include="CommonEventPublisher.cs" />
-    <Compile Include="SimpleReport.cs" />
     <Compile Include="DialogCloser.cs" />
     <Compile Include="ErrorReport\ErrorReportView.xaml.cs">
       <DependentUpon>ErrorReportView.xaml</DependentUpon>

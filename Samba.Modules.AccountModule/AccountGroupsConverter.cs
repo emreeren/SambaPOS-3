@@ -16,7 +16,7 @@ namespace Samba.Modules.AccountModule
                 return "null";
 
             var items = (ReadOnlyObservableCollection<object>)value;
-            var balance = items.Cast<AccountScreenRowModel>().Sum(x => x.Balance);
+            var balance = items.Cast<AccountScreenRow>().Sum(x => x.Balance);
             return balance.ToString(LocalSettings.ReportCurrencyFormat);
         }
 

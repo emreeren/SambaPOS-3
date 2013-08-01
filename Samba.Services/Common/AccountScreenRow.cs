@@ -5,9 +5,9 @@ using Samba.Persistance.Common;
 
 namespace Samba.Services.Common
 {
-    public class AccountScreenRowModel
+    public class AccountScreenRow
     {
-        public AccountScreenRowModel(string name, decimal balance, decimal exchange, int accountId, string currencyFormat, int accountTypeId, string groupKey)
+        public AccountScreenRow(string name, decimal balance, decimal exchange, int accountId, string currencyFormat, int accountTypeId, string groupKey)
         {
             Name = name;
             Balance = balance;
@@ -37,14 +37,14 @@ namespace Samba.Services.Common
         public int AccountTypeId { get; set; }
         public string GroupKey { get; set; }
 
-        public static AccountScreenRowModel Create(KeyValuePair<Account, BalanceValue> kvp, string currencyFormat, string groupKey)
+        public static AccountScreenRow Create(KeyValuePair<Account, BalanceValue> kvp, string currencyFormat, string groupKey)
         {
-            return new AccountScreenRowModel(kvp.Key.Name, kvp.Value.Balance, kvp.Value.Exchange, kvp.Key.Id, currencyFormat, kvp.Key.AccountTypeId, groupKey);
+            return new AccountScreenRow(kvp.Key.Name, kvp.Value.Balance, kvp.Value.Exchange, kvp.Key.Id, currencyFormat, kvp.Key.AccountTypeId, groupKey);
         }
 
-        public static AccountScreenRowModel Create(KeyValuePair<AccountType, BalanceValue> kvp, string groupKey)
+        public static AccountScreenRow Create(KeyValuePair<AccountType, BalanceValue> kvp, string groupKey)
         {
-            return new AccountScreenRowModel(kvp.Key.Name, kvp.Value.Balance, kvp.Value.Exchange, 0, "", kvp.Key.Id, groupKey);
+            return new AccountScreenRow(kvp.Key.Name, kvp.Value.Balance, kvp.Value.Exchange, 0, "", kvp.Key.Id, groupKey);
         }
     }
 }

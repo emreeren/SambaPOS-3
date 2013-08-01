@@ -8,7 +8,7 @@ namespace Samba.Services
     public interface IAccountService
     {
         decimal GetAccountBalance(int accountId);
-        IEnumerable<AccountScreenRowModel> GetAccountScreenRows(AccountScreen accountScreen, WorkPeriod currentWorkPeriod);
+        IEnumerable<AccountScreenRow> GetAccountScreenRows(AccountScreen accountScreen, WorkPeriod currentWorkPeriod);
         string GetDescription(AccountTransactionDocumentType documentType, Account account);
         decimal GetDefaultAmount(AccountTransactionDocumentType documentType, Account account);
         string GetAccountNameById(int accountId);
@@ -22,5 +22,6 @@ namespace Samba.Services
         void CreateBatchAccountTransactionDocument(string documentName);
         AccountTransactionDocument CreateTransactionDocument(Account account, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts);
         AccountTransactionDocument GetAccountTransactionDocumentById(int documentId);
+        AccountTransactionSummary GetAccountTransactionSummary(Account selectedAccount, WorkPeriod currentWorkPeriod);
     }
 }

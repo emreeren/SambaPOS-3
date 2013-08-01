@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
