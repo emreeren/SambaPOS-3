@@ -123,8 +123,14 @@
   <data name="FixedAmount" xml:space="preserve">
     <value>Фиксированная сумма</value>
   </data>
+  <data name="Entity" xml:space="preserve">
+    <value>Стол</value>
+  </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>Кнопка Заголовок</value>
+  </data>
+  <data name="POS" xml:space="preserve">
+    <value>POS</value>
   </data>
   <data name="DisplayTicket" xml:space="preserve">
     <value>Отобразить заказ</value>
@@ -262,6 +268,9 @@
   <data name="Account" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>Создано событие устройства</value>
+  </data>
   <data name="Liability" xml:space="preserve">
     <value>Долг</value>
   </data>
@@ -276,6 +285,9 @@
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Копия</value>
+  </data>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>Налог включен</value>
   </data>
   <data name="EveryOtherHour" xml:space="preserve">
     <value>Каждый последующий час</value>
@@ -294,6 +306,9 @@
   </data>
   <data name="ExpenseTransactions" xml:space="preserve">
     <value>Расходные операции</value>
+  </data>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>Транзакция покупки</value>
   </data>
   <data name="AutoSelect" xml:space="preserve">
     <value>Автовыбор</value>
@@ -319,6 +334,9 @@
   <data name="Payment_f" xml:space="preserve">
     <value>{0} оплаты</value>
   </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>Длительность заказа</value>
+  </data>
   <data name="CanUpdateExtraModifiers" xml:space="preserve">
     <value>Обновление экстра модификатора</value>
   </data>
@@ -336,6 +354,9 @@
   </data>
   <data name="CashContent" xml:space="preserve">
     <value>Купюры</value>
+  </data>
+  <data name="Selection_f" xml:space="preserve">
+    <value>{0} выбранно</value>
   </data>
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Принтер на кухне</value>
@@ -364,6 +385,15 @@
   <data name="VoidOrders" xml:space="preserve">
     <value>Отменить заказы</value>
   </data>
+  <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
+    <value>Показывать заказы других официантов</value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>Изменить оплату</value>
+  </data>
+  <data name="AccountNameTemplate" xml:space="preserve">
+    <value>Шаблон имени аккаунта</value>
+  </data>
   <data name="Amount_f" xml:space="preserve">
     <value>{0} количество</value>
   </data>
@@ -376,6 +406,9 @@
   <data name="Property" xml:space="preserve">
     <value>Свойство</value>
   </data>
+  <data name="PaymentScreenValues" xml:space="preserve">
+    <value>Значения экрана оплаты</value>
+  </data>
   <data name="DataConnection" xml:space="preserve">
     <value>Данные строки подключения</value>
   </data>
@@ -384,6 +417,9 @@
   </data>
   <data name="CustomerTickets" xml:space="preserve">
     <value>Заказы клиента</value>
+  </data>
+  <data name="ProductTimer" xml:space="preserve">
+    <value>Таймер продукта</value>
   </data>
   <data name="MenuName" xml:space="preserve">
     <value>Название меню</value>
@@ -457,14 +493,29 @@
   <data name="AlphanumericButtonValues" xml:space="preserve">
     <value>Буквенно-цифровые значения Кнопки</value>
   </data>
+  <data name="DescriptionTemplate" xml:space="preserve">
+    <value>Шаблон описания</value>
+  </data>
   <data name="TotalSales" xml:space="preserve">
     <value>Всего продаж</value>
+  </data>
+  <data name="OrderState" xml:space="preserve">
+    <value>Состояние заказа</value>
   </data>
   <data name="DeleteErrorAdminUser" xml:space="preserve">
     <value>Невозможно удалить пользователя с правами администратора.</value>
   </data>
   <data name="UseAtOldTickets" xml:space="preserve">
     <value>Только для Старых Чеков</value>
+  </data>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>Сбросить аккаунт</value>
+  </data>
+  <data name="OrderTag" xml:space="preserve">
+    <value>Тег заказа</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Имя роли</value>
   </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>Реализации за данную смену отсутствуют</value>
@@ -499,6 +550,9 @@
   <data name="TransactionType" xml:space="preserve">
     <value>Тип транзакции</value>
   </data>
+  <data name="Time" xml:space="preserve">
+    <value>Время</value>
+  </data>
   <data name="Move" xml:space="preserve">
     <value>Движение</value>
   </data>
@@ -507,6 +561,9 @@
   </data>
   <data name="Rate" xml:space="preserve">
     <value>Ставка</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Дебит</value>
   </data>
   <data name="FindProduct" xml:space="preserve">
     <value>Найти блюдо</value>
@@ -520,14 +577,17 @@
   <data name="LastOrderStatus" xml:space="preserve">
     <value>Статус предыдущего заказа</value>
   </data>
-  <data name="Three" xml:space="preserve">
-    <value>Три</value>
-  </data>
   <data name="Thirty" xml:space="preserve">
     <value>Тридцать</value>
   </data>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>Элемента экрана стола</value>
+  </data>
   <data name="Incomes_f" xml:space="preserve">
     <value>{0} Доходы</value>
+  </data>
+  <data name="TicketCreationMethod" xml:space="preserve">
+    <value>Метод создания заказа</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Тег</value>
@@ -558,6 +618,9 @@
   </data>
   <data name="PropertyGroup" xml:space="preserve">
     <value>Группа характеристик</value>
+  </data>
+  <data name="PrintReport" xml:space="preserve">
+    <value>Распечатать отчет</value>
   </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>Сообщение об ошибке</value>
@@ -617,17 +680,26 @@
   <data name="Eleven" xml:space="preserve">
     <value>Одиннадцать</value>
   </data>
+  <data name="BatchCreate" xml:space="preserve">
+    <value>Пакетное создание</value>
+  </data>
   <data name="CanOpenDashboard" xml:space="preserve">
     <value>Можете открыть панель</value>
   </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Дата предыдущего заказа</value>
   </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Кредит</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>Назад</value>
   </data>
   <data name="OrderNumerator" xml:space="preserve">
     <value>Счетчик заказов</value>
+  </data>
+  <data name="IncreaseInventory" xml:space="preserve">
+    <value>Увеличить остаток</value>
   </data>
   <data name="CategoryName" xml:space="preserve">
     <value>Название категории</value>
@@ -644,8 +716,17 @@
   <data name="PrintContent" xml:space="preserve">
     <value>Печатать содержимое</value>
   </data>
+  <data name="TicketCommand" xml:space="preserve">
+    <value>Команда заказа</value>
+  </data>
   <data name="PastWeek" xml:space="preserve">
     <value>На прошлой неделе</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Налог</value>
+  </data>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>Стол обновлен</value>
   </data>
   <data name="Customer_f" xml:space="preserve">
     <value>Клиент {0}</value>
@@ -674,6 +755,9 @@
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Сохранить свободный тег</value>
   </data>
+  <data name="OrderTagGroups" xml:space="preserve">
+    <value>Тег групп заказов</value>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Адрес</value>
   </data>
@@ -695,6 +779,12 @@
   <data name="TicketState" xml:space="preserve">
     <value>Состояние заказа</value>
   </data>
+  <data name="OrderTagGroup" xml:space="preserve">
+    <value>Тег группы заказов</value>
+  </data>
+  <data name="SambaMarket" xml:space="preserve">
+    <value>Samba Market</value>
+  </data>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
     <value>Диапазон дат выходит за рамки текущей смены</value>
   </data>
@@ -707,8 +797,8 @@
   <data name="CanStartEndOfDay" xml:space="preserve">
     <value>Можно начинать закрытие смены</value>
   </data>
-  <data name="CreditLimit" xml:space="preserve">
-    <value>Кредитный лимит</value>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Тип оплаты</value>
   </data>
   <data name="LineCount" xml:space="preserve">
     <value>Кол-во строк</value>
@@ -789,8 +879,14 @@
   <data name="Numeric" xml:space="preserve">
     <value>Числовой</value>
   </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Установить текущий терминал</value>
+  </data>
   <data name="SubTags" xml:space="preserve">
     <value>Sub Теги</value>
+  </data>
+  <data name="GroupTag" xml:space="preserve">
+    <value>Тег группы</value>
   </data>
   <data name="TicketOptions" xml:space="preserve">
     <value>Настройки Чека</value>
@@ -828,8 +924,14 @@
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
     <value>Когда выбран "Числовой Тэг" все теги должны содержать только числовые значения.</value>
   </data>
+  <data name="MarkTicketAsClosed" xml:space="preserve">
+    <value>Отметить заказ как закрытый</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>Телефон</value>
+  </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Общее количетсво</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Разрешения</value>
@@ -879,14 +981,23 @@
   <data name="ChangePrice" xml:space="preserve">
     <value>Изменить цену</value>
   </data>
+  <data name="UpdateOrder" xml:space="preserve">
+    <value>Обновить заказ</value>
+  </data>
   <data name="StartAmount" xml:space="preserve">
     <value>Начало Суммы</value>
+  </data>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>Типы столов</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
     <value>Открыть Чек</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Ширина</value>
+  </data>
+  <data name="TaxTemplate" xml:space="preserve">
+    <value>Шаблон налога</value>
   </data>
   <data name="Million" xml:space="preserve">
     <value>Миллион</value>
@@ -897,6 +1008,9 @@
   <data name="ItemProperties" xml:space="preserve">
     <value>Дополнительный пункт Свойства</value>
   </data>
+  <data name="Period_f" xml:space="preserve">
+    <value>Период: {0}</value>
+  </data>
   <data name="Change_f" xml:space="preserve">
     <value>Изменить {0}</value>
   </data>
@@ -906,11 +1020,20 @@
   <data name="ErrorInExpression" xml:space="preserve">
     <value>Ошибка в выражении</value>
   </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>Низ группы</value>
+  </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Принтер транзакций</value>
+  </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Всего расходов</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Обновление</value>
+  </data>
+  <data name="UnlocksOrder" xml:space="preserve">
+    <value>Разблокировка заказа</value>
   </data>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Добавить скидку на чек</value>
@@ -954,6 +1077,9 @@
   <data name="TicketCount" xml:space="preserve">
     <value>графа Чека</value>
   </data>
+  <data name="DefaultAmount" xml:space="preserve">
+    <value>Количество по умолчанию</value>
+  </data>
   <data name="StartClientNow" xml:space="preserve">
     <value>Запуск</value>
   </data>
@@ -965,6 +1091,9 @@
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Сдвинуть позиции незаблокированных Чеков</value>
+  </data>
+  <data name="PaymentScreenSettings" xml:space="preserve">
+    <value>Параметры экрана оплаты</value>
   </data>
   <data name="Hundred" xml:space="preserve">
     <value>Сто</value>
@@ -987,6 +1116,9 @@
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>Чек изменен. Последние изменения не сохранены.</value>
   </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>Показать подробности</value>
+  </data>
   <data name="UserRole" xml:space="preserve">
     <value>Права пользователя</value>
   </data>
@@ -1005,6 +1137,9 @@
   <data name="SellerWarehouses" xml:space="preserve">
     <value>Продажные склады</value>
   </data>
+  <data name="Load" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Принтер для счетов</value>
   </data>
@@ -1013,6 +1148,9 @@
   </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Заблокировать чек</value>
+  </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Заказ перемещен</value>
   </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
     <value>Время работы: {0}</value>
@@ -1041,6 +1179,9 @@
   <data name="Increase" xml:space="preserve">
     <value>Увеличить</value>
   </data>
+  <data name="BeforeTicketClosing" xml:space="preserve">
+    <value>Перед закрытием заказа</value>
+  </data>
   <data name="LinesGroupedByTag" xml:space="preserve">
     <value>Позиции упорядоченные по тегам</value>
   </data>
@@ -1052,6 +1193,12 @@
   </data>
   <data name="ReleaseLock" xml:space="preserve">
     <value>Снять заказ</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Реализация</value>
+  </data>
+  <data name="EntityButton" xml:space="preserve">
+    <value>Кнопка стола</value>
   </data>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
@@ -1113,6 +1260,9 @@
   <data name="Thirteen" xml:space="preserve">
     <value>Тринадцать</value>
   </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Скрыть аккаунты с нулевым балансом</value>
+  </data>
   <data name="MonWedFri" xml:space="preserve">
     <value>Пн, ср, пт</value>
   </data>
@@ -1152,11 +1302,17 @@
   <data name="Every30Minutes" xml:space="preserve">
     <value>Каждые 30 минут</value>
   </data>
+  <data name="AutomationCommand" xml:space="preserve">
+    <value>Команда автоматизации</value>
+  </data>
   <data name="GroupCode" xml:space="preserve">
     <value>Код группы</value>
   </data>
   <data name="Tickets" xml:space="preserve">
     <value>Чеки</value>
+  </data>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>Состояние стола обновлено</value>
   </data>
   <data name="NextPage" xml:space="preserve">
     <value>Следующая страница</value>
@@ -1182,6 +1338,9 @@
   <data name="DisplayAtPaymentScreen" xml:space="preserve">
     <value>Отображать на экране оплаты</value>
   </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>Печать {0}</value>
+  </data>
   <data name="Warning" xml:space="preserve">
     <value>Внимание!</value>
   </data>
@@ -1202,6 +1361,9 @@
   </data>
   <data name="SettingValue" xml:space="preserve">
     <value>Значение параметра</value>
+  </data>
+  <data name="ChangeSortOrderHint" xml:space="preserve">
+    <value>Измените порядок сортировки перетаскивание элементов</value>
   </data>
   <data name="CanMergeTickets" xml:space="preserve">
     <value>Объединение Чеков</value>
@@ -1245,8 +1407,17 @@
   <data name="TriggerName" xml:space="preserve">
     <value>Имя триггера</value>
   </data>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>Назначенный аккаунт</value>
+  </data>
   <data name="LineOrderNumber" xml:space="preserve">
     <value># Line: Номер заказа</value>
+  </data>
+  <data name="UpdateOrderState" xml:space="preserve">
+    <value>Обновить состояние заказа</value>
+  </data>
+  <data name="ViewMode" xml:space="preserve">
+    <value>Режим просмотра</value>
   </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Принтер чеков</value>
@@ -1260,11 +1431,20 @@
   <data name="AddProductsToCategoryHint_f" xml:space="preserve">
     <value>Выбрать продукты по {0} категории</value>
   </data>
+  <data name="CantDelete_f" xml:space="preserve">
+    <value>Невозможно удалить {0}</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Источник</value>
+  </data>
   <data name="AddOrder" xml:space="preserve">
     <value>Добавить заказ</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Пятнадцать</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Обновить статус заказа</value>
   </data>
   <data name="PageCount" xml:space="preserve">
     <value>Количество страниц</value>
@@ -1313,6 +1493,9 @@
   </data>
   <data name="SambaPOSReporter" xml:space="preserve">
     <value>SambaPOS Репортер</value>
+  </data>
+  <data name="AccountScreen" xml:space="preserve">
+    <value>Экран аккаунта</value>
   </data>
   <data name="ExtraModifiers" xml:space="preserve">
     <value>Дополнительные модификаторы</value>
@@ -1365,6 +1548,9 @@
   <data name="InternalAccounts" xml:space="preserve">
     <value>Внутренние счета</value>
   </data>
+  <data name="TaxFree" xml:space="preserve">
+    <value>Без налога</value>
+  </data>
   <data name="POSView" xml:space="preserve">
     <value>POS просмотр</value>
   </data>
@@ -1380,11 +1566,17 @@
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Штрих-код веса</value>
   </data>
+  <data name="AccountMap" xml:space="preserve">
+    <value>Карта аккаунта</value>
+  </data>
   <data name="GroupTotal" xml:space="preserve">
     <value>Всего по группе</value>
   </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Выберите диапазон дат, обновите отчет и нажмите соответствующую ссылку для экспорта данных.</value>
+  </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Перемещение заказа</value>
   </data>
   <data name="TicketDate" xml:space="preserve">
     <value>Дата Чека</value>
@@ -1449,14 +1641,17 @@
   <data name="RateOrAmount" xml:space="preserve">
     <value>Ставка или сумма</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Доступно</value>
+  </data>
   <data name="Parameters" xml:space="preserve">
     <value>Параметры</value>
   </data>
   <data name="Transaction" xml:space="preserve">
     <value>Транзакция</value>
   </data>
-  <data name="UnlockTicket" xml:space="preserve">
-    <value>Разблокировать заказ</value>
+  <data name="EntityType" xml:space="preserve">
+    <value>Тип стола</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Каждую минуту</value>
@@ -1510,6 +1705,9 @@
   <data name="Divide" xml:space="preserve">
     <value>Разделить</value>
   </data>
+  <data name="Target_f" xml:space="preserve">
+    <value>Назначение {0}</value>
+  </data>
   <data name="ErrorReportWithoutFeedback" xml:space="preserve">
     <value>Вы отправляете отчет об ошибке без обратной связи.
 Пожалуйста, опишите некоторые подробности о том, как это произошло.
@@ -1531,8 +1729,11 @@
   <data name="Totals" xml:space="preserve">
     <value>Итого</value>
   </data>
-  <data name="LocalWarehouse" xml:space="preserve">
-    <value>Локальный склад</value>
+  <data name="PrintErrorMessage" xml:space="preserve">
+    <value>Проблема при печати. Проверьте параметры принтера и шаблона.
+
+Сообщение об ошибке:
+</value>
   </data>
   <data name="Six" xml:space="preserve">
     <value>Шесть</value>
@@ -1561,6 +1762,9 @@
   <data name="FirstAndFifteenth" xml:space="preserve">
     <value>1 и 15 числа</value>
   </data>
+  <data name="AccountTransactionDocument" xml:space="preserve">
+    <value>Документ транзакции аккаунта</value>
+  </data>
   <data name="Departments" xml:space="preserve">
     <value>Точки продаж</value>
   </data>
@@ -1588,11 +1792,17 @@
   <data name="Total_f" xml:space="preserve">
     <value>Всего: {0}</value>
   </data>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>Экран стола</value>
+  </data>
   <data name="DemoPrinter" xml:space="preserve">
     <value>Демо-Printer (блокнот)</value>
   </data>
   <data name="Multiplier" xml:space="preserve">
     <value>Множитель</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Размер шрифта</value>
   </data>
   <data name="ImagePath" xml:space="preserve">
     <value>Местонахождение картинки</value>
@@ -1605,6 +1815,9 @@
   </data>
   <data name="ItemSalesReport" xml:space="preserve">
     <value>Отчет по продажам</value>
+  </data>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Локальный склад</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Отчеты</value>
@@ -1630,14 +1843,26 @@
   <data name="Hidden" xml:space="preserve">
     <value>Скрытый</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Entities" xml:space="preserve">
+    <value>Столы</value>
+  </data>
   <data name="CurrencySymbol" xml:space="preserve">
     <value>Символ валюты</value>
   </data>
   <data name="TagCantBeEmpty_f" xml:space="preserve">
     <value>Поле {0} не может быть пустым</value>
   </data>
+  <data name="AccountTransactionDocumentCreated" xml:space="preserve">
+    <value>Документ транзакции аккаунта создан</value>
+  </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>Количество Чеков: {0}</value>
+  </data>
+  <data name="AccountTransactionType" xml:space="preserve">
+    <value>Тип транзакции аккаунта</value>
   </data>
   <data name="RowCount" xml:space="preserve">
     <value>Количество строк</value>
@@ -1720,6 +1945,9 @@
   <data name="DisplayPopup" xml:space="preserve">
     <value>Показывать всплывающие сообщения</value>
   </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Заказ перемещен</value>
+  </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>Документ №</value>
   </data>
@@ -1735,8 +1963,14 @@
   <data name="TicketNumerator" xml:space="preserve">
     <value>Счетчик чеков</value>
   </data>
+  <data name="Update_f" xml:space="preserve">
+    <value>Обновить {0}</value>
+  </data>
   <data name="Eighteen" xml:space="preserve">
     <value>Восемнадцать</value>
+  </data>
+  <data name="This_f" xml:space="preserve">
+    <value>Это {0}</value>
   </data>
   <data name="ForeignCurrency" xml:space="preserve">
     <value>Иностранная валюта</value>
@@ -1762,6 +1996,9 @@
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Высота кнопки</value>
   </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>Поиск стола</value>
+  </data>
   <data name="ThisMonth" xml:space="preserve">
     <value>Этот месяц</value>
   </data>
@@ -1771,11 +2008,17 @@
   <data name="UpdateTicketTag" xml:space="preserve">
     <value>Обновить теги чека</value>
   </data>
+  <data name="DecreaseInventory" xml:space="preserve">
+    <value>Уменьшить остаток</value>
+  </data>
   <data name="TuesAndThurs" xml:space="preserve">
     <value>Вт, чт</value>
   </data>
   <data name="Twelve" xml:space="preserve">
     <value>Двенадцать</value>
+  </data>
+  <data name="TicketTagGroup" xml:space="preserve">
+    <value>Тег группы</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Все</value>
@@ -1816,6 +2059,9 @@
   <data name="MessageServerPort" xml:space="preserve">
     <value>Порт сервера сообщений</value>
   </data>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>Обновить состояние стола</value>
+  </data>
   <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
     <value>SambaPOS столкнулся с непредвиденной проблемой. Проблема подробно описана в файл trace.log</value>
   </data>
@@ -1825,11 +2071,20 @@
   <data name="Total" xml:space="preserve">
     <value>ИТОГО:</value>
   </data>
+  <data name="SubMenuTags" xml:space="preserve">
+    <value>Теги подменю</value>
+  </data>
   <data name="CalculationMethod" xml:space="preserve">
     <value>Метод расчета</value>
   </data>
   <data name="PaymentProcessed" xml:space="preserve">
     <value>Произведена оплата</value>
+  </data>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>Экраны стола</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Статус заказа</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>Администратор</value>
@@ -1842,6 +2097,9 @@
   </data>
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Чек оплачен. Последние изменения не сохранились.</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Время начала</value>
   </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Выход</value>
@@ -1882,6 +2140,12 @@
   <data name="SalesByItemGroup" xml:space="preserve">
     <value>Отчет по продажам в разрезе групп блюд</value>
   </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>Источник {0}</value>
+  </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>Выбрать {0}</value>
+  </data>
   <data name="Empty" xml:space="preserve">
     <value>Пустой</value>
   </data>
@@ -1902,6 +2166,9 @@
   </data>
   <data name="Beginning" xml:space="preserve">
     <value>Начало</value>
+  </data>
+  <data name="AccountTransaction" xml:space="preserve">
+    <value>Транзакция аккаунта</value>
   </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>c Пн по Пт</value>
@@ -1942,6 +2209,9 @@
   <data name="Excluded" xml:space="preserve">
     <value>Исключенный</value>
   </data>
+  <data name="Question" xml:space="preserve">
+    <value>Вопрос</value>
+  </data>
   <data name="Previous" xml:space="preserve">
     <value>Предыдущий</value>
   </data>
@@ -1958,6 +2228,9 @@
   <data name="TicketTemplate" xml:space="preserve">
     <value>Шаблон Чека</value>
   </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Создать аккаунт</value>
+  </data>
   <data name="OnceAYear" xml:space="preserve">
     <value>Раз в год</value>
   </data>
@@ -1967,17 +2240,26 @@
   <data name="AllCategories" xml:space="preserve">
     <value>Все категории</value>
   </data>
+  <data name="General" xml:space="preserve">
+    <value>Общие</value>
+  </data>
   <data name="InventoryTransactionType" xml:space="preserve">
     <value>Тип транзакции остатка</value>
   </data>
   <data name="SlipReportPrinter" xml:space="preserve">
     <value>Принтер слипов</value>
   </data>
+  <data name="TimeRounding" xml:space="preserve">
+    <value>Округление времени</value>
+  </data>
   <data name="Paid" xml:space="preserve">
     <value>Оплачен</value>
   </data>
   <data name="TicketClosing" xml:space="preserve">
     <value>Заказ закрывается</value>
+  </data>
+  <data name="MappedAccounts" xml:space="preserve">
+    <value>Назначенные аккаунты</value>
   </data>
   <data name="Cost" xml:space="preserve">
     <value>Стоимость расходов</value>
@@ -2000,6 +2282,9 @@
   <data name="Line" xml:space="preserve">
     <value>Позиция</value>
   </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>Информация о пользователе</value>
+  </data>
   <data name="Nine" xml:space="preserve">
     <value>Девять</value>
   </data>
@@ -2008,6 +2293,12 @@
   </data>
   <data name="CanExecute" xml:space="preserve">
     <value>Может выполнять</value>
+  </data>
+  <data name="CustomCommand" xml:space="preserve">
+    <value>Пользовательская комманда</value>
+  </data>
+  <data name="Automation" xml:space="preserve">
+    <value>Автоматизация</value>
   </data>
   <data name="Trigger" xml:space="preserve">
     <value>Триггер</value>
@@ -2054,8 +2345,17 @@
   <data name="CashPayment" xml:space="preserve">
     <value>Оплата наличными</value>
   </data>
+  <data name="OrderStateGroup" xml:space="preserve">
+    <value>Группа состояний заказа</value>
+  </data>
+  <data name="AskTicketType" xml:space="preserve">
+    <value>Спросить тип заказа</value>
+  </data>
   <data name="Negative" xml:space="preserve">
     <value>Отрицательный</value>
+  </data>
+  <data name="LoadTicket" xml:space="preserve">
+    <value>Загрузить заказ</value>
   </data>
   <data name="TicketTipTotal" xml:space="preserve">
     <value>Совет Всего</value>
@@ -2099,6 +2399,9 @@
   <data name="Default" xml:space="preserve">
     <value>По умолчанию</value>
   </data>
+  <data name="ProductTag" xml:space="preserve">
+    <value>Тег продукта</value>
+  </data>
   <data name="TaskType" xml:space="preserve">
     <value>Тип задачи</value>
   </data>
@@ -2108,11 +2411,17 @@
   <data name="PriceTag" xml:space="preserve">
     <value>Цена</value>
   </data>
+  <data name="EntityName" xml:space="preserve">
+    <value>Имя стола</value>
+  </data>
   <data name="Included" xml:space="preserve">
     <value>Включенный</value>
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>Телефон</value>
+  </data>
+  <data name="BatchCreateDocuments" xml:space="preserve">
+    <value>Пакетное создание документов</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Клиент</value>
@@ -2134,6 +2443,9 @@
   </data>
   <data name="TicketsMerged" xml:space="preserve">
     <value>Заказы объединены</value>
+  </data>
+  <data name="NewTicketCreatingRule" xml:space="preserve">
+    <value>Правило создания нового заказа</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>Тип сортировки</value>
@@ -2164,6 +2476,9 @@
   </data>
   <data name="TerminalView" xml:space="preserve">
     <value>Вид терминала</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Удалить текущий шаблон и загрузить {0}?</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Раз в два месяца</value>
@@ -2201,6 +2516,9 @@
   <data name="Delete_f" xml:space="preserve">
     <value>Удалить {0}</value>
   </data>
+  <data name="IncludeTax" xml:space="preserve">
+    <value>Включить налог</value>
+  </data>
   <data name="OpenClose_ab" xml:space="preserve">
     <value>Открыть-закрыть</value>
   </data>
@@ -2212,6 +2530,9 @@
   </data>
   <data name="TicketSubTotal" xml:space="preserve">
     <value>Счет Итого</value>
+  </data>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>Разблокировать заказ</value>
   </data>
   <data name="SellerWarehouse" xml:space="preserve">
     <value>Продажный склад</value>
@@ -2309,6 +2630,9 @@
   <data name="Ticket" xml:space="preserve">
     <value>Чек</value>
   </data>
+  <data name="EntitySelected" xml:space="preserve">
+    <value>Стол выбран</value>
+  </data>
   <data name="EveryDay" xml:space="preserve">
     <value>Каждый день</value>
   </data>
@@ -2336,8 +2660,20 @@
   <data name="Every4Hours" xml:space="preserve">
     <value>Каждые 4 часа</value>
   </data>
+  <data name="Target" xml:space="preserve">
+    <value>Назначение</value>
+  </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Количество столбцов</value>
+  </data>
+  <data name="WindowScale" xml:space="preserve">
+    <value>Масштаб окна</value>
+  </data>
+  <data name="DisplayFormat" xml:space="preserve">
+    <value>Формат отображения</value>
+  </data>
+  <data name="CreditLimit" xml:space="preserve">
+    <value>Кредитный лимит</value>
   </data>
   <data name="DisplayUserPath" xml:space="preserve">
     <value>Показать путь к профайлу</value>
@@ -2345,8 +2681,11 @@
   <data name="Seventeen" xml:space="preserve">
     <value>Семнадцать</value>
   </data>
-  <data name="Sales" xml:space="preserve">
-    <value>Реализация</value>
+  <data name="AdminRole" xml:space="preserve">
+    <value>Роль админа</value>
+  </data>
+  <data name="Three" xml:space="preserve">
+    <value>Три</value>
   </data>
   <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
     <value>Данный пин-код используется другим пользователем</value>
@@ -2363,6 +2702,12 @@
   <data name="PrintMapping" xml:space="preserve">
     <value>Отображение печати</value>
   </data>
+  <data name="Mapping_f" xml:space="preserve">
+    <value>{0} назначено</value>
+  </data>
+  <data name="Values" xml:space="preserve">
+    <value>Значения</value>
+  </data>
   <data name="Thousand" xml:space="preserve">
     <value>Тысяча</value>
   </data>
@@ -2371,6 +2716,9 @@
   </data>
   <data name="StateType" xml:space="preserve">
     <value>Тип состояния</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>В виде дерева</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Теги</value>
@@ -2423,6 +2771,9 @@
   <data name="MenuCategories" xml:space="preserve">
     <value>Категории Меню</value>
   </data>
+  <data name="TicketType" xml:space="preserve">
+    <value>Тип заказа</value>
+  </data>
   <data name="SelectActions" xml:space="preserve">
     <value>Выберите Действие</value>
   </data>
@@ -2432,8 +2783,8 @@
   <data name="Header" xml:space="preserve">
     <value>Заголовок</value>
   </data>
-  <data name="CreateAccount" xml:space="preserve">
-    <value>Создать аккаунт</value>
+  <data name="Mappings" xml:space="preserve">
+    <value>Назначения</value>
   </data>
   <data name="ExecuteScript" xml:space="preserve">
     <value>Выполнить скрипт</value>
@@ -2443,5 +2794,8 @@
   </data>
   <data name="DepartmentPermissions" xml:space="preserve">
     <value>Разрешения по точке продаж</value>
+  </data>
+  <data name="EditingFormat" xml:space="preserve">
+    <value>Формат редактирования</value>
   </data>
 </root>

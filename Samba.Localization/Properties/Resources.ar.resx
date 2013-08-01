@@ -342,6 +342,9 @@
   <data name="Payment_f" xml:space="preserve">
     <value>الدفع: {0}</value>
   </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>مدة التذكرة</value>
+  </data>
   <data name="StateFilter" xml:space="preserve">
     <value>تصفية الحالة</value>
   </data>
@@ -374,9 +377,6 @@
   </data>
   <data name="KitchenPrinter" xml:space="preserve">
     <value>طابعة المطبخ</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>إعدادات</value>
   </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>خطأ في التعبير</value>
@@ -723,6 +723,9 @@
   <data name="BatchCreate" xml:space="preserve">
     <value>إنشاء الدفعية</value>
   </data>
+  <data name="CanOpenDashboard" xml:space="preserve">
+    <value>يستطيع فتح الادارة</value>
+  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>تاريخ آخر طلب</value>
   </data>
@@ -840,8 +843,8 @@
   <data name="PaymentType" xml:space="preserve">
     <value>نوع الدفع</value>
   </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>عدد الاسطر</value>
+  <data name="Settings" xml:space="preserve">
+    <value>إعدادات</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>رمز المشرف: 1234
@@ -870,6 +873,9 @@
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>علامة التذكرة</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>عرض</value>
   </data>
   <data name="Handler" xml:space="preserve">
     <value>معالج</value>
@@ -1731,6 +1737,9 @@
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>الموقع الاليكتروني لـ SambaPOS</value>
   </data>
+  <data name="LineCount" xml:space="preserve">
+    <value>عدد الاسطر</value>
+  </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>إزالة حد</value>
   </data>
@@ -2245,6 +2254,9 @@
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>التذكرة مدفوعة. لم يتم حفظ التغييرات الأخيرة.</value>
   </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>وقت البدء</value>
+  </data>
   <data name="UserLogout" xml:space="preserve">
     <value>تسجيل خروج المستخدم</value>
   </data>
@@ -2337,6 +2349,9 @@
   </data>
   <data name="Every15Minutes" xml:space="preserve">
     <value>كل 15 دقيقة</value>
+  </data>
+  <data name="LastOrderDuration" xml:space="preserve">
+    <value>مدة آخر طلب</value>
   </data>
   <data name="DisplayPaymentScreen" xml:space="preserve">
     <value>عرض  فيشاشة الدفع</value>

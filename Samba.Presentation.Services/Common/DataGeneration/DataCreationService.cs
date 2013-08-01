@@ -773,7 +773,7 @@ namespace Samba.Presentation.Services.Common.DataGeneration
 
 [ENTITIES:<%CUSTOMER>]
 -- Customer entity format
-<J00><%CUSTOMER>: {ENTITY NAME} | {ENTITY DATA:Phone}";
+<J00><%CUSTOMER>: {ENTITY NAME} | {ENTITY DATA:<%PHONE>}";
             return ReplaceTemplateValues(template);
         }
 

@@ -912,6 +912,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="CategoryProperties" xml:space="preserve">
     <value>Kategorieeigenschaften</value>
   </data>
+  <data name="ToggleCalculation" xml:space="preserve">
+    <value>Schalte Berechnung um</value>
+  </data>
   <data name="LineItemPrice" xml:space="preserve">
     <value># Line: Artikelpreis</value>
   </data>
@@ -962,6 +965,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="Numeric" xml:space="preserve">
     <value>Numerisch</value>
+  </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Setze derzeitiges Terminal</value>
   </data>
   <data name="SubTags" xml:space="preserve">
     <value>Subtags</value>
@@ -1352,6 +1358,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="ReleaseLock" xml:space="preserve">
     <value>Sperre aufheben</value>
+  </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>Benutzerinformation</value>
   </data>
   <data name="SetWidgetValue" xml:space="preserve">
     <value>setze Steuerelement Wert</value>
@@ -1805,7 +1814,7 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
     <value>Bericht in einer Datei speichern</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
-    <value>SambaPOS Webseite</value>
+    <value>SambaPOS Internetauftritt</value>
   </data>
   <data name="LineCount" xml:space="preserve">
     <value>Zeilenanzahl</value>
@@ -2782,7 +2791,7 @@ schliessen</value>
     <value>Jeden zweiten Monat</value>
   </data>
   <data name="StateController" xml:space="preserve">
-    <value>Status-Kontrollor</value>
+    <value>Status-Kontroller</value>
   </data>
   <data name="ValueLooped" xml:space="preserve">
     <value>Wert durchlaufen</value>
@@ -3071,7 +3080,7 @@ Die Arbeitszeit kann nicht beendet werden.</value>
     <value>Cent</value>
   </data>
   <data name="SambaNetwork" xml:space="preserve">
-    <value>Samba Network</value>
+    <value>Samba Netzwerk</value>
   </data>
   <data name="NumeratorType" xml:space="preserve">
     <value>Zählerart</value>
