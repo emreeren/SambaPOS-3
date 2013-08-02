@@ -500,7 +500,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var so = orders.Where(x => string.IsNullOrEmpty(currentState) || x.IsInState(stateName, currentState)).ToList();
             foreach (var order in so)
             {
-                if (order.IsInState(stateName, state) && (string.IsNullOrEmpty(stateValue) || order.IsInState(stateValue))) continue;
+                if (order.IsInState(stateName, state) && (string.IsNullOrEmpty(stateValue) || order.IsAnyStateValue(stateValue))) continue;
                 order.SetStateValue(stateName, groupOrder, state, stateOrder, stateValue);
                 _applicationState.NotifyEvent(RuleEventNames.OrderStateUpdated,
                                                new

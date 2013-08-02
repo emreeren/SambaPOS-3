@@ -19,5 +19,6 @@ namespace Samba.Services
         List<Entity> SearchEntities(EntityType selectedEntityType, string searchString, string stateFilter);
         Entity CreateEntity(int entityTypeId, string entityName);
         void SaveEntity(Entity entity);
+        int GetStateQuantity(Entity entity, string stateName);
     }
 }

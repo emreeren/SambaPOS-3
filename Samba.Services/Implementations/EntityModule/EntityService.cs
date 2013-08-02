@@ -108,12 +108,19 @@ namespace Samba.Services.Implementations.EntityModule
 
         public Entity CreateEntity(int entityTypeId, string entityName)
         {
-            return new Entity {EntityTypeId = entityTypeId, Name = entityName};
+            return new Entity { EntityTypeId = entityTypeId, Name = entityName };
         }
 
         public void SaveEntity(Entity entity)
         {
             _entityDao.SaveEntity(entity);
+        }
+
+        public int GetStateQuantity(Entity entity, string stateName)
+        {
+            var state = Dao.Single<EntityStateValue>(x => x.EntityId == entity.Id);
+            if (state == null) return 0;
+            return state.GetStateQuantity(stateName);
         }
     }
 }

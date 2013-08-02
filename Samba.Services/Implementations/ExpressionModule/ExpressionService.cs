@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using Fluentscript.Lib.AST;
 using Samba.Infrastructure.Data;
 using Samba.Persistance;
+using Samba.Services.Implementations.ExpressionModule.Accessors;
 
 namespace Samba.Services.Implementations.ExpressionModule
 {
@@ -14,10 +15,11 @@ namespace Samba.Services.Implementations.ExpressionModule
         private Dictionary<string, string> Scripts { get { return _scripts ?? (_scripts = _automationDao.GetScripts()); } }
 
         [ImportingConstructor]
-        public ExpressionService(IAutomationDao automationDao)
+        public ExpressionService(IAutomationDao automationDao, IEntityService entityService)
         {
             _automationDao = automationDao;
             ExpressionEngine.RegisterFunction("Call", CallFunction);
+            EntityAccessor.EntityService = entityService;
         }
 
         private object CallFunction(string s, string s1, FunctionCallExpr arg3)
@@ -54,7 +56,7 @@ namespace Samba.Services.Implementations.ExpressionModule
 
         public string ReplaceExpressionValues(string data, object dataObject, string template = "\\[=([^\\]]+)\\]")
         {
-            return ExpressionEngine.ReplaceExpressionValues(data,dataObject, template);
+            return ExpressionEngine.ReplaceExpressionValues(data, dataObject, template);
         }
 
         private string GetScript(string functionName, string entityName)

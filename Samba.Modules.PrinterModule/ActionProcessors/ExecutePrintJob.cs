@@ -57,7 +57,7 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                         {
                             expression = expression.And(ex => ex.IsInState(orderStateName, orderState));
                             if (!string.IsNullOrWhiteSpace(orderStateValue))
-                                expression = expression.And(ex => ex.IsInState(orderStateValue));
+                                expression = expression.And(ex => ex.IsAnyStateValue(orderStateValue));
                         }
                         _ticketService.UpdateTicketNumber(ticket, _applicationState.CurrentTicketType.TicketNumerator);
                         ExecuteByCopies(copies, () => _printerService.PrintTicket(ticket, j, expression.Compile()));

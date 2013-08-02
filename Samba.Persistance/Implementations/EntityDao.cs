@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
@@ -111,6 +114,11 @@ namespace Samba.Persistance.Implementations
 
         public EntityStateValue UpdateEntityState(int entityId, string stateName, string state, string quantityExp)
         {
+            return UpdateEntityStateEH(entityId, stateName, state, quantityExp, 0);
+        }
+
+        private EntityStateValue UpdateEntityStateEH(int entityId, string stateName, string state, string quantityExp, int retries)
+        {
             if (entityId == 0) return null;
             using (var w = WorkspaceFactory.Create())
             {
@@ -121,7 +129,15 @@ namespace Samba.Persistance.Implementations
                     w.Add(stateValue);
                 }
                 stateValue.SetStateValue(stateName, state, quantityExp);
-                w.CommitChanges();
+                try
+                {
+                    w.CommitChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    if (retries > 3) throw;
+                    return UpdateEntityStateEH(entityId, stateName, state, quantityExp, ++retries);
+                }
                 return stateValue;
             }
         }

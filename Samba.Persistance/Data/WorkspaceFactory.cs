@@ -125,6 +125,7 @@ namespace Samba.Persistance.Data
             context.Database.Create();
             context.ObjContext().ExecuteStoreCommand("CREATE TABLE VersionInfo (Version bigint not null)");
             context.ObjContext().ExecuteStoreCommand("CREATE NONCLUSTERED INDEX IX_Tickets_LastPaymentDate ON Tickets(LastPaymentDate)");
+            context.ObjContext().ExecuteStoreCommand("CREATE UNIQUE INDEX IX_EntityStateValue_EntityId ON EntityStateValue (EntityId)");
             GetMigrateVersions(context);
             LocalSettings.CurrentDbVersion = LocalSettings.DbVersion;
         }

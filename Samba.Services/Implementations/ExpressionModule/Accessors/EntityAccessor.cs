@@ -4,6 +4,8 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
 {
     public static class EntityAccessor
     {
+        public static IEntityService EntityService { get; set; }
+
         private static Entity _model;
         public static Entity Model
         {
@@ -17,6 +19,11 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
         public static string GetCustomData(string fieldName)
         {
             return Model.GetCustomData(fieldName);
+        }
+
+        public static int GetStateValue(string stateName)
+        {
+            return EntityService.GetStateQuantity(Model, stateName);
         }
     }
 }

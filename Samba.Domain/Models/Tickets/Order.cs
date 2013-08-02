@@ -435,7 +435,12 @@ namespace Samba.Domain.Models.Tickets
             return OrderStateValues.Any(x => x.StateName == stateName && x.State == state);
         }
 
-        public bool IsInState(string stateValue)
+        public bool IsInState(string state)
+        {
+            return IsInState("*", state);
+        }
+
+        public bool IsAnyStateValue(string stateValue)
         {
             return OrderStateValues.Any(x => x.StateValue == stateValue);
         }
