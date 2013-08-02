@@ -3606,6 +3606,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Individual orders by quantity.
+        /// </summary>
+        public static string IndividualOrdersByQuantity {
+            get {
+                return ResourceManager.GetString("IndividualOrdersByQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string Information {
@@ -6599,6 +6608,15 @@ namespace Samba.Localization.Properties {
         public static string SendEmail {
             get {
                 return ResourceManager.GetString("SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Separated prints by quantity.
+        /// </summary>
+        public static string SeparatedByQuantity {
+            get {
+                return ResourceManager.GetString("SeparatedByQuantity", resourceCulture);
             }
         }
         

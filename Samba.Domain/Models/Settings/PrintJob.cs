@@ -7,7 +7,9 @@ namespace Samba.Domain.Models.Settings
     {
         Everything,
         LastLinesByPrinterLineCount,
-        LastPaidOrders
+        LastPaidOrders,
+        OrdersByQuanity,
+        SeparatedByQuantity
     }
 
     public class PrintJob : EntityClass

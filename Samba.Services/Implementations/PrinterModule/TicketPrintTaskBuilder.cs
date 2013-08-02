@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Data.Serializer;
 using Samba.Localization.Properties;
 
 namespace Samba.Services.Implementations.PrinterModule
@@ -48,11 +49,36 @@ namespace Samba.Services.Implementations.PrinterModule
                 case (int)WhatToPrintTypes.LastPaidOrders:
                     ti = GetLastPaidOrders(ticket);
                     break;
+                case (int)WhatToPrintTypes.OrdersByQuanity:
+                    ti = SeparateOrders(ticket, orderSelector).OrderBy(x => x.MenuItemName);
+                    break;
+                case (int)WhatToPrintTypes.SeparatedByQuantity:
+                    ti = SeparateOrders(ticket, orderSelector).OrderBy(x => x.MenuItemName);
+                    break;
                 default:
                     ti = ticket.Orders.Where(orderSelector).OrderBy(x => x.Id).ToList();
                     break;
             }
             return ti;
+        }
+
+        private static IEnumerable<Order> SeparateOrders(Ticket ticket, Func<Order, bool> orderSelector)
+        {
+            var result = new List<Order>();
+            foreach (var order in ticket.Orders.Where(orderSelector))
+            {
+                if (order.Quantity == 1) result.Add(order);
+                else
+                {
+                    for (int i = 0; i < order.Quantity; i++)
+                    {
+                        var copiedOrder = ObjectCloner.Clone2(order);
+                        copiedOrder.Quantity = 1;
+                        result.Add(copiedOrder);
+                    }
+                }
+            }
+            return result;
         }
 
         private static IEnumerable<Order> GetLastPaidOrders(Ticket ticket)
@@ -86,6 +112,8 @@ namespace Samba.Services.Implementations.PrinterModule
             var result = new List<TicketPrintTask>();
 
             if (printJob.PrinterMaps.Count == 1
+                && printJob.WhatToPrint != 3
+                && printJob.WhatToPrint != 4
                 && printJob.PrinterMaps[0].MenuItemId == 0
                 && printJob.PrinterMaps[0].MenuItemGroupCode == null)
             {
@@ -109,9 +137,15 @@ namespace Samba.Services.Implementations.PrinterModule
                     ordersCache[p].Add(item);
                 }
             }
-
-            result.AddRange(ordersCache.Select(order => GetPrintTask(ticket, order.Value, order.Key)));
+            result.AddRange(printJob.WhatToPrint == 4
+                                ? GenerateSeparatedTasks(ticket, ordersCache)
+                                : ordersCache.Select(order => GetPrintTask(ticket, order.Value, order.Key)));
             return result;
+        }
+
+        private IEnumerable<TicketPrintTask> GenerateSeparatedTasks(Ticket ticket, Dictionary<PrinterMap, IList<Order>> ordersCache)
+        {
+            return (from item in ordersCache from order in item.Value select GetPrintTask(ticket, new[] { order }, item.Key)).ToList();
         }
 
         private TicketPrintTask GetPrintTask(Ticket ticket, IEnumerable<Order> orders, PrinterMap map)

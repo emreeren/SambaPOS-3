@@ -18,7 +18,7 @@ namespace Samba.Services.Common
 
         public bool CanExecute(Ticket selectedTicket)
         {
-            if (string.IsNullOrEmpty(EnabledStates)) return false;
+            if (string.IsNullOrEmpty(EnabledStates)) return true;
             if (EnabledStates.Contains("IsClosed") && selectedTicket.IsClosed) return true;
             if (selectedTicket.IsClosed) return false;
             if (EnabledStates == "*") return true;
@@ -28,7 +28,7 @@ namespace Samba.Services.Common
 
         public bool CanDisplay(Ticket selectedTicket)
         {
-            if (string.IsNullOrEmpty(VisibleStates)) return false;
+            if (string.IsNullOrEmpty(VisibleStates)) return true;
             if (VisibleStates == "*") return true;
             if (DisplayOnOrders) return selectedTicket.Orders.Where(x => x.IsSelected).All(x => IsInState(x, VisibleStates));
             return IsInState(selectedTicket, VisibleStates);

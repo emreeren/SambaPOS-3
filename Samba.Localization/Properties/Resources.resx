@@ -3367,4 +3367,10 @@ Error Message:
   <data name="PrintAccountTransactions" xml:space="preserve">
     <value>Print Account Transactions</value>
   </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Separated prints by quantity</value>
+  </data>
+  <data name="IndividualOrdersByQuantity" xml:space="preserve">
+    <value>Individual orders by quantity</value>
+  </data>
 </root>

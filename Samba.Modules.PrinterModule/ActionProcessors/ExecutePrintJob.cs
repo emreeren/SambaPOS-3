@@ -34,11 +34,12 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
             var pjName = actionData.GetAsString("PrintJobName");
             if (!string.IsNullOrEmpty(pjName))
             {
-               
                 var j = _cacheService.GetPrintJobByName(pjName);
 
                 if (j != null)
                 {
+                    var copies = actionData.GetAsInteger("Copies");
+
                     if (ticket != null)
                     {
                         var orderTagName = actionData.GetAsString("OrderTagName");
@@ -49,7 +50,8 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                         Expression<Func<Order, bool>> expression = ex => true;
                         if (!string.IsNullOrWhiteSpace(orderTagName))
                         {
-                            expression = ex => ex.OrderTagExists(y => y.TagName == orderTagName && y.TagValue == orderTagValue);
+                            expression =
+                                ex => ex.OrderTagExists(y => y.TagName == orderTagName && y.TagValue == orderTagValue);
                         }
                         if (!string.IsNullOrWhiteSpace(orderStateName))
                         {
@@ -58,10 +60,24 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                                 expression = expression.And(ex => ex.IsInState(orderStateValue));
                         }
                         _ticketService.UpdateTicketNumber(ticket, _applicationState.CurrentTicketType.TicketNumerator);
-                        _printerService.PrintTicket(ticket, j, expression.Compile());
+                        ExecuteByCopies(copies, () => _printerService.PrintTicket(ticket, j, expression.Compile()));
                     }
                     else
-                        _printerService.ExecutePrintJob(j);
+                    {
+                        ExecuteByCopies(copies, () => _printerService.ExecutePrintJob(j));
+                    }
+                }
+            }
+        }
+
+        private void ExecuteByCopies(int copies, Action action)
+        {
+            if (copies < 2) action();
+            else
+            {
+                for (int i = 0; i < copies; i++)
+                {
+                    action();
                 }
             }
         }
@@ -76,7 +92,8 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                         OrderState = "",
                         OrderStateValue = "",
                         OrderTagName = "",
-                        OrderTagValue = ""
+                        OrderTagValue = "",
+                        Copies = 1
                     };
         }
 

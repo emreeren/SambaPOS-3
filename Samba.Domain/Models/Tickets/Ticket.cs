@@ -427,6 +427,8 @@ namespace Samba.Domain.Models.Tickets
 
         public bool IsInState(string stateName, string state)
         {
+            stateName = stateName.Trim();
+            state = state.Trim();
             if (stateName == "*") return TicketStateValues.Any(x => x.State == state);
             if (string.IsNullOrEmpty(state)) return TicketStateValues.All(x => x.StateName != stateName);
             return TicketStateValues.Any(x => x.StateName == stateName && x.State == state);
