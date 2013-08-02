@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Samba.Localization.Properties;
 using Samba.Services.Implementations.AutomationModule;
 
@@ -134,6 +135,16 @@ namespace Samba.Services.Common
                 else if (Operation.Contains(OperatorConstants.Equal))
                 {
                     if (!propertyValue.Equals(objectValue)) return false;
+                }
+                else if (Operation.Contains(OperatorConstants.RegularExpressionMatch))
+                {
+                    Regex objectExpression = new Regex(objectValue);
+                    if (!objectExpression.IsMatch(propertyValue)) return false;
+                }
+                else if (Operation.Contains(OperatorConstants.NotRegularExpressionMatch))
+                {
+                    Regex objectExpression = new Regex(objectValue);
+                    if (objectExpression.IsMatch(propertyValue)) return false;
                 }
             }
             return true;
