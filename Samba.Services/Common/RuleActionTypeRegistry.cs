@@ -57,7 +57,7 @@ namespace Samba.Services.Common
             {
                 return new[] { OperatorConstants.Equal, OperatorConstants.NotEqual, OperatorConstants.Greater, OperatorConstants.Less };
             }
-            return new[] { OperatorConstants.Equal, OperatorConstants.NotEqual, OperatorConstants.Contain, OperatorConstants.NotContain };
+            return new[] { OperatorConstants.Equal, OperatorConstants.NotEqual, OperatorConstants.Contain, OperatorConstants.NotContain, OperatorConstants.RegularExpressionMatch, OperatorConstants.NotRegularExpressionMatch };
         }
 
         public void ProcessAction(string actionType, ActionData actionData)
