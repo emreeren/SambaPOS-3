@@ -15,7 +15,7 @@ namespace Samba.Persistance.Implementations
     [Export(typeof(IInventoryDao))]
     class InventoryDao : IInventoryDao
     {
-       
+
 
         [ImportingConstructor]
         public InventoryDao()
@@ -67,7 +67,7 @@ namespace Samba.Persistance.Implementations
 
         public Recipe GetRecipe(string portionName, int menuItemId)
         {
-           return Dao.Single<Recipe>(x => x.Portion.Name == portionName && x.Portion.MenuItemId == menuItemId, x => x.Portion, x => x.RecipeItems, x => x.RecipeItems.Select(y => y.InventoryItem));
+            return Dao.Single<Recipe>(x => x.Portion.Name == portionName && x.Portion.MenuItemId == menuItemId, x => x.Portion, x => x.RecipeItems, x => x.RecipeItems.Select(y => y.InventoryItem));
         }
 
         public IEnumerable<string> GetGroupCodes()
@@ -117,8 +117,10 @@ namespace Samba.Persistance.Implementations
                 return Resources.APortionShouldSelected;
             if (Dao.Exists<Recipe>(x => x.Portion.Id == model.Portion.Id && x.Id != model.Id))
             {
+                var recipeName = Dao.Select<Recipe, string>(x => x.Name,
+                                                        x => x.Portion.Id == model.Portion.Id && x.Id != model.Id).First();
                 var mitemName = Dao.Single<MenuItem, string>(model.Portion.MenuItemId, x => x.Name);
-                return string.Format(Resources.ThereIsAnotherRecipeFor_f, mitemName + " " + model.Portion.Name);
+                return string.Format(Resources.ThereIsAnotherRecipeFor_f, string.Format("{0} {1} [{2}]", mitemName, model.Portion.Name, recipeName));
             }
             return "";
         }

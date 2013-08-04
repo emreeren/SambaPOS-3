@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
@@ -14,7 +15,7 @@ namespace Samba.Persistance.Implementations
         public PrinterDao()
         {
             ValidatorRegistry.RegisterDeleteValidator(new PrinterDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator<PrinterTemplate>(x => Dao.Exists<PrinterMap>(y => y.PrinterTemplateId == x.Id), Resources.PrinterTemplate, Resources.PrintJob);
+            ValidatorRegistry.RegisterDeleteValidator(new PrinterTemplateDeleteValidator());
         }
 
         public IEnumerable<Printer> GetPrinters()
@@ -33,11 +34,23 @@ namespace Samba.Persistance.Implementations
         public override string GetErrorMessage(Printer model)
         {
             if (Dao.Exists<Terminal>(x => x.ReportPrinterId == model.Id))
-                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.Terminal);        
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.Terminal);
             if (Dao.Exists<Terminal>(x => x.TransactionPrinterId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.Terminal);
             if (Dao.Exists<PrinterMap>(x => x.PrinterId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Printer, Resources.PrintJob);
+            return "";
+        }
+    }
+
+    public class PrinterTemplateDeleteValidator : SpecificationValidator<PrinterTemplate>
+    {
+        public override string GetErrorMessage(PrinterTemplate model)
+        {
+            if (Dao.Exists<PrinterMap>(y => y.PrinterTemplateId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.PrinterTemplate, Resources.PrintJob);
+            if (Dao.Exists<AccountTransactionDocumentType>(y => y.PrinterTemplateId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.PrinterTemplate, Resources.AccountTransactionDocument);
             return "";
         }
     }

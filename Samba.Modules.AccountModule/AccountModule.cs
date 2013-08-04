@@ -17,6 +17,7 @@ namespace Samba.Modules.AccountModule
     {
         private readonly IRegionManager _regionManager;
         private readonly IUserService _userService;
+        private readonly IApplicationState _applicationState;
         private readonly AccountSelectorView _accountSelectorView;
         private readonly AccountSelectorViewModel _accountSelectorViewModel;
         private readonly AccountDetailsView _accountDetailsView;
@@ -26,7 +27,7 @@ namespace Samba.Modules.AccountModule
 
         [ImportingConstructor]
         public AccountModule(IRegionManager regionManager,
-            IUserService userService,
+            IUserService userService, IApplicationState applicationState,
             AccountSelectorView accountSelectorView, AccountSelectorViewModel accountSelectorViewModel,
             AccountDetailsView accountDetailsView,
             DocumentCreatorView documentCreatorView,
@@ -35,6 +36,7 @@ namespace Samba.Modules.AccountModule
         {
             _regionManager = regionManager;
             _userService = userService;
+            _applicationState = applicationState;
             _accountSelectorView = accountSelectorView;
             _accountSelectorViewModel = accountSelectorViewModel;
             _accountDetailsView = accountDetailsView;
@@ -127,7 +129,7 @@ namespace Samba.Modules.AccountModule
 
         protected override bool CanNavigate(string arg)
         {
-            return _userService.IsUserPermittedFor(PermissionNames.NavigateAccountView);
+            return _userService.IsUserPermittedFor(PermissionNames.NavigateAccountView) && _applicationState.CurrentWorkPeriod != null;
         }
 
         protected override void OnNavigate(string obj)
