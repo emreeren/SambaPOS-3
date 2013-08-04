@@ -1002,7 +1002,7 @@ Gizlemek için pin kodunu değiştirin</value>
     <value>Ürün</value>
   </data>
   <data name="PrimaryFieldFormat" xml:space="preserve">
-    <value>Temel Alan Biçimi</value>
+    <value>Birincil Alan Biçimi</value>
   </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
     <value>Seçili elemanları sil</value>
@@ -1059,7 +1059,7 @@ Gizlemek için pin kodunu değiştirin</value>
     <value>{0} bulunmamaktadır</value>
   </data>
   <data name="PrimaryFieldName" xml:space="preserve">
-    <value>Temel Alan Adı</value>
+    <value>Birincil Alan Adı</value>
   </data>
   <data name="CanChangeDepartment" xml:space="preserve">
     <value>Departman değiştirebilir</value>
