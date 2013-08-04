@@ -11,7 +11,7 @@
             <Label Content="{LocText Name,Suffix=':'}" />
             <TextBox Text="{Binding Name}" MinWidth="200" HorizontalAlignment="Left" />
             <Label Content="{LocText GroupCode,Suffix=':'}" />
-            <ComboBox IsEditable="True" SelectedItem="{Binding GroupName}" ItemsSource="{Binding GroupNames}" MinWidth="150" HorizontalAlignment="Left" />
+            <ComboBox IsEditable="True" Text="{Binding GroupName}" ItemsSource="{Binding GroupNames}" MinWidth="150" HorizontalAlignment="Left" />
             <Label Content="{LocText StateType,Suffix=':'}" />
             <ComboBox SelectedItem="{Binding StateType}" ItemsSource="{Binding StateTypes}" MinWidth="150" HorizontalAlignment="Left" />
             <Label Content="{LocText Color,Suffix=':'}"/>
