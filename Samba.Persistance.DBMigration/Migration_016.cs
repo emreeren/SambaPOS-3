@@ -10,6 +10,8 @@ namespace Samba.Persistance.DBMigration
         {
             var dc = ApplicationContext as DbContext;
             Create.Index("IX_EntityStateValue_EntityId").OnTable("EntityStateValues").OnColumn("EntityId").Unique();
+            Delete.Column("ButtonColor").FromTable("OrderTagGroups");
+            Create.Column("ButtonColor").OnTable("OrderTagGroups").AsString(128).Nullable();
         }
 
         public override void Down()

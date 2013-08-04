@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Threading;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance;
@@ -71,6 +75,12 @@ namespace Samba.Presentation.ViewModels
         public void Refresh()
         {
             UpdateBalances();
+        }
+
+        public void RefreshAsync(Action callBack)
+        {
+            var di = Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(UpdateBalances));
+            di.Completed += (sender, e) => Application.Current.MainWindow.Dispatcher.Invoke(callBack);
         }
 
         public Account GetActiveAccount()
