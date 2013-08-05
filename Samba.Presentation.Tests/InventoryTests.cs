@@ -241,6 +241,103 @@ namespace Samba.Presentation.Tests
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             Assert.AreEqual(25 - ((120m * 6) / 1000m), InventoryService.GetInventory(testContext.DonerEti, testContext.LocalWarehouse));
             Assert.AreEqual(50 - (2 * 6) / 2, InventoryService.GetInventory(testContext.Pide, testContext.LocalWarehouse));
+            Assert.AreEqual((-10m * 6) / 100, InventoryService.GetInventory(testContext.Tuz, testContext.LocalWarehouse));
+            Assert.AreEqual(0, InventoryService.GetInventory(testContext.Kekik, testContext.LocalWarehouse));
+        }
+
+        [Test]
+        public void CanFilterUnneededConsumptionItems()
+        {
+            var workspace = PrepareMenu("sd6.txt");
+            var testContext = new WarehouseTestContext();
+            CreateWarehouseTestContext(testContext, workspace);
+            testContext.Yogurt.Warehouse = "No Warehouse";
+
+            var inventoryTransaction1 = new InventoryTransactionDocument();
+            inventoryTransaction1.Add(testContext.PurchaseTransactionType, testContext.Yogurt, 4, 30, "KG", 1000);
+            workspace.Add(inventoryTransaction1);
+            inventoryTransaction1.TransactionItems.ToList().ForEach(workspace.Add);
+
+            var pc = InventoryService.GetCurrentPeriodicConsumption();
+            var whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
+            Assert.True(whc.PeriodicConsumptionItems.Any(x => x.InventoryItemId == testContext.Yogurt.Id));
+            Assert.AreEqual(30, InventoryService.GetInventory(testContext.Yogurt, testContext.LocalWarehouse));
+
+            var ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            workspace.Add(ticket);
+            var order = ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            order.Quantity = 600;
+
+            Assert.AreEqual(0, InventoryService.GetInventory(testContext.Yogurt, testContext.LocalWarehouse));
+
+            RestartWorkperiod(workspace);
+
+            pc = InventoryService.GetCurrentPeriodicConsumption();
+            whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
+            Assert.True(whc.PeriodicConsumptionItems.All(x => x.InventoryItemId != testContext.Yogurt.Id));
+
+            RestartWorkperiod(workspace);
+            RestartWorkperiod(workspace);
+
+            pc = InventoryService.GetCurrentPeriodicConsumption();
+            whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
+
+            Assert.True(whc.PeriodicConsumptionItems.All(x => x.InventoryItemId != testContext.Yogurt.Id));
+
+            RestartWorkperiod(workspace);
+
+            ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            workspace.Add(ticket);
+            order = ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            order.Quantity = 600;
+
+            Assert.AreEqual(-30, InventoryService.GetInventory(testContext.Yogurt, testContext.LocalWarehouse));
+
+            RestartWorkperiod(workspace);
+
+            Assert.AreEqual(-30, InventoryService.GetInventory(testContext.Yogurt, testContext.LocalWarehouse));
+
+            var inventoryTransaction2 = new InventoryTransactionDocument();
+            inventoryTransaction2.Add(testContext.PurchaseTransactionType, testContext.Yogurt, 4, 30, "KG", 1000);
+            workspace.Add(inventoryTransaction2);
+            inventoryTransaction2.TransactionItems.ToList().ForEach(workspace.Add);
+
+            Assert.AreEqual(0, InventoryService.GetInventory(testContext.Yogurt, testContext.LocalWarehouse));
+
+            RestartWorkperiod(workspace);
+
+            pc = InventoryService.GetCurrentPeriodicConsumption();
+            whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
+
+            Assert.True(whc.PeriodicConsumptionItems.All(x => x.InventoryItemId != testContext.Yogurt.Id));
+            Assert.AreEqual(0, InventoryService.GetInventory(testContext.Yogurt, testContext.LocalWarehouse));
+
+            testContext.Yogurt.Warehouse = testContext.BarWarehouse.Name;
+
+            RestartWorkperiod(workspace);
+
+            pc = InventoryService.GetCurrentPeriodicConsumption();
+            var bwhc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.BarWarehouse.Id);
+
+            Assert.True(bwhc.PeriodicConsumptionItems.Any(x => x.InventoryItemId == testContext.Yogurt.Id));
+            Assert.AreEqual(0, InventoryService.GetInventory(testContext.Yogurt, testContext.LocalWarehouse));
+            Assert.AreEqual(0, InventoryService.GetInventory(testContext.Yogurt, testContext.BarWarehouse));
+
+            whc = pc.WarehouseConsumptions.Single(x => x.WarehouseId == testContext.LocalWarehouse.Id);
+
+            Assert.True(whc.PeriodicConsumptionItems.All(x => x.InventoryItemId != testContext.Yogurt.Id));
+            InventoryService.AddMissingItems(whc);
+            Assert.True(whc.PeriodicConsumptionItems.Any(x => x.InventoryItemId == testContext.Yogurt.Id));
+            InventoryService.FilterUnneededItems(pc);
+            Assert.True(whc.PeriodicConsumptionItems.All(x => x.InventoryItemId != testContext.Yogurt.Id));
+            InventoryService.AddMissingItems(whc);
+            Assert.True(whc.PeriodicConsumptionItems.Any(x => x.InventoryItemId == testContext.Yogurt.Id));
+            var pci = whc.PeriodicConsumptionItems.Single(x => x.InventoryItemId == testContext.Yogurt.Id);
+            pci.PhysicalInventory = 10;
+            workspace.Add(pci);
+            InventoryService.FilterUnneededItems(pc);
+            Assert.True(whc.PeriodicConsumptionItems.Any(x => x.InventoryItemId == testContext.Yogurt.Id));
+            Assert.AreEqual(10, InventoryService.GetInventory(testContext.Yogurt, testContext.LocalWarehouse));
         }
 
         [Test]
@@ -302,11 +399,15 @@ namespace Samba.Presentation.Tests
             testContext.Yogurt = new InventoryItem { Name = "Yoğurt", BaseUnit = "GR", GroupCode = "", TransactionUnit = "KG", TransactionUnitMultiplier = 1000 };
             testContext.Pide = new InventoryItem { Name = "Pide", BaseUnit = "Yarım", GroupCode = "", TransactionUnit = "Adet", TransactionUnitMultiplier = 2 };
             testContext.ZeytinYagi = new InventoryItem { Name = "Zeytin Yağı", BaseUnit = "Ölçü", GroupCode = "", TransactionUnit = "Litre", TransactionUnitMultiplier = 100 };
+            testContext.Tuz = new InventoryItem { Name = "Tuz", BaseUnit = "Ölçü", GroupCode = "", TransactionUnit = "Paket", TransactionUnitMultiplier = 100 };
+            testContext.Kekik = new InventoryItem { Name = "Kekik", BaseUnit = "Ölçü", GroupCode = "", TransactionUnit = "Paket", TransactionUnitMultiplier = 100 };
 
             workspace.Add(testContext.DonerEti);
             workspace.Add(testContext.Yogurt);
             workspace.Add(testContext.Pide);
             workspace.Add(testContext.ZeytinYagi);
+            workspace.Add(testContext.Tuz);
+            workspace.Add(testContext.Kekik);
 
             testContext.IskenderRecipe = new Recipe { Name = "İskender Reçetesi", Portion = testContext.Iskender.Portions[0] };
             workspace.Add(testContext.IskenderRecipe);
@@ -315,6 +416,7 @@ namespace Samba.Presentation.Tests
             testContext.IskenderRecipe.RecipeItems.Add(new RecipeItem { InventoryItem = testContext.Yogurt, Quantity = 50 });
             testContext.IskenderRecipe.RecipeItems.Add(new RecipeItem { InventoryItem = testContext.Pide, Quantity = 2 });
             testContext.IskenderRecipe.RecipeItems.Add(new RecipeItem { InventoryItem = testContext.ZeytinYagi, Quantity = 1 });
+            testContext.IskenderRecipe.RecipeItems.Add(new RecipeItem { InventoryItem = testContext.Tuz, Quantity = 10 });
 
             testContext.LocalWarehouseAccountType = new AccountType { Name = "Local Warehouse Account Type" };
             testContext.SellerWarehouseAccountType = new AccountType { Name = "Seller Warehouse Account Type" };
@@ -336,10 +438,12 @@ namespace Samba.Presentation.Tests
 
             testContext.LocalWarehouse = new Warehouse
                 {
+                    Name = "Local Warehouse",
                     WarehouseTypeId = testContext.WarehouseType.Id
                 };
             testContext.BarWarehouse = new Warehouse
                 {
+                    Name = "Bar Warehouse",
                     WarehouseTypeId = testContext.WarehouseType.Id
                 };
             testContext.Seller1Warehouse = new Warehouse
@@ -469,10 +573,12 @@ namespace Samba.Presentation.Tests
     internal class WarehouseTestContext
     {
         public MenuItem Iskender { get; set; }
+        public InventoryItem Tuz { get; set; }
         public InventoryItem ZeytinYagi { get; set; }
         public InventoryItem Pide { get; set; }
         public InventoryItem Yogurt { get; set; }
         public InventoryItem DonerEti { get; set; }
+        public InventoryItem Kekik { get; set; }
         public Recipe IskenderRecipe { get; set; }
 
         public AccountType LocalWarehouseAccountType { get; set; }
@@ -501,5 +607,6 @@ namespace Samba.Presentation.Tests
         public AccountTransactionType PurchaseAccountTransactionType { get; set; }
         public InventoryTransactionDocumentType PurchaseTransactionDocumentType { get; set; }
         public InventoryTransactionDocumentType BarTransferTransactionDocumentType { get; set; }
+
     }
 }

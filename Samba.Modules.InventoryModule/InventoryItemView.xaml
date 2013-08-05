@@ -8,9 +8,12 @@
             <Label Content="{LocText InventoryItemName,Suffix=':'}"/>
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name,Mode=TwoWay}" />
             <Label Content="{LocText GroupCode,Suffix=':'}"/>
-
             <ComboBox HorizontalAlignment="Left" MinWidth="150" Text="{Binding GroupCode,Mode=TwoWay}"
                  ItemsSource="{Binding GroupCodes}" IsEditable="True">
+            </ComboBox>
+            <Label Content="{LocText Warehouse,Suffix=':'}"/>
+            <ComboBox HorizontalAlignment="Left" MinWidth="150" Text="{Binding Warehouse,Mode=TwoWay}"
+                 ItemsSource="{Binding WarehouseNames}" IsEditable="True">
             </ComboBox>
             <Label Content="{LocText BaseUnit,Suffix=':'}"/>
 

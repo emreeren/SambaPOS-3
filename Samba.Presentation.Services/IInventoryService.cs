@@ -15,5 +15,8 @@ namespace Samba.Presentation.Services
         decimal GetInventory(InventoryItem inventoryItem, Warehouse warehouse);
         void DoWorkPeriodStart();
         void DoWorkPeriodEnd();
+        IEnumerable<string> GetWarehouseNames();
+        void FilterUnneededItems(PeriodicConsumption pc);
+        void AddMissingItems(WarehouseConsumption whc);
     }
 }

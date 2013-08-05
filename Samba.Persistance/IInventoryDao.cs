@@ -19,5 +19,6 @@ namespace Samba.Persistance
         IEnumerable<InventoryItem> GetInventoryItems();
         PeriodicConsumption GetPeriodicConsumptionByWorkPeriodId(int workPeriodId);
         PeriodicConsumptionItem GetPeriodConsumptionItem(int workPeriodId, int inventoryItemId, int warehouseId);
+        IEnumerable<string> GetWarehouseNames();
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.ComponentModel.Composition;
 using System.Windows.Media;
+using System.Windows.Threading;
 using PropertyTools.DataAnnotations;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Settings;
@@ -226,8 +227,11 @@ namespace Samba.Presentation.Controls.Interaction
 
         public void GiveFeedback(string message)
         {
-            var window = new FeedbackWindow { MessageText = { Text = message }, Topmost = true };
-            window.ShowDialog();
+            Application.Current.MainWindow.Dispatcher.Invoke(new Action(() =>
+                {
+                    var window = new FeedbackWindow { MessageText = { Text = message }, Topmost = true };
+                    window.ShowDialog();
+                }));
         }
 
         public void ShowKeyboard()

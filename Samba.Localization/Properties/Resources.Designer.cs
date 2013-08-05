@@ -521,6 +521,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Append Unmapped Items.
+        /// </summary>
+        public static string AppendUnmappedItems {
+            get {
+                return ResourceManager.GetString("AppendUnmappedItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application Screen Changed.
         /// </summary>
         public static string ApplicationScreenChanged {

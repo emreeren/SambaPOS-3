@@ -18,6 +18,8 @@ namespace Samba.Modules.InventoryModule
         private readonly IInventoryService _inventoryService;
         private readonly ICacheService _cacheService;
 
+        public ICaptionCommand AddUnmappedItemsCommand { get; set; }
+
         [ImportingConstructor]
         public PeriodicConsumptionViewModel(IApplicationState applicationState,
             IInventoryService inventoryService, ICacheService cacheService)
@@ -26,6 +28,7 @@ namespace Samba.Modules.InventoryModule
             _inventoryService = inventoryService;
             _cacheService = cacheService;
             UpdateCalculationCommand = new CaptionCommand<string>(Resources.CalculateCost, OnUpdateCalculation);
+            AddUnmappedItemsCommand = new CaptionCommand<string>(Resources.AppendUnmappedItems, OnAddUnmappedItems, CanSave);
         }
 
         private ObservableCollection<WarehouseConsumptionViewModel> _warehouseConsumptions;
@@ -34,7 +37,7 @@ namespace Samba.Modules.InventoryModule
             get
             {
                 return _warehouseConsumptions ?? (_warehouseConsumptions =
-                    new ObservableCollection<WarehouseConsumptionViewModel>(Model.WarehouseConsumptions.Select(x => new WarehouseConsumptionViewModel(x, _cacheService))));
+                    new ObservableCollection<WarehouseConsumptionViewModel>(Model.WarehouseConsumptions.Select(x => new WarehouseConsumptionViewModel(x, _cacheService, _inventoryService))));
             }
         }
 
@@ -53,6 +56,11 @@ namespace Samba.Modules.InventoryModule
         public ICaptionCommand UpdateCalculationCommand { get; set; }
 
         public string NameStr { get { return String.Format(Resources.Period_f, Name); } }
+
+        private void OnAddUnmappedItems(string obj)
+        {
+            SelectedWarehouseConsumption.AddMissingItems();
+        }
 
         protected override bool CanSave(string arg)
         {
@@ -91,6 +99,7 @@ namespace Samba.Modules.InventoryModule
 
         protected override void OnSave(string value)
         {
+            _inventoryService.FilterUnneededItems(Model);
             _inventoryService.CalculateCost(Model, _applicationState.CurrentWorkPeriod);
             base.OnSave(value);
         }

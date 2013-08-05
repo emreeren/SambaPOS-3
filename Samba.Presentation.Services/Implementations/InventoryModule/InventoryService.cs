@@ -122,7 +122,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             }
         }
 
-        private PeriodicConsumption CreateNewPeriodicConsumption()
+        private PeriodicConsumption CreateNewPeriodicConsumption(bool filter)
         {
             var wids = _cacheService.GetWarehouses().Select(x => x.Id).ToList();
             var previousPc = GetPreviousPeriodicConsumption();
@@ -135,7 +135,48 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                 UpdateConsumption(pc, wid);
                 CalculateCost(pc, _applicationState.CurrentWorkPeriod);
             }
+
+            if (filter) Filter(pc, inventoryItems, true);
+
             return pc;
+        }
+
+        public void FilterUnneededItems(PeriodicConsumption pc)
+        {
+            var inventoryItems = _inventoryDao.GetInventoryItems();
+            Filter(pc, inventoryItems, false);
+        }
+
+        public void AddMissingItems(WarehouseConsumption whc)
+        {
+            var inventoryItems = _inventoryDao.GetInventoryItems();
+            foreach (var inventoryItem in inventoryItems.Where(inventoryItem => whc.PeriodicConsumptionItems.All(x => x.InventoryItemId != inventoryItem.Id)))
+            {
+                whc.PeriodicConsumptionItems.Add(PeriodicConsumptionItem.Create(inventoryItem));
+            }
+        }
+
+        private void Filter(PeriodicConsumption pc, IEnumerable<InventoryItem> inventoryItems, bool keepMappedItems)
+        {
+            foreach (var warehouseConsumption in pc.WarehouseConsumptions)
+            {
+                var warehouse = _cacheService.GetWarehouses().Single(x => x.Id == warehouseConsumption.WarehouseId);
+                var items =
+                    warehouseConsumption.PeriodicConsumptionItems.Where(
+                        x => x.InStock == 0 && x.Consumption == 0 && x.Added == 0 && x.Removed == 0 && x.PhysicalInventory == null);
+                var removingItems = keepMappedItems ? items.Where(x => !ShouldKeep(x, inventoryItems, warehouse)).ToList() : items.ToList();
+                if (removingItems.Any())
+                {
+                    removingItems.ForEach(x => warehouseConsumption.PeriodicConsumptionItems.Remove(x));
+                }
+            }
+        }
+
+        private bool ShouldKeep(PeriodicConsumptionItem periodicConsumptionItem, IEnumerable<InventoryItem> inventoryItems, Warehouse warehouse)
+        {
+            var wname = warehouse.Name;
+            var inventoryItem = inventoryItems.Single(y => y.Id == periodicConsumptionItem.InventoryItemId);
+            return inventoryItem.IsMappedToWarehouse(wname);
         }
 
         public PeriodicConsumption GetPreviousPeriodicConsumption()
@@ -148,7 +189,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
         public PeriodicConsumption GetCurrentPeriodicConsumption()
         {
             var pc = _inventoryDao.GetPeriodicConsumptionByWorkPeriodId(_applicationState.CurrentWorkPeriod.Id)
-                ?? CreateNewPeriodicConsumption();
+                ?? CreateNewPeriodicConsumption(true);
             return pc;
         }
 
@@ -182,7 +223,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             if (_applicationState.PreviousWorkPeriod != null)
             {
                 var ppci = _inventoryDao.GetPeriodConsumptionItem(_applicationState.PreviousWorkPeriod.Id, inventoryItem.Id, warehouse.Id);
-                previousInventory = ppci.GetPhysicalInventory();
+                previousInventory = ppci != null ? ppci.GetPhysicalInventory() : 0;
             }
             var transactions = GetTransactionItems(inventoryItem, warehouse).ToList();
             var positiveSum = transactions.Where(x => x.TargetWarehouseId == warehouse.Id).Sum(y => (y.Quantity * y.Multiplier) / inventoryItem.Multiplier);
@@ -193,8 +234,9 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                 let recipe = _cacheService.GetRecipe(sale.PortionName, sale.MenuItemId)
                 let rip = recipe.RecipeItems.Where(x => x.InventoryItem.Id == inventoryItem.Id)
                 select (rip.Sum(x => x.Quantity) * sale.Total) / (inventoryItem.Multiplier)).Sum();
-
-            return previousInventory + (positiveSum - negativeSum) - currentConsumption;
+            var cpci = _inventoryDao.GetPeriodConsumptionItem(_applicationState.CurrentWorkPeriod.Id, inventoryItem.Id, warehouse.Id);
+            var currentInventory = cpci != null ? cpci.GetPhysicalInventory() : 0;
+            return currentInventory + previousInventory + (positiveSum - negativeSum) - currentConsumption;
         }
 
         private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
@@ -220,7 +262,14 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
         public void DoWorkPeriodEnd()
         {
             if (!_inventoryDao.RecipeExists()) return;
-            CreatePeriodicConsumption();
+            var pc = GetCurrentPeriodicConsumption();
+            FilterUnneededItems(pc);
+            SavePeriodicConsumption(pc);
+        }
+
+        public IEnumerable<string> GetWarehouseNames()
+        {
+            return _inventoryDao.GetWarehouseNames();
         }
 
         private void UpdatePeriodicConsumptionCost()
@@ -231,10 +280,5 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             SavePeriodicConsumption(pc);
         }
 
-        private void CreatePeriodicConsumption()
-        {
-            var pc = GetCurrentPeriodicConsumption();
-            SavePeriodicConsumption(pc);
-        }
     }
 }

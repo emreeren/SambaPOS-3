@@ -62,7 +62,9 @@ namespace Samba.Domain.Models.Inventory
             return 0;
         }
 
-        private void CreatePeriodicConsumptionItem(InventoryItem inventoryItem, WarehouseConsumption previousWhc, IEnumerable<InventoryTransaction> transactionItems)
+        private void CreatePeriodicConsumptionItem(InventoryItem inventoryItem,
+                                                   WarehouseConsumption previousWhc,
+                                                   IEnumerable<InventoryTransaction> transactionItems)
         {
             var pci = PeriodicConsumptionItem.Create(inventoryItem);
             PeriodicConsumptionItems.Add(pci);
@@ -84,6 +86,7 @@ namespace Samba.Domain.Models.Inventory
             var totalPrice = tim.Where(x => x.TargetWarehouseId == WarehouseId).Sum(x => x.Price * x.Quantity);
             if (pci.InStock + pci.Purchase > 0)
                 pci.Cost = decimal.Round((totalPrice + previousCost) / (pci.InStock + pci.Added), 2);
+
         }
 
         public void CreatePeriodicConsumptionItems(IEnumerable<InventoryItem> inventoryItems, WarehouseConsumption previousPc, List<InventoryTransaction> transactionItems)

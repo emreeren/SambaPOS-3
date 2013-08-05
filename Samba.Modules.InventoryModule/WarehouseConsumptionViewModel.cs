@@ -2,6 +2,7 @@
 using System.Linq;
 using Samba.Domain.Models.Inventory;
 using Samba.Presentation.Common;
+using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Modules.InventoryModule
@@ -9,10 +10,12 @@ namespace Samba.Modules.InventoryModule
     class WarehouseConsumptionViewModel : ObservableObject
     {
         private readonly ICacheService _cacheService;
+        private readonly IInventoryService _inventoryService;
 
-        public WarehouseConsumptionViewModel(WarehouseConsumption model, ICacheService cacheService)
+        public WarehouseConsumptionViewModel(WarehouseConsumption model, ICacheService cacheService, IInventoryService inventoryService)
         {
             _cacheService = cacheService;
+            _inventoryService = inventoryService;
             Model = model;
         }
 
@@ -39,6 +42,12 @@ namespace Samba.Modules.InventoryModule
             _costItems = null;
             RaisePropertyChanged(() => PeriodicConsumptionItems);
             RaisePropertyChanged(() => CostItems);
+        }
+
+        public void AddMissingItems()
+        {
+            _inventoryService.AddMissingItems(Model);
+            Refresh();
         }
     }
 }

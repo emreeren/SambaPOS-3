@@ -54,6 +54,30 @@ namespace Samba.Persistance.Data
             }
         }
 
+        private static void RemoveFromEntityCache(ICacheable entity)
+        {
+            var type = entity.GetRealType();
+            if (EntityCache.ContainsKey(type))
+            {
+                if (EntityCache[type].ContainsKey(entity.Id))
+                {
+                    var ce = EntityCache[type][entity.Id];
+                    ce.Workspace.Dispose();
+                    EntityCache[type].Remove(ce.Cacheable.Id);
+                }
+            }
+        }
+
+        private static Type GetRealType(this ICacheable entity)
+        {
+            var entityType = entity.GetType();
+            if (entityType.BaseType != null && entityType.Namespace == "System.Data.Entity.DynamicProxies")
+            {
+                entityType = entityType.BaseType;
+            }
+            return entityType;
+        }
+
         public static T CacheLoad<T>(int id, params Expression<Func<T, object>>[] includes) where T : class, ICacheable
         {
             var w = WorkspaceFactory.Create();
@@ -159,6 +183,12 @@ namespace Samba.Persistance.Data
                 if (cr.SuggestedOperation == SuggestedOperation.Refresh) RemoveFromEntityCache(entity);
                 return cr.ErrorMessage;
             }
+        }
+
+        public static void RemoveFromCache(ICacheable entity)
+        {
+            if (entity == null) return;
+            RemoveFromEntityCache(entity);
         }
     }
 }

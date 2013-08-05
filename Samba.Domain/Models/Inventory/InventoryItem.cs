@@ -9,6 +9,7 @@ namespace Samba.Domain.Models.Inventory
         public string BaseUnit { get; set; }
         public string TransactionUnit { get; set; }
         public int TransactionUnitMultiplier { get; set; }
+        public string Warehouse { get; set; }
 
         public decimal Multiplier
         {
@@ -18,6 +19,11 @@ namespace Samba.Domain.Models.Inventory
                            ? TransactionUnitMultiplier
                            : 1;
             }
+        }
+
+        public bool IsMappedToWarehouse(string wname)
+        {
+            return string.IsNullOrEmpty(Warehouse) || (!string.IsNullOrEmpty(wname) && (Warehouse ?? "").Contains(wname));
         }
     }
 }

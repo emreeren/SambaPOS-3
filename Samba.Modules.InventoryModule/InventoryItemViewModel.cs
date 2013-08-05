@@ -32,10 +32,22 @@ namespace Samba.Modules.InventoryModule
         private IEnumerable<string> _groupCodes;
         public IEnumerable<string> GroupCodes { get { return _groupCodes ?? (_groupCodes = _inventoryService.GetGroupCodes()); } }
 
+        private IEnumerable<string> _warehouseNames;
+        public IEnumerable<string> WarehouseNames
+        {
+            get { return _warehouseNames ?? (_warehouseNames = _inventoryService.GetWarehouseNames()); }
+        }
+
         public string GroupCode
         {
             get { return Model.GroupCode ?? ""; }
             set { Model.GroupCode = value; }
+        }
+
+        public string Warehouse
+        {
+            get { return Model.Warehouse ?? ""; }
+            set { Model.Warehouse = value; }
         }
 
         public string BaseUnit
@@ -79,5 +91,6 @@ namespace Samba.Modules.InventoryModule
         }
 
         public string GroupValue { get { return Model.GroupCode; } }
+
     }
 }

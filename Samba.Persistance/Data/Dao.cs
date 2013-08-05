@@ -80,7 +80,7 @@ namespace Samba.Persistance.Data
         {
             using (var workspace = WorkspaceFactory.CreateReadOnly())
             {
-                return workspace.Distinct(expression,prediction).ToList();
+                return workspace.Distinct(expression, prediction).ToList();
             }
         }
 
@@ -205,6 +205,11 @@ namespace Samba.Persistance.Data
         public static void Save<T>(T entity) where T : class, ICacheable
         {
             CachedDao.CacheSave(entity);
+        }
+
+        public static void RemoveFromCache(ICacheable cacheable)
+        {
+            CachedDao.RemoveFromCache(cacheable);
         }
 
         public static string CheckConcurrency<T>(T entity) where T : class, ICacheable

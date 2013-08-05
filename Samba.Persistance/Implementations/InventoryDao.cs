@@ -105,6 +105,11 @@ namespace Samba.Persistance.Implementations
                 return pci;
             }
         }
+
+        public IEnumerable<string> GetWarehouseNames()
+        {
+            return Dao.Select<Warehouse, string>(x => x.Name, x => x.Id > 0);
+        }
     }
 
     public class RecipeSaveValidator : SpecificationValidator<Recipe>

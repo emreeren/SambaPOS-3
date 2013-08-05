@@ -38,7 +38,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 
             foreach (var warehouseConsumption in lastPeriodicConsumption.WarehouseConsumptions.OrderBy(GetWarehouseOrder))
             {
-                if (warehouseConsumption.PeriodicConsumptionItems.Any(x => x.GetPhysicalInventory() != 0))
+                if (warehouseConsumption.PeriodicConsumptionItems.Any())
                 {
                     var warehouse =
                        _cacheService.GetWarehouses().SingleOrDefault(x => x.Id == warehouseConsumption.WarehouseId) ??
@@ -50,7 +50,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
                     report.AddColumnLength(inventoryTableSlug, "55*", "15*", "30*");
                     report.AddTable(inventoryTableSlug, warehouse.Name, "", "");
 
-                    foreach (var periodicConsumptionItem in warehouseConsumption.PeriodicConsumptionItems.Where(x => x.GetPhysicalInventory() != 0))
+                    foreach (var periodicConsumptionItem in warehouseConsumption.PeriodicConsumptionItems)
                     {
                         report.AddRow(inventoryTableSlug,
                                       periodicConsumptionItem.InventoryItemName,

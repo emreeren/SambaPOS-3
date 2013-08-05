@@ -55,6 +55,7 @@ namespace Samba.Presentation.Common.ModelBase
 
                     if (x.Value is TViewModel)
                     {
+                        Dao.RemoveFromCache(x.Value.Model as ICacheable);
                         _workspace.Update(x.Value.Model);
                         _workspace.CommitChanges();
                         _workspace.Refresh(x.Value.Model);
