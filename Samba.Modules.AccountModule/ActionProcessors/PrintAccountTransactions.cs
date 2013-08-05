@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Samba.Domain.Models.Accounts;
 using Samba.Localization.Properties;
 using Samba.Presentation.Services;
 using Samba.Services;
@@ -21,20 +22,31 @@ namespace Samba.Modules.AccountModule.ActionProcessors
 
         public override void Process(ActionData actionData)
         {
-            var accountName = actionData.GetAsString("AccountName");
-            if (!string.IsNullOrEmpty(accountName))
+            Account account = null;
+            var accountId = actionData.GetAsInteger("AccountId");
+            if (accountId > 0)
             {
-                var account = _accountService.GetAccountByName(accountName);
-                if (account != null)
+                account = _accountService.GetAccountById(accountId);
+            }
+
+            if (account == null)
+            {
+                var accountName = actionData.GetAsString("AccountName");
+                if (!string.IsNullOrEmpty(accountName))
                 {
-                    _reportServiceClient.PrintAccountTransactions(account);
+                    account = _accountService.GetAccountByName(accountName);
                 }
+            }
+            
+            if (account != null)
+            {
+                _reportServiceClient.PrintAccountTransactions(account);
             }
         }
 
         protected override object GetDefaultData()
         {
-            return new { AccountName = "" };
+            return new { AccountId = "", AccountName = "" };
         }
 
         protected override string GetActionName()

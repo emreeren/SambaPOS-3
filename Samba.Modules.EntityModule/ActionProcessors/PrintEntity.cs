@@ -13,17 +13,19 @@ namespace Samba.Modules.EntityModule.ActionProcessors
     {
         private readonly ICacheService _cacheService;
         private readonly IPrinterService _printerService;
+        private readonly IEntityService _entityService;
 
         [ImportingConstructor]
-        public PrintEntity(ICacheService cacheService, IPrinterService printerService)
+        public PrintEntity(ICacheService cacheService, IPrinterService printerService,IEntityService entityService)
         {
             _cacheService = cacheService;
             _printerService = printerService;
+            _entityService = entityService;
         }
 
         protected override object GetDefaultData()
         {
-            return new { EntityId = 0, PrinterName = "", PrinterTemplateName = "" };
+            return new { EntityId = 0, EntityName = "", PrinterName = "", PrinterTemplateName = "" };
         }
 
         protected override string GetActionName()

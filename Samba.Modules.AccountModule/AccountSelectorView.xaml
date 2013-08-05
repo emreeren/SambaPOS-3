@@ -6,7 +6,7 @@
 			 xmlns:FlexButton="clr-namespace:FlexButton;assembly=FlexButton"
              xmlns:local="clr-namespace:Samba.Modules.AccountModule" mc:Ignorable="d" 
 			 d:DesignHeight="300" d:DesignWidth="300" FontSize="16">
-    
+
     <UserControl.Resources>
         <local:AccountGroupsConverter  x:Key="AccountGroupsConverter" />
 
@@ -123,6 +123,14 @@
         <StackPanel Grid.Column="1" Grid.Row="1" Background="LightGray">
             <FlexButton:FlexButton Height="60" FontSize="20" Margin="2" Command="{Binding ShowAccountDetailsCommand}" Content="{Binding ShowAccountDetailsCommand.Caption}"/>
             <FlexButton:FlexButton Height="60" FontSize="20" Margin="2" Command="{Binding PrintCommand}" Content="{Binding PrintCommand.Caption}"/>
+            <ItemsControl ItemsSource="{Binding AutomationCommands}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <FlexButton:FlexButton FontSize="20" Margin="2" Height="60" Content="{Binding ButtonHeader}"
+								 Command="{Binding OnAutomationCommandSelected}" CommandParameter="{Binding Model}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <ItemsControl ItemsSource="{Binding BatchDocumentButtons}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

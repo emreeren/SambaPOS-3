@@ -122,5 +122,10 @@ namespace Samba.Services.Implementations.EntityModule
             if (state == null) return 0;
             return state.GetStateQuantity(stateName);
         }
+
+        public IEnumerable<Entity> GetEntitiesByAccountId(int accountId)
+        {
+            return Dao.Query<Entity>(x => x.AccountId == accountId);
+        }
     }
 }

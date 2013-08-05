@@ -22,6 +22,7 @@ namespace Samba.Modules.AccountModule
         private readonly IAccountService _accountService;
         private readonly ICacheService _cacheService;
         private readonly IApplicationState _applicationState;
+        private readonly IEntityService _entityService;
         private readonly IReportServiceClient _reportServiceClient;
         private AccountScreen _selectedAccountScreen;
 
@@ -36,19 +37,22 @@ namespace Samba.Modules.AccountModule
         public ICaptionCommand ShowAccountDetailsCommand { get; set; }
         public ICaptionCommand PrintCommand { get; set; }
         public ICaptionCommand AccountButtonSelectedCommand { get; set; }
+        public ICaptionCommand AutomationCommandSelectedCommand { get; set; }
 
         [ImportingConstructor]
-        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState,
+        public AccountSelectorViewModel(IAccountService accountService, ICacheService cacheService, IApplicationState applicationState, IEntityService entityService,
             IReportServiceClient reportServiceClient)
         {
             _accounts = new ObservableCollection<AccountScreenRow>();
             _accountService = accountService;
             _cacheService = cacheService;
             _applicationState = applicationState;
+            _entityService = entityService;
             _reportServiceClient = reportServiceClient;
             ShowAccountDetailsCommand = new CaptionCommand<string>(Resources.AccountDetails.Replace(' ', '\r'), OnShowAccountDetails, CanShowAccountDetails);
             PrintCommand = new CaptionCommand<string>(Resources.Print, OnPrint);
             AccountButtonSelectedCommand = new CaptionCommand<AccountScreen>("", OnAccountScreenSelected);
+            AutomationCommandSelectedCommand = new CaptionCommand<AccountScreenAutmationCommandMap>("", OnAutomationCommandSelected);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(
             x =>
@@ -73,6 +77,17 @@ namespace Samba.Modules.AccountModule
                     ? _applicationState.GetBatchDocumentTypes(_selectedAccountScreen.AccountScreenValues.Select(x => x.AccountTypeName))
                             .Where(x => !string.IsNullOrEmpty(x.ButtonHeader))
                             .Select(x => new DocumentTypeButtonViewModel(x, null)) : null);
+            }
+        }
+
+        private IEnumerable<AccountScreenAutmationCommandMapViewModel> _automationCommands;
+        public IEnumerable<AccountScreenAutmationCommandMapViewModel> AutomationCommands
+        {
+            get
+            {
+                return _automationCommands ?? (_automationCommands =
+                                                        _selectedAccountScreen.AutmationCommandMaps
+                                                        .Select(x => new AccountScreenAutmationCommandMapViewModel(x, _cacheService)));
             }
         }
 
@@ -111,17 +126,48 @@ namespace Samba.Modules.AccountModule
             CommonEventPublisher.PublishEntityOperation(new AccountData(SelectedAccount.AccountId), EventTopicNames.DisplayAccountTransactions, EventTopicNames.ActivateAccountSelector);
         }
 
+        private void OnAutomationCommandSelected(AccountScreenAutmationCommandMap obj)
+        {
+            object value = null;
+            if (obj.AutomationCommandValueType == 0) // Account Id
+            {
+                var account = _accountService.GetAccountById(SelectedAccount.AccountId);
+                if (account == null) return;
+                value = account.Id;
+            }
+
+            if (obj.AutomationCommandValueType == 1) //Entity Id
+            {
+                var entities = _entityService.GetEntitiesByAccountId(SelectedAccount.AccountId).ToList();
+                if (!entities.Any()) return;
+                value = entities.Select(x => x.Id).First();
+            }
+
+            if (obj.AutomationCommandValueType == 2) //Entity Id List
+            {
+                value = string.Join(",", _entityService.GetEntitiesByAccountId(SelectedAccount.AccountId).Select(x => x.Id));
+            }
+
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
+            {
+                obj.AutomationCommandName,
+                Value = value
+            });
+        }
+
         private void UpdateAccountScreen(AccountScreen accountScreen)
         {
             if (accountScreen == null) return;
             _batchDocumentButtons = null;
             _selectedAccountScreen = accountScreen;
+            _automationCommands = null;
 
             _accounts.Clear();
             _accounts.AddRange(_accountService.GetAccountScreenRows(accountScreen, _applicationState.CurrentWorkPeriod));
 
             RaisePropertyChanged(() => BatchDocumentButtons);
             RaisePropertyChanged(() => AccountButtons);
+            RaisePropertyChanged(() => AutomationCommands);
 
             OnRefreshed();
         }

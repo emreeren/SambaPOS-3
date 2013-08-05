@@ -68,6 +68,7 @@
     <Compile Include="AccountDetailsViewModel.cs" />
     <Compile Include="AccountGroupsConverter.cs" />
     <Compile Include="AccountRowViewModel.cs" />
+    <Compile Include="AccountScreenAutmationCommandMapViewModel.cs" />
     <Compile Include="AccountSelectViewModel.cs" />
     <Compile Include="ActionProcessors\CreateAccountTransaction.cs" />
     <Compile Include="ActionProcessors\CreateAccountTransactionDocument.cs" />

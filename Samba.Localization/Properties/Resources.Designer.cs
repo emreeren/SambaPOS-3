@@ -1539,6 +1539,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Command Parameter.
+        /// </summary>
+        public static string CommandParameter {
+            get {
+                return ResourceManager.GetString("CommandParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Command Type.
         /// </summary>
         public static string CommandType {

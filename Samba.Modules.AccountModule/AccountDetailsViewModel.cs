@@ -24,6 +24,8 @@ namespace Samba.Modules.AccountModule
         private readonly ICacheService _cacheService;
         private readonly IReportService _reportService;
 
+        private OperationRequest<AccountData> _currentOperationRequest;
+
         [ImportingConstructor]
         public AccountDetailsViewModel(IApplicationState applicationState, IAccountService accountService,
             ICacheService cacheService, IReportService reportService)
@@ -68,8 +70,6 @@ namespace Samba.Modules.AccountModule
         public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
 
         private string _filterType;
-        private OperationRequest<AccountData> _currentOperationRequest;
-
         public string FilterType
         {
             get { return _filterType; }

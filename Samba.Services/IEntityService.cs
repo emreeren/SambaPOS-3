@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Samba.Domain.Models.Entities;
 
 namespace Samba.Services
@@ -20,5 +17,6 @@ namespace Samba.Services
         Entity CreateEntity(int entityTypeId, string entityName);
         void SaveEntity(Entity entity);
         int GetStateQuantity(Entity entity, string stateName);
+        IEnumerable<Entity> GetEntitiesByAccountId(int accountId);
     }
 }

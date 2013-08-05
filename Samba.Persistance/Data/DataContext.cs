@@ -125,6 +125,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Order>().Property(x => x.OrderStates).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.Taxes).IsMaxLength();
             modelBuilder.Entity<Printer>().Property(x => x.CustomPrinterData).IsMaxLength();
+            modelBuilder.Entity<AccountScreen>().Property(x => x.AutomationCommandMapData).IsMaxLength();
 
             modelBuilder.Entity<WarehouseConsumption>().HasKey(p => new { p.Id, p.PeriodicConsumptionId });
             modelBuilder.Entity<WarehouseConsumption>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -192,8 +193,8 @@ namespace Samba.Persistance.Data
 
             modelBuilder.Entity<EntityTypeAssignment>().HasKey(p => new { p.Id, p.TicketTypeId });
             modelBuilder.Entity<EntityTypeAssignment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<TicketType>().HasMany(p => p.EntityTypeAssignments).WithRequired().HasForeignKey(x => x.TicketTypeId);        
-            
+            modelBuilder.Entity<TicketType>().HasMany(p => p.EntityTypeAssignments).WithRequired().HasForeignKey(x => x.TicketTypeId);
+
             modelBuilder.Entity<MenuAssignment>().HasKey(p => new { p.Id, p.TicketTypeId });
             modelBuilder.Entity<MenuAssignment>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<TicketType>().HasMany(p => p.MenuAssignments).WithRequired().HasForeignKey(x => x.TicketTypeId);
