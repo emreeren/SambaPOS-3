@@ -126,6 +126,7 @@
     <Compile Include="Models\Tickets\EntityTypeAssignment.cs" />
     <Compile Include="Models\Tickets\TaxValue.cs" />
     <Compile Include="Models\Tickets\TicketEntity.cs" />
+    <Compile Include="Models\Tickets\TicketLogValue.cs" />
     <Compile Include="Models\Tickets\TicketStateValue.cs" />
     <Compile Include="Models\Tickets\TicketTagMap.cs" />
     <Compile Include="Models\Tickets\TicketTagValue.cs" />

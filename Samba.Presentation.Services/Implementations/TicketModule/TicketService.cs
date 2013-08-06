@@ -260,6 +260,8 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             var clonedChangePayments = ticketList.SelectMany(x => x.ChangePayments).Select(ObjectCloner.Clone2).ToList();
             var clonedTags = ticketList.SelectMany(x => x.GetTicketTagValues()).Select(ObjectCloner.Clone).ToList();
             var clonedEntites = ticketList.SelectMany(x => x.TicketEntities).Select(ObjectCloner.Clone).ToList();
+            var clonedLogs = ticketList.SelectMany(x => x.GetTicketLogValues()).Select(ObjectCloner.Clone).ToList();
+            var ticketNumbers = string.Join(",", ticketList.Select(x => x.TicketNumber));
 
             ticketList.ForEach(x => x.RemoveData());
             ticketList.ForEach(x => CloseTicket(x));
@@ -283,35 +285,40 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             clonedEntites.ForEach(x => ticket.UpdateEntity(x.EntityTypeId, x.EntityId, x.EntityName, x.AccountTypeId, x.AccountId, x.EntityCustomData));
             clonedTags.ForEach(x => ticket.SetTagValue(x.TagName, x.TagValue));
 
+            ticket.SetLogs(clonedLogs);
+
             RefreshAccountTransactions(ticket);
 
-            _applicationState.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket });
+            _applicationState.NotifyEvent(RuleEventNames.TicketsMerged, new { Ticket = ticket, TicketNumbers = ticketNumbers });
             return CloseTicket(ticket);
         }
 
         public TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId)
         {
             _applicationState.NotifyEvent(RuleEventNames.TicketMoving, new { Ticket = ticket });
-
+            foreach (var selectedOrder in selectedOrders)
+            {
+                _applicationState.NotifyEvent(RuleEventNames.OrderMoving, new { Ticket = ticket, Order = selectedOrder, selectedOrder.MenuItemName, selectedOrder.Quantity });
+            }
             var clonedOrders = selectedOrders.Select(ObjectCloner.Clone2).ToList();
             ticket.RemoveOrders(selectedOrders);
-
             CloseTicket(ticket);
-            ticket = OpenTicket(targetTicketId);
+
+            var newTicket = OpenTicket(targetTicketId);
 
             foreach (var clonedOrder in clonedOrders)
             {
                 clonedOrder.TicketId = 0;
-                ticket.Orders.Add(clonedOrder);
-                _applicationState.NotifyEvent(RuleEventNames.OrderMoved, new { Ticket = ticket, Order = clonedOrder, clonedOrder.MenuItemName });
+                newTicket.Orders.Add(clonedOrder);
+                _applicationState.NotifyEvent(RuleEventNames.OrderMoved, new { Ticket = newTicket, Order = clonedOrder, clonedOrder.MenuItemName, clonedOrder.Quantity, OldTicketNumber = ticket.TicketNumber });
             }
 
-            RefreshAccountTransactions(ticket);
-            ticket.LastOrderDate = DateTime.Now;
+            RefreshAccountTransactions(newTicket);
+            newTicket.LastOrderDate = DateTime.Now;
 
-            _applicationState.NotifyEvent(RuleEventNames.TicketMoved, new { Ticket = ticket });
+            _applicationState.NotifyEvent(RuleEventNames.TicketMoved, new { Ticket = newTicket, OldTicketNumber = ticket.TicketNumber });
 
-            return CloseTicket(ticket);
+            return CloseTicket(newTicket);
         }
 
         public void RecalculateTicket(Ticket ticket)
@@ -584,7 +591,6 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, 3, MidpointRounding.AwayFromZero) : quantity;
             RecalculateTicket(ticket);
             _applicationState.NotifyEvent(RuleEventNames.OrderAdded, new { Ticket = ticket, Order = order, MenuItemName = order.MenuItemName, MenuItemTag = menuItem.Tag, MenuItemGroupCode = menuItem.GroupCode });
-
             return order;
         }
     }

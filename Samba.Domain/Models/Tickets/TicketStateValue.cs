@@ -23,8 +23,6 @@ namespace Samba.Domain.Models.Tickets
         public DateTime LastUpdateTime { get; set; }
 
         private static TicketStateValue _default;
-        private DateTime _lastUpdateTime;
-
         public static TicketStateValue Default
         {
             get { return _default ?? (_default = new TicketStateValue()); }

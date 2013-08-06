@@ -3388,4 +3388,13 @@ Error Message:
   <data name="RequiredRecipes" xml:space="preserve">
     <value>Required Recipes</value>
   </data>
+  <data name="AddTicketLog" xml:space="preserve">
+    <value>Add Ticket Log</value>
+  </data>
+  <data name="DisplayTicketLog" xml:space="preserve">
+    <value>Display Ticket Log</value>
+  </data>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Order Moving</value>
+  </data>
 </root>

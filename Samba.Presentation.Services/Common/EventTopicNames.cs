@@ -98,6 +98,7 @@
         public const string ActivatePosView = "Activate POS View";
         public const string RefreshSelectedTicket = "Refresh Selected Ticket";
         public const string EditTicketNote = "Edit Ticket Note";
+        public const string DisplayTicketLog = "DisplayTicketLog";
         public const string PaymentRequestedForTicket = "Payment Requested For Ticket";
         public const string ActivateAccountSelector = "Activate Account Selector";
         public const string Activate = "Activate";
@@ -114,6 +115,7 @@
         public const string RegenerateSelectedTicket = "RegenerateSelectedTicket";
         public const string SetSelectedTicket = "SetSelectedTicket";
         public const string SetWidgetValue = "SetWidgetValue";
+
     }
 
     public static class FunctionNames

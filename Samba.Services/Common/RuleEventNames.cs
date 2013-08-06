@@ -15,6 +15,7 @@
         public const string ChangeAmountChanged = "ChangeAmountChanged";
         public const string OrderAdded = "OrderAdded";
         public const string OrderMoved = "OrderMoved";
+        public const string OrderMoving = "OrderMoving";
         public const string TicketMoving = "TicketMoving";
         public const string TicketMoved = "TicketMoved";
         public const string TriggerExecuted = "TriggerExecuted";
@@ -37,5 +38,6 @@
         public const string ValueLooped = "ValueLooped";
         public const string AccountTransactionDocumentCreated = "AccountTransactionDocumentCreated";
         public const string NumberpadValueEntered = "NumberpadValueEntered";
+
     }
 }

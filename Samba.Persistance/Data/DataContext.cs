@@ -116,6 +116,7 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.TicketStates).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.Note).IsMaxLength();
+            modelBuilder.Entity<Ticket>().Property(x => x.TicketLogs).IsMaxLength();
             modelBuilder.Entity<PrinterTemplate>().Property(x => x.Template).IsMaxLength();
             modelBuilder.Entity<TicketEntity>().Property(x => x.EntityCustomData).IsMaxLength();
             modelBuilder.Entity<ActionContainer>().Property(x => x.ParameterValues).IsMaxLength();

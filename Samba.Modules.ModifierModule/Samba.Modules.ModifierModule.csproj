@@ -70,6 +70,10 @@
     </Compile>
     <Compile Include="OrderTagGroupEditorViewModel.cs" />
     <Compile Include="OrderTagGroupViewModel.cs" />
+    <Compile Include="TicketLogViewerView.xaml.cs">
+      <DependentUpon>TicketLogViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicketLogViewerViewModel.cs" />
     <Compile Include="TicketNoteEditorView.xaml.cs">
       <DependentUpon>TicketNoteEditorView.xaml</DependentUpon>
     </Compile>
@@ -91,6 +95,10 @@
     <Page Include="OrderTagGroupEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TicketLogViewerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TicketNoteEditorView.xaml">
       <SubType>Designer</SubType>

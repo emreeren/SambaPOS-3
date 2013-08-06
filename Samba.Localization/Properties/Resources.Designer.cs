@@ -358,6 +358,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Ticket Log.
+        /// </summary>
+        public static string AddTicketLog {
+            get {
+                return ResourceManager.GetString("AddTicketLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin.
         /// </summary>
         public static string Admin {
@@ -2408,6 +2417,15 @@ namespace Samba.Localization.Properties {
         public static string DisplayTicketList {
             get {
                 return ResourceManager.GetString("DisplayTicketList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Ticket Log.
+        /// </summary>
+        public static string DisplayTicketLog {
+            get {
+                return ResourceManager.GetString("DisplayTicketLog", resourceCulture);
             }
         }
         
@@ -5057,6 +5075,15 @@ namespace Samba.Localization.Properties {
         public static string OrderMoved {
             get {
                 return ResourceManager.GetString("OrderMoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Moving.
+        /// </summary>
+        public static string OrderMoving {
+            get {
+                return ResourceManager.GetString("OrderMoving", resourceCulture);
             }
         }
         

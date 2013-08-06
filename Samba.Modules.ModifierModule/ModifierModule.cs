@@ -23,6 +23,8 @@ namespace Samba.Modules.ModifierModule
         private readonly AutomationCommandSelectorView _automationCommandSelectorView;
         private readonly ProductTimerEditorView _productTimerEditorView;
         private readonly ProductTimerEditorViewModel _productTimerEditorViewModel;
+        private readonly TicketLogViewerView _ticketLogViewerView;
+        private readonly TicketLogViewerViewModel _ticketLogViewerViewModel;
         private readonly IRegionManager _regionManager;
 
         private readonly TicketNoteEditorView _ticketNoteEditorView;
@@ -36,13 +38,16 @@ namespace Samba.Modules.ModifierModule
             TicketTagEditorView ticketTagEditorView, TicketTagEditorViewModel ticketTagEditorViewModel,
             OrderTagGroupEditorView selectedOrdersView, OrderTagGroupEditorViewModel selectedOrdersViewModel,
             AutomationCommandSelectorView automationCommandSelectorView, AutomationCommandSelectorViewModel automationCommandSelectorViewModel,
-            ProductTimerEditorView productTimerEditorView, ProductTimerEditorViewModel productTimerEditorViewModel)
+            ProductTimerEditorView productTimerEditorView, ProductTimerEditorViewModel productTimerEditorViewModel,
+            TicketLogViewerView ticketLogViewerView, TicketLogViewerViewModel ticketLogViewerViewModel)
         {
             _selectedOrdersView = selectedOrdersView;
             _selectedOrdersViewModel = selectedOrdersViewModel;
             _automationCommandSelectorView = automationCommandSelectorView;
             _productTimerEditorView = productTimerEditorView;
             _productTimerEditorViewModel = productTimerEditorViewModel;
+            _ticketLogViewerView = ticketLogViewerView;
+            _ticketLogViewerViewModel = ticketLogViewerViewModel;
             _ticketNoteEditorView = ticketNoteEditorView;
             _ticketNoteEditorViewModel = ticketNoteEditorViewModel;
             _ticketTagEditorView = ticketTagEditorView;
@@ -80,6 +85,12 @@ namespace Samba.Modules.ModifierModule
                 _ticketNoteEditorViewModel.SelectedTicket = obj.Value;
                 DisplayTicketNoteEditor();
             }
+
+            if (obj.Topic == EventTopicNames.DisplayTicketLog)
+            {
+                _ticketLogViewerViewModel.SelectedTicket = obj.Value;
+                DisplayTicketLogViewer();
+            }
         }
 
         protected override void OnInitialization()
@@ -89,6 +100,7 @@ namespace Samba.Modules.ModifierModule
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketTagEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(ProductTimerEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(AutomationCommandSelectorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketLogViewerView));
         }
 
         public void DisplayTicketDetailsScreen(OperationRequest<SelectedOrdersData> currentOperationRequest)
@@ -106,6 +118,11 @@ namespace Samba.Modules.ModifierModule
         public void DisplayTicketNoteEditor()
         {
             _regionManager.ActivateRegion(RegionNames.PosSubRegion, _ticketNoteEditorView);
+        }
+
+        public void DisplayTicketLogViewer()
+        {
+            _regionManager.ActivateRegion(RegionNames.PosSubRegion, _ticketLogViewerView);
         }
 
         public void DisplayTicketTagEditor()

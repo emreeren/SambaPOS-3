@@ -92,6 +92,7 @@ namespace Samba.Domain.Models.Tickets
         public string Note { get; set; }
         public string LastModifiedUserName { get; set; }
 
+        private string _ticketTags;
         public string TicketTags
         {
             get { return _ticketTags; }
@@ -102,6 +103,7 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
+        private string _ticketStates;
         public string TicketStates
         {
             get { return _ticketStates; }
@@ -112,8 +114,18 @@ namespace Samba.Domain.Models.Tickets
             }
         }
 
-        public decimal ExchangeRate { get; set; }
+        private string _ticketLogs;
+        public string TicketLogs
+        {
+            get { return _ticketLogs; }
+            set
+            {
+                _ticketLogs = value;
+                _ticketLogValues = null;
+            }
+        }
 
+        public decimal ExchangeRate { get; set; }
         public bool TaxIncluded { get; set; }
 
         public virtual AccountTransactionDocument TransactionDocument { get; set; }
@@ -167,12 +179,15 @@ namespace Samba.Domain.Models.Tickets
         }
 
         private IList<TicketStateValue> _ticketStateValues;
-        private string _ticketTags;
-        private string _ticketStates;
-
         private IList<TicketStateValue> TicketStateValues
         {
             get { return _ticketStateValues ?? (_ticketStateValues = JsonHelper.Deserialize<List<TicketStateValue>>(TicketStates)); }
+        }
+
+        private IList<TicketLogValue> _ticketLogValues;
+        private IList<TicketLogValue> TicketLogValues
+        {
+            get { return _ticketLogValues ?? (_ticketLogValues = JsonHelper.Deserialize<List<TicketLogValue>>(TicketLogs)); }
         }
 
         public IList<TicketTagValue> GetTicketTagValues()
@@ -183,6 +198,11 @@ namespace Samba.Domain.Models.Tickets
         public IEnumerable<TicketStateValue> GetTicketStateValues()
         {
             return TicketStateValues;
+        }
+
+        public IEnumerable<TicketLogValue> GetTicketLogValues()
+        {
+            return TicketLogValues;
         }
 
         public IEnumerable<AccountData> GetTicketAccounts(params Account[] includes)
@@ -385,11 +405,10 @@ namespace Samba.Domain.Models.Tickets
 
         private decimal GetPlainSum(int taxTempleteAccountTransactionTypeId)
         {
-            return
-            Orders.Where(
+            return Orders.Where(
                 x =>
                 x.GetTaxValues().Any(y => y.TaxTempleteAccountTransactionTypeId == taxTempleteAccountTransactionTypeId))
-                  .Sum(x => x.GetTotal());
+                .Sum(x => x.GetTotal());
         }
 
         public decimal GetPaymentAmount()
@@ -543,6 +562,19 @@ namespace Samba.Domain.Models.Tickets
             result.Quantity = 0;
             _orders.Add(result);
             return result;
+        }
+
+        public void AddLog(string userName, string category, string log)
+        {
+            var lm = new TicketLogValue(TicketNumber, userName) { Category = category, Log = log };
+            TicketLogValues.Add(lm);
+            SetLogs(TicketLogValues);
+        }
+
+        public void SetLogs(IList<TicketLogValue> logs)
+        {
+            TicketLogs = JsonHelper.Serialize(logs);
+            _ticketLogValues = null;
         }
 
         public TicketStateValue GetStateValue(string groupName)

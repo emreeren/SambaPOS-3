@@ -147,7 +147,7 @@ namespace Samba.Presentation.ViewModels
                     if (ticketEntity.AccountId > 0)
                     {
                         var balance = _accountBalances.GetAccountBalance(ticketEntity.AccountId);
-                        if (balance != 0)
+                        if (balance != 0 || !string.IsNullOrEmpty(entityType.AccountBalanceDisplayFormat))
                         {
                             var format = !string.IsNullOrEmpty(entityType.AccountBalanceDisplayFormat)
                                              ? entityType.AccountBalanceDisplayFormat

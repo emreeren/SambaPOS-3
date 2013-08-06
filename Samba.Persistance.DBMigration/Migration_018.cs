@@ -11,6 +11,7 @@ namespace Samba.Persistance.DBMigration
         {
             var dc = ApplicationContext as DbContext;
             Create.Column("AutomationCommandMapData").OnTable("AccountScreens").AsString(int.MaxValue).Nullable();
+            Create.Column("TicketLogs").OnTable("Tickets").AsString(int.MaxValue).Nullable();
 
             if (dc.Database.Connection.ConnectionString.EndsWith(".sdf"))
             {

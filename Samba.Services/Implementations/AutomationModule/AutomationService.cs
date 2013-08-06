@@ -101,11 +101,11 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterEvent(RuleEventNames.WorkPeriodEnds, Resources.WorkPeriodEnded);
             RegisterEvent(RuleEventNames.TicketCreated, Resources.TicketCreated, new { TicketTypeName = "" });
             RegisterEvent(RuleEventNames.TicketMoving, Resources.Ticket_Moving);
-            RegisterEvent(RuleEventNames.TicketMoved, Resources.TicketMoved);
+            RegisterEvent(RuleEventNames.TicketMoved, Resources.TicketMoved, new { OldTicketNumber = "" });
             RegisterEvent(RuleEventNames.TicketOpened, Resources.TicketOpened, new { OrderCount = 0 });
             RegisterEvent(RuleEventNames.BeforeTicketClosing, Resources.BeforeTicketClosing, new { TicketId = 0, RemainingAmount = 0m, TotalAmount = 0m });
             RegisterEvent(RuleEventNames.TicketClosing, Resources.TicketClosing, new { TicketId = 0, RemainingAmount = 0m, TotalAmount = 0m });
-            RegisterEvent(RuleEventNames.TicketsMerged, Resources.TicketsMerged);
+            RegisterEvent(RuleEventNames.TicketsMerged, Resources.TicketsMerged, new { TicketNumbers = "" });
             RegisterEvent(RuleEventNames.TicketEntityChanged, Resources.TicketEntityChanged, new { EntityTypeName = "", OrderCount = 0, OldEntityName = "", NewEntityName = "", OldCustomData = "", CustomData = "" });
             RegisterEvent(RuleEventNames.TicketTagSelected, Resources.TicketTagSelected, new { TagName = "", TagValue = "", NumericValue = 0, TicketTag = "" });
             RegisterEvent(RuleEventNames.TicketStateUpdated, Resources.TicketStateUpdated, new { StateName = "", State = "", StateValue = "", Quantity = 0, TicketState = "" });
@@ -113,7 +113,8 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterEvent(RuleEventNames.PaymentProcessed, Resources.PaymentProcessed, new { PaymentTypeName = "", TenderedAmount = 0m, ProcessedAmount = 0m, ChangeAmount = 0m, RemainingAmount = 0m, SelectedQuantity = 0m });
             RegisterEvent(RuleEventNames.ChangeAmountChanged, Resources.ChangeAmountUpdated, new { TicketAmount = 0, ChangeAmount = 0, TenderedAmount = 0 });
             RegisterEvent(RuleEventNames.OrderAdded, Resources.OrderAddedToTicket, new { MenuItemGroupCode = "", MenuItemTag = "", MenuItemName = "" });
-            RegisterEvent(RuleEventNames.OrderMoved, Resources.OrderMoved, new { MenuItemName = "" });
+            RegisterEvent(RuleEventNames.OrderMoving, Resources.OrderMoving, new { MenuItemName = "", Quantity = 0m });
+            RegisterEvent(RuleEventNames.OrderMoved, Resources.OrderMoved, new { MenuItemName = "", Quantity = 0m, OldTicketNumber = "" });
             RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
             RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });

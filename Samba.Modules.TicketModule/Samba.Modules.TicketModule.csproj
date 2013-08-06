@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionProcessors\AddOrder.cs" />
+    <Compile Include="ActionProcessors\AddTicketLog.cs" />
     <Compile Include="ActionProcessors\ChangeTicketEntity.cs" />
     <Compile Include="ActionProcessors\CloseActiveTicket.cs" />
     <Compile Include="ActionProcessors\CreateTicket.cs" />
