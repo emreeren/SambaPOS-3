@@ -297,13 +297,14 @@ namespace Samba.Domain.Models.Tickets
 
         public string GetStateDesc()
         {
-            return string.Join(",",
+            var result = string.Join(", ",
                            OrderStateValues.OrderBy(x => x.OrderKey).Where(x => !string.IsNullOrEmpty(x.State)).Select(
                                x =>
-                               string.Format("{0} {1}", x.State.Trim(),
+                               string.Format("{0}{1}", x.State.Trim(),
                                              !string.IsNullOrEmpty(x.StateValue)
                                                  ? string.Format(":{0}", x.StateValue.Trim())
-                                                 : "")));
+                                                 : "").Trim()));
+            return result;
         }
 
         public string GetStateData()

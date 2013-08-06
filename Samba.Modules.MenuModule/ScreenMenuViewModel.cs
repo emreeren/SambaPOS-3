@@ -179,6 +179,23 @@ namespace Samba.Modules.MenuModule
         {
             return new ScreenMenuValidatior();
         }
+
+        protected override void OnSave(string value)
+        {
+            foreach (var screenMenuCategoryViewModel in Categories)
+            {
+                foreach (var smi in screenMenuCategoryViewModel.ScreenMenuItems)
+                {
+                    foreach (var propertyInfo in smi.GetType().GetProperties())
+                    {
+                        var val = propertyInfo.GetValue(smi, null);
+                        if (val is string && val.ToString().Contains('\b'))
+                            propertyInfo.SetValue(smi, "", null);
+                    }
+                }
+            }
+            base.OnSave(value);
+        }
     }
 
     internal class ScreenMenuValidatior : AbstractValidator<ScreenMenu>

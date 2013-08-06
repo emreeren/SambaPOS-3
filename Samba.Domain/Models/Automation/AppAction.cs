@@ -44,8 +44,10 @@ namespace Samba.Domain.Models.Automation
             {
                 foreach (var propertyName in Regex.Matches(parameterValues, "\\[:([^\\]]+)\\]").Cast<Match>().Select(match => match.Groups[1].Value).ToList())
                 {
-                    parameterValues = parameterValues.Replace(string.Format("[:{0}]", propertyName),
-                                             SafeToString(((IDictionary<string, object>)dataObject)[propertyName]));
+                    var replace = "";
+                    if (((IDictionary<string, object>)dataObject).ContainsKey(propertyName))
+                        replace = SafeToString(((IDictionary<string, object>)dataObject)[propertyName]);
+                    parameterValues = parameterValues.Replace(string.Format("[:{0}]", propertyName), replace);
                 }
             }
 
