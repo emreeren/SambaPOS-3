@@ -32,6 +32,18 @@ namespace Samba.Modules.BasicReports
         public static ISettingService SettingService { get; set; }
 
         private static IList<ReportViewModelBase> _reports;
+        private static IEnumerable<Ticket> GetValidTickets()
+        {
+            IEnumerable<Ticket> voidedTickets = from tick in GetTickets()
+                                                where tick.VoidsTicketId != 0
+                                                select (GetTickets().Where(x => x.Id == tick.VoidsTicketId)).First();
+            var ret = from t in GetTickets()
+                      where t.VoidsTicketId == 0 &&
+                            (from voidTs in voidedTickets where voidTs.Id == t.Id select voidTs).Count() == 0
+                      select t;
+            return ret;
+        }
+
         public static IList<ReportViewModelBase> Reports
         {
             get { return _reports ?? (_reports = GetReports()); }
@@ -60,7 +72,7 @@ namespace Samba.Modules.BasicReports
         }
 
         private static IEnumerable<Ticket> _tickets;
-        public static IEnumerable<Ticket> Tickets { get { return _tickets ?? (_tickets = GetTickets()); } }
+        public static IEnumerable<Ticket> Tickets { get { return _tickets ?? (_tickets = GetValidTickets()); } }
 
         private static IEnumerable<TicketType> _ticketTypes;
         public static IEnumerable<TicketType> TicketTypes { get { return _ticketTypes ?? (_ticketTypes = GetTicketTypes()); } }

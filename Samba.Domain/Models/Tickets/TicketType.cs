@@ -19,6 +19,7 @@ namespace Samba.Domain.Models.Tickets
         public virtual Numerator OrderNumerator { get; set; }
         public virtual AccountTransactionType SaleTransactionType { get; set; }
         public bool TaxIncluded { get; set; }
+        public bool IsVoidType { get; set; }
         public int SortOrder { get; set; }
         public string UserString { get { return Name; } }
 

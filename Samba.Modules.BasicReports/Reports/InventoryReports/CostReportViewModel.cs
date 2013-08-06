@@ -23,6 +23,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
 
         protected override FlowDocument GetReport()
         {
+            //TODO: Please use English names for naming report-Tables!!!
             var report = new SimpleReport("8cm");
             AddDefaultReportHeader(report, ReportContext.CurrentWorkPeriod, Resources.CostReport);
 
