@@ -8,6 +8,7 @@ using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
 using Samba.Persistance.Common;
 using Samba.Persistance.Data;
+using Samba.Persistance.Specification;
 
 namespace Samba.Persistance.Implementations
 {
@@ -17,6 +18,7 @@ namespace Samba.Persistance.Implementations
         [ImportingConstructor]
         public MenuDao()
         {
+            ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<MenuItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.MenuItem)));
             ValidatorRegistry.RegisterDeleteValidator(new MenuItemDeleteValidator());
             ValidatorRegistry.RegisterDeleteValidator<ScreenMenu>(x => Dao.Exists<TicketType>(y => y.ScreenMenuId == x.Id), Resources.Menu, Resources.TicketType);
         }
@@ -60,6 +62,11 @@ namespace Samba.Persistance.Implementations
         public MenuItem GetMenuItemById(int id)
         {
             return Dao.Single<MenuItem>(x => x.Id == id, x => x.Portions.Select(y => y.Prices));
+        }
+
+        public IEnumerable<MenuItem> GetMenuItemsWithPortions()
+        {
+            return Dao.Query<MenuItem>(x => x.Portions);
         }
     }
 

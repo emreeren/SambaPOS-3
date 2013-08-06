@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Menus;
-using Samba.Persistance;
 using Samba.Persistance.Common;
 
 namespace Samba.Services
@@ -9,6 +8,7 @@ namespace Samba.Services
     {
         IEnumerable<MenuItem> GetMenuItemsByGroupCode(string menuItemGroupCode);
         IEnumerable<MenuItem> GetMenuItems();
+        IEnumerable<MenuItem> GetMenuItemsWithPortions();
         IEnumerable<MenuItemData> GetMenuItemData();
         IEnumerable<ScreenMenu> GetScreenMenus();
         IEnumerable<string> GetMenuItemNames();

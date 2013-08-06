@@ -40,7 +40,7 @@ namespace Samba.Modules.InventoryModule
             AddDashboardCommand<TransactionDocumentListViewModel>(Resources.Transaction.ToPlural(), Resources.Inventory, 35);
 
             AddDashboardCommand<EntityCollectionViewModelBase<InventoryItemViewModel, InventoryItem>>(Resources.InventoryItems, Resources.Inventory, 35);
-            AddDashboardCommand<EntityCollectionViewModelBase<RecipeViewModel, Recipe>>(Resources.Recipes, Resources.Inventory, 35);
+            AddDashboardCommand<RecipeListViewModel>(Resources.Recipes, Resources.Inventory, 35);
             AddDashboardCommand<PeriodicConsumptionListViewModel>(Resources.EndOfDayRecords, Resources.Inventory, 36);
 
             SetNavigationCommand(Resources.Warehouses, Resources.Common, "Images/box.png", 40);

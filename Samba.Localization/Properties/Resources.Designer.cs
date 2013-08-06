@@ -3183,6 +3183,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Find {0}.
+        /// </summary>
+        public static string Find_f {
+            get {
+                return ResourceManager.GetString("Find_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Find Product.
         /// </summary>
         public static string FindProduct {
@@ -4436,6 +4445,15 @@ namespace Samba.Localization.Properties {
         public static string Minute {
             get {
                 return ResourceManager.GetString("Minute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing Recipes.
+        /// </summary>
+        public static string MissingRecipes {
+            get {
+                return ResourceManager.GetString("MissingRecipes", resourceCulture);
             }
         }
         
@@ -6158,6 +6176,15 @@ namespace Samba.Localization.Properties {
         public static string Required {
             get {
                 return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required Recipes.
+        /// </summary>
+        public static string RequiredRecipes {
+            get {
+                return ResourceManager.GetString("RequiredRecipes", resourceCulture);
             }
         }
         

@@ -18,5 +18,7 @@ namespace Samba.Presentation.Services
         IEnumerable<string> GetWarehouseNames();
         void FilterUnneededItems(PeriodicConsumption pc);
         void AddMissingItems(WarehouseConsumption whc);
+        IEnumerable<string> GetRequiredRecipesForSales();
+        IEnumerable<string> GetMissingRecipes();
     }
 }

@@ -50,6 +50,11 @@ namespace Samba.Services.Implementations.MenuModule
         public IEnumerable<MenuItem> GetMenuItems()
         {
             return _menuDao.GetMenuItems();
+        }        
+        
+        public IEnumerable<MenuItem> GetMenuItemsWithPortions()
+        {
+            return _menuDao.GetMenuItemsWithPortions();
         }
 
         public IEnumerable<MenuItemData> GetMenuItemData()

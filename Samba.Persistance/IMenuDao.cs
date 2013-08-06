@@ -14,5 +14,6 @@ namespace Samba.Persistance
         IEnumerable<MenuItem> GetMenuItems();
         IEnumerable<MenuItemData> GetMenuItemData();
         MenuItem GetMenuItemById(int id);
+        IEnumerable<MenuItem> GetMenuItemsWithPortions();
     }
 }

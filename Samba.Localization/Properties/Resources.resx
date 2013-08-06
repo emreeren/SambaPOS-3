@@ -3379,4 +3379,13 @@ Error Message:
   <data name="CommandParameter" xml:space="preserve">
     <value>Command Parameter</value>
   </data>
+  <data name="Find_f" xml:space="preserve">
+    <value>Find {0}</value>
+  </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Missing Recipes</value>
+  </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Required Recipes</value>
+  </data>
 </root>

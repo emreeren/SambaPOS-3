@@ -104,18 +104,18 @@ namespace Samba.Persistance.Data
             {
                 Create(context);
             }
-//#if DEBUG
-//            else if (!context.Database.CompatibleWithModel(false))
-//            {
-//                context.Database.Delete();
-//                Create(context);
-//            }
-//#else
+            //#if DEBUG
+            //            else if (!context.Database.CompatibleWithModel(false))
+            //            {
+            //                context.Database.Delete();
+            //                Create(context);
+            //            }
+            //#else
             else
             {
                 Migrate(context);
             }
-//#endif
+            //#endif
             var version = context.ObjContext().ExecuteStoreQuery<long>("select top(1) Version from VersionInfo order by version desc").FirstOrDefault();
             LocalSettings.CurrentDbVersion = version;
         }
@@ -143,7 +143,9 @@ namespace Samba.Persistance.Data
         {
             if (!File.Exists(LocalSettings.UserPath + "\\migrate.txt")) return;
 
+            var preVersion = context.ObjContext().ExecuteStoreQuery<long>("select top(1) Version from VersionInfo order by version desc").FirstOrDefault();
             var db = context.Database.Connection.ConnectionString.Contains(".sdf") ? "sqlserverce" : "sqlserver";
+            if (preVersion < 14 && db == "sqlserverce") ApplyV16Fix(context);
 
             IAnnouncer announcer = new TextWriterAnnouncer(Console.Out);
 
@@ -159,8 +161,21 @@ namespace Samba.Persistance.Data
             new TaskExecutor(migrationContext).Execute();
 
             File.Delete(LocalSettings.UserPath + "\\migrate.txt");
+        }
 
-            
+        private static void ApplyV16Fix(CommonDbContext context)
+        {
+            try
+            {
+                context.ObjContext().ExecuteStoreCommand("Alter Table PaymentTypeMaps drop column DisplayAtPaymentScreen");
+            }
+            catch { }
+
+            try
+            {
+                context.ObjContext().ExecuteStoreCommand("Alter Table PaymentTypeMaps drop column DisplayUnderTicket");
+            }
+            catch { }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Inventory;
@@ -25,13 +26,15 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
         private readonly IInventoryDao _inventoryDao;
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
+        private readonly IMenuService _menuService;
 
         [ImportingConstructor]
-        public InventoryService(IInventoryDao inventoryDao, IApplicationState applicationState, ICacheService cacheService)
+        public InventoryService(IInventoryDao inventoryDao, IApplicationState applicationState, ICacheService cacheService, IMenuService menuService)
         {
             _inventoryDao = inventoryDao;
             _applicationState = applicationState;
             _cacheService = cacheService;
+            _menuService = menuService;
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
         }
@@ -114,12 +117,54 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                 var portionName = sale.PortionName;
                 var menuItemId = sale.MenuItemId;
                 var recipe = _cacheService.GetRecipe(portionName, menuItemId);
-                if (recipe != null)
+                pc.UpdateConsumption(recipe, sale.Total, warehouseId);
+                pc.CreateCostItem(recipe, sale.MenuItemName, sale.Total, warehouseId);
+            }
+        }
+
+        public IEnumerable<string> GetRequiredRecipesForSales()
+        {
+            var result = new List<string>();
+            var wids = _cacheService.GetWarehouses().Select(x => x.Id).ToList();
+            foreach (var wid in wids)
+            {
+                var sales = GetSales(_applicationState.CurrentWorkPeriod, wid);
+                foreach (var sale in sales)
                 {
-                    pc.UpdateConsumption(recipe, sale.Total, warehouseId);
-                    pc.CreateCostItem(recipe, sale.MenuItemName, sale.Total, warehouseId);
+                    var portionName = sale.PortionName;
+                    var menuItemId = sale.MenuItemId;
+                    try
+                    {
+                        _cacheService.GetRecipe(portionName, menuItemId);
+                    }
+                    catch (Exception)
+                    {
+                        result.Add(sale.MenuItemName + "." + sale.PortionName);
+                    }
                 }
             }
+            return result;
+        }
+
+        public IEnumerable<string> GetMissingRecipes()
+        {
+            var result = new List<string>();
+            var menuItems = _menuService.GetMenuItemsWithPortions();
+            foreach (var menuItem in menuItems)
+            {
+                foreach (var portion in menuItem.Portions)
+                {
+                    try
+                    {
+                        _cacheService.GetRecipe(portion.Name, menuItem.Id);
+                    }
+                    catch (Exception)
+                    {
+                        result.Add(menuItem.Name + "." + portion.Name);
+                    }
+                }
+            }
+            return result;
         }
 
         private PeriodicConsumption CreateNewPeriodicConsumption(bool filter)
