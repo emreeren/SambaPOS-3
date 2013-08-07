@@ -24,5 +24,12 @@ namespace Samba.Domain.Models.Accounts
             if (TargetAccountTypeId == selectedAccount.AccountTypeId && DefaultTargetAccountId == 0) return true;
             return false;
         }
+
+        public int GetDefaultTransactionType()
+        {
+            if (DefaultSourceAccountId == 0 && DefaultTargetAccountId != 0) return DefaultSourceAccountId;
+            if (DefaultSourceAccountId != 0 && DefaultTargetAccountId == 0) return DefaultTargetAccountId;
+            return 0;
+        }
     }
 }

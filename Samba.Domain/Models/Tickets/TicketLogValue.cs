@@ -6,6 +6,11 @@ namespace Samba.Domain.Models.Tickets
     [DataContract]
     public class TicketLogValue
     {
+        public TicketLogValue()
+        {
+            
+        }
+
         public TicketLogValue(string ticketNo, string userName)
         {
             DateTime = DateTime.Now;

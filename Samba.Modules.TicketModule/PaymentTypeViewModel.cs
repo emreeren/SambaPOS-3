@@ -33,11 +33,17 @@ namespace Samba.Modules.TicketModule
         {
             get
             {
-                return _accounts ?? (_accounts =
-                    AccountTransactionType != null
-                    ? Workspace.All<Account>(x => x.AccountTypeId == AccountTransactionType.TargetAccountTypeId).ToList()
-                    : new List<Account>());
+                return _accounts ?? (_accounts = GetAccounts(AccountTransactionType));
             }
+        }
+
+        private IEnumerable<Account> GetAccounts(AccountTransactionType accountTransactionType)
+        {
+            var accountType = accountTransactionType.GetDefaultTransactionType();
+            if (accountType == 0) accountType = accountTransactionType.TargetAccountTypeId;
+            return AccountTransactionType != null
+                       ? Workspace.All<Account>(x => x.AccountTypeId == accountType).ToList()
+                       : new List<Account>();
         }
 
         public AccountTransactionType AccountTransactionType
