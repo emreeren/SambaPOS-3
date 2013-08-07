@@ -18,13 +18,15 @@ namespace Samba.Modules.TicketModule.ActionProcessors
         private readonly ICacheService _cacheService;
         private readonly ITicketDao _ticketDao;
         private readonly ITicketService _ticketService;
+        private readonly IApplicationStateSetter _applicationStateSetter;
+       
 
         [ImportingConstructor]
-        public VoidTicket(ITicketService ticketService, ICacheService cacheService, ITicketDao ticketDao)
+        public VoidTicket(ITicketService ticketService, ICacheService cacheService, ITicketDao ticketDao, IApplicationStateSetter applicationStateSetter)
         {
             _ticketService = ticketService;
             _cacheService = cacheService;
-
+            _applicationStateSetter = applicationStateSetter;
             _ticketDao = ticketDao;
         }
 
@@ -57,12 +59,14 @@ namespace Samba.Modules.TicketModule.ActionProcessors
                 if (voidTicketType == null || !voidTicketType.IsVoidType)
                 { return; }
 
-                //Ticket.Create(
-                
                 voidTicket.VoidsTicketId = ticket.Id;
                 voidTicket.TicketTypeId = voidTicketType.Id;
+                voidTicket.TaxIncluded = voidTicketType.TaxIncluded;
                 voidTicket.Date = DateTime.Now;
                 voidTicket.DepartmentId = ticket.DepartmentId;
+
+                _applicationStateSetter.SetCurrentDepartment(voidTicket.DepartmentId);
+                _applicationStateSetter.SetCurrentTicketType(voidTicketType);
 
                 foreach (TicketEntity entity in ticket.TicketEntities)
                 { _ticketService.UpdateEntity(voidTicket, _cacheService.GetEntityById(entity.EntityId)); }
@@ -88,8 +92,9 @@ namespace Samba.Modules.TicketModule.ActionProcessors
                     
                     voidOrder.PublishEvent(EventTopicNames.OrderAdded);
                 }
-                _ticketService.ChangeOrdersAccountTransactionTypeId(voidTicket, voidTicket.Orders,
-                    voidTicketType.SaleTransactionType.Id);
+                //_ticketService.ChangeOrdersAccountTransactionTypeId(voidTicket, voidTicket.Orders,
+                //    voidTicketType.SaleTransactionType.Id);
+                //_ticketService.RecalculateTicket(voidTicket);
                 foreach (Payment payment in ticket.Payments)
                 {
                     PaymentType payTpl = _cacheService.GetPaymentTypeByName(string.Format("{0} {1}", Resources.Void,
