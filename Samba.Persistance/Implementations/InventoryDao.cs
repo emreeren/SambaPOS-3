@@ -15,8 +15,6 @@ namespace Samba.Persistance.Implementations
     [Export(typeof(IInventoryDao))]
     class InventoryDao : IInventoryDao
     {
-
-
         [ImportingConstructor]
         public InventoryDao()
         {

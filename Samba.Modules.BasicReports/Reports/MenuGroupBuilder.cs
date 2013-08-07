@@ -9,7 +9,7 @@ namespace Samba.Modules.BasicReports.Reports
     {
         public static IEnumerable<MenuItemGroupInfo> CalculateMenuGroups(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
-            var query = from c in tickets.SelectMany(x => x.Orders.Where(y => !y.IncreaseInventory).Select(y => new { Ticket = x, Order = y }))
+            var query = from c in tickets.SelectMany(x => x.Orders.Select(y => new { Ticket = x, Order = y }))
                 join menuItem in menuItems on c.Order.MenuItemId equals menuItem.Id
                 group c by menuItem.GroupCode into grp
                 select new MenuItemGroupInfo
