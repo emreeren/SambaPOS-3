@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using NUnit.Framework;
+using Samba.Domain.Builders;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Inventory;
@@ -52,7 +53,10 @@ namespace Samba.Presentation.Tests
             transaction.Add(testContext.PurchaseTransactionType, testContext.ZeytinYagi, 5, 5, "Litre", 100);
             transaction.TransactionItems.ToList().ForEach(workspace.Add);
 
-            var ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            var ticket = TicketBuilder.Create()
+                                      .ForDepartment(testContext.Department)
+                                      .WithTicketType(TicketType.Default)
+                                      .Build();
             workspace.Add(ticket);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
@@ -110,7 +114,10 @@ namespace Samba.Presentation.Tests
             var transactionTotal = transaction.TransactionItems.Sum(x => x.Price * x.Quantity);
             Assert.AreEqual(transactionTotal, (16 * 10) + (50 * 1) + (30 * 4));
 
-            var ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            var ticket = TicketBuilder.Create()
+                                      .ForDepartment(testContext.Department)
+                                      .WithTicketType(TicketType.Default)
+                                      .Build();
             workspace.Add(ticket);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
@@ -157,7 +164,10 @@ namespace Samba.Presentation.Tests
 
             var ti = transaction.Add(testContext.PurchaseTransactionType, testContext.DonerEti, 12, etAlimMiktari, "KG", 1000);
             transaction.TransactionItems.ToList().ForEach(workspace.Add);
-            ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            ticket = TicketBuilder.Create()
+                                    .ForDepartment(testContext.Department)
+                                    .WithTicketType(TicketType.Default)
+                                    .Build();
             workspace.Add(ticket);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
@@ -181,7 +191,10 @@ namespace Samba.Presentation.Tests
             workspace.Add(transaction);
             ti = transaction.Add(testContext.PurchaseTransactionType, testContext.DonerEti, 10, etAlimMiktari, "KG", 1000);
             transaction.TransactionItems.ToList().ForEach(workspace.Add);
-            ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            ticket = TicketBuilder.Create()
+                           .ForDepartment(testContext.Department)
+                           .WithTicketType(TicketType.Default)
+                           .Build();
             workspace.Add(ticket);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
@@ -224,7 +237,10 @@ namespace Samba.Presentation.Tests
             inventoryTransaction1.TransactionItems.ToList().ForEach(workspace.Add);
             Assert.AreEqual(25, InventoryService.GetInventory(testContext.DonerEti, testContext.LocalWarehouse));
 
-            var ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            var ticket = TicketBuilder.Create()
+                          .ForDepartment(testContext.Department)
+                          .WithTicketType(TicketType.Default)
+                          .Build();
             workspace.Add(ticket);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
@@ -234,7 +250,10 @@ namespace Samba.Presentation.Tests
 
             RestartWorkperiod(workspace);
 
-            ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            ticket = TicketBuilder.Create()
+                                     .ForDepartment(testContext.Department)
+                                     .WithTicketType(TicketType.Default)
+                                     .Build();
             workspace.Add(ticket);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
@@ -263,7 +282,10 @@ namespace Samba.Presentation.Tests
             Assert.True(whc.PeriodicConsumptionItems.Any(x => x.InventoryItemId == testContext.Yogurt.Id));
             Assert.AreEqual(30, InventoryService.GetInventory(testContext.Yogurt, testContext.LocalWarehouse));
 
-            var ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            var ticket = TicketBuilder.Create()
+                                      .ForDepartment(testContext.Department)
+                                      .WithTicketType(TicketType.Default)
+                                      .Build();
             workspace.Add(ticket);
             var order = ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             order.Quantity = 600;
@@ -286,7 +308,10 @@ namespace Samba.Presentation.Tests
 
             RestartWorkperiod(workspace);
 
-            ticket = Ticket.Create(testContext.Department, TicketType.Default, 1, null);
+            ticket = TicketBuilder.Create()
+                                     .ForDepartment(testContext.Department)
+                                     .WithTicketType(TicketType.Default)
+                                     .Build();
             workspace.Add(ticket);
             order = ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
             order.Quantity = 600;

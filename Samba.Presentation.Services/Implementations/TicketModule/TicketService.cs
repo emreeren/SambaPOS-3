@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
+using Samba.Domain.Builders;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Settings;
@@ -121,11 +122,16 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentTicketType.SaleTransactionType.DefaultTargetAccountId);
-            var result = Ticket.Create(
-                _applicationState.CurrentDepartment.Model,
-                _applicationState.CurrentTicketType,
-                GetExchangeRate(account),
-                _applicationState.GetCalculationSelectors().Where(x => string.IsNullOrEmpty(x.ButtonHeader)).SelectMany(y => y.CalculationTypes));
+            var result = TicketBuilder.Create()
+                                      .ForDepartment(_applicationState.CurrentDepartment.Model)
+                                      .WithTicketType(_applicationState.CurrentTicketType)
+                                      .WithExchangeRate(GetExchangeRate(account))
+                                      .WithCalculations(
+                                          _applicationState.GetCalculationSelectors()
+                                                           .Where(x => string.IsNullOrEmpty(x.ButtonHeader))
+                                                           .SelectMany(y => y.CalculationTypes))
+                                      .Build();
+
             _applicationState.NotifyEvent(RuleEventNames.TicketCreated, new { Ticket = result, TicketTypeName = _applicationState.CurrentTicketType.Name });
             return result;
         }

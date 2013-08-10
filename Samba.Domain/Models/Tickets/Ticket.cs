@@ -532,28 +532,6 @@ namespace Samba.Domain.Models.Tickets
             _shouldLock = false;
         }
 
-        public static Ticket Create(Department department, TicketType ticketType, decimal exchangeRate, IEnumerable<CalculationType> calculationTypes)
-        {
-            var ticket = new Ticket
-                {
-                    TicketTypeId = ticketType.Id,
-                    DepartmentId = department.Id,
-                    TaxIncluded = ticketType.TaxIncluded,
-                    TransactionDocument = new AccountTransactionDocument(),
-                    ExchangeRate = exchangeRate
-                };
-
-            if (calculationTypes != null)
-            {
-                foreach (var calculationType in calculationTypes.OrderBy(x => x.SortOrder))
-                {
-                    ticket.AddCalculation(calculationType, calculationType.Amount);
-                }
-            }
-            return ticket;
-        }
-
-
         public Order CloneOrder(Order item)
         {
             Debug.Assert(_orders.Contains(item));

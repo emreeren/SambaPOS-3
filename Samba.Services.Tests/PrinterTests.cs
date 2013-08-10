@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
+using Samba.Domain.Builders;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
@@ -121,7 +122,10 @@ Pizza          10.00";
                 w.Add(cola);
             }
 
-            var ticket = Ticket.Create(Department.Default, TicketType.Default, 1, null);
+            var ticket = TicketBuilder.Create()
+                .ForDepartment(Department.Default)
+                .WithTicketType(TicketType.Default)
+                .Build();
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", hamburger, null, hportion, "", null);
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", pizza, null, pportion, "", null);
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", cola, null, cportion, "", null);

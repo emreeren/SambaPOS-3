@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\TicketBuilder.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\AccountData.cs" />
     <Compile Include="Models\Accounts\Account.cs" />

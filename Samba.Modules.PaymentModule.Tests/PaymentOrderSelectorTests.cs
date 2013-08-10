@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Samba.Domain.Builders;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
@@ -22,7 +23,11 @@ namespace Samba.Modules.PaymentModule.Tests
         {
             var tost = new MenuItem("Tost") { Id = 1 };
             var hamburger = new MenuItem("Hamburger") { Id = 2 };
-            var ticket = Ticket.Create(Department.Default, TicketType.Default, 1, new List<CalculationType>());
+            var ticket = TicketBuilder.Create()
+                          .ForDepartment(Department.Default)
+                          .WithTicketType(TicketType.Default)
+                          .Build();
+
             var order = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", tost, null, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
 
             order.Quantity = 2;
@@ -42,7 +47,10 @@ namespace Samba.Modules.PaymentModule.Tests
 
             var tost = new MenuItem("Tost") { Id = 1 };
             var hamburger = new MenuItem("Hamburger") { Id = 2 };
-            var ticket = Ticket.Create(Department.Default, TicketType.Default, 1, new List<CalculationType>());
+            var ticket = TicketBuilder.Create()
+                          .ForDepartment(Department.Default)
+                          .WithTicketType(TicketType.Default)
+                          .Build();
             var order = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", tost, taxTemplates, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
 
             order.Quantity = 2;
