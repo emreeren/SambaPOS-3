@@ -196,6 +196,10 @@ namespace Samba.Services.Implementations
         {
             return TicketTagGroups.FirstOrDefault(x => x.Id == id);
         }
+        public TicketTagGroup GetTicketTagGroupByName(string name)
+        {
+            return TicketTagGroups.FirstOrDefault(x => x.Name == name);
+        }
 
         private IEnumerable<AccountTransactionDocumentType> _documentTypes;
         public IEnumerable<AccountTransactionDocumentType> DocumentTypes { get { return _documentTypes ?? (_documentTypes = _cacheDao.GetAccountTransactionDocumentTypes()); } }
@@ -407,6 +411,11 @@ namespace Samba.Services.Implementations
         {
             if (ticketTypeId == 0) return null;
             return TicketTypes.SingleOrDefault(x => x.Id == ticketTypeId);
+        }
+
+        public TicketType GetTicketTypeByName(string ticketTypeName)
+        {
+            return TicketTypes.SingleOrDefault(x => x.Name == ticketTypeName);    
         }
 
         public IEnumerable<TicketType> GetTicketTypes()

@@ -45,7 +45,7 @@ namespace Samba.Modules.TicketModule
         public Numerator OrderNumerator { get { return Model.OrderNumerator; } set { Model.OrderNumerator = value; } }
         public AccountTransactionType SaleTransactionType { get { return Model.SaleTransactionType; } set { Model.SaleTransactionType = value; } }
         public bool TaxIncluded { get { return Model.TaxIncluded; } set { Model.TaxIncluded = value; } }
-        public bool IsVoidType { get { return Model.IsVoidType; } set { Model.IsVoidType = value; } }
+        public bool IsRefundType { get { return Model.IsRefundType; } set { Model.IsRefundType = value; } }
 
         private IEnumerable<EntityType> _entityTypes;
         public IEnumerable<EntityType> EntityTypes

@@ -35,10 +35,10 @@ namespace Samba.Modules.BasicReports
         private static IEnumerable<Ticket> GetValidTickets()
         {
             IEnumerable<Ticket> voidedTickets = from tick in GetTickets()
-                                                where tick.VoidsTicketId != 0
-                                                select (GetTickets().Where(x => x.Id == tick.VoidsTicketId)).First();
+                                                where tick.RefundsTicketId != 0
+                                                select (GetTickets().Where(x => x.Id == tick.RefundsTicketId)).First();
             var ret = from t in GetTickets()
-                      where t.VoidsTicketId == 0 &&
+                      where t.RefundsTicketId == 0 &&
                             (from voidTs in voidedTickets where voidTs.Id == t.Id select voidTs).Count() == 0
                       select t;
             return ret;

@@ -3373,4 +3373,17 @@ Error Message:
   <data name="IndividualOrdersByQuantity" xml:space="preserve">
     <value>Individual orders by quantity</value>
   </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Append Unmapped Items</value>
+  </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Command Parameter</value>
+  </data>
+  <data name="Refund" xml:space="preserve">
+    <value>Refund</value>
+  </data>
+  <data name="RefundNote" xml:space="preserve">
+    <value>"{0}{1}s Ticket #{2}\nDescription: {3}"</value>
+    <comment>{0} = notes of old Ticket, {1} = RefundPräfix, {2} = TicketNumber, {3} = RefundDescription</comment>
+  </data>
 </root>

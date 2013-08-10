@@ -40,7 +40,7 @@
 
                     <CheckBox IsChecked="{Binding TaxIncluded}" Content="{LocText TaxIncluded}" Margin="0,10"/>
 
-                    <CheckBox IsChecked="{Binding IsVoidType}" Content="IsVoidType" Margin="0,10"/>
+                    <CheckBox IsChecked="{Binding IsRefundType}" Content="IsRefundType" Margin="0,10"/>
                     <!--TODO: Add LocText for IsVoidType-->
                 </StackPanel>
             </TabItem>

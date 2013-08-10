@@ -21,7 +21,7 @@
         public const string LockTicket = "LockTicket";
         public const string UnlockTicket = "UnlockTicket";
         public const string CreateTicket = "CreateTicket";
-        public const string VoidTicket = "VoidTicket";
+        public const string RefundTicket = "VoidTicket";
         public const string DisplayTicket = "DisplayTicket";
         public const string DisplayPaymentScreen = "DisplayPaymentScreen";
         public const string CreateAccountTransactionDocument = "CreateAccountTransactionDocument";

@@ -106,7 +106,7 @@
     <Compile Include="ActionProcessors\UpdateTicketCalculation.cs" />
     <Compile Include="ActionProcessors\UpdateTicketState.cs" />
     <Compile Include="ActionProcessors\UpdateTicketTag.cs" />
-    <Compile Include="ActionProcessors\VoidTicket.cs" />
+    <Compile Include="ActionProcessors\RefundTicket.cs" />
     <Compile Include="CalculationSelectorView.xaml.cs">
       <DependentUpon>CalculationSelectorView.xaml</DependentUpon>
     </Compile>
