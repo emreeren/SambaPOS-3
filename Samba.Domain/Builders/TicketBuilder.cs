@@ -7,32 +7,26 @@ namespace Samba.Domain.Builders
 {
     public class TicketBuilder
     {
-        private TicketType _ticketType;
-        private Department _department;
+        private readonly TicketType _ticketType;
+        private readonly Department _department;
         private decimal _exchangeRate;
         private readonly IList<CalculationType> _calculations;
 
-        public TicketBuilder()
+        public TicketBuilder(TicketType ticketType, Department department)
         {
+            _ticketType = ticketType;
+            _department = department;
             _calculations = new List<CalculationType>();
             _exchangeRate = 1m;
         }
 
-        public static TicketBuilder Create()
+        public static TicketBuilder Create(TicketType ticketType, Department department)
         {
-            return new TicketBuilder();
-        }
-
-        public TicketBuilder WithTicketType(TicketType ticketType)
-        {
-            _ticketType = ticketType;
-            return this;
+            return new TicketBuilder(ticketType, department);
         }
 
         public Ticket Build()
         {
-            if (_department == null) throw new ArgumentNullException("Department");
-            if (_ticketType == null) throw new ArgumentNullException("TicketType");
             var result = new Ticket
                              {
                                  TicketTypeId = _ticketType.Id,
@@ -46,12 +40,6 @@ namespace Samba.Domain.Builders
                 result.AddCalculation(calculation, calculation.Amount);
             }
             return result;
-        }
-
-        public TicketBuilder ForDepartment(Department department)
-        {
-            _department = department;
-            return this;
         }
 
         public TicketBuilder WithExchangeRate(decimal exchangeRate)

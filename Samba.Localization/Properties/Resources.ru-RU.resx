@@ -133,7 +133,7 @@
     <value>POS</value>
   </data>
   <data name="DisplayTicket" xml:space="preserve">
-    <value>Отобразить заказ</value>
+    <value>Показать чек</value>
   </data>
   <data name="Print" xml:space="preserve">
     <value>Печать</value>
@@ -275,7 +275,7 @@
     <value>Долг</value>
   </data>
   <data name="UpdateTicketState" xml:space="preserve">
-    <value>Обновить состояние заказа</value>
+    <value>Обновить состояние чека</value>
   </data>
   <data name="Nineteen" xml:space="preserve">
     <value>Девятнадцать</value>
@@ -335,7 +335,10 @@
     <value>{0} оплаты</value>
   </data>
   <data name="TicketDuration" xml:space="preserve">
-    <value>Длительность заказа</value>
+    <value>Длительность чека</value>
+  </data>
+  <data name="StateFilter" xml:space="preserve">
+    <value>Фильтр состояния</value>
   </data>
   <data name="CanUpdateExtraModifiers" xml:space="preserve">
     <value>Обновление экстра модификатора</value>
@@ -348,6 +351,9 @@
   </data>
   <data name="Every3Hours" xml:space="preserve">
     <value>Каждые 3 часа</value>
+  </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Параметр команды</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Название</value>
@@ -379,6 +385,9 @@
   <data name="Recipe" xml:space="preserve">
     <value>Рецепт</value>
   </data>
+  <data name="Website" xml:space="preserve">
+    <value>Вэб сайт</value>
+  </data>
   <data name="CurrentCost" xml:space="preserve">
     <value>Текущая стоимость</value>
   </data>
@@ -386,7 +395,7 @@
     <value>Отменить заказы</value>
   </data>
   <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
-    <value>Показывать заказы других официантов</value>
+    <value>Показывать чеки других официантов</value>
   </data>
   <data name="ChangePayment" xml:space="preserve">
     <value>Изменить оплату</value>
@@ -396,6 +405,9 @@
   </data>
   <data name="Amount_f" xml:space="preserve">
     <value>{0} количество</value>
+  </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Раздельная печать по количеству</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Отмена</value>
@@ -413,10 +425,10 @@
     <value>Данные строки подключения</value>
   </data>
   <data name="DisplayOpenTickets" xml:space="preserve">
-    <value>Отобразить открытые заказы</value>
+    <value>Отобразить открытые чеки</value>
   </data>
   <data name="CustomerTickets" xml:space="preserve">
-    <value>Заказы клиента</value>
+    <value>Чеки клиента</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Таймер продукта</value>
@@ -447,6 +459,9 @@
   </data>
   <data name="UiLanguage" xml:space="preserve">
     <value>Язык интерфейса</value>
+  </data>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Перемещение заказа</value>
   </data>
   <data name="Action" xml:space="preserve">
     <value>Действие</value>
@@ -577,6 +592,9 @@
   <data name="LastOrderStatus" xml:space="preserve">
     <value>Статус предыдущего заказа</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Документация</value>
+  </data>
   <data name="Thirty" xml:space="preserve">
     <value>Тридцать</value>
   </data>
@@ -587,7 +605,7 @@
     <value>{0} Доходы</value>
   </data>
   <data name="TicketCreationMethod" xml:space="preserve">
-    <value>Метод создания заказа</value>
+    <value>Метод создания чека</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Тег</value>
@@ -605,7 +623,7 @@
     <value>Аккаунт клиента</value>
   </data>
   <data name="TicketStateUpdated" xml:space="preserve">
-    <value>Состояние заказа обновлено</value>
+    <value>Состояние чека обновлено</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>
@@ -692,6 +710,9 @@
   <data name="Credit" xml:space="preserve">
     <value>Кредит</value>
   </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Применить неназначеные объекты</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>Назад</value>
   </data>
@@ -717,7 +738,7 @@
     <value>Печатать содержимое</value>
   </data>
   <data name="TicketCommand" xml:space="preserve">
-    <value>Команда заказа</value>
+    <value>Команда чека</value>
   </data>
   <data name="PastWeek" xml:space="preserve">
     <value>На прошлой неделе</value>
@@ -768,7 +789,7 @@
     <value>Операции с наличностью</value>
   </data>
   <data name="RoundTicketTotal" xml:space="preserve">
-    <value>Округлить сумму заказа</value>
+    <value>Округлить сумму чека</value>
   </data>
   <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
     <value>Невозможно удалить, потому что должен быть как минимум один терминал.</value>
@@ -777,7 +798,7 @@
     <value>Обновление программных установок</value>
   </data>
   <data name="TicketState" xml:space="preserve">
-    <value>Состояние заказа</value>
+    <value>Состояние чека</value>
   </data>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>Тег группы заказов</value>
@@ -787,6 +808,9 @@
   </data>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
     <value>Диапазон дат выходит за рамки текущей смены</value>
+  </data>
+  <data name="AccountBalanceDisplayFormat" xml:space="preserve">
+    <value>Формат отображения баланса</value>
   </data>
   <data name="Costs" xml:space="preserve">
     <value>Стоимость расходов</value>
@@ -828,6 +852,9 @@
   <data name="TicketTag" xml:space="preserve">
     <value>Тэг Чека</value>
   </data>
+  <data name="Display" xml:space="preserve">
+    <value>Экран</value>
+  </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
     <value>Перемещение</value>
   </data>
@@ -845,6 +872,9 @@
   </data>
   <data name="CommandType" xml:space="preserve">
     <value>Тип комманды</value>
+  </data>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Оплата чека</value>
   </data>
   <data name="PrinterOptions" xml:space="preserve">
     <value>Настройки принтера</value>
@@ -892,7 +922,7 @@
     <value>Настройки Чека</value>
   </data>
   <data name="AskBeforeCreatingTicket" xml:space="preserve">
-    <value>Спросить перед созданием заказа</value>
+    <value>Спросить перед созданием чека</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Наименование блюда</value>
@@ -918,6 +948,9 @@
   <data name="Product" xml:space="preserve">
     <value>Блюдо</value>
   </data>
+  <data name="PrimaryFieldFormat" xml:space="preserve">
+    <value>Формат основного поля</value>
+  </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
     <value>Удалить выделенное</value>
   </data>
@@ -925,13 +958,16 @@
     <value>Когда выбран "Числовой Тэг" все теги должны содержать только числовые значения.</value>
   </data>
   <data name="MarkTicketAsClosed" xml:space="preserve">
-    <value>Отметить заказ как закрытый</value>
+    <value>Пометить чек как закрытый</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Телефон</value>
   </data>
   <data name="QuantityTotal" xml:space="preserve">
     <value>Общее количетсво</value>
+  </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Отсутствующие рецепты</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Разрешения</value>
@@ -940,7 +976,7 @@
     <value>{0} аккаунтов</value>
   </data>
   <data name="BatchCreateProductsDialogHint" xml:space="preserve">
-    <value>Создайте строку для каждого продукта в формате [Название] [Цена]. Начните названия категории с символа #.</value>
+    <value>Создайте строку для каждого продукта в формате [Название] [Цена]. Начинайте названия категории с символа #.</value>
   </data>
   <data name="Properties" xml:space="preserve">
     <value>Свойства</value>
@@ -968,6 +1004,9 @@
   </data>
   <data name="NoTransactionsFoundFor_f" xml:space="preserve">
     <value>Нет операций для {0}</value>
+  </data>
+  <data name="PrimaryFieldName" xml:space="preserve">
+    <value>Имя основного поля</value>
   </data>
   <data name="CanChangeDepartment" xml:space="preserve">
     <value>Может изменить Точку продаж</value>
@@ -1089,6 +1128,9 @@
   <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
     <value>Чек перенесен на {0}. Последние изменения не сохранены.</value>
   </data>
+  <data name="AutomationCommandExecuted" xml:space="preserve">
+    <value>Авто команда выполнена</value>
+  </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Сдвинуть позиции незаблокированных Чеков</value>
   </data>
@@ -1180,7 +1222,7 @@
     <value>Увеличить</value>
   </data>
   <data name="BeforeTicketClosing" xml:space="preserve">
-    <value>Перед закрытием заказа</value>
+    <value>Перед закрытием чека</value>
   </data>
   <data name="LinesGroupedByTag" xml:space="preserve">
     <value>Позиции упорядоченные по тегам</value>
@@ -1194,6 +1236,12 @@
   <data name="ReleaseLock" xml:space="preserve">
     <value>Снять заказ</value>
   </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>Информация о пользователе</value>
+  </data>
+  <data name="SetWidgetValue" xml:space="preserve">
+    <value>Установить значение виджета</value>
+  </data>
   <data name="Sales" xml:space="preserve">
     <value>Реализация</value>
   </data>
@@ -1202,11 +1250,11 @@
   </data>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
-&lt;T&gt;Заказ
+&lt;T&gt;Чек
 &lt;L00&gt;Дата:{TICKET DATE}
 &lt;L00&gt;Время:{TIME}
 &lt;L00&gt;Стол №:{LOCATION}
-&lt;L00&gt;Заказ №:{TICKET NO}
+&lt;L00&gt;Чек №:{TICKET NO}
 &lt;F&gt;-
 {ORDERS}
 
@@ -1381,7 +1429,7 @@
     <value>Должна быть выбрана порция</value>
   </data>
   <data name="MergeTickets" xml:space="preserve">
-    <value>Объединить заказы</value>
+    <value>Объединить чеки</value>
   </data>
   <data name="Submitted" xml:space="preserve">
     <value>Отправленно</value>
@@ -1444,7 +1492,7 @@
     <value>Пятнадцать</value>
   </data>
   <data name="UpdateTicketStatus" xml:space="preserve">
-    <value>Обновить статус заказа</value>
+    <value>Обновить статус чека</value>
   </data>
   <data name="PageCount" xml:space="preserve">
     <value>Количество страниц</value>
@@ -1462,7 +1510,7 @@
     <value>Подтверждение</value>
   </data>
   <data name="DisplayTicketList" xml:space="preserve">
-    <value>Отобразить список заказов</value>
+    <value>Показать список чеков</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Войти</value>
@@ -1519,13 +1567,16 @@
     <value>Кому:</value>
   </data>
   <data name="TransacitonUnitMultiplier" xml:space="preserve">
-    <value>Множитель транзакций</value>
+    <value>Множитель транзакцим</value>
   </data>
   <data name="Five" xml:space="preserve">
     <value>Пять</value>
   </data>
   <data name="DayOperations" xml:space="preserve">
     <value>Смена</value>
+  </data>
+  <data name="ModifyOrder" xml:space="preserve">
+    <value>Изменить заказ</value>
   </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Уникальный идентификатор Чека</value>
@@ -1575,8 +1626,11 @@
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Выберите диапазон дат, обновите отчет и нажмите соответствующую ссылку для экспорта данных.</value>
   </data>
+  <data name="BatchCreate_f" xml:space="preserve">
+    <value>Пакетное создание {0}</value>
+  </data>
   <data name="Ticket Moving" xml:space="preserve">
-    <value>Перемещение заказа</value>
+    <value>Перенос чека</value>
   </data>
   <data name="TicketDate" xml:space="preserve">
     <value>Дата Чека</value>
@@ -1646,6 +1700,9 @@
   </data>
   <data name="Parameters" xml:space="preserve">
     <value>Параметры</value>
+  </data>
+  <data name="Wiki" xml:space="preserve">
+    <value>Wiki</value>
   </data>
   <data name="Transaction" xml:space="preserve">
     <value>Транзакция</value>
@@ -1768,11 +1825,14 @@
   <data name="Departments" xml:space="preserve">
     <value>Точки продаж</value>
   </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Необходимые рецепты</value>
+  </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Принтер Сетевое имя / Имя порта</value>
   </data>
   <data name="TicketOpened" xml:space="preserve">
-    <value>Заказ открыт</value>
+    <value>Чек открыт</value>
   </data>
   <data name="Unit" xml:space="preserve">
     <value>Наименование</value>
@@ -1922,7 +1982,7 @@
     <value>Действия</value>
   </data>
   <data name="NewProperty" xml:space="preserve">
-    <value>Новые свойства</value>
+    <value>Новое свойство</value>
   </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Номер в графе символов</value>
@@ -1946,7 +2006,7 @@
     <value>Показывать всплывающие сообщения</value>
   </data>
   <data name="TicketMoved" xml:space="preserve">
-    <value>Заказ перемещен</value>
+    <value>Чек перенесен</value>
   </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>Документ №</value>
@@ -1974,6 +2034,9 @@
   </data>
   <data name="ForeignCurrency" xml:space="preserve">
     <value>Иностранная валюта</value>
+  </data>
+  <data name="LastPaidOrders" xml:space="preserve">
+    <value>Последние оплаченые счета</value>
   </data>
   <data name="FindTicket" xml:space="preserve">
     <value>Найти Чек</value>
@@ -2170,6 +2233,9 @@
   <data name="AccountTransaction" xml:space="preserve">
     <value>Транзакция аккаунта</value>
   </data>
+  <data name="Development" xml:space="preserve">
+    <value>Разработка</value>
+  </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>c Пн по Пт</value>
   </data>
@@ -2255,8 +2321,11 @@
   <data name="Paid" xml:space="preserve">
     <value>Оплачен</value>
   </data>
+  <data name="AddTicketLog" xml:space="preserve">
+    <value>Добавить протокол чека</value>
+  </data>
   <data name="TicketClosing" xml:space="preserve">
-    <value>Заказ закрывается</value>
+    <value>Чек закрывается</value>
   </data>
   <data name="MappedAccounts" xml:space="preserve">
     <value>Назначенные аккаунты</value>
@@ -2266,6 +2335,9 @@
   </data>
   <data name="CategoryProducts" xml:space="preserve">
     <value>Категория блюд</value>
+  </data>
+  <data name="DisplayTicketLog" xml:space="preserve">
+    <value>Показать протокол чека</value>
   </data>
   <data name="LinesGroupedByGroupCode" xml:space="preserve">
     <value>Позиции отсортированные по коду группы</value>
@@ -2282,8 +2354,8 @@
   <data name="Line" xml:space="preserve">
     <value>Позиция</value>
   </data>
-  <data name="UserInformation" xml:space="preserve">
-    <value>Информация о пользователе</value>
+  <data name="ClientServerConnectionHelpUrlString" xml:space="preserve">
+    <value>http://www.sambapos.com/en/content/client-server-baglantisi-nasil-yapilir</value>
   </data>
   <data name="Nine" xml:space="preserve">
     <value>Девять</value>
@@ -2330,6 +2402,9 @@
   <data name="ProgramSettings" xml:space="preserve">
     <value>Настройки программы</value>
   </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Счет</value>
+  </data>
   <data name="InStock" xml:space="preserve">
     <value>На складе</value>
   </data>
@@ -2349,13 +2424,13 @@
     <value>Группа состояний заказа</value>
   </data>
   <data name="AskTicketType" xml:space="preserve">
-    <value>Спросить тип заказа</value>
+    <value>Спросить тип чека</value>
   </data>
   <data name="Negative" xml:space="preserve">
     <value>Отрицательный</value>
   </data>
   <data name="LoadTicket" xml:space="preserve">
-    <value>Загрузить заказ</value>
+    <value>Загрузить чек</value>
   </data>
   <data name="TicketTipTotal" xml:space="preserve">
     <value>Совет Всего</value>
@@ -2365,6 +2440,9 @@
   </data>
   <data name="WindowsPrinter" xml:space="preserve">
     <value>Принтер Windows</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Форум</value>
   </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Примечание к Чеку</value>
@@ -2442,10 +2520,10 @@
     <value>Язык</value>
   </data>
   <data name="TicketsMerged" xml:space="preserve">
-    <value>Заказы объединены</value>
+    <value>Чеки объединены</value>
   </data>
   <data name="NewTicketCreatingRule" xml:space="preserve">
-    <value>Правило создания нового заказа</value>
+    <value>Правило создания нового чека</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>Тип сортировки</value>
@@ -2532,7 +2610,7 @@
     <value>Счет Итого</value>
   </data>
   <data name="UnlockTicket" xml:space="preserve">
-    <value>Разблокировать заказ</value>
+    <value>Разблокировать чек</value>
   </data>
   <data name="SellerWarehouse" xml:space="preserve">
     <value>Продажный склад</value>
@@ -2637,7 +2715,7 @@
     <value>Каждый день</value>
   </data>
   <data name="DisplayUnderTicket" xml:space="preserve">
-    <value>Отображать под заказом</value>
+    <value>Отображать под чеком</value>
   </data>
   <data name="ChangePaymentType" xml:space="preserve">
     <value>Изменить тип опалыт</value>
@@ -2720,6 +2798,9 @@
   <data name="DisplayAsTree" xml:space="preserve">
     <value>В виде дерева</value>
   </data>
+  <data name="Find_f" xml:space="preserve">
+    <value>Найти {0}</value>
+  </data>
   <data name="Tags" xml:space="preserve">
     <value>Теги</value>
   </data>
@@ -2772,10 +2853,10 @@
     <value>Категории Меню</value>
   </data>
   <data name="TicketType" xml:space="preserve">
-    <value>Тип заказа</value>
+    <value>Тип чека</value>
   </data>
   <data name="SelectActions" xml:space="preserve">
-    <value>Выберите Действие</value>
+    <value>Выберите Действия</value>
   </data>
   <data name="DiscountPercentage" xml:space="preserve">
     <value>Процент скидки</value>

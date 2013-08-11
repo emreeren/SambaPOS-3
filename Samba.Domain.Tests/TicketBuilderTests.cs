@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
@@ -9,70 +10,54 @@ using Samba.Domain.Models.Tickets;
 namespace Samba.Domain.Tests
 {
     [TestFixture]
-    class TicketTests
+    class TicketBuilderTests
     {
+
         [Test]
-        public void TicketBuilder_CreatesTicket_TicketTypeIdAssigned()
+        public void TicketBuilder_CreatesDefaultTicket_TicketTypeIdAssigned()
         {
             var context = TicketBuilderTestContext.GetDefaultContext();
-            var ticket = TicketBuilder.Create()
-                .WithTicketType(context.TicketType)
-                .ForDepartment(context.Department)
-                .Build();
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department).Build();
             Assert.AreEqual(context.TicketType.Id, ticket.TicketTypeId);
         }
 
         [Test]
-        public void TicketBuilder_CreatesTicket_TaxIsIncluded()
+        public void TicketBuilder_CreatesTaxIncludedTicket_IsTaxIncluded()
         {
             var context = TicketBuilderTestContext.GetDefaultContext().WithTicketTypeTaxIsIncluded();
-            var ticket = TicketBuilder.Create()
-                .WithTicketType(context.TicketType)
-                .ForDepartment(context.Department)
-                .Build();
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department).Build();
             Assert.True(ticket.TaxIncluded);
         }
 
         [Test]
-        public void TicketBuilder_CreatesTicket_TaxExcluded()
+        public void TicketBuilder_CreatesTaxExcludedTicket_IsTaxExcluded()
         {
             var context = TicketBuilderTestContext.GetDefaultContext().WithTicketTypeTaxIsExcluded();
-            var ticket = TicketBuilder.Create()
-                .WithTicketType(context.TicketType)
-                .ForDepartment(context.Department)
-                .Build();
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department).Build();
             Assert.False(ticket.TaxIncluded);
         }
 
         [Test]
-        public void TicketBuilder_CreatesTicket_AssignsDefaultAccountTransactionDocument()
+        public void TicketBuilder_CreatesDefaultTicket_CreatesAccountTransactionDocument()
         {
             var context = TicketBuilderTestContext.GetDefaultContext();
-            var ticket = TicketBuilder.Create()
-                .WithTicketType(context.TicketType)
-                .ForDepartment(context.Department)
-                .Build();
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department).Build();
             Assert.IsNotNull(ticket.TransactionDocument);
         }
 
         [Test]
-        public void TicketBuilder_CreatesTicket_IsDefaultExchangeRate()
+        public void TicketBuilder_CreatesDefaultTicket_IsDefaultExchangeRate()
         {
             var context = TicketBuilderTestContext.GetDefaultContext();
-            var ticket = TicketBuilder.Create()
-                                      .WithTicketType(context.TicketType)
-                                      .ForDepartment(context.Department)
-                                      .Build();
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department).Build();
             Assert.AreEqual(1, ticket.ExchangeRate);
         }
 
         [Test]
-        public void TicketBuilder_CreatesTicket_ExchangeRateAssigned()
+        public void TicketBuilder_CreatesTicketWithExchangeRate_ExchangeRateAssigned()
         {
             var context = TicketBuilderTestContext.GetDefaultContext();
-            var ticket = TicketBuilder.Create()
-                                      .WithTicketType(context.TicketType)
-                                      .ForDepartment(context.Department)
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department)
                                       .WithExchangeRate(1.1m)
                                       .Build();
             Assert.AreEqual(1.1m, ticket.ExchangeRate);
@@ -82,10 +67,7 @@ namespace Samba.Domain.Tests
         public void TicketBuilder_CreatesTicketWithDepartment_DepartmentAssigned()
         {
             var context = TicketBuilderTestContext.GetDefaultContext();
-            var ticket = TicketBuilder.Create()
-                                      .WithTicketType(context.TicketType)
-                                      .ForDepartment(context.Department)
-                                      .Build();
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department).Build();
             Assert.AreEqual(1, ticket.DepartmentId);
         }
 
@@ -93,9 +75,7 @@ namespace Samba.Domain.Tests
         public void TicketBuilder_CreatesTicketWithCalculations_DiscountAdded()
         {
             var context = TicketBuilderTestContext.GetDefaultContext().With10PercentDiscount();
-            var ticket = TicketBuilder.Create()
-                                      .WithTicketType(context.TicketType)
-                                      .ForDepartment(context.Department)
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department)
                                       .WithCalculations(context.Calculations)
                                       .Build();
             Assert.AreEqual(10, ticket.Calculations.Sum(x => x.Amount));

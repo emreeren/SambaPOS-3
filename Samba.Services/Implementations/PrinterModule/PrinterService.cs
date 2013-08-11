@@ -173,12 +173,38 @@ namespace Samba.Services.Implementations.PrinterModule
 
         private void Print(Printer printer, FlowDocument document)
         {
-            PrintJobFactory.CreatePrintJob(printer, this).DoPrint(document);
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+                new Action(
+                    delegate
+                    {
+                        try
+                        {
+                            LocalSettings.UpdateThreadLanguage();
+                            PrintJobFactory.CreatePrintJob(printer, this).DoPrint(document);
+                        }
+                        catch (Exception e)
+                        {
+                            _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
+                        }
+                    }));
         }
 
         private void Print(Printer printer, string[] document)
         {
-            PrintJobFactory.CreatePrintJob(printer, this).DoPrint(document);
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+                new Action(
+                    delegate
+                    {
+                        try
+                        {
+                            LocalSettings.UpdateThreadLanguage();
+                            PrintJobFactory.CreatePrintJob(printer, this).DoPrint(document);
+                        }
+                        catch (Exception e)
+                        {
+                            _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
+                        }
+                    }));
         }
     }
 }

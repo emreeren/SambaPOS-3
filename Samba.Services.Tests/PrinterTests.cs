@@ -2,13 +2,16 @@
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using System.Windows.Documents;
 using NUnit.Framework;
 using Samba.Domain.Builders;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Persistance.Data;
+using Samba.Services.Implementations.PrinterModule.PrintJobs;
 
 namespace Samba.Services.Tests
 {
@@ -82,8 +85,8 @@ Coke            2.00
 Hamburger       5.00
 Pizza          10.00";
             Assert.AreEqual(expectedResult.Trim(new[] { '\r', '\n' }), result);
-        }        
-        
+        }
+
         [Test]
         public void CanGroupByProductTag()
         {
@@ -106,6 +109,13 @@ Pizza          10.00";
             Assert.AreEqual(expectedResult.Trim(new[] { '\r', '\n' }), result);
         }
 
+        [Test]
+        public void TextPrinterJob_InvalidShareName_ShouldHandleNullError()
+        {
+            var textpj = new TextPrinterJob(new Printer());
+            Assert.Throws<InvalidOperationException>(() => textpj.DoPrint(new FlowDocument(new Paragraph(new Run("text")))));
+        }
+
         private static Ticket PrepareTestTicket()
         {
             var hamburger = new MenuItem("Hamburger") { Id = 1, GroupCode = "Food", Tag = "Tag1" };
@@ -122,10 +132,7 @@ Pizza          10.00";
                 w.Add(cola);
             }
 
-            var ticket = TicketBuilder.Create()
-                .ForDepartment(Department.Default)
-                .WithTicketType(TicketType.Default)
-                .Build();
+            var ticket = TicketBuilder.Create(TicketType.Default, Department.Default).Build();
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", hamburger, null, hportion, "", null);
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", pizza, null, pportion, "", null);
             ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", cola, null, cportion, "", null);

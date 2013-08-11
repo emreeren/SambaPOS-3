@@ -23,10 +23,8 @@ namespace Samba.Modules.PaymentModule.Tests
         {
             var tost = new MenuItem("Tost") { Id = 1 };
             var hamburger = new MenuItem("Hamburger") { Id = 2 };
-            var ticket = TicketBuilder.Create()
-                          .ForDepartment(Department.Default)
-                          .WithTicketType(TicketType.Default)
-                          .Build();
+            var ticket = TicketBuilder.Create(TicketType.Default, Department.Default).Build();
+
 
             var order = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", tost, null, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
 
@@ -47,10 +45,8 @@ namespace Samba.Modules.PaymentModule.Tests
 
             var tost = new MenuItem("Tost") { Id = 1 };
             var hamburger = new MenuItem("Hamburger") { Id = 2 };
-            var ticket = TicketBuilder.Create()
-                          .ForDepartment(Department.Default)
-                          .WithTicketType(TicketType.Default)
-                          .Build();
+            var ticket = TicketBuilder.Create(TicketType.Default, Department.Default).Build();
+
             var order = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", tost, taxTemplates, new MenuItemPortion { Price = 5, Name = "Adet" }, "", null);
 
             order.Quantity = 2;

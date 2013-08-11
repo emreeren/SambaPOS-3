@@ -196,8 +196,8 @@ Filename: {app}\Samba.MessagingServer.exe; Description: {cm:LaunchProgram,Messag
 ;Filename: {app}\Samba.MessagingServer.WindowsService.exe; Parameters: "--install"; Description: {cm:InstallService,MessagingServer.WindowsService}; Flags: nowait postinstall skipifsilent unchecked*/
 ;Filename: {app}\Samba.MessagingServer.WindowsService.exe; Parameters: "--start"; Description: {cm:StartService,MessagingServer.WindowsService}; Flags: nowait postinstall skipifsilent unchecked
 
-[UninstallRun]
-Filename: {app}\Samba.MessagingServer.exe; Parameters: "--uninstall"; Flags: runascurrentuser
+;[UninstallRun]
+;Filename: {app}\Samba.MessagingServer.exe; Parameters: "--uninstall"; Flags: runascurrentuser
 
 [Code]
 function CreateVersion(): boolean;

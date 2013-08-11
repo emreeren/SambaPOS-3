@@ -343,6 +343,9 @@
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Modifiergruppenname</value>
   </data>
+  <data name="PrintAccountTransactions" xml:space="preserve">
+    <value>Drucke Konten-Transaktionen</value>
+  </data>
   <data name="AddModel_f" xml:space="preserve">
     <value>Neuen {0} hinzufügen</value>
   </data>
@@ -378,6 +381,9 @@
   </data>
   <data name="Every3Hours" xml:space="preserve">
     <value>Alle 3 Stunden</value>
+  </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Kommando Parameter</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Titel</value>
@@ -415,6 +421,9 @@
   <data name="Recipe" xml:space="preserve">
     <value>Rezept</value>
   </data>
+  <data name="Website" xml:space="preserve">
+    <value>Webauftritt</value>
+  </data>
   <data name="CurrentCost" xml:space="preserve">
     <value>Aktuelle Kosten</value>
   </data>
@@ -432,6 +441,9 @@
   </data>
   <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
     <value>Summen nach MwSt.-Vorlage gruppiert</value>
+  </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Getrennte Ausdrucke nach Menge</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -486,6 +498,9 @@
   </data>
   <data name="UiLanguage" xml:space="preserve">
     <value>UI Sprache</value>
+  </data>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Bestellung wird verschoben</value>
   </data>
   <data name="Action" xml:space="preserve">
     <value>Aktion</value>
@@ -622,6 +637,9 @@ Meldung:
   <data name="LastOrderStatus" xml:space="preserve">
     <value>Status der letzten Bestellung</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Dokumentation</value>
+  </data>
   <data name="Thirty" xml:space="preserve">
     <value>Dreißig</value>
   </data>
@@ -748,6 +766,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="Credit" xml:space="preserve">
     <value>Kredit</value>
+  </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Füge zugeordnete Posten hinzu</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Zurück</value>
@@ -1023,6 +1044,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="QuantityTotal" xml:space="preserve">
     <value>Anzahl Summe</value>
   </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Fehlende Rezepte</value>
+  </data>
   <data name="Permissions" xml:space="preserve">
     <value>Berechtigungen</value>
   </data>
@@ -1181,6 +1205,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="UnlocksOrder" xml:space="preserve">
     <value>Bestellung Entsperren</value>
+  </data>
+  <data name="PrintAccountScreen" xml:space="preserve">
+    <value>Drucke Konten-Auflistung</value>
   </data>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Beleg-Rabatt hinzufügen</value>
@@ -1621,6 +1648,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Belegdrucker</value>
   </data>
+  <data name="IndividualOrdersByQuantity" xml:space="preserve">
+    <value>Einzelne Bestellungen nach Menge</value>
+  </data>
   <data name="Amount" xml:space="preserve">
     <value>Betrag</value>
   </data>
@@ -1775,13 +1805,13 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
     <value>Bericht-Berechtigungen</value>
   </data>
   <data name="MappedAccount" xml:space="preserve">
-    <value>Abgebildetes Konto</value>
+    <value>Zugeordnetes Konto</value>
   </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Gewicht Barcodes</value>
   </data>
   <data name="AccountMap" xml:space="preserve">
-    <value>Kontoabbildung</value>
+    <value>Kontozuordnung</value>
   </data>
   <data name="GroupTotal" xml:space="preserve">
     <value>Gruppen-Summe</value>
@@ -1872,6 +1902,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="Parameters" xml:space="preserve">
     <value>Parameter</value>
+  </data>
+  <data name="Wiki" xml:space="preserve">
+    <value>Wiki</value>
   </data>
   <data name="Transaction" xml:space="preserve">
     <value>Transaktion</value>
@@ -2009,6 +2042,9 @@ Fehlernachricht:
   <data name="Departments" xml:space="preserve">
     <value>Abteilungen</value>
   </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Benötigte Rezepte</value>
+  </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Name des freigegebenen Druckers / Port Name</value>
   </data>
@@ -2082,7 +2118,7 @@ Fehlernachricht:
     <value>Ja</value>
   </data>
   <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Ausgewähltes Mapping löschen?</value>
+    <value>Ausgewählte Zuordnung löschen?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Portionspreise</value>
@@ -2325,7 +2361,7 @@ Fehlernachricht:
     <value>SambaPOS hat ein unerwartetes Problem festgestellt. Problemdetails wurden in einer trace.log datei protokolliert.</value>
   </data>
   <data name="CantSave" xml:space="preserve">
-    <value>Kann nicht gespeichert werden</value>
+    <value>Kann nicht speichern</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Gesamt</value>
@@ -2432,6 +2468,9 @@ Fehlernachricht:
   <data name="AccountTransaction" xml:space="preserve">
     <value>Konto-Transaktion</value>
   </data>
+  <data name="Development" xml:space="preserve">
+    <value>Entwicklung</value>
+  </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Mo bis Fr</value>
   </data>
@@ -2533,13 +2572,16 @@ schliessen</value>
     <value>Beleg Schließung</value>
   </data>
   <data name="MappedAccounts" xml:space="preserve">
-    <value>Abgebildete Konten</value>
+    <value>Zugeordnete Konten</value>
   </data>
   <data name="Cost" xml:space="preserve">
     <value>Kosten</value>
   </data>
   <data name="CategoryProducts" xml:space="preserve">
     <value>Artikel einer Warengruppe</value>
+  </data>
+  <data name="DisplayTicketLog" xml:space="preserve">
+    <value>Zeige Beleg-Aufzeichnung an</value>
   </data>
   <data name="LinesGroupedByGroupCode" xml:space="preserve">
     <value>Eingaben gruppiert durch Warengruppen</value>
@@ -2585,6 +2627,9 @@ schliessen</value>
   </data>
   <data name="UpdateNewOrderEntityColor" xml:space="preserve">
     <value>aktualisiere Neue Bestellung Einheiten Farbe</value>
+  </data>
+  <data name="AddTicketLog" xml:space="preserve">
+    <value>Füge Beleg-Aufzeichnung hinzu</value>
   </data>
   <data name="TaggingType" xml:space="preserve">
     <value>Taging Typ</value>
@@ -2654,6 +2699,9 @@ schliessen</value>
   </data>
   <data name="WindowsPrinter" xml:space="preserve">
     <value>Windows-Drucker</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Forum</value>
   </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Belegnotiz</value>
@@ -2872,7 +2920,7 @@ schliessen</value>
     <value>Einladungen gesamt</value>
   </data>
   <data name="EmptyNameError" xml:space="preserve">
-    <value>Lassen Sie {0}-namen nicht leer.</value>
+    <value>Lassen Sie {0}-Namen nicht leer.</value>
   </data>
   <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
     <value>Es gibt {0} offene Belege.
@@ -3053,7 +3101,7 @@ Die Arbeitszeit kann nicht beendet werden.</value>
     <value>Druckzuordnung</value>
   </data>
   <data name="Mapping_f" xml:space="preserve">
-    <value>{0} Abbildung</value>
+    <value>{0} Zuordnung</value>
   </data>
   <data name="Values" xml:space="preserve">
     <value>Werte</value>
@@ -3069,6 +3117,9 @@ Die Arbeitszeit kann nicht beendet werden.</value>
   </data>
   <data name="DisplayAsTree" xml:space="preserve">
     <value>Als Baum anzeigen</value>
+  </data>
+  <data name="Find_f" xml:space="preserve">
+    <value>Finde {0}</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>

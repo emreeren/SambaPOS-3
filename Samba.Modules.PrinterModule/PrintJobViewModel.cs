@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using FluentValidation;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -35,7 +36,7 @@ namespace Samba.Modules.PrinterModule
         public ICaptionCommand AddPrinterMapCommand { get; set; }
         public ICaptionCommand DeletePrinterMapCommand { get; set; }
 
-        private readonly IList<string> _whatToPrintTypes = new[] { Resources.AllLines, Resources.LastLinesByPrinterLineCount, Resources.LastPaidOrders,Resources.IndividualOrdersByQuantity, Resources.SeparatedByQuantity };
+        private readonly IList<string> _whatToPrintTypes = new[] { Resources.AllLines, Resources.LastLinesByPrinterLineCount, Resources.LastPaidOrders, Resources.IndividualOrdersByQuantity, Resources.SeparatedByQuantity };
         public IList<string> WhatToPrintTypes { get { return _whatToPrintTypes; } }
 
         public IEnumerable<Department> Departments { get { return GetAllDepartments(); } }
@@ -125,6 +126,21 @@ namespace Samba.Modules.PrinterModule
             Model.PrinterMaps.Add(map);
             PrinterMaps.Add(mapModel);
             _newPrinterMaps.Add(map);
+        }
+
+        protected override AbstractValidator<PrintJob> GetValidator()
+        {
+            return new PrintJobValidator();
+        }
+    }
+
+    class PrintJobValidator : EntityValidator<PrintJob>
+    {
+        public PrintJobValidator()
+        {
+            RuleFor(x => x.PrinterMaps).Must(x => x.Count > 0).WithMessage("Add print job mapping.");
+            RuleFor(x => x.PrinterMaps).Must(x => x.All(y => y.PrinterId > 0)).WithMessage("Select printer for all maps.");
+            RuleFor(x => x.PrinterMaps).Must(x => x.All(y => y.PrinterTemplateId > 0)).WithMessage("Select Printer Template for all maps.");
         }
     }
 }

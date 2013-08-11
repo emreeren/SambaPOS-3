@@ -122,9 +122,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         private Ticket CreateTicket()
         {
             var account = _cacheService.GetAccountById(_applicationState.CurrentTicketType.SaleTransactionType.DefaultTargetAccountId);
-            var result = TicketBuilder.Create()
-                                      .ForDepartment(_applicationState.CurrentDepartment.Model)
-                                      .WithTicketType(_applicationState.CurrentTicketType)
+            var result = TicketBuilder.Create(_applicationState.CurrentTicketType, _applicationState.CurrentDepartment.Model)
                                       .WithExchangeRate(GetExchangeRate(account))
                                       .WithCalculations(
                                           _applicationState.GetCalculationSelectors()

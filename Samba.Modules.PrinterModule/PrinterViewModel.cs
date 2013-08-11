@@ -11,15 +11,6 @@ using Samba.Services;
 
 namespace Samba.Modules.PrinterModule
 {
-    class PrinterValidator : EntityValidator<Printer>
-    {
-        public PrinterValidator()
-        {
-            RuleFor(x => x.CharsPerLine).GreaterThan(0);
-            RuleFor(x => x.CodePage).GreaterThan(0);
-        }
-    }
-
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class PrinterViewModel : EntityViewModelBase<Printer>
     {
@@ -131,6 +122,15 @@ namespace Samba.Modules.PrinterModule
                 case 5: return "Windows Printer: Choose a printer to print with driver page settings. If there is no printer matches with selected printer name windows print dialog displays. You can enter a fake printer name for forcing print dialog display.";
                 default: return "";
             }
+        }
+    }
+    
+    class PrinterValidator : EntityValidator<Printer>
+    {
+        public PrinterValidator()
+        {
+            RuleFor(x => x.CharsPerLine).GreaterThan(0);
+            RuleFor(x => x.CodePage).GreaterThan(0);
         }
     }
 }

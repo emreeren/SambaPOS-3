@@ -44,9 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderBuilderTests.cs" />
     <Compile Include="TaxTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TicketTests.cs" />
+    <Compile Include="TicketBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Domain\Samba.Domain.csproj">

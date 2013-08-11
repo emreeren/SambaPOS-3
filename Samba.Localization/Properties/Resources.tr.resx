@@ -379,6 +379,9 @@
   <data name="Every3Hours" xml:space="preserve">
     <value>3 saatte bir</value>
   </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Komut Parametresi</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Başlık</value>
   </data>
@@ -917,6 +920,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="CategoryProperties" xml:space="preserve">
     <value>Kategori Özellikleri</value>
   </data>
+  <data name="ToggleCalculation" xml:space="preserve">
+    <value>Değer Hesaplama</value>
+  </data>
   <data name="LineItemPrice" xml:space="preserve">
     <value>#Satır: Ürün Fiyatı</value>
   </data>
@@ -928,6 +934,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Rule_f" xml:space="preserve">
     <value>{0} Kuralı</value>
+  </data>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Ödeme AL</value>
   </data>
   <data name="PrinterOptions" xml:space="preserve">
     <value>Yazıcı Tanımları</value>
@@ -964,6 +973,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Numeric" xml:space="preserve">
     <value>Sayısal</value>
+  </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Varsayılan Terminali Değiştir</value>
   </data>
   <data name="SubTags" xml:space="preserve">
     <value>Alt Etiketler</value>

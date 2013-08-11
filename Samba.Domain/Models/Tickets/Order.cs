@@ -469,11 +469,6 @@ namespace Samba.Domain.Models.Tickets
             return result;
         }
 
-        public decimal GetValue()
-        {
-            return GetPrice() * Quantity;
-        }
-
         //Görünen fiyat
         public decimal GetVisiblePrice()
         {
@@ -481,6 +476,11 @@ namespace Samba.Domain.Models.Tickets
             if (ProductTimerValue != null)
                 result = ProductTimerValue.GetPrice(result + GetOrderTagPrice());
             return result;
+        }
+
+        public decimal GetValue()
+        {
+            return GetPrice() * Quantity;
         }
 
         public decimal GetVisibleValue()

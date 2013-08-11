@@ -27,6 +27,7 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
 
         internal static void PrintFlowDocument(PrintQueue pq, FlowDocument flowDocument)
         {
+            if (pq == null) throw new InvalidOperationException("Invalid Printer");
             // Create a XpsDocumentWriter object, open a Windows common print dialog.
             // This methods returns a ref parameter that represents information about the dimensions of the printer media. 
             XpsDocumentWriter docWriter = PrintQueue.CreateXpsDocumentWriter(pq);

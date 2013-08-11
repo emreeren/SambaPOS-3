@@ -145,7 +145,7 @@ namespace Samba.Persistance.Data
 
             var preVersion = context.ObjContext().ExecuteStoreQuery<long>("select top(1) Version from VersionInfo order by version desc").FirstOrDefault();
             var db = context.Database.Connection.ConnectionString.Contains(".sdf") ? "sqlserverce" : "sqlserver";
-            if (preVersion < 14 && db == "sqlserverce") ApplyV16Fix(context);
+            if (preVersion < 18 && db == "sqlserverce") ApplyV16Fix(context);
 
             IAnnouncer announcer = new TextWriterAnnouncer(Console.Out);
 
