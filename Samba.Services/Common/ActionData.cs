@@ -28,11 +28,10 @@ namespace Samba.Services.Common
             return result;
         }
 
-        public bool GetAsBoolean(string parameterName)
+        public bool GetAsBoolean(string parameterName, bool defaultValue = false)
         {
             bool result;
-            bool.TryParse(GetAsString(parameterName), out result);
-            return result;
+            return bool.TryParse(GetAsString(parameterName), out result) ? result : defaultValue;
         }
 
         public string GetAsString(string parameterName)

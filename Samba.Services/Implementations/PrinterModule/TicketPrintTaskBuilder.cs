@@ -137,9 +137,14 @@ namespace Samba.Services.Implementations.PrinterModule
                     ordersCache[p].Add(item);
                 }
             }
-            result.AddRange(printJob.WhatToPrint == 4
-                                ? GenerateSeparatedTasks(ticket, ordersCache)
-                                : ordersCache.Select(order => GetPrintTask(ticket, order.Value, order.Key)));
+            switch (printJob.WhatToPrintType)
+            {
+                case WhatToPrintTypes.SeparatedByQuantity: result.AddRange(GenerateSeparatedTasks(ticket, ordersCache));
+                    break;
+                default:
+                    result.AddRange(ordersCache.Select(order => GetPrintTask(ticket, order.Value, order.Key)));
+                    break;
+            }
             return result;
         }
 
