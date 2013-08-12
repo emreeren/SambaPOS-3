@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using Samba.Localization.Properties;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 using Samba.Services.Common;
 
 namespace Samba.Presentation.Common.ActionProcessors
@@ -13,6 +11,13 @@ namespace Samba.Presentation.Common.ActionProcessors
     [Export(typeof(IActionType))]
     class StartProcess : ActionType
     {
+        private readonly ILogService _logService;
+
+        public StartProcess(ILogService logService)
+        {
+            _logService = logService;
+        }
+
         public override void Process(ActionData actionData)
         {
             var fileName = actionData.GetAsString("FileName");
@@ -29,8 +34,14 @@ namespace Samba.Presentation.Common.ActionProcessors
                 var workingDirectory = actionData.GetAsString("WorkingDirectory");
                 if (!string.IsNullOrEmpty(workingDirectory))
                     psi.WorkingDirectory = workingDirectory;
-
-                System.Diagnostics.Process.Start(psi);
+                try
+                {
+                    System.Diagnostics.Process.Start(psi);
+                }
+                catch (Exception e)
+                {
+                    _logService.LogError(e, string.Format("Start Process action [{0}] generated an error. See log file for details.", actionData.Action.Name));
+                }
             }
         }
 

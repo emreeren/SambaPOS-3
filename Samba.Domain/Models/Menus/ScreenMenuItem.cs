@@ -15,7 +15,8 @@ namespace Samba.Domain.Models.Menus
         {
             get { return MenuItem != null ? MenuItem.Name + " [" + MenuItem.GroupCode + "]" : Name; }
         }
-        public string Caption { get { return (Name ?? "").Replace("\\r", " "); } }
+
+        public string Caption { get { return Name != null ? Name.Replace("\\r", " ") : ""; } }
 
         public string Name { get; set; }
         public int ScreenMenuCategoryId { get; set; }

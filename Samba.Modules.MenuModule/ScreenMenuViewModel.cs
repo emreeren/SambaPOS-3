@@ -189,7 +189,7 @@ namespace Samba.Modules.MenuModule
                     foreach (var propertyInfo in smi.GetType().GetProperties())
                     {
                         var val = propertyInfo.GetValue(smi, null);
-                        if (val is string && val.ToString().Contains('\b'))
+                        if (val is string && val.ToString().Contains('\b') && propertyInfo.CanWrite)
                             propertyInfo.SetValue(smi, "", null);
                     }
                 }
