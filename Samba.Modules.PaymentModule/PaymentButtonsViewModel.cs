@@ -3,7 +3,6 @@ using Samba.Domain.Models.Settings;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
-using Samba.Presentation.ViewModels;
 
 namespace Samba.Modules.PaymentModule
 {

@@ -32,7 +32,7 @@
                                  HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="5"
                                  AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
                                  PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
-                                 PreparingCellForEdit="DataGrid_PreparingCellForEdit">
+                                 PreparingCellForEdit="DataGrid_PreparingCellForEdit" AlternatingRowBackground="WhiteSmoke" AlternationCount="2">
                     <uiControls:EnhancedDataGrid.Resources>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center">
