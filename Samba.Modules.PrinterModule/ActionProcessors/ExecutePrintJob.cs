@@ -32,7 +32,7 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
         {
             var ticket = actionData.GetDataValue<Ticket>("Ticket");
             var pjName = actionData.GetAsString("PrintJobName");
-            var printTicket = actionData.GetAsBoolean("PrintTicket");
+            var printTicket = actionData.GetAsBoolean("PrintTicket",true);
             if (!string.IsNullOrEmpty(pjName))
             {
                 var j = _cacheService.GetPrintJobByName(pjName);

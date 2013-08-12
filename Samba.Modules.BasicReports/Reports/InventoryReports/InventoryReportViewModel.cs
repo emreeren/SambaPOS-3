@@ -47,7 +47,7 @@ namespace Samba.Modules.BasicReports.Reports.InventoryReports
                     var inventoryTableSlug = "InventoryTable_" + warehouseConsumption.WarehouseId;
 
                     report.AddColumTextAlignment(inventoryTableSlug, TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
-                    report.AddColumnLength(inventoryTableSlug, "55*", "15*", "30*");
+                    report.AddColumnLength(inventoryTableSlug, "5*", "*", "*");
                     report.AddTable(inventoryTableSlug, warehouse.Name, "", "");
 
                     foreach (var periodicConsumptionItem in warehouseConsumption.PeriodicConsumptionItems)

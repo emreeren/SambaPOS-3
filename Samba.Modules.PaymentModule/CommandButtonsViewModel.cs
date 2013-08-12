@@ -60,10 +60,10 @@ namespace Samba.Modules.PaymentModule
                         Parameter = x
                     }));
 
-                result.AddRange(_applicationState.GetAutomationCommands().Where(x => x.DisplayOnPayment && x.CanDisplay(_paymentEditor.SelectedTicket))
+                result.AddRange(_applicationState.GetAutomationCommands().Where(x => x.AutomationCommand != null && !string.IsNullOrEmpty(x.AutomationCommand.ButtonHeader) && x.DisplayOnPayment && x.CanDisplay(_paymentEditor.SelectedTicket))
                     .Select(x => new CommandButtonViewModel<object>
                     {
-                        Caption = x.AutomationCommand.Name,
+                        Caption = x.AutomationCommand.ButtonHeader,
                         Command = _executeAutomationCommand,
                         Color = x.AutomationCommand.Color,
                         FontSize = x.AutomationCommand.FontSize,
