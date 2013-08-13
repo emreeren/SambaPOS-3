@@ -1,35 +1,56 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Domain.Builders
 {
-    public class OrderBuilder
+    public class OrderBuilder : ILinkableToMenuItemBuilder<OrderBuilder>
     {
         private MenuItem _menuItem;
         private MenuItemPortion _portion;
         private string _userName;
         private string _priceTag;
-        private int _quantity;
+        private decimal _quantity;
         private Department _department;
+        private readonly IList<TaxTemplate> _taxTemplates;
+        private AccountTransactionType _accountTransactionType;
+        private ProductTimer _productTimer;
 
         public static OrderBuilder Create()
         {
             return new OrderBuilder();
         }
 
+        public static OrderBuilder Create(AccountTransactionType accountTransactionType, Department department)
+        {
+            var result = Create();
+            result.WithDepartment(department);
+            result.WithAccountTransactionType(accountTransactionType);
+            return result;
+        }
+
         public OrderBuilder()
         {
             _priceTag = "";
             _quantity = 1;
+            _taxTemplates = new List<TaxTemplate>();
         }
 
         public Order Build()
         {
+            if (_department == null) throw new ArgumentNullException("Department");
+            if (_accountTransactionType == null) throw new ArgumentNullException("AccountTransactionType");
+            if (_menuItem == null) throw new ArgumentNullException("MenuItem");
+
             var result = new Order();
-            result.UpdateMenuItem(_userName, _menuItem, null, _portion, _priceTag, _quantity);
+            result.UpdateMenuItem(_userName, _menuItem, _taxTemplates, _portion, _priceTag, _quantity);
             result.DepartmentId = _department.Id;
             result.WarehouseId = _department.WarehouseId;
+            result.AccountTransactionTypeId = _accountTransactionType.Id;
+            result.UpdateProductTimer(_productTimer);
             return result;
         }
 
@@ -59,7 +80,7 @@ namespace Samba.Domain.Builders
             return this;
         }
 
-        public OrderBuilder WithQuantity(int quantity)
+        public OrderBuilder WithQuantity(decimal quantity)
         {
             _quantity = quantity;
             return this;
@@ -69,6 +90,46 @@ namespace Samba.Domain.Builders
         {
             _department = department;
             return this;
+        }
+
+        public OrderBuilder WithTaxTemplates(IEnumerable<TaxTemplate> taxTemplate)
+        {
+            if (taxTemplate != null)
+            {
+                foreach (var template in taxTemplate)
+                {
+                    AddTaxTemplate(template);
+                }
+            }
+            return this;
+        }
+
+        public OrderBuilder AddTaxTemplate(TaxTemplate taxTemplate)
+        {
+            _taxTemplates.Add(taxTemplate);
+            return this;
+        }
+
+        public OrderBuilder WithAccountTransactionType(AccountTransactionType accountTransactionType)
+        {
+            _accountTransactionType = accountTransactionType;
+            return this;
+        }
+
+        public OrderBuilder WithProductTimer(ProductTimer productTimer)
+        {
+            _productTimer = productTimer;
+            return this;
+        }
+
+        public void Link(MenuItem menuItem)
+        {
+            ForMenuItem(menuItem);
+        }
+
+        public MenuItemBuilderFor<OrderBuilder> CreateMenuItem(string menuItemName)
+        {
+            return MenuItemBuilderFor<OrderBuilder>.Create(menuItemName, this);
         }
     }
 }

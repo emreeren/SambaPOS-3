@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using Samba.Domain.Builders;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Menus;
 using Samba.Infrastructure.Data;
@@ -213,11 +214,25 @@ namespace Samba.Domain.Models.Tickets
         public Order AddOrder(AccountTransactionType template, Department department, string userName, MenuItem menuItem, IList<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, ProductTimer timer)
         {
             UnLock();
-            var order = new Order();
-            order.UpdateMenuItem(userName, menuItem, taxTemplates, portion, priceTag, 1);
-            order.AccountTransactionTypeId = template.Id;
-            order.WarehouseId = department.WarehouseId;
-            order.DepartmentId = department.Id;
+            
+            //var order = new Order();
+            //order.UpdateMenuItem(userName, menuItem, taxTemplates, portion, priceTag, 1);
+            //order.AccountTransactionTypeId = template.Id;
+            //order.WarehouseId = department.WarehouseId;
+            //order.DepartmentId = department.Id;
+            //order.UpdateProductTimer(timer);
+
+            var order = OrderBuilder.Create()
+                                    .WithDepartment(department)
+                                    .ForMenuItem(menuItem)
+                                    .WithUserName(userName)
+                                    .WithTaxTemplates(taxTemplates)
+                                    .WithPortion(portion)
+                                    .WithPriceTag(priceTag)
+                                    .WithAccountTransactionType(template)
+                                    .WithProductTimer(timer)
+                                    .Build();
+
             TransactionDocument.AddSingletonTransaction(template.Id, template, GetTicketAccounts());
 
             if (taxTemplates != null)
@@ -230,7 +245,7 @@ namespace Samba.Domain.Models.Tickets
                 }
             }
 
-            order.UpdateProductTimer(timer);
+
             Orders.Add(order);
             LastModifiedUserName = userName;
             return order;

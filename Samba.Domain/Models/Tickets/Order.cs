@@ -130,7 +130,7 @@ namespace Samba.Domain.Models.Tickets
         private static Order _null;
         public static Order Null { get { return _null ?? (_null = new Order { ProductTimerValue = new ProductTimerValue() }); } }
 
-        public void UpdateMenuItem(string userName, MenuItem menuItem, IEnumerable<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, int quantity)
+        public void UpdateMenuItem(string userName, MenuItem menuItem, IEnumerable<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, decimal quantity)
         {
             MenuItemId = menuItem.Id;
             MenuItemName = menuItem.Name;
@@ -405,13 +405,13 @@ namespace Samba.Domain.Models.Tickets
             if (timer != null)
             {
                 ProductTimerValue = new ProductTimerValue
-                                         {
-                                             ProductTimerId = timer.Id,
-                                             MinTime = timer.MinTime,
-                                             PriceType = timer.PriceType,
-                                             PriceDuration = timer.PriceDuration,
-                                             TimeRounding = timer.TimeRounding,
-                                         };
+                                        {
+                                            ProductTimerId = timer.Id,
+                                            MinTime = timer.MinTime,
+                                            PriceType = timer.PriceType,
+                                            PriceDuration = timer.PriceDuration,
+                                            TimeRounding = timer.TimeRounding,
+                                        };
                 if (timer.StartTime > 0)
                 {
                     var now = DateTime.Today;
@@ -419,6 +419,7 @@ namespace Samba.Domain.Models.Tickets
                     ProductTimerValue.End = ProductTimerValue.Start;
                 }
             }
+            else ProductTimerValue = null;
         }
 
         public void StopProductTimer()

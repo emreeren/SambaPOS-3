@@ -5,8 +5,6 @@ using System.Threading;
 using System.Windows.Documents;
 using NUnit.Framework;
 using Samba.Domain.Builders;
-using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
@@ -118,12 +116,9 @@ Pizza          10.00";
 
         private static Ticket PrepareTestTicket()
         {
-            var hamburger = new MenuItem("Hamburger") { Id = 1, GroupCode = "Food", Tag = "Tag1" };
-            var hportion = hamburger.AddPortion("Small", 5, "");
-            var pizza = new MenuItem("Pizza") { Id = 2, GroupCode = "Food", Tag = "Tag1" };
-            var pportion = pizza.AddPortion("Small", 10, "");
-            var cola = new MenuItem("Coke") { Id = 3, GroupCode = "Drink" };
-            var cportion = cola.AddPortion("Small", 2, "");
+            var hamburger = MenuItemBuilder.Create("Hamburger").WithId(1).WithGroupCode("Food").WithProductTag("Tag1").AddPortion("Small", 5).Build();
+            var pizza = MenuItemBuilder.Create("Pizza").WithId(2).WithGroupCode("Food").WithProductTag("Tag1").AddPortion("Small", 10).Build();
+            var cola = MenuItemBuilder.Create("Coke").WithId(3).WithGroupCode("Drink").AddPortion("Small", 2).Build();
 
             using (var w = WorkspaceFactory.Create())
             {
@@ -132,10 +127,12 @@ Pizza          10.00";
                 w.Add(cola);
             }
 
-            var ticket = TicketBuilder.Create(TicketType.Default, Department.Default).Build();
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", hamburger, null, hportion, "", null);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", pizza, null, pportion, "", null);
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", cola, null, cportion, "", null);
+            var ticket = TicketBuilder.Create(TicketType.Default, Department.Default)
+                                       .AddOrderFor(hamburger).Do()
+                                       .AddOrderFor(pizza).Do()
+                                       .AddOrderFor(cola).Do()
+                                       .Build();
+
             return ticket;
         }
     }

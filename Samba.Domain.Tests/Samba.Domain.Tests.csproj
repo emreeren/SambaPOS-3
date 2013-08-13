@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MenuItemBuilderTests.cs" />
     <Compile Include="OrderBuilderTests.cs" />
     <Compile Include="TaxTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

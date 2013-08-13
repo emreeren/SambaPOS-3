@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Samba.Domain.Builders;
 using Samba.Domain.Models.Accounts;
@@ -79,6 +77,81 @@ namespace Samba.Domain.Tests
                                       .WithCalculations(context.Calculations)
                                       .Build();
             Assert.AreEqual(10, ticket.Calculations.Sum(x => x.Amount));
+        }
+
+        [Test]
+        public void TicketBuilder_CreatesOrder_OrderAdded()
+        {
+            var context = TicketBuilderTestContext.GetDefaultContext();
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department)
+                                      .AddOrder().ForMenuItem(MenuItemBuilder.Create("Hamburger").AddPortion("Adet",10).Build()).Do()
+                                      .Build();
+            Assert.AreEqual(10, ticket.GetSum());
+        }
+
+        [Test]
+        public void TicketBuilder_CreatesOrderWithMenuItem_OrderAdded()
+        {
+            var context = TicketBuilderTestContext.GetDefaultContext();
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department)
+                                      .AddOrder()
+                                        .CreateMenuItem("Hamburger").AddPortion("Adet", 10).Do()
+                                      .Do()
+                                      .Build();
+            Assert.AreEqual(10, ticket.GetSum());
+        }
+
+        [Test]
+        public void TicketBuilder_AddsOrderWithMultipleMenuItems_OrdersAdded1()
+        {
+            var context = TicketBuilderTestContext.GetDefaultContext();
+
+            var hamburger = MenuItemBuilder.Create("Hamburger").AddPortion("Adet", 10).Build();
+            var tost = MenuItemBuilder.Create("Tost").AddPortion("Adet", 4).Build();
+
+            var order1 = OrderBuilder.Create(context.TicketType.SaleTransactionType, context.Department)
+                                     .ForMenuItem(hamburger).Build();
+            var order2 = OrderBuilder.Create(context.TicketType.SaleTransactionType, context.Department)
+                                     .ForMenuItem(tost).WithQuantity(2).Build();
+
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department)
+                                      .AddOrder(order1)
+                                      .AddOrder(order2)
+                                      .Build();
+
+            Assert.AreEqual(10 + (4 * 2), ticket.GetSum());
+        }
+        
+        [Test]
+        public void TicketBuilder_AddsOrderWithMultipleMenuItems_OrdersAdded2()
+        {
+            var context = TicketBuilderTestContext.GetDefaultContext();
+
+            var hamburger = MenuItemBuilder.Create("Hamburger").AddPortion("Adet", 10).Build();
+            var tost = MenuItemBuilder.Create("Tost").AddPortion("Adet", 4).Build();
+
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department)
+                                      .AddOrderFor(hamburger).Do()
+                                      .AddOrderFor(tost).WithQuantity(2).Do()
+                                      .Build();
+
+            Assert.AreEqual(10 + (4 * 2), ticket.GetSum());
+        }
+
+        [Test]
+        public void TicketBuilder_AddsOrderWithMultipleMenuItems_OrdersAdded3()
+        {
+            var context = TicketBuilderTestContext.GetDefaultContext();
+            var ticket = TicketBuilder.Create(context.TicketType, context.Department)
+                                      .AddOrder()
+                                        .CreateMenuItem("Hamburger").AddPortion("Adet", 10).Do()
+                                      .Do()
+                                      .AddOrder()
+                                        .CreateMenuItem("Tost").AddPortion("Adet", 4).Do()
+                                      .WithQuantity(2)
+                                      .Do()
+                                      .Build();
+            Assert.AreEqual(10 + (4 * 2), ticket.GetSum());
         }
     }
 
