@@ -18,6 +18,7 @@ namespace Samba.Domain.Builders
         private readonly IList<TaxTemplate> _taxTemplates;
         private AccountTransactionType _accountTransactionType;
         private ProductTimer _productTimer;
+        private bool _calculatePrice;
 
         public static OrderBuilder Create()
         {
@@ -37,6 +38,7 @@ namespace Samba.Domain.Builders
             _priceTag = "";
             _quantity = 1;
             _taxTemplates = new List<TaxTemplate>();
+            _calculatePrice = true;
         }
 
         public Order Build()
@@ -51,6 +53,7 @@ namespace Samba.Domain.Builders
             result.WarehouseId = _department.WarehouseId;
             result.AccountTransactionTypeId = _accountTransactionType.Id;
             result.UpdateProductTimer(_productTimer);
+            result.CalculatePrice = _calculatePrice;
             return result;
         }
 
@@ -130,6 +133,27 @@ namespace Samba.Domain.Builders
         public MenuItemBuilderFor<OrderBuilder> CreateMenuItem(string menuItemName)
         {
             return MenuItemBuilderFor<OrderBuilder>.Create(menuItemName, this);
+        }
+
+        public IEnumerable<TaxTemplate> GetTaxTemplates()
+        {
+            return _taxTemplates;
+        }
+
+        public AccountTransactionType GetTransactionType()
+        {
+            return _accountTransactionType;
+        }
+
+        public string GetUserName()
+        {
+            return _userName;
+        }
+
+        public OrderBuilder CalculatePrice(bool calculatePrice)
+        {
+            _calculatePrice = calculatePrice;
+            return this;
         }
     }
 }

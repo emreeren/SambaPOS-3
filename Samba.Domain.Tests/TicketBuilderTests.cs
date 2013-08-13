@@ -84,7 +84,7 @@ namespace Samba.Domain.Tests
         {
             var context = TicketBuilderTestContext.GetDefaultContext();
             var ticket = TicketBuilder.Create(context.TicketType, context.Department)
-                                      .AddOrder().ForMenuItem(MenuItemBuilder.Create("Hamburger").AddPortion("Adet",10).Build()).Do()
+                                      .AddOrder().ForMenuItem(MenuItemBuilder.Create("Hamburger").AddPortion("Adet", 10).Build()).Do()
                                       .Build();
             Assert.AreEqual(10, ticket.GetSum());
         }
@@ -110,9 +110,9 @@ namespace Samba.Domain.Tests
             var tost = MenuItemBuilder.Create("Tost").AddPortion("Adet", 4).Build();
 
             var order1 = OrderBuilder.Create(context.TicketType.SaleTransactionType, context.Department)
-                                     .ForMenuItem(hamburger).Build();
+                                     .ForMenuItem(hamburger);
             var order2 = OrderBuilder.Create(context.TicketType.SaleTransactionType, context.Department)
-                                     .ForMenuItem(tost).WithQuantity(2).Build();
+                                     .ForMenuItem(tost).WithQuantity(2);
 
             var ticket = TicketBuilder.Create(context.TicketType, context.Department)
                                       .AddOrder(order1)
@@ -121,7 +121,7 @@ namespace Samba.Domain.Tests
 
             Assert.AreEqual(10 + (4 * 2), ticket.GetSum());
         }
-        
+
         [Test]
         public void TicketBuilder_AddsOrderWithMultipleMenuItems_OrdersAdded2()
         {

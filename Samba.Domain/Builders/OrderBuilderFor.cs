@@ -1,4 +1,5 @@
-﻿using Samba.Domain.Models.Menus;
+﻿using System.Collections.Generic;
+using Samba.Domain.Models.Menus;
 
 namespace Samba.Domain.Builders
 {
@@ -43,6 +44,18 @@ namespace Samba.Domain.Builders
         public OrderBuilderFor<T> WithQuantity(decimal quantity)
         {
             _orderBuilder.WithQuantity(quantity);
+            return this;
+        }
+
+        public OrderBuilderFor<T> WithTaxTemplates(IList<TaxTemplate> taxTemplates)
+        {
+            _orderBuilder.WithTaxTemplates(taxTemplates);
+            return this;
+        }
+
+        public OrderBuilderFor<T> CalculatePrice(bool calculatePrice)
+        {
+            _orderBuilder.CalculatePrice(calculatePrice);
             return this;
         }
     }

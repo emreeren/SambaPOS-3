@@ -12,26 +12,22 @@ namespace Samba.Domain.Builders
         private Department _department;
         private decimal _exchangeRate;
         private readonly IList<CalculationType> _calculations;
-        private readonly IList<Order> _orders;
+        private readonly IList<OrderData> _orders;
+        private bool _taxIncluded;
 
-        public TicketBuilder()
+        private TicketBuilder(TicketType ticketType, Department department)
         {
-            _orders = new List<Order>();
+            _orders = new List<OrderData>();
             _calculations = new List<CalculationType>();
             _exchangeRate = 1m;
+            _department = department;
+            _ticketType = ticketType;
+            _taxIncluded = _ticketType.TaxIncluded;
         }
 
         public static TicketBuilder Create(TicketType ticketType, Department department)
         {
-            var result = Create();
-            result.WithDepartment(department);
-            result.WithTicketType(ticketType);
-            return result;
-        }
-
-        public static TicketBuilder Create()
-        {
-            return new TicketBuilder();
+            return  new TicketBuilder(ticketType,department);
         }
 
         public Ticket Build()
@@ -44,19 +40,22 @@ namespace Samba.Domain.Builders
                                  TicketTypeId = _ticketType.Id,
                                  DepartmentId = _department.Id,
                                  ExchangeRate = _exchangeRate,
-                                 TaxIncluded = _ticketType.TaxIncluded,
+                                 TaxIncluded = _taxIncluded,
                                  TransactionDocument = new AccountTransactionDocument()
                              };
 
-            foreach (var order in _orders)
+            foreach (var orderData in _orders)
             {
-                result.Orders.Add(order);
+                result.AddOrder(orderData.Order, orderData.TaxTemplates, orderData.TransactionType, orderData.UserName);
             }
 
             foreach (var calculation in _calculations)
             {
                 result.AddCalculation(calculation, calculation.Amount);
             }
+
+            result.Recalculate();
+
             return result;
         }
 
@@ -69,6 +68,7 @@ namespace Samba.Domain.Builders
         public TicketBuilder WithTicketType(TicketType ticketType)
         {
             _ticketType = ticketType;
+            _taxIncluded = _ticketType.TaxIncluded;
             return this;
         }
 
@@ -95,29 +95,57 @@ namespace Samba.Domain.Builders
             return this;
         }
 
-        public TicketBuilder AddOrder(Order order)
+        public TicketBuilder AddOrder(OrderBuilder orderBuilder)
         {
-            _orders.Add(order);
+            orderBuilder.WithDepartment(_department);
+            orderBuilder.WithAccountTransactionType(_ticketType.SaleTransactionType);
+            _orders.Add(new OrderData(orderBuilder));
             return this;
         }
 
         public void Link(OrderBuilder orderBuilder)
         {
-            orderBuilder.WithDepartment(_department);
-            orderBuilder.WithAccountTransactionType(_ticketType.SaleTransactionType);
-            AddOrder(orderBuilder.Build());
+            AddOrder(orderBuilder);
         }
 
         public OrderBuilderFor<TicketBuilder> AddOrder()
         {
             return OrderBuilderFor<TicketBuilder>.Create(this);
         }
-        
+
         public OrderBuilderFor<TicketBuilder> AddOrderFor(MenuItem menuItem)
         {
             var result = AddOrder();
             result.ForMenuItem(menuItem);
             return result;
         }
+
+        public TicketBuilder TaxExcluded()
+        {
+            _taxIncluded = false;
+            return this;
+        }
+
+        public TicketBuilder TaxIncluded()
+        {
+            _taxIncluded = true;
+            return this;
+        }
+    }
+
+    internal class OrderData
+    {
+        public OrderData(OrderBuilder orderBuilder)
+        {
+            Order = orderBuilder.Build();
+            TaxTemplates = orderBuilder.GetTaxTemplates();
+            TransactionType = orderBuilder.GetTransactionType();
+            UserName = orderBuilder.GetUserName();
+        }
+
+        public Order Order { get; set; }
+        public IEnumerable<TaxTemplate> TaxTemplates { get; set; }
+        public AccountTransactionType TransactionType { get; set; }
+        public string UserName { get; set; }
     }
 }

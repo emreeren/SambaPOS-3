@@ -117,56 +117,59 @@ namespace Samba.Domain.Tests
         }
 
         [Test]
+        public void OrderBuilder_CreatesTaxExcludedOrder_CalculatesVisibleValue()
+        {
+            var order = OrderBuilder.Create(AccountTransactionType.Default, Department.Default)
+                                    .ForMenuItem(Pizza)
+                                    .WithTaxTemplates(GetTaxTemplates(Pizza.Id))
+                                    .Build();
+            Assert.AreEqual(10, order.GetVisibleValue());
+        }
+
+        [Test]
         public void CanCalculateTicket()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            var order = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", Pizza, null, Pizza.Portions[0], "", null);
-            ticket.Recalculate();
-            Assert.AreEqual(10, order.GetVisibleValue());
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .AddOrderFor(Pizza).Do()
+                .Build();
             Assert.AreEqual(10, ticket.GetSum());
         }
 
         [Test]
         public void CanCalculateTax()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            var order = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            ticket.Recalculate();
-            Assert.AreEqual(10, order.GetVisibleValue());
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).Do()
+                .Build();
             Assert.AreEqual(2, ticket.GetTaxTotal());
-            Assert.AreEqual(10, ticket.GetSum());
         }
 
         [Test]
         public void CanCalculateTaxWhenVoidExists()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            ticket.Recalculate();
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).Do()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).CalculatePrice(false).Do()
+                .Build();
             Assert.AreEqual(2, ticket.GetTaxTotal());
-            Assert.AreEqual(10, ticket.GetSum());
-            var order2 = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            ticket.Recalculate();
-            Assert.AreEqual(4, ticket.GetTaxTotal());
-            Assert.AreEqual(20, ticket.GetSum());
-            order2.CalculatePrice = false;
-            ticket.Recalculate();
-            Assert.AreEqual(2, ticket.GetTaxTotal());
-            Assert.AreEqual(10, ticket.GetSum());
-            Assert.AreEqual(10, order2.GetVisibleValue());
         }
 
         [Test]
         public void CanCalculateExcludedTax()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            ticket.TaxIncluded = false;
-            var order = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            ticket.Recalculate();
-            Assert.AreEqual(10, order.GetVisibleValue());
-            Assert.AreEqual(10, order.GetTotal());
-            Assert.AreEqual(12.5, ticket.GetSum());
-            Assert.AreEqual(12.5, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
+            var ticket = TicketBuilder.Create(TicketType, Department.Default).TaxExcluded()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).Do()
+                .Build();
+            Assert.AreEqual(10 + (10 * .25), ticket.GetSum());
+        }
+
+        [Test]
+        public void CanCreateExcludedTaxTransaction()
+        {
+            var ticket = TicketBuilder.Create(TicketType, Department.Default).TaxExcluded()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).WithQuantity(3).Do()
+                .Build();
+            Assert.AreEqual((10 + (10 * .25)) * 3, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
         }
 
         [Test]

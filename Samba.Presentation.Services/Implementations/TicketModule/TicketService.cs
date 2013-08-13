@@ -586,6 +586,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (portion == null) return null;
             var priceTag = _applicationState.CurrentDepartment.PriceTag;
             var productTimer = _applicationState.GetProductTimer(menuItemId);
+            
             var order = ticket.AddOrder(
                 _applicationState.CurrentTicketType.SaleTransactionType,
                 _applicationState.CurrentDepartment.Model,

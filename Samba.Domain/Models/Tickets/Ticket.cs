@@ -214,14 +214,6 @@ namespace Samba.Domain.Models.Tickets
         public Order AddOrder(AccountTransactionType template, Department department, string userName, MenuItem menuItem, IList<TaxTemplate> taxTemplates, MenuItemPortion portion, string priceTag, ProductTimer timer)
         {
             UnLock();
-            
-            //var order = new Order();
-            //order.UpdateMenuItem(userName, menuItem, taxTemplates, portion, priceTag, 1);
-            //order.AccountTransactionTypeId = template.Id;
-            //order.WarehouseId = department.WarehouseId;
-            //order.DepartmentId = department.Id;
-            //order.UpdateProductTimer(timer);
-
             var order = OrderBuilder.Create()
                                     .WithDepartment(department)
                                     .ForMenuItem(menuItem)
@@ -233,6 +225,12 @@ namespace Samba.Domain.Models.Tickets
                                     .WithProductTimer(timer)
                                     .Build();
 
+            AddOrder(order, taxTemplates, template, userName);
+            return order;
+        }
+
+        public void AddOrder(Order order, IEnumerable<TaxTemplate> taxTemplates, AccountTransactionType template, string userName)
+        {
             TransactionDocument.AddSingletonTransaction(template.Id, template, GetTicketAccounts());
 
             if (taxTemplates != null)
@@ -248,7 +246,6 @@ namespace Samba.Domain.Models.Tickets
 
             Orders.Add(order);
             LastModifiedUserName = userName;
-            return order;
         }
 
         public void AddPayment(PaymentType paymentType, Account account, decimal amount, decimal exchangeRate, int userId)
@@ -846,5 +843,7 @@ namespace Samba.Domain.Models.Tickets
             }
             return "";
         }
+
+
     }
 }

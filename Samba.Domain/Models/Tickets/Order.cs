@@ -254,6 +254,7 @@ namespace Samba.Domain.Models.Tickets
                     result = false;
                 }
             }
+            OrderTags = JsonHelper.Serialize(OrderTagValues);
             return result;
         }
 

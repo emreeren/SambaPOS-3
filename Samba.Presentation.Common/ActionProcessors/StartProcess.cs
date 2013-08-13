@@ -13,6 +13,7 @@ namespace Samba.Presentation.Common.ActionProcessors
     {
         private readonly ILogService _logService;
 
+        [ImportingConstructor]
         public StartProcess(ILogService logService)
         {
             _logService = logService;
