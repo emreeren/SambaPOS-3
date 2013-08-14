@@ -15,10 +15,13 @@ namespace Samba.Domain.Builders
         private string _priceTag;
         private decimal _quantity;
         private Department _department;
-        private readonly IList<TaxTemplate> _taxTemplates;
         private AccountTransactionType _accountTransactionType;
         private ProductTimer _productTimer;
         private bool _calculatePrice;
+        private decimal? _price;
+
+        private readonly IList<TaxTemplate> _taxTemplates;
+        private readonly IList<OrderTagData> _orderTags;
 
         public static OrderBuilder Create()
         {
@@ -38,6 +41,7 @@ namespace Samba.Domain.Builders
             _priceTag = "";
             _quantity = 1;
             _taxTemplates = new List<TaxTemplate>();
+            _orderTags = new List<OrderTagData>();
             _calculatePrice = true;
         }
 
@@ -54,6 +58,13 @@ namespace Samba.Domain.Builders
             result.AccountTransactionTypeId = _accountTransactionType.Id;
             result.UpdateProductTimer(_productTimer);
             result.CalculatePrice = _calculatePrice;
+            result.Price = _price.GetValueOrDefault(result.Price);
+
+            foreach (var orderTagData in _orderTags)
+            {
+                result.ToggleOrderTag(orderTagData.OrderTagGroup, orderTagData.OrderTag, 1, "");
+            }
+
             return result;
         }
 
@@ -61,7 +72,9 @@ namespace Samba.Domain.Builders
         {
             _menuItem = menuItem;
             if (menuItem.Portions.Any() && _portion == null)
-                _portion = menuItem.Portions[0];
+            {
+                WithPortion(menuItem.Portions[0]);
+            }
             return this;
         }
 
@@ -155,5 +168,25 @@ namespace Samba.Domain.Builders
             _calculatePrice = calculatePrice;
             return this;
         }
+
+        public OrderBuilder WithPrice(decimal price)
+        {
+            _price = price;
+            return this;
+        }
+
+        public OrderBuilder ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag)
+        {
+            _orderTags.Add(new OrderTagData {OrderTagGroup = orderTagGroup, OrderTag = orderTag});
+            return this;
+        }
+
+        
+    }
+
+    internal class OrderTagData
+    {
+        public OrderTagGroup OrderTagGroup { get; set; }
+        public OrderTag OrderTag { get; set; }
     }
 }

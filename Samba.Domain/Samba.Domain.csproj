@@ -68,12 +68,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\AccountTransactionTypeBuilder.cs" />
+    <Compile Include="Builders\AccountTransactionTypeBuilderFor.cs" />
+    <Compile Include="Builders\ILinkableToAccountTransactionTypeBuilder.cs" />
     <Compile Include="Builders\ILinkableToMenuItemBuilder.cs" />
     <Compile Include="Builders\ILinkableToOrderBuilder.cs" />
     <Compile Include="Builders\MenuItemBuilder.cs" />
     <Compile Include="Builders\MenuItemBuilderFor.cs" />
     <Compile Include="Builders\OrderBuilder.cs" />
     <Compile Include="Builders\OrderBuilderFor.cs" />
+    <Compile Include="Builders\TaxTemplateBuilder.cs" />
     <Compile Include="Builders\TicketBuilder.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\AccountData.cs" />

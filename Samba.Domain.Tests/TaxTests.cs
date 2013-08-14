@@ -13,9 +13,7 @@ namespace Samba.Domain.Tests
     {
         private static MenuItem CreateMenuItem(int id, string name, decimal price)
         {
-            var result = new MenuItem(name) { Id = id };
-            result.Portions.Add(new MenuItemPortion { Price = price });
-            return result;
+            return MenuItemBuilder.Create(name).WithId(id).AddPortion("Portion", price).Build();
         }
 
         [SetUp]
@@ -31,7 +29,7 @@ namespace Samba.Domain.Tests
             var receivableAccountType = new AccountType { Name = "Receivable Accounts", Id = 3 };
             var discountAccountType = new AccountType { Name = "Discount Accounts", Id = 4 };
             var defaultSaleAccount = new Account { AccountTypeId = saleAccountType.Id, Name = "Sales", Id = 1 };
-            ReceivableAccount = new Account { AccountTypeId = receivableAccountType.Id, Name = "Receivables", Id = 2 };
+            var receivableAccount = new Account { AccountTypeId = receivableAccountType.Id, Name = "Receivables", Id = 2 };
             var stateTaxAccount = new Account { AccountTypeId = taxAccountType.Id, Name = "State Tax", Id = 3 };
             var localTaxAccount = new Account { AccountTypeId = taxAccountType.Id, Name = "Local Tax", Id = 4 };
             var defaultDiscountAccount = new Account { AccountTypeId = discountAccountType.Id, Name = "Discount", Id = 5 };
@@ -43,7 +41,7 @@ namespace Samba.Domain.Tests
                 SourceAccountTypeId = saleAccountType.Id,
                 TargetAccountTypeId = receivableAccountType.Id,
                 DefaultSourceAccountId = defaultSaleAccount.Id,
-                DefaultTargetAccountId = ReceivableAccount.Id
+                DefaultTargetAccountId = receivableAccount.Id
             };
 
             var localTaxTransactionType = new AccountTransactionType
@@ -53,7 +51,7 @@ namespace Samba.Domain.Tests
                 SourceAccountTypeId = taxAccountType.Id,
                 TargetAccountTypeId = receivableAccountType.Id,
                 DefaultSourceAccountId = localTaxAccount.Id,
-                DefaultTargetAccountId = ReceivableAccount.Id
+                DefaultTargetAccountId = receivableAccount.Id
             };
 
             var stateTaxTransactionType = new AccountTransactionType
@@ -63,7 +61,7 @@ namespace Samba.Domain.Tests
                 SourceAccountTypeId = taxAccountType.Id,
                 TargetAccountTypeId = receivableAccountType.Id,
                 DefaultSourceAccountId = stateTaxAccount.Id,
-                DefaultTargetAccountId = ReceivableAccount.Id
+                DefaultTargetAccountId = receivableAccount.Id
             };
 
             DiscountTransactionType = new AccountTransactionType
@@ -72,18 +70,24 @@ namespace Samba.Domain.Tests
                 Name = "Discount Transaction",
                 SourceAccountTypeId = receivableAccountType.Id,
                 TargetAccountTypeId = discountAccountType.Id,
-                DefaultSourceAccountId = ReceivableAccount.Id,
+                DefaultSourceAccountId = receivableAccount.Id,
                 DefaultTargetAccountId = defaultDiscountAccount.Id
             };
 
-            var stateTax = new TaxTemplate { Name = "State Tax", Rate = 25, Id = 1, Rounding = 2 };
-            stateTax.TaxTemplateMaps.Add(new TaxTemplateMap());
-            stateTax.AccountTransactionType = stateTaxTransactionType;
+            var stateTax = TaxTemplateBuilder.Create("State Tax")
+                                             .WithRate(25)
+                                             .WithRounding(2)
+                                             .WithAccountTransactionType(stateTaxTransactionType)
+                                             .AddDefaultTaxTemplateMap()
+                                             .Build();
 
-            var localTax = new TaxTemplate { Name = "Local Tax", Rate = 3, Id = 2, Rounding = 2 };
-            localTax.TaxTemplateMaps.Add(new TaxTemplateMap { MenuItemId = Cola.Id });
-            localTax.TaxTemplateMaps.Add(new TaxTemplateMap { MenuItemId = Beer.Id });
-            localTax.AccountTransactionType = localTaxTransactionType;
+            var localTax = TaxTemplateBuilder.Create("Local Tax").WithRate(3)
+                                             .AddTaxTemplateMap(new TaxTemplateMap {MenuItemId = Cola.Id})
+                                             .AddTaxTemplateMap(new TaxTemplateMap {MenuItemId = Beer.Id})
+                                             .WithAccountTransactionType(localTaxTransactionType)
+                                             .WithRounding(2)
+                                             .Build();
+
 
             TaxTemplates = new List<TaxTemplate> { stateTax, localTax };
 
@@ -91,7 +95,6 @@ namespace Samba.Domain.Tests
         }
 
         protected AccountTransactionType DiscountTransactionType { get; set; }
-        protected Account ReceivableAccount { get; set; }
         protected TicketType TicketType { get; set; }
 
         public MenuItem Pizza { get; set; }
@@ -145,7 +148,7 @@ namespace Samba.Domain.Tests
         }
 
         [Test]
-        public void CanCalculateTaxWhenVoidExists()
+        public void CanCalculateTaxWhenVoidOrderExists()
         {
             var ticket = TicketBuilder.Create(TicketType, Department.Default)
                 .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).Do()
@@ -176,17 +179,14 @@ namespace Samba.Domain.Tests
         public void CanCalculateDoubleMultipleTax()
         {
             const decimal orderQuantiy = 2;
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            var order = ticket.AddOrder(AccountTransactionType.Default, Department.Default, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
-            order.Quantity = orderQuantiy;
-            ticket.Recalculate();
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .AddOrderFor(Beer).WithTaxTemplates(GetTaxTemplates(Beer.Id)).WithQuantity(2).Do().Build();
+
             const decimal expTax = 2.18m * orderQuantiy;
             const decimal expStTax = 1.95m;
             const decimal expLcTax = 0.23m;
 
             Assert.AreEqual(expTax, ticket.GetTaxTotal());
-            Assert.AreEqual(orderQuantiy * 10, order.GetVisibleValue());
-            Assert.AreEqual(orderQuantiy * 10, ticket.GetSum());
             Assert.AreEqual(expLcTax * orderQuantiy, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
             Assert.AreEqual(expStTax * orderQuantiy, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
         }
@@ -194,20 +194,17 @@ namespace Samba.Domain.Tests
         [Test]
         public void CanCalculateDoubleOrdersMultipleTax()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            var order1 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
-            var order2 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            order2.UpdatePrice(5, "");
-            ticket.Recalculate();
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .AddOrderFor(Beer).WithTaxTemplates(GetTaxTemplates(Beer.Id)).Do()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).WithPrice(5).Do()
+                .Build();
+
             const decimal expTax = 2.18m + 1;
             const decimal expStTax = 1.95m + 1;
             const decimal expLcTax = 0.23m;
 
             Assert.AreEqual(expTax, ticket.GetTaxTotal());
-            Assert.AreEqual(10, order1.GetVisibleValue());
-            Assert.AreEqual(5, order2.GetVisibleValue());
-            Assert.AreEqual(15, ticket.GetSum());
-            Assert.AreEqual(15 - expTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == TicketType.SaleTransactionType.Id).Amount);
+            Assert.AreEqual(ticket.GetSum() - expTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == TicketType.SaleTransactionType.Id).Amount);
             Assert.AreEqual(expLcTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
             Assert.AreEqual(expStTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
         }
@@ -215,21 +212,18 @@ namespace Samba.Domain.Tests
         [Test]
         public void CanCalculateDoubleOrdersMultipleTaxWithOrderTag()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            var order1 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
-            var order2 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            order2.ToggleOrderTag(new OrderTagGroup { AddTagPriceToOrderPrice = true }, new OrderTag { Price = 5 }, 1, "");
-            order2.UpdatePrice(5, "");
-            ticket.Recalculate();
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .AddOrderFor(Beer).WithTaxTemplates(GetTaxTemplates(Beer.Id)).Do()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).WithPrice(5)
+                    .ToggleOrderTag(new OrderTagGroup { AddTagPriceToOrderPrice = true }, new OrderTag { Price = 5 }).Do()
+                .Build();
+
             const decimal expTax = 2.18m + 2;
             const decimal expStTax = 1.95m + 2;
             const decimal expLcTax = 0.23m;
 
             Assert.AreEqual(expTax, ticket.GetTaxTotal());
-            Assert.AreEqual(10, order1.GetVisibleValue());
-            Assert.AreEqual(10, order2.GetVisibleValue());
-            Assert.AreEqual(20, ticket.GetSum());
-            Assert.AreEqual(20 - expTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == TicketType.SaleTransactionType.Id).Amount);
+            Assert.AreEqual(ticket.GetSum() - expTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == TicketType.SaleTransactionType.Id).Amount);
             Assert.AreEqual(expLcTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
             Assert.AreEqual(expStTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
         }
@@ -237,22 +231,20 @@ namespace Samba.Domain.Tests
         [Test]
         public void CanCalculateDoubleOrdersMultipleTaxWithMultipleOrderTag()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            var order1 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
-            var order2 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT1", Id = 1, AddTagPriceToOrderPrice = true }, new OrderTag { Name = "t1", Id = 1, Price = 5 }, 1, "");
-            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT2", Id = 2, AddTagPriceToOrderPrice = false }, new OrderTag { Name = "t2", Id = 2, Price = 5 }, 1, "");
-            order2.UpdatePrice(5, "");
-            ticket.Recalculate();
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .AddOrderFor(Beer).WithTaxTemplates(GetTaxTemplates(Beer.Id)).Do()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id))
+                    .ToggleOrderTag(new OrderTagGroup { Name = "OT1", Id = 1, AddTagPriceToOrderPrice = true }, new OrderTag { Name = "t1", Id = 1, Price = 5 })
+                    .ToggleOrderTag(new OrderTagGroup { Name = "OT2", Id = 2, AddTagPriceToOrderPrice = false }, new OrderTag { Name = "t2", Id = 2, Price = 5 })
+                    .WithPrice(5).Do()
+                .Build();
+
             const decimal expTax = 2.18m + 3;
             const decimal expStTax = 1.95m + 3;
             const decimal expLcTax = 0.23m;
 
             Assert.AreEqual(expTax, ticket.GetTaxTotal());
-            Assert.AreEqual(10, order1.GetVisibleValue());
-            Assert.AreEqual(10, order2.GetVisibleValue());
-            Assert.AreEqual(25, ticket.GetSum());
-            Assert.AreEqual(25 - expTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == TicketType.SaleTransactionType.Id).Amount);
+            Assert.AreEqual(ticket.GetSum() - expTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == TicketType.SaleTransactionType.Id).Amount);
             Assert.AreEqual(expLcTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
             Assert.AreEqual(expStTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
         }
@@ -260,24 +252,21 @@ namespace Samba.Domain.Tests
         [Test]
         public void CanCalculateDoubleOrdersMultipleTaxWithMultipleOrderTagOneTaxFree()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            var order1 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
-            var order2 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            Assert.AreEqual(10, order2.GetVisibleValue());
-            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT1", Id = 1, AddTagPriceToOrderPrice = true }, new OrderTag { Name = "t1", Id = 1, Price = 5 }, 1, "");
-            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT2", Id = 2, AddTagPriceToOrderPrice = false }, new OrderTag { Name = "t2", Id = 2, Price = 5 }, 1, "");
-            order2.ToggleOrderTag(new OrderTagGroup { Name = "OT3", Id = 3, AddTagPriceToOrderPrice = true, TaxFree = true }, new OrderTag { Name = "t3", Id = 3, Price = 5 }, 1, "");
-            order2.UpdatePrice(5, "");
-            ticket.Recalculate();
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .AddOrderFor(Beer).WithTaxTemplates(GetTaxTemplates(Beer.Id)).Do()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id))
+                    .ToggleOrderTag(new OrderTagGroup { Name = "OT1", Id = 1, AddTagPriceToOrderPrice = true }, new OrderTag { Name = "t1", Id = 1, Price = 5 })
+                    .ToggleOrderTag(new OrderTagGroup { Name = "OT2", Id = 2, AddTagPriceToOrderPrice = false }, new OrderTag { Name = "t2", Id = 2, Price = 5 })
+                    .ToggleOrderTag(new OrderTagGroup { Name = "OT3", Id = 3, AddTagPriceToOrderPrice = true, TaxFree = true }, new OrderTag { Name = "t3", Id = 3, Price = 5 })
+                    .WithPrice(5).Do()
+                .Build();
+
             const decimal expTax = 2.18m + 3;
             const decimal expStTax = 1.95m + 3;
             const decimal expLcTax = 0.23m;
 
             Assert.AreEqual(expTax, ticket.GetTaxTotal());
-            Assert.AreEqual(10, order1.GetVisibleValue());
-            Assert.AreEqual(15, order2.GetVisibleValue());
-            Assert.AreEqual(30, ticket.GetSum());
-            Assert.AreEqual(30 - expTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == TicketType.SaleTransactionType.Id).Amount);
+            Assert.AreEqual(ticket.GetSum() - expTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == TicketType.SaleTransactionType.Id).Amount);
             Assert.AreEqual(expLcTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
             Assert.AreEqual(expStTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
         }
@@ -285,20 +274,18 @@ namespace Samba.Domain.Tests
         [Test]
         public void CanCalculateDiscountTax()
         {
-            const decimal orderQuantiy = 1;
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            var order = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Beer, GetTaxTemplates(Beer.Id), Pizza.Portions[0], "", null);
-            order.Quantity = orderQuantiy;
-            ticket.AddCalculation(new CalculationType { AccountTransactionType = DiscountTransactionType, Amount = 10, DecreaseAmount = true }, 10);
-            ticket.Recalculate();
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .AddOrderFor(Beer).WithTaxTemplates(GetTaxTemplates(Beer.Id)).Do()
+                .AddCalculation(new CalculationType { Name = "Discount", AccountTransactionType = DiscountTransactionType, Amount = 10, DecreaseAmount = true }).Build();
+
             var expStTax = decimal.Round((9 * 25) / 128m, 2);
             var expLcTax = decimal.Round((9 * 3) / 128m, 2);
             var expTax = expStTax + expLcTax;
 
-            Assert.AreEqual(orderQuantiy * 9, ticket.GetSum());
+            Assert.AreEqual(9, ticket.GetSum());
             Assert.AreEqual(expTax, ticket.GetTaxTotal());
-            Assert.AreEqual(expLcTax * orderQuantiy, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
-            Assert.AreEqual(expStTax * orderQuantiy, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
+            Assert.AreEqual(expLcTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
+            Assert.AreEqual(expStTax, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
             Assert.AreEqual(0, ticket.TransactionDocument.AccountTransactions.Sum(x => x.AccountTransactionValues.Sum(y => y.Debit - y.Credit)));
             Assert.AreEqual(9, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
         }
@@ -306,13 +293,11 @@ namespace Samba.Domain.Tests
         [Test]
         public void CanCalculateExcludedTaxWhenDiscountExists()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            ticket.TaxIncluded = false;
-            var order = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            ticket.AddCalculation(new CalculationType { AccountTransactionType = DiscountTransactionType, Amount = 10, DecreaseAmount = true }, 10);
-            ticket.Recalculate();
-            Assert.AreEqual(10, order.GetVisibleValue());
-            Assert.AreEqual(10, order.GetTotal());
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .TaxExcluded()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).Do()
+                .AddCalculation(new CalculationType { Name = "Discount", AccountTransactionType = DiscountTransactionType, Amount = 10, DecreaseAmount = true })
+                .Build();
             Assert.AreEqual(11.25, ticket.GetSum());
             Assert.AreEqual(11.25, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
         }
@@ -320,14 +305,18 @@ namespace Samba.Domain.Tests
         [Test]
         public void CanCalculateMultipleOrderExcludedTaxWhenDiscountExists()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            ticket.TaxIncluded = false;
-            var order1 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            var order2 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            ticket.AddCalculation(new CalculationType { AccountTransactionType = DiscountTransactionType, Amount = 10, DecreaseAmount = true }, 10);
-            ticket.Recalculate();
-            Assert.AreEqual(10, order1.GetVisibleValue());
-            Assert.AreEqual(10, order2.GetTotal());
+            var calculationType = CalculationTypeBuilder.Create("Discount")
+                .WithAccountTransactionType(DiscountTransactionType)
+                .WithAmount(10)
+                .DecreaseAmount()
+                .Build();
+
+            var ticket = TicketBuilder.Create(TicketType, Department.Default)
+                .TaxExcluded()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).Do(2)
+                .AddCalculation(calculationType)
+                .Build();
+
             Assert.AreEqual(22.50, ticket.GetSum());
             Assert.AreEqual(22.50, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
         }
@@ -335,22 +324,10 @@ namespace Samba.Domain.Tests
         [Test]
         public void CanVoidAll()
         {
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            ticket.TaxIncluded = false;
-            var order1 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            var order2 = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Pizza, GetTaxTemplates(Pizza.Id), Pizza.Portions[0], "", null);
-            ticket.AddCalculation(new CalculationType { AccountTransactionType = DiscountTransactionType, Amount = 10, DecreaseAmount = true }, 10);
-            ticket.Recalculate();
-            Assert.AreEqual(10, order1.GetVisibleValue());
-            Assert.AreEqual(10, order2.GetTotal());
-            Assert.AreEqual(22.50, ticket.GetSum());
-            Assert.AreEqual(22.50, ticket.TransactionDocument.AccountTransactions.Where(x => x.TargetAccountTypeId == 3).Sum(x => x.Amount) - ticket.TransactionDocument.AccountTransactions.Where(x => x.SourceAccountTypeId == 3).Sum(x => x.Amount));
-            ticket.RemoveCalculation(ticket.Calculations[0]);
-            order1.CalculatePrice = false;
-            ticket.Recalculate();
-            Assert.AreEqual(12.5, ticket.TransactionDocument.AccountTransactions.Sum(x => x.Amount));
-            order2.CalculatePrice = false;
-            ticket.Recalculate();
+            var ticket = TicketBuilder.Create(TicketType, Department.Default).TaxExcluded()
+                .AddOrderFor(Pizza).WithTaxTemplates(GetTaxTemplates(Pizza.Id)).CalculatePrice(false).Do(2)
+                .Build();
+            Assert.AreEqual(0, ticket.GetTaxTotal());
             Assert.AreEqual(0, ticket.TransactionDocument.AccountTransactions.Sum(x => x.Amount));
         }
 
@@ -359,41 +336,86 @@ namespace Samba.Domain.Tests
         {
             // http://forum2.sambapos.com/index.php/topic,1481.0.html
 
-            var percent8Tax = new TaxTemplate { Name = "% 8 Tax", Rate = 8, AccountTransactionType = new AccountTransactionType() { Id = 2 }, Rounding = 0 };
-            var percent18Tax = new TaxTemplate { Name = "% 18 Tax", Rate = 18, AccountTransactionType = new AccountTransactionType() { Id = 3 }, Rounding = 0 };
-            var tax8 = new List<TaxTemplate> { percent8Tax };
-            var tax18 = new List<TaxTemplate> { percent18Tax };
-            var ticket = TicketBuilder.Create(TicketType, Department.Default).Build();
-            ticket.TaxIncluded = true;
-            AddOrderToTicket(ticket, tax8, 6, 16);
-            Assert.AreEqual(96, ticket.GetSum());
-            Assert.AreEqual(7.11, ticket.GetTaxTotal());
-            AddOrderToTicket(ticket, tax8, 10, 3);
-            AddOrderToTicket(ticket, tax8, 10, 3);
-            AddOrderToTicket(ticket, tax8, 3, 10);
-            AddOrderToTicket(ticket, tax18, 9, 1);
-            AddOrderToTicket(ticket, tax8, 7, 1);
-            AddOrderToTicket(ticket, tax8, 18, 3);
-            AddOrderToTicket(ticket, tax8, 5, 2);
-            AddOrderToTicket(ticket, tax8, 5, 2);
-            AddOrderToTicket(ticket, tax8, 28, 3);
-            AddOrderToTicket(ticket, tax8, 32, 3);
-            AddOrderToTicket(ticket, tax8, 10, 2);
-            AddOrderToTicket(ticket, tax8, 10, 2);
-            AddOrderToTicket(ticket, tax18, 9, 1);
-            AddOrderToTicket(ticket, tax18, 105, 2);
-            ticket.Recalculate();
+            var tax8 = TaxTemplateBuilder.Create("%8 Tax").WithRate(8)
+                    .CreateAccountTransactionType().WithId(2).Do()
+                .WithRounding(0)
+                .Build();
+
+            var tax18 = TaxTemplateBuilder.Create("%18 Tax").WithRate(18)
+                    .CreateAccountTransactionType().WithId(3).Do()
+                .WithRounding(0)
+                .Build();
+
+            var ticket = TicketBuilder.Create(TicketType, Department.Default).TaxIncluded()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(6).WithQuantity(16).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(10).WithQuantity(3).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(10).WithQuantity(3).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(3).WithQuantity(10).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax18).WithPrice(9).WithQuantity(1).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(7).WithQuantity(1).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(18).WithQuantity(3).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(5).WithQuantity(2).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(5).WithQuantity(2).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(28).WithQuantity(3).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(32).WithQuantity(3).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(10).WithQuantity(2).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax8).WithPrice(10).WithQuantity(2).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax18).WithPrice(9).WithQuantity(1).Do()
+                .AddOrderFor(Product).WithTaxTemplate(tax18).WithPrice(105).WithQuantity(2).Do()
+                .Build();
+
             Assert.AreEqual(715, ticket.GetSum());
             Assert.AreEqual(34.78 + 36.07, ticket.GetTaxTotal());
             Assert.AreEqual(36.07, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 2).Amount);
             Assert.AreEqual(34.78, ticket.TransactionDocument.AccountTransactions.Single(x => x.AccountTransactionTypeId == 3).Amount);
         }
+    }
 
-        private void AddOrderToTicket(Ticket ticket, IList<TaxTemplate> tax, decimal price, decimal quantity)
+    public class CalculationTypeBuilder
+    {
+        private string _name;
+        private AccountTransactionType _accountTransactionType;
+        private decimal _amount;
+        private bool _decreaseAmount;
+
+        private CalculationTypeBuilder(string name)
         {
-            var order = ticket.AddOrder(TicketType.SaleTransactionType, Department.Default, "Emre", Product, tax, Product.Portions[0], "", null);
-            order.Price = price;
-            order.Quantity = quantity;
+            _name = name;
+        }
+
+        public static CalculationTypeBuilder Create(string discount)
+        {
+            return new CalculationTypeBuilder(discount);
+        }
+
+        public CalculationTypeBuilder WithAccountTransactionType(AccountTransactionType accountTransactionType)
+        {
+            _accountTransactionType = accountTransactionType;
+            return this;
+        }
+
+        public CalculationTypeBuilder WithAmount(decimal amount)
+        {
+            _amount = amount;
+            return this;
+        }
+
+        public CalculationTypeBuilder DecreaseAmount()
+        {
+            _decreaseAmount = true;
+            return this;
+        }
+
+        public CalculationType Build()
+        {
+            var result = new CalculationType
+                             {
+                                 Name = _name,
+                                 AccountTransactionType = _accountTransactionType,
+                                 Amount = _amount,
+                                 DecreaseAmount = _decreaseAmount
+                             };
+            return result;
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Samba.Domain.Models.Tickets;
-
-namespace Samba.Domain.Builders
+﻿namespace Samba.Domain.Builders
 {
     public interface ILinkableToOrderBuilder<T> where T : ILinkableToOrderBuilder<T>
     {

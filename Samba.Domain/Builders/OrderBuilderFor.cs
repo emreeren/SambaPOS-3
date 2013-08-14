@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Samba.Domain.Models.Menus;
+using Samba.Domain.Models.Tickets;
 
 namespace Samba.Domain.Builders
 {
@@ -19,26 +20,10 @@ namespace Samba.Domain.Builders
             return new OrderBuilderFor<T>(parent);
         }
 
-        public T Do()
-        {
-            _parent.Link(_orderBuilder);
-            return _parent;
-        }
-
         public OrderBuilderFor<T> ForMenuItem(MenuItem menuItem)
         {
             _orderBuilder.ForMenuItem(menuItem);
             return this;
-        }
-
-        public void Link(MenuItem menuItem)
-        {
-            _orderBuilder.ForMenuItem(menuItem);
-        }
-
-        public MenuItemBuilderFor<OrderBuilderFor<T>> CreateMenuItem(string menuItemName)
-        {
-            return MenuItemBuilderFor<OrderBuilderFor<T>>.Create(menuItemName, this);
         }
 
         public OrderBuilderFor<T> WithQuantity(decimal quantity)
@@ -52,11 +37,48 @@ namespace Samba.Domain.Builders
             _orderBuilder.WithTaxTemplates(taxTemplates);
             return this;
         }
+        
+        public OrderBuilderFor<T> WithTaxTemplate(TaxTemplate taxTemplate)
+        {
+            _orderBuilder.AddTaxTemplate(taxTemplate);
+            return this;
+        }
 
         public OrderBuilderFor<T> CalculatePrice(bool calculatePrice)
         {
             _orderBuilder.CalculatePrice(calculatePrice);
             return this;
+        }
+
+        public OrderBuilderFor<T> WithPrice(decimal price)
+        {
+            _orderBuilder.WithPrice(price);
+            return this;
+        }
+
+        public OrderBuilderFor<T> ToggleOrderTag(OrderTagGroup orderTagGroup, OrderTag orderTag)
+        {
+            _orderBuilder.ToggleOrderTag(orderTagGroup, orderTag);
+            return this;
+        }
+
+        public void Link(MenuItem menuItem)
+        {
+            _orderBuilder.ForMenuItem(menuItem);
+        }
+
+        public MenuItemBuilderFor<OrderBuilderFor<T>> CreateMenuItem(string menuItemName)
+        {
+            return MenuItemBuilderFor<OrderBuilderFor<T>>.Create(menuItemName, this);
+        }
+
+        public T Do(int times = 1)
+        {
+            for (int i = 0; i < times; i++)
+            {
+                _parent.Link(_orderBuilder);
+            }
+            return _parent;
         }
     }
 }
