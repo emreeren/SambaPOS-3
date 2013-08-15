@@ -57,7 +57,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid MinHeight="50">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -110,46 +110,50 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ItemsControl Grid.Row="2" ItemsSource="{Binding OrderTagGroups}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <GroupBox Header="{Binding Name}" Margin="5" FontWeight="Bold" FontSize="16">
-                        <StackPanel>
-                            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="0,0,0,1"
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                      HorizontalContentAlignment="Stretch" UIControls:KineticBehaviour.HandleKineticScrolling="True">
+            <ItemsControl  ItemsSource="{Binding OrderTagGroups}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <GroupBox Header="{Binding Name}" Margin="5" FontWeight="Bold" FontSize="16">
+                            <StackPanel>
+                                <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="0,0,0,1"
                                 Margin="5" Visibility="{Binding FreeTagging,Converter={StaticResource VisibilityConverter}}">
-                                <StackPanel Orientation="Horizontal" Margin="0,5,0,10" >
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,10" >
 
-                                    <Label FontSize="18" Content="{LocText Name,Suffix=':'}" />
-                                    <TextBox VerticalContentAlignment="Center" FontSize="18" FontWeight="Normal" MinWidth="120" Text="{Binding FreeTagName,UpdateSourceTrigger=PropertyChanged}" Loaded="TextBox_Loaded" ></TextBox>
-                                    <Label FontSize="18" Content="{LocText Price,Suffix=':'}"/>
-                                    <UIControls:FilteredTextBox VerticalContentAlignment="Center" FontSize="18" FontWeight="Normal" MinWidth="70" Type="Number" Text="{Binding FreeTagPriceStr,UpdateSourceTrigger=PropertyChanged}"/>
-                                    <FxButton:FlexButton Margin="5,0" Padding="3" MinWidth="50" Command="{Binding DataContext.FreeTagSelectedCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                        <Label FontSize="18" Content="{LocText Name,Suffix=':'}" />
+                                        <TextBox VerticalContentAlignment="Center" FontSize="18" FontWeight="Normal" MinWidth="120" Text="{Binding FreeTagName,UpdateSourceTrigger=PropertyChanged}" Loaded="TextBox_Loaded" ></TextBox>
+                                        <Label FontSize="18" Content="{LocText Price,Suffix=':'}"/>
+                                        <UIControls:FilteredTextBox VerticalContentAlignment="Center" FontSize="18" FontWeight="Normal" MinWidth="70" Type="Number" Text="{Binding FreeTagPriceStr,UpdateSourceTrigger=PropertyChanged}"/>
+                                        <FxButton:FlexButton Margin="5,0" Padding="3" MinWidth="50" Command="{Binding DataContext.FreeTagSelectedCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                                      Content="{LocText Add}" CommandParameter="{Binding}"/>
-                                </StackPanel>
-                            </Border>
-                            <ItemsControl ItemsSource="{Binding OrderTags}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Columns="{Binding ColumnCount}" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <FxButton:FlexButton Margin="0,5,5,0" ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}"
+                                    </StackPanel>
+                                </Border>
+                                <ItemsControl ItemsSource="{Binding OrderTags}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="{Binding ColumnCount}" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <FxButton:FlexButton Margin="0,5,5,0" ButtonColor="{Binding Color,Converter={StaticResource NullBrushConverter}}"
                                                          Height="{Binding DataContext.ButtonHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
                                                          Command="{Binding DataContext.OrderTagSelectedCommand, 
                                                          RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType={x:Type ItemsControl}}}"
                                                          CommandParameter="{Binding}" >
-                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding DisplayText}" FontSize="{Binding FontSize}"/>
-                                        </FxButton:FlexButton>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </GroupBox>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                                                <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding DisplayText}" FontSize="{Binding FontSize}"/>
+                                            </FxButton:FlexButton>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </GroupBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
 
         <UniformGrid Rows="1" VerticalAlignment="Bottom" Grid.Row="3">
             <FxButton:FlexButton Margin="3" Height="60"
