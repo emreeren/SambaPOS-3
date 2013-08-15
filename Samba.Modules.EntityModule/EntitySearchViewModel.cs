@@ -297,9 +297,9 @@ namespace Samba.Modules.EntityModule
         private bool CanSelectEntity(string arg)
         {
             return
-                _applicationState.IsCurrentWorkPeriodOpen
+                SelectedEntity!=null 
+                &&_applicationState.IsCurrentWorkPeriodOpen
                 && _applicationState.CurrentDepartment != null
-                && SelectedEntity != null
                 && !string.IsNullOrEmpty(SelectedEntity.Name);
         }
 

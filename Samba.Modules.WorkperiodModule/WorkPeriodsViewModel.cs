@@ -133,7 +133,7 @@ namespace Samba.Modules.WorkperiodModule
             }
             else
             {
-                InteractionService.UserIntraction.GiveFeedback("Can't complete operation because of an error. Check error log file for details.");
+                InteractionService.UserIntraction.GiveFeedback(Resources.CantComplateOperationError);
             }
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
         }
@@ -146,11 +146,18 @@ namespace Samba.Modules.WorkperiodModule
 
         private void OnStartOfDayExecute(string obj)
         {
-            _workPeriodService.StartWorkPeriod(StartDescription);
-            Refresh();
-            _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
-            _applicationState.NotifyEvent(RuleEventNames.WorkPeriodStarts, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
-            InteractionService.UserIntraction.GiveFeedback(Resources.StartingWorkPeriodCompleted);
+            var success = _workPeriodService.StartWorkPeriod(StartDescription);
+            if (success)
+            {
+                Refresh();
+                _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
+                _applicationState.NotifyEvent(RuleEventNames.WorkPeriodStarts, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
+                InteractionService.UserIntraction.GiveFeedback(Resources.StartingWorkPeriodCompleted);
+            }
+            else
+            {
+                InteractionService.UserIntraction.GiveFeedback(Resources.CantComplateOperationError);
+            }
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
         }
 

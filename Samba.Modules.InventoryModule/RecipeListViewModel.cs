@@ -11,7 +11,7 @@ using Samba.Presentation.Services;
 
 namespace Samba.Modules.InventoryModule
 {
-    [Export]
+    [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     class RecipeListViewModel : EntityCollectionViewModelBase<RecipeViewModel, Recipe>
     {
         private readonly IInventoryService _inventoryService;

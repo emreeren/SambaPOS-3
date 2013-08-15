@@ -38,9 +38,7 @@ namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
                 var tran = w.BeginTransaction();
                 try
                 {
-                    _applicationStateSetter.ResetWorkPeriods();
                     _workPeriodDao.StartWorkPeriod(description, w);
-                    _applicationStateSetter.ResetWorkPeriods();
                     foreach (var workPeriodProcessor in WorkPeriodProcessors)
                     {
                         workPeriodProcessor.ProcessWorkPeriodStart(CurrentWorkPeriod);
@@ -54,8 +52,8 @@ namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
                     return false;
                 }
             }
+            _applicationStateSetter.ResetWorkPeriods();
             return true;
-
         }
 
         public bool StopWorkPeriod(string description)
@@ -66,7 +64,6 @@ namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
                 try
                 {
                     _workPeriodDao.StopWorkPeriod(description, w);
-                    _applicationStateSetter.ResetWorkPeriods();
                     foreach (var workPeriodProcessor in WorkPeriodProcessors)
                     {
                         workPeriodProcessor.ProcessWorkPeriodEnd(CurrentWorkPeriod);
@@ -80,6 +77,7 @@ namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
                     return false;
                 }
             }
+            _applicationStateSetter.ResetWorkPeriods();
             return true;
         }
 
