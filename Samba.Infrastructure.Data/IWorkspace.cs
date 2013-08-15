@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq.Expressions;
 
 namespace Samba.Infrastructure.Data
@@ -28,5 +29,6 @@ namespace Samba.Infrastructure.Data
         void ResetDatabase();
         void Refresh(object item);
         void MarkUnchanged<T>(T item) where T : class, IEntityClass;
+        IDbTransaction BeginTransaction();
     }
 }

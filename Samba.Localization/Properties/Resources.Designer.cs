@@ -1160,6 +1160,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t complete operation because of an error. Check error log file for details..
+        /// </summary>
+        public static string CantComplateOperationError {
+            get {
+                return ResourceManager.GetString("CantComplateOperationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t complete this operation while zero priced orders exists..
         /// </summary>
         public static string CantCompleteOperationWhenThereIsZeroPricedProduct {

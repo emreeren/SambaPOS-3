@@ -39,6 +39,11 @@ namespace Samba.Infrastructure.Data.SQL
             MarkUnchanged2(entity != null ? entity.Entity : item);
         }
 
+        public IDbTransaction BeginTransaction()
+        {
+            return _context.ObjContext().Connection.BeginTransaction();
+        }
+
         public void Refresh(object item)
         {
             _context.Refresh(item);

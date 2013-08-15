@@ -6,8 +6,8 @@ namespace Samba.Presentation.Services
 {
     public interface IWorkPeriodService 
     {
-        void StartWorkPeriod(string description);
-        void StopWorkPeriod(string description);
+        bool StartWorkPeriod(string description);
+        bool StopWorkPeriod(string description);
         IEnumerable<WorkPeriod> GetLastWorkPeriods(int count);
         DateTime GetWorkPeriodStartDate();
     }

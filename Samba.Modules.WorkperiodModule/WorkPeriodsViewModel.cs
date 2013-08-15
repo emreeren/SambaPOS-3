@@ -123,11 +123,18 @@ namespace Samba.Modules.WorkperiodModule
         private void OnEndOfDayExecute(string obj)
         {
             _applicationState.NotifyEvent(RuleEventNames.BeforeWorkPeriodEnds, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
-            _workPeriodService.StopWorkPeriod(EndDescription);
-            Refresh();
-            _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
-            _applicationState.NotifyEvent(RuleEventNames.WorkPeriodEnds, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
-            InteractionService.UserIntraction.GiveFeedback(Resources.WorkPeriodEndsMessage);
+            var success = _workPeriodService.StopWorkPeriod(EndDescription);
+            if (success)
+            {
+                Refresh();
+                _applicationState.CurrentWorkPeriod.PublishEvent(EventTopicNames.WorkPeriodStatusChanged);
+                _applicationState.NotifyEvent(RuleEventNames.WorkPeriodEnds, new { WorkPeriod = _applicationState.CurrentWorkPeriod });
+                InteractionService.UserIntraction.GiveFeedback(Resources.WorkPeriodEndsMessage);
+            }
+            else
+            {
+                InteractionService.UserIntraction.GiveFeedback("Can't complete operation because of an error. Check error log file for details.");
+            }
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivateNavigation);
         }
 

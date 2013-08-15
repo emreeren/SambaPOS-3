@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Samba.Domain.Models.Settings;
 using Samba.Persistance;
+using Samba.Persistance.Data;
+using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
 {
@@ -10,30 +13,74 @@ namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
     public class WorkPeriodService : IWorkPeriodService
     {
         private readonly IApplicationStateSetter _applicationStateSetter;
+        private readonly ILogService _logService;
         private readonly IWorkPeriodDao _workPeriodDao;
         private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public WorkPeriodService(IWorkPeriodDao workPeriodDao, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter)
+        public WorkPeriodService(IWorkPeriodDao workPeriodDao, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter, ILogService logService)
         {
             _workPeriodDao = workPeriodDao;
             _applicationState = applicationState;
             _applicationStateSetter = applicationStateSetter;
+            _logService = logService;
         }
+
+        [ImportMany]
+        public IEnumerable<IWorkPeriodProcessor> WorkPeriodProcessors { get; set; }
 
         public WorkPeriod CurrentWorkPeriod { get { return _applicationState.CurrentWorkPeriod; } }
 
-        public void StartWorkPeriod(string description)
+        public bool StartWorkPeriod(string description)
         {
-            _applicationStateSetter.ResetWorkPeriods();
-            _workPeriodDao.StartWorkPeriod(description);
-            _applicationStateSetter.ResetWorkPeriods();
+            using (var w = WorkspaceFactory.Create())
+            {
+                var tran = w.BeginTransaction();
+                try
+                {
+                    _applicationStateSetter.ResetWorkPeriods();
+                    _workPeriodDao.StartWorkPeriod(description, w);
+                    _applicationStateSetter.ResetWorkPeriods();
+                    foreach (var workPeriodProcessor in WorkPeriodProcessors)
+                    {
+                        workPeriodProcessor.ProcessWorkPeriodStart(CurrentWorkPeriod);
+                    }
+                    if (tran != null) tran.Commit();
+                }
+                catch (Exception e)
+                {
+                    if (tran != null) tran.Rollback();
+                    _logService.LogError(e);
+                    return false;
+                }
+            }
+            return true;
+
         }
 
-        public void StopWorkPeriod(string description)
+        public bool StopWorkPeriod(string description)
         {
-            _workPeriodDao.StopWorkPeriod(description);
-            _applicationStateSetter.ResetWorkPeriods();
+            using (var w = WorkspaceFactory.Create())
+            {
+                var tran = w.BeginTransaction();
+                try
+                {
+                    _workPeriodDao.StopWorkPeriod(description, w);
+                    _applicationStateSetter.ResetWorkPeriods();
+                    foreach (var workPeriodProcessor in WorkPeriodProcessors)
+                    {
+                        workPeriodProcessor.ProcessWorkPeriodEnd(CurrentWorkPeriod);
+                    }
+                    if (tran != null) tran.Commit();
+                }
+                catch (Exception e)
+                {
+                    if (tran != null) tran.Rollback();
+                    _logService.LogError(e);
+                    return false;
+                }
+            }
+            return true;
         }
 
         public IEnumerable<WorkPeriod> GetLastWorkPeriods(int count)

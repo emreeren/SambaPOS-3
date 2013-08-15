@@ -7,8 +7,8 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Persistance;
 using Samba.Persistance.Data;
-using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Implementations.InventoryModule
 {
@@ -18,6 +18,28 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
         public int MenuItemId { get; set; }
         public string PortionName { get; set; }
         public decimal Total { get; set; }
+    }
+
+    [Export(typeof(IWorkPeriodProcessor))]
+    public class InventoryWorkperiodProcessor : IWorkPeriodProcessor
+    {
+        private readonly IInventoryService _inventoryService;
+
+        [ImportingConstructor]
+        public InventoryWorkperiodProcessor(IInventoryService inventoryService)
+        {
+            _inventoryService = inventoryService;
+        }
+
+        public void ProcessWorkPeriodStart(WorkPeriod workPeriod)
+        {
+            _inventoryService.DoWorkPeriodStart();
+        }
+
+        public void ProcessWorkPeriodEnd(WorkPeriod workPeriod)
+        {
+            _inventoryService.DoWorkPeriodEnd();
+        }
     }
 
     [Export(typeof(IInventoryService))]
@@ -35,8 +57,6 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             _applicationState = applicationState;
             _cacheService = cacheService;
             _menuService = menuService;
-
-            EventServiceFactory.EventService.GetEvent<GenericEvent<WorkPeriod>>().Subscribe(OnWorkperiodStatusChanged);
         }
 
         private IEnumerable<InventoryTransaction> GetTransactionItems(int warehouseId)
@@ -282,19 +302,6 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             var cpci = _inventoryDao.GetPeriodConsumptionItem(_applicationState.CurrentWorkPeriod.Id, inventoryItem.Id, warehouse.Id);
             var currentInventory = cpci != null ? cpci.GetPhysicalInventory() : 0;
             return currentInventory + previousInventory + (positiveSum - negativeSum) - currentConsumption;
-        }
-
-        private void OnWorkperiodStatusChanged(EventParameters<WorkPeriod> obj)
-        {
-            if (obj.Topic != EventTopicNames.WorkPeriodStatusChanged) return;
-            if (_applicationState.IsCurrentWorkPeriodOpen)
-            {
-                DoWorkPeriodStart();
-            }
-            else
-            {
-                DoWorkPeriodEnd();
-            }
         }
 
         public void DoWorkPeriodStart()

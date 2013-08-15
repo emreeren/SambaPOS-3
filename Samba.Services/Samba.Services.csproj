@@ -66,6 +66,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
@@ -84,6 +85,7 @@
     <Compile Include="Common\IDevice.cs" />
     <Compile Include="Common\IProgramSetting.cs" />
     <Compile Include="Common\IProgramSettings.cs" />
+    <Compile Include="Common\IWorkPeriodProcessor.cs" />
     <Compile Include="Common\OrderTagData.cs" />
     <Compile Include="Common\RuleEvent.cs" />
     <Compile Include="Common\RuleEventNames.cs" />

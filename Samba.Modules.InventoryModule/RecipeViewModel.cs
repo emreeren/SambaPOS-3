@@ -69,7 +69,8 @@ namespace Samba.Modules.InventoryModule
                 _selectedMenuItemName = value;
                 if (SelectedMenuItem == null || SelectedMenuItem.Name != value)
                 {
-                    var mi = Workspace.Single<MenuItem>(x => x.Name.ToLower() == _selectedMenuItemName.ToLower());
+                    var miName = _selectedMenuItemName.ToLower();
+                    var mi = Workspace.Single<MenuItem>(x => x.Name.ToLower() == miName);
                     SelectedMenuItem = mi;
                     if (mi != null && mi.Portions.Count == 1)
                         Portion = mi.Portions[0];

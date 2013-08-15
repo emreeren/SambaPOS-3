@@ -30,7 +30,7 @@ namespace Samba.Persistance.Implementations
 
         public IEnumerable<string> GetMenuItemNames()
         {
-            return Dao.Select<MenuItem, string>(x => x.Name, null);
+            return Dao.Select<MenuItem, string>(x => x.Name, null).OrderBy(x=>x);
         }
 
         public IEnumerable<string> GetMenuItemGroupCodes()

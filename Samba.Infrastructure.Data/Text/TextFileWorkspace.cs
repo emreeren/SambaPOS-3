@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.IO;
 using System.Linq.Expressions;
@@ -165,6 +166,11 @@ namespace Samba.Infrastructure.Data.Text
         public void MarkUnchanged<T>(T item) where T : class, IEntityClass
         {
             //gerekmiyor..
+        }
+
+        public IDbTransaction BeginTransaction()
+        {
+            return null;
         }
 
         public IEnumerable<T> Query<T>(params string[] includes) where T : class
