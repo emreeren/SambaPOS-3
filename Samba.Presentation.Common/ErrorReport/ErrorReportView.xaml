@@ -3,7 +3,7 @@
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Common="clr-namespace:Samba.Presentation.Common"
      mc:Ignorable="d" Title="{LocText SambaPOSReporter}"
      Common:DialogCloser.DialogResult="{Binding DialogResult}" WindowStartupLocation="CenterScreen"
-     WindowStyle="SingleBorderWindow" Height="300" Width="400" ShowInTaskbar="False">
+     WindowStyle="SingleBorderWindow" Height="360" Width="530">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

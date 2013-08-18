@@ -53,7 +53,6 @@ namespace Samba.Modules.InventoryModule
             RaisePropertyChanged(() => PeriodicConsumptionItems);
             RaisePropertyChanged(() => CostItems);
             RaisePropertyChanged(() => SelectedWarehouse);
-
         }
 
         private IEnumerable<Warehouse> _warehouses;

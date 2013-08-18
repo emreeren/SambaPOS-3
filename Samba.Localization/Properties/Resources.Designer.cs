@@ -3714,6 +3714,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inventory calculation generated an error. Check your recipes..
+        /// </summary>
+        public static string InventoryCalculationError {
+            get {
+                return ResourceManager.GetString("InventoryCalculationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inventory Consumption.
         /// </summary>
         public static string InventoryConsumption {

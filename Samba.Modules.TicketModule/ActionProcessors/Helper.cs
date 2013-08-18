@@ -7,13 +7,13 @@ using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
-    internal static  class Helper
+    internal static class Helper
     {
         public static IList<Order> GetOrders(ActionData x, Ticket ticket)
         {
             IList<Order> orders = new List<Order>();
             var selectedOrder = x.GetDataValue<Order>("Order");
-            if (selectedOrder == null)
+            if (selectedOrder == null || (ticket != null && selectedOrder.SelectedQuantity > 0))
             {
                 if (ticket != null)
                 {

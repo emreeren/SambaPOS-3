@@ -25,19 +25,25 @@ namespace Samba.Services.Common
         private Expression<Func<AccountTransactionValue, bool>> GetCurrentRange(int filterType, Expression<Func<AccountTransactionValue, bool>> activeSpecification, WorkPeriod workPeriod)
         {
             //Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod
-            if (filterType == 1) return activeSpecification.And(x => x.Date >= DateTime.Now.MonthStart());
-            if (filterType == 2) return activeSpecification.And(x => x.Date >= DateTime.Now.StartOfWeek());
-            if (filterType == 3) return activeSpecification.And(x => x.Date >= workPeriod.StartDate);
-            return activeSpecification;
+            DateTime? date = null;
+
+            if (filterType == 1) date = DateTime.Now.MonthStart();
+            if (filterType == 2) date = DateTime.Now.StartOfWeek();
+            if (filterType == 3) date = workPeriod.StartDate;
+
+            return date.HasValue ? activeSpecification.And(x => x.Date >= date) : activeSpecification;
         }
 
         private Expression<Func<AccountTransactionValue, bool>> GetPastRange(int filterType, Expression<Func<AccountTransactionValue, bool>> activeSpecification, WorkPeriod workPeriod)
         {
             //Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod
-            if (filterType == 1) return activeSpecification.And(x => x.Date < DateTime.Now.MonthStart());
-            if (filterType == 2) return activeSpecification.And(x => x.Date < DateTime.Now.StartOfWeek());
-            if (filterType == 3) return activeSpecification.And(x => x.Date < workPeriod.StartDate);
-            return activeSpecification;
+            DateTime? date = null;
+
+            if (filterType == 1) date = DateTime.Now.MonthStart();
+            if (filterType == 2) date = DateTime.Now.StartOfWeek();
+            if (filterType == 3) date = workPeriod.StartDate;
+
+            return date.HasValue ? activeSpecification.And(x => x.Date < date) : activeSpecification;
         }
 
         public void Update(ICacheService cacheService, Account selectedAccount, WorkPeriod currentWorkPeriod)
