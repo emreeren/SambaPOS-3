@@ -366,13 +366,13 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             });
         }
 
-        public void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag)
+        private void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, string tagValue)
         {
-            ticket.SetTagValue(tagGroup.Name, ticketTag.Name);
+            ticket.SetTagValue(tagGroup.Name, tagValue);
 
             if (tagGroup.FreeTagging && tagGroup.SaveFreeTags)
             {
-                SaveFreeTicketTag(tagGroup.Id, ticketTag.Name);
+                SaveFreeTicketTag(tagGroup.Id, tagValue);
             }
 
             var tagData = new TicketTagData
@@ -380,7 +380,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 Ticket = ticket,
                 TicketTagGroup = tagGroup,
                 TagName = tagGroup.Name,
-                TagValue = ticketTag.Name
+                TagValue = tagValue
             };
 
             _applicationState.NotifyEvent(RuleEventNames.TicketTagSelected,
@@ -389,9 +389,27 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                             Ticket = ticket,
                             tagData.TagName,
                             tagData.TagValue,
-                            NumericValue = tagGroup.IsNumeric ? Convert.ToDecimal(ticketTag.Name) : 0,
+                            NumericValue = tagGroup.IsNumeric ? Convert.ToDecimal(tagValue) : 0,
                             TicketTag = ticket.GetTagData()
                         });
+        }
+
+        public void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag)
+        {
+            UpdateTag(ticket, tagGroup, ticketTag.Name);
+        }
+
+        public void UpdateTag(Ticket ticket, string tagName, string tagValue)
+        {
+            var tagGroup = _cacheService.GetTicketTagGroupByName(tagName);
+            if (tagGroup != null)
+            {
+                UpdateTag(ticket, tagGroup, tagValue);
+            }
+            else
+            {
+                ticket.SetTagValue(tagName, tagValue);
+            }
         }
 
         public void SaveFreeTicketTag(int tagGroupId, string freeTag)
@@ -586,7 +604,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             if (portion == null) return null;
             var priceTag = _applicationState.CurrentDepartment.PriceTag;
             var productTimer = _applicationState.GetProductTimer(menuItemId);
-            
+
             var order = ticket.AddOrder(
                 _applicationState.CurrentTicketType.SaleTransactionType,
                 _applicationState.CurrentDepartment.Model,

@@ -37,6 +37,7 @@ namespace Samba.Services
         IEnumerable<TicketTagGroup> GetTicketTagGroups(int ticketTypeId, int terminalId, int departmentId, int userRoleId);
         IEnumerable<string> GetTicketTagGroupNames();
         TicketTagGroup GetTicketTagGroupById(int id);
+        TicketTagGroup GetTicketTagGroupByName(string name);
         AccountTransactionDocumentType GetAccountTransactionDocumentTypeById(int documentId);
         AccountTransactionDocumentType GetAccountTransactionDocumentTypeByName(string documentName);
         IEnumerable<AccountTransactionDocumentType> GetAccountTransactionDocumentTypes(int accountTypeId, int terminalId, int userRoleId);

@@ -768,15 +768,19 @@ namespace Samba.Domain.Models.Tickets
         public string GetEntityName(int entityTypeId)
         {
             var tr = TicketEntities.FirstOrDefault(x => x.EntityTypeId == entityTypeId);
-            if (tr != null) return tr.EntityName;
-            return "";
+            return tr != null ? tr.EntityName : "";
         }
 
         public string GetEntityFieldValue(int entityTypeId, string fieldName)
         {
             var tr = TicketEntities.FirstOrDefault(x => x.EntityTypeId == entityTypeId);
-            if (tr != null) return tr.GetCustomData(fieldName);
-            return "";
+            return tr != null ? tr.GetCustomData(fieldName) : "";
+        }     
+        
+        public string GetEntityFieldValue(string fieldName)
+        {
+            var tr = TicketEntities.FirstOrDefault(x => x.HasCustomData(fieldName));
+            return tr != null ? tr.GetCustomData(fieldName) : "";
         }
 
         public decimal GetOrderStateTotal(string s)

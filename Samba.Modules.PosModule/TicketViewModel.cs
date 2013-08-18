@@ -555,6 +555,7 @@ namespace Samba.Modules.PosModule
         public void RefreshSelectedTicket()
         {
             _totals.Refresh();
+            _ticketInfo.Refresh();
             RaisePropertyChanged(() => IsTicketSelected);
             ExecuteAutomationCommnand.RaiseCanExecuteChanged();
         }

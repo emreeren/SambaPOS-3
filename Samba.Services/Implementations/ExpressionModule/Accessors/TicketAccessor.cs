@@ -50,6 +50,9 @@ namespace Samba.Services.Implementations.ExpressionModule.Accessors
         public static decimal SSum(string state) { return Model.GetOrderStateTotal(state); }
         public static string SSumF(string state) { return SSum(state).ToString(LocalSettings.CurrencyFormat); }
 
-
+        public static string GetCustomData(string fieldName)
+        {
+            return _model.GetEntityFieldValue(fieldName);
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace Samba.Presentation.Services
         void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountTypeId, int accountId, string entityCustomData);
         void RecalculateTicket(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
+        void UpdateTag(Ticket ticket, string tagName, string tagValue);
         void TagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag, string tagNote);
         void UntagOrders(Ticket ticket, IEnumerable<Order> selectedOrders, OrderTagGroup orderTagGroup, OrderTag orderTag);
         bool CanDeselectOrders(IEnumerable<Order> selectedOrders);
