@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:flexButton="clr-namespace:FlexButton;assembly=FlexButton"
              xmlns:uiControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
+             xmlns:DataGridFilterLibrary="clr-namespace:DataGridFilterLibrary;assembly=DataGridFilterLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600" FontSize="20">
     <Grid>
@@ -30,9 +31,12 @@
             <TabItem Header="{LocText InventoryItems}">
                 <uiControls:EnhancedDataGrid ItemsSource="{Binding PeriodicConsumptionItems}" Name="WarehouseInventoryGrid"
                                  HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="5"
-                                 AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
+                                 AutoGenerateColumns="False" CanUserDeleteRows="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
                                  PreviewKeyDown="DataGrid_PreviewKeyDown" PreviewTextInput="DataGrid_PreviewTextInput"
-                                 PreparingCellForEdit="DataGrid_PreparingCellForEdit" AlternatingRowBackground="WhiteSmoke" AlternationCount="2">
+                                 PreparingCellForEdit="DataGrid_PreparingCellForEdit" AlternatingRowBackground="WhiteSmoke" AlternationCount="2"
+                                             ColumnHeaderStyle="{StaticResource {ComponentResourceKey 
+                                            TypeInTargetAssembly={x:Type DataGridFilterLibrary:DataGridHeaderFilterControl}, 
+                                            ResourceId=DataGridHeaderFilterControlStyle}}">
                     <uiControls:EnhancedDataGrid.Resources>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center">
@@ -48,7 +52,7 @@
                         </Style>
                     </uiControls:EnhancedDataGrid.Resources>
                     <uiControls:EnhancedDataGrid.Columns>
-                        <DataGridTemplateColumn Width="2*" Header="{LocText Name}"
+                        <DataGridTemplateColumn Width="2*" Header="{LocText Name}" SortMemberPath="ItemName"
                              IsReadOnly="True" MinWidth="100" CellStyle="{StaticResource LeftAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -56,7 +60,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="{LocText Unit}" IsReadOnly="True"
+                        <DataGridTemplateColumn Width="*" Header="{LocText Unit}" IsReadOnly="True" SortMemberPath="UnitName"
                              CellStyle="{StaticResource LeftAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -64,7 +68,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="{LocText InStock}"
+                        <DataGridTemplateColumn Width="*" Header="{LocText InStock}" SortMemberPath="InStock"
                             MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -72,7 +76,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="{LocText Purchase}"
+                        <DataGridTemplateColumn Width="*" Header="{LocText Purchase}" SortMemberPath="Purchase"
                              MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -80,7 +84,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="{LocText Cost}"
+                        <DataGridTemplateColumn Width="*" Header="{LocText Cost}" SortMemberPath="Cost"
                              MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -88,7 +92,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="{LocText Consumption}"
+                        <DataGridTemplateColumn Width="*" Header="{LocText Consumption}" SortMemberPath="Consumption"
                              MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -96,7 +100,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="{LocText PredictedInventory}"
+                        <DataGridTemplateColumn Width="*" Header="{LocText PredictedInventory}" SortMemberPath="InventoryPrediction"
                              MinWidth="60" IsReadOnly="True" CellStyle="{StaticResource RightAlignedGridCell}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

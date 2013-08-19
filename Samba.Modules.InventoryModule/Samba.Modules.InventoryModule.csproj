@@ -142,6 +142,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\DataGridFilterLibrary\DataGridFilterLibrary.csproj">
+      <Project>{512fd53f-9ad1-46a1-a961-9fabdfad50c5}</Project>
+      <Name>DataGridFilterLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
       <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
       <Name>FlexButton</Name>
