@@ -343,6 +343,9 @@
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Özellik Grubu Adı</value>
   </data>
+  <data name="PrintAccountTransactions" xml:space="preserve">
+    <value>Hesap Hareketi Yazdır</value>
+  </data>
   <data name="AddModel_f" xml:space="preserve">
     <value>Yeni {0} Ekle</value>
   </data>
@@ -421,6 +424,9 @@
   <data name="Recipe" xml:space="preserve">
     <value>Reçete</value>
   </data>
+  <data name="Website" xml:space="preserve">
+    <value>WebSite</value>
+  </data>
   <data name="CurrentCost" xml:space="preserve">
     <value>Fiili Maliyet</value>
   </data>
@@ -438,6 +444,9 @@
   </data>
   <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
     <value>KDV türlerine göre gruplanmış KDV tutarları</value>
+  </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Miktara göre ayrı belgelere böl</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>İptal</value>
@@ -492,6 +501,9 @@
   </data>
   <data name="UiLanguage" xml:space="preserve">
     <value>Program Arabirimi Dili</value>
+  </data>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Siparişler Taşınıyor</value>
   </data>
   <data name="Action" xml:space="preserve">
     <value>Eylem</value>
@@ -630,6 +642,9 @@ Mesaj:
   <data name="LastOrderStatus" xml:space="preserve">
     <value>Son Sipariş Durumu</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Dökümantasyon</value>
+  </data>
   <data name="Thirty" xml:space="preserve">
     <value>Otuz</value>
   </data>
@@ -756,6 +771,9 @@ Mesaj:
   </data>
   <data name="Credit" xml:space="preserve">
     <value>Alacak</value>
+  </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Bulunmayan Ürünleri Göster</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Geri</value>
@@ -1031,6 +1049,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="QuantityTotal" xml:space="preserve">
     <value>Ürünler Toplamı</value>
   </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Eksik Reçeteleri</value>
+  </data>
   <data name="Permissions" xml:space="preserve">
     <value>Yetkiler</value>
   </data>
@@ -1189,6 +1210,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="UnlocksOrder" xml:space="preserve">
     <value>Sipariş Kilidi Kaldır</value>
+  </data>
+  <data name="PrintAccountScreen" xml:space="preserve">
+    <value>Hesap Ekranı Yazdır</value>
   </data>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Adisyona iskonto ekle</value>
@@ -1366,6 +1390,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="ReleaseLock" xml:space="preserve">
     <value>Kilidi Kaldır</value>
+  </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>Kullanıcı Bilgileri</value>
   </data>
   <data name="SetWidgetValue" xml:space="preserve">
     <value>Widget Değerini kur</value>
@@ -1613,6 +1640,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Adisyon Yazıcı</value>
+  </data>
+  <data name="IndividualOrdersByQuantity" xml:space="preserve">
+    <value>Miktarları birer birer yaz</value>
   </data>
   <data name="Amount" xml:space="preserve">
     <value>Tutar</value>
@@ -1863,6 +1893,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Parameters" xml:space="preserve">
     <value>Parametreler</value>
   </data>
+  <data name="Wiki" xml:space="preserve">
+    <value>Wiki</value>
+  </data>
   <data name="Transaction" xml:space="preserve">
     <value>Hareket</value>
   </data>
@@ -1998,6 +2031,9 @@ Hata Mesajı:
   </data>
   <data name="Departments" xml:space="preserve">
     <value>Departmanlar</value>
+  </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Gerekli Reçeteleri</value>
   </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Paylaşım Adı / Port Adı</value>
@@ -2422,6 +2458,9 @@ Hata Mesajı:
   <data name="AccountTransaction" xml:space="preserve">
     <value>Hesap Hareketi</value>
   </data>
+  <data name="Development" xml:space="preserve">
+    <value>Geliştirme</value>
+  </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Pzts'den Cumaya</value>
   </data>
@@ -2528,6 +2567,9 @@ Kapat</value>
   <data name="CategoryProducts" xml:space="preserve">
     <value>Kategori Ürünleri</value>
   </data>
+  <data name="DisplayTicketLog" xml:space="preserve">
+    <value>Adisyon Tutanağı Göster</value>
+  </data>
   <data name="LinesGroupedByGroupCode" xml:space="preserve">
     <value>Grup Koduna Göre Gruplanmış Satırlar</value>
   </data>
@@ -2572,6 +2614,9 @@ Kapat</value>
   </data>
   <data name="UpdateNewOrderEntityColor" xml:space="preserve">
     <value>Yeni Sipariş Varlık Rengini Güncelle</value>
+  </data>
+  <data name="AddTicketLog" xml:space="preserve">
+    <value>Adisyon Tutanağı Ekle</value>
   </data>
   <data name="TaggingType" xml:space="preserve">
     <value>Etiket Tipi</value>
@@ -2641,6 +2686,9 @@ Kapat</value>
   </data>
   <data name="WindowsPrinter" xml:space="preserve">
     <value>Windows Yazıcısı</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Forum</value>
   </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Adisyon notu</value>
@@ -2779,6 +2827,9 @@ Kapat</value>
   </data>
   <data name="StateController" xml:space="preserve">
     <value>Durum Kontrolörü</value>
+  </data>
+  <data name="ValueLooped" xml:space="preserve">
+    <value>Değer Döndürücü</value>
   </data>
   <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
     <value>Adisyon etiketleri benzersiz olmalıdır</value>
@@ -3053,6 +3104,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="DisplayAsTree" xml:space="preserve">
     <value>Ağaç Yapısında Göster</value>
+  </data>
+  <data name="Find_f" xml:space="preserve">
+    <value>{0} Bul</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Etiketler</value>

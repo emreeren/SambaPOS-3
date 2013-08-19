@@ -343,6 +343,9 @@
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Nombre de la propiedad del Grupo</value>
   </data>
+  <data name="PrintAccountTransactions" xml:space="preserve">
+    <value>Imprimir detalle de cuenta</value>
+  </data>
   <data name="AddModel_f" xml:space="preserve">
     <value>Agregar nuevos {0}</value>
   </data>
@@ -378,6 +381,9 @@
   </data>
   <data name="Every3Hours" xml:space="preserve">
     <value>Cada 3 horas</value>
+  </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Parametro de comando</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Título</value>
@@ -415,6 +421,9 @@
   <data name="Recipe" xml:space="preserve">
     <value>Receta</value>
   </data>
+  <data name="Website" xml:space="preserve">
+    <value>Sitio Web</value>
+  </data>
   <data name="CurrentCost" xml:space="preserve">
     <value>Costo actual</value>
   </data>
@@ -432,6 +441,9 @@
   </data>
   <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
     <value>Totales agrupados por tipo Impuesto</value>
+  </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Impresiones separadas por cantidad</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
@@ -622,6 +634,9 @@
   <data name="LastOrderStatus" xml:space="preserve">
     <value>Estado de última Orden</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentación</value>
+  </data>
   <data name="Thirty" xml:space="preserve">
     <value>Treinta</value>
   </data>
@@ -748,6 +763,9 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   </data>
   <data name="Credit" xml:space="preserve">
     <value>Credito</value>
+  </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Adjuntar articulos no mapeados</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Regresar</value>
@@ -912,6 +930,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="CategoryProperties" xml:space="preserve">
     <value>Propiedades de la categoría</value>
   </data>
+  <data name="ToggleCalculation" xml:space="preserve">
+    <value>Cambiar cálculo</value>
+  </data>
   <data name="LineItemPrice" xml:space="preserve">
     <value># Línea: Precio</value>
   </data>
@@ -923,6 +944,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="Rule_f" xml:space="preserve">
     <value>{0} Norma</value>
+  </data>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Ticket de Pago</value>
   </data>
   <data name="PrinterOptions" xml:space="preserve">
     <value>Configuración de la impresora</value>
@@ -960,6 +984,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Numeric" xml:space="preserve">
     <value>Numérico</value>
   </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Establecer Terminal actual</value>
+  </data>
   <data name="SubTags" xml:space="preserve">
     <value>Sub Etiquetas</value>
   </data>
@@ -974,6 +1001,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Nombre del producto</value>
+  </data>
+  <data name="CantComplateOperationError" xml:space="preserve">
+    <value>No se puede completar la operación porque ocurrió un error. Revisé el archivo de log de errores para más detalles.</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
     <value>NO SE OLVIDE PONER FIN AL PERIODO DE TRABAJO!</value>
@@ -1013,6 +1043,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="QuantityTotal" xml:space="preserve">
     <value>Cantidad total</value>
+  </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Recetas faltantes</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Permisos</value>
@@ -1172,6 +1205,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="UnlocksOrder" xml:space="preserve">
     <value>Desbloquear Pedido</value>
+  </data>
+  <data name="PrintAccountScreen" xml:space="preserve">
+    <value>Imprimir Pantallla de Cuenta</value>
   </data>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Añadir Descuento en recibo</value>
@@ -1350,6 +1386,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="ReleaseLock" xml:space="preserve">
     <value>Quitar bloqueo</value>
   </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>Información de usuario </value>
+  </data>
   <data name="SetWidgetValue" xml:space="preserve">
     <value>Definir Valor para el Widget</value>
   </data>
@@ -1503,6 +1542,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="DisplayAtPaymentScreen" xml:space="preserve">
     <value>Mostrar en Pantalla de Pago</value>
   </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>Imprimir {0}</value>
+  </data>
   <data name="Warning" xml:space="preserve">
     <value>Advertencia</value>
   </data>
@@ -1595,6 +1637,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Impresora de recibos</value>
+  </data>
+  <data name="IndividualOrdersByQuantity" xml:space="preserve">
+    <value>Ordenes Individuales por cantidad</value>
   </data>
   <data name="Amount" xml:space="preserve">
     <value>Cantidad</value>
@@ -1848,6 +1893,9 @@ Ajuste el Tipo de Ticket Activo</value>
   </data>
   <data name="Parameters" xml:space="preserve">
     <value>Parámetros</value>
+  </data>
+  <data name="Wiki" xml:space="preserve">
+    <value>Wiki</value>
   </data>
   <data name="Transaction" xml:space="preserve">
     <value>Transaccion</value>
@@ -2408,6 +2456,9 @@ Seguir sin añadir más detalles?</value>
   <data name="AccountTransaction" xml:space="preserve">
     <value>Cuenta Transaccion</value>
   </data>
+  <data name="Development" xml:space="preserve">
+    <value>Desarrollo</value>
+  </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Lunes a Viernes</value>
   </data>
@@ -2428,6 +2479,9 @@ Seguir sin añadir más detalles?</value>
   </data>
   <data name="Every15Minutes" xml:space="preserve">
     <value>Cada 15 Minutos</value>
+  </data>
+  <data name="TicketPaymentCheck" xml:space="preserve">
+    <value>Control de recibos de pago</value>
   </data>
   <data name="LastOrderDuration" xml:space="preserve">
     <value>Duración último pedido </value>
@@ -2625,6 +2679,9 @@ Recibos</value>
   <data name="WindowsPrinter" xml:space="preserve">
     <value>Impresora Windows</value>
   </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Foro</value>
+  </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Nota de Recibo</value>
   </data>
@@ -2762,6 +2819,9 @@ Recibos</value>
   </data>
   <data name="StateController" xml:space="preserve">
     <value>Estado Controlador</value>
+  </data>
+  <data name="ValueLooped" xml:space="preserve">
+    <value>Valor en bucle</value>
   </data>
   <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
     <value>Nombre de Etiqueta de Ticket debe ser unica </value>
@@ -2902,6 +2962,9 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>No se puede eliminar más allá del cierre de caja</value>
   </data>
+  <data name="LoopValues" xml:space="preserve">
+    <value>Valores de bucle</value>
+  </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Mostrar Recibos Antiguas</value>
   </data>
@@ -3033,6 +3096,9 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   </data>
   <data name="DisplayAsTree" xml:space="preserve">
     <value>Mostrar como árbol</value>
+  </data>
+  <data name="Find_f" xml:space="preserve">
+    <value>Encontrar {0}</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Etiquetas</value>

@@ -3403,4 +3403,7 @@ Error Message:
   <data name="InventoryCalculationError" xml:space="preserve">
     <value>Inventory calculation generated an error. Check your recipes.</value>
   </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Change Sort Order</value>
+  </data>
 </root>

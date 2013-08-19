@@ -1385,6 +1385,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Sort Order.
+        /// </summary>
+        public static string ChangeSortOrder {
+            get {
+                return ResourceManager.GetString("ChangeSortOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change sort order by dragging items.
         /// </summary>
         public static string ChangeSortOrderHint {

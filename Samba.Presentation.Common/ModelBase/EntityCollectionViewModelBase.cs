@@ -32,7 +32,7 @@ namespace Samba.Presentation.Common.ModelBase
             BatchCreateItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.BatchCreate_f, PluralModelTitle), OnBatchCreateItems, CanBatchCreateItems);
             SortItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.Sort_f, PluralModelTitle), OnSortItems);
             RemoveLimitCommand = new CaptionCommand<TModel>(Resources.RemoveLimit, OnRemoveLimit);
-            ToggleOrderByIdCommand = new CaptionCommand<TModel>("Change Sort Order", OnToggleOrderById);
+            ToggleOrderByIdCommand = new CaptionCommand<TModel>(Resources.ChangeSortOrder, OnToggleOrderById);
 
             if (typeof(TViewModel).GetInterfaces().Any(x => x == typeof(IEntityCreator<TModel>)))
                 CustomCommands.Add(BatchCreateItemsCommand);
