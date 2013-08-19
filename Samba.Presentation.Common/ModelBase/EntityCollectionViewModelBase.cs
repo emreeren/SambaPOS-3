@@ -32,12 +32,14 @@ namespace Samba.Presentation.Common.ModelBase
             BatchCreateItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.BatchCreate_f, PluralModelTitle), OnBatchCreateItems, CanBatchCreateItems);
             SortItemsCommand = new CaptionCommand<TModel>(string.Format(Resources.Sort_f, PluralModelTitle), OnSortItems);
             RemoveLimitCommand = new CaptionCommand<TModel>(Resources.RemoveLimit, OnRemoveLimit);
+            ToggleOrderByIdCommand = new CaptionCommand<TModel>("Change Sort Order", OnToggleOrderById);
 
             if (typeof(TViewModel).GetInterfaces().Any(x => x == typeof(IEntityCreator<TModel>)))
                 CustomCommands.Add(BatchCreateItemsCommand);
 
-            if (typeof(TModel).GetInterfaces().Any(x => x == typeof(IOrderable)))
-                CustomCommands.Add(SortItemsCommand);
+            CustomCommands.Add(typeof(TModel).GetInterfaces().Any(x => x == typeof(IOrderable))
+                                   ? SortItemsCommand
+                                   : ToggleOrderByIdCommand);
 
             _token = EventServiceFactory.EventService.GetEvent<GenericEvent<EntityViewModelBase<TModel>>>().Subscribe(x =>
             {
@@ -72,6 +74,11 @@ namespace Samba.Presentation.Common.ModelBase
                               OpenViewModels.Remove(s.Value as EntityViewModelBase<TModel>);
                       }
                   });
+        }
+
+        private void OnToggleOrderById(TModel obj)
+        {
+            ToggleOrderBy();
         }
 
         private void OnRemoveLimit(TModel obj)
@@ -114,6 +121,7 @@ namespace Samba.Presentation.Common.ModelBase
         public ICaptionCommand BatchCreateItemsCommand { get; set; }
         public ICaptionCommand SortItemsCommand { get; set; }
         public ICaptionCommand RemoveLimitCommand { get; set; }
+        public ICaptionCommand ToggleOrderByIdCommand { get; set; }
 
         public bool DisplayLimitWarning
         {
@@ -142,6 +150,11 @@ namespace Samba.Presentation.Common.ModelBase
 
         public string Filter { get; set; }
         public int Limit { get; set; }
+        public bool OrderByDescending
+        {
+            get { return EntityCollectionSortManager.GetOrderByDesc<TModel>(); }
+            set { EntityCollectionSortManager.SetOrderByDesc<TModel>(value); }
+        }
 
         public override void RefreshItems()
         {
@@ -157,7 +170,9 @@ namespace Samba.Presentation.Common.ModelBase
         protected virtual IEnumerable<TModel> SelectItems()
         {
             var filter = (Filter ?? "").ToLower();
-            return !string.IsNullOrEmpty(filter) ? _workspace.Query<TModel>(x => x.Name.ToLower().Contains(filter), Limit) : _workspace.Query<TModel>(Limit);
+            return !string.IsNullOrEmpty(filter)
+                ? _workspace.Query<TModel>(x => x.Name.ToLower().Contains(filter), Limit, OrderByDescending)
+                : _workspace.Query<TModel>(Limit, OrderByDescending);
         }
 
         protected virtual void BeforeDeleteItem(TModel item)
@@ -342,6 +357,13 @@ namespace Samba.Presentation.Common.ModelBase
                 EventServiceFactory.EventService.GetEvent<GenericEvent<EntityViewModelBase<TModel>>>().Unsubscribe(_token);
                 EventServiceFactory.EventService.GetEvent<GenericEvent<VisibleViewModelBase>>().Unsubscribe(_token2);
             }
+        }
+
+        private void ToggleOrderBy()
+        {
+            OrderByDescending = !OrderByDescending;
+            _items = null;
+            RaisePropertyChanged(() => Items);
         }
 
         public int GetCount()

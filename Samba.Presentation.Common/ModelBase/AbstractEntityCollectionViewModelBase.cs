@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
@@ -35,6 +36,12 @@ namespace Samba.Presentation.Common.ModelBase
             var result = new List<ICaptionCommand> { AddItemCommand, EditItemCommand, DeleteItemCommand };
             result.AddRange(CustomCommands);
             return result;
+        }
+
+        public void RefreshCommands()
+        {
+            _allCommands = null;
+            RaisePropertyChanged(() => AllCommands);
         }
 
         public void RemoveCommand(ICaptionCommand command)

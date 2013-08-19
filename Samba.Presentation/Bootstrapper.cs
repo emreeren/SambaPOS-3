@@ -9,6 +9,7 @@ using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Engine;
 using Samba.Presentation.Common;
+using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Properties;
 using Samba.Presentation.Services;
@@ -128,6 +129,7 @@ namespace Samba.Presentation
             ServiceLocator.Current.GetInstance<ITriggerService>().UpdateCronObjects();
             ServiceLocator.Current.GetInstance<IDeviceService>().InitializeDevices();
             InteractionService.UserIntraction.ToggleSplashScreen();
+            EntityCollectionSortManager.Load(LocalSettings.AppPath + "\\CollectionSort.txt");
 
             Application.Current.MainWindow.Show();
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ShellInitialized);

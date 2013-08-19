@@ -44,7 +44,7 @@
                 <DataTemplate>
                     <TextBlock Margin="5">
                         <Hyperlink Command="{Binding}" CommandParameter="{Binding DataObject}">
-                            <TextBlock Text="{Binding Caption}" />
+                            <TextBlock Text="{Binding Caption, Mode=TwoWay}" />
                         </Hyperlink>
                     </TextBlock>
                 </DataTemplate>

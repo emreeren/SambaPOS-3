@@ -18,8 +18,8 @@ namespace Samba.Infrastructure.Data
         IEnumerable<T> All<T>(params Expression<Func<T, object>>[] includes) where T : class;
         IEnumerable<T> All<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : class;
 
-        IEnumerable<T> Query<T>(int limit = 0) where T : class;
-        IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0) where T : class;
+        IEnumerable<T> Query<T>(int limit = 0, bool orderByDesc = false) where T : class,IValueClass;
+        IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0, bool orderByDesc = false) where T : class,IValueClass;
 
         void Add<T>(T item) where T : class;
         void Update<T>(T item) where T : class;

@@ -41,12 +41,12 @@ namespace Samba.Modules.InventoryModule
             return base.CanDeleteItem(model);
         }
 
-        protected override System.Collections.Generic.IEnumerable<PeriodicConsumption> SelectItems()
-        {
-            var filter = (Filter ?? "").ToLower();
-            return !string.IsNullOrEmpty(filter)
-                ? Workspace.All<PeriodicConsumption>(x => x.Name.ToLower().Contains(filter)).OrderByDescending(x => x.EndDate).Take(Limit)
-                : Workspace.All<PeriodicConsumption>().OrderByDescending(x => x.EndDate).Take(Limit);
-        }
+        //protected override System.Collections.Generic.IEnumerable<PeriodicConsumption> SelectItems()
+        //{
+        //    var filter = (Filter ?? "").ToLower();
+        //    return !string.IsNullOrEmpty(filter)
+        //        ? Workspace.All<PeriodicConsumption>(x => x.Name.ToLower().Contains(filter)).OrderByDescending(x => x.EndDate).Take(Limit)
+        //        : Workspace.All<PeriodicConsumption>().OrderByDescending(x => x.EndDate).Take(Limit);
+        //}
     }
 }

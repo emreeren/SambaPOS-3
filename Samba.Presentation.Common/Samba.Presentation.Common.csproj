@@ -115,6 +115,7 @@
     <Compile Include="Commands\CustomCommand.cs" />
     <Compile Include="ElementSpy.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="ModelBase\EntityCollectionSortManager.cs" />
     <Compile Include="RegionService.cs" />
     <Compile Include="Widgets\WidgetEventData.cs" />
     <Compile Include="Widgets\IWidgetCreator.cs" />

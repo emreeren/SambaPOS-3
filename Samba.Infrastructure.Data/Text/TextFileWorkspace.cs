@@ -97,16 +97,20 @@ namespace Samba.Infrastructure.Data.Text
             return _storage.GetItems(expression);
         }
 
-        public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0) where T : class
+        public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0, bool orderByDesc = false) where T : class,IValueClass
         {
-            if (limit == 0) return All(expression);
-            return All(expression).Take(limit);
+            var result = All(expression);
+            if (orderByDesc) result = result.OrderByDescending(x => x.Id);
+            if (limit > 0) result = result.Take(limit);
+            return result;
         }
 
-        public IEnumerable<T> Query<T>(int limit = 0) where T : class
+        public IEnumerable<T> Query<T>(int limit = 0, bool orderByDesc = false) where T : class,IValueClass
         {
-            if (limit == 0) return All<T>();
-            return All<T>().Take(limit);
+            var result = All<T>();
+            if (orderByDesc) result = result.OrderByDescending(x => x.Id);
+            if (limit > 0) result = result.Take(limit);
+            return result;
         }
 
         public void Add<T>(T item) where T : class

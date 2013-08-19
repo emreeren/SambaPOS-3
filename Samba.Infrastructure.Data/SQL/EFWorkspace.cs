@@ -90,16 +90,20 @@ namespace Samba.Infrastructure.Data.SQL
             return includes.Aggregate(_context.Trackable<T>(), (current, include) => current.Include(include)).Where(expression);
         }
 
-        public IEnumerable<T> Query<T>(int limit = 0) where T : class
+        public IEnumerable<T> Query<T>(int limit = 0, bool orderByDesc = false) where T : class,IValueClass
         {
-            if (limit == 0) return All<T>();
-            return _context.Set<T>().Take(limit);
+            var result = All<T>();
+            if (orderByDesc) result = result.OrderByDescending(x => x.Id);
+            if (limit > 0) result = result.Take(limit);
+            return result;
         }
 
-        public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0) where T : class
+        public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int limit = 0, bool orderByDesc = false) where T : class,IValueClass
         {
-            if (limit == 0) return All(expression);
-            return _context.Set<T>().Where(expression).Take(limit);
+            var result = All(expression);
+            if (orderByDesc) result = result.OrderByDescending(x => x.Id);
+            if (limit > 0) result = result.Take(limit);
+            return result;
         }
 
         public void Add<T>(T item) where T : class
