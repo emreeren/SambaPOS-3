@@ -35,21 +35,23 @@ namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
         {
             using (var w = WorkspaceFactory.Create())
             {
-                var tran = w.BeginTransaction();
-                try
+                using (var tran = w.BeginTransaction())
                 {
-                    _workPeriodDao.StartWorkPeriod(description, w);
-                    foreach (var workPeriodProcessor in WorkPeriodProcessors)
+                    try
                     {
-                        workPeriodProcessor.ProcessWorkPeriodStart(CurrentWorkPeriod);
+                        _workPeriodDao.StartWorkPeriod(description, w);
+                        foreach (var workPeriodProcessor in WorkPeriodProcessors)
+                        {
+                            workPeriodProcessor.ProcessWorkPeriodStart(CurrentWorkPeriod);
+                        }
+                        if (tran != null) tran.Commit();
                     }
-                    if (tran != null) tran.Commit();
-                }
-                catch (Exception e)
-                {
-                    if (tran != null) tran.Rollback();
-                    _logService.LogError(e);
-                    return false;
+                    catch (Exception e)
+                    {
+                        if (tran != null) tran.Rollback();
+                        _logService.LogError(e);
+                        return false;
+                    }
                 }
             }
             _applicationStateSetter.ResetWorkPeriods();
@@ -60,21 +62,23 @@ namespace Samba.Presentation.Services.Implementations.WorkPeriodModule
         {
             using (var w = WorkspaceFactory.Create())
             {
-                var tran = w.BeginTransaction();
-                try
+                using (var tran = w.BeginTransaction())
                 {
-                    _workPeriodDao.StopWorkPeriod(description, w);
-                    foreach (var workPeriodProcessor in WorkPeriodProcessors)
+                    try
                     {
-                        workPeriodProcessor.ProcessWorkPeriodEnd(CurrentWorkPeriod);
+                        _workPeriodDao.StopWorkPeriod(description, w);
+                        foreach (var workPeriodProcessor in WorkPeriodProcessors)
+                        {
+                            workPeriodProcessor.ProcessWorkPeriodEnd(CurrentWorkPeriod);
+                        }
+                        if (tran != null) tran.Commit();
                     }
-                    if (tran != null) tran.Commit();
-                }
-                catch (Exception e)
-                {
-                    if (tran != null) tran.Rollback();
-                    _logService.LogError(e);
-                    return false;
+                    catch (Exception e)
+                    {
+                        if (tran != null) tran.Rollback();
+                        _logService.LogError(e);
+                        return false;
+                    }
                 }
             }
             _applicationStateSetter.ResetWorkPeriods();

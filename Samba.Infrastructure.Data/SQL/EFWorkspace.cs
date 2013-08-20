@@ -41,6 +41,10 @@ namespace Samba.Infrastructure.Data.SQL
 
         public IDbTransaction BeginTransaction()
         {
+            if (_context.ObjContext().Connection.State != ConnectionState.Open)
+            {
+                _context.ObjContext().Connection.Open();
+            }
             return _context.ObjContext().Connection.BeginTransaction();
         }
 

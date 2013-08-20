@@ -13,6 +13,12 @@ namespace Samba.Services.Implementations.SettingsModule
         private IWorkspace _workspace;
         private IWorkspace Workspace { get { return _workspace ?? (_workspace = WorkspaceFactory.Create()); } }
 
+        public string QuantitySeparators
+        {
+            get { return GetQuantitySeparators().StringValue ?? "x,X"; }
+            set { GetQuantitySeparators().StringValue = value; }
+        }
+
         public string WeightBarcodePrefix
         {
             get { return GetWeightBarcodePrefix().StringValue; }
@@ -59,6 +65,12 @@ namespace Samba.Services.Implementations.SettingsModule
         public ProgramSetting GetUserInfo()
         {
             return _userInfo ?? (_userInfo = GetSetting("UserInfo"));
+        }
+
+        private ProgramSetting _quantitySeparators;
+        private ProgramSetting GetQuantitySeparators()
+        {
+            return _quantitySeparators ?? (_quantitySeparators = GetSetting("QuantitySeparators"));
         }
 
         private ProgramSetting _paymentScreenValues;

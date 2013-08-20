@@ -142,7 +142,6 @@ namespace Samba.Modules.PosModule
 
         private void OnCloseMenuView(string obj)
         {
-            //EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
         }
 
@@ -185,10 +184,11 @@ namespace Samba.Modules.PosModule
         {
             var insertedData = NumeratorValue;
             decimal quantity = 1;
-            if (NumeratorValue.ToLower().Contains("x"))
+            var separator = _settingService.ProgramSettings.QuantitySeparators.Split(',').First(x => NumeratorValue.Contains(x));
+            if (!string.IsNullOrEmpty(separator))
             {
-                insertedData = NumeratorValue.Substring(NumeratorValue.ToLower().IndexOf("x") + 1);
-                var q = NumeratorValue.Substring(0, NumeratorValue.ToLower().IndexOf("x"));
+                insertedData = NumeratorValue.Substring(NumeratorValue.IndexOf(separator, StringComparison.Ordinal) + 1);
+                var q = NumeratorValue.Substring(0, NumeratorValue.IndexOf(separator, StringComparison.Ordinal));
                 decimal.TryParse(q, out quantity);
             }
             NumeratorValue = "";

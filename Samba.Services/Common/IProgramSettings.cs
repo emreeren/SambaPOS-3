@@ -2,6 +2,7 @@
 {
     public interface IProgramSettings
     {
+        string QuantitySeparators { get; set; }
         string WeightBarcodePrefix { get; set; }
         int WeightBarcodeItemLength { get; set; }
         string WeightBarcodeItemFormat { get; set; }

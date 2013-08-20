@@ -5991,6 +5991,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quantity Separators.
+        /// </summary>
+        public static string QuantitySeparators {
+            get {
+                return ResourceManager.GetString("QuantitySeparators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quantity Total.
         /// </summary>
         public static string QuantityTotal {

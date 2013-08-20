@@ -11,6 +11,7 @@ namespace Samba.Modules.SettingsModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class ProgramSettingsViewModel : VisibleViewModelBase
     {
+        public string QuantitySeparators { get; set; }
         public string WeightBarcodePrefix { get; set; }
         public int WeightBarcodeItemLength { get; set; }
         public string WeightBarcodeItemFormat { get; set; }
@@ -29,6 +30,7 @@ namespace Samba.Modules.SettingsModule
             _settingService = settingService;
             SaveCommand = new CaptionCommand<string>(Resources.Save, OnSave);
             UserInfo = _settingService.ProgramSettings.UserInfo;
+            QuantitySeparators = _settingService.ProgramSettings.QuantitySeparators;
             WeightBarcodePrefix = _settingService.ProgramSettings.WeightBarcodePrefix;
             WeightBarcodeItemLength = _settingService.ProgramSettings.WeightBarcodeItemLength;
             WeightBarcodeItemFormat = _settingService.ProgramSettings.WeightBarcodeItemFormat;
@@ -46,6 +48,7 @@ namespace Samba.Modules.SettingsModule
             _settingService.ProgramSettings.AutoRoundDiscount = AutoRoundDiscount;
             _settingService.ProgramSettings.WeightBarcodeItemFormat = WeightBarcodeItemFormat;
             _settingService.ProgramSettings.PaymentScreenValues = PaymentScreenValues;
+            _settingService.ProgramSettings.QuantitySeparators = QuantitySeparators;
             _settingService.SaveProgramSettings();
             CommonEventPublisher.PublishViewClosedEvent(this);
         }

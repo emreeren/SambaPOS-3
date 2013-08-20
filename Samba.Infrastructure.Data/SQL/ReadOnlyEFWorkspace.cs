@@ -73,9 +73,9 @@ namespace Samba.Infrastructure.Data.SQL
         {
             try
             {
-                if (predictate != null)
-                    return _context.ReadOnly<T>().Where(predictate).Sum(selector);
-                return _context.ReadOnly<T>().Sum(selector);
+                return predictate != null
+                    ? _context.ReadOnly<T>().Where(predictate).Sum(selector)
+                    : _context.ReadOnly<T>().Sum(selector);
             }
             catch (InvalidOperationException)
             {
