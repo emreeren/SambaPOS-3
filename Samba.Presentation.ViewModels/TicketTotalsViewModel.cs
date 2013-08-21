@@ -175,7 +175,8 @@ namespace Samba.Presentation.ViewModels
 
         public void Refresh()
         {
-            ThreadPool.QueueUserWorkItem(RefreshAll, string.Empty);
+           RefreshAll("");
+            //ThreadPool.QueueUserWorkItem(RefreshAll, string.Empty);
         }
 
         private void RefreshAll(object state)

@@ -358,7 +358,7 @@ namespace Samba.Modules.PosModule
             }
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketView", UriKind.Relative));
-            _accountBalances.RefreshAsync(()=>_ticketViewModel.RefreshVisuals());
+            _accountBalances.RefreshAsync(()=>_ticketViewModel.RefreshSelectedTicketTitle());
             _ticketViewModel.RefreshSelectedItems();
         }
 

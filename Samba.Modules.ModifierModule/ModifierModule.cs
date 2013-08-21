@@ -150,10 +150,10 @@ namespace Samba.Modules.ModifierModule
                 {
                     DisplayProdcutTimerEdior(_selectedOrders.First());
                 }
-                else
-                {
-                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                }
+                //else
+                //{
+                //    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                //}
             }
         }
     }

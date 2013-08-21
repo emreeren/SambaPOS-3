@@ -546,23 +546,26 @@ namespace Samba.Modules.PosModule
         public void ResetTicket()
         {
             RefreshVisuals();
-            _ticketInfo.Refresh();
             _totals.ResetCache();
-            _totals.Refresh();
+            RefreshSelectedTicketTitle();
             ClearSelectedItems();
         }
 
         public void RefreshSelectedTicket()
         {
             _totals.Refresh();
-            _ticketInfo.Refresh();
             RaisePropertyChanged(() => IsTicketSelected);
             ExecuteAutomationCommnand.RaiseCanExecuteChanged();
         }
 
+        public void RefreshSelectedTicketTitle()
+        {
+            _ticketInfo.Refresh();
+            UpdateSelectedTicketTitle();
+        }
+
         public void RefreshVisuals()
         {
-            UpdateSelectedTicketTitle();
             RefreshSelectedTicket();
             RaisePropertyChanged(() => IsNothingSelectedAndTicketLocked);
             RaisePropertyChanged(() => IsNothingSelectedAndTicketTagged);

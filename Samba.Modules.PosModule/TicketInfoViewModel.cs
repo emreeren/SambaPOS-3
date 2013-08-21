@@ -24,7 +24,7 @@ namespace Samba.Modules.PosModule
             set
             {
                 _selectedTicket = value;
-                Refresh();
+                //Refresh();
             }
         }
 
