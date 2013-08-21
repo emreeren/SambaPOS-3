@@ -11,7 +11,7 @@ namespace Samba.Presentation.Common
             bool stringMode = false;
 
             Decimal.TryParse(actualValue, out amnt);
-            if (amnt == 0) stringMode = true;
+            if (actualValue.EndsWith("-") || amnt == 0) stringMode = true;
             else
             {
                 Decimal.TryParse(typedValue, out amnt);

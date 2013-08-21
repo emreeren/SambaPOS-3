@@ -184,7 +184,7 @@ namespace Samba.Modules.PosModule
         {
             var insertedData = NumeratorValue;
             decimal quantity = 1;
-            var separator = _settingService.ProgramSettings.QuantitySeparators.Split(',').First(x => NumeratorValue.Contains(x));
+            var separator = _settingService.ProgramSettings.QuantitySeparators.Split(',').FirstOrDefault(x => NumeratorValue.Contains(x));
             if (!string.IsNullOrEmpty(separator))
             {
                 insertedData = NumeratorValue.Substring(NumeratorValue.IndexOf(separator, StringComparison.Ordinal) + 1);

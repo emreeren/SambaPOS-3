@@ -154,7 +154,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<AccountTransaction>("{TARGET CREDIT}", (x, d) => x.TargetTransactionValue.Credit.ToString(LocalSettings.CurrencyFormat));
             RegisterFunction<AccountTransaction>("{TARGET AMOUNT}", (x, d) => Math.Abs(x.TargetTransactionValue.Debit - x.TargetTransactionValue.Credit).ToString(LocalSettings.CurrencyFormat));
             RegisterFunction<AccountTransaction>("{TARGET BALANCE}", (x, d) => GetAccountBalance(x.TargetTransactionValue.AccountId).ToString(LocalSettings.CurrencyFormat));
-
         }
 
         private string GexExchangeRate(string name)

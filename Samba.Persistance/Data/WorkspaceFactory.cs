@@ -33,14 +33,15 @@ namespace Samba.Persistance.Data
             if (string.IsNullOrEmpty(_connectionString))
             {
                 if (LocalSettings.IsSqlce40Installed())
-                    _connectionString = string.Format("data source={0}\\{1}.sdf", LocalSettings.DocumentPath,
-                                                                   LocalSettings.AppName);
+                    _connectionString = string.Format("data source={0}\\{1}.sdf", LocalSettings.DocumentPath, LocalSettings.AppName);
                 else _connectionString = GetTextFileName();
             }
             if (_connectionString.EndsWith(".sdf"))
             {
-                Database.DefaultConnectionFactory =
-                    new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0", "", _connectionString);
+                if (!_connectionString.ToLower().Contains("data source") && !_connectionString.Contains(":\\"))
+                    _connectionString = string.Format("data source={0}\\{1}", LocalSettings.DocumentPath, _connectionString);
+
+                Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0", "", _connectionString);
             }
             else if (_connectionString.EndsWith(".txt"))
             {
