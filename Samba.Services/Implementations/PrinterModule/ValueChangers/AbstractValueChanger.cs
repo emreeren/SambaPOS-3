@@ -140,7 +140,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return !string.IsNullOrEmpty(templatePart) ? ReplaceValues(templatePart, model, template) : "";
         }
 
-        private string ReplaceValues(string templatePart, T model, PrinterTemplate printerTemplate)
+        public string ReplaceValues(string templatePart, T model, PrinterTemplate printerTemplate)
         {
             var result = ReplaceTemplateValues(templatePart, model, printerTemplate);
             return FunctionRegistry.ExecuteFunctions(result, model, printerTemplate);

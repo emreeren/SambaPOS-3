@@ -19,6 +19,7 @@ namespace Samba.Services
         IDictionary<string, string> GetTagDescriptions();
         void ResetCache();
         string GetPrintingContent(Ticket ticket, string format, int width);
+        string ExecuteFunctions<T>(string printerTemplate, T model);
         object GetCustomPrinterData(string customPrinterName, string customPrinterData);
     }
 }

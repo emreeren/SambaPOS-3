@@ -138,7 +138,7 @@ html
 
         public static TimeSpan TokenLifeTime
         {
-            get { return _settingsObject.TokenLifeTime; }
+            get { return _settingsObject.TokenLifeTime; }  
             set { _settingsObject.TokenLifeTime = value; SaveSettings(); }
         }
 

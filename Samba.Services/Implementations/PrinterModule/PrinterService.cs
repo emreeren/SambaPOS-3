@@ -165,6 +165,11 @@ namespace Samba.Services.Implementations.PrinterModule
             return result;
         }
 
+        public string ExecuteFunctions<T>(string printerTemplate, T model)
+        {
+            return _functionRegistry.ExecuteFunctions(printerTemplate, model, new PrinterTemplate { Template = printerTemplate });
+        }
+
         public object GetCustomPrinterData(string customPrinterName, string customPrinterData)
         {
             var printer = GetCustomPrinter(customPrinterName);
