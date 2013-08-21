@@ -22,17 +22,20 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
         private readonly IDepartmentService _departmentService;
         private readonly ISettingService _settingService;
         private readonly ICacheService _cacheService;
+        private readonly IEntityService _entityService;
 
         public IDictionary<Type, ArrayList> Functions = new Dictionary<Type, ArrayList>();
         public IDictionary<string, string> Descriptions = new Dictionary<string, string>();
 
         [ImportingConstructor]
-        public FunctionRegistry(IAccountDao accountDao, IDepartmentService departmentService, ISettingService settingService, ICacheService cacheService)
+        public FunctionRegistry(IAccountDao accountDao, IDepartmentService departmentService, ISettingService settingService,
+            ICacheService cacheService, IEntityService entityService)
         {
             _accountDao = accountDao;
             _departmentService = departmentService;
             _settingService = settingService;
             _cacheService = cacheService;
+            _entityService = entityService;
         }
 
         public void RegisterFunctions()
@@ -106,6 +109,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Entity>("{ENTITY NAME}", (x, d) => x.Name);
             RegisterFunction<Entity>("{ENTITY BALANCE}", (x, d) => _accountDao.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), "", x => x.AccountId > 0);
             RegisterFunction<Entity>("{ENTITY DATA:([^}]+)}", (x, d) => x.GetCustomData(d));
+            RegisterFunction<Entity>("{ENTITY STATE:([^}]+)}", GetEntityState);
 
             //CALCULATIONS
             RegisterFunction<Calculation>("{CALCULATION NAME}", (x, d) => x.Name, string.Format(Resources.Name_f, Resources.Calculation));
@@ -154,6 +158,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<AccountTransaction>("{TARGET CREDIT}", (x, d) => x.TargetTransactionValue.Credit.ToString(LocalSettings.CurrencyFormat));
             RegisterFunction<AccountTransaction>("{TARGET AMOUNT}", (x, d) => Math.Abs(x.TargetTransactionValue.Debit - x.TargetTransactionValue.Credit).ToString(LocalSettings.CurrencyFormat));
             RegisterFunction<AccountTransaction>("{TARGET BALANCE}", (x, d) => GetAccountBalance(x.TargetTransactionValue.AccountId).ToString(LocalSettings.CurrencyFormat));
+        }
+
+        private string GetEntityState(Entity entity, string stateName)
+        {
+            return _entityService.GetStateValue(entity, stateName);
         }
 
         private string GexExchangeRate(string name)

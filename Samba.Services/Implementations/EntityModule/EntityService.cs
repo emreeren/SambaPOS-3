@@ -123,6 +123,13 @@ namespace Samba.Services.Implementations.EntityModule
             return state.GetStateQuantity(stateName);
         }
 
+        public string GetStateValue(Entity entity, string stateName)
+        {
+            var state = Dao.Single<EntityStateValue>(x => x.EntityId == entity.Id);
+            if (state == null) return "";
+            return state.GetStateValue(stateName);
+        }
+
         public IEnumerable<Entity> GetEntitiesByAccountId(int accountId)
         {
             return Dao.Query<Entity>(x => x.AccountId == accountId);

@@ -17,6 +17,7 @@ namespace Samba.Services
         Entity CreateEntity(int entityTypeId, string entityName);
         void SaveEntity(Entity entity);
         int GetStateQuantity(Entity entity, string stateName);
+        string GetStateValue(Entity entity, string stateName);
         IEnumerable<Entity> GetEntitiesByAccountId(int accountId);
     }
 }
