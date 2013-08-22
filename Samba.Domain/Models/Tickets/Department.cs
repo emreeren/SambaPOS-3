@@ -13,6 +13,7 @@ namespace Samba.Domain.Models.Tickets
 
         public int WarehouseId { get; set; }
         public int TicketTypeId { get; set; }
+        public int ScreenMenuId { get; set; }
         public int TicketCreationMethod { get; set; }
         
         private static Department _all;

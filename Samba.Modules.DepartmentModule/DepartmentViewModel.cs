@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using FluentValidation;
 using Samba.Domain.Models.Inventory;
+using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
@@ -13,12 +14,14 @@ namespace Samba.Modules.DepartmentModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class DepartmentViewModel : EntityViewModelBase<Department>
     {
+        private readonly IMenuService _menuService;
         private readonly IPriceListService _priceListService;
         private readonly ICacheService _cacheService;
 
         [ImportingConstructor]
         public DepartmentViewModel(IMenuService menuService, IPriceListService priceListService, ICacheService cacheService)
         {
+            _menuService = menuService;
             _priceListService = priceListService;
             _cacheService = cacheService;
         }
@@ -37,6 +40,14 @@ namespace Samba.Modules.DepartmentModule
         }
 
         public int TicketTypeId { get { return Model.TicketTypeId; } set { Model.TicketTypeId = value; } }
+
+        private IEnumerable<ScreenMenu> _screenMenus;
+        public IEnumerable<ScreenMenu> ScreenMenus
+        {
+            get { return _screenMenus ?? (_screenMenus = _menuService.GetScreenMenus()); }
+        }
+
+        public int? ScreenMenuId { get { return Model.ScreenMenuId; } set { Model.ScreenMenuId = value.GetValueOrDefault(0); } }
 
         private IEnumerable<Warehouse> _warehouses;
         public IEnumerable<Warehouse> Warehouses

@@ -19,6 +19,7 @@ namespace Samba.Presentation.Services
         public string PriceTag { get { return Model != null ? Model.PriceTag : ""; } }
         public int TicketCreationMethod { get { return Model != null ? Model.TicketCreationMethod : 0; } }
         public int TicketTypeId { get { return Model != null ? Model.TicketTypeId : 0; } }
+        public int ScreenMenuId { get { return Model != null ? Model.ScreenMenuId : 0; } }
     }
 
     public interface IApplicationState

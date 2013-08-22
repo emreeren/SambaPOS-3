@@ -20,7 +20,7 @@ namespace Samba.Persistance.Implementations
         {
             ValidatorRegistry.RegisterSaveValidator(new NonDuplicateSaveValidator<MenuItem>(string.Format(Resources.SaveErrorDuplicateItemName_f, Resources.MenuItem)));
             ValidatorRegistry.RegisterDeleteValidator(new MenuItemDeleteValidator());
-            ValidatorRegistry.RegisterDeleteValidator<ScreenMenu>(x => Dao.Exists<TicketType>(y => y.ScreenMenuId == x.Id), Resources.Menu, Resources.TicketType);
+            ValidatorRegistry.RegisterDeleteValidator(new ScreenMenuDeleteValidator());
         }
 
         public IEnumerable<ScreenMenu> GetScreenMenus()
@@ -80,6 +80,18 @@ namespace Samba.Persistance.Implementations
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.MenuItem, Resources.Recipe);
             if (Dao.Exists<OrderTag>(x => x.MenuItemId == model.Id))
                 return string.Format(Resources.DeleteErrorUsedBy_f, Resources.MenuItem, Resources.OrderTag);
+            return "";
+        }
+    }
+
+    public class ScreenMenuDeleteValidator:SpecificationValidator<ScreenMenu>
+    {
+        public override string GetErrorMessage(ScreenMenu model)
+        {
+            if (Dao.Exists<TicketType>(x => x.ScreenMenuId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Menu, Resources.TicketType);
+            if (Dao.Exists<Department>(x => x.ScreenMenuId == model.Id))
+                return string.Format(Resources.DeleteErrorUsedBy_f, Resources.Menu, Resources.Department);
             return "";
         }
     }

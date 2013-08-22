@@ -57,8 +57,14 @@ namespace Samba.Modules.PosModule
                 {
                     _accountBalances.SelectedTicket = value;
                     _accountBalances.Refresh();
-                    var template = _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId);
-                    if (template != null) _menuItemSelectorViewModel.UpdateCurrentScreenMenu(template.GetScreenMenuId(_applicationState.CurrentTerminal));
+                    var screenMenuId = _applicationState.CurrentDepartment.ScreenMenuId;
+                    if (screenMenuId == 0)
+                    {
+                        var template = _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId);
+                        if (template != null)
+                            screenMenuId = template.GetScreenMenuId(_applicationState.CurrentTerminal);
+                    }
+                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(screenMenuId);
                 }
             }
         }
@@ -172,8 +178,8 @@ namespace Samba.Modules.PosModule
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedItem);
-                    if (_applicationState.CurrentDepartment!= null && _applicationState.CurrentDepartment.TicketCreationMethod==0
-                        &&_applicationState.SelectedEntityScreen != null
+                    if (_applicationState.CurrentDepartment != null && _applicationState.CurrentDepartment.TicketCreationMethod == 0
+                        && _applicationState.SelectedEntityScreen != null
                         && SelectedTicket.Orders.Count > 0 && eventParameters.Value.SelectedItem.Id > 0
                         && _applicationState.TempEntityScreen != null
                         && eventParameters.Value.SelectedItem.EntityTypeId == _applicationState.TempEntityScreen.EntityTypeId)
@@ -358,7 +364,7 @@ namespace Samba.Modules.PosModule
             }
             _regionManager.RequestNavigate(RegionNames.MainRegion, new Uri("PosView", UriKind.Relative));
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketView", UriKind.Relative));
-            _accountBalances.RefreshAsync(()=>_ticketViewModel.RefreshSelectedTicketTitle());
+            _accountBalances.RefreshAsync(() => _ticketViewModel.RefreshSelectedTicketTitle());
             _ticketViewModel.RefreshSelectedItems();
         }
 
