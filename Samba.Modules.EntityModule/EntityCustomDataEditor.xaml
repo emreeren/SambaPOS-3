@@ -82,7 +82,7 @@
                     UnmaskedText="{Binding Model.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
                     InputMask="{Binding EntityType.PrimaryFieldFormat}"/>
             <TextBox Name="EntityNameEdit2" Margin="0,0,2,2" Grid.Column="1" Visibility="{Binding IsTextBoxVisible,Converter={StaticResource VisibilityConverter}}"
-                    Text="{Binding Model.Name, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+                    Text="{Binding Model.Name, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <ItemsControl Grid.Row="1" Focusable="False" ItemsSource="{Binding CustomData}" ItemTemplateSelector="{StaticResource customFieldTemplateSelector}"/>
     </StackPanel>

@@ -11,6 +11,7 @@ namespace Samba.Domain.Models.Tickets
         public string TagName { get; set; }
         [DataMember(Name = "TV")]
         public string TagValue { get; set; }
+
         public string TagNameShort { get { return string.Join("", TagName.Where(char.IsUpper)); } }
 
         public bool Equals(TicketTagValue other)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Samba.Infrastructure;
 using Samba.Services.Common;
 
 namespace Samba.Services.Implementations.AutomationModule
@@ -64,11 +65,13 @@ namespace Samba.Services.Implementations.AutomationModule
             var actionContainers = rules
                .SelectMany(rule => rule.Actions.OrderBy(x => x.SortOrder).Where(x => _conditionChecker.SatisfiesCustomConstraint(x.CustomConstraint, dataParameter)));
 
+            var dataObject = dataParameter.ToDynamic();
+
             foreach (var actionContainer in actionContainers)
             {
                 _actionDataBuilder
                     .CreateFor(actionContainer)
-                    .PreprocessWith(dataParameter)
+                    .PreprocessWith(dataObject)
                     .InvokeFor(dataAction);
             }
         }

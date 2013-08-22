@@ -428,10 +428,10 @@ namespace Samba.Modules.PosModule
         {
             if (SelectedTicket == null) return;
 
-            if (!SelectedTicket.CanCloseTicket())
+            if (!SelectedTicket.CanCloseTicket() && !SelectedTicket.IsTaggedWithDefinedTags(_cacheService.GetTicketTagGroupNames()))
             {
-                SaveTicketIfNew();
-                _ticketViewModel.RefreshVisuals();
+                //SaveTicketIfNew();
+                //_ticketViewModel.RefreshVisuals();
                 return;
             }
 

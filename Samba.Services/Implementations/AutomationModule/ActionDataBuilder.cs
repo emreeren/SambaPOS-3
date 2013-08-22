@@ -33,9 +33,9 @@ namespace Samba.Services.Implementations.AutomationModule
             return this;
         }
 
-        public ActionDataBuilder PreprocessWith(object dataParameter)
+        public ActionDataBuilder PreprocessWith(object dataObject)
         {
-            _dataObject = dataParameter.ToDynamic();
+            _dataObject = dataObject;
             _containerParameterValues = _preprocessor.Process(_containerParameterValues, _dataObject);
             _action.Parameter = _preprocessor.Process(_action.Parameter, _dataObject);
             return this;

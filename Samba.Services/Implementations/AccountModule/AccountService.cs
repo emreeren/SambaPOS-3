@@ -11,8 +11,6 @@ using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Localization;
 using Samba.Persistance;
-using Samba.Persistance.Data;
-using Samba.Persistance.Specification;
 using Samba.Services.Common;
 
 namespace Samba.Services.Implementations.AccountModule

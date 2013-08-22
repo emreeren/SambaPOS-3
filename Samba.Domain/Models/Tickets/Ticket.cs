@@ -456,6 +456,11 @@ namespace Samba.Domain.Models.Tickets
             get { return TicketTagValues.Any(x => !string.IsNullOrEmpty(x.TagValue)); }
         }
 
+        public bool IsTaggedWithDefinedTags(IEnumerable<string> definedTags)
+        {
+            return TicketTagValues.Any(x => definedTags.Contains(x.TagName) && !string.IsNullOrEmpty(x.TagValue));
+        }
+
         public bool IsInState(string stateName, string state)
         {
             stateName = stateName.Trim();
@@ -611,11 +616,13 @@ namespace Samba.Domain.Models.Tickets
             var tag = TicketTagValues.SingleOrDefault(x => x.TagName == tagName);
             if (tag == null)
             {
-                tag = new TicketTagValue { TagName = tagName, TagValue = tagValue };
+                tag = new TicketTagValue { TagName = tagName, TagValue = tagValue};
                 TicketTagValues.Add(tag);
             }
             else
+            {
                 tag.TagValue = tagValue;
+            }
 
             if (string.IsNullOrEmpty(tag.TagValue))
                 TicketTagValues.Remove(tag);
@@ -756,8 +763,7 @@ namespace Samba.Domain.Models.Tickets
 
         public bool CanCloseTicket()
         {
-            return (GetRemainingAmount() == 0 || TicketEntities.Count > 0 ||
-                 IsTagged || Orders.Count == 0);
+            return (GetRemainingAmount() == 0 || TicketEntities.Count > 0 ||  Orders.Count == 0);
         }
 
         public decimal GetCalculationTotal(string s)
@@ -775,8 +781,8 @@ namespace Samba.Domain.Models.Tickets
         {
             var tr = TicketEntities.FirstOrDefault(x => x.EntityTypeId == entityTypeId);
             return tr != null ? tr.GetCustomData(fieldName) : "";
-        }     
-        
+        }
+
         public string GetEntityFieldValue(string fieldName)
         {
             var tr = TicketEntities.FirstOrDefault(x => x.HasCustomData(fieldName));
