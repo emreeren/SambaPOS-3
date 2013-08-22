@@ -562,6 +562,7 @@ namespace Samba.Modules.PosModule
         {
             _ticketInfo.Refresh();
             UpdateSelectedTicketTitle();
+            RefreshVisuals();
         }
 
         public void RefreshVisuals()

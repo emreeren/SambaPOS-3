@@ -21,9 +21,17 @@ namespace Samba.Modules.UserModule
 
         private IEnumerable<PermissionViewModel> GetPermissions()
         {
+            var missingPermissions = Model.Permissions.Where(x => PermissionRegistry.PermissionNames.All(y => y.Key != x.Name));
+
+            missingPermissions.ToList().ForEach(x =>
+                                                    {
+                                                        Model.Permissions.Remove(x);
+                                                        Workspace.Delete(x);
+                                                    });
+           
             if (Model.Permissions.Count() < PermissionRegistry.PermissionNames.Count)
             {
-                foreach (var pName in PermissionRegistry.PermissionNames.Keys.Where(pName => Model.Permissions.SingleOrDefault(x => x.Name == pName) == null))
+                foreach (var pName in PermissionRegistry.PermissionNames.Keys.Where(pName => Model.Permissions.SingleOrDefault(x => x.Name == pName) == null).ToList())
                 {
                     Model.Permissions.Add(new Permission { Name = pName, Value = 0 });
                 }
