@@ -400,6 +400,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Mutfak Yazıcısı</value>
   </data>
+  <data name="InventoryCalculationError" xml:space="preserve">
+    <value>Stok hesaplamalarında bir hata oluştu. Reçetelerinizi kontrol edin.</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Ayarlar</value>
   </data>
@@ -495,6 +498,9 @@
   </data>
   <data name="OnceAMonth" xml:space="preserve">
     <value>Ayda bir defa</value>
+  </data>
+  <data name="QuantitySeparators" xml:space="preserve">
+    <value>Miktar Ayırıcı</value>
   </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Birim Fiyat</value>
@@ -1009,6 +1015,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Ürün Adı</value>
+  </data>
+  <data name="CantComplateOperationError" xml:space="preserve">
+    <value>Bir hata nedeniyle işlemi tamamlayamıyor. Log Dosyasını kontrol edin.</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
     <value>GÜN SONU YAPMAYI UNUTMAYINIZ!</value>
@@ -1604,6 +1613,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="From" xml:space="preserve">
     <value>Baş</value>
+  </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Sıralamayı Değiştir</value>
   </data>
   <data name="One" xml:space="preserve">
     <value>Bir</value>
