@@ -77,7 +77,7 @@ namespace Samba.Services.Implementations.PrinterModule
 
         public void PrintTicket(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
         {
-            ticket = ObjectCloner.Clone2(ticket);
+          var clonedTicket= ObjectCloner.Clone2(ticket);
 
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
                     new Action(
@@ -86,7 +86,7 @@ namespace Samba.Services.Implementations.PrinterModule
                             try
                             {
                                 LocalSettings.UpdateThreadLanguage();
-                                var tasks = _ticketPrintTaskBuilder.GetPrintTasksForTicket(ticket, printJob, orderSelector);
+                                var tasks = _ticketPrintTaskBuilder.GetPrintTasksForTicket(clonedTicket, printJob, orderSelector);
                                 foreach (var ticketPrintTask in tasks.Where(x => x != null && x.Printer != null && x.Lines != null))
                                 {
                                     Print(ticketPrintTask.Printer, ticketPrintTask.Lines);

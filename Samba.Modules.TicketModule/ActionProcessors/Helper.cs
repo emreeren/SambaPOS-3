@@ -13,7 +13,7 @@ namespace Samba.Modules.TicketModule.ActionProcessors
         {
             IList<Order> orders = new List<Order>();
             var selectedOrder = x.GetDataValue<Order>("Order");
-            if (selectedOrder == null || (ticket != null && selectedOrder.SelectedQuantity > 0))
+            if (selectedOrder == null || (ticket != null && selectedOrder.SelectedQuantity > 0 && selectedOrder.SelectedQuantity != selectedOrder.Quantity))
             {
                 if (ticket != null)
                 {
