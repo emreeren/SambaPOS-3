@@ -30,7 +30,7 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             report.AddColumnLength("ÜrünGrubu", "40*", "Auto", "35*");
             report.AddTable("ÜrünGrubu", Resources.SalesByItemGroup, "", "");
 
-            foreach (var menuItemInfo in menuGroups)
+            foreach (var menuItemInfo in menuGroups.Where(x => x.Rate != 0))
             {
                 report.AddRow("ÜrünGrubu", menuItemInfo.GroupName,
                     string.Format("%{0:0.00}", menuItemInfo.Rate),
@@ -46,7 +46,7 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             report.AddColumnLength("ÜrünGrubuMiktar", "40*", "Auto", "35*");
             report.AddTable("ÜrünGrubuMiktar", Resources.QuantitiesByItemGroup, "", "");
 
-            foreach (var menuItemInfo in menuGroups)
+            foreach (var menuItemInfo in menuGroups.Where(x => x.QuantityRate != 0))
             {
                 report.AddRow("ÜrünGrubuMiktar", menuItemInfo.GroupName,
                     string.Format("%{0:0.00}", menuItemInfo.QuantityRate),
@@ -149,7 +149,7 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
             //----------------------
 
             var orderTags = ReportContext.Tickets
-                .SelectMany(x => x.Orders.Where(y => !string.IsNullOrEmpty(y.OrderTags)))
+                .SelectMany(x => x.Orders.Where(y => !string.IsNullOrEmpty(y.OrderTags) && (y.IncreaseInventory || y.DecreaseInventory)))
                 .SelectMany(x => x.GetOrderTagValues(y => y.MenuItemId == 0).Select(y => new { Name = y.TagValue, x.Quantity, Total = y.Price * x.Quantity }))
                 .GroupBy(x => new { x.Name })
                 .Select(x => new { x.Key.Name, Quantity = x.Sum(y => y.Quantity), Amount = x.Sum(y => y.Total) }).ToList();

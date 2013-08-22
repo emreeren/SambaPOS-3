@@ -10,17 +10,17 @@ namespace Samba.Modules.BasicReports.Reports
         public static IEnumerable<MenuItemGroupInfo> CalculateMenuGroups(IEnumerable<Ticket> tickets, IEnumerable<MenuItem> menuItems)
         {
             var query = from c in tickets.SelectMany(x => x.Orders.Select(y => new { Ticket = x, Order = y }))
-                join menuItem in menuItems on c.Order.MenuItemId equals menuItem.Id
-                group c by menuItem.GroupCode into grp
-                select new MenuItemGroupInfo
-                {
-                    GroupName = grp.Key,
-                    Quantity = grp.Sum(y => y.Order.Quantity),
-                    Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order))
-                };
+                        join menuItem in menuItems on c.Order.MenuItemId equals menuItem.Id
+                        group c by menuItem.GroupCode into grp
+                        select new MenuItemGroupInfo
+                        {
+                            GroupName = grp.Key,
+                            Quantity = grp.Sum(y => (y.Order.DecreaseInventory || y.Order.IncreaseInventory) ? y.Order.Quantity : 0),
+                            Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order))
+                        };
 
             var menuItemInfoGroups = query.ToList();
-                
+
             var result = menuItemInfoGroups.OrderByDescending(x => x.Amount);
 
             var sum = menuItemInfoGroups.Sum(x => x.Amount);
@@ -72,21 +72,22 @@ namespace Samba.Modules.BasicReports.Reports
 
         public static IEnumerable<MenuItemSellInfo> CalculatePortionsItems(IEnumerable<Ticket> tickets, MenuItem menuItem)
         {
-            var menuItems = new List<MenuItem> {menuItem};
+            var menuItems = new List<MenuItem> { menuItem };
 
             var menuItemSellInfos =
                                    from c in tickets.SelectMany(x => x.Orders
-                                                                      .Where(y => y.DecreaseInventory && y.MenuItemName== menuItem.Name)
+                                                                      .Where(y => y.DecreaseInventory && y.MenuItemName == menuItem.Name)
                                                                       .Select(y => new { Ticket = x, Order = y }))
                                    join menuI in menuItems on c.Order.MenuItemId equals menuI.Id
                                    group c by c.Order.PortionName
-                                   into grp select new MenuItemSellInfo
-                                   {
-                                       Name = "\t." + grp.Key,
-                                       Quantity = grp.Sum(y => y.Order.Quantity),
-                                       Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order))
-                                   };
-           var result = menuItemSellInfos.ToList().OrderByDescending(x => x.Quantity);
+                                       into grp
+                                       select new MenuItemSellInfo
+                                           {
+                                               Name = "\t." + grp.Key,
+                                               Quantity = grp.Sum(y => y.Order.Quantity),
+                                               Amount = grp.Sum(y => CalculateOrderTotal(y.Ticket, y.Order))
+                                           };
+            var result = menuItemSellInfos.ToList().OrderByDescending(x => x.Quantity);
 
             return result;
         }
