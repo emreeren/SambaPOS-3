@@ -122,6 +122,7 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterEvent(RuleEventNames.EntityUpdated, Resources.EntityUpdated, new { EntityTypeName = "", OpenTicketCount = 0 });
             RegisterEvent(RuleEventNames.EntityStateUpdated, Resources.EntityStateUpdated, new { EntityTypeName = "", StateName = "", State = "", Quantity = 0m });
             RegisterEvent(RuleEventNames.AccountTransactionDocumentCreated, Resources.AccountTransactionDocumentCreated, new { AccountTransactionDocumentName = "", DocumentId = 0 });
+            RegisterEvent(RuleEventNames.AccountTransactionAddedToTicket, Resources.AccountTransactionAddedToTicket, new { TransactionTypeName = "", SourceAccountName = "", TargetAccountName = "", Amount = 0m, ExchangeRate = 0m });
             RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
             RegisterEvent(RuleEventNames.DeviceEventGenerated, Resources.DeviceEventGenerated, new { DeviceName = "", EventName = "", EventData = "" });
             RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted, new { Arguments = "" });

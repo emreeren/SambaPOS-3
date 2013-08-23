@@ -560,6 +560,16 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             {
                 var transaction = ticket.TransactionDocument.AddNewTransaction(transactionType, ticket.GetTicketAccounts(), amount, exchangeRate);
                 transaction.UpdateDescription(string.Format("{0} - {1}: {2}", transaction.Name, Resources.TicketNumber, ticket.TicketNumber));
+                _applicationState.NotifyEvent(RuleEventNames.AccountTransactionAddedToTicket,
+                               new
+                               {
+                                   Ticket = ticket,
+                                   TransactionTypeName = transactionType.Name,
+                                   SourceAccountName = sourceAccount.Name,
+                                   TargetAccountName = targetAccount.Name,
+                                   Amount = amount,
+                                   ExchangeRate = exchangeRate
+                               });
             }
         }
 

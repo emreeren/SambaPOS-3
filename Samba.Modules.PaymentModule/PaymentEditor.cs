@@ -69,7 +69,7 @@ namespace Samba.Modules.PaymentModule
                     var accountBalance = _accountBalances.GetAccountBalance(account.Id);
                     if (accountAmount > accountBalance) accountAmount = accountBalance;
                     if (ticketAmount > 0)
-                        _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, ticketAmount, tenderedAmount);
+                        _ticketService.AddPayment(SelectedTicket, paymentType, paymentAccount, ticketAmount, tenderedAmount - accountAmount);
                     if (accountAmount > 0)
                         _ticketService.AddAccountTransaction(SelectedTicket, account, paymentAccount, accountAmount, ExchangeRate);
                 }
