@@ -129,7 +129,7 @@ namespace Samba.Presentation
             ServiceLocator.Current.GetInstance<ITriggerService>().UpdateCronObjects();
             ServiceLocator.Current.GetInstance<IDeviceService>().InitializeDevices();
             InteractionService.UserIntraction.ToggleSplashScreen();
-            EntityCollectionSortManager.Load(LocalSettings.AppPath + "\\CollectionSort.txt");
+            EntityCollectionSortManager.Load(LocalSettings.DocumentPath + "\\CollectionSort.txt");
 
             Application.Current.MainWindow.Show();
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ShellInitialized);

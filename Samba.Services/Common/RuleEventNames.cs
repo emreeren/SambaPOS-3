@@ -38,6 +38,6 @@
         public const string ValueLooped = "ValueLooped";
         public const string AccountTransactionDocumentCreated = "AccountTransactionDocumentCreated";
         public const string NumberpadValueEntered = "NumberpadValueEntered";
-
+        public const string AccountTransactionAddedToTicket = "AccountTransactionAddedToTicket";
     }
 }

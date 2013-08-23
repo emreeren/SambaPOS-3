@@ -187,6 +187,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Transaction Added to Ticket.
+        /// </summary>
+        public static string AccountTransactionAddedToTicket {
+            get {
+                return ResourceManager.GetString("AccountTransactionAddedToTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Transaction Document.
         /// </summary>
         public static string AccountTransactionDocument {

@@ -3409,4 +3409,7 @@ Error Message:
   <data name="QuantitySeparators" xml:space="preserve">
     <value>Quantity Separators</value>
   </data>
+  <data name="AccountTransactionAddedToTicket" xml:space="preserve">
+    <value>Account Transaction Added to Ticket</value>
+  </data>
 </root>
