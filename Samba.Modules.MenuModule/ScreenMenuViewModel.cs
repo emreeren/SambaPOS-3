@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -25,18 +26,44 @@ namespace Samba.Modules.MenuModule
             SortCategoriesCommand = new CaptionCommand<string>(string.Format(Resources.SortCategories), OnSortCategories, CanSortCategories);
             EditCategoryItemPropertiesCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.ProductProperties), OnEditCategoryItemProperties, CanEditCategory);
             EditAllCategoriesCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.AllCategories), OnEditAllCategories);
+            EditMenuPropertiesCommand = new CaptionCommand<string>(string.Format(Resources.Edit_f, Resources.MenuProperties), OnEditMenuProperties);
         }
 
+        [Browsable(false)]
         public ICaptionCommand AddCategoryCommand { get; set; }
+        [Browsable(false)]
         public ICaptionCommand EditCategoryCommand { get; set; }
+        [Browsable(false)]
         public ICaptionCommand EditAllCategoriesCommand { get; set; }
+        [Browsable(false)]
         public ICaptionCommand EditCategoryItemsCommand { get; set; }
+        [Browsable(false)]
         public ICaptionCommand DeleteCategoryCommand { get; set; }
+        [Browsable(false)]
         public ICaptionCommand SortCategoryItemsCommand { get; set; }
+        [Browsable(false)]
         public ICaptionCommand SortCategoriesCommand { get; set; }
+        [Browsable(false)]
         public ICaptionCommand EditCategoryItemPropertiesCommand { get; set; }
+        [Browsable(false)]
+        public ICaptionCommand EditMenuPropertiesCommand { get; set; }
 
+        public int CategoryColumnCount
+        {
+            get { return Model.CategoryColumnCount > 1 ? Model.CategoryColumnCount : 1; }
+            set { Model.CategoryColumnCount = value > 1 ? value : 1; }
+        }
+
+        public int CategoryColumnWidthRate
+        {
+            get { return Model.CategoryColumnWidthRate > 10 ? Model.CategoryColumnWidthRate : 10; }
+            set { Model.CategoryColumnWidthRate = value > 10 ? value : 10; }
+        }
+
+        [Browsable(false)]
         public ObservableCollection<ScreenMenuCategoryViewModel> Categories { get; set; }
+
+        [Browsable(false)]
         public ScreenMenuCategoryViewModel SelectedCategory { get; set; }
 
         public override string GetModelTypeString()
@@ -92,6 +119,11 @@ namespace Samba.Modules.MenuModule
         private IEnumerable<MenuItem> GetMenuItemsByGroupCode(string groupCode)
         {
             return Workspace.All<MenuItem>(x => x.GroupCode == groupCode);
+        }
+
+        private void OnEditMenuProperties(string obj)
+        {
+            InteractionService.UserIntraction.EditProperties(this);
         }
 
         private bool CanEditCategory(string value)

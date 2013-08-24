@@ -17,7 +17,12 @@ namespace Samba.Domain.Models.Menus
         {
             Name = name;
             _categories = new List<ScreenMenuCategory>();
+            CategoryColumnWidthRate = 25;
+            CategoryColumnCount = 1;
         }
+
+        public int CategoryColumnCount { get; set; }
+        public int CategoryColumnWidthRate { get; set; }
 
         private IList<ScreenMenuCategory> _categories;
         public virtual IList<ScreenMenuCategory> Categories
@@ -44,7 +49,7 @@ namespace Samba.Domain.Models.Menus
             Debug.Assert(menuCategory != null);
             foreach (var menuItem in menuItems)
             {
-                menuCategory.AddMenuItem(menuItem);    
+                menuCategory.AddMenuItem(menuItem);
             }
         }
     }

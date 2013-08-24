@@ -6,6 +6,7 @@ namespace Samba.Presentation.Common.ModelBase
 {
     public abstract class ViewModelBase : ObservableObject
     {
+        [Browsable(false)]
         public string HeaderInfo
         {
             get { return GetHeaderInfo(); }

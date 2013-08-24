@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 
@@ -8,7 +9,12 @@ namespace Samba.Presentation.Common.ModelBase
     {
         public abstract Type GetViewType();
 
+        [Browsable(false)]
+        public VisibleViewModelBase CallingView { get; set; }
+
         DelegateCommand<object> _closeCommand;
+
+        [Browsable(false)]
         public DelegateCommand<object> CloseCommand
         {
             get { return _closeCommand ?? (_closeCommand = new DelegateCommand<object>(OnRequestClose, CanClose)); }
@@ -28,8 +34,6 @@ namespace Samba.Presentation.Common.ModelBase
         {
             PublishClose();
         }
-
-        public VisibleViewModelBase CallingView { get; set; }
 
         public virtual void OnClosed()
         {

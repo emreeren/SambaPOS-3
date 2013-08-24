@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
@@ -83,6 +84,23 @@ namespace Samba.Modules.PosModule
         public ObservableCollection<ScreenMenuItemData> SelectedMenuItems { get; set; }
 
         public Ticket SelectedTicket { get; set; }
+
+        public int CategoryColumnWidthRate
+        {
+            get
+            {
+                if (_currentScreenMenu == null) return 25;
+                return _currentScreenMenu.CategoryColumnWidthRate > 10 ? _currentScreenMenu.CategoryColumnWidthRate : 10;
+            }
+        }
+        public int CategoryColumnCount
+        {
+            get
+            {
+                if (_currentScreenMenu == null) return 1;
+                return _currentScreenMenu.CategoryColumnCount > 1 ? _currentScreenMenu.CategoryColumnCount : 1;
+            }
+        }
 
         private readonly IApplicationState _applicationState;
         private readonly IApplicationStateSetter _applicationStateSetter;
@@ -271,6 +289,8 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => CategoriesVerticalAlignment);
             RaisePropertyChanged(() => MostUsedMenuItems);
             RaisePropertyChanged(() => MostUsedItemsCategory);
+            RaisePropertyChanged(() => CategoryColumnCount);
+            RaisePropertyChanged(() => CategoryColumnWidthRate);
         }
 
         private ObservableCollection<ScreenMenuItemButton> CreateMostUsedMenuItems(ScreenMenu screenMenu)

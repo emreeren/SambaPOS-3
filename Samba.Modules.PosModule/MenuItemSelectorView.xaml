@@ -19,16 +19,18 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FxButton:FlexButton Margin="5,0,0,7" Focusable="False" ButtonColor="{Binding ButtonColor,Converter={StaticResource NullBrushConverter}}"
-                         ButtonImage="{Binding ImagePath}" Content="{Binding Caption}" Command="{Binding Command}"
-                         CommandParameter="{Binding ScreenMenuItem}" />
+                    <FxButton:FlexButton Margin="5,0,0,7" Focusable="False" 
+                                         ButtonColor="{Binding ButtonColor, Converter={StaticResource NullBrushConverter}}"
+                                         ButtonImage="{Binding ImagePath}" Content="{Binding Caption}" Command="{Binding Command}"                        
+                                         CommandParameter="{Binding ScreenMenuItem}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        
         <Grid Name="MainGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="22*" />
-                <ColumnDefinition Width="78*" />
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition Width="75*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" Name="SelectedItemsRow" />
@@ -36,18 +38,18 @@
                 <RowDefinition Height="60*" Name="MenuItemRow" />
                 <RowDefinition Height="40*" Name="NumeratorRow" />
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.RowSpan="4" Grid.Column="0" Margin="3,0,5,1" UIControls:KineticBehaviour.HandleKineticScrolling="True"
+            <ScrollViewer Grid.RowSpan="4" Grid.Column="0" Margin="3,0,4,1" UIControls:KineticBehaviour.HandleKineticScrolling="True"
                  VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Categories,NotifyOnTargetUpdated=True}" TargetUpdated="ItemsControl_TargetUpdated">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="1" VerticalAlignment="{Binding CategoriesVerticalAlignment}" />
+                            <UniformGrid Columns="{Binding CategoryColumnCount}" VerticalAlignment="{Binding CategoriesVerticalAlignment}" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <FxButton:FlexButton FontSize="{Binding FontSize}" Content="{Binding Caption}" Focusable="False" Command="{Binding ButtonCommand}"
-                                 CommandParameter="{Binding Category}" Height="{Binding MButtonHeight}" Margin="0,1,0,1"
+                                 CommandParameter="{Binding Category}" Height="{Binding MButtonHeight}" Margin="0,1,1,1"
                                  ButtonImage="{Binding ImagePath}" ButtonColor="{Binding MButtonColor,Converter={StaticResource NullBrushConverter}}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -120,6 +122,7 @@
                     </Style>
                 </ListBox.Resources>
             </ListBox>
+            
             <Grid Grid.Row="2" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>

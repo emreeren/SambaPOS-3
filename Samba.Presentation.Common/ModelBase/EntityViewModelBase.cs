@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using FluentValidation;
 using Samba.Infrastructure.Data;
@@ -11,19 +12,25 @@ namespace Samba.Presentation.Common.ModelBase
     public abstract class EntityViewModelBase<TModel> : VisibleViewModelBase where TModel : class, IEntityClass
     {
         private bool _modelSaved;
-
-        public TModel Model { get; set; }
-        public ICaptionCommand SaveCommand { get; private set; }
         private IValidator<TModel> _validator;
-        public string ErrorMessage { get; set; }
-
-        protected IWorkspace Workspace { get; private set; }
 
         protected EntityViewModelBase()
         {
             SaveCommand = new CaptionCommand<string>(Resources.Save, OnSave, CanSave);
         }
 
+        [Browsable(false)]
+        public TModel Model { get; set; }
+
+        [Browsable(false)]
+        public ICaptionCommand SaveCommand { get; private set; }
+
+        [Browsable(false)]
+        public string ErrorMessage { get; set; }
+
+        protected IWorkspace Workspace { get; private set; }
+
+        [Browsable(false)]
         public string Name
         {
             get { return Model.Name; }
@@ -36,6 +43,7 @@ namespace Samba.Presentation.Common.ModelBase
 
         private string _error;
 
+        [Browsable(false)]
         public string Error
         {
             get { return _error; }
@@ -46,6 +54,7 @@ namespace Samba.Presentation.Common.ModelBase
             }
         }
 
+        [Browsable(false)]
         public string Foreground
         {
             get { return GetForeground(); }
