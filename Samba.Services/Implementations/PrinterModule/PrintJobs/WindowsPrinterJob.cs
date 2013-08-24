@@ -31,7 +31,7 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
 
             var q = PrinterInfo.GetPrinter(Printer.ShareName);
             var pd = new PrintDialog { PrintQueue = q };
-            if (pd.PrintQueue.FullName == Printer.ShareName || pd.ShowDialog().GetValueOrDefault(false))
+            if (q != null || pd.PrintQueue.FullName == Printer.ShareName || Printer.ShareName.ToLower() == "default" || pd.ShowDialog().GetValueOrDefault(false))
             {
                 document.FontFamily = new System.Windows.Media.FontFamily(LocalSettings.PrintFontFamily);
                 document.Typography.EastAsianWidths = FontEastAsianWidths.Half;

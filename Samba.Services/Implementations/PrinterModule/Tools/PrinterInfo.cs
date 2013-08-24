@@ -27,7 +27,14 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
 
         public static PrintQueue GetPrinter(string shareName)
         {
-            return FindPrinterByName(shareName);
+            var result = FindPrinterByName(shareName);
+            if (result == null) result = FindPrinterByShareName(shareName);
+            return result;
+        }
+
+        public static PrintQueue FindPrinterByShareName(string shareName)
+        {
+            return Printers.FirstOrDefault(x => x.HostingPrintServer.Name +"\\"+ x.ShareName == shareName);
         }
 
         internal static PrintQueue FindPrinterByName(string printerName)
