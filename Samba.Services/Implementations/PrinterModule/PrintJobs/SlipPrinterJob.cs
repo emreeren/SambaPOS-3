@@ -1,4 +1,5 @@
-﻿using System.Windows.Documents;
+﻿using System.Linq;
+using System.Windows.Documents;
 using Samba.Domain.Models.Settings;
 using Samba.Services.Implementations.PrinterModule.Formatters;
 using Samba.Services.Implementations.PrinterModule.Tools;
@@ -17,19 +18,19 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             var printer = new LinePrinter(Printer.ShareName, Printer.CharsPerLine, Printer.CodePage);
             printer.StartDocument();
 
-            var formatters = new FormattedDocument(lines, Printer.CharsPerLine).GetFormatters();
+            var formatters = new FormattedDocument(lines, Printer.CharsPerLine).GetFormatters().ToList();
             foreach (var formatter in formatters)
             {
                 SendToPrinter(printer, formatter);
             }
-
-            printer.Cut();
+            if (formatters.Count() > 1)
+                printer.Cut();
             printer.EndDocument();
         }
 
         public override void DoPrint(FlowDocument document)
         {
-            DoPrint(PrinterTools.FlowDocumentToSlipPrinterFormat(document,Printer.CharsPerLine));
+            DoPrint(PrinterTools.FlowDocumentToSlipPrinterFormat(document, Printer.CharsPerLine));
         }
 
         private static void SendToPrinter(LinePrinter printer, ILineFormatter line)

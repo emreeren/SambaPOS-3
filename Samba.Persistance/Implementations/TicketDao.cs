@@ -43,6 +43,7 @@ namespace Samba.Persistance.Implementations
                              x => x.TicketEntities,
                              x => x.Calculations,
                              x => x.Payments,
+                             x => x.PaidItems,
                              x => x.ChangePayments);
         }
 
@@ -146,11 +147,6 @@ namespace Samba.Persistance.Implementations
         {
             if (current.Id > 0)
             {
-                //if (current.AccountName != loaded.AccountName)
-                //{
-                //    return ConcurrencyCheckResult.Break(string.Format(Resources.TicketMovedRetryLastOperation_f, loaded.AccountName));
-                //}
-
                 if (current.TicketEntities.Count != loaded.TicketEntities.Count || !current.TicketEntities.All(x => loaded.TicketEntities.Any(y => x.EntityId == y.EntityId)))
                 {
                     var entity = current.TicketEntities.FirstOrDefault(x => loaded.TicketEntities.All(y => y.EntityId != x.EntityId))

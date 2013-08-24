@@ -166,6 +166,5 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterParameterSource("WidgetName", () => Dao.Distinct<Widget>(x => x.Name));
             RegisterParameterSource("AccountScreenName", () => Dao.Distinct<AccountScreen>(x => x.Name));
         }
-
     }
 }
