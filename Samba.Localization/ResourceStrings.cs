@@ -16,6 +16,8 @@ namespace Samba.Localization
         public const string SortType = "SortType";
         public const string Portion = "Portion";
         public const string SubButtonHeight = "SubButtonHeight";
+        public const string SubButtonRows = "SubButtonRows";
+        public const string SubButtonColorDef = "SubButtonColorDef";
         public const string Tag = "Tag";
         public const string CornerRadius = "CornerRadius";
         public const string Angle = "Angle";

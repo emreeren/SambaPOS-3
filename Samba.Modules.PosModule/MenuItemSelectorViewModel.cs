@@ -47,6 +47,15 @@ namespace Samba.Modules.PosModule
             set { _selectedCategory = value; RaisePropertyChanged(() => SelectedCategory); }
         }
 
+        public int SubButtonRows
+        {
+            get
+            {
+                return SelectedCategory == null || SubCategories.Count == 1
+                    ? 1 : SelectedCategory.SubButtonRows;
+            }
+        }
+
         public string QuickNumeratorValue
         {
             get { return !string.IsNullOrEmpty(NumeratorValue) ? NumeratorValue : QuickNumeratorValues.FirstOrDefault(); }
@@ -314,7 +323,7 @@ namespace Samba.Modules.PosModule
             SubCategories.Clear();
             SubCategories.AddRange(
                 category.GetScreenMenuCategories(CurrentTag)
-                .Select(x => new ScreenSubCategoryButton(x, SubCategoryCommand, category.MainButtonColor, category.MainFontSize, category.SubButtonHeight)));
+                .Select(x => new ScreenSubCategoryButton(x, SubCategoryCommand, GetCategorySubButtonColor(x, category), category.MainFontSize, category.SubButtonHeight)));
 
             if (!string.IsNullOrEmpty(CurrentTag))
             {
@@ -344,6 +353,13 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => MenuItems);
             RaisePropertyChanged(() => IsPageNumberNavigatorVisible);
             RaisePropertyChanged(() => MenuItemsVerticalAlignment);
+            RaisePropertyChanged(() => SubButtonRows);
+        }
+
+        private string GetCategorySubButtonColor(string name, ScreenMenuCategory category)
+        {
+            if (string.IsNullOrEmpty(category.SubButtonColorDef) || !category.SubButtonColorDef.Contains(name + "=")) return category.MainButtonColor;
+            return category.SubButtonColorDef;
         }
 
         private void OnSubCategoryCommand(ScreenSubCategoryButton obj)

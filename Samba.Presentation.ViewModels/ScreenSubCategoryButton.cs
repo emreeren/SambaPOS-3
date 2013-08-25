@@ -27,7 +27,19 @@ namespace Samba.Presentation.ViewModels
             Height = height;
             FontSize = fontSize;
             BackButton = backButton;
-            ButtonColor = buttonColor;
+            ButtonColor = GetButtonColor(buttonColor, name);
+        }
+
+        private string GetButtonColor(string buttonColor, string name)
+        {
+            if (!buttonColor.Contains("=")) return buttonColor;
+            var colordef = buttonColor.Split(';').FirstOrDefault(x => x.StartsWith(name + "="));
+            if (!string.IsNullOrEmpty(colordef))
+            {
+                colordef = colordef.Split('=')[1];
+            }
+            if (string.IsNullOrEmpty(colordef)) colordef = "Gainsboro";
+            return colordef;
         }
     }
 }

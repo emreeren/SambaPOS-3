@@ -22,6 +22,8 @@ namespace Samba.Domain.Models.Menus
             PageCount = 1;
             MainFontSize = 30;
             MenuItemFontSize = 30;
+            SubButtonRows = 1;
+            SubButtonColorDef = "";
         }
 
         public ScreenMenuCategory(string name)
@@ -61,6 +63,8 @@ namespace Samba.Domain.Models.Menus
         public double MainFontSize { get; set; }
 
         public int SubButtonHeight { get; set; }
+        public int SubButtonRows { get; set; }
+        public string SubButtonColorDef { get; set; }
 
         public int NumeratorType { get; set; }
         public string NumeratorValues { get; set; }

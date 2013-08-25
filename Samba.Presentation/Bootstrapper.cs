@@ -57,7 +57,7 @@ namespace Samba.Presentation
 #if DEBUG
             // Bypass Singleton check
 #else
-            if (!Mutex.WaitOne(TimeSpan.Zero, true))
+            if (!Mutex.WaitOne(TimeSpan.Zero, true) && !LocalSettings.AllowMultipleClients)
             {
                 NativeWin32.PostMessage((IntPtr)NativeWin32.HWND_BROADCAST, NativeWin32.WM_SHOWSAMBAPOS, IntPtr.Zero, IntPtr.Zero);
                 Environment.Exit(1);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Media;
 using Samba.Domain.Models.Menus;
 using Samba.Localization;
+using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 
 
@@ -81,6 +82,20 @@ namespace Samba.Modules.MenuModule
         {
             get { return Model.SubButtonHeight; }
             set { Model.SubButtonHeight = value; RaisePropertyChanged(() => SubButtonHeight); }
+        }
+
+        [LocalizedDisplayName(ResourceStrings.SubButtonRows), LocalizedCategory(ResourceStrings.CategoryProperties)]
+        public int SubButtonRows
+        {
+            get { return Model.SubButtonRows; }
+            set { Model.SubButtonRows = value; RaisePropertyChanged(() => SubButtonRows); }
+        }
+
+        [LocalizedDisplayName(ResourceStrings.SubButtonColorDef), LocalizedCategory(ResourceStrings.CategoryProperties)]
+        public string SubButtonColorDef
+        {
+            get { return Model.SubButtonColorDef; }
+            set { Model.SubButtonColorDef = value; RaisePropertyChanged(() => SubButtonColorDef); }
         }
 
         [LocalizedDisplayName(ResourceStrings.ImagePath), LocalizedCategory(ResourceStrings.CategoryProperties)]

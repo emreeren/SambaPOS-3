@@ -119,6 +119,7 @@ namespace Samba.Modules.PosModule
         {
             if (obj.Topic == EventTopicNames.OrderAdded && obj.Value != null)
             {
+                _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
                 DisplaySingleTicket();
             }
         }

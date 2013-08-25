@@ -25,7 +25,7 @@ namespace Samba.Infrastructure.Settings
         public bool OverrideWindowsRegionalSettings { get; set; }
         public int DefaultRecordLimit { get; set; }
         public double WindowScale { get; set; }
-
+        public bool AllowMultipleClients { get; set; }
         public string ApiHost { get; set; }
         public string ApiPort { get; set; }
         public TimeSpan TokenLifeTime { get; set; }
@@ -74,6 +74,12 @@ html
         private static SettingsObject _settingsObject;
 
         public static int Decimals { get { return 2; } }
+
+        public static bool AllowMultipleClients
+        {
+            get { return _settingsObject.AllowMultipleClients; }
+            set { _settingsObject.AllowMultipleClients = value; }
+        }
 
         public static int MessagingServerPort
         {
@@ -138,7 +144,7 @@ html
 
         public static TimeSpan TokenLifeTime
         {
-            get { return _settingsObject.TokenLifeTime; }  
+            get { return _settingsObject.TokenLifeTime; }
             set { _settingsObject.TokenLifeTime = value; SaveSettings(); }
         }
 

@@ -7170,11 +7170,29 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sub Button Colors.
+        /// </summary>
+        public static string SubButtonColorDef {
+            get {
+                return ResourceManager.GetString("SubButtonColorDef", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sub Button Height.
         /// </summary>
         public static string SubButtonHeight {
             get {
                 return ResourceManager.GetString("SubButtonHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sub Button Rows.
+        /// </summary>
+        public static string SubButtonRows {
+            get {
+                return ResourceManager.GetString("SubButtonRows", resourceCulture);
             }
         }
         

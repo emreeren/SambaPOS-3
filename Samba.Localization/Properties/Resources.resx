@@ -3412,4 +3412,10 @@ Error Message:
   <data name="AccountTransactionAddedToTicket" xml:space="preserve">
     <value>Account Transaction Added to Ticket</value>
   </data>
+  <data name="SubButtonColorDef" xml:space="preserve">
+    <value>Sub Button Colors</value>
+  </data>
+  <data name="SubButtonRows" xml:space="preserve">
+    <value>Sub Button Rows</value>
+  </data>
 </root>

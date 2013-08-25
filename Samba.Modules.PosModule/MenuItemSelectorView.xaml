@@ -131,7 +131,7 @@
                 <ItemsControl Grid.Row="0"  ItemsSource="{Binding SubCategories,NotifyOnTargetUpdated=True}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Rows="1" />
+                            <UniformGrid Rows="{Binding SubButtonRows}" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
