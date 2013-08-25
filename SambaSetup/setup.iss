@@ -31,7 +31,7 @@ tr.ce_install_sp3_required=Compact SQL 4.0 çalýþtýrmak için Service Pack 3 gerek
 
 #define Version "3.0.24"
 #define FileVersion "3024"
-#define DbVersion "18"
+#define DbVersion "19"
 
 #define VersionInfo "3.0.24 BETA"
 #define VersionTime GetDateTimeString('yyyy-mm-dd hhnn', '-', ':');
