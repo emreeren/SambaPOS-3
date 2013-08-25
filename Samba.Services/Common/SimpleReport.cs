@@ -182,9 +182,12 @@ namespace Samba.Services.Common
                 Enumerable.Range(0, colCount)
                           .Select(x =>
                                   rows.Where(r => r.Cells.Count == colCount)
-                                      .Max(y => y.Cells[x].Blocks.Cast<Paragraph>()
-                                                         .First()
-                                                         .Inlines.OfType<Run>().First().Text.Length)).ToList();
+                                      .Max(y => y.Cells[x].Blocks
+                                                          .Cast<Paragraph>()
+                                                          .First()
+                                                          .Inlines.OfType<Run>()
+                                                          .First().Text.Length))
+                          .ToList();
 
             for (int i = 0; i < colCount; i++)
             {

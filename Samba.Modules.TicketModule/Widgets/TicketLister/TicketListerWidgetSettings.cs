@@ -26,16 +26,20 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             Format = null;
         }
 
+
+
+        private string _format;
+        private string _state;
+        private int _width;
+        private string _fontName;
+
         public string State
         {
             get { return _state; }
             set { _state = value ?? (Resources.Unpaid); }
         }
 
-        private string _format;
-        private string _state;
-        private int _width;
-        private string _fontName;
+        public string OrderState { get; set; }
 
         [WideProperty]
         [Height(80)]
@@ -71,7 +75,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         private NameWithValue _commandNameValue;
         public NameWithValue CommandNameValue
         {
-            get { return _commandNameValue??(_commandNameValue = new NameWithValue()); }
+            get { return _commandNameValue ?? (_commandNameValue = new NameWithValue()); }
         }
 
         [Browsable(false)]

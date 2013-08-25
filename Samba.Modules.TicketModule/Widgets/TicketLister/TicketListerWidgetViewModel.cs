@@ -162,19 +162,31 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
                     }
             }
 
-            return tickets.Select(x => new TicketViewData
-                                           {
-                                               ItemSelectionCommand = ItemSelectionCommand,
-                                               Background = Settings.Background,
-                                               Foreground = Settings.Foreground,
-                                               SelectedBackground = Settings.SelectedBackground,
-                                               SelectedForeground = Settings.SelectedForeground,
-                                               MinWidth = Settings.MinWidth,
-                                               Border = Settings.Border,
-                                               TicketData = _printerService.GetPrintingContent(x, Settings.Format, Settings.Width),
-                                               Ticket = x
-                                           })
-                                           .ToList();
+            var ticketList = tickets as IList<Ticket> ?? tickets.ToList();
+            
+            if (!string.IsNullOrEmpty(OrderState))
+            {
+                foreach (var ticket in ticketList)
+                {
+                    ticket.Orders = ticket.Orders.Where(x => x.IsInState(OrderState)).ToList();
+                }
+            }
+
+            return ticketList.Select(x => new TicketViewData
+                                              {
+                                                  ItemSelectionCommand = ItemSelectionCommand,
+                                                  Background = Settings.Background,
+                                                  Foreground = Settings.Foreground,
+                                                  SelectedBackground = Settings.SelectedBackground,
+                                                  SelectedForeground = Settings.SelectedForeground,
+                                                  MinWidth = Settings.MinWidth,
+                                                  Border = Settings.Border,
+                                                  TicketData =
+                                                      _printerService.GetPrintingContent(x, Settings.Format,
+                                                                                         Settings.Width),
+                                                  Ticket = x
+                                              }).ToList();
+
         }
 
         [Browsable(false)]
@@ -186,6 +198,14 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
         {
             get { return _state ?? (_state = Settings.State); }
             set { _state = value; Refresh(); }
+        }
+
+        private string _orderState;
+        [Browsable(false)]
+        public string OrderState
+        {
+            get { return _orderState ?? (_orderState = Settings.OrderState); }
+            set { _orderState = value; Refresh(); }
         }
 
         protected override object CreateSettingsObject()

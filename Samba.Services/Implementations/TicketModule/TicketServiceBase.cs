@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
@@ -86,12 +85,13 @@ namespace Samba.Services.Implementations.TicketModule
         {
             var sv = string.Format("\"S\":\"{0}\"", state);
             var result = Dao.Query<Ticket>(x => x.TicketStates.Contains(sv),
-                             x => x.Orders.Select(y => y.ProductTimerValue),
-                             x => x.TicketEntities,
-                             x => x.Calculations,
-                             x => x.Payments,
-                             x => x.ChangePayments);
-            result.ToList().ForEach(x => x.TransactionDocument = new AccountTransactionDocument());
+                                           x => x.Orders.Select(y => y.ProductTimerValue),
+                                           x => x.TicketEntities,
+                                           x => x.Calculations,
+                                           x => x.Payments,
+                                           x => x.ChangePayments)
+                            .ToList();
+            result.ForEach(x => x.TransactionDocument = new AccountTransactionDocument());
             return result;
         }
     }
