@@ -14,7 +14,7 @@ namespace Samba.Presentation.Controls.UIControls
         public VirtualizingTilePanel()
         {
             // For use in the IScrollInfo implementation
-            this.RenderTransform = _trans;
+            RenderTransform = _trans;
         }
 
         [TypeConverter(typeof(LengthConverter))]
@@ -22,25 +22,34 @@ namespace Samba.Presentation.Controls.UIControls
         {
             get
             {
-                return (double)base.GetValue(ItemHeightProperty);
+                return (double)GetValue(ItemHeightProperty);
             }
             set
             {
-                base.SetValue(ItemHeightProperty, value);
+                SetValue(ItemHeightProperty, value);
             }
         }
 
-        public double ItemWidth { get { return ActualWidth / ColumnCount; } }
+        public double GetItemWidth(Size availableSize)
+        {
+            var cc = ColumnCount;
+            if (cc == 0)
+            {
+                cc = Convert.ToInt32(availableSize.Width / (ItemHeight * 2));
+                if (cc > 3) cc = 3;
+            }
+            return ActualWidth / cc;
+        }
 
         public int ColumnCount
         {
             get
             {
-                return (int)base.GetValue(ColumnCountProperty);
+                return (int)GetValue(ColumnCountProperty);
             }
             set
             {
-                base.SetValue(ColumnCountProperty, value);
+                SetValue(ColumnCountProperty, value);
             }
         }
 
@@ -64,8 +73,8 @@ namespace Samba.Presentation.Controls.UIControls
             GetVisibleRange(out firstVisibleItemIndex, out lastVisibleItemIndex);
 
             // We need to access InternalChildren before the generator to work around a bug
-            UIElementCollection children = this.InternalChildren;
-            IItemContainerGenerator generator = this.ItemContainerGenerator;
+            UIElementCollection children = InternalChildren;
+            IItemContainerGenerator generator = ItemContainerGenerator;
 
             // Get the generator position of the first visible data item
             GeneratorPosition startPos = generator.GeneratorPositionFromIndex(firstVisibleItemIndex);
@@ -103,7 +112,7 @@ namespace Samba.Presentation.Controls.UIControls
                     }
 
                     // Measurements will depend on layout algorithm
-                    child.Measure(GetChildSize());
+                    child.Measure(GetChildSize(availableSize));
                 }
             }
 
@@ -193,7 +202,7 @@ namespace Samba.Presentation.Controls.UIControls
             int childrenPerRow = CalculateChildrenPerRow(availableSize);
 
             // See how big we are
-            return new Size(childrenPerRow * ItemWidth, ItemHeight * Math.Ceiling((double)itemCount / childrenPerRow));
+            return new Size(childrenPerRow * GetItemWidth(availableSize), ItemHeight * Math.Ceiling((double)itemCount / childrenPerRow));
         }
 
         /// <summary>
@@ -218,10 +227,11 @@ namespace Samba.Presentation.Controls.UIControls
         /// <summary>
         /// Get the size of the children. We assume they are all the same
         /// </summary>
+        /// <param name="availableSize"></param>
         /// <returns>The size</returns>
-        private Size GetChildSize()
+        private Size GetChildSize(Size availableSize)
         {
-            return new Size(ItemWidth, ItemHeight);
+            return new Size(GetItemWidth(availableSize), ItemHeight);
         }
 
         /// <summary>
@@ -237,7 +247,7 @@ namespace Samba.Presentation.Controls.UIControls
             int row = itemIndex / childrenPerRow;
             int column = itemIndex % childrenPerRow;
 
-            child.Arrange(new Rect(column * this.ItemWidth, row * this.ItemHeight, this.ItemWidth, this.ItemHeight));
+            child.Arrange(new Rect(column * GetItemWidth(finalSize), row * ItemHeight, GetItemWidth(finalSize), ItemHeight));
         }
 
         /// <summary>
@@ -252,7 +262,7 @@ namespace Samba.Presentation.Controls.UIControls
             if (availableSize.Width == Double.PositiveInfinity)
                 childrenPerRow = this.Children.Count;
             else
-                childrenPerRow = Math.Max(1, (int)Math.Floor(availableSize.Width / this.ItemWidth));
+                childrenPerRow = Math.Max(1, (int)Math.Floor(availableSize.Width / this.GetItemWidth(availableSize)));
             return childrenPerRow;
         }
 

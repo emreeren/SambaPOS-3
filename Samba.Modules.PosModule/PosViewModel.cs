@@ -94,6 +94,7 @@ namespace Samba.Modules.PosModule
             _ticketTypeListViewModel = ticketTypeListViewModel;
             _accountBalances = accountBalances;
 
+            EventServiceFactory.EventService.GetEvent<GenericEvent<Order>>().Subscribe(OnOrderEventReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Ticket>>().Subscribe(OnTicketEventReceived);
             EventServiceFactory.EventService.GetEvent<GenericEvent<EventAggregator>>().Subscribe(OnTicketEvent);
             EventServiceFactory.EventService.GetEvent<GenericEvent<ScreenMenuItemData>>().Subscribe(OnMenuItemSelected);
@@ -112,6 +113,14 @@ namespace Samba.Modules.PosModule
                     _menuItemSelectorViewModel.UpdateCurrentScreenMenu(_applicationState.CurrentTicketType.GetScreenMenuId(_applicationState.CurrentTerminal));
                 }
             });
+        }
+
+        private void OnOrderEventReceived(EventParameters<Order> obj)
+        {
+            if (obj.Topic == EventTopicNames.OrderAdded && obj.Value != null)
+            {
+                DisplaySingleTicket();
+            }
         }
 
         private void OnTicketTypeChanged(EventParameters<TicketType> obj)

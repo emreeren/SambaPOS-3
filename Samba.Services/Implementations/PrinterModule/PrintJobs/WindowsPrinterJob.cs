@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Settings;
 using Samba.Services.Implementations.PrinterModule.Formatters;
@@ -28,13 +29,15 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             var pp = document.PagePadding;
             var cg = document.ColumnGap;
             var cw = document.ColumnWidth;
+            var fm = document.FontFamily;
+            var bg = document.Background;
 
             var q = PrinterInfo.GetPrinter(Printer.ShareName);
             var pd = new PrintDialog { PrintQueue = q };
             if (q != null || pd.PrintQueue.FullName == Printer.ShareName || Printer.ShareName.ToLower() == "default" || pd.ShowDialog().GetValueOrDefault(false))
             {
-                document.FontFamily = new System.Windows.Media.FontFamily(LocalSettings.PrintFontFamily);
-                document.Typography.EastAsianWidths = FontEastAsianWidths.Half;
+                document.Background = Brushes.Transparent;
+                document.FontFamily = new FontFamily(LocalSettings.PrintFontFamily);
                 document.PageHeight = pd.PrintableAreaHeight;
                 document.PageWidth = pd.PrintableAreaWidth;
                 document.PagePadding = new Thickness(25);
@@ -46,6 +49,8 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
                 pd.PrintDocument(((IDocumentPaginatorSource)document).DocumentPaginator, "");
             }
 
+            document.Background = bg;
+            document.FontFamily = fm;
             document.PageHeight = ph;
             document.PageWidth = pw;
             document.PagePadding = pp;

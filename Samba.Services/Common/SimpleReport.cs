@@ -20,13 +20,14 @@ namespace Samba.Services.Common
 
         public SimpleReport(string pageWidth)
         {
-            Paragraphs=new Dictionary<string, Paragraph>();
+            Paragraphs = new Dictionary<string, Paragraph>();
             Tables = new Dictionary<string, Table>();
             ColumnLengths = new Dictionary<string, GridLength[]>();
             ColumnTextAlignments = new Dictionary<string, TextAlignment[]>();
             Header = new Paragraph { TextAlignment = TextAlignment.Center, FontSize = 14 };
             Document = new FlowDocument(Header)
                            {
+                               ColumnWidth = 999999,
                                ColumnGap = 20.0,
                                ColumnRuleBrush = Brushes.DodgerBlue,
                                ColumnRuleWidth = 2.0,
@@ -39,7 +40,6 @@ namespace Samba.Services.Common
         {
             if (!ColumnLengths.ContainsKey(tableName))
                 ColumnLengths.Add(tableName, new GridLength[0]);
-
             ColumnLengths[tableName] = values.Select(StringToGridLength).ToArray();
         }
 
@@ -172,5 +172,24 @@ namespace Samba.Services.Common
         }
 
 
+        private void FixTableColumns(string tableName)
+        {
+            var table = Tables[tableName];
+            var rows = table.RowGroups[0].Rows;
+            var colCount = table.Columns.Count;
+
+            var maxes =
+                Enumerable.Range(0, colCount)
+                          .Select(x =>
+                                  rows.Where(r => r.Cells.Count == colCount)
+                                      .Max(y => y.Cells[x].Blocks.Cast<Paragraph>()
+                                                         .First()
+                                                         .Inlines.OfType<Run>().First().Text.Length)).ToList();
+
+            for (int i = 0; i < colCount; i++)
+            {
+                table.Columns[i].Width = new GridLength(maxes.ElementAt(i), GridUnitType.Star);
+            }
+        }
     }
 }
