@@ -191,6 +191,7 @@ namespace Samba.Modules.BasicReports
 
             if (ReportContext.CurrentWorkPeriod == null) return;
             var memStream = new MemoryStream();
+    
             using (var worker = new BackgroundWorker())
             {
                 worker.DoWork += delegate

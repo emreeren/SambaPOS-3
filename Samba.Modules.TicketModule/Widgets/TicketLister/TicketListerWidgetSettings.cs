@@ -26,8 +26,6 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
             Format = null;
         }
 
-
-
         private string _format;
         private string _state;
         private int _width;

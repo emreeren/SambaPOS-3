@@ -518,6 +518,7 @@ namespace Samba.Modules.PosModule
                 ClearSelectedItems();
                 return;
             }
+            _ticketService.CancelSelectedOrders(SelectedTicket);
             _ticketOrdersViewModel.CancelSelectedOrders();
             _ticketService.RecalculateTicket(SelectedTicket);
             RefreshSelectedItems();

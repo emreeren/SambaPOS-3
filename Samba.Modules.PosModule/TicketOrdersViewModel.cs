@@ -121,7 +121,7 @@ namespace Samba.Modules.PosModule
         public OrderViewModel AddOrder(int menuItemId, decimal quantity, string portionName)
         {
             ClearSelectedOrders();
-            var order = _ticketService.AddOrder(SelectedTicket, menuItemId, quantity, portionName);
+            var order = _ticketService.AddOrder(SelectedTicket, menuItemId, quantity, portionName, "");
             var result = order == null ? null : Add(order);
             order.PublishEvent(EventTopicNames.OrderAdded);
             return result;

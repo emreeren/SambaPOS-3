@@ -575,20 +575,20 @@ namespace Samba.Domain.Models.Tickets
             return TicketStateValues.SingleOrDefault(x => x.StateName == groupName) ?? TicketStateValue.Default;
         }
 
-        public void SetStateValue(string stateName, string state, string stateValue, int quantity = 0)
+        public void SetStateValue(string stateName, string state, string stateValue, string quantityDef = "")
         {
             var sv = TicketStateValues.SingleOrDefault(x => x.StateName == stateName);
             if (sv == null)
             {
-                sv = new TicketStateValue { StateName = stateName, State = state, StateValue = stateValue, Quantity = quantity };
+                sv = new TicketStateValue { StateName = stateName, State = state, StateValue = stateValue };
                 TicketStateValues.Add(sv);
             }
             else
             {
                 sv.State = state;
                 sv.StateValue = stateValue;
-                sv.Quantity = quantity;
             }
+            sv.Quantity = QuantityFuncParser.Parse(quantityDef, sv.Quantity);
             sv.LastUpdateTime = DateTime.Now;
 
             if (string.IsNullOrEmpty(sv.State))
@@ -614,7 +614,7 @@ namespace Samba.Domain.Models.Tickets
             var tag = TicketTagValues.SingleOrDefault(x => x.TagName == tagName);
             if (tag == null)
             {
-                tag = new TicketTagValue { TagName = tagName, TagValue = tagValue};
+                tag = new TicketTagValue { TagName = tagName, TagValue = tagValue };
                 TicketTagValues.Add(tag);
             }
             else
@@ -761,7 +761,7 @@ namespace Samba.Domain.Models.Tickets
 
         public bool CanCloseTicket()
         {
-            return (GetRemainingAmount() == 0 || TicketEntities.Count > 0 ||  Orders.Count == 0);
+            return (GetRemainingAmount() == 0 || TicketEntities.Count > 0 || Orders.Count == 0);
         }
 
         public decimal GetCalculationTotal(string s)
@@ -790,6 +790,11 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetOrderStateTotal(string s)
         {
             return Orders.Where(x => x.IsInState("*", s)).Sum(x => x.GetValue());
+        }
+
+        public decimal GetOrderStateQuantityTotal(string orderState)
+        {
+            return Orders.Where(x => x.IsInState("*", orderState)).Sum(x => x.Quantity);
         }
 
         public decimal GetActiveTimerAmount()
@@ -851,6 +856,7 @@ namespace Samba.Domain.Models.Tickets
             }
             return "";
         }
+
 
 
     }

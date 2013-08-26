@@ -31,14 +31,14 @@ namespace Samba.Modules.TicketModule.ActionProcessors
                 var currentState = actionData.GetAsString("CurrentState");
                 var state = actionData.GetAsString("State");
                 var stateValue = actionData.GetAsString("StateValue");
-                var quantity = actionData.GetAsInteger("Quantity");
+                var quantity = actionData.GetAsString("QuantityExp");
                 _ticketService.UpdateTicketState(ticket, stateName, currentState, state, stateValue, quantity);
             }
         }
 
         protected override object GetDefaultData()
         {
-            return new { StateName = "", CurrentState = "", State = "", StateValue = "", Quantity = 0 };
+            return new { StateName = "", CurrentState = "", State = "", StateValue = "", QuantityExp = "" };
         }
 
         protected override string GetActionName()

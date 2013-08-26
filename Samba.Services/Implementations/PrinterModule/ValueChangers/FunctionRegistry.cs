@@ -71,6 +71,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{ENTITY DATA:([^}]+)}", GetEntityFieldValue, "Entity Custom Data");
             RegisterFunction<Ticket>("{ENTITY BALANCE:([^}]+)}", GetEntityBalance, "Entity Account Balance");
             RegisterFunction<Ticket>("{ORDER STATE TOTAL:([^}]+)}", (x, d) => x.GetOrderStateTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.OrderState));
+            RegisterFunction<Ticket>("{ORDER STATE QUANTITY TOTAL:([^}]+)}", (x, d) => x.GetOrderStateQuantityTotal(d).ToString(LocalSettings.QuantityFormat), string.Format(Resources.Total_f, "Order State Quantity"));
             RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Service));
             RegisterFunction<Ticket>("{EXCHANGE RATE:([^}]+)}", (x, d) => GexExchangeRate(d), Resources.ExchangeRate);
             RegisterFunction<Ticket>("{TICKET QUANTITY SUM}", (x, d) => x.Orders.Sum(y => y.Quantity).ToString(LocalSettings.QuantityFormat));

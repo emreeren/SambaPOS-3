@@ -3418,4 +3418,7 @@ Error Message:
   <data name="SubButtonRows" xml:space="preserve">
     <value>Sub Button Rows</value>
   </data>
+  <data name="OrderCancelled" xml:space="preserve">
+    <value>Order Cancelled</value>
+  </data>
 </root>

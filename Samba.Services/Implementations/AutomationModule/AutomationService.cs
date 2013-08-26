@@ -115,6 +115,7 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterEvent(RuleEventNames.OrderAdded, Resources.OrderAddedToTicket, new { MenuItemGroupCode = "", MenuItemTag = "", MenuItemName = "" });
             RegisterEvent(RuleEventNames.OrderMoving, Resources.OrderMoving, new { MenuItemName = "", Quantity = 0m });
             RegisterEvent(RuleEventNames.OrderMoved, Resources.OrderMoved, new { MenuItemName = "", Quantity = 0m, OldTicketNumber = "" });
+            RegisterEvent(RuleEventNames.OrderCancelled, Resources.OrderCancelled, new { MenuItemName = "", Quantity = 0m });
             RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
             RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });

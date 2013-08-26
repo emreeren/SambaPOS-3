@@ -15,7 +15,7 @@ namespace Samba.Presentation.Services
         TicketCommitResult CloseTicket(Ticket ticket);
         TicketCommitResult MoveOrders(Ticket ticket, Order[] selectedOrders, int targetTicketId);
         TicketCommitResult MergeTickets(IEnumerable<int> ticketIds);
-        Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName);
+        Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, string orderState);
         void AddPayment(Ticket ticket, PaymentType paymentType, Account account, decimal amount, decimal tenderedAmount);
         Account GetAccountForPayment(Ticket ticket, PaymentType paymentType);
         void AddChangePayment(Ticket ticket, ChangePaymentType paymentType, Account account, decimal amount);
@@ -35,10 +35,11 @@ namespace Samba.Presentation.Services
         bool CanSettleTicket(Ticket ticket);
         void RefreshAccountTransactions(Ticket ticket);
         void UpdateOrderStates(Ticket ticket, IList<Order> orders, string stateName, string currentState, int groupOrder, string state, int stateOrder, string stateValue);
-        void UpdateTicketState(Ticket ticket, string stateName, string currentState, string state, string stateValue, int quantity = 0);
+        void UpdateTicketState(Ticket ticket, string stateName, string currentState, string state, string stateValue, string quantityDef = "");
         void ChangeOrdersAccountTransactionTypeId(Ticket ticket, IEnumerable<Order> selectedOrders, int accountTransactionTypeId);
         void AddAccountTransaction(Ticket ticket, Account sourceAccount, Account targetAccount, decimal amount, decimal exchangeRate);
         bool CanMakeAccountTransaction(TicketEntity ticketEntity, AccountTransactionType accountTransactionType, decimal targetBalance);
         void UpdateOrderPrice(Order order, string portionName, string priceTag);
+        void CancelSelectedOrders(Ticket ticket);
     }
 }

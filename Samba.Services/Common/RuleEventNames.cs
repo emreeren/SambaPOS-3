@@ -16,6 +16,7 @@
         public const string OrderAdded = "OrderAdded";
         public const string OrderMoved = "OrderMoved";
         public const string OrderMoving = "OrderMoving";
+        public const string OrderCancelled = "OrderCancelled";
         public const string TicketMoving = "TicketMoving";
         public const string TicketMoved = "TicketMoved";
         public const string TriggerExecuted = "TriggerExecuted";

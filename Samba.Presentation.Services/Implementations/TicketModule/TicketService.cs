@@ -9,6 +9,7 @@ using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data.Serializer;
+using Samba.Infrastructure.Helpers;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Persistance.Common;
@@ -346,11 +347,11 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
-        public void UpdateTicketState(Ticket ticket, string stateName, string currentState, string state, string stateValue, int quantity = 0)
+        public void UpdateTicketState(Ticket ticket, string stateName, string currentState, string state, string stateValue, string quantity = "")
         {
             var sv = ticket.GetStateValue(stateName);
             if (!string.IsNullOrEmpty(currentState) && sv.State != currentState) return;
-            if (sv != null && sv.StateName == stateName && sv.StateValue == stateValue && sv.Quantity == quantity && sv.State == state) return;
+            if (sv != null && sv.StateName == stateName && sv.StateValue == stateValue && sv.State == state && sv.Quantity == QuantityFuncParser.Parse(quantity, sv.Quantity)) return;
 
             ticket.SetStateValue(stateName, state, stateValue, quantity);
 
@@ -605,7 +606,16 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             }
         }
 
-        public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName)
+        public void CancelSelectedOrders(Ticket ticket)
+        {
+            foreach (var order in ticket.Orders.Where(x => x.IsSelected && x.Id == 0))
+            {
+                _applicationState.NotifyEvent(RuleEventNames.OrderCancelled,
+                    new { Ticket = ticket, Order = order, MenuItemName = order.MenuItemName, Quantity = order.Quantity });
+            }
+        }
+
+        public Order AddOrder(Ticket ticket, int menuItemId, decimal quantity, string portionName, string orderState)
         {
             if (ticket.IsLocked && !_userService.IsUserPermittedFor(PermissionNames.AddItemsToLockedTickets)) return null;
             if (!ticket.CanSubmit) return null;
@@ -622,9 +632,35 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 _applicationState.GetTaxTemplates(menuItem.Id).ToList(), portion, priceTag, productTimer);
 
             order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, 3, MidpointRounding.AwayFromZero) : quantity;
+
+            SetOrderState(order, orderState);
+
             RecalculateTicket(ticket);
             _applicationState.NotifyEvent(RuleEventNames.OrderAdded, new { Ticket = ticket, Order = order, MenuItemName = order.MenuItemName, MenuItemTag = menuItem.Tag, MenuItemGroupCode = menuItem.GroupCode });
             return order;
+        }
+
+        private void SetOrderState(Order order, string orderState)
+        {
+            var i = 0;
+            var orderStates = orderState.Split(';');
+            foreach (var state in orderStates)
+            {
+                string gn;
+                string sv;
+                if (state.Contains("="))
+                {
+                    var sParts = state.Split('=');
+                    gn = sParts[0];
+                    sv = sParts[1];
+                }
+                else
+                {
+                    return;
+                }
+                order.SetStateValue(gn, 99 + i, sv, 99 + i, "");
+                i++;
+            }
         }
     }
 }

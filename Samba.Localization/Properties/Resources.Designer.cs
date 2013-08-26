@@ -5088,6 +5088,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order Cancelled.
+        /// </summary>
+        public static string OrderCancelled {
+            get {
+                return ResourceManager.GetString("OrderCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order Grouping.
         /// </summary>
         public static string OrderGrouping {

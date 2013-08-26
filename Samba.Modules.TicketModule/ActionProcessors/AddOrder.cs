@@ -19,7 +19,7 @@ namespace Samba.Modules.TicketModule.ActionProcessors
         private readonly ITicketService _ticketService;
 
         [ImportingConstructor]
-        public AddOrder(ICacheService cacheService,ITicketService ticketService)
+        public AddOrder(ICacheService cacheService, ITicketService ticketService)
         {
             _cacheService = cacheService;
             _ticketService = ticketService;
@@ -36,15 +36,19 @@ namespace Samba.Modules.TicketModule.ActionProcessors
                 var portionName = actionData.GetAsString("PortionName");
                 var quantity = actionData.GetAsDecimal("Quantity");
                 var tag = actionData.GetAsString("Tag");
-                var order = _ticketService.AddOrder(ticket, menuItem.Id, quantity, portionName);
+                var orderStateName = actionData.GetAsString("OrderStateName");
+                var orderState = actionData.GetAsString("OrderState");
+                var osv = orderState.Contains("=") ? orderState : orderStateName + "=" + orderState;
+                var order = _ticketService.AddOrder(ticket, menuItem.Id, quantity, portionName, osv);
                 if (order != null) order.Tag = tag;
+                actionData.DataObject.Order = order;
                 order.PublishEvent(EventTopicNames.OrderAdded);
             }
         }
 
         protected override object GetDefaultData()
         {
-            return new {MenuItemName = "", PortionName = "", Quantity = 0, Tag = ""};
+            return new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "", OrderStateName = "", OrderState = "" };
         }
 
         protected override string GetActionName()
