@@ -3466,4 +3466,7 @@ Error Message:
   <data name="NotMatchesAll" xml:space="preserve">
     <value>Not Matches All</value>
   </data>
+  <data name="SettledBy_f" xml:space="preserve">
+    <value>Settled by {0}</value>
+  </data>
 </root>

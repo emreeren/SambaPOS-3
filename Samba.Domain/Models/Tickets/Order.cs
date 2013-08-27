@@ -429,6 +429,14 @@ namespace Samba.Domain.Models.Tickets
                 ProductTimerValue.Stop();
         }
 
+        public bool IsInState(string stateName, string state, string stateValue)
+        {
+            state = state.Trim();
+            stateName = stateName.Trim();
+            stateValue = stateValue.Trim();
+            return OrderStateValues.Any(x => x.StateName == stateName && x.State == state && x.StateValue == stateValue);
+        }
+
         public bool IsInState(string stateName, string state)
         {
             state = state.Trim();

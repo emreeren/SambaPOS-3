@@ -6,5 +6,6 @@ namespace Samba.Modules.BasicReports.Reports
     {
         public string UserName { get; set; }
         public decimal Amount { get; set; }
+        public int UserId { get; set; }
     }
 }

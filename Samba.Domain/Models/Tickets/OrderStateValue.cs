@@ -31,7 +31,7 @@ namespace Samba.Domain.Models.Tickets
         public bool Equals(OrderStateValue other)
         {
             if (other == null) return false;
-            return other.State == State && other.StateName == StateName;
+            return other.State == State && other.StateName == StateName && other.StateValue == StateValue;
         }
 
         public override int GetHashCode()

@@ -6945,6 +6945,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settled by {0}.
+        /// </summary>
+        public static string SettledBy_f {
+            get {
+                return ResourceManager.GetString("SettledBy_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Payment Permissions.
         /// </summary>
         public static string SettlePermissions {

@@ -338,6 +338,15 @@ namespace Samba.Modules.BasicReports
                 .Select(x => new TenderedAmount { PaymentName = GetPaymentTypeName(x.Key), Amount = x.Sum(y => y.Amount) });
             return new AmountCalculator(groups);
         }
+        internal static AmountCalculator GetIncomeCalculatorByUser(int userId)
+        {
+            var groups = Tickets
+                .SelectMany(x => x.Payments.Where(y => y.UserId == userId))
+                .Where(x => x.Amount >= 0)
+                .GroupBy(x => x.PaymentTypeId)
+                .Select(x => new TenderedAmount { PaymentName = GetPaymentTypeName(x.Key), Amount = x.Sum(y => y.Amount) });
+            return new AmountCalculator(groups);
+        }
 
         internal static AmountCalculator GetRefundCalculator()
         {
