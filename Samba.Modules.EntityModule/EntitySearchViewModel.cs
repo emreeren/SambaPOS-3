@@ -331,6 +331,15 @@ namespace Samba.Modules.EntityModule
             RaisePropertyChanged(() => EntityTypes);
         }
 
+        public void ResetSearch()
+        {
+            if (_currentEntitySelectionRequest != null)
+            {
+                _currentEntitySelectionRequest.SelectedItem = Entity.GetNullEntity(SelectedEntityType.Id);
+            }
+            RefreshSelectedEntity(_currentEntitySelectionRequest);
+        }
+
         internal void ClearSearchValues()
         {
             FoundEntities.Clear();

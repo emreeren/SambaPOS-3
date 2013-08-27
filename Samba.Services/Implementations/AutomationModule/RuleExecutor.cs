@@ -63,7 +63,12 @@ namespace Samba.Services.Implementations.AutomationModule
                 .Where(x => _conditionChecker.Satisfies(x, dataParameter));
 
             var actionContainers = rules
-               .SelectMany(rule => rule.Actions.OrderBy(x => x.SortOrder).Where(x => _conditionChecker.SatisfiesCustomConstraint(x.CustomConstraint, dataParameter)));
+                .SelectMany(rule => rule.Actions.OrderBy(x => x.SortOrder)
+                                        .Where(
+                                            x =>
+                                            _conditionChecker.SatisfiesCustomConstraint(x.CustomConstraint,
+                                                                                        dataParameter)))
+                .ToList();
 
             var dataObject = dataParameter.ToDynamic();
 

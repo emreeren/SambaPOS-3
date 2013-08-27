@@ -20,13 +20,15 @@ namespace Samba.Services.Implementations.ExpressionModule
             Interpreter.SetFunctionCallback("F", FormatFunction);
             Interpreter.SetFunctionCallback("TN", ToNumberFunction);
             Interpreter.SetFunctionCallback("FF", FixFormatFunction);
-            Interpreter.SetFunctionCallback("Between",BetweenFunction);
+            Interpreter.SetFunctionCallback("Between", BetweenFunction);
             Interpreter.LexReplace("Ticket", "TicketAccessor");
             Interpreter.LexReplace("Order", "OrderAccessor");
             Interpreter.LexReplace("Entity", "EntityAccessor");
             Interpreter.LexReplace("Data", "DataAccessor");
             Interpreter.LexReplace("Helper", "HelperAccessor");
             Interpreter.LexReplace("is", "==");
+            Interpreter.LexReplace("True", "true");
+            Interpreter.LexReplace("False", "false");
             Interpreter.Context.Plugins.RegisterAll();
             Interpreter.Context.Types.Register(typeof(TicketAccessor), null);
             Interpreter.Context.Types.Register(typeof(OrderAccessor), null);
@@ -58,7 +60,7 @@ namespace Samba.Services.Implementations.ExpressionModule
             if (arg3.ParamList.Count == 0) return int.MaxValue;
             return int.MaxValue;
         }
-        
+
         private static object FormatFunction(string s, string s1, FunctionCallExpr arg3)
         {
             var fmt = arg3.ParamList.Count > 1 ? arg3.ParamList[1].ToString() : "#,#0.00";

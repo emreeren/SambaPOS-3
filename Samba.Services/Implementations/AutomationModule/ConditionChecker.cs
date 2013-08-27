@@ -50,6 +50,7 @@ namespace Samba.Services.Implementations.AutomationModule
 
         public bool SatisfiesCustomConstraint(string customConstraint, object dataParameter)
         {
+            if (string.IsNullOrEmpty(customConstraint)) return true;
             return _evaluator.Evals(customConstraint, dataParameter.ToDynamic(), true);
         }
     }

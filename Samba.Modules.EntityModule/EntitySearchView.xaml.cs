@@ -72,7 +72,7 @@ namespace Samba.Modules.EntityModule
 
         private void Reset()
         {
-            ViewModel.RefreshSelectedEntity(null);
+            ViewModel.ResetSearch();
             SearchString.BackgroundFocus();
         }
 
