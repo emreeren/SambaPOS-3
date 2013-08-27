@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Samba.Domain.Models.Automation;
 using Samba.Services.Common;
 
 namespace Samba.Services
@@ -16,5 +17,6 @@ namespace Samba.Services
         void ProcessAction(string actionType, ActionData value);
         void RegisterParameterSource(string reportname, Func<IEnumerable<string>> func);
         void Register();
+        IDictionary<string, Type> GetCustomRuleConstraintNames(string eventName);
     }
 }

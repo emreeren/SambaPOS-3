@@ -90,6 +90,8 @@
     <Compile Include="Models\Automation\AppRuleMap.cs" />
     <Compile Include="Models\Automation\AutomationCommand.cs" />
     <Compile Include="Models\Automation\AutomationCommandMap.cs" />
+    <Compile Include="Models\Automation\Operations.cs" />
+    <Compile Include="Models\Automation\RuleConstraintValue.cs" />
     <Compile Include="Models\Automation\Script.cs" />
     <Compile Include="Models\Entities\CustomDataValue.cs" />
     <Compile Include="Models\Inventory\InventoryTransactionDocumentType.cs" />

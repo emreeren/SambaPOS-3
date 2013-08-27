@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Helpers;
 using Samba.Services.Implementations.AutomationModule;
 
 namespace Samba.Services.Common
@@ -53,7 +54,7 @@ namespace Samba.Services.Common
 
         private static string[] GetOperations(Type type)
         {
-            if (RuleConstraint.IsNumericType(type))
+            if (Utility.IsNumericType(type))
             {
                 return new[] { OperatorConstants.Equal, OperatorConstants.NotEqual, OperatorConstants.Greater, OperatorConstants.Less };
             }
@@ -64,6 +65,12 @@ namespace Samba.Services.Common
         {
             var actionProcessor = ActionTypes.FirstOrDefault(x => x.Handles(actionType));
             if (actionProcessor != null) actionProcessor.Process(actionData);
+        }
+
+        public IDictionary<string, Type> GetCustomRuleConstraintNames(string eventName)
+        {
+            var obj = RuleEvents[eventName].ParameterObject;
+            return obj != null ? obj.ToDictionary(x => x.Key, x => x.Value.GetType()) : new Dictionary<string, Type>();
         }
     }
 }

@@ -122,12 +122,14 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<ActionContainer>().Property(x => x.ParameterValues).IsMaxLength();
             modelBuilder.Entity<AppAction>().Property(x => x.Parameter).IsMaxLength();
             modelBuilder.Entity<AppRule>().Property(x => x.EventConstraints).IsMaxLength();
+            modelBuilder.Entity<AppRule>().Property(x => x.RuleConstraints).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.OrderTags).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.OrderStates).IsMaxLength();
             modelBuilder.Entity<Order>().Property(x => x.Taxes).IsMaxLength();
             modelBuilder.Entity<Printer>().Property(x => x.CustomPrinterData).IsMaxLength();
             modelBuilder.Entity<AccountScreen>().Property(x => x.AutomationCommandMapData).IsMaxLength();
             modelBuilder.Entity<ScreenMenuCategory>().Property(x => x.SubButtonColorDef).IsMaxLength();
+           
 
             modelBuilder.Entity<WarehouseConsumption>().HasKey(p => new { p.Id, p.PeriodicConsumptionId });
             modelBuilder.Entity<WarehouseConsumption>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);

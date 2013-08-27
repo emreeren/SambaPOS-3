@@ -89,6 +89,11 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterParameterSources();
         }
 
+        public IDictionary<string,Type> GetCustomRuleConstraintNames(string eventName)
+        {
+            return _ruleActionTypeRegistry.GetCustomRuleConstraintNames(eventName);
+        }
+
         private void RegisterRules()
         {
             RegisterEvent(RuleEventNames.ApplicationScreenChanged, Resources.ApplicationScreenChanged, new { PreviousScreen = "", CurrentScreen = "" });

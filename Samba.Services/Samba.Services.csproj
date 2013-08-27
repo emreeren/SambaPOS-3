@@ -119,6 +119,7 @@
     <Compile Include="Common\RuleActionTypeRegistry.cs" />
     <Compile Include="Common\RuleConstraint.cs" />
     <Compile Include="Implementations\AutomationModule\Preprocessor.cs" />
+    <Compile Include="Common\RuleConstraintMatch.cs" />
     <Compile Include="Implementations\AutomationModule\RuleExecutor.cs" />
     <Compile Include="Implementations\CacheService.cs" />
     <Compile Include="Implementations\DepartmentModule\DepartmentService.cs" />

@@ -9,6 +9,7 @@
 
     <properties:Settings x:Key="Settings" />
 
+    
     <Style x:Key="LeftAlignedGridCell" TargetType="{x:Type DataGridCell}">
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">

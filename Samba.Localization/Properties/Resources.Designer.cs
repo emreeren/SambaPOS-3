@@ -1629,6 +1629,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contains.
+        /// </summary>
+        public static string Contains {
+            get {
+                return ResourceManager.GetString("Contains", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
         public static string Copy {
@@ -2673,6 +2682,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ends.
+        /// </summary>
+        public static string Ends {
+            get {
+                return ResourceManager.GetString("Ends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End Work Period.
         /// </summary>
         public static string EndWorkPeriod {
@@ -2795,6 +2813,15 @@ namespace Samba.Localization.Properties {
         public static string EntityUpdated {
             get {
                 return ResourceManager.GetString("EntityUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equals.
+        /// </summary>
+        public static string Equal {
+            get {
+                return ResourceManager.GetString("Equal", resourceCulture);
             }
         }
         
@@ -3080,6 +3107,15 @@ namespace Samba.Localization.Properties {
         public static string ExecutePrintJob {
             get {
                 return ResourceManager.GetString("ExecutePrintJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execute rule if.
+        /// </summary>
+        public static string ExecuteRuleIf {
+            get {
+                return ResourceManager.GetString("ExecuteRuleIf", resourceCulture);
             }
         }
         
@@ -3458,6 +3494,15 @@ namespace Samba.Localization.Properties {
         public static string GrandTotal {
             get {
                 return ResourceManager.GetString("GrandTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Greater.
+        /// </summary>
+        public static string Greater {
+            get {
+                return ResourceManager.GetString("Greater", resourceCulture);
             }
         }
         
@@ -3981,6 +4026,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Less.
+        /// </summary>
+        public static string Less {
+            get {
+                return ResourceManager.GetString("Less", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Liability.
         /// </summary>
         public static string Liability {
@@ -4314,6 +4368,33 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Matches.
+        /// </summary>
+        public static string Matches {
+            get {
+                return ResourceManager.GetString("Matches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matches All.
+        /// </summary>
+        public static string MatchesAll {
+            get {
+                return ResourceManager.GetString("MatchesAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matches Any.
+        /// </summary>
+        public static string MatchesAny {
+            get {
+                return ResourceManager.GetString("MatchesAny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max Items.
         /// </summary>
         public static string MaxItems {
@@ -4373,6 +4454,15 @@ namespace Samba.Localization.Properties {
         public static string MenuItemGroup {
             get {
                 return ResourceManager.GetString("MenuItemGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Menu Item Group Code.
+        /// </summary>
+        public static string MenuItemGroupCode {
+            get {
+                return ResourceManager.GetString("MenuItemGroupCode", resourceCulture);
             }
         }
         
@@ -4814,6 +4904,42 @@ namespace Samba.Localization.Properties {
         public static string Note {
             get {
                 return ResourceManager.GetString("Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Equals.
+        /// </summary>
+        public static string NotEquals {
+            get {
+                return ResourceManager.GetString("NotEquals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Matches.
+        /// </summary>
+        public static string NotMatches {
+            get {
+                return ResourceManager.GetString("NotMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Matches All.
+        /// </summary>
+        public static string NotMatchesAll {
+            get {
+                return ResourceManager.GetString("NotMatchesAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Matches Any.
+        /// </summary>
+        public static string NotMatchesAny {
+            get {
+                return ResourceManager.GetString("NotMatchesAny", resourceCulture);
             }
         }
         
@@ -7076,6 +7202,15 @@ namespace Samba.Localization.Properties {
         public static string StartProcess {
             get {
                 return ResourceManager.GetString("StartProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starts.
+        /// </summary>
+        public static string Starts {
+            get {
+                return ResourceManager.GetString("Starts", resourceCulture);
             }
         }
         

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Samba.Services.Common
 {
-    internal static class ParameterSources
+    public static class ParameterSources
     {
         private static readonly IDictionary<string, Func<IEnumerable<string>>> ParameterSource;
 
@@ -19,7 +19,7 @@ namespace Samba.Services.Common
 
         public static IEnumerable<string> GetParameterSource(string parameterName)
         {
-            return ParameterSource.ContainsKey(parameterName) ? ParameterSource[parameterName].Invoke() : new List<string>();
+            return !string.IsNullOrEmpty(parameterName) && ParameterSource.ContainsKey(parameterName) ? ParameterSource[parameterName].Invoke() : new List<string>();
         }
     }
 }

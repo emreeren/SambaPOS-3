@@ -3421,4 +3421,49 @@ Error Message:
   <data name="OrderCancelled" xml:space="preserve">
     <value>Order Cancelled</value>
   </data>
+  <data name="ExecuteRuleIf" xml:space="preserve">
+    <value>Execute rule if</value>
+  </data>
+  <data name="MenuItemGroupCode" xml:space="preserve">
+    <value>Menu Item Group Code</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Equals</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>Not Equals</value>
+  </data>
+  <data name="Greater" xml:space="preserve">
+    <value>Greater</value>
+  </data>
+  <data name="Less" xml:space="preserve">
+    <value>Less</value>
+  </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
+  <data name="Starts" xml:space="preserve">
+    <value>Starts</value>
+  </data>
+  <data name="Ends" xml:space="preserve">
+    <value>Ends</value>
+  </data>
+  <data name="Matches" xml:space="preserve">
+    <value>Matches</value>
+  </data>
+  <data name="NotMatches" xml:space="preserve">
+    <value>Not Matches</value>
+  </data>
+  <data name="MatchesAny" xml:space="preserve">
+    <value>Matches Any</value>
+  </data>
+  <data name="MatchesAll" xml:space="preserve">
+    <value>Matches All</value>
+  </data>
+  <data name="NotMatchesAny" xml:space="preserve">
+    <value>Not Matches Any</value>
+  </data>
+  <data name="NotMatchesAll" xml:space="preserve">
+    <value>Not Matches All</value>
+  </data>
 </root>

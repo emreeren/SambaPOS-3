@@ -22,13 +22,99 @@ namespace Samba.Modules.AutomationModule
         private readonly IAutomationService _automationService;
         private readonly IAutomationDao _automationDao;
 
+        public ICaptionCommand SelectActionsCommand { get; set; }
+        public ICaptionCommand AddConstraintCommand { get; set; }
+        public ICaptionCommand RemoveConstraintCommand { get; set; }
+
         [ImportingConstructor]
         public RuleViewModel(IAutomationService automationService, IAutomationDao automationDao)
         {
             _automationService = automationService;
             _automationDao = automationDao;
             SelectActionsCommand = new CaptionCommand<string>(Resources.SelectActions, OnSelectActions);
+            AddConstraintCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.CustomConstraint), OnAddConstraint,CanAddConstraint);
+            RemoveConstraintCommand = new CaptionCommand<RuleConstraintValueViewModel>(Resources.Remove, OnRemoveConstraint);
             Constraints = new ObservableCollection<RuleConstraint>();
+        }
+
+        private IList<string> _ruleMatchNames;
+        public IList<string> RuleMatchNames { get { return _ruleMatchNames ?? (_ruleMatchNames = EnumToLocalizedList(typeof(RuleConstraintMatch))); } }
+
+
+        private ObservableCollection<ActionContainerViewModel> _actions;
+        public ObservableCollection<ActionContainerViewModel> Actions
+        {
+            get { return _actions; }
+        }
+
+        private ObservableCollection<RuleConstraint> _constraints;
+        public ObservableCollection<RuleConstraint> Constraints
+        {
+            get { return _constraints; }
+            set
+            {
+                _constraints = value;
+                RaisePropertyChanged(() => Constraints);
+            }
+        }
+
+        private ObservableCollection<RuleConstraintValueViewModel> _ruleConstraintValues;
+        public ObservableCollection<RuleConstraintValueViewModel> RuleConstraintValues
+        {
+            get
+            {
+                if (_ruleConstraintValues == null)
+                {
+                    _ruleConstraintValues = new ObservableCollection<RuleConstraintValueViewModel>();
+                    UpdateCustomRuleConstraints();
+                }
+                return _ruleConstraintValues;
+            }
+            set
+            {
+                _ruleConstraintValues = value;
+                RaisePropertyChanged(() => RuleConstraintValues);
+            }
+        }
+
+        public bool IsConstraintsVisible { get { return !string.IsNullOrEmpty(CustomConstraint) || Constraints.Count > 0; } }
+
+        public string RuleMatchName { get { return RuleMatchNames[Model.ConstraintMatch]; } set { Model.ConstraintMatch = RuleMatchNames.IndexOf(value); } }
+
+        public string CustomConstraint { get { return Model.CustomConstraint; } set { Model.CustomConstraint = value; } }
+
+        public IEnumerable<string> Operations { get { return new[] { "=", ">", "<", "!=" }; } }
+
+        public IEnumerable<RuleEvent> Events { get { return _automationService.GetRuleEvents(); } }
+
+        public string GroupValue { get { return Events.Any(x => x.EventKey == EventName) ? Events.First(x => x.EventKey == EventName).EventName : ""; } }
+
+        public string EventName
+        {
+            get { return Model.EventName; }
+            set
+            {
+                Model.EventName = value;
+                Constraints.Clear();
+                UpdateCustomRuleConstraints();
+            }
+        }
+
+        private void OnRemoveConstraint(RuleConstraintValueViewModel obj)
+        {
+            Model.DeleteRuleConstraint(obj.Name);
+            UpdateCustomRuleConstraints();
+        }
+
+        private void OnAddConstraint(string obj)
+        {
+            Model.AddRuleConstraint("", "", "");
+            UpdateCustomRuleConstraints();
+        }
+
+        private bool CanAddConstraint(string arg)
+        {
+            return Model != null && !string.IsNullOrEmpty(Model.EventName);
         }
 
         private void OnSelectActions(string obj)
@@ -58,43 +144,6 @@ namespace Samba.Modules.AutomationModule
 
         }
 
-        private ObservableCollection<ActionContainerViewModel> _actions;
-        public ObservableCollection<ActionContainerViewModel> Actions
-        {
-            get { return _actions; }
-        }
-
-        private ObservableCollection<RuleConstraint> _constraints;
-        public ObservableCollection<RuleConstraint> Constraints
-        {
-            get { return _constraints; }
-            set
-            {
-                _constraints = value;
-                RaisePropertyChanged(() => Constraints);
-            }
-        }
-
-        public string CustomConstraint { get { return Model.CustomConstraint; } set { Model.CustomConstraint = value; } }
-
-        public IEnumerable<string> Operations { get { return new[] { "=", ">", "<", "!=" }; } }
-
-        public IEnumerable<RuleEvent> Events { get { return _automationService.GetRuleEvents(); } }
-
-        public ICaptionCommand SelectActionsCommand { get; set; }
-
-        public string GroupValue { get { return Events.Any(x => x.EventKey == EventName) ? Events.First(x => x.EventKey == EventName).EventName : ""; } }
-
-        public string EventName
-        {
-            get { return Model.EventName; }
-            set
-            {
-                Model.EventName = value;
-                Constraints = new ObservableCollection<RuleConstraint>(_automationService.GetEventConstraints(Model.EventName));
-            }
-        }
-
         public override Type GetViewType()
         {
             return typeof(RuleView);
@@ -110,6 +159,8 @@ namespace Samba.Modules.AutomationModule
             Model.EventConstraints = string.Join("#", Constraints
                 .Where(x => x.Value != null)
                 .Select(x => x.GetConstraintData()));
+            Model.RemoveInvalidConstraints();
+            _ruleConstraintValues = null;
             base.OnSave(value);
         }
 
@@ -123,8 +174,30 @@ namespace Samba.Modules.AutomationModule
             {
                 Constraints.AddRange(_automationService.CreateRuleConstraints(Model.EventConstraints));
             }
-
             base.Initialize();
+        }
+
+        private void UpdateCustomRuleConstraints()
+        {
+            var customRuleConstraintNames = _automationService.GetCustomRuleConstraintNames(Model.EventName).Select(x => new RuleConstraintName(x)).ToList();
+            _ruleConstraintValues.Clear();
+            _ruleConstraintValues.AddRange(Model.GetRuleConstraintValues()
+                .Select(x => new RuleConstraintValueViewModel(x, customRuleConstraintNames, RemoveConstraintCommand)));
+            RaisePropertyChanged(() => RuleConstraintValues);
+            RaisePropertyChanged(() => IsConstraintsVisible);
+        }
+
+        private static IList<string> EnumToLocalizedList(Type type)
+        {
+            var result = new List<string>();
+            foreach (Enum val in Enum.GetValues(type))
+            {
+                var name = val.ToString();
+                var localized = Resources.ResourceManager.GetString(name);
+                if (string.IsNullOrEmpty(localized)) localized = name;
+                result.Add(localized);
+            }
+            return result;
         }
     }
 }

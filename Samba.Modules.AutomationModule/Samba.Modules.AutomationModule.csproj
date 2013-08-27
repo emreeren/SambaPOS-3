@@ -75,6 +75,9 @@
       <DependentUpon>RuleActionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RuleActionViewModel.cs" />
+    <Compile Include="RuleConstraintName.cs" />
+    <Compile Include="RuleConstraintOperation.cs" />
+    <Compile Include="RuleConstraintValueViewModel.cs" />
     <Compile Include="RuleView.xaml.cs">
       <DependentUpon>RuleView.xaml</DependentUpon>
     </Compile>

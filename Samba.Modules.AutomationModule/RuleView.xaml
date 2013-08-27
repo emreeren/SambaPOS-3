@@ -26,7 +26,7 @@
                         <Label HorizontalAlignment="Left" Content="{LocText EventName,Suffix=':'}" />
                         <ComboBox HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding Events}"
                      DisplayMemberPath="EventName" SelectedValuePath="EventKey" SelectedValue="{Binding EventName}" />
-                        <GroupBox HorizontalAlignment="Left" Margin="0,3" Padding="1" Header="{LocText ExecuteActionsIf}">
+                        <GroupBox HorizontalAlignment="Left" Margin="0,3" Padding="1" Header="{LocText ExecuteActionsIf}" Visibility="{Binding IsConstraintsVisible,Converter={StaticResource VisibilityConverter}}">
                             <StackPanel>
                                 <Label Content="{LocText CustomConstraint,Suffix=':'}" MinWidth="150" />
                                 <TextBox MinWidth="150" Margin="2" Text="{Binding CustomConstraint}" />
@@ -44,12 +44,52 @@
                                                   ItemsSource="{Binding Operations}"/>
                                                 <ComboBox Grid.Column="2" MinWidth="80" IsEditable="True" 
                                                   ItemsSource="{Binding Values}" Text="{Binding Value}"/>
-
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="{LocText List_f,FormatSegment1={LocText CustomConstraint}}" HorizontalAlignment="Left" Margin="0,5" Padding="5">
+                            <StackPanel>
+                                <DockPanel HorizontalAlignment="Left" Margin="0,5">
+                                    <Label Margin="0,0,5,0" Content="{LocText ExecuteRuleIf}"/>
+                                    <ComboBox ItemsSource="{Binding RuleMatchNames}" SelectedItem="{Binding RuleMatchName}"/>
+                                </DockPanel>
+                                <TextBlock Margin="5">
+                                    <Hyperlink Command="{Binding AddConstraintCommand}">
+                                        <TextBlock Text="{Binding Path=AddConstraintCommand.Caption}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                                <ItemsControl Grid.IsSharedSizeScope="True" ItemsSource="{Binding RuleConstraintValues}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,3" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="CustomConstraints"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ComboBox Grid.Column="0" Margin="3,0" MinWidth="45" IsEditable="True" 
+                                                          Text="{Binding TypedText,UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding Left}" 
+                                                  ItemsSource="{Binding RuleConstraintNames}" DisplayMemberPath="Display" SelectedValuePath="Name"/>
+                                                <ComboBox Grid.Column="1" Margin="3,0" MinWidth="45" IsEditable="True" SelectedValue="{Binding Operation,Mode=TwoWay}" 
+                                                  ItemsSource="{Binding RuleConstraintOperations}" SelectedValuePath="Value" DisplayMemberPath="Display"/>
+                                                <ComboBox Grid.Column="2" MinWidth="80" IsEditable="True" 
+                                                  ItemsSource="{Binding Values}" Text="{Binding Right}"/>
+                                                <TextBlock Grid.Column="3" Margin="5,3,0,0">
+                                                    <Hyperlink Command="{Binding RemoveConstraintCommand}" CommandParameter="{Binding Path=.}">
+                                                        <TextBlock Text="{Binding Path=RemoveConstraintCommand.Caption}" />
+                                                    </Hyperlink>
+                                                </TextBlock>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+
                         </GroupBox>
                         <StackPanel Orientation="Horizontal">
                             <Label HorizontalAlignment="Left" Content="{LocText Actions,Suffix=':'}" />
@@ -96,7 +136,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
-                        <Label Content="{LocText Mappings,Suffix=':'}"/>                        
+                        <Label Content="{LocText Mappings,Suffix=':'}"/>
                         <TextBlock Margin="2,5">
                             <Hyperlink Command="{Binding MapController.AddMapCommand}">
                                 <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />

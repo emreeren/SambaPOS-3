@@ -25,7 +25,7 @@ namespace Samba.Services.Implementations.PrinterModule
 
             DataString = BracketContains(data, '[', ']', Tag) ? GetBracketValue(data, '[', ']') : data.Substring(StartPos, Length);
             DataString = DataString.Replace("<newline>", "\r\n");
-            Title = !DataString.Contains("[=") ? DataString.Trim('[', ']') : DataString;
+            Title = !DataString.Contains("[=") && !DataString.Contains("\"") ? DataString.Trim('[', ']') : DataString;
             Title = Title.Replace(Tag, "<value>");
             Length = DataString.Length;
             StartPos = data.IndexOf(DataString);
