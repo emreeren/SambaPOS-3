@@ -13,8 +13,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
                 var value = valueFunc.Invoke();
                 var tagData = new TagData(data, tag);
                 if (!string.IsNullOrEmpty(value) && tagData.DataString.StartsWith("[") && tagData.DataString.EndsWith("]") && value == 0.ToString("#,#0.00")) value = "";
-                if (!string.IsNullOrEmpty(value)) value =
-                    !string.IsNullOrEmpty(tagData.Title) && tagData.Title.Contains("<value>")
+                if (!string.IsNullOrEmpty(value)||data.Contains("\"")) 
+                    value = !string.IsNullOrEmpty(tagData.Title) && tagData.Title.Contains("<value>")
                     ? tagData.Title.Replace("<value>", value)
                     : tagData.Title + value;
                 var spos = data.IndexOf(tagData.DataString);

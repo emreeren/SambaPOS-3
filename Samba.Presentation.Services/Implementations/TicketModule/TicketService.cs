@@ -632,7 +632,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 _applicationState.GetTaxTemplates(menuItem.Id).ToList(), portion, priceTag, productTimer);
 
             order.Quantity = quantity > 9 ? decimal.Round(quantity / portion.Multiplier, 3, MidpointRounding.AwayFromZero) : quantity;
-
+            order.ResetSelectedQuantity();
             SetOrderState(order, orderState);
 
             RecalculateTicket(ticket);

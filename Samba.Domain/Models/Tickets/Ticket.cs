@@ -518,7 +518,11 @@ namespace Samba.Domain.Models.Tickets
                         x.OrderTagValues.Count == 0 && x.MenuItemId == ti.MenuItemId &&
                         x.PortionName == ti.PortionName && x.CalculatePrice == ti.CalculatePrice && x.Price == ti.Price);
                 if (item == null) mergedOrders.Add(order);
-                else item.Quantity += order.Quantity;
+                else
+                {
+                    item.Quantity += order.Quantity;
+                    item.ResetSelectedQuantity();
+                }
             }
 
             foreach (var order in newOrders.Where(order => !mergedOrders.Contains(order)))
@@ -553,6 +557,7 @@ namespace Samba.Domain.Models.Tickets
             var result = ObjectCloner.Clone(item);
             result.CreatedDateTime = DateTime.Now;
             result.Quantity = 0;
+            result.ResetSelectedQuantity();
             _orders.Add(result);
             return result;
         }
@@ -742,6 +747,7 @@ namespace Samba.Domain.Models.Tickets
                 var newItem = CloneOrder(order);
                 newItem.Id = 0;
                 newItem.Quantity = order.SelectedQuantity;
+                newItem.ResetSelectedQuantity();
                 order.Quantity -= order.SelectedQuantity;
                 order.ResetSelectedQuantity();
                 newItems.Add(newItem);
@@ -826,7 +832,7 @@ namespace Samba.Domain.Models.Tickets
         public string GetStateStr(string s)
         {
             var sv = GetStateValue(s);
-            return sv != null ? sv.State : "";
+            return sv != null ? sv.State ?? "" : "";
         }
 
         public void RemoveData()

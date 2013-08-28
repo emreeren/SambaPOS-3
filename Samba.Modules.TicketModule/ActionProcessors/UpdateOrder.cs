@@ -34,7 +34,10 @@ namespace Samba.Modules.TicketModule.ActionProcessors
                 foreach (var order in orders)
                 {
                     if (!string.IsNullOrEmpty(actionData.GetAsString("Quantity")))
+                    {
                         order.Quantity = actionData.GetAsDecimal("Quantity");
+                        order.ResetSelectedQuantity();
+                    }
                     if (!string.IsNullOrEmpty(actionData.GetAsString("Price")))
                         order.UpdatePrice(actionData.GetAsDecimal("Price"), "");
                     if (!string.IsNullOrEmpty(actionData.GetAsString("IncreaseInventory")))

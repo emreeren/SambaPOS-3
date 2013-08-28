@@ -39,6 +39,7 @@ namespace Samba.Modules.PosModule
             set
             {
                 _model.Quantity = value;
+                _model.ResetSelectedQuantity();
                 RaisePropertyChanged(() => Quantity);
                 RaisePropertyChanged(() => TotalPrice);
                 ResetSelectedQuantity();
