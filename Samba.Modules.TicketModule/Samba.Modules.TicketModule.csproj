@@ -92,6 +92,7 @@
     <Compile Include="ActionProcessors\CloseActiveTicket.cs" />
     <Compile Include="ActionProcessors\CreateTicket.cs" />
     <Compile Include="ActionProcessors\DisplayTicket.cs" />
+    <Compile Include="ActionProcessors\LoadLastOrder.cs" />
     <Compile Include="ActionProcessors\LoadTicket.cs" />
     <Compile Include="ActionProcessors\LockTicket.cs" />
     <Compile Include="ActionProcessors\MarkTicketAsClosed.cs" />

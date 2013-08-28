@@ -9,6 +9,7 @@ using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Helpers;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Services;
@@ -453,7 +454,7 @@ namespace Samba.Modules.PosModule
             else if (obj == "\b" && !string.IsNullOrEmpty(NumeratorValue))
                 NumeratorValue = NumeratorValue.Substring(0, NumeratorValue.Length - 1);
             else if (!string.IsNullOrEmpty(obj) && !Char.IsControl(obj[0]))
-                NumeratorValue = Helpers.AddTypedValue(NumeratorValue, obj, "#0.");
+                NumeratorValue = Utility.AddTypedValue(NumeratorValue, obj, "#0.");
         }
 
         public bool HandleTextInput(string text)

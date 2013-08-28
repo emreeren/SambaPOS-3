@@ -197,6 +197,10 @@
       <Project>{512FD53F-9AD1-46A1-A961-9FABDFAD50C5}</Project>
       <Name>DataGridFilterLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lib\FastButton\FastButton.csproj">
+      <Project>{7519cb8c-3c25-4f74-8946-93ecb7450c31}</Project>
+      <Name>FastButton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samba.Localization\Samba.Localization.csproj">
       <Project>{406B96A6-C886-4149-AD88-A2402EDB2B90}</Project>
       <Name>Samba.Localization</Name>

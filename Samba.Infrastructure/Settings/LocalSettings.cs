@@ -209,8 +209,8 @@ html
         public static string PrintoutCurrencyFormat { get; set; }
         public static string CurrencySymbol { get { return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol; } }
 
-        private static int DefaultDbVersion { get { return 19; } }
-        private static string DefaultAppVersion { get { return "3.0.25 BETA"; } }
+        private static int DefaultDbVersion { get { return 20; } }
+        private static string DefaultAppVersion { get { return "3.0.26 BETA"; } }
 
         public static int DbVersion { get { return CanReadVersionFromFile() ? Convert.ToInt32(GetVersionDat("DbVersion")) : DefaultDbVersion; } }
         public static string AppVersion { get { return CanReadVersionFromFile() ? GetVersionDat("AppVersion") : DefaultAppVersion; } }

@@ -3469,4 +3469,13 @@ Error Message:
   <data name="SettledBy_f" xml:space="preserve">
     <value>Settled by {0}</value>
   </data>
+  <data name="DisplayUnderTicketRow2" xml:space="preserve">
+    <value>Display Under Ticket Row 2</value>
+  </data>
+  <data name="DisplayOnCommandSelector" xml:space="preserve">
+    <value>Display on Command Selector</value>
+  </data>
+  <data name="LoadLastOrder" xml:space="preserve">
+    <value>Load Last Order</value>
+  </data>
 </root>

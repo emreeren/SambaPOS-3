@@ -142,7 +142,6 @@
     <Compile Include="ErrorReport\ErrorReportViewModel.cs" />
     <Compile Include="ErrorReport\ExceptionReporter.cs" />
     <Compile Include="ExtensionServices.cs" />
-    <Compile Include="Helpers.cs" />
     <Compile Include="Widgets\IDiagram.cs" />
     <Compile Include="IModuleInitializationService.cs" />
     <Compile Include="Services\InteractionService.cs" />

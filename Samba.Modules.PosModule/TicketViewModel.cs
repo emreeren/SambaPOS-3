@@ -149,6 +149,11 @@ namespace Samba.Modules.PosModule
         {
             get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayUnderTicket && x.CommandContainer.CanDisplay(SelectedTicket)); }
         }
+        
+        public IEnumerable<CommandContainerButton> UnderTicketRow2AutomationCommands
+        {
+            get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayUnderTicket2 && x.CommandContainer.CanDisplay(SelectedTicket)); }
+        }
 
         public IEnumerable<TicketTagButton> TicketTagButtons
         {
@@ -574,6 +579,7 @@ namespace Samba.Modules.PosModule
             RaisePropertyChanged(() => TicketTagButtons);
             RaisePropertyChanged(() => TicketAutomationCommands);
             RaisePropertyChanged(() => UnderTicketAutomationCommands);
+            RaisePropertyChanged(() => UnderTicketRow2AutomationCommands);
         }
 
         public void RefreshSelectedItems()

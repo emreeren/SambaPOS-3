@@ -168,6 +168,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\FastButton\FastButton.csproj">
+      <Project>{7519CB8C-3C25-4F74-8946-93ECB7450C31}</Project>
+      <Name>FastButton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lib\FlexButton\FlexButton.csproj">
       <Project>{434D497A-D439-44C8-84A5-5301B572708F}</Project>
       <Name>FlexButton</Name>

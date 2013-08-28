@@ -77,7 +77,7 @@ namespace Samba.Modules.EntityModule
         {
             IsEnabled = Model.EntityId != 0 || !_isTicketSelected;
             if (_isTicketSelected && !_userPermittedToMerge) IsEnabled = false;
-            if (EntityState != null) ButtonColor = _cacheService.GetStateColor(EntityState);
+            ButtonColor = EntityState != null ? _cacheService.GetStateColor(EntityState) : "Gainsboro";
         }
 
         private string FormatEntityName(EntityScreenItem model)

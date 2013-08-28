@@ -12,6 +12,8 @@ namespace Samba.Services.Common
         public bool DisplayOnOrders { get; set; }
         public bool DisplayOnTicketList { get; set; }
         public bool DisplayUnderTicket { get; set; }
+        public bool DisplayUnderTicket2 { get; set; }
+        public bool DisplayOnCommandSelector { get; set; }
         public int VisualBehaviour { get; set; }
         public string EnabledStates { get; set; }
         public string VisibleStates { get; set; }

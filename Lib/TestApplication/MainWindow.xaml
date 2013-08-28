@@ -1,0 +1,20 @@
+﻿<Window x:Class="TestApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fastButton="clr-namespace:FastButton;assembly=FastButton"
+        Title="MainWindow" Height="350" Width="525">
+    <UniformGrid Rows="3" Columns="4">
+        <fastButton:FastButton Margin="5" ButtonColor="Orange">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="Blue">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="Red">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="Yellow">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="Green">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="Gray">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="Black">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="SandyBrown">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="Pink">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="Brown">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="BlanchedAlmond">Test</fastButton:FastButton>
+        <fastButton:FastButton Margin="5" ButtonColor="Magenta">Test</fastButton:FastButton>
+    </UniformGrid>
+</Window>

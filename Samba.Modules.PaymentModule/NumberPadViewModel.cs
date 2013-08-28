@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
+using Samba.Infrastructure.Helpers;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -212,7 +213,7 @@ namespace Samba.Modules.PaymentModule
         {
             if (ResetAmount) _tenderedValueViewModel.TenderedAmount = "";
             ResetAmount = false;
-            _tenderedValueViewModel.TenderedAmount = Helpers.AddTypedValue(_tenderedValueViewModel.TenderedAmount, obj, "#,#0.");
+            _tenderedValueViewModel.TenderedAmount = Utility.AddTypedValue(_tenderedValueViewModel.TenderedAmount, obj, "#,#0.");
             OnTypedValueChanged();
         }
 

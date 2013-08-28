@@ -2394,6 +2394,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display on Command Selector.
+        /// </summary>
+        public static string DisplayOnCommandSelector {
+            get {
+                return ResourceManager.GetString("DisplayOnCommandSelector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display Open Tickets.
         /// </summary>
         public static string DisplayOpenTickets {
@@ -2471,6 +2480,15 @@ namespace Samba.Localization.Properties {
         public static string DisplayUnderTicket {
             get {
                 return ResourceManager.GetString("DisplayUnderTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Under Ticket Row 2.
+        /// </summary>
+        public static string DisplayUnderTicketRow2 {
+            get {
+                return ResourceManager.GetString("DisplayUnderTicketRow2", resourceCulture);
             }
         }
         
@@ -4202,6 +4220,15 @@ namespace Samba.Localization.Properties {
         public static string Load {
             get {
                 return ResourceManager.GetString("Load", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load Last Order.
+        /// </summary>
+        public static string LoadLastOrder {
+            get {
+                return ResourceManager.GetString("LoadLastOrder", resourceCulture);
             }
         }
         

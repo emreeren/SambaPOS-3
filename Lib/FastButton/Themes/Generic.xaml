@@ -1,0 +1,126 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:FastButton">
+
+    <Storyboard x:Key="GlowOn">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Glow" Storyboard.TargetProperty="(UIElement.Opacity)">
+            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:00.1" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <Storyboard x:Key="GlowOff">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Glow" Storyboard.TargetProperty="(UIElement.Opacity)">
+            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="0"/>
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <local:ColorToAlphaColorConverter x:Key="ColorToAlphaColorConverter" />
+    <local:BrightnessToColorConverter x:Key="BrightnessToColorConverter" />
+
+    <Style TargetType="{x:Type local:FastButton}" >
+        <!-- Provide DEFAULT values for some properties -->
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="HighlightBrightness" Value="100" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:FastButton}">
+                    <Border Name="OuterBorder" CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding OuterBorderBrush}" BorderThickness="1" >
+                        <Grid>
+                            <Border Name="Glow" Opacity="0" CornerRadius="{Binding CornerRadius, ElementName=OuterBorder}">
+                                <Border.Background>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="0" Color="{Binding GlowColor, RelativeSource={RelativeSource TemplatedParent},
+                                                Converter={StaticResource ColorToAlphaColorConverter}, ConverterParameter=176}" />
+                                        <GradientStop Offset="1" Color="{Binding GlowColor, RelativeSource={RelativeSource TemplatedParent},
+                                                Converter={StaticResource ColorToAlphaColorConverter}, ConverterParameter=0}" />
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                            </Border>
+
+                            <Border Name="Highlight" Grid.Row="0" Margin="0" CornerRadius="{Binding CornerRadius, ElementName=OuterBorder}">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1.5" >
+                                        <GradientStop Offset="0" Color="{Binding HighlightBrightness,
+                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FastButton}},
+                                                Converter={StaticResource BrightnessToColorConverter}}" />
+                                        <GradientStop Offset="0.8" Color="{Binding ButtonColor.Color,
+                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FastButton}}}"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+
+                            <Border>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Name="C1" Width="4*"/>
+                                            <ColumnDefinition Name="C2" Width="92*"/>
+                                            <ColumnDefinition Name="C3" Width="4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Name="R1" Height="5*"/>
+                                            <RowDefinition Name="R2" Height="90*"/>
+                                            <RowDefinition Name="R3" Height="5*"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <ContentPresenter Name="content" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <ContentPresenter.ContentTemplate>
+                                                <DataTemplate>
+                                                    <Viewbox>
+                                                        <TextBlock FontSize="{Binding FontSize,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FastButton}}}" Text="{Binding}" TextAlignment="Center"/>
+                                                    </Viewbox>
+                                                </DataTemplate>
+                                            </ContentPresenter.ContentTemplate>
+                                        </ContentPresenter>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="OuterBorder" Property="Opacity" Value="0.9" />
+                            <Setter TargetName="R1" Property="Height" Value="10*"/>
+                            <Setter TargetName="R2" Property="Height" Value="85*"/>
+                            <Setter TargetName="R3" Property="Height" Value="5*"/>
+                            <Setter TargetName="C1" Property="Width" Value="7*"/>
+                            <Setter TargetName="C2" Property="Width" Value="86*"/>
+                            <Setter TargetName="C3" Property="Width" Value="7*"/>
+                            <Setter TargetName="Glow" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="Highlight" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="Gray"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource GlowOn}"/>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource GlowOff}"/>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
