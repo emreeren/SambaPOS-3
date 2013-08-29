@@ -36,7 +36,7 @@
                 <TextBlock Margin="1,1,10,1" Grid.Column="0" Grid.Row="0" Text="{LocText TicketOpeningTime,Suffix=':'}"/>
                 <TextBlock Margin="1" Grid.Column="1" Grid.Row="0" Text="{Binding TicketCreationDate}" />
                 <TextBlock Margin="1,1,10,1" Grid.Column="0" Grid.Row="1" Visibility="{Binding IsLastOrderDateVisible,Converter={StaticResource VisibilityConverter}}"
-                             Text="{LocText LastOrderTime,Suffix=':'}"/>
+                             Text="{LocText Time_f,FormatSegment1={LocText LastOrder},Suffix=':'}"/>
                 <TextBlock Margin="1" Grid.Column="1" Grid.Row="1" Visibility="{Binding IsLastOrderDateVisible,Converter={StaticResource VisibilityConverter}}"
                              Text="{Binding TicketLastOrderDate}" />
                 <TextBlock Margin="1,1,10,1" Grid.Column="0" Grid.Row="2" Visibility="{Binding IsLastPaymentDateVisible,Converter={StaticResource VisibilityConverter}}"

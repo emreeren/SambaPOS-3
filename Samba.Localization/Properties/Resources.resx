@@ -735,14 +735,6 @@ Changing PIN will hide this hint</value>
     <value>Merge Lines</value>
     <comment>CheckBox content</comment>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Ticket Date</value>
-    <comment>Paragraph content</comment>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Ticket Time</value>
-    <comment>Paragraph content</comment>
-  </data>
   <data name="DayDate" xml:space="preserve">
     <value>Date of Day</value>
     <comment>Paragraph content</comment>
@@ -1143,10 +1135,6 @@ Can't end Work Period while tickets open</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
     <value>Ticket Opening</value>
-    <comment>TextBlock content</comment>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Last Order</value>
     <comment>TextBlock content</comment>
   </data>
   <data name="LastPaymentTime" xml:space="preserve">
@@ -3480,5 +3468,11 @@ Error Message:
   </data>
   <data name="SelectAutomationCommand" xml:space="preserve">
     <value>Select Automation Command</value>
+  </data>
+  <data name="Date_f" xml:space="preserve">
+    <value>{0} Date</value>
+  </data>
+  <data name="Time_f" xml:space="preserve">
+    <value>{0} Time</value>
   </data>
 </root>

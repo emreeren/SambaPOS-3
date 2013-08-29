@@ -332,6 +332,5 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
             CalculateCost(pc, _applicationState.PreviousWorkPeriod);
             SavePeriodicConsumption(pc);
         }
-
     }
 }

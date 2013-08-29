@@ -1926,6 +1926,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} Date.
+        /// </summary>
+        public static string Date_f {
+            get {
+                return ResourceManager.GetString("Date_f", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date range is not in active work period.
         /// </summary>
         public static string DateRangeIsNotActiveWorkPeriod {
@@ -4013,15 +4022,6 @@ namespace Samba.Localization.Properties {
         public static string LastOrderStatus {
             get {
                 return ResourceManager.GetString("LastOrderStatus", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Last Order.
-        /// </summary>
-        public static string LastOrderTime {
-            get {
-                return ResourceManager.GetString("LastOrderTime", resourceCulture);
             }
         }
         
@@ -7873,15 +7873,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ticket Date.
-        /// </summary>
-        public static string TicketDate {
-            get {
-                return ResourceManager.GetString("TicketDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Ticket Duration.
         /// </summary>
         public static string TicketDuration {
@@ -8182,15 +8173,6 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ticket Time.
-        /// </summary>
-        public static string TicketTime {
-            get {
-                return ResourceManager.GetString("TicketTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} ({1} min.).
         /// </summary>
         public static string TicketTimeDisplay_f {
@@ -8268,6 +8250,15 @@ namespace Samba.Localization.Properties {
         public static string Time {
             get {
                 return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Time.
+        /// </summary>
+        public static string Time_f {
+            get {
+                return ResourceManager.GetString("Time_f", resourceCulture);
             }
         }
         
