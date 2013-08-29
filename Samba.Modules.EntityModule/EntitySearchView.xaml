@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Margin="0,3" FontSize="30" Grid.Column="0" Text="{Binding SearchLabel}" />
+            <TextBlock Margin="3" FontSize="30" Grid.Column="0" Text="{Binding SearchLabel}" />
             <TextBox Margin="3,3,0,3" FontSize="30" Grid.Column="1" Name="SearchString"
                              Text="{Binding SearchString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              PreviewKeyDown="SearchStringPreviewKeyDown" Loaded="SearchStringLoaded" />

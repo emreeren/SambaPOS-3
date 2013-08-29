@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
+using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
@@ -149,7 +150,7 @@ namespace Samba.Modules.PosModule
         {
             get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayUnderTicket && x.CommandContainer.CanDisplay(SelectedTicket)); }
         }
-        
+
         public IEnumerable<CommandContainerButton> UnderTicketRow2AutomationCommands
         {
             get { return AllAutomationCommands.Where(x => x.CommandContainer.DisplayUnderTicket2 && x.CommandContainer.CanDisplay(SelectedTicket)); }
@@ -204,6 +205,7 @@ namespace Samba.Modules.PosModule
             EventServiceFactory.EventService.GetEvent<GenericEvent<MenuItemPortion>>().Subscribe(OnPortionSelected);
             EventServiceFactory.EventService.GetEvent<GenericEvent<Department>>().Subscribe(OnDepartmentChanged);
             EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommandValueData>>().Subscribe(OnAutomationCommandValueSelected);
+            EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommandData>>().Subscribe(OnAutomationCommandSelected);
 
             SelectedTicket = Ticket.Empty;
         }
@@ -237,37 +239,53 @@ namespace Samba.Modules.PosModule
         private void OnExecuteAutomationCommand(CommandContainerButton obj)
         {
             obj.NextValue();
-            if (!string.IsNullOrEmpty(obj.CommandContainer.AutomationCommand.Values) && !obj.CommandContainer.AutomationCommand.ToggleValues)
-                obj.CommandContainer.AutomationCommand.PublishEvent(EventTopicNames.SelectAutomationCommandValue);
+            ExecuteAutomationCommand(obj.CommandContainer.AutomationCommand, obj.SelectedValue);
+        }
+
+        private void ExecuteAutomationCommand(AutomationCommand automationCommand, string selectedValue)
+        {
+            if (!string.IsNullOrEmpty(automationCommand.Values) && !automationCommand.ToggleValues)
+                automationCommand.PublishEvent(EventTopicNames.SelectAutomationCommandValue);
             else
             {
                 if (SelectedOrders.Any())
                 {
                     foreach (var selectedOrder in SelectedOrders.ToList())
                     {
-                        _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
-                        {
-                            Ticket = SelectedTicket,
-                            Order = selectedOrder,
-                            AutomationCommandName = obj.Name,
-                            Value = obj.SelectedValue
-                        });
+                        _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
+                                                      new
+                                                          {
+                                                              Ticket = SelectedTicket,
+                                                              Order = selectedOrder,
+                                                              AutomationCommandName = automationCommand.Name,
+                                                              Value = selectedValue
+                                                          });
                     }
                 }
                 else
                 {
-                    _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
-                    {
-                        Ticket = SelectedTicket,
-                        AutomationCommandName = obj.Name,
-                        Value = obj.SelectedValue
-                    });
+                    _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
+                                                  new
+                                                      {
+                                                          Ticket = SelectedTicket,
+                                                          AutomationCommandName = automationCommand.Name,
+                                                          Value = selectedValue
+                                                      });
                 }
 
                 _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
                 ClearSelectedItems();
                 ClearSelection = true;
                 RefreshVisuals();
+            }
+        }
+
+        private void OnAutomationCommandSelected(EventParameters<AutomationCommandData> obj)
+        {
+            if (obj.Topic == EventTopicNames.HandlerRequested)
+            {
+                EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+                ExecuteAutomationCommand(obj.Value.AutomationCommand, "");
             }
         }
 

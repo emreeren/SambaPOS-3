@@ -21,6 +21,8 @@ namespace Samba.Modules.ModifierModule
         private readonly OrderTagGroupEditorView _selectedOrdersView;
         private readonly OrderTagGroupEditorViewModel _selectedOrdersViewModel;
         private readonly AutomationCommandSelectorView _automationCommandSelectorView;
+        private readonly AutomationCommandSelectorViewModel _automationCommandSelectorViewModel;
+        private readonly AutomationCommandValueSelectorView _automationCommandValueSelectorView;
         private readonly ProductTimerEditorView _productTimerEditorView;
         private readonly ProductTimerEditorViewModel _productTimerEditorViewModel;
         private readonly TicketLogViewerView _ticketLogViewerView;
@@ -38,12 +40,15 @@ namespace Samba.Modules.ModifierModule
             TicketTagEditorView ticketTagEditorView, TicketTagEditorViewModel ticketTagEditorViewModel,
             OrderTagGroupEditorView selectedOrdersView, OrderTagGroupEditorViewModel selectedOrdersViewModel,
             AutomationCommandSelectorView automationCommandSelectorView, AutomationCommandSelectorViewModel automationCommandSelectorViewModel,
+            AutomationCommandValueSelectorView automationCommandValueSelectorView, AutomationCommandValueSelectorViewModel automationCommandValueSelectorViewModel,
             ProductTimerEditorView productTimerEditorView, ProductTimerEditorViewModel productTimerEditorViewModel,
             TicketLogViewerView ticketLogViewerView, TicketLogViewerViewModel ticketLogViewerViewModel)
         {
             _selectedOrdersView = selectedOrdersView;
             _selectedOrdersViewModel = selectedOrdersViewModel;
             _automationCommandSelectorView = automationCommandSelectorView;
+            _automationCommandSelectorViewModel = automationCommandSelectorViewModel;
+            _automationCommandValueSelectorView = automationCommandValueSelectorView;
             _productTimerEditorView = productTimerEditorView;
             _productTimerEditorViewModel = productTimerEditorViewModel;
             _ticketLogViewerView = ticketLogViewerView;
@@ -80,6 +85,12 @@ namespace Samba.Modules.ModifierModule
 
         private void OnTicketEvent(EventParameters<Ticket> obj)
         {
+            if (obj.Topic == EventTopicNames.SelectAutomationCommand)
+            {
+                _automationCommandSelectorViewModel.SelectedTicket = obj.Value;
+                DisplayAutomationCommandSelector();
+            }
+
             if (obj.Topic == EventTopicNames.EditTicketNote)
             {
                 _ticketNoteEditorViewModel.SelectedTicket = obj.Value;
@@ -100,7 +111,9 @@ namespace Samba.Modules.ModifierModule
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketTagEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(ProductTimerEditorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(AutomationCommandSelectorView));
+            _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(AutomationCommandValueSelectorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketLogViewerView));
+
         }
 
         public void DisplayTicketDetailsScreen(OperationRequest<SelectedOrdersData> currentOperationRequest)
@@ -110,9 +123,14 @@ namespace Samba.Modules.ModifierModule
             _ticketNoteEditorView.TicketNote.BackgroundFocus();
         }
 
-        public void DisplayAutomationCommandValueSelector()
+        public void DisplayAutomationCommandSelector()
         {
             _regionManager.ActivateRegion(RegionNames.PosSubRegion, _automationCommandSelectorView);
+        }
+
+        public void DisplayAutomationCommandValueSelector()
+        {
+            _regionManager.ActivateRegion(RegionNames.PosSubRegion, _automationCommandValueSelectorView);
         }
 
         public void DisplayTicketNoteEditor()
@@ -150,10 +168,7 @@ namespace Samba.Modules.ModifierModule
                 {
                     DisplayProdcutTimerEdior(_selectedOrders.First());
                 }
-                //else
-                //{
-                //    EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                //}
+                else EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
             }
         }
     }

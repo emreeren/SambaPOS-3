@@ -1,71 +1,71 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Microsoft.Practices.Prism.Commands;
-using Samba.Domain.Models.Automation;
+using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
+using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
-using Samba.Presentation.ViewModels;
+using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.ModifierModule
 {
     [Export]
     public class AutomationCommandSelectorViewModel : ObservableObject
     {
+        private readonly IApplicationState _applicationState;
+        private readonly IExpressionService _expressionService;
+
+        public DelegateCommand<AutomationCommandData> SelectAutomationCommand { get; set; }
+        public ICaptionCommand CloseCommand { get; set; }
+
         [ImportingConstructor]
-        public AutomationCommandSelectorViewModel()
+        public AutomationCommandSelectorViewModel(IApplicationState applicationState, IExpressionService expressionService)
         {
+            _applicationState = applicationState;
+            _expressionService = expressionService;
+            SelectAutomationCommand = new DelegateCommand<AutomationCommandData>(OnSelectAutomationCommand, CanSelectAutomationCommand);
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
-            AutomationCommandSelectedCommand = new DelegateCommand<string>(OnAutomationCommandValueSelected);
-            CommandValues = new ObservableCollection<string>();
-            EventServiceFactory.EventService.GetEvent<GenericEvent<AutomationCommand>>().Subscribe(OnAutomationCommandEvent);
         }
 
-        private void OnAutomationCommandEvent(EventParameters<AutomationCommand> obj)
+        private Ticket _selectedTicket;
+        public Ticket SelectedTicket
         {
-            if (obj.Topic == EventTopicNames.SelectAutomationCommandValue)
+            get { return _selectedTicket; }
+            set
             {
-                CommandValues.Clear();
-                SetSelectedAutomationCommand(obj.Value);
-                CommandValues.AddRange(obj.Value.Values.Split('|'));
-                if (CommandValues.Count == 1)
-                {
-                    OnAutomationCommandValueSelected(CommandValues.ElementAt(0));
-                    return;
-                }
-                RaisePropertyChanged(() => ColumnCount);
+                _selectedTicket = value;
+                UpdateAutomationCommands();
             }
         }
 
-        public AutomationCommand SelectedAutomationCommand { get; private set; }
-        public ICaptionCommand CloseCommand { get; set; }
-        public DelegateCommand<string> AutomationCommandSelectedCommand { get; set; }
+        public IEnumerable<AutomationCommandData> AutomationCommands { get; set; }
 
-        public ObservableCollection<string> CommandValues { get; set; }
-        public int ColumnCount { get { return CommandValues.Count % 7 == 0 ? CommandValues.Count / 7 : (CommandValues.Count / 7) + 1; } }
+        public int ColumnCount { get { return AutomationCommands.Count() % 7 == 0 ? AutomationCommands.Count() / 7 : (AutomationCommands.Count() / 7) + 1; } }
 
-        private static void OnCloseCommandExecuted(string obj)
+        private bool CanSelectAutomationCommand(AutomationCommandData arg)
+        {
+            return arg.CanExecute(SelectedTicket) && _expressionService.EvalCommand(FunctionNames.CanExecuteAutomationCommand, arg.AutomationCommand, new { Ticket = SelectedTicket }, true);
+        }
+
+        private void OnSelectAutomationCommand(AutomationCommandData obj)
+        {
+            obj.PublishEvent(EventTopicNames.HandlerRequested, true);
+        }
+
+        private void OnCloseCommandExecuted(string obj)
         {
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
         }
 
-        private void OnAutomationCommandValueSelected(string commandValue)
+        private void UpdateAutomationCommands()
         {
-            var automationCommandData = new AutomationCommandValueData
-                                   {
-                                       AutomationCommand = SelectedAutomationCommand,
-                                       Value = commandValue
-                                   };
-
-            automationCommandData.PublishEvent(EventTopicNames.HandlerRequested, true);
-        }
-
-        private void SetSelectedAutomationCommand(AutomationCommand command)
-        {
-            SelectedAutomationCommand = command;
-            RaisePropertyChanged(() => SelectedAutomationCommand);
+            AutomationCommands = _applicationState.GetAutomationCommands().Where(x => x.DisplayOnCommandSelector && x.CanDisplay(_selectedTicket));
+            RaisePropertyChanged(() => AutomationCommands);
+            RaisePropertyChanged(() => ColumnCount);
         }
     }
 }

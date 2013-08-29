@@ -115,7 +115,7 @@
         public const string RegenerateSelectedTicket = "RegenerateSelectedTicket";
         public const string SetSelectedTicket = "SetSelectedTicket";
         public const string SetWidgetValue = "SetWidgetValue";
-
+        public const string SelectAutomationCommand = "SelectAutomationCommand";
     }
 
     public static class FunctionNames

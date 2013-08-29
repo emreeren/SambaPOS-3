@@ -297,8 +297,8 @@ namespace Samba.Modules.EntityModule
         private bool CanSelectEntity(string arg)
         {
             return
-                SelectedEntity!=null 
-                &&_applicationState.IsCurrentWorkPeriodOpen
+                SelectedEntity != null
+                && _applicationState.IsCurrentWorkPeriodOpen
                 && _applicationState.CurrentDepartment != null
                 && !string.IsNullOrEmpty(SelectedEntity.Name);
         }
@@ -400,6 +400,16 @@ namespace Samba.Modules.EntityModule
             StateFilter = stateFilter;
             SelectedEntityType = _cacheService.GetEntityTypeById(entityType);
             RefreshSelectedEntity(currentOperationRequest);
+        }
+
+        public void SelectFullMatch()
+        {
+            if (FoundEntities.Count > 1 && FoundEntities.Any(x => x.Name == SearchString))
+            {
+                var f = FoundEntities.First(x => x.Name == SearchString);
+                FoundEntities.Clear();
+                FoundEntities.Add(f);
+            }
         }
     }
 }

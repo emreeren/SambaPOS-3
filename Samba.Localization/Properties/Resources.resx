@@ -3478,4 +3478,7 @@ Error Message:
   <data name="LoadLastOrder" xml:space="preserve">
     <value>Load Last Order</value>
   </data>
+  <data name="SelectAutomationCommand" xml:space="preserve">
+    <value>Select Automation Command</value>
+  </data>
 </root>

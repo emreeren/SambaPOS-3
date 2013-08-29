@@ -1,20 +1,24 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
+using System.Text;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
+using Samba.Presentation.Services.Common;
 using Samba.Services.Common;
 
 namespace Samba.Modules.TicketModule.ActionProcessors
 {
     [Export(typeof(IActionType))]
-    class LoadLastOrder : ActionType
+    class SelectAutomationCommand : ActionType
     {
         public override void Process(ActionData actionData)
         {
             var ticket = actionData.GetDataValue<Ticket>("Ticket");
-            if (ticket != null && ticket.Orders.Count > 0)
+            if (ticket != null)
             {
-                actionData.DataObject.Order = ticket.Orders.Last();
+                ticket.PublishEvent(EventTopicNames.SelectAutomationCommand);
             }
         }
 
@@ -25,12 +29,12 @@ namespace Samba.Modules.TicketModule.ActionProcessors
 
         protected override string GetActionName()
         {
-            return Resources.LoadLastOrder;
+            return Resources.SelectAutomationCommand;
         }
 
         protected override string GetActionKey()
         {
-            return "LoadLastOrder";
+            return "SelectAutomationCommand";
         }
     }
 }

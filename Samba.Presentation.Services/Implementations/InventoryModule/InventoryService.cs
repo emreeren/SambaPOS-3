@@ -290,6 +290,7 @@ namespace Samba.Presentation.Services.Implementations.InventoryModule
                 var ppci = _inventoryDao.GetPeriodConsumptionItem(_applicationState.PreviousWorkPeriod.Id, inventoryItem.Id, warehouse.Id);
                 previousInventory = ppci != null ? ppci.GetPhysicalInventory() : 0;
             }
+
             var transactions = GetTransactionItems(inventoryItem, warehouse).ToList();
             var positiveSum = transactions.Where(x => x.TargetWarehouseId == warehouse.Id).Sum(y => (y.Quantity * y.Multiplier) / inventoryItem.Multiplier);
             var negativeSum = transactions.Where(x => x.SourceWarehouseId == warehouse.Id).Sum(y => (y.Quantity * y.Multiplier) / inventoryItem.Multiplier);

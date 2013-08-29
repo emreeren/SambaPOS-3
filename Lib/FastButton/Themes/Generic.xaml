@@ -56,7 +56,7 @@
                                 </Border.Background>
                             </Border>
 
-                            <Border>
+                            <Border Name="padding"  Margin="{TemplateBinding Padding}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -78,7 +78,7 @@
                                         <ContentPresenter Name="content" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <ContentPresenter.ContentTemplate>
                                                 <DataTemplate>
-                                                    <Viewbox>
+                                                    <Viewbox StretchDirection="DownOnly">
                                                         <TextBlock FontSize="{Binding FontSize,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FastButton}}}" Text="{Binding}" TextAlignment="Center"/>
                                                     </Viewbox>
                                                 </DataTemplate>

@@ -12,8 +12,7 @@ namespace FlexButton
         public DataTemplate DefaultTemplate { get; set; }
         public DataTemplate StringTemplate { get; set; }
 
-        public override DataTemplate SelectTemplate(object item,
-          DependencyObject container)
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is String) return StringTemplate;
             return null;

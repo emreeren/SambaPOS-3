@@ -56,6 +56,10 @@
       <DependentUpon>AutomationCommandSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AutomationCommandSelectorViewModel.cs" />
+    <Compile Include="AutomationCommandValueSelectorView.xaml.cs">
+      <DependentUpon>AutomationCommandValueSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AutomationCommandValueSelectorViewModel.cs" />
     <Compile Include="GroupedOrderTagButtonViewModel.cs" />
     <Compile Include="GroupedOrderTagViewModel.cs" />
     <Compile Include="ProductTimerEditorView.xaml.cs">
@@ -85,6 +89,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="AutomationCommandSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AutomationCommandValueSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

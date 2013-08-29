@@ -6783,6 +6783,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Automation Command.
+        /// </summary>
+        public static string SelectAutomationCommand {
+            get {
+                return ResourceManager.GetString("SelectAutomationCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected.
         /// </summary>
         public static string Selected {

@@ -57,6 +57,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntitySearch
             var entityTypeId = _cacheService.GetEntityTypeIdByEntityName(Settings.EntityTypeName);
             if (entityTypeId == 0) entityTypeId = _applicationState.SelectedEntityScreen.EntityTypeId;
             var stateFilter = !string.IsNullOrEmpty(Settings.StateFilterName) ? (Settings.StateFilterName) : _applicationState.SelectedEntityScreen.StateFilter;
+            if (stateFilter == "*") stateFilter = "";
             EntitySearchViewModel.Refresh(entityTypeId, stateFilter, _request);
         }
     }

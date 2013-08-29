@@ -75,8 +75,8 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
             var stateFilter = !string.IsNullOrEmpty(Settings.StateFilterName)
                                   ? Settings.StateFilterName
                                   : EntityScreen.StateFilter;
+            if (stateFilter == "*") stateFilter = "";
             ResourceSelectorViewModel.Refresh(EntityScreen, stateFilter, _request);
-
         }
     }
 }

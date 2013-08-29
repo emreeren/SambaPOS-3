@@ -21,20 +21,28 @@
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0" HorizontalAlignment="Stretch" Template="{StaticResource OfficeTabControl}">
             <TabItem Header="{LocText GeneralSettings}">
-                <StackPanel>
-                    <Label Content="{LocText Name,Suffix=':'}" />
-                    <TextBox Text="{Binding Name}" MinWidth="200" HorizontalAlignment="Left" />
-                    <Label Content="{LocText ButtonHeader,Suffix=':'}" />
-                    <TextBox Text="{Binding ButtonHeader}" MinWidth="200" HorizontalAlignment="Left" />
-                    <Label Content="{LocText Color,Suffix=':'}"/>                    
-                    <Wpf:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <Label Content="{LocText Name,Suffix=':'}" />
+                        <TextBox Text="{Binding Name}" MinWidth="200" HorizontalAlignment="Left" />
+                        <Label Content="{LocText ButtonHeader,Suffix=':'}" />
+                        <TextBox Text="{Binding ButtonHeader}" MinWidth="200" HorizontalAlignment="Left" />
+                        <Label Content="{LocText Color,Suffix=':'}"/>
+                        <Wpf:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding Color}" />
-                    <Label HorizontalAlignment="Left" Content="{LocText FontSize,Suffix=':'}" />
-                    <uiControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="150" Text="{Binding FontSize}" Type="Digits" />
-                    <CheckBox Margin="0,5" IsChecked="{Binding ToggleValues}" Content="{LocText ToggleValues}"/>
-                    <Label Content="{LocText Values,Suffix=':'}"/>
-                    <TextBox Text="{Binding Values}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MinLines="3" MinWidth="200" HorizontalAlignment="Left"/>
-                </StackPanel>
+                        <Label HorizontalAlignment="Left" Content="{LocText FontSize,Suffix=':'}" />
+                        <uiControls:FilteredTextBox HorizontalAlignment="Left" MinWidth="150" Text="{Binding FontSize}" Type="Digits" />
+                        <CheckBox Margin="0,5" IsChecked="{Binding ToggleValues}" Content="{LocText ToggleValues}"/>
+                        <Label Content="{LocText Values,Suffix=':'}"/>
+                    </StackPanel>
+
+                    <TextBox Grid.Row="1" Text="{Binding Values}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MinLines="3" MinWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </Grid>
+
             </TabItem>
 
             <TabItem Header="{LocText Mappings}">
@@ -44,7 +52,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0">
-                        <Label Content="{LocText Mappings,Suffix=':'}"/>                        
+                        <Label Content="{LocText Mappings,Suffix=':'}"/>
                         <TextBlock Margin="2,5">
                             <Hyperlink Command="{Binding MapController.AddMapCommand}">
                                 <TextBlock Text="{Binding Path=MapController.AddMapCommand.Caption}" />

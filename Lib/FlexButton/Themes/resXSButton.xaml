@@ -11,7 +11,7 @@
         <Viewbox StretchDirection="{Binding FontSize,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlexButton}},Converter={StaticResource fontSizeToViewBoxDirectionConverter}}">
             <TextBlock FontSize="{Binding FontSize,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:FlexButton}}}" Text="{Binding}" TextAlignment="Center"/>
         </Viewbox>
-    </DataTemplate>
+    </DataTemplate>    
 
     <DataTemplate x:Key="defaultTemplate">
     </DataTemplate>
