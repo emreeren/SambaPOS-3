@@ -59,9 +59,20 @@ namespace Samba.Modules.AccountModule.Dashboard
                     Model = AccountTransaction.Create(value);
                     _document.AccountTransactions.Add(Model);
                 }
+                else if(Model.AccountTransactionTypeId != value.Id)
+                {
+                    if (_document.AccountTransactions.Contains(Model))
+                        _document.AccountTransactions.Remove(Model);
+                    Model = AccountTransaction.Null;
+                    _sourceAccounts = null;
+                    _targetAccounts = null;
+                    AccountTransactionType = value;
+                }
                 RaisePropertyChanged(() => AccountTransactionType);
                 RaisePropertyChanged(() => SourceAccount);
                 RaisePropertyChanged(() => TargetAccount);
+                RaisePropertyChanged(() => SourceAccounts);
+                RaisePropertyChanged(() => TargetAccounts);
             }
         }
 

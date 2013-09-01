@@ -146,7 +146,6 @@ namespace Samba.Modules.PosModule
                     }
                 }
             }
-            SelectedTicket = _selectedTicket;
         }
 
         private void UpdateOrderTags(Ticket ticket, Order order, string orderTags)

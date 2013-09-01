@@ -382,6 +382,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Konyhai nyomtató</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Beállítások</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>Hibás kifejezés</value>
   </data>
@@ -716,6 +719,9 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Módosíthetja a rendelések dátumszűrőjét</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Címkézés típusa</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Felhasználó</value>
   </data>
@@ -845,8 +851,8 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
   <data name="PaymentType" xml:space="preserve">
     <value>Fizetési mód</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Beállítások</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>Sorok száma</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
@@ -870,8 +876,8 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Szabad taggelés</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Költség-jelentés</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Vásárlók</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Blokk Címke</value>
@@ -1683,8 +1689,8 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="Ticket Moving" xml:space="preserve">
     <value>Blokk áthelyezés</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Blokk-dátum</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Kiválasztott Mapping törlése?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Mikor Címkézetlen</value>
@@ -1703,9 +1709,6 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS honlap</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Sorok száma</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Limit eltávolítása</value>
@@ -1766,9 +1769,6 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Minden második percben</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Utolsó rendelés</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Alapértelmezett tulajdonságok</value>
@@ -1956,9 +1956,6 @@ Hibaüzenet:
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Igen</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Kiválasztott Mapping törlése?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Adag árak</value>
@@ -2184,9 +2181,6 @@ Hibaüzenet:
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manuális</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Blokk-idő</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Szerver port</value>
@@ -2446,8 +2440,8 @@ Hibaüzenet:
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Teljes munkaidő: {0:0} óra {1:0} perc</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>Címkézés típusa</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Költség-jelentés</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Esemény neve</value>
@@ -2610,9 +2604,6 @@ Hibaüzenet:
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Számítás módja</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Vásárlók</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Összesen {0}:</value>

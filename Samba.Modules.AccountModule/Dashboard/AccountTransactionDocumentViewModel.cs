@@ -19,6 +19,9 @@ namespace Samba.Modules.AccountModule.Dashboard
         private readonly IPrinterService _printerService;
         private readonly IApplicationState _applicationState;
 
+        public event EventHandler RowInserted;
+        public event EventHandler RowDeleted;
+
         [ImportingConstructor]
         public AccountTransactionDocumentViewModel(ICacheService cacheService, IPrinterService printerService, IApplicationState applicationState)
         {
@@ -26,8 +29,11 @@ namespace Samba.Modules.AccountModule.Dashboard
             _printerService = printerService;
             _applicationState = applicationState;
             AddItemCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Line), OnAddItem);
+            DeleteItemCommand = new CaptionCommand<string>(string.Format(Resources.Delete_f, Resources.Line), OnDeleteItem,CanDeleteItem);
             PrintCommand = new CaptionCommand<string>(Resources.Print, OnPrint, CanPrint);
         }
+
+
 
         private bool CanPrint(string arg)
         {
@@ -43,9 +49,18 @@ namespace Samba.Modules.AccountModule.Dashboard
         }
 
         public ICaptionCommand AddItemCommand { get; set; }
+        public ICaptionCommand DeleteItemCommand { get; set; }
         public ICaptionCommand PrintCommand { get; set; }
 
+        public AccountTransactionViewModel SelectedTransaction
+        {
+            get { return _selectedTransaction; }
+            set { _selectedTransaction = value; RaisePropertyChanged(() => SelectedTransaction); }
+        }
+
         private ObservableCollection<AccountTransactionViewModel> _accountTransactions;
+        private AccountTransactionViewModel _selectedTransaction;
+
         public ObservableCollection<AccountTransactionViewModel> AccountTransactions
         {
             get { return _accountTransactions ?? (_accountTransactions = CreateAccountTransactions()); }
@@ -58,10 +73,38 @@ namespace Samba.Modules.AccountModule.Dashboard
             return result;
         }
 
+        private void OnDeleteItem(string obj)
+        {
+            if (SelectedTransaction.Model.Id > 0)
+                Workspace.Delete(SelectedTransaction.Model);
+            Model.AccountTransactions.Remove(SelectedTransaction.Model);
+            AccountTransactions.Remove(SelectedTransaction);
+            OnRowDeleted();
+        }
+
+        private bool CanDeleteItem(string arg)
+        {
+            return SelectedTransaction != null;
+        }
+
         private void OnAddItem(string obj)
         {
             var transaction = new AccountTransactionViewModel(Workspace, null, Model);
             AccountTransactions.Add(transaction);
+            SelectedTransaction = transaction;
+            RaisePropertyChanged();
+        }
+
+        public void OnRowDeleted()
+        {
+            EventHandler handler = RowDeleted;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        public void OnRowInserted()
+        {
+            EventHandler handler = RowInserted;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
 
         public override Type GetViewType()
@@ -72,6 +115,18 @@ namespace Samba.Modules.AccountModule.Dashboard
         public override string GetModelTypeString()
         {
             return Resources.AccountTransactionDocument;
+        }
+
+        public void DuplicateLastItem()
+        {
+            var lastTransaction = SelectedTransaction;
+            OnAddItem("");
+            if (lastTransaction != null)
+            {
+                var currentTransaction = SelectedTransaction;
+                currentTransaction.AccountTransactionType = lastTransaction.AccountTransactionType;
+            }
+            OnRowInserted();
         }
     }
 }

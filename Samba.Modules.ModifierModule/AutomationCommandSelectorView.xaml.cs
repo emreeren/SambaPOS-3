@@ -29,5 +29,10 @@ namespace Samba.Modules.ModifierModule
             DataContext = viewModel;
             InitializeComponent();
         }
+
+        public AutomationCommandSelectorView()
+        {
+            InitializeComponent();
+        }
     }
 }

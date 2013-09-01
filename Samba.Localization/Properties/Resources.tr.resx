@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountBalance" xml:space="preserve">
-    <value>Açık Hesap</value>
+    <value>Hesap Bakiyesi</value>
   </data>
   <data name="FixedAmount" xml:space="preserve">
     <value>Sabit tutar</value>
@@ -760,6 +760,9 @@ Mesaj:
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Rapor Tarihi Değiştirebilir</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Etiket Tipi</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Kullanıcı</value>
   </data>
@@ -920,8 +923,8 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Serbest Etiketleme</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Maliyet Raporu</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Müşteriler</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Adisyon Etiketi</value>
@@ -1830,8 +1833,8 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Ticket Moving" xml:space="preserve">
     <value>Belge Taşınıyor</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Adisyon Tarihi</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Seçili Tanım Silinsin mi?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Bir Değer Verilmediğinde</value>
@@ -1919,9 +1922,6 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>2 dakikada bir</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Son Sipariş</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Varsayılan Özellikler</value>
@@ -2118,9 +2118,6 @@ Hata Mesajı:
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Evet</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Seçili Tanım Silinsin mi?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Porsiyon Fiyatları</value>
@@ -2349,9 +2346,6 @@ Hata Mesajı:
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manuel</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Adisyon Saati</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Mesaj Sunucusu Portu</value>
@@ -2630,8 +2624,8 @@ Kapat</value>
   <data name="AddTicketLog" xml:space="preserve">
     <value>Adisyon Tutanağı Ekle</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>Etiket Tipi</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Maliyet Raporu</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Olay Adı</value>
@@ -2803,9 +2797,6 @@ Kapat</value>
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Hesaplama Şablonu</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Müşteriler</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Toplam {0}:</value>

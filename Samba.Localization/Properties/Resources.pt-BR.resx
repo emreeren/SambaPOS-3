@@ -1473,8 +1473,8 @@ Alterar PIN vai esconder essa dica </value>
   <data name="Ticket Moving" xml:space="preserve">
     <value>Movendo Ticket</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Data do ticket</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Excluir mapeamento selecionado?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Quando Untagged</value>
@@ -1550,9 +1550,6 @@ Alterar PIN vai esconder essa dica </value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>A cada 2 minutos</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Última Ordem</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Propriedades Padrão</value>
@@ -1713,9 +1710,6 @@ Continuar sem acrescentar detalhes? </value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sim</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Excluir mapeamento selecionado?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Preços das porções</value>
@@ -1917,9 +1911,6 @@ Continuar sem acrescentar detalhes? </value>
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manual</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Horário do ticket</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Porto do Message server</value>

@@ -64,6 +64,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>(TagNames.Totaltext, (x, d) => HumanFriendlyInteger.CurrencyToWritten(x.GetSum(), true), Resources.TextWrittenTotalValue);
             RegisterFunction<Ticket>("{TICKET TAG:([^}]+)}", (x, d) => x.GetTagValue(d), Resources.TicketTag);
             RegisterFunction<Ticket>("{TICKET STATE:([^}]+)}", (x, d) => x.GetStateStr(d), Resources.TicketState);
+            RegisterFunction<Ticket>("{TICKET STATE QUANTITY:([^}]+)}", (x, d) => x.GetStateQuantityStr(d), "Ticket State Quantity");
             RegisterFunction<Ticket>("{TICKET STATE MINUTES:([^}]+)}", (x, d) => x.GetStateMinuteStr(d), "Ticket State Duration");
             RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => _settingService.ReadSetting(d).StringValue, Resources.SettingValue);
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Calculation), x => x.Calculations.Count > 0);
@@ -75,6 +76,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{SERVICE TOTAL}", (x, d) => x.GetPostTaxServicesTotal().ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Service));
             RegisterFunction<Ticket>("{EXCHANGE RATE:([^}]+)}", (x, d) => GexExchangeRate(d), Resources.ExchangeRate);
             RegisterFunction<Ticket>("{TICKET QUANTITY SUM}", (x, d) => x.Orders.Sum(y => y.Quantity).ToString(LocalSettings.QuantityFormat));
+            RegisterFunction<Ticket>("{ORDER COUNT}", (x, d) => x.Orders.Count.ToString(CultureInfo.InvariantCulture), "Order Count");
 
             //ORDERS
             RegisterFunction<Order>(TagNames.Quantity, (x, d) => x.Quantity.ToString(LocalSettings.QuantityFormat), Resources.LineItemQuantity);
@@ -114,6 +116,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Entity>("{ENTITY BALANCE}", (x, d) => _accountDao.GetAccountBalance(x.AccountId).ToString(LocalSettings.CurrencyFormat), "", x => x.AccountId > 0);
             RegisterFunction<Entity>("{ENTITY DATA:([^}]+)}", (x, d) => x.GetCustomData(d));
             RegisterFunction<Entity>("{ENTITY STATE:([^}]+)}", GetEntityState);
+            RegisterFunction<Entity>("{ENTITY STATE QUANTITY:([^}]+)}", (x, d) => GetEntityStateQuantity(x, d).ToString(CultureInfo.InvariantCulture));
 
             //CALCULATIONS
             RegisterFunction<Calculation>("{CALCULATION NAME}", (x, d) => x.Name, string.Format(Resources.Name_f, Resources.Calculation));
@@ -162,6 +165,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<AccountTransaction>("{TARGET CREDIT}", (x, d) => x.TargetTransactionValue.Credit.ToString(LocalSettings.CurrencyFormat));
             RegisterFunction<AccountTransaction>("{TARGET AMOUNT}", (x, d) => Math.Abs(x.TargetTransactionValue.Debit - x.TargetTransactionValue.Credit).ToString(LocalSettings.CurrencyFormat));
             RegisterFunction<AccountTransaction>("{TARGET BALANCE}", (x, d) => GetAccountBalance(x.TargetTransactionValue.AccountId).ToString(LocalSettings.CurrencyFormat));
+        }
+
+        private int GetEntityStateQuantity(Entity entity, string stateName)
+        {
+            return _entityService.GetStateQuantity(entity, stateName);
         }
 
         private string GetEntityState(Entity entity, string stateName)

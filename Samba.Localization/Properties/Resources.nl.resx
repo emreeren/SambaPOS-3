@@ -382,6 +382,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Keuken Printer</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>Fout in Expressie</value>
   </data>
@@ -719,6 +722,9 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Kan datumfilter van rapporten wijzigen</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Tag Methode</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Gebruiker</value>
   </data>
@@ -848,8 +854,8 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
   <data name="PaymentType" xml:space="preserve">
     <value>Betaling Type</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Instellingen</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>Regel aantal</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
@@ -873,8 +879,8 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Gratis Tagging</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Kosten Rapport</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Klanten</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Bon Tag</value>
@@ -1698,8 +1704,8 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="Ticket Moving" xml:space="preserve">
     <value>Bon verplaatsen</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Bon Datum</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Geselecteerde mapping verwijderen?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Wanneer untagged</value>
@@ -1718,9 +1724,6 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Website</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Regel aantal</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Verwijder limit</value>
@@ -1784,9 +1787,6 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Om de minuut</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Laatste bestelling</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Standaard Eigenschappen</value>
@@ -1971,9 +1971,6 @@ Foutbericht:
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Geselecteerde mapping verwijderen?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Portie Prijzen</value>
@@ -2196,9 +2193,6 @@ Foutbericht:
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Handmatig</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Bon Tijd</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Bericht-Server Poort</value>
@@ -2459,8 +2453,8 @@ Bon</value>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Totale werktijd: {0:0} uur {1:0} minuten</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>Tag Methode</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Kosten Rapport</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Event Naam</value>
@@ -2620,9 +2614,6 @@ Bon</value>
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Soort Berekenen</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Klanten</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Totaal {0}:</value>

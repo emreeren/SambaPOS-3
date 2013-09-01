@@ -12,13 +12,13 @@
         <ItemsControl Grid.Row="0" ItemsSource="{Binding CommandValues}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FxButton:FlexButton Margin="5" Content="{Binding Path=.}" CommandParameter="{Binding}"
+                    <FxButton:FlexButton Margin="5" MinHeight="65" Content="{Binding Path=.}" CommandParameter="{Binding}"
                          Command="{Binding DataContext.AutomationCommandSelectedCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding ColumnCount}" Rows="7" VerticalAlignment="Stretch"/>
+                    <UniformGrid Columns="{Binding ColumnCount}" VerticalAlignment="Top"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>

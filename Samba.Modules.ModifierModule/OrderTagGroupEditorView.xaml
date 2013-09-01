@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:FxButton="clr-namespace:FlexButton;assembly=FlexButton"
              xmlns:UIControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
+             xmlns:modifierModule="clr-namespace:Samba.Modules.ModifierModule"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style TargetType="GroupBox">
@@ -62,6 +63,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
@@ -153,9 +155,10 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        
+        <modifierModule:AutomationCommandSelectorView DataContext="{Binding AutomationCommandSelectorViewModel}" Grid.Row="3"/>
 
-
-        <UniformGrid Rows="1" VerticalAlignment="Bottom" Grid.Row="3">
+        <UniformGrid Rows="1" VerticalAlignment="Bottom" Grid.Row="4">
             <FxButton:FlexButton Margin="3" Height="60"
                  Content="{Binding ToggleRemoveModeCommand.Caption}" Command="{Binding ToggleRemoveModeCommand}" ButtonColor="{Binding RemoveModeButtonColor,Converter={StaticResource NullBrushConverter}}" />
             <FxButton:FlexButton  Margin="3" Height="60"

@@ -616,6 +616,9 @@
   <data name="ExpressionValid" xml:space="preserve">
     <value>有效的表达式</value>
   </data>
+  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
+    <value>重量条码项目ID的长度</value>
+  </data>
   <data name="SendEmail" xml:space="preserve">
     <value>发送Email</value>
   </data>
@@ -643,6 +646,9 @@
   </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>能修改报表日期过滤器</value>
+  </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>标签类型</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>用户</value>
@@ -737,8 +743,8 @@
   <data name="OrderTagGroup" xml:space="preserve">
     <value>订单标签组</value>
   </data>
-  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
-    <value>重量条码项目ID的长度</value>
+  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
+    <value>日期未在当前工作期间内</value>
   </data>
   <data name="TransactionMultiplierError" xml:space="preserve">
     <value>交易换算率不能为零</value>
@@ -774,8 +780,8 @@
   <data name="FreeTagging" xml:space="preserve">
     <value>自由标签</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>成本报表</value>
+  <data name="Customers" xml:space="preserve">
+    <value>客户</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>票据标签</value>
@@ -837,8 +843,8 @@
   <data name="AskBeforeCreatingTicket" xml:space="preserve">
     <value>在创建票据前要求</value>
   </data>
-  <data name="ProductName" xml:space="preserve">
-    <value>产品名称</value>
+  <data name="BatchCreateInfo_f" xml:space="preserve">
+    <value>将使用下面的输入内容按行创建{0}</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
     <value>请勿忘记结束工作期间！</value>
@@ -1431,8 +1437,8 @@
   <data name="Ticket Moving" xml:space="preserve">
     <value>票据移动中</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>票据日期</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>删除所选映射</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>无标签时</value>
@@ -1503,14 +1509,8 @@
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>每隔一分钟</value>
   </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>最后订单</value>
-  </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>默认属性</value>
-  </data>
-  <data name="BatchCreateInfo_f" xml:space="preserve">
-    <value>将使用下面的输入内容按行创建{0}</value>
   </data>
   <data name="No_f" xml:space="preserve">
     <value>无{0}</value>
@@ -1669,9 +1669,6 @@
   <data name="Yes" xml:space="preserve">
     <value>是</value>
   </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>删除所选映射</value>
-  </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>份量价格</value>
   </data>
@@ -1758,6 +1755,9 @@
   </data>
   <data name="AddTagPriceToOrderPrice" xml:space="preserve">
     <value>将标签价格加入订单价格</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>产品名称</value>
   </data>
   <data name="OnceAnHour" xml:space="preserve">
     <value>一小时一次</value>
@@ -1867,9 +1867,6 @@
   <data name="Manual" xml:space="preserve">
     <value>手册</value>
   </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>票据时间</value>
-  </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>消息服务器端口</value>
   </data>
@@ -1920,9 +1917,6 @@
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
-    <value>日期未在当前工作期间内</value>
   </data>
   <data name="FileName" xml:space="preserve">
     <value>文件名称</value>
@@ -2097,8 +2091,8 @@
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>总工作时间:{0:0}小时{1:0}分钟</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>标签类型</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>成本报表</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>事件名称</value>
@@ -2225,9 +2219,6 @@
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>计算类型</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>客户</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>总数{0}:</value>

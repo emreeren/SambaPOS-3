@@ -378,6 +378,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>طابعة المطبخ</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>إعدادات</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>خطأ في التعبير</value>
   </data>
@@ -714,6 +717,9 @@
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>يستطيع تغيير تاريخ التقرير</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>نوع العلامة</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>مستخدم</value>
   </data>
@@ -843,8 +849,8 @@
   <data name="PaymentType" xml:space="preserve">
     <value>نوع الدفع</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>إعدادات</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>عدد الاسطر</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>رمز المشرف: 1234
@@ -868,8 +874,8 @@
   <data name="FreeTagging" xml:space="preserve">
     <value>تعليمات حرة</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>تقرير التكلفة</value>
+  <data name="Customers" xml:space="preserve">
+    <value>الزبائن</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>علامة التذكرة</value>
@@ -1716,8 +1722,8 @@
   <data name="Ticket Moving" xml:space="preserve">
     <value>جاري نقل التذكرة</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>تاريخ التذكرة</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>حذف التعيين المحدد؟</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>عند إلغاء التعليم</value>
@@ -1736,9 +1742,6 @@
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>الموقع الاليكتروني لـ SambaPOS</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>عدد الاسطر</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>إزالة حد</value>
@@ -1802,9 +1805,6 @@
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>كل دقيقة أخرى</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>آخر طلب</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>الخصائص الافتراضية</value>
@@ -1986,9 +1986,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>نعم</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>حذف التعيين المحدد؟</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>أسعار الأجزاء</value>
@@ -2211,9 +2208,6 @@
   </data>
   <data name="Manual" xml:space="preserve">
     <value>يدوي</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>وقت التذكرة</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>منفذ خادم الرسائل</value>
@@ -2474,8 +2468,8 @@
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>إجمالي وقت العمل: {0:0} ساعة {1:0} دقيقة </value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>نوع العلامة</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>تقرير التكلفة</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>اسم الحدث</value>
@@ -2632,9 +2626,6 @@
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>نوع الحساب</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>الزبائن</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>المجموع: {0}</value>

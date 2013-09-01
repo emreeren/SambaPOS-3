@@ -117,227 +117,1434 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllDiscountsRemoved" xml:space="preserve">
-    <value>Všechny slevy odstraněny, protože vypočtená celková sleva je vyšší než částka účtu.</value>
+  <data name="AccountBalance" xml:space="preserve">
+    <value>Balanc účtu</value>
   </data>
-  <data name="Purchase" xml:space="preserve">
-    <value>Nákup</value>
+  <data name="FixedAmount" xml:space="preserve">
+    <value>Pevná částka</value>
   </data>
-  <data name="CalculationMethod" xml:space="preserve">
-    <value>Metoda výpočtu</value>
-  </data>
-  <data name="TopOfTheHour" xml:space="preserve">
-    <value>Na začátku hodiny</value>
-  </data>
-  <data name="KitchenPrinter" xml:space="preserve">
-    <value>Tiskárna v kuchyni</value>
-  </data>
-  <data name="Product" xml:space="preserve">
-    <value>Výrobek</value>
-  </data>
-  <data name="PinCode" xml:space="preserve">
-    <value>PIN kód</value>
-  </data>
-  <data name="CsvBuilder" xml:space="preserve">
-    <value>CSV Builder</value>
-  </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>Název role</value>
-  </data>
-  <data name="OnceAnHour" xml:space="preserve">
-    <value>Jednou za hodinu</value>
-  </data>
-  <data name="Rounding" xml:space="preserve">
-    <value>Zaokrouhlování</value>
-  </data>
-  <data name="Increase" xml:space="preserve">
-    <value>Zvýšit</value>
-  </data>
-  <data name="ExtraModifiers" xml:space="preserve">
-    <value>Extra Modifikátory</value>
-  </data>
-  <data name="ItemSales" xml:space="preserve">
-    <value>Položka Prodej</value>
-  </data>
-  <data name="ResetAccount" xml:space="preserve">
-    <value>Resetovat účet</value>
-  </data>
-  <data name="AutoStartMessageClient" xml:space="preserve">
-    <value>Automaticky spouštět message klienta</value>
-  </data>
-  <data name="FooterTemplate" xml:space="preserve">
-    <value>Šablona zápatí</value>
-  </data>
-  <data name="MonThruFri" xml:space="preserve">
-    <value>Po. přes pá.</value>
-  </data>
-  <data name="MenuList" xml:space="preserve">
-    <value>Seznam Menu</value>
-  </data>
-  <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
-    <value>Jsou {0} otevřené účty.
-Nelze ukončit pracovní dobu, pokud jsou otevřené účty.</value>
-  </data>
-  <data name="SortCategoryProducts" xml:space="preserve">
-    <value>Seřadit produkty kategorie</value>
-  </data>
-  <data name="From" xml:space="preserve">
-    <value>Od:</value>
-  </data>
-  <data name="ErrorInExpression" xml:space="preserve">
-    <value>Chyba ve výrazu</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Nastavení</value>
+  <data name="Entity" xml:space="preserve">
+    <value>Entity</value>
   </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>Záhlaví tlačítka</value>
   </data>
-  <data name="PastWeek" xml:space="preserve">
-    <value>Minulý týden</value>
+  <data name="Print" xml:space="preserve">
+    <value>Tisk</value>
   </data>
-  <data name="MessageReceived" xml:space="preserve">
-    <value>Zpráva přijata</value>
+  <data name="TotalWorkTimeDays_f" xml:space="preserve">
+    <value>Celková pracovní doba:
+{0:0} dnů {1:0} hodin {2:0} minut</value>
   </data>
-  <data name="LocalSettings" xml:space="preserve">
-    <value>Místní nastavení</value>
+  <data name="Add_f" xml:space="preserve">
+    <value>Přidat {0}</value>
   </data>
-  <data name="InventoryItemName" xml:space="preserve">
-    <value>Název skladové položky</value>
+  <data name="Category" xml:space="preserve">
+    <value>Kategorie</value>
   </data>
-  <data name="Costs" xml:space="preserve">
-    <value>Náklady</value>
+  <data name="Discount" xml:space="preserve">
+    <value>Sleva</value>
   </data>
-  <data name="EndWorkPeriod" xml:space="preserve">
-    <value>Konec pracovní doby</value>
+  <data name="InventoryCalculationError" xml:space="preserve">
+    <value>Výpočet Zásob Generuje chybu . Zkontrolujte Receptury</value>
   </data>
-  <data name="DataConnection" xml:space="preserve">
-    <value>Celý název umístění</value>
+  <data name="ButtonColor" xml:space="preserve">
+    <value>Barva tlačítka</value>
   </data>
-  <data name="WeightBarcodePefix" xml:space="preserve">
-    <value>Prefix čárového kodu</value>
+  <data name="Custom" xml:space="preserve">
+    <value>Osobní</value>
   </data>
-  <data name="ProductProperties" xml:space="preserve">
-    <value>Vlastnosti produktu</value>
+  <data name="EveryMonth" xml:space="preserve">
+    <value>Každý měsíc</value>
   </data>
-  <data name="SalesDivTicket" xml:space="preserve">
-    <value>Celkem tržby / účet</value>
+  <data name="TagValue" xml:space="preserve">
+    <value>Hodnota štítku</value>
   </data>
-  <data name="DepartmentName" xml:space="preserve">
-    <value>Název provozu</value>
+  <data name="Round" xml:space="preserve">
+    <value>Zaokrohlení</value>
   </data>
-  <data name="AverageCost" xml:space="preserve">
-    <value>Průměrné náklady</value>
+  <data name="PropertyEditor" xml:space="preserve">
+    <value>Editor vlastností</value>
   </data>
-  <data name="BackgroundColor" xml:space="preserve">
-    <value>Barva pozadí</value>
+  <data name="CashStatus" xml:space="preserve">
+    <value>Stav hotovosti</value>
   </data>
-  <data name="To" xml:space="preserve">
-    <value>Do:</value>
+  <data name="Inventory" xml:space="preserve">
+    <value>Sklad</value>
   </data>
-  <data name="Delete_f" xml:space="preserve">
-    <value>Odstranit {0}</value>
+  <data name="LineItemTotalAndQuantity" xml:space="preserve">
+    <value># Line: Položka Celkem x Množství</value>
   </data>
-  <data name="MenuItemGroup" xml:space="preserve">
-    <value>Skupina produktů</value>
+  <data name="StartWorkPeriod" xml:space="preserve">
+    <value>Začátek pracovní doby</value>
   </data>
-  <data name="PriceDefinition" xml:space="preserve">
-    <value>Definice ceny</value>
+  <data name="Fourteen" xml:space="preserve">
+    <value>Čtrnáct</value>
   </data>
-  <data name="TicketSubTotal" xml:space="preserve">
-    <value>Mezisoučet celkem</value>
+  <data name="UserRoleList" xml:space="preserve">
+    <value>Role Seznam</value>
   </data>
-  <data name="AdminPasswordHint" xml:space="preserve">
-    <value>Admin PIN: 1234
-Změnou PIN zmizí tato hláška.</value>
+  <data name="UpdateOrderGiftState" xml:space="preserve">
+    <value>Aktualizovat Stav Darování Objednávky</value>
   </data>
-  <data name="Cost" xml:space="preserve">
-    <value>Náklady</value>
+  <data name="ClearFilter" xml:space="preserve">
+    <value>Vymazat filtr</value>
+  </data>
+  <data name="UpdatePriceTag" xml:space="preserve">
+    <value>Změna ceníku</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Sklad</value>
+  </data>
+  <data name="CustomerReceiptTemplate" xml:space="preserve">
+    <value>Šablona Účtenky Zákazníka</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>Příjmy celkem</value>
+  </data>
+  <data name="Entities" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="ValueLooped" xml:space="preserve">
+    <value>Hodnota Otočena</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Vybrat</value>
+  </data>
+  <data name="CIDSettings" xml:space="preserve">
+    <value>CID nastavení</value>
+  </data>
+  <data name="WorkPeriodReport" xml:space="preserve">
+    <value>Report pracovní doby</value>
+  </data>
+  <data name="AddCategoryHint" xml:space="preserve">
+    <value>Zadejte kategorie, které chcete přidat</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Informace</value>
+  </data>
+  <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
+    <value>Spusťte Pracovní dobu pro aktivaci POS</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Pravidla</value>
+  </data>
+  <data name="TicketWithBrackets" xml:space="preserve">
+    <value>[Účet]</value>
+  </data>
+  <data name="Numerator" xml:space="preserve">
+    <value>Čítač</value>
+  </data>
+  <data name="EditModel_f" xml:space="preserve">
+    <value>Editace {0} ({1})</value>
+  </data>
+  <data name="Every6Hours" xml:space="preserve">
+    <value>Každých 6 hodin</value>
+  </data>
+  <data name="TriggerExecuted" xml:space="preserve">
+    <value>Spoušťěč spuštěn</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>Vlastnosti menu</value>
+  </data>
+  <data name="Dollar" xml:space="preserve">
+    <value>Dolar</value>
+  </data>
+  <data name="BatchPriceList" xml:space="preserve">
+    <value>Editor cen</value>
+  </data>
+  <data name="Numerators" xml:space="preserve">
+    <value>Čítače</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Účet</value>
   </data>
   <data name="Liability" xml:space="preserve">
     <value>Nezaplaceno</value>
   </data>
-  <data name="Forty" xml:space="preserve">
-    <value>Čtyřicet</value>
+  <data name="Nineteen" xml:space="preserve">
+    <value>Devatenáct</value>
   </data>
-  <data name="NewTag" xml:space="preserve">
-    <value>Nový štítek</value>
+  <data name="List_f" xml:space="preserve">
+    <value>{0} Seznam</value>
   </data>
-  <data name="InventoryConsumption" xml:space="preserve">
-    <value>Spotřeba zásob</value>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopírovat</value>
   </data>
-  <data name="StartClientNow" xml:space="preserve">
-    <value>Spustit klienta</value>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>Včetně Daně</value>
   </data>
-  <data name="ActionName" xml:space="preserve">
-    <value>Název akce</value>
+  <data name="EveryOtherHour" xml:space="preserve">
+    <value>Každou druhou hodinu</value>
   </data>
-  <data name="DetailedReport" xml:space="preserve">
-    <value>Podrobná zpráva</value>
+  <data name="DiscountsTotal" xml:space="preserve">
+    <value>Celkem slevy</value>
   </data>
-  <data name="Edit_f" xml:space="preserve">
-    <value>Upravit {0}</value>
+  <data name="Search" xml:space="preserve">
+    <value>Hledat</value>
   </data>
-  <data name="TotalAmountDivTag_f" xml:space="preserve">
-    <value>Celková částka / {0}:</value>
+  <data name="AveragePrice_ab" xml:space="preserve">
+    <value>Prům.cena</value>
   </data>
-  <data name="ExpressionBuilder" xml:space="preserve">
-    <value>Builder výrazů</value>
+  <data name="EnterPin" xml:space="preserve">
+    <value>Zadejte PIN</value>
   </data>
-  <data name="AutoRounding" xml:space="preserve">
-    <value>Auto zaokrouhlení</value>
+  <data name="ExpenseTransactions" xml:space="preserve">
+    <value>Nákladové transakce</value>
   </data>
-  <data name="AddProductsToCategoryHint_f" xml:space="preserve">
-    <value>Vyberte produkty pro {0} kategorii</value>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>Nákupní Transakce</value>
   </data>
-  <data name="MoveTicketLine" xml:space="preserve">
-    <value>Přesun</value>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>Automatický výběr</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Popis</value>
+  <data name="TemplateName" xml:space="preserve">
+    <value>Název šablony</value>
+  </data>
+  <data name="PropertyGroupName" xml:space="preserve">
+    <value>Název vlastností skupiny</value>
+  </data>
+  <data name="AddModel_f" xml:space="preserve">
+    <value>Přidat nový {0}</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Uživatelé</value>
+  </data>
+  <data name="GetPayment" xml:space="preserve">
+    <value>Zaplatit</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Výška</value>
+  </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>Doba otevřeného účtu </value>
+  </data>
+  <data name="CanUpdateExtraModifiers" xml:space="preserve">
+    <value>Může aktualizovat Extra Modifikátory</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>Obecné informace</value>
+  </data>
+  <data name="ReportName" xml:space="preserve">
+    <value>Název reportu</value>
+  </data>
+  <data name="Every3Hours" xml:space="preserve">
+    <value>Každé 3 hodiny</value>
+  </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Parametr Příkazu</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Titulek</value>
+  </data>
+  <data name="CashContent" xml:space="preserve">
+    <value>Obsah účtu restaurace</value>
+  </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Kalkulace</value>
+  </data>
+  <data name="KitchenPrinter" xml:space="preserve">
+    <value>Tiskárna v kuchyni</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="NewOrder" xml:space="preserve">
+    <value>Nová objednávka</value>
+  </data>
+  <data name="LineItemPriceCents" xml:space="preserve">
+    <value># Line: Cena položky na centy</value>
+  </data>
+  <data name="UserLogin" xml:space="preserve">
+    <value>User Login</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>Receptura</value>
+  </data>
+  <data name="CurrentCost" xml:space="preserve">
+    <value>Současné náklady</value>
+  </data>
+  <data name="VoidOrders" xml:space="preserve">
+    <value>Neplatné objednávky</value>
+  </data>
+  <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
+    <value>Může Zobrazit Účtenky Ostatních Číšníků </value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>Změna Platby</value>
+  </data>
+  <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
+    <value>Součty Sloučené podle šablony Daně</value>
+  </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Oddělený tisk podle množství</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Vlastnost</value>
+  </data>
+  <data name="DataConnection" xml:space="preserve">
+    <value>Celý název umístění</value>
+  </data>
+  <data name="SubButtonColorDef" xml:space="preserve">
+    <value>Barva Pod Tlačítka</value>
+  </data>
+  <data name="MenuName" xml:space="preserve">
+    <value>Název menu</value>
+  </data>
+  <data name="LineItemName" xml:space="preserve">
+    <value># Line: Název položky</value>
+  </data>
+  <data name="LastOrder" xml:space="preserve">
+    <value>Poslední objednávka</value>
+  </data>
+  <data name="RefreshCache" xml:space="preserve">
+    <value>Obnovit Cache</value>
+  </data>
+  <data name="NumeratorFormat" xml:space="preserve">
+    <value>Formát čísla</value>
   </data>
   <data name="OnceAMonth" xml:space="preserve">
     <value>Jednou za měsíc</value>
   </data>
-  <data name="Send" xml:space="preserve">
-    <value>Odeslat</value>
+  <data name="QuantitySeparators" xml:space="preserve">
+    <value>Množství Oddělovačů</value>
   </data>
-  <data name="TicketTagSelected" xml:space="preserve">
-    <value>Štítek účtu vybrán</value>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Jednotková cena</value>
   </data>
-  <data name="Eleven" xml:space="preserve">
-    <value>Jedenáct</value>
+  <data name="UiLanguage" xml:space="preserve">
+    <value>Jazyk uživatelského rozhraní</value>
   </data>
-  <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
-    <value>Vyberte tiskové úlohy, kterou chcete přidat {0} terminálu</value>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Objednávka Přesun</value>
   </data>
-  <data name="Zero" xml:space="preserve">
-    <value>Nula</value>
+  <data name="Action" xml:space="preserve">
+    <value>Akce</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>Čárový kód</value>
+  </data>
+  <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
+    <value>Smazat vybranou kategorii?</value>
+  </data>
+  <data name="EndOfDayRecords" xml:space="preserve">
+    <value>Denní uzávěrky</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Uživatelské jméno</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Účty</value>
+  </data>
+  <data name="ExecutePrintJob" xml:space="preserve">
+    <value>Provést tiskovou úlohu</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Cena</value>
+  </data>
+  <data name="LineItemTotal" xml:space="preserve">
+    <value># Line: Celkem položek</value>
+  </data>
+  <data name="MenuList" xml:space="preserve">
+    <value>Seznam Menu</value>
+  </data>
+  <data name="ProductList" xml:space="preserve">
+    <value>Seznam produktů</value>
+  </data>
+  <data name="AlphanumericButtonValues" xml:space="preserve">
+    <value>Alfanumerická hodnota tlačítka</value>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>Tržba celkem</value>
+  </data>
+  <data name="DeleteErrorAdminUser" xml:space="preserve">
+    <value>Nelze smazat uživatele admin.</value>
+  </data>
+  <data name="UseAtOldTickets" xml:space="preserve">
+    <value>Jen pro staré účty</value>
+  </data>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>Resetovat účet</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Název role</value>
+  </data>
+  <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
+    <value>Neexistují žádné transakční náklady v této pracovní době.</value>
+  </data>
+  <data name="MenuItem" xml:space="preserve">
+    <value>Výrobek</value>
+  </data>
+  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
+    <value>Existuje další recept pro {0}</value>
+  </data>
+  <data name="OneThousand" xml:space="preserve">
+    <value>Tisíc</value>
+  </data>
+  <data name="PrinterTemplate" xml:space="preserve">
+    <value>Šablona tiskárny</value>
+  </data>
+  <data name="InventoryItems" xml:space="preserve">
+    <value>Skladová položka</value>
+  </data>
+  <data name="PredictedInventory" xml:space="preserve">
+    <value>Predikce zásob</value>
+  </data>
+  <data name="EndWorkPeriod" xml:space="preserve">
+    <value>Konec pracovní doby</value>
+  </data>
+  <data name="ProductProperties" xml:space="preserve">
+    <value>Vlastnosti produktu</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Přesun</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Míra</value>
+  </data>
+  <data name="FindProduct" xml:space="preserve">
+    <value>Hledat produkt</value>
+  </data>
+  <data name="Every5Minutes" xml:space="preserve">
+    <value>Každých 5 minut</value>
+  </data>
+  <data name="Rule" xml:space="preserve">
+    <value>Pravidlo</value>
+  </data>
+  <data name="LastOrderStatus" xml:space="preserve">
+    <value>Stav poslední objednávky</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Dokumentace</value>
+  </data>
+  <data name="Thirty" xml:space="preserve">
+    <value>Třicet</value>
+  </data>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>Zobrazení Položek Entity</value>
+  </data>
+  <data name="Incomes_f" xml:space="preserve">
+    <value>{0} příjmy</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Štítek</value>
+  </data>
+  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
+    <value>Chcete-li přidat slevu, zadejte sazbu a klikněte na tlačítko Sleva. Chcete-li odstranit slevu, klikněte na tlačítko sleva bez zadávání hodnot.</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="Tables" xml:space="preserve">
+    <value>Stoly</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="Sort_f" xml:space="preserve">
+    <value>Seřadit {0}</value>
+  </data>
+  <data name="NoAction" xml:space="preserve">
+    <value>Žádná akce</value>
+  </data>
+  <data name="PropertyGroup" xml:space="preserve">
+    <value>Skupinová vlastnost</value>
+  </data>
+  <data name="PrintReport" xml:space="preserve">
+    <value>Vytisknout Report</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Chybové hlášení</value>
+  </data>
+  <data name="TwelveAmMidnight" xml:space="preserve">
+    <value>12 hod. půlnoc</value>
+  </data>
+  <data name="NewTicket" xml:space="preserve">
+    <value>Nový účet</value>
+  </data>
+  <data name="UserSales" xml:space="preserve">
+    <value>Uživatel Prodej</value>
+  </data>
+  <data name="ExpressionValid" xml:space="preserve">
+    <value>Platné výrazy</value>
+  </data>
+  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
+    <value>Hmotnost čárového kódu položky Id Délka</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Odeslat e-mail</value>
+  </data>
+  <data name="PurchaseTransactionType" xml:space="preserve">
+    <value>Typ Nákupní Transakce</value>
+  </data>
+  <data name="EveryWeekday" xml:space="preserve">
+    <value>Každý všední den</value>
+  </data>
+  <data name="RateFromTicketAmount" xml:space="preserve">
+    <value>Sazba z částky účtu</value>
+  </data>
+  <data name="DayTime" xml:space="preserve">
+    <value>Čas dne</value>
   </data>
   <data name="TriggerTestResultMessage_f" xml:space="preserve">
     <value>Další spouštění: {0}
 Spustí za {1} dny, {2} hodiny, {3} minut</value>
   </data>
+  <data name="WeightBarcodeItemIdFormat" xml:space="preserve">
+    <value>Váha čárového kódu položky Id formátu</value>
+  </data>
+  <data name="Angle" xml:space="preserve">
+    <value>Úhel</value>
+  </data>
+  <data name="OnlyNewLines" xml:space="preserve">
+    <value>Pouze nové řádky</value>
+  </data>
+  <data name="ChangeTicketEntity" xml:space="preserve">
+    <value>Změnit Entitu Účtenky</value>
+  </data>
+  <data name="CanChangeReportFilter" xml:space="preserve">
+    <value>Může změnit report podle datumu</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Uživatel</value>
+  </data>
+  <data name="Eleven" xml:space="preserve">
+    <value>Jedenáct</value>
+  </data>
+  <data name="BatchCreate" xml:space="preserve">
+    <value>Zadat Více</value>
+  </data>
+  <data name="CanOpenDashboard" xml:space="preserve">
+    <value>Může vstupovat do Managmantu</value>
+  </data>
+  <data name="LastOrderDate" xml:space="preserve">
+    <value>Datum poslední objednávky</value>
+  </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Připojit Nemapované Položky</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Zpátky</value>
+  </data>
+  <data name="OrderNumerator" xml:space="preserve">
+    <value>Čítač objednávek</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Název kategorie</value>
+  </data>
+  <data name="SatAndSun" xml:space="preserve">
+    <value>So a Ne</value>
+  </data>
+  <data name="LinesGroupedByBarcode" xml:space="preserve">
+    <value>Řádky seskupené podle čárového kódu</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>Tento týden</value>
+  </data>
+  <data name="PrintContent" xml:space="preserve">
+    <value>Tisknutí obsahu</value>
+  </data>
+  <data name="PastWeek" xml:space="preserve">
+    <value>Minulý týden</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Daň</value>
+  </data>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>Aktualizace Entity</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Stůl</value>
+  </data>
+  <data name="SelectPrintJob" xml:space="preserve">
+    <value>Vybrat tiskové úlohy</value>
+  </data>
+  <data name="CallerIdDriverError" xml:space="preserve">
+    <value>Aby bylo možné zobrazit Caller-ID, měli byste nainstalovat ovladače hardwaru.</value>
+  </data>
+  <data name="CanOpenNavigation" xml:space="preserve">
+    <value>Může vstoupit do navigační obrazovky</value>
+  </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>Aktualizovat Stav Sloučených Účtenek</value>
+  </data>
+  <data name="TotalAmount_f" xml:space="preserve">
+    <value>{0} Celková částka:</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Sklady</value>
+  </data>
+  <data name="SaveFreeTags" xml:space="preserve">
+    <value>Uložit volné štítky</value>
+  </data>
+  <data name="ToggleCalculation" xml:space="preserve">
+    <value>Přepnout Výpočet</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresa</value>
+  </data>
+  <data name="CanRemoveTicketTag" xml:space="preserve">
+    <value>Může odstranit štítek účtu</value>
+  </data>
+  <data name="CashTransactions" xml:space="preserve">
+    <value>Hotovostní transakce</value>
+  </data>
+  <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
+    <value>Nelze odstranit, protože by měl být alespoň jeden terminál.</value>
+  </data>
+  <data name="UpdateProgramSetting" xml:space="preserve">
+    <value>Update Nastavení programu</value>
+  </data>
+  <data name="TicketState" xml:space="preserve">
+    <value>Stav Účtu</value>
+  </data>
+  <data name="SambaMarket" xml:space="preserve">
+    <value>Samba Obchod</value>
+  </data>
+  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
+    <value>Časové období není v aktivní pracovní době</value>
+  </data>
+  <data name="AccountBalanceDisplayFormat" xml:space="preserve">
+    <value>Formát zobrazení zůstatku na účtu</value>
+  </data>
+  <data name="Costs" xml:space="preserve">
+    <value>Náklady</value>
+  </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>Náklady</value>
+  </data>
+  <data name="CanStartEndOfDay" xml:space="preserve">
+    <value>Může začít uzávěrku</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Typ platby</value>
+  </data>
+  <data name="LineCount" xml:space="preserve">
+    <value>Čislo řádku</value>
+  </data>
+  <data name="AdminPasswordHint" xml:space="preserve">
+    <value>Admin PIN: 1234
+Změnou PIN zmizí tato hláška.</value>
+  </data>
+  <data name="OnceADay" xml:space="preserve">
+    <value>Jednou za den</value>
+  </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Režim návrhu</value>
+  </data>
+  <data name="DiscountTotal" xml:space="preserve">
+    <value>Celková sleva</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Dnes</value>
+  </data>
+  <data name="FreeTagging" xml:space="preserve">
+    <value>Volné štítkování</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Zákazníci</value>
+  </data>
+  <data name="TicketTag" xml:space="preserve">
+    <value>Štítek účtu</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="CanMoveTicketLines" xml:space="preserve">
+    <value>Může přesouvat položky</value>
+  </data>
+  <data name="FixedCost" xml:space="preserve">
+    <value>Fixní náklady</value>
+  </data>
+  <data name="Amount_f" xml:space="preserve">
+    <value>{0} Částka</value>
+  </data>
+  <data name="CategoryProperties" xml:space="preserve">
+    <value>Vlastnosti kategorie</value>
+  </data>
+  <data name="LineItemPrice" xml:space="preserve">
+    <value># Line: Cena položky</value>
+  </data>
+  <data name="StartingWorkPeriodCompleted" xml:space="preserve">
+    <value>Pracovní doba spuštěna</value>
+  </data>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Zaplatit Účet</value>
+  </data>
+  <data name="PrinterOptions" xml:space="preserve">
+    <value>Nastavení tiskárny</value>
+  </data>
+  <data name="Incomes" xml:space="preserve">
+    <value>Příjmy</value>
+  </data>
+  <data name="DepartmentType" xml:space="preserve">
+    <value>Typ provozu</value>
+  </data>
+  <data name="CloseTicket" xml:space="preserve">
+    <value>Zavřít účet</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategorie</value>
+  </data>
+  <data name="SettlePermissions" xml:space="preserve">
+    <value>Oprávnění plateb</value>
+  </data>
+  <data name="Zero" xml:space="preserve">
+    <value>Nula</value>
+  </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Obsah</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>Numerické</value>
+  </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Nastavit Aktuální Terminál</value>
+  </data>
+  <data name="SubTags" xml:space="preserve">
+    <value>Podštítky</value>
+  </data>
+  <data name="TicketOptions" xml:space="preserve">
+    <value>Nastavení účtu</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Nahrát</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Název produktu</value>
+  </data>
+  <data name="SettledBy_f" xml:space="preserve">
+    <value>Vyřízeno {0}</value>
+  </data>
+  <data name="CantComplateOperationError" xml:space="preserve">
+    <value>Nelze dokončit , došlo k chybě. Zkontrolujte podrobnosti chybového protokolu.</value>
+  </data>
+  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
+    <value>NEZAPOMĚŇTE UKONČIT PRACOVNÍ DOBU!!!</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Poznámka</value>
+  </data>
   <data name="Clear" xml:space="preserve">
     <value>Smazat</value>
   </data>
-  <data name="Ninety" xml:space="preserve">
-    <value>Devadesát</value>
+  <data name="DisplayAppPath" xml:space="preserve">
+    <value>Zobrazit cestu k aplikaci</value>
   </data>
-  <data name="QuarterTil" xml:space="preserve">
-    <value>Třičtvrtě</value>
+  <data name="NewTag" xml:space="preserve">
+    <value>Nový štítek</value>
   </data>
-  <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
-    <value>Spusťte Pracovní dobu pro aktivaci POS</value>
+  <data name="Product" xml:space="preserve">
+    <value>Výrobek</value>
+  </data>
+  <data name="PrimaryFieldFormat" xml:space="preserve">
+    <value>Primární Formát Pole </value>
+  </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Změnit Pořadí Řazení</value>
+  </data>
+  <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
+    <value>Když je vybráno "Číselné štítkování"  všechny štítky by měly obsahovat číselné hodnoty.</value>
+  </data>
+  <data name="MarkTicketAsClosed" xml:space="preserve">
+    <value>Označit Účtenku Jako Zavřenou</value>
+  </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Množství Celkem</value>
+  </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Chybějící Redceptury</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Oprávnění</value>
+  </data>
+  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
+    <value>Vytvořte řádek pro každý produkt ve formátu [Název produktu] [Cena]. Řádek s kategorií začínejte znakem #.</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Vlastnosti</value>
+  </data>
+  <data name="TwiceADay" xml:space="preserve">
+    <value>Dvakrát denně</value>
+  </data>
+  <data name="DefaultTerminal" xml:space="preserve">
+    <value>Výchozí terminál</value>
+  </data>
+  <data name="InventoryGroup" xml:space="preserve">
+    <value>Skupiny zásob</value>
+  </data>
+  <data name="Drawer" xml:space="preserve">
+    <value>Pokladní zásuvka</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Odeslat</value>
+  </data>
+  <data name="InternetBrowser" xml:space="preserve">
+    <value>Internetový prohlížeč</value>
+  </data>
+  <data name="Sixty" xml:space="preserve">
+    <value>Šedesát</value>
+  </data>
+  <data name="NoTransactionsFoundFor_f" xml:space="preserve">
+    <value>Žádné transakce pro {0}</value>
+  </data>
+  <data name="PrimaryFieldName" xml:space="preserve">
+    <value>Primární Jméno Pole</value>
+  </data>
+  <data name="CanChangeDepartment" xml:space="preserve">
+    <value>Může přepínat mezi provozy</value>
+  </data>
+  <data name="EndOfDayRecord" xml:space="preserve">
+    <value>Denní uzávěrka</value>
+  </data>
+  <data name="SortCategories" xml:space="preserve">
+    <value>Seřadit kategorie</value>
+  </data>
+  <data name="ChangePrice" xml:space="preserve">
+    <value>Změna cen</value>
+  </data>
+  <data name="StartAmount" xml:space="preserve">
+    <value>Prvotní částka</value>
+  </data>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>Typy Entit</value>
+  </data>
+  <data name="TicketOpeningTime" xml:space="preserve">
+    <value>Otevření účtu</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Šířka</value>
+  </data>
+  <data name="TaxTemplate" xml:space="preserve">
+    <value>Daňová šablona</value>
+  </data>
+  <data name="Million" xml:space="preserve">
+    <value>Milión</value>
+  </data>
+  <data name="Eighty" xml:space="preserve">
+    <value>Osmdesát</value>
+  </data>
+  <data name="ItemProperties" xml:space="preserve">
+    <value>Extra položka Vlastnosti</value>
+  </data>
+  <data name="Period_f" xml:space="preserve">
+    <value>Období: {0}</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>Celkový součet</value>
+  </data>
+  <data name="ErrorInExpression" xml:space="preserve">
+    <value>Chyba ve výrazu</value>
+  </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>Zápatí Skupiny</value>
+  </data>
+  <data name="TotalExpense" xml:space="preserve">
+    <value>Celkové náklady</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Aktualizovat</value>
+  </data>
+  <data name="AddTicketDiscount" xml:space="preserve">
+    <value>Přidat slevu na účet</value>
+  </data>
+  <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
+    <value>Nevytvářejte více než jeden defaultní terminál</value>
+  </data>
+  <data name="WorkPeriodEnded" xml:space="preserve">
+    <value>Směna zkončila</value>
+  </data>
+  <data name="UndefinedWithBrackets" xml:space="preserve">
+    <value>[Nedefinováno]</value>
+  </data>
+  <data name="LineItemTotalWithoutGifts" xml:space="preserve">
+    <value># Line: Položka Celkem (bez darování)</value>
+  </data>
+  <data name="Decrease" xml:space="preserve">
+    <value>Snížit</value>
+  </data>
+  <data name="LineItemQuantity" xml:space="preserve">
+    <value># Line: počet položek</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>Nerovná se</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>Minuta</value>
+  </data>
+  <data name="OptionalTicketTag" xml:space="preserve">
+    <value>Volitelné štítky účtu</value>
+  </data>
+  <data name="TicketCount" xml:space="preserve">
+    <value>Počet účtů</value>
+  </data>
+  <data name="StartClientNow" xml:space="preserve">
+    <value>Spustit klienta</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Den</value>
+  </data>
+  <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
+    <value>Účet přesunut do {0}. Vaše poslední změny jsou neuloženy</value>
+  </data>
+  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
+    <value>Může manipulovat s řádkama nezamčených účtů</value>
+  </data>
+  <data name="TaxRate" xml:space="preserve">
+    <value>Daň Sazba</value>
+  </data>
+  <data name="Hundred" xml:space="preserve">
+    <value>Sto</value>
+  </data>
+  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
+    <value>Tam je další cena rozlišení s {0} tag</value>
+  </data>
+  <data name="PrintJob" xml:space="preserve">
+    <value>Tisková úloha</value>
+  </data>
+  <data name="Terminal" xml:space="preserve">
+    <value>Terminál</value>
+  </data>
+  <data name="TicketChangedRetryLastOperation" xml:space="preserve">
+    <value>Účet změněn. Vaše poslední změny jsou neuloženy.</value>
+  </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>Zobrazit Podrobnosti</value>
+  </data>
+  <data name="UserRole" xml:space="preserve">
+    <value>Role uživatele</value>
+  </data>
+  <data name="NumeratorHeight" xml:space="preserve">
+    <value>Výška čítače</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Služba</value>
+  </data>
+  <data name="Receiveable" xml:space="preserve">
+    <value>Receiveable</value>
+  </data>
+  <data name="TicketPaidTotal" xml:space="preserve">
+    <value>Částka na zaplacených účtech</value>
+  </data>
+  <data name="SellerWarehouses" xml:space="preserve">
+    <value>Prodejní Sklad</value>
+  </data>
+  <data name="InvoicePrinter" xml:space="preserve">
+    <value>Tiskárna faktur</value>
+  </data>
+  <data name="ExecuteRuleIf" xml:space="preserve">
+    <value>Provést pravidlo, když</value>
+  </data>
+  <data name="LockTicket" xml:space="preserve">
+    <value>Zamknout účet</value>
+  </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Objednávka Přesunuta</value>
+  </data>
+  <data name="WorkPeriodStartTime" xml:space="preserve">
+    <value>Čas pracovní doby: {0}</value>
+  </data>
+  <data name="RuleName" xml:space="preserve">
+    <value>Název pravidla</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hodina</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>Pravidlo Přesunutí Účtenky</value>
+  </data>
+  <data name="RateFromPreviousTemplate" xml:space="preserve">
+    <value>Sazba z předchozích částky šablony</value>
+  </data>
+  <data name="SellAmount" xml:space="preserve">
+    <value>Prodané množství</value>
+  </data>
+  <data name="Increase" xml:space="preserve">
+    <value>Zvýšit</value>
+  </data>
+  <data name="LinesGroupedByTag" xml:space="preserve">
+    <value>Řádky seskupeny podle štítků</value>
+  </data>
+  <data name="CostPrediction" xml:space="preserve">
+    <value>Predikce nákladů</value>
+  </data>
+  <data name="PleaseEnterABriefExplanationOf" xml:space="preserve">
+    <value>Prosím popiště, jak k této chybě došlo.</value>
+  </data>
+  <data name="ReleaseLock" xml:space="preserve">
+    <value>Uvolnění zámku</value>
+  </data>
+  <data name="SetWidgetValue" xml:space="preserve">
+    <value>Nastavit Hodnotu Ovládacího Prvku</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Prodeje</value>
+  </data>
+  <data name="EntityButton" xml:space="preserve">
+    <value>Entity Tlačítko</value>
+  </data>
+  <data name="TicketTimeDisplay_f" xml:space="preserve">
+    <value>{0} ({1} min.)</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Ten" xml:space="preserve">
+    <value>Deset</value>
+  </data>
+  <data name="SalesIncome" xml:space="preserve">
+    <value>Tržby</value>
+  </data>
+  <data name="AutoStartMessageClient" xml:space="preserve">
+    <value>Automaticky spouštět message klienta</value>
+  </data>
+  <data name="MaxItems" xml:space="preserve">
+    <value>Max položky</value>
+  </data>
+  <data name="Every3Months" xml:space="preserve">
+    <value>Jednou za 3 měsíce</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Další</value>
+  </data>
+  <data name="Thirteen" xml:space="preserve">
+    <value>Třináct</value>
+  </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Skrýt Účty s Nulovou Bilancí</value>
+  </data>
+  <data name="MonWedFri" xml:space="preserve">
+    <value>Po, St, Pá</value>
+  </data>
+  <data name="StartOfDay" xml:space="preserve">
+    <value>Začátek pracovní doby</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Podrobnosti</value>
+  </data>
+  <data name="ButtonHeight" xml:space="preserve">
+    <value>Výška tlačítka</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Hotovost</value>
+  </data>
+  <data name="Purchase" xml:space="preserve">
+    <value>Nákup</value>
+  </data>
+  <data name="BeforeTicketClosing" xml:space="preserve">
+    <value>Před Zavřením Účtenky</value>
+  </data>
+  <data name="TicketCreated" xml:space="preserve">
+    <value>Účet vytvořen</value>
+  </data>
+  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
+    <value>Tisk objednávky do tiskárny v kuchyni</value>
+  </data>
+  <data name="AccountTransactionAddedToTicket" xml:space="preserve">
+    <value>Transakce Přidána k Účtu</value>
+  </data>
+  <data name="Noon" xml:space="preserve">
+    <value>poledne</value>
+  </data>
+  <data name="Sixteen" xml:space="preserve">
+    <value>Šestnáct</value>
+  </data>
+  <data name="Every30Minutes" xml:space="preserve">
+    <value>Každých 30 minut</value>
+  </data>
+  <data name="GroupCode" xml:space="preserve">
+    <value>Kód skupiny</value>
+  </data>
+  <data name="Less" xml:space="preserve">
+    <value>Méně</value>
+  </data>
+  <data name="Tickets" xml:space="preserve">
+    <value>Účtenky</value>
+  </data>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>Aktualizace Stavu Entity </value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Další stránka</value>
+  </data>
+  <data name="NavigationPermissions" xml:space="preserve">
+    <value>Oprávnění navigace</value>
+  </data>
+  <data name="BaseUnit" xml:space="preserve">
+    <value>Základní jednotka</value>
+  </data>
+  <data name="CsvBuilder" xml:space="preserve">
+    <value>CSV Builder</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>Typ Skladu</value>
+  </data>
+  <data name="ExecuteActionsIf" xml:space="preserve">
+    <value>Podmínky</value>
+  </data>
+  <data name="Multiplier" xml:space="preserve">
+    <value>Multiplikátor</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Dostupný</value>
+  </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>Tisk {0}</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Varování</value>
+  </data>
+  <data name="Keyboard" xml:space="preserve">
+    <value>Klávesnice</value>
+  </data>
+  <data name="AutoSelectProductsQuestion" xml:space="preserve">
+    <value>Vybrat produkty pro nové kategorie automaticky?</value>
+  </data>
+  <data name="Fifty" xml:space="preserve">
+    <value>Padesát</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Příjmy</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Hodnota vlastnosti</value>
+  </data>
+  <data name="CanMergeTickets" xml:space="preserve">
+    <value>Může sloučit účty</value>
+  </data>
+  <data name="InventoryReport" xml:space="preserve">
+    <value>Inventura report</value>
+  </data>
+  <data name="ExportSalesData" xml:space="preserve">
+    <value>Export údajů o prodeji</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Včera</value>
+  </data>
+  <data name="APortionShouldSelected" xml:space="preserve">
+    <value>Měla by být vybrána porce</value>
+  </data>
+  <data name="Account_f" xml:space="preserve">
+    <value>Účet: {0}</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Od:</value>
+  </data>
+  <data name="One" xml:space="preserve">
+    <value>Jeden</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Přidat</value>
+  </data>
+  <data name="Billion" xml:space="preserve">
+    <value>Miliardy</value>
+  </data>
+  <data name="GroupKey" xml:space="preserve">
+    <value>Kód skupiny</value>
+  </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>Použít Součet</value>
+  </data>
+  <data name="TriggerName" xml:space="preserve">
+    <value>Název spouštěče</value>
+  </data>
+  <data name="LineOrderNumber" xml:space="preserve">
+    <value># Line: Číslo objednávky</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Základ Daně</value>
+  </data>
+  <data name="TicketPrinter" xml:space="preserve">
+    <value>Tiskárna účtů</value>
+  </data>
+  <data name="IndividualOrdersByQuantity" xml:space="preserve">
+    <value>Jednotlivé objednávky podle množství</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Částka</value>
+  </data>
+  <data name="AddProductsToCategoryHint_f" xml:space="preserve">
+    <value>Vyberte produkty pro {0} kategorii</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Zdroj</value>
+  </data>
+  <data name="AddOrder" xml:space="preserve">
+    <value>Přidat objednávku</value>
+  </data>
+  <data name="Fifteen" xml:space="preserve">
+    <value>Patnáct</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Aktualizovat Status Účtenky</value>
+  </data>
+  <data name="PageCount" xml:space="preserve">
+    <value>Počet stránek</value>
+  </data>
+  <data name="MenuItemGroupCode" xml:space="preserve">
+    <value>Kód Skupiny Menu Položky</value>
+  </data>
+  <data name="Two" xml:space="preserve">
+    <value>Dvě</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="IncomeTransactions" xml:space="preserve">
+    <value>Příjmové transakce</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Potvrzení</value>
+  </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Místní Sklad</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="FastMenu" xml:space="preserve">
+    <value>Rychlá volba</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Provoz</value>
+  </data>
+  <data name="PastMonth" xml:space="preserve">
+    <value>Minulý měsíc</value>
+  </data>
+  <data name="LastPaymentTime" xml:space="preserve">
+    <value>Poslední platby</value>
+  </data>
+  <data name="WhenTagSelected" xml:space="preserve">
+    <value>Když je oštítkovaný</value>
+  </data>
+  <data name="DetailedReport" xml:space="preserve">
+    <value>Podrobná zpráva</value>
+  </data>
+  <data name="TransactionDocument" xml:space="preserve">
+    <value>Kniha transakcí</value>
+  </data>
+  <data name="BatchCreteProducts" xml:space="preserve">
+    <value>Zadat více produktů</value>
+  </data>
+  <data name="SambaPOSReporter" xml:space="preserve">
+    <value>SambaPOS Reporter</value>
+  </data>
+  <data name="ExtraModifiers" xml:space="preserve">
+    <value>Extra Modifikátory</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Předchozí strana</value>
+  </data>
+  <data name="Printer" xml:space="preserve">
+    <value>Tiskárna</value>
+  </data>
+  <data name="AccountsReceivable" xml:space="preserve">
+    <value>Doplatit</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Popis</value>
+  </data>
+  <data name="As_f" xml:space="preserve">
+    <value>Jak {0}</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Do:</value>
+  </data>
+  <data name="TransacitonUnitMultiplier" xml:space="preserve">
+    <value>Multiplikátor</value>
+  </data>
+  <data name="Five" xml:space="preserve">
+    <value>Pět</value>
+  </data>
+  <data name="DayOperations" xml:space="preserve">
+    <value>Pracovní doby</value>
+  </data>
+  <data name="UniqueTicketId" xml:space="preserve">
+    <value>Unikátní ID účtu</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="SetActiveTicketType" xml:space="preserve">
+    <value>Nastav aktivní typ účtenky</value>
+  </data>
+  <data name="AllCategories" xml:space="preserve">
+    <value>Všechny kategorie</value>
   </data>
   <data name="Every12Hours" xml:space="preserve">
     <value>Každých 12 hodin</value>
   </data>
+  <data name="InternalAccounts" xml:space="preserve">
+    <value>Vnitřní účty</value>
+  </data>
+  <data name="TaxFree" xml:space="preserve">
+    <value>Bez Daně</value>
+  </data>
+  <data name="POSView" xml:space="preserve">
+    <value>Zobrazení na POS</value>
+  </data>
+  <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
+    <value>Nelze dokončit tuto operaci pokud má nějaký předmět nulovou cenu</value>
+  </data>
+  <data name="DeleteErrorLastUser" xml:space="preserve">
+    <value>Nelze smazat poslední uživatelský účet</value>
+  </data>
+  <data name="ReportPermissions" xml:space="preserve">
+    <value>Oprávnění reportování</value>
+  </data>
+  <data name="WeightBarcodes" xml:space="preserve">
+    <value>Váha čárového kodu</value>
+  </data>
+  <data name="POS" xml:space="preserve">
+    <value>POS</value>
+  </data>
+  <data name="GroupTotal" xml:space="preserve">
+    <value>Celkem Skupina</value>
+  </data>
+  <data name="ClickLinksToExportData" xml:space="preserve">
+    <value>Vyberte časové období, aktualizujte report a klikněte na související odkaz pro export dat.</value>
+  </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Přesun Účtenky</value>
+  </data>
   <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
     <value>Odstranit vybrané mapování?</value>
   </data>
-  <data name="UserRole" xml:space="preserve">
-    <value>Role uživatele</value>
+  <data name="WhenTagNotSelected" xml:space="preserve">
+    <value>Když je neoštítkovaný</value>
+  </data>
+  <data name="ActionType" xml:space="preserve">
+    <value>Typ akce</value>
+  </data>
+  <data name="WeightBarcodeQuantityLength" xml:space="preserve">
+    <value>Hmotnost čárových kódů Množství Délka</value>
+  </data>
+  <data name="AllLines" xml:space="preserve">
+    <value>Všechny řádky</value>
+  </data>
+  <data name="SaveReportToFile" xml:space="preserve">
+    <value>Uložit report do souboru</value>
+  </data>
+  <data name="SambaPosWebsite" xml:space="preserve">
+    <value>SambaPOS webové stránky</value>
+  </data>
+  <data name="AverageCost" xml:space="preserve">
+    <value>Průměrné náklady</value>
+  </data>
+  <data name="SettingName" xml:space="preserve">
+    <value>Jméno vlastnosti</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Obrázek na pozadí</value>
+  </data>
+  <data name="QuantitiesByItemGroup" xml:space="preserve">
+    <value>Množství podle skupiny položek</value>
+  </data>
+  <data name="TotalAmountDivTag_f" xml:space="preserve">
+    <value>Celková částka / {0}:</value>
+  </data>
+  <data name="AllDiscountsRemoved" xml:space="preserve">
+    <value>Všechny slevy odstraněny, protože vypočtená celková sleva je vyšší než částka účtu.</value>
+  </data>
+  <data name="AlwaysExcludeTax" xml:space="preserve">
+    <value>Vždy bez daně</value>
+  </data>
+  <data name="PriceDefinitonName" xml:space="preserve">
+    <value>Název definice ceny</value>
+  </data>
+  <data name="TipsTotal" xml:space="preserve">
+    <value>Celkem tipy</value>
+  </data>
+  <data name="OrderGrouping" xml:space="preserve">
+    <value>Seskupení Objednávek</value>
+  </data>
+  <data name="TaxAmount" xml:space="preserve">
+    <value>Daň Částka</value>
+  </data>
+  <data name="POSMenu" xml:space="preserve">
+    <value>POS Menu</value>
+  </data>
+  <data name="RateOrAmount" xml:space="preserve">
+    <value>Sazba nebo pevná částka</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parametry</value>
+  </data>
+  <data name="Transaction" xml:space="preserve">
+    <value>Transakce</value>
+  </data>
+  <data name="StartProcess" xml:space="preserve">
+    <value>Start Procesu</value>
+  </data>
+  <data name="EntityType" xml:space="preserve">
+    <value>Typ Entity</value>
+  </data>
+  <data name="EveryOtherMinute" xml:space="preserve">
+    <value>Každou druhou minutu</value>
+  </data>
+  <data name="DefaultProperties" xml:space="preserve">
+    <value>Výchozí vlastnosti</value>
+  </data>
+  <data name="ItemSales" xml:space="preserve">
+    <value>Položka Prodej</value>
+  </data>
+  <data name="WorkPeriodEndsMessage" xml:space="preserve">
+    <value>Pracovní doba končí.
+Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
+  </data>
+  <data name="PrintAccountTransactionDocument" xml:space="preserve">
+    <value>Vytisknout Dokument Transakce</value>
+  </data>
+  <data name="WorkPeriodStartDate_f" xml:space="preserve">
+    <value>Datum pracovní doby: {0}</value>
+  </data>
+  <data name="Rounding" xml:space="preserve">
+    <value>Zaokrouhlování</value>
+  </data>
+  <data name="OrderStateValue" xml:space="preserve">
+    <value>Hodnota Objednávky</value>
+  </data>
+  <data name="SqlHint" xml:space="preserve">
+    <value>Klikněte sem pro informace o práci s databázemi SQL</value>
+  </data>
+  <data name="UserList" xml:space="preserve">
+    <value>Seznam uživatelů</value>
+  </data>
+  <data name="WrapText" xml:space="preserve">
+    <value>Zalamování textu</value>
+  </data>
+  <data name="IfNegativeDiscountValue_f" xml:space="preserve">
+    <value>&lt;J&gt; Zaokrouhlení: | {0}</value>
+  </data>
+  <data name="OpenTicketButtonDuration" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="AllTickets" xml:space="preserve">
+    <value>Všechny účty</value>
+  </data>
+  <data name="Terminals" xml:space="preserve">
+    <value>Terminály</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Vybraný</value>
+  </data>
+  <data name="Divide" xml:space="preserve">
+    <value>Rozdělit</value>
+  </data>
+  <data name="Target_f" xml:space="preserve">
+    <value>Cíl {0}</value>
   </data>
   <data name="ErrorReportWithoutFeedback" xml:space="preserve">
     <value>Posíláte hlášení o chybě bez zpětné vazby.
@@ -345,1711 +1552,927 @@ Uveďte, prosím, nějaké podrobnosti o tom, jak se to stalo.
 
 Pokračovat bez přidání podrobnosti?</value>
   </data>
-  <data name="CanReleaseTicketLock" xml:space="preserve">
-    <value>Může odstranit zámčení účtu</value>
-  </data>
-  <data name="Multiplier" xml:space="preserve">
-    <value>Multiplikátor</value>
-  </data>
-  <data name="PriceTag" xml:space="preserve">
-    <value>Cenový štítek</value>
-  </data>
-  <data name="CanChangeReportFilter" xml:space="preserve">
-    <value>Může změnit report podle datumu</value>
-  </data>
-  <data name="UserName" xml:space="preserve">
-    <value>Uživatelské jméno</value>
-  </data>
-  <data name="Note" xml:space="preserve">
-    <value>Poznámka</value>
-  </data>
-  <data name="Terminals" xml:space="preserve">
-    <value>Terminály</value>
-  </data>
-  <data name="TicketTotal_f" xml:space="preserve">
-    <value>Celkem {0}:</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Čislo řádku</value>
-  </data>
-  <data name="CanDisplayOldTickets" xml:space="preserve">
-    <value>Může zobrazit staré účty</value>
-  </data>
-  <data name="AccountBalance" xml:space="preserve">
-    <value>Balanc účtu</value>
-  </data>
-  <data name="TerminalView" xml:space="preserve">
-    <value>Zobrazení na terminálu</value>
-  </data>
-  <data name="Receiveable" xml:space="preserve">
-    <value>Receiveable</value>
-  </data>
-  <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
-    <value>Přepsat místní nastavení Windows</value>
-  </data>
-  <data name="Eighteen" xml:space="preserve">
-    <value>Osmnáct</value>
-  </data>
-  <data name="CashStatus" xml:space="preserve">
-    <value>Stav hotovosti</value>
-  </data>
-  <data name="LineItemName" xml:space="preserve">
-    <value># Line: Název položky</value>
-  </data>
-  <data name="Common" xml:space="preserve">
-    <value>Společný</value>
-  </data>
-  <data name="RateOrAmount" xml:space="preserve">
-    <value>Sazba nebo pevná částka</value>
-  </data>
-  <data name="Sales" xml:space="preserve">
-    <value>Prodeje</value>
-  </data>
-  <data name="PredictedInventory" xml:space="preserve">
-    <value>Predikce zásob</value>
-  </data>
-  <data name="FixedCost" xml:space="preserve">
-    <value>Fixní náklady</value>
-  </data>
-  <data name="CallerIdDriverError" xml:space="preserve">
-    <value>Aby bylo možné zobrazit Caller-ID, měli byste nainstalovat ovladače hardwaru.</value>
-  </data>
-  <data name="Ten" xml:space="preserve">
-    <value>Deset</value>
-  </data>
-  <data name="Select" xml:space="preserve">
-    <value>Vybrat</value>
-  </data>
-  <data name="SalesIncome" xml:space="preserve">
-    <value>Tržby</value>
-  </data>
-  <data name="EveryWeekday" xml:space="preserve">
-    <value>Každý všední den</value>
-  </data>
-  <data name="DefaultProperties" xml:space="preserve">
-    <value>Výchozí vlastnosti</value>
-  </data>
-  <data name="PropertyGroupName" xml:space="preserve">
-    <value>Název vlastností skupiny</value>
-  </data>
-  <data name="NumeratorFormat" xml:space="preserve">
-    <value>Formát čísla</value>
-  </data>
-  <data name="CanStartEndOfDay" xml:space="preserve">
-    <value>Může začít uzávěrku</value>
-  </data>
-  <data name="Two" xml:space="preserve">
-    <value>Dvě</value>
-  </data>
-  <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
-    <value>Nevytvářejte více než jeden defaultní terminál</value>
-  </data>
-  <data name="LastOrder" xml:space="preserve">
-    <value>Poslední objednávka</value>
-  </data>
-  <data name="UpdateProgramSetting" xml:space="preserve">
-    <value>Update Nastavení programu</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Hledat</value>
-  </data>
-  <data name="CanDisplayReports" xml:space="preserve">
-    <value>Může zobrazit reporty</value>
-  </data>
-  <data name="SelectionRequired" xml:space="preserve">
-    <value>Výběr vyžadován</value>
-  </data>
-  <data name="PrintBill" xml:space="preserve">
-    <value>Tisk účtu</value>
-  </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="CashReport" xml:space="preserve">
-    <value>Reporty hotovostních transakcí</value>
-  </data>
-  <data name="TicketTimeDisplay_f" xml:space="preserve">
-    <value>{0} ({1} min.)</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>Ne</value>
-  </data>
-  <data name="InternalAccounts" xml:space="preserve">
-    <value>Vnitřní účty</value>
-  </data>
-  <data name="TaxTotal" xml:space="preserve">
-    <value>Celkem DPH</value>
-  </data>
-  <data name="GeneralInformation" xml:space="preserve">
-    <value>Obecné informace</value>
-  </data>
-  <data name="LinesGroupedByGroupCode" xml:space="preserve">
-    <value>Řádky seskupené pode skupinového kódu</value>
-  </data>
-  <data name="AddModel_f" xml:space="preserve">
-    <value>Přidat nový {0}</value>
-  </data>
-  <data name="DeleteErrorAdminUser" xml:space="preserve">
-    <value>Nelze smazat uživatele admin.</value>
-  </data>
-  <data name="Automatic" xml:space="preserve">
-    <value>Automatický</value>
-  </data>
-  <data name="List" xml:space="preserve">
-    <value>Seznam</value>
-  </data>
-  <data name="LineItemTotal" xml:space="preserve">
-    <value># Line: Celkem položek</value>
-  </data>
-  <data name="TicketCount" xml:space="preserve">
-    <value>Počet účtů</value>
-  </data>
-  <data name="SortOrder" xml:space="preserve">
-    <value>Řazení</value>
-  </data>
-  <data name="InventoryItems" xml:space="preserve">
-    <value>Skladová položka</value>
-  </data>
-  <data name="BatchCreteProducts" xml:space="preserve">
-    <value>Zadat více produktů</value>
-  </data>
-  <data name="PortionPrices" xml:space="preserve">
-    <value>Ceny porcí</value>
-  </data>
-  <data name="PrinterTemplate" xml:space="preserve">
-    <value>Šablona tiskárny</value>
-  </data>
-  <data name="UserSales" xml:space="preserve">
-    <value>Uživatel Prodej</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Uložit</value>
-  </data>
-  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
-    <value>Tisk objednávky do tiskárny v kuchyni</value>
-  </data>
-  <data name="Sort_f" xml:space="preserve">
-    <value>Seřadit {0}</value>
-  </data>
-  <data name="TicketTipTotal" xml:space="preserve">
-    <value>Tip celkem</value>
-  </data>
-  <data name="TipsTotal" xml:space="preserve">
-    <value>Celkem tipy</value>
-  </data>
-  <data name="Negative" xml:space="preserve">
-    <value>Negativní</value>
-  </data>
-  <data name="TicketOptions" xml:space="preserve">
-    <value>Nastavení účtu</value>
-  </data>
-  <data name="Eighty" xml:space="preserve">
-    <value>Osmdesát</value>
-  </data>
-  <data name="InternetBrowser" xml:space="preserve">
-    <value>Internetový prohlížeč</value>
-  </data>
-  <data name="Unit" xml:space="preserve">
-    <value>Jednotka</value>
-  </data>
-  <data name="Terminal" xml:space="preserve">
-    <value>Terminál</value>
-  </data>
-  <data name="Printer" xml:space="preserve">
-    <value>Tiskárna</value>
-  </data>
-  <data name="OnceAWeek" xml:space="preserve">
-    <value>Jednou za týden</value>
-  </data>
-  <data name="As_f" xml:space="preserve">
-    <value>Jak {0}</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>Ano</value>
-  </data>
-  <data name="Server" xml:space="preserve">
-    <value>Server</value>
-  </data>
-  <data name="Drawer" xml:space="preserve">
-    <value>Pokladní zásuvka</value>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Admin</value>
-  </data>
-  <data name="WeightBarcodes" xml:space="preserve">
-    <value>Váha čárového kodu</value>
-  </data>
-  <data name="PageCount" xml:space="preserve">
-    <value>Počet stránek</value>
-  </data>
-  <data name="UnitPrice" xml:space="preserve">
-    <value>Jednotková cena</value>
-  </data>
-  <data name="TransactionUnit" xml:space="preserve">
-    <value>Transakční jednotka</value>
-  </data>
-  <data name="Voucher" xml:space="preserve">
-    <value>Šek</value>
-  </data>
-  <data name="Users" xml:space="preserve">
-    <value>Uživatelé</value>
-  </data>
-  <data name="ReportName" xml:space="preserve">
-    <value>Název reportu</value>
-  </data>
-  <data name="PrinterName" xml:space="preserve">
-    <value>Název tiskárny</value>
-  </data>
-  <data name="Clone_f" xml:space="preserve">
-    <value>Klonovat {0}</value>
-  </data>
-  <data name="LockTicket" xml:space="preserve">
-    <value>Zamknout účet</value>
-  </data>
-  <data name="CategoryProducts" xml:space="preserve">
-    <value>Kategorie produktů</value>
-  </data>
-  <data name="LinesGroupedByTag" xml:space="preserve">
-    <value>Řádky seskupeny podle štítků</value>
-  </data>
-  <data name="AddTag" xml:space="preserve">
-    <value>Přidat štítek</value>
-  </data>
-  <data name="RuleActions" xml:space="preserve">
-    <value>Akce</value>
-  </data>
-  <data name="Address" xml:space="preserve">
-    <value>Adresa</value>
-  </data>
-  <data name="LinePriceTag" xml:space="preserve">
-    <value># Line: cenový štítek</value>
-  </data>
-  <data name="SubButtonHeight" xml:space="preserve">
-    <value>Výška sub tlačítka</value>
-  </data>
-  <data name="FastMenu" xml:space="preserve">
-    <value>Rychlá volba</value>
-  </data>
-  <data name="OnceADay" xml:space="preserve">
-    <value>Jednou za den</value>
-  </data>
-  <data name="MenuCategories" xml:space="preserve">
-    <value>Kategorie menu</value>
-  </data>
-  <data name="Accounts" xml:space="preserve">
-    <value>Účty</value>
-  </data>
-  <data name="Customer" xml:space="preserve">
-    <value>Zákazník</value>
-  </data>
-  <data name="UseAtOldTickets" xml:space="preserve">
-    <value>Jen pro staré účty</value>
-  </data>
-  <data name="AutoLogout" xml:space="preserve">
-    <value>Automatické odhlášení</value>
-  </data>
-  <data name="TicketCreated" xml:space="preserve">
-    <value>Účet vytvořen</value>
-  </data>
-  <data name="Every6Months" xml:space="preserve">
-    <value>Každých 6 měsíců</value>
-  </data>
-  <data name="OnceAYear" xml:space="preserve">
-    <value>Jednou za rok</value>
-  </data>
-  <data name="Select_f" xml:space="preserve">
-    <value>Vybrat {0}</value>
-  </data>
-  <data name="Color" xml:space="preserve">
-    <value>Barva</value>
-  </data>
-  <data name="UpdatePriceTag" xml:space="preserve">
-    <value>Změna ceníku</value>
-  </data>
-  <data name="Departments" xml:space="preserve">
-    <value>Provozy</value>
-  </data>
-  <data name="DayTime" xml:space="preserve">
-    <value>Čas dne</value>
-  </data>
-  <data name="ProductName" xml:space="preserve">
-    <value>Název produktu</value>
-  </data>
-  <data name="TuesAndThurs" xml:space="preserve">
-    <value>Út., Čt</value>
-  </data>
-  <data name="POSMenu" xml:space="preserve">
-    <value>POS Menu</value>
-  </data>
-  <data name="AddTicketDiscount" xml:space="preserve">
-    <value>Přidat slevu na účet</value>
-  </data>
-  <data name="Every3Hours" xml:space="preserve">
-    <value>Každé 3 hodiny</value>
-  </data>
-  <data name="Previous" xml:space="preserve">
-    <value>Předchozí</value>
-  </data>
-  <data name="AllCategories" xml:space="preserve">
-    <value>Všechny kategorie</value>
-  </data>
-  <data name="TotalExpense" xml:space="preserve">
-    <value>Celkové náklady</value>
-  </data>
-  <data name="ExportSalesData" xml:space="preserve">
-    <value>Export údajů o prodeji</value>
-  </data>
-  <data name="MaxItems" xml:space="preserve">
-    <value>Max položky</value>
-  </data>
-  <data name="CantSave" xml:space="preserve">
-    <value>Nelze uložit</value>
-  </data>
-  <data name="EveryHour" xml:space="preserve">
-    <value>Každou hodinu</value>
-  </data>
-  <data name="MenuItem" xml:space="preserve">
-    <value>Výrobek</value>
-  </data>
-  <data name="ReportDoesNotContainsCashState" xml:space="preserve">
-    <value>Report neobsahuje Prvotní částku</value>
-  </data>
-  <data name="Excluded" xml:space="preserve">
-    <value>Bez</value>
-  </data>
-  <data name="NumeratorProperties" xml:space="preserve">
-    <value>Vlastnosti čítače</value>
-  </data>
-  <data name="DemoPrinter" xml:space="preserve">
-    <value>Demo Printer (notepad)</value>
-  </data>
-  <data name="Paid" xml:space="preserve">
-    <value>Zaplacené</value>
-  </data>
-  <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
-    <value>Účet přesunut do {0}. Vaše poslední změny jsou neuloženy</value>
-  </data>
   <data name="SortCategoriesDialogHint_f" xml:space="preserve">
     <value>Přetáhněte {0} menu kategorie pro změnu jejich pořadí.</value>
   </data>
-  <data name="Management" xml:space="preserve">
-    <value>Spravovat</value>
-  </data>
-  <data name="TicketTag" xml:space="preserve">
-    <value>Štítek účtu</value>
-  </data>
-  <data name="MenuProperties" xml:space="preserve">
-    <value>Vlastnosti menu</value>
-  </data>
-  <data name="ItemProperties" xml:space="preserve">
-    <value>Extra položka Vlastnosti</value>
-  </data>
-  <data name="Angle" xml:space="preserve">
-    <value>Úhel</value>
-  </data>
-  <data name="WorkPeriodStarted" xml:space="preserve">
-    <value>Směna začala</value>
-  </data>
-  <data name="OneHundred" xml:space="preserve">
-    <value>Sto</value>
-  </data>
-  <data name="ImagePath" xml:space="preserve">
-    <value>Cesta k obrázku</value>
-  </data>
-  <data name="QuarterPast" xml:space="preserve">
-    <value>Čtvrt</value>
-  </data>
-  <data name="Incomes" xml:space="preserve">
-    <value>Příjmy</value>
-  </data>
-  <data name="RuleName" xml:space="preserve">
-    <value>Název pravidla</value>
-  </data>
-  <data name="Thousand" xml:space="preserve">
-    <value>Popelnice</value>
-  </data>
-  <data name="PrinterOptions" xml:space="preserve">
-    <value>Nastavení tiskárny</value>
-  </data>
-  <data name="OnlyNewLines" xml:space="preserve">
-    <value>Pouze nové řádky</value>
-  </data>
-  <data name="CanNavigateCash" xml:space="preserve">
-    <value>Může vstoupit do cash obrazovky</value>
-  </data>
-  <data name="CashContent" xml:space="preserve">
-    <value>Obsah účtu restaurace</value>
-  </data>
-  <data name="SettingValue" xml:space="preserve">
-    <value>Hodnota vlastnosti</value>
-  </data>
-  <data name="Warning" xml:space="preserve">
-    <value>Varování</value>
-  </data>
-  <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
-    <value>Smazat vybranou kategorii?</value>
-  </data>
-  <data name="TwiceAnHour" xml:space="preserve">
-    <value>Dvakrát za hodinu</value>
-  </data>
-  <data name="OnlyOpenTickets" xml:space="preserve">
-    <value>Otevřené účty pouze</value>
-  </data>
-  <data name="ExpressionValid" xml:space="preserve">
-    <value>Platné výrazy</value>
-  </data>
-  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
-    <value>NEZAPOMĚŇTE UKONČIT PRACOVNÍ DOBU!!!</value>
-  </data>
-  <data name="Month" xml:space="preserve">
-    <value>Měsíc</value>
-  </data>
-  <data name="Tax" xml:space="preserve">
-    <value>Daň</value>
-  </data>
-  <data name="Noon" xml:space="preserve">
-    <value>poledne</value>
-  </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Režim návrhu</value>
-  </data>
-  <data name="ChangePrice" xml:space="preserve">
-    <value>Změna cen</value>
-  </data>
-  <data name="ButtonHeight" xml:space="preserve">
-    <value>Výška tlačítka</value>
-  </data>
-  <data name="TicketNote" xml:space="preserve">
-    <value>Poznámka k účtu</value>
-  </data>
-  <data name="Exit" xml:space="preserve">
-    <value>Ukončit</value>
-  </data>
-  <data name="ExecuteActionsIf" xml:space="preserve">
-    <value>Podmínky</value>
-  </data>
-  <data name="AlphanumericButtons" xml:space="preserve">
-    <value>Alfanumerická tlačítka se</value>
-  </data>
-  <data name="CurrentInventory" xml:space="preserve">
-    <value>Současné zásoby</value>
-  </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Report nákladů</value>
-  </data>
-  <data name="TotalSales" xml:space="preserve">
-    <value>Tržba celkem</value>
-  </data>
-  <data name="ReleaseLock" xml:space="preserve">
-    <value>Uvolnění zámku</value>
-  </data>
-  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
-    <value>Vytvořte řádek pro každý produkt ve formátu [Název produktu] [Cena]. Řádek s kategorií začínejte znakem #.</value>
-  </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Datum účtu</value>
-  </data>
-  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
-    <value>Nelze smazat poslední uzávěrky</value>
-  </data>
-  <data name="Every3Months" xml:space="preserve">
-    <value>Jednou za 3 měsíce</value>
-  </data>
-  <data name="DiscountTotal" xml:space="preserve">
-    <value>Celková sleva</value>
-  </data>
-  <data name="Thirty" xml:space="preserve">
-    <value>Třicet</value>
-  </data>
-  <data name="EveryOtherMinute" xml:space="preserve">
-    <value>Každou druhou minutu</value>
-  </data>
-  <data name="Included" xml:space="preserve">
-    <value>Včetně</value>
-  </data>
-  <data name="CornerRadius" xml:space="preserve">
-    <value>Poloměr rohů</value>
-  </data>
-  <data name="AddCategoryHint" xml:space="preserve">
-    <value>Zadejte kategorie, které chcete přidat</value>
-  </data>
-  <data name="Today" xml:space="preserve">
-    <value>Dnes</value>
-  </data>
-  <data name="Eight" xml:space="preserve">
-    <value>Osm</value>
-  </data>
-  <data name="SettlePermissions" xml:space="preserve">
-    <value>Oprávnění plateb</value>
-  </data>
-  <data name="Menu" xml:space="preserve">
-    <value>Menu</value>
-  </data>
-  <data name="PrinterType" xml:space="preserve">
-    <value>Typ tiskárny</value>
-  </data>
-  <data name="Html" xml:space="preserve">
-    <value>HTML</value>
-  </data>
-  <data name="KitchenOrderTemplate" xml:space="preserve">
-    <value>Šablona objednávky do kuchyně</value>
-  </data>
-  <data name="FirstAndFifteenth" xml:space="preserve">
-    <value>1. a 15.</value>
-  </data>
-  <data name="SatAndSun" xml:space="preserve">
-    <value>So a Ne</value>
-  </data>
-  <data name="WeightBarcodeItemIdFormat" xml:space="preserve">
-    <value>Váha čárového kódu položky Id formátu</value>
-  </data>
-  <data name="InventoryReport" xml:space="preserve">
-    <value>Inventura report</value>
-  </data>
-  <data name="Parameters" xml:space="preserve">
-    <value>Parametry</value>
-  </data>
-  <data name="MenuItemName" xml:space="preserve">
-    <value>Název menu položky</value>
-  </data>
-  <data name="Sixteen" xml:space="preserve">
-    <value>Šestnáct</value>
-  </data>
-  <data name="SelectPrintJob" xml:space="preserve">
-    <value>Vybrat tiskové úlohy</value>
-  </data>
-  <data name="Numerator" xml:space="preserve">
-    <value>Čítač</value>
-  </data>
-  <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
-    <value>Nelze dokončit tuto operaci pokud má nějaký předmět nulovou cenu</value>
-  </data>
-  <data name="PortionName" xml:space="preserve">
-    <value>Název porce</value>
-  </data>
-  <data name="Selected_f" xml:space="preserve">
-    <value>Vybrané {0}</value>
-  </data>
-  <data name="CloseTicket" xml:space="preserve">
-    <value>Zavřít účet</value>
-  </data>
-  <data name="Permissions" xml:space="preserve">
-    <value>Oprávnění</value>
-  </data>
-  <data name="TicketPaidTotal" xml:space="preserve">
-    <value>Částka na zaplacených účtech</value>
-  </data>
-  <data name="Nineteen" xml:space="preserve">
-    <value>Devatenáct</value>
-  </data>
-  <data name="Details" xml:space="preserve">
-    <value>Podrobnosti</value>
-  </data>
-  <data name="ActionType" xml:space="preserve">
-    <value>Typ akce</value>
-  </data>
-  <data name="ItemSalesReport" xml:space="preserve">
-    <value>Report prodeje podle položky</value>
-  </data>
-  <data name="CheckDBVersion" xml:space="preserve">
-    <value>Zkontrolujte verzi databáze</value>
-  </data>
-  <data name="OneThousand" xml:space="preserve">
-    <value>Tisíc</value>
-  </data>
-  <data name="POSView" xml:space="preserve">
-    <value>Zobrazení na POS</value>
-  </data>
-  <data name="DayDate" xml:space="preserve">
-    <value>Datum dne</value>
-  </data>
-  <data name="List_f" xml:space="preserve">
-    <value>{0} Seznam</value>
-  </data>
-  <data name="Rate" xml:space="preserve">
-    <value>Míra</value>
-  </data>
-  <data name="Properties" xml:space="preserve">
-    <value>Vlastnosti</value>
-  </data>
-  <data name="AllTickets" xml:space="preserve">
-    <value>Všechny účty</value>
-  </data>
-  <data name="DisplayUserPath" xml:space="preserve">
-    <value>Zobrazit cestu k uživateli</value>
-  </data>
-  <data name="Print" xml:space="preserve">
-    <value>Tisk</value>
-  </data>
-  <data name="Gift" xml:space="preserve">
-    <value>Dárek</value>
-  </data>
-  <data name="Expression" xml:space="preserve">
-    <value>Výraz</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Čas účtu</value>
-  </data>
-  <data name="NewTicket" xml:space="preserve">
-    <value>Nový účet</value>
-  </data>
-  <data name="EnterPin" xml:space="preserve">
-    <value>Zadejte PIN</value>
-  </data>
-  <data name="Height" xml:space="preserve">
-    <value>Výška</value>
-  </data>
-  <data name="Next" xml:space="preserve">
-    <value>Další</value>
-  </data>
-  <data name="SellAmount" xml:space="preserve">
-    <value>Prodané množství</value>
-  </data>
-  <data name="DepartmentPermissions" xml:space="preserve">
-    <value>Oprávnění provozu</value>
-  </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>Číslo účtu</value>
-  </data>
-  <data name="CashPermissions" xml:space="preserve">
-    <value>Oprávnění na hotovost</value>
-  </data>
-  <data name="AutoSelectProductsQuestion" xml:space="preserve">
-    <value>Vybrat produkty pro nové kategorie automaticky?</value>
-  </data>
-  <data name="LineOrderNumber" xml:space="preserve">
-    <value># Line: Číslo objednávky</value>
-  </data>
-  <data name="ErrorMessage" xml:space="preserve">
-    <value>Chybové hlášení</value>
-  </data>
-  <data name="TwiceADay" xml:space="preserve">
-    <value>Dvakrát denně</value>
-  </data>
-  <data name="SendEmail" xml:space="preserve">
-    <value>Odeslat e-mail</value>
-  </data>
-  <data name="Portion" xml:space="preserve">
-    <value>Porce</value>
-  </data>
-  <data name="ProductList" xml:space="preserve">
-    <value>Seznam produktů</value>
-  </data>
-  <data name="LineItemTotalWithoutGifts" xml:space="preserve">
-    <value># Line: Položka Celkem (bez darování)</value>
-  </data>
-  <data name="CalculateCost" xml:space="preserve">
-    <value>Spočítat náklady</value>
-  </data>
-  <data name="OrderNumerator" xml:space="preserve">
-    <value>Čítač objednávek</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>Uživatel</value>
-  </data>
-  <data name="Twelve" xml:space="preserve">
-    <value>Dvanáct</value>
-  </data>
-  <data name="NewOrder" xml:space="preserve">
-    <value>Nová objednávka</value>
-  </data>
-  <data name="FindProduct" xml:space="preserve">
-    <value>Hledat produkt</value>
-  </data>
-  <data name="UserRoleList" xml:space="preserve">
-    <value>Role Seznam</value>
-  </data>
-  <data name="CostPrediction" xml:space="preserve">
-    <value>Predikce nákladů</value>
-  </data>
-  <data name="ShareNameAndPortName" xml:space="preserve">
-    <value>Název sdílené tiskárny / název portu</value>
-  </data>
-  <data name="TicketTotalChanged" xml:space="preserve">
-    <value>Celková cena účtu změněna</value>
-  </data>
-  <data name="TextWrittenTotalValue" xml:space="preserve">
-    <value>Text psaný k celkové hodnotě</value>
-  </data>
-  <data name="BackgroundImage" xml:space="preserve">
-    <value>Obrázek na pozadí</value>
-  </data>
-  <data name="NavigationPermissions" xml:space="preserve">
-    <value>Oprávnění navigace</value>
-  </data>
-  <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
-    <value>Zaplaceno. Vaše poslední změny jsou neuloženy.</value>
-  </data>
-  <data name="Account" xml:space="preserve">
-    <value>Účet</value>
-  </data>
-  <data name="Numeric" xml:space="preserve">
-    <value>Numerické</value>
-  </data>
-  <data name="Barcode" xml:space="preserve">
-    <value>Čárový kód</value>
-  </data>
-  <data name="SortCategories" xml:space="preserve">
-    <value>Seřadit kategorie</value>
-  </data>
-  <data name="Trigger" xml:space="preserve">
-    <value>Spoušťěč</value>
-  </data>
-  <data name="OptionalTicketTag" xml:space="preserve">
-    <value>Volitelné štítky účtu</value>
-  </data>
-  <data name="ReportPermissions" xml:space="preserve">
-    <value>Oprávnění reportování</value>
-  </data>
-  <data name="MainMenu" xml:space="preserve">
-    <value>Hlavní menu</value>
-  </data>
-  <data name="InventoryItem" xml:space="preserve">
-    <value>Skladová položka</value>
-  </data>
-  <data name="PaymentTotal" xml:space="preserve">
-    <value>Platba celkem</value>
-  </data>
-  <data name="TransacitonUnitMultiplier" xml:space="preserve">
-    <value>Multiplikátor</value>
-  </data>
-  <data name="Number" xml:space="preserve">
-    <value>Číslo</value>
-  </data>
-  <data name="Table" xml:space="preserve">
-    <value>Stůl</value>
-  </data>
-  <data name="Action" xml:space="preserve">
-    <value>Akce</value>
-  </data>
-  <data name="Account_f" xml:space="preserve">
-    <value>Účet: {0}</value>
-  </data>
-  <data name="AM" xml:space="preserve">
-    <value>dopoledne</value>
-  </data>
-  <data name="SaveReportToFile" xml:space="preserve">
-    <value>Uložit report do souboru</value>
-  </data>
-  <data name="Recipe" xml:space="preserve">
-    <value>Receptura</value>
-  </data>
-  <data name="IfNegativeDiscountValue_f" xml:space="preserve">
-    <value>&lt;J&gt; Zaokrouhlení: | {0}</value>
-  </data>
-  <data name="PriceDefinitions" xml:space="preserve">
-    <value>Definice cen</value>
-  </data>
-  <data name="EditModel_f" xml:space="preserve">
-    <value>Editace {0} ({1})</value>
-  </data>
-  <data name="UserLogout" xml:space="preserve">
-    <value>User Logout</value>
-  </data>
-  <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
-    <value>Celková pracovní doba: {00:00} minut</value>
-  </data>
-  <data name="TriggerExecuted" xml:space="preserve">
-    <value>Spoušťěč spuštěn</value>
-  </data>
-  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
-    <value>Hmotnost čárového kódu položky Id Délka</value>
-  </data>
-  <data name="UpdateType" xml:space="preserve">
-    <value>Typ aktualizace</value>
-  </data>
-  <data name="TagName" xml:space="preserve">
-    <value>Název štítku</value>
-  </data>
-  <data name="EmptyNameError" xml:space="preserve">
-    <value>Nenechávejte {0} jméno prázdné.</value>
-  </data>
-  <data name="Calling" xml:space="preserve">
-    <value>Volání</value>
-  </data>
-  <data name="Fourteen" xml:space="preserve">
-    <value>Čtrnáct</value>
-  </data>
-  <data name="SettingName" xml:space="preserve">
-    <value>Jméno vlastnosti</value>
-  </data>
-  <data name="RefreshCache" xml:space="preserve">
-    <value>Obnovit Cache</value>
-  </data>
-  <data name="Seventeen" xml:space="preserve">
-    <value>Sedmnáct</value>
-  </data>
-  <data name="PropertyEditor" xml:space="preserve">
-    <value>Editor vlastností</value>
-  </data>
-  <data name="UiLanguage" xml:space="preserve">
-    <value>Jazyk uživatelského rozhraní</value>
-  </data>
-  <data name="Custom" xml:space="preserve">
-    <value>Osobní</value>
-  </data>
-  <data name="LastPaymentTime" xml:space="preserve">
-    <value>Poslední platby</value>
-  </data>
-  <data name="CanMoveTicketLines" xml:space="preserve">
-    <value>Může přesouvat položky</value>
-  </data>
-  <data name="Every30Minutes" xml:space="preserve">
-    <value>Každých 30 minut</value>
-  </data>
-  <data name="AveragePrice_ab" xml:space="preserve">
-    <value>Prům.cena</value>
-  </data>
-  <data name="WrapText" xml:space="preserve">
-    <value>Zalamování textu</value>
+  <data name="InventoryConsumption" xml:space="preserve">
+    <value>Spotřeba zásob</value>
   </data>
   <data name="Weekday" xml:space="preserve">
     <value>Všední den</value>
   </data>
-  <data name="MonWedFri" xml:space="preserve">
-    <value>Po, St, Pá</value>
+  <data name="PM" xml:space="preserve">
+    <value>odpoledne</value>
   </data>
-  <data name="InventoryPurchaseReport" xml:space="preserve">
-    <value>Report nákupu zboží</value>
+  <data name="Totals" xml:space="preserve">
+    <value>Součty</value>
   </data>
-  <data name="Title" xml:space="preserve">
-    <value>Titulek</value>
-  </data>
-  <data name="SqlHint" xml:space="preserve">
-    <value>Klikněte sem pro informace o práci s databázemi SQL</value>
-  </data>
-  <data name="AlphanumericButtonValues" xml:space="preserve">
-    <value>Alfanumerická hodnota tlačítka</value>
-  </data>
-  <data name="LineCharacterCount" xml:space="preserve">
-    <value>Počet znaků na řádek</value>
-  </data>
-  <data name="Cash" xml:space="preserve">
-    <value>Hotovost</value>
-  </data>
-  <data name="Reports" xml:space="preserve">
-    <value>Reporty</value>
-  </data>
-  <data name="Every15Minutes" xml:space="preserve">
-    <value>Každých 15 minut</value>
-  </data>
-  <data name="APortionShouldSelected" xml:space="preserve">
-    <value>Měla by být vybrána porce</value>
-  </data>
-  <data name="PriceDefinitonName" xml:space="preserve">
-    <value>Název definice ceny</value>
-  </data>
-  <data name="Amount" xml:space="preserve">
-    <value>Částka</value>
-  </data>
-  <data name="CommonSettings" xml:space="preserve">
-    <value>Společné nastavení</value>
-  </data>
-  <data name="PrintJobList" xml:space="preserve">
-    <value>Seznam tiskových úloh</value>
-  </data>
-  <data name="Manual" xml:space="preserve">
-    <value>Ručně</value>
-  </data>
-  <data name="Income" xml:space="preserve">
-    <value>Příjmy</value>
-  </data>
-  <data name="TwelveAmMidnight" xml:space="preserve">
-    <value>12 hod. půlnoc</value>
-  </data>
-  <data name="SambaNetwork" xml:space="preserve">
-    <value>Samba sítě</value>
-  </data>
-  <data name="SelectActions" xml:space="preserve">
-    <value>Výběr akcí</value>
-  </data>
-  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
-    <value>Existuje další recept pro {0}</value>
-  </data>
-  <data name="CIDSettings" xml:space="preserve">
-    <value>CID nastavení</value>
-  </data>
-  <data name="Tables" xml:space="preserve">
-    <value>Stoly</value>
-  </data>
-  <data name="ChargedAmount" xml:space="preserve">
-    <value>Příjmuto</value>
-  </data>
-  <data name="RateFromTicketAmount" xml:space="preserve">
-    <value>Sazba z částky účtu</value>
-  </data>
-  <data name="Categories" xml:space="preserve">
-    <value>Kategorie</value>
-  </data>
-  <data name="Portions" xml:space="preserve">
-    <value>Rozdělení</value>
-  </data>
-  <data name="TicketTemplate" xml:space="preserve">
-    <value>Šablona účtů</value>
-  </data>
-  <data name="Fifteen" xml:space="preserve">
-    <value>Patnáct</value>
-  </data>
-  <data name="TicketPaidChangesNotSaved" xml:space="preserve">
-    <value>Zaplaceno. Vaše poslední změny jsou neuloženy</value>
-  </data>
-  <data name="EveryOtherHour" xml:space="preserve">
-    <value>Každou druhou hodinu</value>
-  </data>
-  <data name="TicketType" xml:space="preserve">
-    <value>Typ účtu</value>
-  </data>
-  <data name="Discount" xml:space="preserve">
-    <value>Sleva</value>
-  </data>
-  <data name="RoundingTotal" xml:space="preserve">
-    <value>Zaokrouhlování celkem</value>
-  </data>
-  <data name="PropertyGroup" xml:space="preserve">
-    <value>Skupinová vlastnost</value>
-  </data>
-  <data name="Information" xml:space="preserve">
-    <value>Informace</value>
-  </data>
-  <data name="StartWorkPeriod" xml:space="preserve">
-    <value>Začátek pracovní doby</value>
-  </data>
-  <data name="DiscountPercentage" xml:space="preserve">
-    <value>Slevy v procentech</value>
-  </data>
-  <data name="StartOfDay" xml:space="preserve">
-    <value>Začátek pracovní doby</value>
-  </data>
-  <data name="WhenTagNotSelected" xml:space="preserve">
-    <value>Když je neoštítkovaný</value>
-  </data>
-  <data name="ThisWeek" xml:space="preserve">
-    <value>Tento týden</value>
-  </data>
-  <data name="Fifty" xml:space="preserve">
-    <value>Padesát</value>
-  </data>
-  <data name="Balance" xml:space="preserve">
-    <value>Balanc</value>
-  </data>
-  <data name="DisplayAppPath" xml:space="preserve">
-    <value>Zobrazit cestu k aplikaci</value>
-  </data>
-  <data name="Hundred" xml:space="preserve">
-    <value>Sto</value>
-  </data>
-  <data name="PortPrinter" xml:space="preserve">
-    <value>Port tiskárny</value>
-  </data>
-  <data name="EveryMonth" xml:space="preserve">
-    <value>Každý měsíc</value>
-  </data>
-  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
-    <value>Chcete-li přidat slevu, zadejte sazbu a klikněte na tlačítko Sleva. Chcete-li odstranit slevu, klikněte na tlačítko sleva bez zadávání hodnot.</value>
-  </data>
-  <data name="LastOrderDate" xml:space="preserve">
-    <value>Datum poslední objednávky</value>
-  </data>
-  <data name="SortType" xml:space="preserve">
-    <value>Seřadit podle</value>
-  </data>
-  <data name="Empty" xml:space="preserve">
-    <value>Prázdný</value>
-  </data>
-  <data name="Rules" xml:space="preserve">
-    <value>Pravidla</value>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Místní Sklad</value>
   </data>
   <data name="Six" xml:space="preserve">
     <value>Šest</value>
   </data>
+  <data name="OneHundred" xml:space="preserve">
+    <value>Sto</value>
+  </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Tiskárna Transakcí</value>
+  </data>
+  <data name="NumericTags" xml:space="preserve">
+    <value>Číselné štítky</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Spravovat</value>
+  </data>
+  <data name="AM" xml:space="preserve">
+    <value>dopoledne</value>
+  </data>
+  <data name="TopOfTheHour" xml:space="preserve">
+    <value>Na začátku hodiny</value>
+  </data>
+  <data name="FirstAndFifteenth" xml:space="preserve">
+    <value>1. a 15.</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>Provozy</value>
+  </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Požadované Receptury</value>
+  </data>
+  <data name="ShareNameAndPortName" xml:space="preserve">
+    <value>Název sdílené tiskárny / název portu</value>
+  </data>
+  <data name="Greater" xml:space="preserve">
+    <value>Více</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Jednotka</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Balanc</value>
+  </data>
+  <data name="Edit_f" xml:space="preserve">
+    <value>Upravit {0}</value>
+  </data>
+  <data name="Restaurant" xml:space="preserve">
+    <value>Restaurace</value>
+  </data>
+  <data name="OrderTagValue" xml:space="preserve">
+    <value>Hodnota Štítku Objednávky</value>
+  </data>
+  <data name="Total_f" xml:space="preserve">
+    <value>Celkem: {0}</value>
+  </data>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>Zobrazení Entity</value>
+  </data>
+  <data name="DemoPrinter" xml:space="preserve">
+    <value>Demo Printer (notepad)</value>
+  </data>
+  <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
+    <value>Vyberte typy plateb pro použití v {0} šablony.</value>
+  </data>
+  <data name="BillRequested" xml:space="preserve">
+    <value>Lístek Požadován</value>
+  </data>
+  <data name="ImagePath" xml:space="preserve">
+    <value>Cesta k obrázku</value>
+  </data>
+  <data name="Selected_f" xml:space="preserve">
+    <value>Vybrané {0}</value>
+  </data>
+  <data name="ItemSalesReport" xml:space="preserve">
+    <value>Report prodeje podle položky</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reporty</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="PortionPrices" xml:space="preserve">
+    <value>Ceny porcí</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Skrytý</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Odhlášení</value>
+  </data>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Nové řádky podle Čísla řádku v tiskárně</value>
+  </data>
+  <data name="TagCantBeEmpty_f" xml:space="preserve">
+    <value>Nelze zůstat {0} prázdný</value>
+  </data>
+  <data name="AccountTransactionDocumentCreated" xml:space="preserve">
+    <value>Vytvořen Transakční Dokument</value>
+  </data>
+  <data name="TicketNumber_f" xml:space="preserve">
+    <value>Číslo účtu: {0}</value>
+  </data>
+  <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
+    <value>Zaplaceno. Vaše poslední změny jsou neuloženy.</value>
+  </data>
+  <data name="Clone_f" xml:space="preserve">
+    <value>Klonovat {0}</value>
+  </data>
+  <data name="AutoLogout" xml:space="preserve">
+    <value>Automatické odhlášení</value>
+  </data>
+  <data name="QuarterTil" xml:space="preserve">
+    <value>Třičtvrtě</value>
+  </data>
+  <data name="TransactionUnit" xml:space="preserve">
+    <value>Transakční jednotka</value>
+  </data>
+  <data name="EveryOtherDay" xml:space="preserve">
+    <value>Obden</value>
+  </data>
+  <data name="SortCategoryProducts" xml:space="preserve">
+    <value>Seřadit produkty kategorie</value>
+  </data>
+  <data name="LinePriceTag" xml:space="preserve">
+    <value># Line: cenový štítek</value>
+  </data>
+  <data name="MessageServerName" xml:space="preserve">
+    <value>Název Message serveru</value>
+  </data>
+  <data name="CalculateCost" xml:space="preserve">
+    <value>Spočítat náklady</value>
+  </data>
   <data name="Actions" xml:space="preserve">
     <value>Akce</value>
   </data>
-  <data name="CanUpdateExtraModifiers" xml:space="preserve">
-    <value>Může aktualizovat Extra Modifikátory</value>
+  <data name="NewProperty" xml:space="preserve">
+    <value>Nový vlastnost</value>
+  </data>
+  <data name="OrderCancelled" xml:space="preserve">
+    <value>Objednávka Zrušena</value>
+  </data>
+  <data name="LineCharacterCount" xml:space="preserve">
+    <value>Počet znaků na řádek</value>
+  </data>
+  <data name="UpdateType" xml:space="preserve">
+    <value>Typ aktualizace</value>
+  </data>
+  <data name="OnceAnHour" xml:space="preserve">
+    <value>Jednou za hodinu</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>Společný</value>
+  </data>
+  <data name="InventoryItem" xml:space="preserve">
+    <value>Skladová položka</value>
+  </data>
+  <data name="AccountsLiability" xml:space="preserve">
+    <value>Účtové předplatné</value>
+  </data>
+  <data name="DisplayPopup" xml:space="preserve">
+    <value>Zobrazit popup</value>
+  </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Účtenka Přesunuta</value>
+  </data>
+  <data name="DocumentNo" xml:space="preserve">
+    <value>Dokument č.</value>
+  </data>
+  <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
+    <value>Provést Tiskovou Úlohu Objednávek Do Kuchyně</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Produkty</value>
+  </data>
+  <data name="Forty" xml:space="preserve">
+    <value>Čtyřicet</value>
+  </data>
+  <data name="TicketNumerator" xml:space="preserve">
+    <value>Čítač účtů</value>
+  </data>
+  <data name="Eighteen" xml:space="preserve">
+    <value>Osmnáct</value>
+  </data>
+  <data name="FindTicket" xml:space="preserve">
+    <value>Hledat účet</value>
+  </data>
+  <data name="TicketTipTotalAmount" xml:space="preserve">
+    <value>Celková častka tipů na účtu</value>
+  </data>
+  <data name="TicketExplorer" xml:space="preserve">
+    <value>Vyhledávač Účtů</value>
+  </data>
+  <data name="Market" xml:space="preserve">
+    <value>Obchod</value>
+  </data>
+  <data name="TotalTaxableAmount" xml:space="preserve">
+    <value>Základ Daně Celkem</value>
+  </data>
+  <data name="SubButtonHeight" xml:space="preserve">
+    <value>Výška sub tlačítka</value>
+  </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>Hledat Entity</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>Tento měsíc</value>
+  </data>
+  <data name="MultipleSelection" xml:space="preserve">
+    <value>Vícenásobný výběr</value>
+  </data>
+  <data name="UpdateTicketTag" xml:space="preserve">
+    <value>Aktualizovat účtový štítek</value>
+  </data>
+  <data name="TuesAndThurs" xml:space="preserve">
+    <value>Út., Čt</value>
+  </data>
+  <data name="Twelve" xml:space="preserve">
+    <value>Dvanáct</value>
+  </data>
+  <data name="TicketTagGroup" xml:space="preserve">
+    <value>Skupina štítků</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Vše</value>
   </data>
-  <data name="NewProperty" xml:space="preserve">
-    <value>Nový vlastnost</value>
+  <data name="CanNavigateCash" xml:space="preserve">
+    <value>Může vstoupit do cash obrazovky</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="PrintJobList" xml:space="preserve">
+    <value>Seznam tiskových úloh</value>
+  </data>
+  <data name="FooterTemplate" xml:space="preserve">
+    <value>Šablona zápatí</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Název štítku</value>
+  </data>
+  <data name="RuleAction" xml:space="preserve">
+    <value>Akce</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Šablona</value>
+  </data>
+  <data name="TicketTotal" xml:space="preserve">
+    <value>Celkem</value>
+  </data>
+  <data name="QuarterPast" xml:space="preserve">
+    <value>Čtvrt</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Ručně</value>
+  </data>
+  <data name="MessageServerPort" xml:space="preserve">
+    <value>Port message serveru</value>
+  </data>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>Aktualizovat Stav Entity</value>
+  </data>
+  <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
+    <value>SambaPOS došlo k nečekanému problému. Podrobnosti jsou uženy do souboru trace.log</value>
+  </data>
+  <data name="CantSave" xml:space="preserve">
+    <value>Nelze uložit</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Celkem</value>
+  </data>
+  <data name="CalculationMethod" xml:space="preserve">
+    <value>Metoda výpočtu</value>
+  </data>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>Zobrazování Entit</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
+    <value>Nejsou žádné nákupní transakce v časovém období.</value>
+  </data>
+  <data name="OnlyOpenTickets" xml:space="preserve">
+    <value>Otevřené účty pouze</value>
+  </data>
+  <data name="TicketPaidChangesNotSaved" xml:space="preserve">
+    <value>Zaplaceno. Vaše poslední změny jsou neuloženy</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Počáteční Čas</value>
+  </data>
+  <data name="UserLogout" xml:space="preserve">
+    <value>User Logout</value>
+  </data>
+  <data name="CanDisplayReports" xml:space="preserve">
+    <value>Může zobrazit reporty</value>
+  </data>
+  <data name="TicketRemainingAmount" xml:space="preserve">
+    <value>Částka na zbývajících účtech</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>Název souboru</value>
+  </data>
+  <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
+    <value>Nelze uložit, protože tam jsou řádky s prázdnými skladovými položkami nebo nulové množství</value>
+  </data>
+  <data name="TicketPermissions" xml:space="preserve">
+    <value>Oprávnění účtů</value>
+  </data>
+  <data name="MenuItemGroup" xml:space="preserve">
+    <value>Skupina produktů</value>
+  </data>
+  <data name="ApplicationStarted" xml:space="preserve">
+    <value>Aplikace spuštěna</value>
+  </data>
+  <data name="Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="SalesByItemGroup" xml:space="preserve">
+    <value>Tržby podle skupiny položek</value>
+  </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>Zdroj {0}</value>
+  </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>Vybrat {0}</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>Prázdný</value>
+  </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Štítek účtu vybrán</value>
+  </data>
+  <data name="ExpressionBuilder" xml:space="preserve">
+    <value>Builder výrazů</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Barva pozadí</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Otevřené</value>
+  </data>
+  <data name="NumeratorValue" xml:space="preserve">
+    <value>Hodnota čítače</value>
+  </data>
+  <data name="Development" xml:space="preserve">
+    <value>Development</value>
+  </data>
+  <data name="MonThruFri" xml:space="preserve">
+    <value>Po. přes pá.</value>
+  </data>
+  <data name="LocalSettings" xml:space="preserve">
+    <value>Místní nastavení</value>
+  </data>
+  <data name="ReportDoesNotContainsCashState" xml:space="preserve">
+    <value>Report neobsahuje Prvotní částku</value>
+  </data>
+  <data name="ChangeAmount_f" xml:space="preserve">
+    <value>Vrátit: {0}</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Barva</value>
+  </data>
+  <data name="NumeratorProperties" xml:space="preserve">
+    <value>Vlastnosti čítače</value>
+  </data>
+  <data name="Every15Minutes" xml:space="preserve">
+    <value>Každých 15 minut</value>
+  </data>
+  <data name="TicketPaymentCheck" xml:space="preserve">
+    <value>Zkontroluj Platbu Účtu</value>
+  </data>
+  <data name="LastOrderDuration" xml:space="preserve">
+    <value>Čas Poslední Objednávky</value>
+  </data>
+  <data name="PluralCurrencySuffix" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="CommonSettings" xml:space="preserve">
+    <value>Společné nastavení</value>
+  </data>
+  <data name="TicketTotalChanged" xml:space="preserve">
+    <value>Celková cena účtu změněna</value>
+  </data>
+  <data name="OnceAWeek" xml:space="preserve">
+    <value>Jednou za týden</value>
+  </data>
+  <data name="Excluded" xml:space="preserve">
+    <value>Bez</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Otázka</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Předchozí</value>
+  </data>
+  <data name="WeightBarcodePefix" xml:space="preserve">
+    <value>Prefix čárového kodu</value>
+  </data>
+  <data name="MessageReceived" xml:space="preserve">
+    <value>Zpráva přijata</value>
   </data>
   <data name="CloseTicket_r" xml:space="preserve">
     <value>Zavřít
 účet</value>
   </data>
-  <data name="Selected" xml:space="preserve">
-    <value>Vybraný</value>
+  <data name="TicketTemplate" xml:space="preserve">
+    <value>Šablona účtů</value>
   </data>
-  <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
-    <value>SambaPOS došlo k nečekanému problému. Podrobnosti jsou uženy do souboru trace.log</value>
-  </data>
-  <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
-    <value>Neexistují žádné transakční náklady v této pracovní době.</value>
-  </data>
-  <data name="MessageServerPort" xml:space="preserve">
-    <value>Port message serveru</value>
-  </data>
-  <data name="PreviousPage" xml:space="preserve">
-    <value>Předchozí strana</value>
-  </data>
-  <data name="ThisMonth" xml:space="preserve">
-    <value>Tento měsíc</value>
-  </data>
-  <data name="CategoryProperties" xml:space="preserve">
-    <value>Vlastnosti kategorie</value>
-  </data>
-  <data name="LineItemPriceCents" xml:space="preserve">
-    <value># Line: Cena položky na centy</value>
-  </data>
-  <data name="PrintJob" xml:space="preserve">
-    <value>Tisková úloha</value>
-  </data>
-  <data name="InventoryGroup" xml:space="preserve">
-    <value>Skupiny zásob</value>
-  </data>
-  <data name="ProgramSettings" xml:space="preserve">
-    <value>Nastavení programu</value>
-  </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>Obnovit</value>
-  </data>
-  <data name="NumeratorValue" xml:space="preserve">
-    <value>Hodnota čítače</value>
-  </data>
-  <data name="SambaPOSReporter" xml:space="preserve">
-    <value>SambaPOS Reporter</value>
-  </data>
-  <data name="IncomeTransactions" xml:space="preserve">
-    <value>Příjmové transakce</value>
-  </data>
-  <data name="TicketRemainingAmount" xml:space="preserve">
-    <value>Částka na zbývajících účtech</value>
-  </data>
-  <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
-    <value>Nelze odstranit, protože by měl být alespoň jeden terminál.</value>
-  </data>
-  <data name="Tag" xml:space="preserve">
-    <value>Štítek</value>
-  </data>
-  <data name="Incomes_f" xml:space="preserve">
-    <value>{0} příjmy</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Aktualizovat</value>
-  </data>
-  <data name="QuantitiesByItemGroup" xml:space="preserve">
-    <value>Množství podle skupiny položek</value>
+  <data name="OnceAYear" xml:space="preserve">
+    <value>Jednou za rok</value>
   </data>
   <data name="BroadcastMessage" xml:space="preserve">
     <value>Vysílat zprávu</value>
   </data>
-  <data name="CanOpenNavigation" xml:space="preserve">
-    <value>Může vstoupit do navigační obrazovky</value>
-  </data>
-  <data name="UniqueTicketId" xml:space="preserve">
-    <value>Unikátní ID účtu</value>
-  </data>
-  <data name="Void" xml:space="preserve">
-    <value>Odstranit</value>
-  </data>
-  <data name="AutoSelect" xml:space="preserve">
-    <value>Automatický výběr</value>
-  </data>
-  <data name="EventName" xml:space="preserve">
-    <value>Název události</value>
-  </data>
-  <data name="NumeratorType" xml:space="preserve">
-    <value>Typ čítače</value>
-  </data>
-  <data name="EveryOtherMonth" xml:space="preserve">
-    <value>Každý druhý měsíc</value>
-  </data>
-  <data name="Move" xml:space="preserve">
-    <value>Přesun</value>
-  </data>
-  <data name="Five" xml:space="preserve">
-    <value>Pět</value>
-  </data>
-  <data name="Category" xml:space="preserve">
-    <value>Kategorie</value>
-  </data>
-  <data name="StartAmount" xml:space="preserve">
-    <value>Prvotní částka</value>
-  </data>
-  <data name="WorkPeriodEndsMessage" xml:space="preserve">
-    <value>Pracovní doba končí.
-Navštivte sekci Reporty a vytvořte Report pracovní doby</value>
-  </data>
-  <data name="Template" xml:space="preserve">
-    <value>Šablona</value>
-  </data>
-  <data name="NumericTags" xml:space="preserve">
-    <value>Číselné štítky</value>
-  </data>
-  <data name="Numerators" xml:space="preserve">
-    <value>Čítače</value>
-  </data>
-  <data name="ClearFilter" xml:space="preserve">
-    <value>Vymazat filtr</value>
-  </data>
-  <data name="TriggerName" xml:space="preserve">
-    <value>Název spouštěče</value>
-  </data>
-  <data name="Inventory" xml:space="preserve">
-    <value>Sklad</value>
-  </data>
-  <data name="EveryOtherDay" xml:space="preserve">
-    <value>Obden</value>
-  </data>
-  <data name="Hour" xml:space="preserve">
-    <value>Hodina</value>
-  </data>
-  <data name="BaseUnit" xml:space="preserve">
-    <value>Základní jednotka</value>
-  </data>
-  <data name="TotalIncome" xml:space="preserve">
-    <value>Příjmy celkem</value>
-  </data>
-  <data name="One" xml:space="preserve">
-    <value>Jeden</value>
-  </data>
-  <data name="BatchPriceList" xml:space="preserve">
-    <value>Editor cen</value>
-  </data>
-  <data name="WhenTagSelected" xml:space="preserve">
-    <value>Když je oštítkovaný</value>
-  </data>
-  <data name="Price" xml:space="preserve">
-    <value>Cena</value>
-  </data>
-  <data name="ColumnCount" xml:space="preserve">
-    <value>Počet sloupců</value>
-  </data>
-  <data name="TicketChangedRetryLastOperation" xml:space="preserve">
-    <value>Účet změněn. Vaše poslední změny jsou neuloženy.</value>
-  </data>
-  <data name="Keyboard" xml:space="preserve">
-    <value>Klávesnice</value>
-  </data>
-  <data name="Four" xml:space="preserve">
-    <value>Čtyři</value>
-  </data>
-  <data name="WeightBarcodeQuantityLength" xml:space="preserve">
-    <value>Hmotnost čárových kódů Množství Délka</value>
-  </data>
-  <data name="TaxTemplate" xml:space="preserve">
-    <value>Daňová šablona</value>
-  </data>
-  <data name="MergeLines" xml:space="preserve">
-    <value>Sloučit řádky</value>
-  </data>
-  <data name="ApplicationStarted" xml:space="preserve">
-    <value>Aplikace spuštěna</value>
-  </data>
-  <data name="Hidden" xml:space="preserve">
-    <value>Skrytý</value>
-  </data>
-  <data name="OpenTicketButtonDuration" xml:space="preserve">
-    <value>{0} min</value>
-  </data>
-  <data name="Confirmation" xml:space="preserve">
-    <value>Potvrzení</value>
-  </data>
-  <data name="Expenses" xml:space="preserve">
-    <value>Náklady</value>
-  </data>
-  <data name="ShowMessage" xml:space="preserve">
-    <value>Zobrazit zprávu</value>
-  </data>
-  <data name="UpdateTicketTag" xml:space="preserve">
-    <value>Aktualizovat účtový štítek</value>
-  </data>
-  <data name="PaymentType" xml:space="preserve">
-    <value>Typ platby</value>
-  </data>
-  <data name="Decrease" xml:space="preserve">
-    <value>Snížit</value>
-  </data>
-  <data name="EndOfDayRecords" xml:space="preserve">
-    <value>Denní uzávěrky</value>
-  </data>
-  <data name="AddOrder" xml:space="preserve">
-    <value>Přidat objednávku</value>
-  </data>
-  <data name="CanMergeTickets" xml:space="preserve">
-    <value>Může sloučit účty</value>
-  </data>
-  <data name="NoTransactionsFoundFor_f" xml:space="preserve">
-    <value>Žádné transakce pro {0}</value>
-  </data>
-  <data name="Every10Minutes" xml:space="preserve">
-    <value>Každých 10 minut</value>
-  </data>
-  <data name="Department" xml:space="preserve">
-    <value>Provoz</value>
-  </data>
-  <data name="Text" xml:space="preserve">
-    <value>Text</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Zavřít</value>
-  </data>
-  <data name="Yesterday" xml:space="preserve">
-    <value>Včera</value>
-  </data>
-  <data name="DisplayAllValues" xml:space="preserve">
-    <value>Zobrazit všechny hodnoty</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
-  <data name="CharacterSet" xml:space="preserve">
-    <value>Znaková sada</value>
-  </data>
-  <data name="FindTicket" xml:space="preserve">
-    <value>Hledat účet</value>
-  </data>
-  <data name="UserList" xml:space="preserve">
-    <value>Seznam uživatelů</value>
-  </data>
-  <data name="Add_f" xml:space="preserve">
-    <value>Přidat {0}</value>
-  </data>
-  <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
-    <value>Pro změnu ceny nejdřive vyplňte cenu z čítače.</value>
-  </data>
-  <data name="ExecutePrintJob" xml:space="preserve">
-    <value>Provést tiskovou úlohu</value>
-  </data>
-  <data name="Every6Hours" xml:space="preserve">
-    <value>Každých 6 hodin</value>
-  </data>
-  <data name="Message" xml:space="preserve">
-    <value>Zpráva</value>
-  </data>
-  <data name="WorkPeriodEnded" xml:space="preserve">
-    <value>Směna zkončila</value>
-  </data>
-  <data name="PleaseEnterABriefExplanationOf" xml:space="preserve">
-    <value>Prosím popiště, jak k této chybě došlo.</value>
-  </data>
-  <data name="EndOfDayRecord" xml:space="preserve">
-    <value>Denní uzávěrka</value>
-  </data>
-  <data name="VoidOrders" xml:space="preserve">
-    <value>Neplatné objednávky</value>
-  </data>
-  <data name="ExpenseTransactions" xml:space="preserve">
-    <value>Nákladové transakce</value>
-  </data>
-  <data name="ProgramLanguage" xml:space="preserve">
-    <value>Jazyk programu</value>
-  </data>
-  <data name="TagCantBeEmpty_f" xml:space="preserve">
-    <value>Nelze zůstat {0} prázdný</value>
-  </data>
-  <data name="TicketWithBrackets" xml:space="preserve">
-    <value>[Účet]</value>
-  </data>
-  <data name="RateFromPreviousTemplate" xml:space="preserve">
-    <value>Sazba z předchozích částky šablony</value>
-  </data>
-  <data name="UserLogin" xml:space="preserve">
-    <value>User Login</value>
-  </data>
-  <data name="FileName" xml:space="preserve">
-    <value>Název souboru</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Zákazníci</value>
-  </data>
-  <data name="ReportPrinter" xml:space="preserve">
-    <value>Report tiskárny</value>
-  </data>
-  <data name="Sixty" xml:space="preserve">
-    <value>Šedesát</value>
-  </data>
-  <data name="Line" xml:space="preserve">
-    <value>Řádek</value>
-  </data>
-  <data name="Nine" xml:space="preserve">
-    <value>Devět</value>
-  </data>
-  <data name="LastOrderStatus" xml:space="preserve">
-    <value>Stav poslední objednávky</value>
-  </data>
-  <data name="LineItemQuantity" xml:space="preserve">
-    <value># Line: počet položek</value>
-  </data>
-  <data name="TicketNumber_f" xml:space="preserve">
-    <value>Číslo účtu: {0}</value>
-  </data>
-  <data name="ButtonColor" xml:space="preserve">
-    <value>Barva tlačítka</value>
-  </data>
-  <data name="PluralCurrencySuffix" xml:space="preserve">
-    <value>s</value>
-  </data>
-  <data name="TicketTipTotalAmount" xml:space="preserve">
-    <value>Celková častka tipů na účtu</value>
-  </data>
-  <data name="Totals" xml:space="preserve">
-    <value>Součty</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Poslední objednávka</value>
-  </data>
-  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
-    <value>Tento PIN kód používá jiný uživatelský účet.</value>
-  </data>
-  <data name="InStock" xml:space="preserve">
-    <value>Na skladě</value>
-  </data>
-  <data name="Every4Hours" xml:space="preserve">
-    <value>Každé 4 hodiny</value>
-  </data>
-  <data name="TicketTotal" xml:space="preserve">
-    <value>Celkem</value>
-  </data>
-  <data name="GrandTotal" xml:space="preserve">
-    <value>Celkový součet</value>
-  </data>
-  <data name="WorkPeriodReport" xml:space="preserve">
-    <value>Report pracovní doby</value>
-  </data>
-  <data name="NumeratorHeight" xml:space="preserve">
-    <value>Výška čítače</value>
-  </data>
-  <data name="TransactionDocument" xml:space="preserve">
-    <value>Kniha transakcí</value>
-  </data>
-  <data name="Open" xml:space="preserve">
-    <value>Otevřené</value>
-  </data>
-  <data name="DeleteItemConfirmation_f" xml:space="preserve">
-    <value>Odstranit {0} [{1}]?</value>
-  </data>
-  <data name="EveryMinute" xml:space="preserve">
-    <value>Každou minutu</value>
-  </data>
-  <data name="GroupCode" xml:space="preserve">
-    <value>Kód skupiny</value>
-  </data>
-  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
-    <value>Může manipulovat s řádkama nezamčených účtů</value>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>Množství</value>
-  </data>
-  <data name="FreeTagging" xml:space="preserve">
-    <value>Volné štítkování</value>
-  </data>
-  <data name="RuleAction" xml:space="preserve">
-    <value>Akce</value>
-  </data>
-  <data name="Property" xml:space="preserve">
-    <value>Vlastnost</value>
-  </data>
-  <data name="StartingWorkPeriodCompleted" xml:space="preserve">
-    <value>Pracovní doba spuštěna</value>
-  </data>
-  <data name="TicketNumerator" xml:space="preserve">
-    <value>Čítač účtů</value>
-  </data>
-  <data name="DeleteErrorLastUser" xml:space="preserve">
-    <value>Nelze smazat poslední uživatelský účet</value>
-  </data>
-  <data name="TemplateName" xml:space="preserve">
-    <value>Název šablony</value>
-  </data>
-  <data name="CanChangeDepartment" xml:space="preserve">
-    <value>Může přepínat mezi provozy</value>
-  </data>
-  <data name="CreditCard" xml:space="preserve">
-    <value>Karta</value>
-  </data>
-  <data name="Day" xml:space="preserve">
-    <value>Den</value>
-  </data>
-  <data name="FixedAmount" xml:space="preserve">
-    <value>Pevná částka</value>
-  </data>
-  <data name="Ticket" xml:space="preserve">
-    <value>Účet</value>
-  </data>
-  <data name="MenuName" xml:space="preserve">
-    <value>Název menu</value>
-  </data>
-  <data name="SubTags" xml:space="preserve">
-    <value>Podštítky</value>
-  </data>
-  <data name="ChangeAmountUpdated" xml:space="preserve">
-    <value>Změna čáskty provedena</value>
-  </data>
-  <data name="ChangeAmount_f" xml:space="preserve">
-    <value>Vrátit: {0}</value>
-  </data>
-  <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
-    <value>Přetáhněte {0} produkty kategorie pro změnu jejich pořadí</value>
-  </data>
-  <data name="AccountsReceivable" xml:space="preserve">
-    <value>Doplatit</value>
-  </data>
-  <data name="DayOperations" xml:space="preserve">
-    <value>Pracovní doby</value>
-  </data>
-  <data name="NoAction" xml:space="preserve">
-    <value>Žádná akce</value>
-  </data>
-  <data name="Recipes" xml:space="preserve">
-    <value>Receptury</value>
-  </data>
-  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
-    <value>Časové období není v aktivní pracovní době</value>
-  </data>
-  <data name="TicketTagGroup" xml:space="preserve">
-    <value>Skupina štítků</value>
-  </data>
-  <data name="PrintMapping" xml:space="preserve">
-    <value>Print Mapping</value>
-  </data>
-  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
-    <value>Nové řádky podle Čísla řádku v tiskárně</value>
-  </data>
-  <data name="DiscountPercentSign" xml:space="preserve">
-    <value>Sleva%</value>
-  </data>
-  <data name="SaveFreeTags" xml:space="preserve">
-    <value>Uložit volné štítky</value>
-  </data>
-  <data name="PM" xml:space="preserve">
-    <value>odpoledne</value>
-  </data>
-  <data name="SingleSelection" xml:space="preserve">
-    <value>Samostatný výběr</value>
-  </data>
-  <data name="PhoneNumber" xml:space="preserve">
-    <value>Telefon</value>
-  </data>
-  <data name="Cent" xml:space="preserve">
-    <value>Cent</value>
-  </data>
-  <data name="Add" xml:space="preserve">
-    <value>Přidat</value>
-  </data>
-  <data name="Total" xml:space="preserve">
-    <value>Celkem</value>
-  </data>
-  <data name="LineItemPrice" xml:space="preserve">
-    <value># Line: Cena položky</value>
-  </data>
-  <data name="WorkPeriodStartTime" xml:space="preserve">
-    <value>Čas pracovní doby: {0}</value>
-  </data>
-  <data name="Twenty" xml:space="preserve">
-    <value>Dvacet</value>
-  </data>
-  <data name="Command" xml:space="preserve">
-    <value>Příkaz</value>
-  </data>
-  <data name="Million" xml:space="preserve">
-    <value>Milión</value>
-  </data>
-  <data name="EveryDay" xml:space="preserve">
-    <value>Každý den</value>
-  </data>
-  <data name="DisplayPopup" xml:space="preserve">
-    <value>Zobrazit popup</value>
+  <data name="InventoryTransactionType" xml:space="preserve">
+    <value>Typ Inventurní Transakce</value>
   </data>
   <data name="SlipReportPrinter" xml:space="preserve">
     <value>Zpráva o skluzu tiskárny</value>
   </data>
-  <data name="CashTransactions" xml:space="preserve">
-    <value>Hotovostní transakce</value>
+  <data name="Paid" xml:space="preserve">
+    <value>Zaplacené</value>
   </data>
-  <data name="Minute" xml:space="preserve">
-    <value>Minuta</value>
+  <data name="ChangeAmountUpdated" xml:space="preserve">
+    <value>Změna čáskty provedena</value>
   </data>
-  <data name="DiscountsTotal" xml:space="preserve">
-    <value>Celkem slevy</value>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Status Objednávky</value>
   </data>
-  <data name="OpenClose_ab" xml:space="preserve">
-    <value>Ot-Zav</value>
+  <data name="Cost" xml:space="preserve">
+    <value>Náklady</value>
   </data>
-  <data name="Round" xml:space="preserve">
-    <value>Zaokrohlení</value>
+  <data name="CategoryProducts" xml:space="preserve">
+    <value>Kategorie produktů</value>
   </data>
-  <data name="Seven" xml:space="preserve">
-    <value>Sedm</value>
+  <data name="LinesGroupedByGroupCode" xml:space="preserve">
+    <value>Řádky seskupené pode skupinového kódu</value>
   </data>
-  <data name="TicketPrinter" xml:space="preserve">
-    <value>Tiskárna účtů</value>
+  <data name="PriceDefinition" xml:space="preserve">
+    <value>Definice ceny</value>
   </data>
-  <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
-    <value>Nejsou žádné nákupní transakce v časovém období.</value>
-  </data>
-  <data name="SalesByItemGroup" xml:space="preserve">
-    <value>Tržby podle skupiny položek</value>
-  </data>
-  <data name="Products" xml:space="preserve">
-    <value>Produkty</value>
-  </data>
-  <data name="TotalWorkTimeHours_f" xml:space="preserve">
-    <value>Celková pracovní doba: {0:0} hodin {1:0} minut</value>
-  </data>
-  <data name="Width" xml:space="preserve">
-    <value>Šířka</value>
-  </data>
-  <data name="LinesGroupedByBarcode" xml:space="preserve">
-    <value>Řádky seskupené podle čárového kódu</value>
-  </data>
-  <data name="DocumentNo" xml:space="preserve">
-    <value>Dokument č.</value>
-  </data>
-  <data name="DepartmentType" xml:space="preserve">
-    <value>Typ provozu</value>
-  </data>
-  <data name="GetPayment" xml:space="preserve">
-    <value>Zaplatit</value>
-  </data>
-  <data name="InvoicePrinter" xml:space="preserve">
-    <value>Tiskárna faktur</value>
-  </data>
-  <data name="HalfPast" xml:space="preserve">
-    <value>Půl</value>
-  </data>
-  <data name="Header" xml:space="preserve">
-    <value>Hlavička</value>
-  </data>
-  <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
-    <value>Když je vybráno "Číselné štítkování"  všechny štítky by měly obsahovat číselné hodnoty.</value>
-  </data>
-  <data name="AccountsLiability" xml:space="preserve">
-    <value>Účtové předplatné</value>
-  </data>
-  <data name="MultipleSelection" xml:space="preserve">
-    <value>Vícenásobný výběr</value>
-  </data>
-  <data name="WorkPeriodStartDate_f" xml:space="preserve">
-    <value>Datum pracovní doby: {0}</value>
-  </data>
-  <data name="SambaPosWebsite" xml:space="preserve">
-    <value>SambaPOS webové stránky</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Vymazat</value>
-  </data>
-  <data name="TagValue" xml:space="preserve">
-    <value>Hodnota štítku</value>
-  </data>
-  <data name="Dollar" xml:space="preserve">
-    <value>Dolar</value>
-  </data>
-  <data name="Rule" xml:space="preserve">
-    <value>Pravidlo</value>
-  </data>
-  <data name="CategoryName" xml:space="preserve">
-    <value>Název kategorie</value>
-  </data>
-  <data name="CurrentCost" xml:space="preserve">
-    <value>Současné náklady</value>
-  </data>
-  <data name="Three" xml:space="preserve">
-    <value>Tři</value>
-  </data>
-  <data name="Every5Minutes" xml:space="preserve">
-    <value>Každých 5 minut</value>
-  </data>
-  <data name="PastMonth" xml:space="preserve">
-    <value>Minulý měsíc</value>
-  </data>
-  <data name="Total_f" xml:space="preserve">
-    <value>Celkem: {0}</value>
-  </data>
-  <data name="TicketOpeningTime" xml:space="preserve">
-    <value>Otevření účtu</value>
-  </data>
-  <data name="Tickets" xml:space="preserve">
-    <value>Účtenky</value>
-  </data>
-  <data name="CanRemoveTicketTag" xml:space="preserve">
-    <value>Může odstranit štítek účtu</value>
-  </data>
-  <data name="Date" xml:space="preserve">
-    <value>Datum</value>
-  </data>
-  <data name="NextPage" xml:space="preserve">
-    <value>Další stránka</value>
-  </data>
-  <data name="Back" xml:space="preserve">
-    <value>Zpátky</value>
-  </data>
-  <data name="Restaurant" xml:space="preserve">
-    <value>Restaurace</value>
-  </data>
-  <data name="Thirteen" xml:space="preserve">
-    <value>Třináct</value>
-  </data>
-  <data name="MessageServerName" xml:space="preserve">
-    <value>Název Message serveru</value>
-  </data>
-  <data name="TotalWorkTimeDays_f" xml:space="preserve">
-    <value>Celková pracovní doba:
-{0:0} dnů {1:0} hodin {2:0} minut</value>
-  </data>
-  <data name="TotalAmount_f" xml:space="preserve">
-    <value>{0} Celková částka:</value>
-  </data>
-  <data name="UndefinedWithBrackets" xml:space="preserve">
-    <value>[Nedefinováno]</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
+  <data name="ShowMessage" xml:space="preserve">
+    <value>Zobrazit zprávu</value>
   </data>
   <data name="UserRoleName" xml:space="preserve">
     <value>Název role</value>
   </data>
-  <data name="Divide" xml:space="preserve">
-    <value>Rozdělit</value>
+  <data name="Line" xml:space="preserve">
+    <value>Řádek</value>
+  </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>Informace o Uživateli </value>
+  </data>
+  <data name="Nine" xml:space="preserve">
+    <value>Devět</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Číslo</value>
+  </data>
+  <data name="Trigger" xml:space="preserve">
+    <value>Spoušťěč</value>
+  </data>
+  <data name="AutoRounding" xml:space="preserve">
+    <value>Auto zaokrouhlení</value>
+  </data>
+  <data name="TotalWorkTimeHours_f" xml:space="preserve">
+    <value>Celková pracovní doba: {0:0} hodin {1:0} minut</value>
+  </data>
+  <data name="CostReport" xml:space="preserve">
+    <value>Report nákladů</value>
+  </data>
+  <data name="EventName" xml:space="preserve">
+    <value>Název události</value>
+  </data>
+  <data name="NewOrderAddingRule" xml:space="preserve">
+    <value>Nová Objednávka Přidání pravidla </value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Rovná se</value>
+  </data>
+  <data name="CharacterSet" xml:space="preserve">
+    <value>Znaková sada</value>
+  </data>
+  <data name="Recipes" xml:space="preserve">
+    <value>Receptury</value>
+  </data>
+  <data name="PrintBill" xml:space="preserve">
+    <value>Tisk účtu</value>
+  </data>
+  <data name="Portion" xml:space="preserve">
+    <value>Porce</value>
+  </data>
+  <data name="ProgramSettings" xml:space="preserve">
+    <value>Nastavení programu</value>
+  </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Účtenka</value>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>Na skladě</value>
+  </data>
+  <data name="MenuItemName" xml:space="preserve">
+    <value>Název menu položky</value>
+  </data>
+  <data name="DisplayAllValues" xml:space="preserve">
+    <value>Zobrazit všechny hodnoty</value>
+  </data>
+  <data name="Negative" xml:space="preserve">
+    <value>Negativní</value>
+  </data>
+  <data name="LoadTicket" xml:space="preserve">
+    <value>Nahrát Účtenku</value>
+  </data>
+  <data name="TicketTipTotal" xml:space="preserve">
+    <value>Tip celkem</value>
+  </data>
+  <data name="ActionName" xml:space="preserve">
+    <value>Název akce</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Forum</value>
+  </data>
+  <data name="TicketNote" xml:space="preserve">
+    <value>Poznámka k účtu</value>
+  </data>
+  <data name="CheckDBVersion" xml:space="preserve">
+    <value>Zkontrolujte verzi databáze</value>
+  </data>
+  <data name="InventoryItemName" xml:space="preserve">
+    <value>Název skladové položky</value>
+  </data>
+  <data name="CashPermissions" xml:space="preserve">
+    <value>Oprávnění na hotovost</value>
+  </data>
+  <data name="AlphanumericButtons" xml:space="preserve">
+    <value>Alfanumerická tlačítka se</value>
+  </data>
+  <data name="KitchenOrderTemplate" xml:space="preserve">
+    <value>Šablona objednávky do kuchyně</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Příkaz</value>
   </data>
   <data name="Seventy" xml:space="preserve">
     <value>Sedmdesát</value>
   </data>
-  <data name="Copy" xml:space="preserve">
-    <value>Kopírovat</value>
+  <data name="ProductTag" xml:space="preserve">
+    <value>Štítek Produktu</value>
   </data>
-  <data name="DefaultTerminal" xml:space="preserve">
-    <value>Výchozí terminál</value>
+  <data name="Calling" xml:space="preserve">
+    <value>Volání</value>
   </data>
-  <data name="AllLines" xml:space="preserve">
-    <value>Všechny řádky</value>
+  <data name="PriceTag" xml:space="preserve">
+    <value>Cenový štítek</value>
+  </data>
+  <data name="ModifyOrder" xml:space="preserve">
+    <value>Upravit Objednávku</value>
+  </data>
+  <data name="Included" xml:space="preserve">
+    <value>Včetně</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="BatchCreateDocuments" xml:space="preserve">
+    <value>Zadat Více Dokumentů</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Zákazník</value>
+  </data>
+  <data name="Automatic" xml:space="preserve">
+    <value>Automatický</value>
+  </data>
+  <data name="SalesDivTicket" xml:space="preserve">
+    <value>Celkem tržby / účet</value>
+  </data>
+  <data name="ProgramLanguage" xml:space="preserve">
+    <value>Jazyk programu</value>
+  </data>
+  <data name="NewTicketCreatingRule" xml:space="preserve">
+    <value>Nový Účet Vytvoření pravidla</value>
+  </data>
+  <data name="SortType" xml:space="preserve">
+    <value>Seřadit podle</value>
+  </data>
+  <data name="PortionName" xml:space="preserve">
+    <value>Název porce</value>
+  </data>
+  <data name="RateFromTaxIncludedTicketAmount" xml:space="preserve">
+    <value>Daň  je zahrnuta v částce účtenky </value>
+  </data>
+  <data name="TicketTotal_f" xml:space="preserve">
+    <value>Celkem {0}:</value>
+  </data>
+  <data name="CanReleaseTicketLock" xml:space="preserve">
+    <value>Může odstranit zámčení účtu</value>
+  </data>
+  <data name="Expression" xml:space="preserve">
+    <value>Výraz</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Měsíc</value>
+  </data>
+  <data name="TicketEntityChanged" xml:space="preserve">
+    <value>Entita Účtu Změněna</value>
+  </data>
+  <data name="InventoryPurchaseReport" xml:space="preserve">
+    <value>Report nákupu zboží</value>
+  </data>
+  <data name="TerminalView" xml:space="preserve">
+    <value>Zobrazení na terminálu</value>
+  </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>Spotřeba</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Odstranit aktuální šablonu a nahrát {0}?</value>
+  </data>
+  <data name="EveryOtherMonth" xml:space="preserve">
+    <value>Každý druhý měsíc</value>
+  </data>
+  <data name="DayDate" xml:space="preserve">
+    <value>Datum dne</value>
+  </data>
+  <data name="Starts" xml:space="preserve">
+    <value>Prvotní částka</value>
+  </data>
+  <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
+    <value>Celková pracovní doba: {00:00} minut</value>
+  </data>
+  <data name="SubButtonRows" xml:space="preserve">
+    <value>Řádka Pod Tlačítka</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Zpráva</value>
+  </data>
+  <data name="ChargedAmount" xml:space="preserve">
+    <value>Příjmuto</value>
+  </data>
+  <data name="PrinterType" xml:space="preserve">
+    <value>Typ tiskárny</value>
+  </data>
+  <data name="MergeLines" xml:space="preserve">
+    <value>Sloučit řádky</value>
+  </data>
+  <data name="PaymentTotal" xml:space="preserve">
+    <value>Platba celkem</value>
+  </data>
+  <data name="Delete_f" xml:space="preserve">
+    <value>Odstranit {0}</value>
+  </data>
+  <data name="OpenClose_ab" xml:space="preserve">
+    <value>Ot-Zav</value>
+  </data>
+  <data name="Every6Months" xml:space="preserve">
+    <value>Každých 6 měsíců</value>
+  </data>
+  <data name="Seven" xml:space="preserve">
+    <value>Sedm</value>
+  </data>
+  <data name="TicketSubTotal" xml:space="preserve">
+    <value>Mezisoučet celkem</value>
+  </data>
+  <data name="SellerWarehouse" xml:space="preserve">
+    <value>Prodejní Sklad</value>
   </data>
   <data name="GiftTotal" xml:space="preserve">
     <value>Darování celkem</value>
   </data>
-  <data name="Billion" xml:space="preserve">
-    <value>Miliardy</value>
+  <data name="EmptyNameError" xml:space="preserve">
+    <value>Nenechávejte {0} jméno prázdné.</value>
   </data>
-  <data name="ClickLinksToExportData" xml:space="preserve">
-    <value>Vyberte časové období, aktualizujte report a klikněte na související odkaz pro export dat.</value>
+  <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
+    <value>Jsou {0} otevřené účty.
+Nelze ukončit pracovní dobu, pokud jsou otevřené účty.</value>
   </data>
-  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
-    <value>Tam je další cena rozlišení s {0} tag</value>
+  <data name="HalfPast" xml:space="preserve">
+    <value>Půl</value>
   </data>
-  <data name="TicketPermissions" xml:space="preserve">
-    <value>Oprávnění účtů</value>
+  <data name="SingleSelection" xml:space="preserve">
+    <value>Samostatný výběr</value>
   </data>
-  <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
-    <value>Nelze uložit, protože tam jsou řádky s prázdnými skladovými položkami nebo nulové množství</value>
+  <data name="PinCode" xml:space="preserve">
+    <value>PIN kód</value>
   </data>
-  <data name="PrintContent" xml:space="preserve">
-    <value>Tisknutí obsahu</value>
+  <data name="ExecutePrintBillJob" xml:space="preserve">
+    <value>Provést Tiskovou Úlohu Lístku </value>
+  </data>
+  <data name="DiscountPercentSign" xml:space="preserve">
+    <value>Sleva%</value>
+  </data>
+  <data name="WorkPeriodStarted" xml:space="preserve">
+    <value>Směna začala</value>
+  </data>
+  <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
+    <value>Vyberte tiskové úlohy, kterou chcete přidat {0} terminálu</value>
+  </data>
+  <data name="RoundingTotal" xml:space="preserve">
+    <value>Zaokrouhlování celkem</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Množství</value>
+  </data>
+  <data name="PortPrinter" xml:space="preserve">
+    <value>Port tiskárny</value>
+  </data>
+  <data name="ReportPrinter" xml:space="preserve">
+    <value>Report tiskárny</value>
+  </data>
+  <data name="PriceDefinitions" xml:space="preserve">
+    <value>Definice cen</value>
+  </data>
+  <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
+    <value>Přetáhněte {0} produkty kategorie pro změnu jejich pořadí</value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="Portions" xml:space="preserve">
+    <value>Rozdělení</value>
+  </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>Řazení</value>
+  </data>
+  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
+    <value>Nelze smazat poslední uzávěrky</value>
+  </data>
+  <data name="LoopValues" xml:space="preserve">
+    <value>Hodnota Otočení</value>
+  </data>
+  <data name="CanDisplayOldTickets" xml:space="preserve">
+    <value>Může zobrazit staré účty</value>
+  </data>
+  <data name="Twenty" xml:space="preserve">
+    <value>Dvacet</value>
+  </data>
+  <data name="MoveTicketLine" xml:space="preserve">
+    <value>Přesun</value>
+  </data>
+  <data name="Ninety" xml:space="preserve">
+    <value>Devadesát</value>
+  </data>
+  <data name="PrinterName" xml:space="preserve">
+    <value>Název tiskárny</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Seznam</value>
+  </data>
+  <data name="DeleteItemConfirmation_f" xml:space="preserve">
+    <value>Odstranit {0} [{1}]?</value>
+  </data>
+  <data name="CornerRadius" xml:space="preserve">
+    <value>Poloměr rohů</value>
+  </data>
+  <data name="TwiceAnHour" xml:space="preserve">
+    <value>Dvakrát za hodinu</value>
+  </data>
+  <data name="EveryHour" xml:space="preserve">
+    <value>Každou hodinu</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>Účet</value>
+  </data>
+  <data name="EntitySelected" xml:space="preserve">
+    <value>Entita Vybrána</value>
+  </data>
+  <data name="EveryDay" xml:space="preserve">
+    <value>Každý den</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>Název provozu</value>
+  </data>
+  <data name="RuleActions" xml:space="preserve">
+    <value>Akce</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Zavřít</value>
+  </data>
+  <data name="Four" xml:space="preserve">
+    <value>Čtyři</value>
   </data>
   <data name="OrderNumber_f" xml:space="preserve">
     <value>Ord.No: {00:00} - {1}</value>
   </data>
-  <data name="LineItemTotalAndQuantity" xml:space="preserve">
-    <value># Line: Položka Celkem x Množství</value>
+  <data name="Every4Hours" xml:space="preserve">
+    <value>Každé 4 hodiny</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Cíl</value>
+  </data>
+  <data name="ColumnCount" xml:space="preserve">
+    <value>Počet sloupců</value>
+  </data>
+  <data name="WindowScale" xml:space="preserve">
+    <value>Window Měřítko</value>
+  </data>
+  <data name="DisplayUserPath" xml:space="preserve">
+    <value>Zobrazit cestu k uživateli</value>
+  </data>
+  <data name="Seventeen" xml:space="preserve">
+    <value>Sedmnáct</value>
+  </data>
+  <data name="AskTicketType" xml:space="preserve">
+    <value>Zeptat se na typ účtenky</value>
+  </data>
+  <data name="Three" xml:space="preserve">
+    <value>Tři</value>
+  </data>
+  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
+    <value>Tento PIN kód používá jiný uživatelský účet.</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>Karta</value>
+  </data>
+  <data name="CashReport" xml:space="preserve">
+    <value>Reporty hotovostních transakcí</value>
+  </data>
+  <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
+    <value>Pro změnu ceny nejdřive vyplňte cenu z čítače.</value>
+  </data>
+  <data name="PrintMapping" xml:space="preserve">
+    <value>Print Mapping</value>
+  </data>
+  <data name="Thousand" xml:space="preserve">
+    <value>Popelnice</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Hlavní menu</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>Zobrazit Jako Strom</value>
+  </data>
+  <data name="SelectionRequired" xml:space="preserve">
+    <value>Výběr vyžadován</value>
+  </data>
+  <data name="Cent" xml:space="preserve">
+    <value>Cent</value>
+  </data>
+  <data name="SambaNetwork" xml:space="preserve">
+    <value>Samba sítě</value>
+  </data>
+  <data name="NumeratorType" xml:space="preserve">
+    <value>Typ čítače</value>
+  </data>
+  <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
+    <value>Přepsat místní nastavení Windows</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Přidat štítek</value>
+  </data>
+  <data name="Eight" xml:space="preserve">
+    <value>Osm</value>
+  </data>
+  <data name="Gift" xml:space="preserve">
+    <value>Dárek</value>
+  </data>
+  <data name="Voucher" xml:space="preserve">
+    <value>Šek</value>
+  </data>
+  <data name="CurrentInventory" xml:space="preserve">
+    <value>Současné zásoby</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Ukončit</value>
+  </data>
+  <data name="TextWrittenTotalValue" xml:space="preserve">
+    <value>Text psaný k celkové hodnotě</value>
+  </data>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Číslo účtu</value>
+  </data>
+  <data name="EveryMinute" xml:space="preserve">
+    <value>Každou minutu</value>
+  </data>
+  <data name="Every10Minutes" xml:space="preserve">
+    <value>Každých 10 minut</value>
+  </data>
+  <data name="MenuCategories" xml:space="preserve">
+    <value>Kategorie menu</value>
+  </data>
+  <data name="TicketType" xml:space="preserve">
+    <value>Typ účtu</value>
+  </data>
+  <data name="SelectActions" xml:space="preserve">
+    <value>Výběr akcí</value>
+  </data>
+  <data name="DiscountPercentage" xml:space="preserve">
+    <value>Slevy v procentech</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Hlavička</value>
+  </data>
+  <data name="TaxTotal" xml:space="preserve">
+    <value>Celkem DPH</value>
+  </data>
+  <data name="Toggle" xml:space="preserve">
+    <value>Přepínač</value>
+  </data>
+  <data name="DepartmentPermissions" xml:space="preserve">
+    <value>Oprávnění provozu</value>
   </data>
 </root>

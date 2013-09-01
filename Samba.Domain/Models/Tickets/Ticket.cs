@@ -730,29 +730,41 @@ namespace Samba.Domain.Models.Tickets
             {
                 Orders.ToList().ForEach(x => x.IsSelected = false);
                 var newOrders = FixSelectedOrders();
-                newOrders.ToList().ForEach(x => x.IsSelected = true);
+                newOrders.ForEach(x => x.IsSelected = true);
             }
             return SelectedOrders;
         }
 
-        private IEnumerable<Order> FixSelectedOrders()
+        public Order ExtractSelectedOrder(Order order)
         {
-            var newItems = new List<Order>();
-
-            foreach (var order in Orders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity).ToList())
+            if (order.SelectedQuantity > 0 && order.SelectedQuantity < order.Quantity)
             {
-                Debug.Assert(order.SelectedQuantity > 0);
-                Debug.Assert(Orders.Contains(order));
-                if (order.SelectedQuantity >= order.Quantity) continue;
-                var newItem = CloneOrder(order);
-                newItem.Id = 0;
-                newItem.Quantity = order.SelectedQuantity;
-                newItem.ResetSelectedQuantity();
-                order.Quantity -= order.SelectedQuantity;
-                order.ResetSelectedQuantity();
-                newItems.Add(newItem);
+                return FixOrder(order);
             }
-            return newItems;
+            return order;
+        }
+
+        private List<Order> FixSelectedOrders()
+        {
+            return Orders.Where(x => x.SelectedQuantity > 0 && x.SelectedQuantity < x.Quantity)
+                         .ToList()
+                         .Select(FixOrder)
+                         .Where(newItem => newItem != null)
+                         .ToList();
+        }
+
+        private Order FixOrder(Order order)
+        {
+            Debug.Assert(order.SelectedQuantity > 0);
+            Debug.Assert(Orders.Contains(order));
+            if (order.SelectedQuantity >= order.Quantity) return null;
+            var result = CloneOrder(order);
+            result.Id = 0;
+            result.Quantity = order.SelectedQuantity;
+            result.ResetSelectedQuantity();
+            order.Quantity -= order.SelectedQuantity;
+            order.ResetSelectedQuantity();
+            return result;
         }
 
         public void RemoveOrders(IEnumerable<Order> selectedOrders)
@@ -833,6 +845,12 @@ namespace Samba.Domain.Models.Tickets
         {
             var sv = GetStateValue(s);
             return sv != null ? sv.State ?? "" : "";
+        }
+
+        public string GetStateQuantityStr(string s)
+        {
+            var sv = GetStateValue(s);
+            return sv != null ? sv.Quantity.ToString(CultureInfo.InvariantCulture) : "";
         }
 
         public void RemoveData()

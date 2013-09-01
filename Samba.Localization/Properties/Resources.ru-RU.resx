@@ -1440,6 +1440,9 @@
   <data name="From" xml:space="preserve">
     <value>От:</value>
   </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Изменить порядок сортировки</value>
+  </data>
   <data name="One" xml:space="preserve">
     <value>Один</value>
   </data>
@@ -1632,8 +1635,8 @@
   <data name="Ticket Moving" xml:space="preserve">
     <value>Перенос чека</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Дата Чека</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Удалить выбранные шаблоны печати?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Когда без тегов</value>
@@ -1712,9 +1715,6 @@
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Каждую минуту</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Предыдущий заказ</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Свойства по умолчанию</value>
@@ -1890,9 +1890,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Да</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Удалить выбранные шаблоны печати?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Цена порции</value>
@@ -2115,9 +2112,6 @@
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Руководство</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Время Чека</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Порт сервера сообщений</value>

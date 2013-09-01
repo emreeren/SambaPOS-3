@@ -581,6 +581,9 @@ Se déclenchera après {1} jours, {2} heures, {3} minutes</value>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Permet d'afficher le filtre date sur le rapport</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Type de balisage</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Utilisateur</value>
   </data>
@@ -702,8 +705,8 @@ La modification du code PIN permet de masquer cette astuce</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Balise libre</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Rapport Coût</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Clientèle</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Balise du Ticket</value>
@@ -1263,8 +1266,8 @@ La modification du code PIN permet de masquer cette astuce</value>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Sélectionnez la plage de date, de rafraîchissement et cliquez sur le lien pour exporter les données.</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Date de vente de tickets</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Supprimer le plan sélectionnée?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Lorsque sans Balise</value>
@@ -1325,9 +1328,6 @@ La modification du code PIN permet de masquer cette astuce</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Toutes les deux minutes</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Tri croissant</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Propriétés par défaut</value>
@@ -1464,9 +1464,6 @@ Continuer sans ajouter de détails?</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Supprimer le plan sélectionnée?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Prix ​​des portions</value>
@@ -1629,9 +1626,6 @@ Continuer sans ajouter de détails?</value>
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manuel</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Date du Ticket</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Port Server Message</value>
@@ -1829,8 +1823,8 @@ ticket</value>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Temps de travail total: {0:0} heures {1:0} minutes</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>Type de balisage</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Rapport Coût</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Nom de l'événement</value>
@@ -1936,9 +1930,6 @@ ticket</value>
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Type de calcul</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Clientèle</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Totale {0}:</value>

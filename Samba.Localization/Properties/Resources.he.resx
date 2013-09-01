@@ -174,8 +174,8 @@
   <data name="DepartmentName" xml:space="preserve">
     <value>שם מחלקה</value>
   </data>
-  <data name="UserSales" xml:space="preserve">
-    <value>מכירות לפי משתמש</value>
+  <data name="Delete_f" xml:space="preserve">
+    <value>מחיקת: {0}</value>
   </data>
   <data name="MenuItemGroup" xml:space="preserve">
     <value>קבוצת מוצרים</value>
@@ -265,8 +265,8 @@
   <data name="NewOrders" xml:space="preserve">
     <value>הזמנות חדשות</value>
   </data>
-  <data name="TerminalView" xml:space="preserve">
-    <value>תצוגת מסוף</value>
+  <data name="UserSales" xml:space="preserve">
+    <value>מכירות לפי משתמש</value>
   </data>
   <data name="Receiveable" xml:space="preserve">
     <value>ממתין לתשלום</value>
@@ -327,9 +327,6 @@
   </data>
   <data name="CashReport" xml:space="preserve">
     <value>דו"ח עסקאות במזומן</value>
-  </data>
-  <data name="InternalAccounts" xml:space="preserve">
-    <value>חשבונות פנימיים</value>
   </data>
   <data name="GeneralInformation" xml:space="preserve">
     <value>מידע כללי</value>
@@ -568,8 +565,8 @@
   <data name="BatchCreateProductsDialogHint" xml:space="preserve">
     <value>צור שורה לכל מוצר עם תבנית של [שם מוצר] [מחיר]. התחל שמות של קטגוריות עם #</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>תאריך כרטיס</value>
+  <data name="InternalAccounts" xml:space="preserve">
+    <value>חשבונות פנימיים</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>אין אפשרות למחוק רשומות סוף יום ישנות</value>
@@ -673,8 +670,8 @@
   <data name="NumeratorType" xml:space="preserve">
     <value>סוג לוח מקשי מספרים</value>
   </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>שעת כרטיס</value>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>סוג מחסן</value>
   </data>
   <data name="NewTicket" xml:space="preserve">
     <value>כרטיס חדש</value>
@@ -723,9 +720,6 @@
   </data>
   <data name="CostPrediction" xml:space="preserve">
     <value>צפי עלות</value>
-  </data>
-  <data name="Delete_f" xml:space="preserve">
-    <value>מחיקת: {0}</value>
   </data>
   <data name="MarkTicketAsClosed" xml:space="preserve">
     <value>סמן כרטיס כסגור</value>
@@ -787,9 +781,6 @@
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>הוספת כרטיס הנחה</value>
   </data>
-  <data name="WarehouseType" xml:space="preserve">
-    <value>סוג מחסן</value>
-  </data>
   <data name="EmptyNameError" xml:space="preserve">
     <value>נא לא להשאיר שם {0} ריק.</value>
   </data>
@@ -801,6 +792,9 @@
   </data>
   <data name="Custom" xml:space="preserve">
     <value>מותאם אישית</value>
+  </data>
+  <data name="TerminalView" xml:space="preserve">
+    <value>תצוגת מסוף</value>
   </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
     <value>ניתן להעביר פריטים</value>

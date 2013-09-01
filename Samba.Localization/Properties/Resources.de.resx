@@ -400,6 +400,12 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Küchendrucker</value>
   </data>
+  <data name="InventoryCalculationError" xml:space="preserve">
+    <value>Die Berechnung des Inventars generierte einen Fehler. Überpfüfen Sie Ihre Rezepte.</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>Ungültiger Ausdruck</value>
   </data>
@@ -492,6 +498,9 @@
   </data>
   <data name="OnceAMonth" xml:space="preserve">
     <value>Einmal im Monat</value>
+  </data>
+  <data name="QuantitySeparators" xml:space="preserve">
+    <value>Mengen-Seperatoren</value>
   </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Einzelpreis</value>
@@ -749,6 +758,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Kann Berichtdatenfilter wechseln</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Taging Typ</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
@@ -884,8 +896,8 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="PaymentType" xml:space="preserve">
     <value>Zahlungsart</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Einstellungen</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>Zeilenanzahl</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
@@ -909,8 +921,8 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Freies Tagging</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Kostenbericht</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Kunden</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Belegtag</value>
@@ -1004,6 +1016,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Produktname</value>
+  </data>
+  <data name="CantComplateOperationError" xml:space="preserve">
+    <value>Konnte die Operation wegen eines Fehlers nicht abschließen. Überprüfe die Fehlerlogdateien für Details.</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
     <value>VERGESSEN SIE NICHT DIE ARBEITSZEIT ZU BEENDEN!</value>
@@ -1504,6 +1519,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Druckaufträge für Küchendrucker</value>
   </data>
+  <data name="AccountTransactionAddedToTicket" xml:space="preserve">
+    <value>Kontotransaktion zu Beleg hinzu gefügt</value>
+  </data>
   <data name="Noon" xml:space="preserve">
     <value>Mittag</value>
   </data>
@@ -1611,6 +1629,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="From" xml:space="preserve">
     <value>Von:</value>
+  </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Ändere Sortierreihenfolge</value>
   </data>
   <data name="One" xml:space="preserve">
     <value>Ein</value>
@@ -1825,8 +1846,8 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Ticket Moving" xml:space="preserve">
     <value>Beleg wird verschiebt</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Belegdatum</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Ausgewählte Zuordnung löschen?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Wenn Untagged</value>
@@ -1845,9 +1866,6 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Internetauftritt</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Zeilenanzahl</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Begrenzung entfernen</value>
@@ -1917,9 +1935,6 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Jede zweite Minute</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Letzte Bestellung</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Standard-Eigenschaften</value>
@@ -2116,9 +2131,6 @@ Fehlernachricht:
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Ausgewählte Zuordnung löschen?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Portionspreise</value>
@@ -2347,9 +2359,6 @@ Fehlernachricht:
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manuell</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Belegzeit</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Message-Server-Port</value>
@@ -2631,8 +2640,8 @@ schliessen</value>
   <data name="AddTicketLog" xml:space="preserve">
     <value>Füge Beleg-Aufzeichnung hinzu</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>Taging Typ</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Kostenbericht</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Name des Ereignisses</value>
@@ -2804,9 +2813,6 @@ schliessen</value>
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Kalkulationstyp</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Kunden</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Gesamt {0}:</value>

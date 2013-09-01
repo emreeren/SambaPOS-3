@@ -70,7 +70,7 @@ namespace Samba.Modules.PosModule
         }
 
         [ImportingConstructor]
-        public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
+        public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter, 
             ITicketService ticketService, ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService, IMessagingService messagingService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel,
             MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,
@@ -117,7 +117,7 @@ namespace Samba.Modules.PosModule
 
         private void OnOrderEventReceived(EventParameters<Order> obj)
         {
-            if (obj.Topic == EventTopicNames.OrderAdded && obj.Value != null)
+            if (obj.Topic == EventTopicNames.OrderAdded && obj.Value != null && SelectedTicket != null)
             {
                 _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
                 DisplaySingleTicket();
@@ -296,8 +296,12 @@ namespace Samba.Modules.PosModule
             OpenTicket(0);
             foreach (var ticketEntity in tr)
             {
-                if (_applicationState.CurrentTicketType.EntityTypeAssignments.Any(x => x.CopyToNewTickets && x.EntityTypeId == ticketEntity.EntityTypeId))
-                    _ticketService.UpdateEntity(SelectedTicket, ticketEntity.EntityTypeId, ticketEntity.EntityId, ticketEntity.EntityName, ticketEntity.AccountTypeId, ticketEntity.AccountId, ticketEntity.EntityCustomData);
+                if (_applicationState.CurrentTicketType.EntityTypeAssignments.Any(
+                        x => x.CopyToNewTickets && x.EntityTypeId == ticketEntity.EntityTypeId))
+                {
+                    var entity = _cacheService.GetEntityById(ticketEntity.EntityId);
+                    _ticketService.UpdateEntity(SelectedTicket, entity, ticketEntity.AccountTypeId, ticketEntity.AccountId, ticketEntity.EntityCustomData);
+                }
             }
         }
 

@@ -22,7 +22,7 @@ namespace Samba.Presentation.Services
         void PayTicket(Ticket ticket, PaymentType template);
         void UpdateTicketNumber(Ticket ticket, Numerator numerator);
         void UpdateEntity(Ticket ticket, Entity entity);
-        void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountTypeId, int accountId, string entityCustomData);
+        void UpdateEntity(Ticket ticket, Entity entity, int accountTypeId, int accountId, string entityCustomData);
         void RecalculateTicket(Ticket ticket);
         void UpdateTag(Ticket ticket, TicketTagGroup tagGroup, TicketTag ticketTag);
         void UpdateTag(Ticket ticket, string tagName, string tagValue);

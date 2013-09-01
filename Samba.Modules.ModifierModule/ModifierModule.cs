@@ -113,7 +113,6 @@ namespace Samba.Modules.ModifierModule
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(AutomationCommandSelectorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(AutomationCommandValueSelectorView));
             _regionManager.RegisterViewWithRegion(RegionNames.PosSubRegion, typeof(TicketLogViewerView));
-
         }
 
         public void DisplayTicketDetailsScreen(OperationRequest<SelectedOrdersData> currentOperationRequest)

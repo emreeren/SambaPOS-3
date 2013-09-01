@@ -385,6 +385,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Stampante Cucina</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Impostazioni</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>Errore nell'espressione</value>
   </data>
@@ -728,6 +731,9 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Può Cambiare Data filtro del report</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Tipo Tagging</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Utente</value>
   </data>
@@ -854,8 +860,8 @@ Attiverà dopo {1} giorni, {2} ore, {3} minuti</value>
   <data name="PaymentType" xml:space="preserve">
     <value>Tipo di Pagamento</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Impostazioni</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>Contatore linee</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
@@ -879,8 +885,8 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Tagging gratuito</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Costo Rapporto</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Clienti</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Ticket Tag</value>
@@ -1722,8 +1728,8 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Ticket Moving" xml:space="preserve">
     <value>Ticket Spostato</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Data Ticket</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Eliminare Mapping selezionato?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Quando senza tag</value>
@@ -1742,9 +1748,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Sito</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Contatore linee</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Rimuovere Limite</value>
@@ -1814,9 +1817,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Ogni minuto</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Ultimo ordine</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Proprietà Predefinite</value>
@@ -2007,9 +2007,6 @@ Messaggio di errore:
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sì</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Eliminare Mapping selezionato?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Prezzo porzioni</value>
@@ -2238,9 +2235,6 @@ Messaggio di errore:
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manuale</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Ora ticket</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Server Message Porta</value>
@@ -2507,8 +2501,8 @@ Ticket</value>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Tempo totale di : {0:0} ore {1:0} minuti</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>Tipo Tagging</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Costo Rapporto</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Nome evento</value>
@@ -2674,9 +2668,6 @@ Ticket</value>
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Tipo Calcolo</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Clienti</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Totale {0}:</value>

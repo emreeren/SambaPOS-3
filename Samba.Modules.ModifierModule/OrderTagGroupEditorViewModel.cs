@@ -22,12 +22,15 @@ namespace Samba.Modules.ModifierModule
     {
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
+        private readonly AutomationCommandSelectorViewModel _automationCommandSelectorViewModel;
 
         [ImportingConstructor]
-        public OrderTagGroupEditorViewModel(IUserService userService, IApplicationState applicationState, ICacheService cacheService)
+        public OrderTagGroupEditorViewModel(IUserService userService, IApplicationState applicationState, ICacheService cacheService,
+            AutomationCommandSelectorViewModel automationCommandSelectorViewModel)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
+            _automationCommandSelectorViewModel = automationCommandSelectorViewModel;
             ToggleRemoveModeCommand = new CaptionCommand<string>(Resources.Remove, OnToggleRemoveMode);
             CloseCommand = new CaptionCommand<string>(Resources.Close, OnCloseCommandExecuted);
             PortionSelectedCommand = new DelegateCommand<MenuItemPortion>(OnPortionSelected);
@@ -67,6 +70,8 @@ namespace Samba.Modules.ModifierModule
         }
 
         public string RemoveModeButtonColor { get { return RemoveMode ? "Black" : "Gainsboro"; } }
+
+        public AutomationCommandSelectorViewModel AutomationCommandSelectorViewModel { get { return _automationCommandSelectorViewModel; } }
 
         public ICaptionCommand CloseCommand { get; set; }
         public CaptionCommand<string> ToggleRemoveModeCommand { get; set; }
@@ -168,12 +173,14 @@ namespace Samba.Modules.ModifierModule
             OrderTagGroups.Where(x => x.OrderTags.Any(y => y.Name == obj.FreeTagName)).ToList().ForEach(x => x.Refresh());
         }
 
-        private void SetSelectedTicket(Ticket ticketViewModel)
+        private void SetSelectedTicket(Ticket ticket)
         {
-            SelectedTicket = ticketViewModel;
+            SelectedTicket = ticket;
+            _automationCommandSelectorViewModel.SelectedTicket = ticket;
             RaisePropertyChanged(() => SelectedTicket);
             RaisePropertyChanged(() => SelectedOrder);
             RaisePropertyChanged(() => IsPortionsVisible);
+            RaisePropertyChanged(() => AutomationCommandSelectorViewModel);
         }
 
         public bool ShouldDisplay(Ticket value, IEnumerable<Order> selectedOrders)

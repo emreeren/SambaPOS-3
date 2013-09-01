@@ -557,6 +557,9 @@ Do të shkaktojë pas {1} ditë, {2} orë, {3} minuta</value>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Mund të ndryshojë Data Filter Raporti</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Tipi i Etiketimit</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Përdorues</value>
   </data>
@@ -620,6 +623,9 @@ Do të shkaktojë pas {1} ditë, {2} orë, {3} minuta</value>
   <data name="CanRemoveTicketTag" xml:space="preserve">
     <value>Mund të hiqni Tag Ticket</value>
   </data>
+  <data name="TranactionsZeroQuantityError" xml:space="preserve">
+    <value>Transaksionet permbajne </value>
+  </data>
   <data name="CashTransactions" xml:space="preserve">
     <value>Transaksioneve në cash</value>
   </data>
@@ -669,8 +675,8 @@ Ndryshimi i PIN-it do të fsheh këtë informacion</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Tagging pa pagesë</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Raporti Kosto</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Konsumatorët</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Tag Ticket</value>
@@ -884,9 +890,6 @@ Ndryshimi i PIN-it do të fsheh këtë informacion</value>
   </data>
   <data name="Terminal" xml:space="preserve">
     <value>Terminal</value>
-  </data>
-  <data name="MaxQuantity" xml:space="preserve">
-    <value>Sasia </value>
   </data>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>Bileta ndryshuar. Ndryshimet e tua e fundit nuk ruhen.</value>
@@ -1116,8 +1119,8 @@ Ndryshimi i PIN-it do të fsheh këtë informacion</value>
   <data name="Two" xml:space="preserve">
     <value>Dy</value>
   </data>
-  <data name="TranactionsZeroQuantityError" xml:space="preserve">
-    <value>Transaksionet permbajne </value>
+  <data name="AutoRefresh" xml:space="preserve">
+    <value>Rifreskim Automatik</value>
   </data>
   <data name="IncomeTransactions" xml:space="preserve">
     <value>Lista e të ardhurave</value>
@@ -1218,8 +1221,8 @@ Ndryshimi i PIN-it do të fsheh këtë informacion</value>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Zgjidh varg date, refresh raportit dhe klikoni në lidhje me eksportin e të dhënave.</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Data Ticket</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Harta e zgjedhura Delete?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Kur Untagged</value>
@@ -1242,8 +1245,8 @@ Ndryshimi i PIN-it do të fsheh këtë informacion</value>
   <data name="AverageCost" xml:space="preserve">
     <value>Kosto mesatare</value>
   </data>
-  <data name="UpdateTicketCalculation" xml:space="preserve">
-    <value>Azhorno Llogaritjen e Biletes</value>
+  <data name="MaxQuantity" xml:space="preserve">
+    <value>Sasia </value>
   </data>
   <data name="SettingName" xml:space="preserve">
     <value>Vendosja Emri</value>
@@ -1280,9 +1283,6 @@ Ndryshimi i PIN-it do të fsheh këtë informacion</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Çdo minutë të tjera</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Rendit fundit</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Cilesimet Default</value>
@@ -1414,9 +1414,6 @@ Vazhdoni pa shtuar detaje?</value>
   <data name="Yes" xml:space="preserve">
     <value>Po</value>
   </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Harta e zgjedhura Delete?</value>
-  </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Çmimet e Përbërseve</value>
   </data>
@@ -1434,6 +1431,9 @@ Vazhdoni pa shtuar detaje?</value>
   </data>
   <data name="AccountTransactionType" xml:space="preserve">
     <value>Konto e tipit të transaksioneve</value>
+  </data>
+  <data name="UpdateTicketCalculation" xml:space="preserve">
+    <value>Azhorno Llogaritjen e Biletes</value>
   </data>
   <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
     <value>Biletë të paguar. Ndryshimet e tua e fundit nuk ruhen.</value>
@@ -1572,9 +1572,6 @@ Vazhdoni pa shtuar detaje?</value>
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manual</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Koha Ticket</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Server mesazh Port</value>
@@ -1760,8 +1757,8 @@ Biletë</value>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Koha totale e punës: {0:0} orë {1:0} minuta</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>Tipi i Etiketimit</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Raporti Kosto</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Emri Event</value>
@@ -1862,9 +1859,6 @@ Biletë</value>
   <data name="CalculationType" xml:space="preserve">
     <value>Metoda e llogaritjes</value>
   </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Konsumatorët</value>
-  </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Totali i {0}:</value>
   </data>
@@ -1885,9 +1879,6 @@ Biletë</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Çdo muaj të tjera</value>
-  </data>
-  <data name="AutoRefresh" xml:space="preserve">
-    <value>Rifreskim Automatik</value>
   </data>
   <data name="DayDate" xml:space="preserve">
     <value>Data e Dita</value>

@@ -15,7 +15,7 @@
         <ItemsControl Grid.Row="0" ItemsSource="{Binding AutomationCommands}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <FxButton:FlexButton Margin="5" Content="{Binding AutomationCommand.ButtonHeader}"
+                    <FxButton:FlexButton MinHeight="65" Margin="5" Content="{Binding AutomationCommand.ButtonHeader}"
                                          FontSize="{Binding AutomationCommand.FontSize}"
                                          ButtonColor="{Binding AutomationCommand.Color}"
                                          CommandParameter="{Binding}"
@@ -24,12 +24,12 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding ColumnCount}" Rows="7" VerticalAlignment="Stretch"/>
+                    <UniformGrid Columns="{Binding ColumnCount}" VerticalAlignment="Top"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <FxButton:FlexButton VerticalAlignment="Bottom" Grid.Row="1" Margin="3" Height="60"
-             Content="{Binding CloseCommand.Caption}" Command="{Binding CloseCommand}" ButtonColor="Red" />
+        <!--<FxButton:FlexButton VerticalAlignment="Bottom" Grid.Row="1" Margin="3" Height="60"
+             Content="{Binding CloseCommand.Caption}" Command="{Binding CloseCommand}" ButtonColor="Red" />-->
     </Grid>
 </UserControl>

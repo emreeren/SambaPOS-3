@@ -657,6 +657,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Može promijeniti filter ispisa</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Tagging Type</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Korisnik</value>
   </data>
@@ -789,8 +792,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Slobodno označavanje</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Cost Report</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Kupci</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Ticket Tag</value>
@@ -1482,8 +1485,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="BatchCreate_f" xml:space="preserve">
     <value>Batch Create {0}</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Datum kartice</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Izbriši odabrano mapiranje?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Kad nije selektiran</value>
@@ -1559,9 +1562,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Svaku drugu minutu</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Zadnja narudžba</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Predefinirane postavke</value>
@@ -1721,9 +1721,6 @@ Greška:
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Da</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Izbriši odabrano mapiranje?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Cijena normativa</value>
@@ -1922,9 +1919,6 @@ Greška:
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Ručno</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Ticket Time</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Message Server Port</value>
@@ -2160,8 +2154,8 @@ Greška:
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Total Work Time: {0:0} hours {1:0} minutes</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>Tagging Type</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Cost Report</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Ime događaja</value>
@@ -2300,9 +2294,6 @@ Greška:
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Tip računanja</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Kupci</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Total {0}:</value>

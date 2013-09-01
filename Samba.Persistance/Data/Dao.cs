@@ -16,8 +16,11 @@ namespace Samba.Persistance.Data
         private static void AddToCache<T>(T item) where T : class,IEntityClass
         {
             if (item == null) return;
-            if (!Cache.ContainsKey(typeof(T)))
+            
+            if (!Cache.ContainsKey(typeof (T)))
+            {
                 Cache.Add(typeof(T), new ArrayList());
+            }
             Cache[typeof(T)].Add(item);
         }
 

@@ -51,20 +51,21 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             return _cacheService.GetCurrencyById(account.ForeignCurrencyId).ExchangeRate;
         }
 
-        public void UpdateEntity(Ticket ticket, int entityTypeId, int entityId, string entityName, int accountTypeId, int accountId, string entityCustomData)
+        public void UpdateEntity(Ticket ticket, Entity entity, int accountTypeId, int accountId, string entityCustomData)
         {
-            var currentEntity = ticket.TicketEntities.SingleOrDefault(x => x.EntityTypeId == entityTypeId);
+            var currentEntity = ticket.TicketEntities.SingleOrDefault(x => x.EntityTypeId == entity.EntityTypeId);
             var currentEntityId = currentEntity != null ? currentEntity.EntityId : 0;
-            var newEntityName = entityName;
+            var newEntityName = entity.Name;
             var oldEntityName = currentEntity != null ? currentEntity.EntityName : "";
             var newEntityData = entityCustomData;
             var oldEntityData = currentEntity != null ? currentEntity.EntityCustomData : "";
 
-            if (currentEntity != null && currentEntity.EntityId != entityId)
+            if (currentEntity != null && currentEntity.EntityId != entity.Id)
             {
                 var entityType = _cacheService.GetEntityTypeById(currentEntity.EntityTypeId);
                 _applicationState.NotifyEvent(RuleEventNames.EntityUpdated, new
                 {
+                    Ticket = ticket,
                     EntityTypeId = currentEntity.EntityTypeId,
                     EntityId = currentEntity.EntityId,
                     EntityTypeName = entityType.Name,
@@ -72,17 +73,18 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 });
             }
 
-            ticket.UpdateEntity(entityTypeId, entityId, entityName, accountTypeId, accountId, entityCustomData);
+            ticket.UpdateEntity(entity.EntityTypeId, entity.Id, entity.Name, accountTypeId, accountId, entityCustomData);
 
-            if (currentEntityId != entityId || oldEntityName != newEntityName || newEntityData != oldEntityData)
+            if (currentEntityId != entity.Id || oldEntityName != newEntityName || newEntityData != oldEntityData)
             {
-                var entityType = _cacheService.GetEntityTypeById(entityTypeId);
+                var entityType = _cacheService.GetEntityTypeById(entity.EntityTypeId);
                 _applicationState.NotifyEvent(RuleEventNames.TicketEntityChanged,
                     new
                     {
                         Ticket = ticket,
-                        EntityTypeId = entityTypeId,
-                        EntityId = entityId,
+                        Entity = entity,
+                        EntityTypeId = entity.EntityTypeId,
+                        EntityId = entity.Id,
                         EntityTypeName = entityType.Name,
                         OldEntityName = oldEntityName,
                         NewEntityName = newEntityName,
@@ -104,7 +106,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
         {
             if (entity == null) return;
             var entityType = _cacheService.GetEntityTypeById(entity.EntityTypeId);
-            UpdateEntity(ticket, entityType.Id, entity.Id, entity.Name, entityType.AccountTypeId, entity.AccountId, entity.CustomData);
+            UpdateEntity(ticket, entity, entityType.AccountTypeId, entity.AccountId, entity.CustomData);
         }
 
         public Ticket OpenTicket(int ticketId)

@@ -400,6 +400,9 @@
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Impresora de la Cocina</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
   <data name="ErrorInExpression" xml:space="preserve">
     <value>Error en la expresión</value>
   </data>
@@ -746,6 +749,9 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Puede cambiar el filtro del informe Fecha</value>
   </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Etiquetado Tipo</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Usuario</value>
   </data>
@@ -881,8 +887,8 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   <data name="PaymentType" xml:space="preserve">
     <value>Tipo de Pago</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Configuración</value>
+  <data name="LineCount" xml:space="preserve">
+    <value>Contar Lineas</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>Admin PIN: 1234
@@ -906,8 +912,8 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="FreeTagging" xml:space="preserve">
     <value>Etiquetado (tag) libre</value>
   </data>
-  <data name="CostReport" xml:space="preserve">
-    <value>Reportes de los costos</value>
+  <data name="Customers" xml:space="preserve">
+    <value>Clientes</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
     <value>Etiqueta de recibo</value>
@@ -1816,8 +1822,8 @@ Ajuste el Tipo de Ticket Activo</value>
   <data name="Ticket Moving" xml:space="preserve">
     <value>Moviendo Ticket</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Fecha de Recibo</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Eliminar mapeo seleccionado?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Cuando no esté etiquetados (tag)</value>
@@ -1836,9 +1842,6 @@ Ajuste el Tipo de Ticket Activo</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Sitio Web</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>Contar Lineas</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Quitar Limite</value>
@@ -1908,9 +1911,6 @@ Ajuste el Tipo de Ticket Activo</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Cada minuto</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Último pedido</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Propiedades por defecto</value>
@@ -2104,9 +2104,6 @@ Seguir sin añadir más detalles?</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sí</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Eliminar mapeo seleccionado?</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Precios de porciones</value>
@@ -2335,9 +2332,6 @@ Seguir sin añadir más detalles?</value>
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manual</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Hora de Recibo</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Mensaje del puerto del servidor</value>
@@ -2610,8 +2604,8 @@ Recibos</value>
   <data name="UpdateNewOrderEntityColor" xml:space="preserve">
     <value>Actualizar Color de Entidad para Pedidos Nuevos</value>
   </data>
-  <data name="TaggingType" xml:space="preserve">
-    <value>Etiquetado Tipo</value>
+  <data name="CostReport" xml:space="preserve">
+    <value>Reportes de los costos</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Nombre del Evento</value>
@@ -2783,9 +2777,6 @@ Recibos</value>
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Tipo Calculo</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>Clientes</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Total de {0}:</value>

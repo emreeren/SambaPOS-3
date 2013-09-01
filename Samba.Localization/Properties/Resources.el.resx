@@ -900,6 +900,9 @@
   <data name="Day" xml:space="preserve">
     <value>Ημέρα</value>
   </data>
+  <data name="MoveTicketLine" xml:space="preserve">
+    <value>Κίνηση</value>
+  </data>
   <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
     <value>Εισιτήριο μετακόμισε στο {0}. Τελευταίες αλλαγές σας δεν αποθηκεύονται.</value>
   </data>
@@ -966,9 +969,6 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Αποθήκευση </value>
-  </data>
-  <data name="CanCreateAccount" xml:space="preserve">
-    <value>Μπορεί να δημιουργήσει λογαριασμό </value>
   </data>
   <data name="RateFromPreviousTemplate" xml:space="preserve">
     <value>Ποσοστό από το ποσό του προηγούμενου προτύπου</value>
@@ -1285,8 +1285,8 @@
   <data name="BatchCreate_f" xml:space="preserve">
     <value>Μαζική Δημιουργία {0}</value>
   </data>
-  <data name="TicketDate" xml:space="preserve">
-    <value>Ημερομηνία αγοράς εισιτηρίων</value>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>Διαγραφή επιλεγμένων Χαρτογράφηση;</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
     <value>Όταν χωρίς ενώτια</value>
@@ -1356,9 +1356,6 @@
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Κάθε Άλλες λεπτό</value>
-  </data>
-  <data name="LastOrderTime" xml:space="preserve">
-    <value>Τελευταία Παραγγελία</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Αρχικές Ιδιότητες</value>
@@ -1504,9 +1501,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ναί</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>Διαγραφή επιλεγμένων Χαρτογράφηση;</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>Τιμές Μερίδων</value>
@@ -1657,9 +1651,6 @@
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Εγχειρίδιο</value>
-  </data>
-  <data name="TicketTime" xml:space="preserve">
-    <value>Ώρα εισιτηρίων</value>
   </data>
   <data name="MessageServerPort" xml:space="preserve">
     <value>Πόρτα διακομιστή</value>
@@ -2085,8 +2076,8 @@
   <data name="Twenty" xml:space="preserve">
     <value>Είκοσι</value>
   </data>
-  <data name="MoveTicketLine" xml:space="preserve">
-    <value>Κίνηση</value>
+  <data name="CanCreateAccount" xml:space="preserve">
+    <value>Μπορεί να δημιουργήσει λογαριασμό </value>
   </data>
   <data name="Ninety" xml:space="preserve">
     <value>Ενενήντα</value>
