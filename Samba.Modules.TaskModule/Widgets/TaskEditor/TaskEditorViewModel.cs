@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -19,6 +20,14 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         private readonly ITaskService _taskService;
         private readonly ICacheService _cacheService;
         private readonly IMessagingService _messagingService;
+
+        public event EventHandler TaskAdded;
+
+        protected virtual void OnTaskAdded()
+        {
+            EventHandler handler = TaskAdded;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
 
         public TaskEditorViewModel(Widget widget, IApplicationState applicationState, ITaskService taskService,
             ICacheService cacheService, IMessagingService messagingService)
@@ -44,7 +53,20 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
             get { return _taskTypeId > 0 ? _taskTypeId : (_taskTypeId = _cacheService.GetTaskTypeIdByName(Settings.TaskTypeName)); }
         }
 
+        private TaskType _taskType;
+        public TaskType TaskType
+        {
+            get { return _taskType ?? (_taskType = _cacheService.GetTaskTypeByName(Settings.TaskTypeName)); }
+        }
+
+        private IEnumerable<TaskCustomFieldEditorModel> _customFields;
+        public IEnumerable<TaskCustomFieldEditorModel> CustomFields
+        {
+            get { return _customFields ?? (_customFields = TaskType != null ? TaskType.TaskCustomFields.Select(x => new TaskCustomFieldEditorModel(x)).ToList() : null); }
+        }
+
         private string _newTask;
+
         [Browsable(false)]
         public string NewTask
         {
@@ -57,17 +79,22 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 
         private void OnAddTask(string obj)
         {
-            if (!string.IsNullOrEmpty(NewTask))
+            if (!string.IsNullOrEmpty(NewTask) || CustomFields.Any(x => !string.IsNullOrEmpty(x.Value)))
             {
                 if (TaskTypeId == 0)
                 {
                     NewTask = "Can't add a task. Update Task Type from widget settings";
                     return;
                 }
-                var task = _taskService.AddNewTask(TaskTypeId, NewTask);
-                var wm = new TaskViewModel(task, this, _messagingService);
+                var task = _taskService.AddNewTask(TaskTypeId, NewTask,CustomFields.ToDictionary(x=>x.Name,x=>x.Value));
+                foreach (var customField in CustomFields)
+                {
+                    customField.Value = "";
+                }
+                var wm = new TaskViewModel(task, TaskType, this, _messagingService);
                 wm.Persist();
                 NewTask = "";
+                OnTaskAdded();
             }
         }
 
@@ -96,7 +123,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
                     delegate
                     {
                         Tasks.Clear();
-                        Tasks.AddRange(tasks.OrderByDescending(x => x.Id).Select(x => new TaskViewModel(x, this, _messagingService)));
+                        Tasks.AddRange(tasks.OrderByDescending(x => x.Id).Select(x => new TaskViewModel(x, TaskType, this, _messagingService)));
                     };
 
                 worker.RunWorkerAsync();

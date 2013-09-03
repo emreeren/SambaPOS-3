@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
+using Samba.Presentation.Common;
 
 namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 {
@@ -16,6 +16,22 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         public TaskEditorView()
         {
             InitializeComponent();
+        }
+
+        public void ViewModel_TaskAdded(object sender, EventArgs e)
+        {
+            FocusFirstEditor();
+        }
+
+        private void FocusFirstEditor()
+        {
+            var c = ExtensionServices.GetVisualChild<TextBox>(CustomEditors);
+            c.BackgroundFocus();
+        }
+
+        private void TaskEditorView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            FocusFirstEditor();
         }
     }
 }

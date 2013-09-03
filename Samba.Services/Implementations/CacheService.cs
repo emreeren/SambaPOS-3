@@ -397,6 +397,11 @@ namespace Samba.Services.Implementations
             return taskType != null ? taskType.Id : 0;
         }
 
+        public TaskType GetTaskTypeByName(string taskTypeName)
+        {
+            return TaskTypes.FirstOrDefault(x => x.Name == taskTypeName);
+        }
+
         public IEnumerable<string> GetTaskTypeNames()
         {
             return TaskTypes.Select(x => x.Name);

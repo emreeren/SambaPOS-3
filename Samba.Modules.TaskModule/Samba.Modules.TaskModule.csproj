@@ -58,6 +58,7 @@
       <DependentUpon>TaskTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaskTypeViewModel.cs" />
+    <Compile Include="Widgets\TaskEditor\TaskCustomFieldEditorModel.cs" />
     <Compile Include="Widgets\TaskEditor\TaskEditorWidgetSettings.cs" />
     <Compile Include="Widgets\TaskEditor\TaskViewModel.cs" />
     <Compile Include="Widgets\TaskEditor\TaskEditorView.xaml.cs">

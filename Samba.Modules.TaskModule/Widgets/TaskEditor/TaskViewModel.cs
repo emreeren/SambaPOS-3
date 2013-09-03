@@ -12,13 +12,16 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 {
     public class TaskViewModel : ObservableObject
     {
+        private readonly TaskType _taskType;
         private readonly IDiagram _widget;
         private readonly IMessagingService _messagingService;
+
         public ICaptionCommand ToggleCompletedCommand { get; set; }
 
         public Task Model { get; set; }
-        public TaskViewModel(Task model, IDiagram widget, IMessagingService messagingService)
+        public TaskViewModel(Task model, TaskType taskType, IDiagram widget, IMessagingService messagingService)
         {
+            _taskType = taskType;
             _widget = widget;
             _messagingService = messagingService;
             Model = model;
@@ -49,8 +52,20 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
                 RaisePropertyChanged(() => IsCompletedCaption);
             }
         }
-        public string Content { get { return Model.Content; } set { Model.Content = value; Persist(); } }
-        public string Description { get { return string.Join(", ", Tokens.Select(x => x.Caption)); } }
+        public string Content { get { return Model.Content ?? ""; } set { Model.Content = value; Persist(); } }
+
+        public string CustomFieldValues
+        {
+            get
+            {
+                return string.Join(",", _taskType.TaskCustomFields.Where(x => !string.IsNullOrEmpty(Model.GetCustomDataValue(x.Name)))
+                    .Select(x => x.GetFormattedValue(Model.GetCustomDataValue(x.Name))));
+            }
+        }
+        public string Description { get { return Tokens != null ? string.Join(", ", Tokens.Select(x => x.Caption)) : ""; } }
+
+        public bool IsDescriptionVisible { get { return !string.IsNullOrEmpty(Description); } }
+        public bool IsCustomFieldValuesVisible { get { return !string.IsNullOrEmpty(CustomFieldValues); } }
 
         private IEnumerable<TaskTokenViewModel> _tokens;
         public IEnumerable<TaskTokenViewModel> Tokens

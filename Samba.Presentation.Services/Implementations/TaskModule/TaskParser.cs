@@ -13,6 +13,7 @@ namespace Samba.Presentation.Services.Implementations.TaskModule
 
         public IEnumerable<TaskToken> Parse(Task task)
         {
+            if (string.IsNullOrEmpty(task.Content)) return null;
             return task.Content.Split(',')
                 .Select(ParseToken)
                 .Where(token => token != null)

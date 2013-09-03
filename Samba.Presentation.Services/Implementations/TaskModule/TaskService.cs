@@ -30,13 +30,20 @@ namespace Samba.Presentation.Services.Implementations.TaskModule
             _taskCache = new TaskCache();
         }
 
-        public Task AddNewTask(int taskTypeId, string taskContent)
+        public Task AddNewTask(int taskTypeId, string taskContent, Dictionary<string, string> customFields)
         {
             if (taskTypeId == 0) return null;
             var task = new Task { Content = taskContent, TaskTypeId = taskTypeId };
             var tokens = _taskParser.Parse(task);
-            foreach (var taskToken in tokens)
-                task.TaskTokens.Add(taskToken);
+            if (tokens != null)
+            {
+                foreach (var taskToken in tokens)
+                    task.TaskTokens.Add(taskToken);
+            }
+            foreach (var customField in customFields)
+            {
+                task.UpdateCustomDataValue(customField.Key, customField.Value);
+            }
             SaveTask(task);
             return task;
         }

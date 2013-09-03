@@ -50,21 +50,26 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 
         public FrameworkElement CreateWidgetControl(IDiagram widgetViewModel, ContextMenu contextMenu)
         {
-            var buttonHolder = widgetViewModel as TaskEditorViewModel;
+            var viewModel = widgetViewModel as TaskEditorViewModel;
 
-            var ret = new TaskEditorView { DataContext = buttonHolder, ContextMenu = contextMenu };
-            var heightBinding = new Binding("Height") { Source = buttonHolder, Mode = BindingMode.TwoWay };
-            var widthBinding = new Binding("Width") { Source = buttonHolder, Mode = BindingMode.TwoWay };
-            var xBinding = new Binding("X") { Source = buttonHolder, Mode = BindingMode.TwoWay };
-            var yBinding = new Binding("Y") { Source = buttonHolder, Mode = BindingMode.TwoWay };
-            var transformBinding = new Binding("ScaleTransform") { Source = buttonHolder, Mode = BindingMode.OneWay };
+            var result = new TaskEditorView { DataContext = viewModel, ContextMenu = contextMenu };
+            var heightBinding = new Binding("Height") { Source = viewModel, Mode = BindingMode.TwoWay };
+            var widthBinding = new Binding("Width") { Source = viewModel, Mode = BindingMode.TwoWay };
+            var xBinding = new Binding("X") { Source = viewModel, Mode = BindingMode.TwoWay };
+            var yBinding = new Binding("Y") { Source = viewModel, Mode = BindingMode.TwoWay };
+            var transformBinding = new Binding("ScaleTransform") { Source = viewModel, Mode = BindingMode.OneWay };
 
-            ret.SetBinding(InkCanvas.LeftProperty, xBinding);
-            ret.SetBinding(InkCanvas.TopProperty, yBinding);
-            ret.SetBinding(FrameworkElement.HeightProperty, heightBinding);
-            ret.SetBinding(FrameworkElement.WidthProperty, widthBinding);
-            ret.Border.SetBinding(FrameworkElement.LayoutTransformProperty, transformBinding);
-            return ret;
+            result.SetBinding(InkCanvas.LeftProperty, xBinding);
+            result.SetBinding(InkCanvas.TopProperty, yBinding);
+            result.SetBinding(FrameworkElement.HeightProperty, heightBinding);
+            result.SetBinding(FrameworkElement.WidthProperty, widthBinding);
+            result.Border.SetBinding(FrameworkElement.LayoutTransformProperty, transformBinding);
+
+            viewModel.TaskAdded += result.ViewModel_TaskAdded;
+
+            return result;
         }
+
+        
     }
 }

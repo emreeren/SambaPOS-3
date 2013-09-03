@@ -9,6 +9,7 @@ using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Inventory;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
+using Samba.Domain.Models.Tasks;
 using Samba.Domain.Models.Tickets;
 using Samba.Services.Common;
 
@@ -55,6 +56,7 @@ namespace Samba.Services
         string GetCurrencySymbol(int currencyId);
         ForeignCurrency GetCurrencyById(int currencyId);
         int GetTaskTypeIdByName(string taskTypeName);
+        TaskType GetTaskTypeByName(string taskTypeName);
         IEnumerable<string> GetTaskTypeNames();
         TicketType GetTicketTypeById(int ticketTypeId);
         IEnumerable<TicketType> GetTicketTypes();
