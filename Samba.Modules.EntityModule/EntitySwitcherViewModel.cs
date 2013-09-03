@@ -66,7 +66,7 @@ namespace Samba.Modules.EntityModule
                     var ss = UpdateEntityScreens(x.Value);
                     _currentOperationRequest = x.Value;
                     ActivateEntityScreen(ss);
-                    if (ss.DisplayMode == 1)
+                    if (ss != null && ss.DisplayMode == 1)
                         _entitySearchViewModel.SearchString = x.Value.Data;
                 }
             });
