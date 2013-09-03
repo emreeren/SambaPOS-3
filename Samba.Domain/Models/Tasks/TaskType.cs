@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tasks
@@ -17,13 +16,5 @@ namespace Samba.Domain.Models.Tasks
             get { return _taskCustomFields; }
             set { _taskCustomFields = value; }
         }
-    }
-
-    public class TaskCustomField : EntityClass
-    {
-        public int TaskTypeId { get; set; }
-        public int FieldType { get; set; }
-        public string EditingFormat { get; set; }
-        public string DisplayFormat { get; set; }
     }
 }

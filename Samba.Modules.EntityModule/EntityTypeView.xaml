@@ -61,7 +61,7 @@
                     <DataGrid Grid.Row="1" ItemsSource="{Binding EntityCustomFields}" SelectedItem="{Binding SelectedCustomField, Mode=TwoWay}"
                      HorizontalAlignment="Stretch" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" RowHeight="28" 
                      AutoGenerateColumns="False" CanUserSortColumns="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
-                  CellStyle="{StaticResource CenterAlignedGridCell}">
+                     CellStyle="{StaticResource CenterAlignedGridCell}">
                         <DataGrid.Columns>
                             <DataGridTextColumn 
                         Header="{LocText CustomFieldName}" MinWidth="100" Binding="{Binding Name}" />

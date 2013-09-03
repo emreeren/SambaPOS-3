@@ -13,6 +13,57 @@
         <StackPanel>
             <Label HorizontalAlignment="Left" Content="{LocText Name}" />
             <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <Label Content="{LocText CustomFields,Suffix=':'}"/>
+                    <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding AddCustomFieldCommand}">
+                                <TextBlock Text="{Binding Path=AddCustomFieldCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    <TextBlock Margin="2,5">
+                            <Hyperlink Command="{Binding DeleteCustomFieldCommand}">
+                                <TextBlock Text="{Binding Path=DeleteCustomFieldCommand.Caption}" />
+                            </Hyperlink>
+                        </TextBlock>
+                </DockPanel>
+                <DataGrid Grid.Row="1" ItemsSource="{Binding TaskCustomFields}" SelectedItem="{Binding SelectedCustomField, Mode=TwoWay}"
+                     HorizontalAlignment="Left" GridLinesVisibility="None" RowHeaderWidth="0" Margin="0,3" RowHeight="28" 
+                     AutoGenerateColumns="False" CanUserSortColumns="False" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
+                     CellStyle="{StaticResource CenterAlignedGridCell}" MinHeight="250">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn 
+                        Header="{LocText CustomFieldName}" MinWidth="100" Binding="{Binding Name}" />
+                        <DataGridTemplateColumn Header="{LocText FieldType}" MinWidth="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="3" Text="{Binding FieldType}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <Grid FocusManager.FocusedElement="{Binding ElementName=cb}">
+                                        <ComboBox Name="cb" ItemsSource="{Binding FieldTypes}" SelectedItem="{Binding FieldType}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="{LocText EditingFormat}" MinWidth="100" Binding="{Binding EditingFormat}" />
+                        <DataGridTextColumn Header="{LocText DisplayFormat}" MinWidth="100" Binding="{Binding DisplayFormat}" />
+
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding AddCustomFieldCommand}" Header="{Binding AddCustomFieldCommand.Caption}" />
+                            <MenuItem Command="{Binding DeleteCustomFieldCommand}" Header="{Binding DeleteCustomFieldCommand.Caption}" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <Button HorizontalAlignment="Left" Margin="0,10,3,0" MinWidth="70" Content="{Binding SaveCommand.Caption}"

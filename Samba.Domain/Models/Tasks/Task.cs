@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Helpers;
 
 namespace Samba.Domain.Models.Tasks
 {
@@ -40,5 +43,38 @@ namespace Samba.Domain.Models.Tasks
         }
 
         public DateTime LastUpdateTime { get; set; }
+
+        private IList<TaskCustomDataValue> _taskCustomDataValues;
+        private IList<TaskCustomDataValue> TaskCustomDataValues
+        {
+            get { return _taskCustomDataValues ?? (_taskCustomDataValues = JsonHelper.Deserialize<List<TaskCustomDataValue>>(CustomData)); }
+        }
+
+        public void UpdateCustomDataValue(string fieldName, string value)
+        {
+            if (TaskCustomDataValues.All(x => x.FieldName != fieldName))
+                TaskCustomDataValues.Add(new TaskCustomDataValue { FieldName = fieldName });
+            var field = _taskCustomDataValues.First(x => x.FieldName == fieldName);
+            field.Value = value;
+            if (string.IsNullOrEmpty(value)) _taskCustomDataValues.Remove(field);
+            CustomData = JsonHelper.Serialize(TaskCustomDataValues);
+            _taskCustomDataValues = null;
+        }
+
+        public string GetCustomDataValue(string fieldName)
+        {
+            var field = TaskCustomDataValues.FirstOrDefault(x => x.FieldName == fieldName);
+            return field != null ? field.Value : "";
+        }
+    }
+
+    [DataContract]
+    public class TaskCustomDataValue
+    {
+        [DataMember(Name = "N")]
+        public string FieldName { get; set; }
+
+        [DataMember(Name = "V", EmitDefaultValue = false)]
+        public string Value { get; set; }
     }
 }

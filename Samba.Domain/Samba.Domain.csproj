@@ -106,6 +106,7 @@
     <Compile Include="Models\Tasks\Task.cs" />
     <Compile Include="Models\Entities\EntityScreenMap.cs" />
     <Compile Include="Models\Settings\ForeignCurrency.cs" />
+    <Compile Include="Models\Tasks\TaskCustomField.cs" />
     <Compile Include="Models\Tasks\TaskToken.cs" />
     <Compile Include="Models\Tasks\TaskType.cs" />
     <Compile Include="Models\Tickets\ChangePayment.cs" />
