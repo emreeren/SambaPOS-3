@@ -8,14 +8,22 @@ namespace Samba.Domain.Models.Tasks
     {
         public TaskType()
         {
-            _entityTypes = new List<EntityType>();
+            _taskCustomFields = new List<TaskCustomField>();
         }
 
-        private IList<EntityType> _entityTypes;
-        public virtual IList<EntityType> EntityTypes
+        private IList<TaskCustomField> _taskCustomFields;
+        public virtual IList<TaskCustomField> TaskCustomFields
         {
-            get { return _entityTypes; }
-            set { _entityTypes = value; }
+            get { return _taskCustomFields; }
+            set { _taskCustomFields = value; }
         }
+    }
+
+    public class TaskCustomField : EntityClass
+    {
+        public int TaskTypeId { get; set; }
+        public int FieldType { get; set; }
+        public string EditingFormat { get; set; }
+        public string DisplayFormat { get; set; }
     }
 }

@@ -23,8 +23,6 @@ namespace Samba.Modules.AutomationModule
             _ruleConstraintNames = ruleConstraintNames;
             _removeConstraintCommand = removeConstraintCommand;
             Values = ParameterSources.GetParameterSource(Left);
-            Operation = Operations.Equal;
-
         }
 
         public ObservableCollection<RuleConstraintOperation> RuleConstraintOperations

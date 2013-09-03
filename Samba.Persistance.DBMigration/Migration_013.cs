@@ -8,7 +8,6 @@ namespace Samba.Persistance.DBMigration
     {
         public override void Up()
         {
-            var dc = ApplicationContext as DbContext;
             Create.Column("ToggleCalculation").OnTable("CalculationTypes").AsBoolean().WithDefaultValue(false);
 
             //-- Entity Type Assignments Reference Fix

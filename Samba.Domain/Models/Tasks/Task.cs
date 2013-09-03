@@ -19,6 +19,8 @@ namespace Samba.Domain.Models.Tasks
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
+        public string CustomData { get; set; }
+
         private bool _completed;
         public bool Completed
         {

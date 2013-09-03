@@ -8,7 +8,6 @@ namespace Samba.Persistance.DBMigration
     {
         public override void Up()
         {
-            var dc = ApplicationContext as DbContext;
             Create.Column("Warehouse").OnTable("InventoryItems").AsString(128).Nullable();
         }
 

@@ -129,7 +129,10 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<Printer>().Property(x => x.CustomPrinterData).IsMaxLength();
             modelBuilder.Entity<AccountScreen>().Property(x => x.AutomationCommandMapData).IsMaxLength();
             modelBuilder.Entity<ScreenMenuCategory>().Property(x => x.SubButtonColorDef).IsMaxLength();
-           
+            modelBuilder.Entity<Task>().Property(x => x.CustomData).IsMaxLength();
+
+            modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
+            modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();
 
             modelBuilder.Entity<WarehouseConsumption>().HasKey(p => new { p.Id, p.PeriodicConsumptionId });
             modelBuilder.Entity<WarehouseConsumption>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -147,9 +150,9 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<TaskToken>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Task>().HasMany(p => p.TaskTokens).WithRequired().HasForeignKey(x => x.TaskId);
 
-            modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
-            modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();
-            modelBuilder.Entity<TaskType>().HasMany(x => x.EntityTypes).WithMany();
+            modelBuilder.Entity<TaskCustomField>().HasKey(p => new { p.Id, p.TaskTypeId });
+            modelBuilder.Entity<TaskCustomField>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<TaskType>().HasMany(p => p.TaskCustomFields).WithRequired().HasForeignKey(x => x.TaskTypeId);
 
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.SourceTransactionValue);
             modelBuilder.Entity<AccountTransaction>().Ignore(p => p.TargetTransactionValue);

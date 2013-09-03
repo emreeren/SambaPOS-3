@@ -149,7 +149,7 @@ namespace Samba.Persistance.Implementations
 
         public IEnumerable<TaskType> GetTaskTypes()
         {
-            return Dao.Query<TaskType>(x => x.EntityTypes);
+            return Dao.Query<TaskType>(x => x.TaskCustomFields);
         }
 
         public IEnumerable<ForeignCurrency> GetForeignCurrencies()

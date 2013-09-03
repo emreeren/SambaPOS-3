@@ -108,7 +108,7 @@ namespace Samba.Modules.AutomationModule
 
         private void OnAddConstraint(string obj)
         {
-            Model.AddRuleConstraint("", "", "");
+            Model.AddRuleConstraint("", "Equal", "");
             UpdateCustomRuleConstraints();
         }
 
