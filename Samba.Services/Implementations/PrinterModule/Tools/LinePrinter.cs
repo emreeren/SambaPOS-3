@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -9,6 +10,7 @@ using System.Text;
 using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Render;
 using Samba.Infrastructure.Settings;
+using Zen.Barcode;
 
 namespace Samba.Services.Implementations.PrinterModule.Tools
 {
@@ -236,6 +238,12 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
             }
         }
 
+        public void PrintBitmap(Bitmap bitmap)
+        {
+            byte[] data = GetDocument(bitmap);
+            WriteData(data);
+        }
+
         public void PrintQrCode(string qrCodeData)
         {
             var fileName = LocalSettings.DocumentPath + "\\qr.bmp";
@@ -250,38 +258,70 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
             PrintBitmap(fileName);
         }
 
+        public void PrintBarCode(string barcode, int start, int end)
+        {
+            var bcType = start.ToString(CultureInfo.InvariantCulture) + end.ToString(CultureInfo.InvariantCulture);
+            BarcodeDraw barcodeDraw = BarcodeDrawFactory.Code128WithChecksum;
+            if (bcType == "39") barcodeDraw = BarcodeDrawFactory.Code39WithoutChecksum;
+            if (bcType == "13") barcodeDraw = BarcodeDrawFactory.CodeEan13WithChecksum;
+            if (bcType == "25") barcodeDraw = BarcodeDrawFactory.Code25StandardWithoutChecksum;
+            if (bcType == "08") barcodeDraw = BarcodeDrawFactory.CodeEan8WithChecksum;
+            if (bcType == "11") barcodeDraw = BarcodeDrawFactory.Code11WithoutChecksum;
+
+            using (var img = barcodeDraw.Draw(barcode, 80, 1))
+            {
+                PrintBitmap(new Bitmap(img));
+            }
+        }
+
         private static BitmapData GetBitmapData(string bmpFileName)
         {
             using (var bitmap = (Bitmap)Image.FromFile(bmpFileName))
             {
-                const int threshold = 127;
-                var index = 0;
-                var dimensions = bitmap.Width * bitmap.Height;
-                var dots = new BitArray(dimensions);
-
-                for (var y = 0; y < bitmap.Height; y++)
-                {
-                    for (var x = 0; x < bitmap.Width; x++)
-                    {
-                        var color = bitmap.GetPixel(x, y);
-                        var luminance = (int)(color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
-                        dots[index] = (luminance < threshold);
-                        index++;
-                    }
-                }
-
-                return new BitmapData
-                           {
-                               Dots = dots,
-                               Height = bitmap.Height,
-                               Width = bitmap.Width
-                           };
+                return ConvertBitmapData(bitmap);
             }
+        }
+
+        private static BitmapData ConvertBitmapData(Bitmap bitmap)
+        {
+            const int threshold = 127;
+            var index = 0;
+            var dimensions = bitmap.Width * bitmap.Height;
+            var dots = new BitArray(dimensions);
+
+            for (var y = 0; y < bitmap.Height; y++)
+            {
+                for (var x = 0; x < bitmap.Width; x++)
+                {
+                    var color = bitmap.GetPixel(x, y);
+                    var luminance = (int)(color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
+                    dots[index] = (luminance < threshold);
+                    index++;
+                }
+            }
+
+            return new BitmapData
+                       {
+                           Dots = dots,
+                           Height = bitmap.Height,
+                           Width = bitmap.Width
+                       };
         }
 
         private static void RenderLogo(BinaryWriter bw, string fileName)
         {
             var data = GetBitmapData(fileName);
+            RenderBitmap(bw, data);
+        }
+
+        private static void RenderLogo(BinaryWriter bw, Bitmap bitmap)
+        {
+            var data = ConvertBitmapData(bitmap);
+            RenderBitmap(bw, data);
+        }
+
+        private static void RenderBitmap(BinaryWriter bw, BitmapData data)
+        {
             var dots = data.Dots;
             var width = BitConverter.GetBytes(data.Width);
 
@@ -294,10 +334,10 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
             while (offset < data.Height)
             {
                 bw.Write(AsciiControlChars.Escape);
-                bw.Write('*');         // bit-image mode
-                bw.Write((byte)33);    // 24-dot double-density
-                bw.Write(width[0]);  // width low byte
-                bw.Write(width[1]);  // width high byte
+                bw.Write('*'); // bit-image mode
+                bw.Write((byte)33); // 24-dot double-density
+                bw.Write(width[0]); // width low byte
+                bw.Write(width[1]); // width high byte
 
                 for (var x = 0; x < data.Width; ++x)
                 {
@@ -351,6 +391,29 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
             }
         }
 
+        private static byte[] GetDocument(Bitmap bitmap)
+        {
+            MemoryStream ms = null;
+            try
+            {
+                ms = new MemoryStream();
+                using (var bw = new BinaryWriter(ms))
+                {
+                    ms = null;
+                    bw.Write(AsciiControlChars.Escape);
+                    bw.Write('@');
+                    RenderLogo(bw, bitmap);
+                    bw.Flush();
+                    return ((MemoryStream)bw.BaseStream).ToArray();
+                }
+            }
+            finally
+            {
+                if (ms != null)
+                    ms.Dispose();
+            }
+        }
+
         public void OpenCashDrawer()
         {
             // http://social.msdn.microsoft.com/forums/en-US/netfxbcl/thread/35575dd8-7593-4fe6-9b57-64ad6b5f7ae6/
@@ -384,8 +447,6 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
                 SendBytesToPrinter(szPrinterName, bytes);
             }
         }
-
-
     }
 }
 

@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{BE3BEF2C-C
 		Lib\System.Net.Http.WebRequest.dll = Lib\System.Net.Http.WebRequest.dll
 		Lib\System.Web.Http.dll = Lib\System.Web.Http.dll
 		Lib\System.Web.Http.SelfHost.dll = Lib\System.Web.Http.SelfHost.dll
+		Lib\Zen.Barcode.Core.dll = Lib\Zen.Barcode.Core.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Persistence Layer", "3. Persistence Layer", "{FEC2F6B9-AF96-49AC-8598-9F66FE8D130D}"
