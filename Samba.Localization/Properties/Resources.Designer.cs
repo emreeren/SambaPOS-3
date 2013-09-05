@@ -4044,6 +4044,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Length Equals.
+        /// </summary>
+        public static string LengthEquals {
+            get {
+                return ResourceManager.GetString("LengthEquals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Less.
         /// </summary>
         public static string Less {
@@ -4418,6 +4427,15 @@ namespace Samba.Localization.Properties {
         public static string MatchesAny {
             get {
                 return ResourceManager.GetString("MatchesAny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matches Mod10.
+        /// </summary>
+        public static string MatchesMod10 {
+            get {
+                return ResourceManager.GetString("MatchesMod10", resourceCulture);
             }
         }
         
@@ -8783,6 +8801,15 @@ namespace Samba.Localization.Properties {
         public static string UpdateAvailableEntityColor {
             get {
                 return ResourceManager.GetString("UpdateAvailableEntityColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Entity Data.
+        /// </summary>
+        public static string UpdateEntityData {
+            get {
+                return ResourceManager.GetString("UpdateEntityData", resourceCulture);
             }
         }
         

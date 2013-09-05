@@ -34,5 +34,10 @@ namespace Samba.Presentation.Services.Implementations.EntityModule
             });
         }
 
+        public void UpdateEntityData(int entityId, string fieldName, string value)
+        {
+            _entityDao.UpdateEntityData(entityId, fieldName, value);
+        }
+
     }
 }

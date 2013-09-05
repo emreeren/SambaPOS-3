@@ -78,6 +78,7 @@
     <EmbeddedResource Include="Properties\ParameterConversionResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ParameterConversionResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\StateConfigurationResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -4,6 +4,7 @@ using System.Linq;
 using Samba.Domain.Models.Automation;
 using Samba.Infrastructure;
 using Samba.Infrastructure.Helpers;
+using Samba.Localization.Properties;
 using Samba.Services.Common;
 
 namespace Samba.Services.Implementations.AutomationModule

@@ -40,7 +40,7 @@ namespace Samba.Modules.EntityModule
             RaisePropertyChanged(() => Value);
         }
 
-        public EntityCustomField CustomField { get { return Model.CustomField; } set { Model.CustomField = value; } }
+        public EntityCustomField CustomField { get { return Model.CustomField; } set { Model.CustomField = value; RaisePropertyChanged(() => CustomField); } }
         public Func<EntityCustomField, string, string, bool> SetValueAction { get; set; }
         public void SetValue(string value)
         {
@@ -60,6 +60,7 @@ namespace Samba.Modules.EntityModule
         public Entity Model { get; set; }
         public EntityType EntityType { get; set; }
         public string PrimaryFieldName { get { return GetPrimaryFieldName(); } }
+        public string PrimaryFieldFormat { get { return EntityType.PrimaryFieldFormat; } }
 
         public bool IsTextBoxVisible { get { return EntityType != null && string.IsNullOrWhiteSpace(EntityType.PrimaryFieldFormat); } }
         public bool IsMaskedTextBoxVisible { get { return !IsTextBoxVisible; } }
@@ -179,6 +180,7 @@ namespace Samba.Modules.EntityModule
                 RaisePropertyChanged(() => IsMaskedTextBoxVisible);
                 RaisePropertyChanged(() => IsTextBoxVisible);
                 RaisePropertyChanged(() => PrimaryFieldName);
+                RaisePropertyChanged(() => PrimaryFieldFormat);
             }
         }
 

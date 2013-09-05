@@ -3475,4 +3475,13 @@ Error Message:
   <data name="Time_f" xml:space="preserve">
     <value>{0} Time</value>
   </data>
+  <data name="LengthEquals" xml:space="preserve">
+    <value>Length Equals</value>
+  </data>
+  <data name="MatchesMod10" xml:space="preserve">
+    <value>Matches Mod10</value>
+  </data>
+  <data name="UpdateEntityData" xml:space="preserve">
+    <value>Update Entity Data</value>
+  </data>
 </root>

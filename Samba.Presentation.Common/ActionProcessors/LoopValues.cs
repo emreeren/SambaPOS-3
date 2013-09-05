@@ -23,9 +23,33 @@ namespace Samba.Presentation.Common.ActionProcessors
             var values = actionData.GetAsString("Values");
             if (!string.IsNullOrEmpty(values))
             {
-                foreach (var value in values.Split(','))
+                if (!values.Contains(",") && values.StartsWith("(") && values.EndsWith(")"))
                 {
-                    _applicationState.NotifyEvent(RuleEventNames.ValueLooped, new { Name = name, Value = value });
+                    var endStr = values.Trim(new[] { '(', ')' });
+                    int end;
+                    var start = 0;
+                    if (endStr.Contains("-"))
+                    {
+                        var parts = endStr.Split('-');
+                        int.TryParse(parts[0], out start);
+                        int.TryParse(parts[1], out end);
+                    }
+                    else int.TryParse(endStr, out end);
+
+                    if (end > 0)
+                    {
+                        for (int i = start; i < end; i++)
+                        {
+                            _applicationState.NotifyEvent(RuleEventNames.ValueLooped, new { Name = name, Value = i.ToString() });
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var value in values.Split(','))
+                    {
+                        _applicationState.NotifyEvent(RuleEventNames.ValueLooped, new { Name = name, Value = value });
+                    }
                 }
             }
         }

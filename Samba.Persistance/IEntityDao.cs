@@ -12,5 +12,6 @@ namespace Samba.Persistance
         EntityStateValue UpdateEntityState(int entityId, string stateName, string state, string quantityExp);
         Entity GetEntityById(int id);
         void SaveEntity(Entity entity);
+        void UpdateEntityData(int entityId, string fieldName, string value);
     }
 }

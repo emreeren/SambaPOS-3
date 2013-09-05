@@ -267,6 +267,7 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
             if (bcType == "25") barcodeDraw = BarcodeDrawFactory.Code25StandardWithoutChecksum;
             if (bcType == "08") barcodeDraw = BarcodeDrawFactory.CodeEan8WithChecksum;
             if (bcType == "11") barcodeDraw = BarcodeDrawFactory.Code11WithoutChecksum;
+            if (bcType == "93") barcodeDraw = BarcodeDrawFactory.Code93WithChecksum;
 
             using (var img = barcodeDraw.Draw(barcode, 80, 1))
             {

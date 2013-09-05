@@ -24,18 +24,18 @@
                       ItemsSource="{Binding EntityTypes}" 
                       SelectedItem="{Binding EntityType}" DisplayMemberPath="Name"/>
             </DockPanel>
-            <entityModule:EntityCustomDataEditor Margin="4" MinWidth="273" HorizontalAlignment="Left" Focusable="False" DataContext="{Binding CustomDataViewModel}"/>
+            <entityModule:EntityCustomDataEditor Margin="4,4,0,0" MinWidth="273" HorizontalAlignment="Left" Focusable="False" DataContext="{Binding CustomDataViewModel}"/>
 
             <DockPanel Margin="3">
                 <Label Content="{LocText Warehouse,Suffix=':'}"/>
-                <ComboBox HorizontalAlignment="Left" MinWidth="150" IsEditable="True"
+                <ComboBox HorizontalAlignment="Left" MinWidth="152" IsEditable="True"
                       ItemsSource="{Binding Warehouses}" 
                       SelectedItem="{Binding Warehouse}" DisplayMemberPath="Name"/>
             </DockPanel>
 
             <DockPanel Margin="3">
                 <Label Content="{LocText Account,Suffix=':'}"/>
-                <ComboBox ItemsSource="{Binding AccountNames}" Text="{Binding AccountName}" IsEditable="True" HorizontalAlignment="Left" MinWidth="150"/>
+                <ComboBox ItemsSource="{Binding AccountNames}" Text="{Binding AccountName}" IsEditable="True" HorizontalAlignment="Left" MinWidth="152"/>
             </DockPanel>
         </StackPanel>
         <StackPanel Grid.Row="1">

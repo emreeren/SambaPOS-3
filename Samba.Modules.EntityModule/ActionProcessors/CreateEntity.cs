@@ -24,7 +24,7 @@ namespace Samba.Modules.EntityModule.ActionProcessors
 
         protected override object GetDefaultData()
         {
-            return new { EntityTypeName = "", EntityName = "", CreateAccount = false };
+            return new { EntityTypeName = "", EntityName = "", CustomData = "", CreateAccount = false };
         }
 
         protected override string GetActionName()
@@ -47,9 +47,9 @@ namespace Samba.Modules.EntityModule.ActionProcessors
             {
                 var entityType = _cacheService.GetEntityTypeByName(entityTypeName);
                 var entity = _entityService.CreateEntity(entityType.Id, entityName);
-                if (customData.Contains(":"))
+                if (customData.Contains("="))
                 {
-                    foreach (var parts in customData.Split('#').Select(data => data.Split('=')))
+                    foreach (var parts in customData.Split(',').Select(data => data.Split('=')))
                         entity.SetCustomData(parts[0], parts[1]);
                 }
                 if (createAccount)
@@ -61,6 +61,7 @@ namespace Samba.Modules.EntityModule.ActionProcessors
                 }
                 _entityService.SaveEntity(entity);
                 actionData.DataObject.EntityName = entity.Name;
+                actionData.DataObject.EntityId = entity.Id;
             }
         }
     }

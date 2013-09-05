@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:VirtualKeyboard="clr-namespace:Samba.Presentation.Controls.VirtualKeyboard;assembly=Samba.Presentation.Controls"
+             xmlns:uiControls="clr-namespace:Samba.Presentation.Controls.UIControls;assembly=Samba.Presentation.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Unloaded="UserControl_Unloaded">
     <UserControl.Resources>
@@ -23,7 +24,16 @@
 
         <ContentControl Grid.Column="0" Grid.Row="0" Margin="3,2,0,0" Grid.RowSpan="3" Content="{Binding Path=CategoryView}" ContentTemplate="{StaticResource CommandsTemplate}"/>
         
-        <ContentControl FontSize="14" Grid.Column="1" Grid.Row="0" Content="{Binding Path=Views}" ContentTemplate="{StaticResource ViewsTemplate}"/>
+        <ContentControl FontSize="14" Grid.Column="1" Grid.Row="0" Content="{Binding Path=Views}" ContentTemplate="{StaticResource ViewsTemplate}">
+            <ContentControl.Resources>
+                <Style x:Key="CommonStyle" TargetType="Control">
+                    <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                </Style> 
+                <Style TargetType="TextBox" BasedOn="{StaticResource CommonStyle}"/>
+                <Style TargetType="uiControls:MaskedTextBox" BasedOn="{StaticResource CommonStyle}"/>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource CommonStyle}"/>
+            </ContentControl.Resources>
+        </ContentControl>
         
         <GridSplitter Background="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" Grid.Column="1" Grid.Row="1" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1" />
         <Viewbox Grid.Column="1" Grid.Row="2" Margin="1">

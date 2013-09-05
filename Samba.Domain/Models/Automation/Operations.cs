@@ -10,10 +10,12 @@
         public const string Contains = "Contains";
         public const string Starts = "Starts";
         public const string Ends = "Ends";
+        public const string LengthEquals = "LengthEquals";
         public const string Matches = "Matches";
         public const string NotMatches = "NotMatches";
+        public const string MatchesMod10 = "MatchesMod10";
 
-        public static string[] StringOperations = new[] { Equal, NotEquals, IsNull, Starts, Ends, Contains, Matches, NotMatches };
+        public static string[] StringOperations = new[] { Equal, NotEquals, IsNull, Starts, Ends, Contains, LengthEquals, Matches, NotMatches, MatchesMod10 };
         public static string[] NumericOperations = new[] { Equal, NotEquals, Greater, Less };
 
     }

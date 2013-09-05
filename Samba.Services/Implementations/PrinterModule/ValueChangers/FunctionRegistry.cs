@@ -9,6 +9,7 @@ using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
+using Samba.Infrastructure.Helpers;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance;
@@ -40,11 +41,16 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         public void RegisterFunctions()
         {
+            //GENERIC
+            RegisterFunction(TagNames.Date, (x, d) => DateTime.Now.ToShortDateString(), Resources.DayDate);
+            RegisterFunction(TagNames.Time, (x, d) => DateTime.Now.ToShortTimeString(), Resources.DayTime);
+            RegisterFunction("{SETTING:([^}]+)}", (x, d) => _settingService.ReadSetting(d).StringValue, Resources.SettingValue);
+            RegisterFunction("{RANDOM:([^}]+)}", (x, d) => GenerateRandomNumber(SafeInt(d, 8), false), "Random Number");
+            RegisterFunction("{RANDOMC:([^}]+)}", (x, d) => GenerateRandomNumber(SafeInt(d, 8), true), "Random Number with check digit");
+
             //TICKETS
             RegisterFunction<Ticket>(TagNames.TicketDate, (x, d) => x.Date.ToShortDateString(), string.Format(Resources.Date_f, Resources.Ticket));
             RegisterFunction<Ticket>(TagNames.TicketTime, (x, d) => x.Date.ToShortTimeString(), string.Format(Resources.Time, Resources.Ticket));
-            RegisterFunction<Ticket>(TagNames.Date, (x, d) => DateTime.Now.ToShortDateString(), Resources.DayDate);
-            RegisterFunction<Ticket>(TagNames.Time, (x, d) => DateTime.Now.ToShortTimeString(), Resources.DayTime);
             RegisterFunction<Ticket>("{LAST ORDER TIME}", (x, d) => x.LastOrderDate.ToShortTimeString(), string.Format(Resources.Time, Resources.LastOrder));
             RegisterFunction<Ticket>("{CREATION MINUTES}", (x, d) => x.GetTicketCreationMinuteStr(), Resources.TicketDuration);
             RegisterFunction<Ticket>("{LAST ORDER MINUTES}", (x, d) => x.GetTicketLastOrderMinuteStr(), Resources.LastOrderDuration);
@@ -66,7 +72,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<Ticket>("{TICKET STATE:([^}]+)}", (x, d) => x.GetStateStr(d), Resources.TicketState);
             RegisterFunction<Ticket>("{TICKET STATE QUANTITY:([^}]+)}", (x, d) => x.GetStateQuantityStr(d), "Ticket State Quantity");
             RegisterFunction<Ticket>("{TICKET STATE MINUTES:([^}]+)}", (x, d) => x.GetStateMinuteStr(d), "Ticket State Duration");
-            RegisterFunction<Ticket>("{SETTING:([^}]+)}", (x, d) => _settingService.ReadSetting(d).StringValue, Resources.SettingValue);
+
             RegisterFunction<Ticket>("{CALCULATION TOTAL:([^}]+)}", (x, d) => x.GetCalculationTotal(d).ToString(LocalSettings.CurrencyFormat), string.Format(Resources.Total_f, Resources.Calculation), x => x.Calculations.Count > 0);
             RegisterFunction<Ticket>("{ENTITY NAME:([^}]+)}", (x, d) => x.GetEntityName(_cacheService.GetEntityTypeIdByEntityName(d)), string.Format(Resources.Name_f, Resources.Entity));
             RegisterFunction<Ticket>("{ENTITY DATA:([^}]+)}", GetEntityFieldValue, "Entity Custom Data");
@@ -139,8 +145,6 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<TaxValue>("{TAX NAME}", (x, d) => x.Name, string.Format(Resources.Name_f, Resources.TaxTemplate));
 
             //ACCOUNT TRANSACTON DOCUMENTS
-            RegisterFunction<AccountTransactionDocument>(TagNames.Date, (x, d) => DateTime.Now.ToShortDateString(), Resources.Date);
-            RegisterFunction<AccountTransactionDocument>(TagNames.Time, (x, d) => DateTime.Now.ToShortTimeString(), Resources.Time);
             RegisterFunction<AccountTransactionDocument>("{DOCUMENT DATE}", (x, d) => x.Date.ToShortDateString(), "Document Date");
             RegisterFunction<AccountTransactionDocument>("{DOCUMENT TIME}", (x, d) => x.Date.ToShortTimeString(), "Document Time");
             RegisterFunction<AccountTransactionDocument>("{DESCRIPTION}", (x, d) => x.Name, "Document Description");
@@ -165,6 +169,19 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction<AccountTransaction>("{TARGET CREDIT}", (x, d) => x.TargetTransactionValue.Credit.ToString(LocalSettings.CurrencyFormat));
             RegisterFunction<AccountTransaction>("{TARGET AMOUNT}", (x, d) => Math.Abs(x.TargetTransactionValue.Debit - x.TargetTransactionValue.Credit).ToString(LocalSettings.CurrencyFormat));
             RegisterFunction<AccountTransaction>("{TARGET BALANCE}", (x, d) => GetAccountBalance(x.TargetTransactionValue.AccountId).ToString(LocalSettings.CurrencyFormat));
+        }
+
+        private string GenerateRandomNumber(int length, bool addCheckDigit)
+        {
+            var result = Utility.RandomString(length, "ABCDEFGHIJKLMNOPQRSTUVWZYZ0123456789");
+            if (addCheckDigit) result = Utility.GenerateCheckDigit(result) + result;
+            return result;
+        }
+
+        private int SafeInt(string s, int defaultValue)
+        {
+            int result;
+            return int.TryParse(s, out result) ? result : defaultValue;
         }
 
         private int GetEntityStateQuantity(Entity entity, string stateName)
@@ -225,6 +242,11 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             return "";
         }
 
+        public void RegisterFunction(string tag, Func<object, string, string> function, string desc)
+        {
+            RegisterFunction<object>(tag, function, desc);
+        }
+
         public void RegisterFunction<TModel>(string tag, Func<TModel, string, string> function, string desc = "", Func<TModel, bool> condition = null)
         {
             if (!Functions.ContainsKey(typeof(TModel)))
@@ -256,6 +278,9 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         public string ExecuteFunctions<TModel>(string content, TModel model, PrinterTemplate printerTemplate)
         {
+            content = Functions[typeof(object)]
+                .Cast<FunctionData<object>>()
+                .Aggregate(content, (current, func) => (func.GetResult(model, current, printerTemplate)));
             if (!Functions.ContainsKey(typeof(TModel))) return content;
             return Functions[typeof(TModel)]
                 .Cast<FunctionData<TModel>>()

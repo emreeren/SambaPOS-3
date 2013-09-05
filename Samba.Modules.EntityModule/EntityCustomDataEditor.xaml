@@ -11,7 +11,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="150" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                <TextBox Margin="0,0,0,4" Grid.Column="1" MinWidth="150" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
             </Grid>
         </DataTemplate>
 
@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <UIControls:FilteredTextBox Margin="0,0,2,2" Grid.Column="1" Type="Number" MinWidth="100" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                <UIControls:FilteredTextBox Margin="0,0,0,4" Grid.Column="1" Type="Number" MinWidth="100" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
             </Grid>
         </DataTemplate>
 
@@ -33,7 +33,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <TextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="200" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AcceptsReturn="True" MinHeight="40"/>
+                <TextBox Margin="0,0,0,4" Grid.Column="1" MinWidth="200" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AcceptsReturn="True" MinHeight="40"/>
             </Grid>
         </DataTemplate>
 
@@ -44,7 +44,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <ComboBox Margin="0,0,2,2" Grid.Column="1" MinWidth="150" ItemsSource="{Binding CustomField.Values}" SelectedItem="{Binding Value}" />
+                <ComboBox Margin="0,0,0,4" Grid.Column="1" MinWidth="150" ItemsSource="{Binding CustomField.Values}" SelectedItem="{Binding Value}" />
             </Grid>
         </DataTemplate>
 
@@ -55,7 +55,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding Name}"/>
-                <UIControls:MaskedTextBox Margin="0,0,2,2" Grid.Column="1" MinWidth="150" 
+                <UIControls:MaskedTextBox Margin="0,0,0,4" Grid.Column="1" MinWidth="150" 
                     PromptChar=" "
                     UnmaskedText="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
                     InputMask="{Binding CustomField.EditingFormat}"/>
@@ -77,11 +77,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Margin="0,0,2,2"  Grid.Column="0" Content="{Binding PrimaryFieldName}" />
-            <UIControls:MaskedTextBox Name="EntityNameEdit" Margin="0,0,2,2" Grid.Column="1" Visibility="{Binding IsMaskedTextBoxVisible,Converter={StaticResource VisibilityConverter}}"
+            <UIControls:MaskedTextBox Name="EntityNameEdit" Margin="0,0,0,4" Grid.Column="1" Visibility="{Binding IsMaskedTextBoxVisible,Converter={StaticResource VisibilityConverter}}"
                     PromptChar=" "
                     UnmaskedText="{Binding Model.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-                    InputMask="{Binding EntityType.PrimaryFieldFormat}"/>
-            <TextBox Name="EntityNameEdit2" Margin="0,0,2,2" Grid.Column="1" Visibility="{Binding IsTextBoxVisible,Converter={StaticResource VisibilityConverter}}"
+                    InputMask="{Binding PrimaryFieldFormat}"/>
+            <TextBox Name="EntityNameEdit2" Margin="0,0,0,4" Grid.Column="1" Visibility="{Binding IsTextBoxVisible,Converter={StaticResource VisibilityConverter}}"
                     Text="{Binding Model.Name, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <ItemsControl Grid.Row="1" Focusable="False" ItemsSource="{Binding CustomData}" ItemTemplateSelector="{StaticResource customFieldTemplateSelector}"/>

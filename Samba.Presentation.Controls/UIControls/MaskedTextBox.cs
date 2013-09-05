@@ -16,7 +16,7 @@ namespace Samba.Presentation.Controls.UIControls
                                         typeof(MaskedTextBox), new UIPropertyMetadata(""));
 
         public static readonly DependencyProperty InputMaskProperty =
-            DependencyProperty.Register("InputMask", typeof(string), typeof(MaskedTextBox), null);
+            DependencyProperty.Register("InputMask", typeof(string), typeof(MaskedTextBox), new FrameworkPropertyMetadata(OnInputMaskChanged));
 
         public static readonly DependencyProperty PromptCharProperty =
             DependencyProperty.Register("PromptChar", typeof(char), typeof(MaskedTextBox),
@@ -128,15 +128,20 @@ namespace Samba.Presentation.Controls.UIControls
 
         private void MaskedTextBoxLoaded(object sender, RoutedEventArgs e)
         {
+         
+        }
+
+        private void RefreshProvider()
+        {
             _provider = new MaskedTextProvider(!string.IsNullOrEmpty(InputMask) ? InputMask : " ", CultureInfo.CurrentCulture);
 
             _provider.Set(String.IsNullOrWhiteSpace(UnmaskedText) ? String.Empty : UnmaskedText);
 
-            _provider.PromptChar = PromptChar;
+            _provider.PromptChar = ' ';
             Text = _provider.ToDisplayString();
 
             DependencyPropertyDescriptor textProp = DependencyPropertyDescriptor.FromProperty(TextProperty,
-                                                                                              typeof(MaskedTextBox));
+                                                                                              typeof (MaskedTextBox));
             if (textProp != null)
             {
                 textProp.AddValueChanged(this, (s, args) => UpdateText());
@@ -193,6 +198,11 @@ namespace Samba.Presentation.Controls.UIControls
         {
             UnmaskedText = String.IsNullOrWhiteSpace(unmaskedText) ? null : unmaskedText;
             Text = String.IsNullOrWhiteSpace(text) ? null : text;
+        }
+
+        private static void OnInputMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+           ((MaskedTextBox)d).RefreshProvider();
         }
 
         private int GetNextCharacterPosition(int startPosition, bool goForward)

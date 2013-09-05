@@ -112,6 +112,20 @@ namespace Samba.Persistance.Implementations
             return result.Where(x => x.GetCustomData(fieldName).Contains(searchValue)).ToList();
         }
 
+        public void UpdateEntityData(int entityId, string fieldName, string value)
+        {
+            if (entityId == 0) return;
+            using (var w = WorkspaceFactory.Create())
+            {
+                var entity = w.Single<Entity>(x => x.Id == entityId);
+                if (entity != null)
+                {
+                    entity.SetCustomData(fieldName, value);
+                    w.CommitChanges();
+                }
+            }
+        }
+
         public EntityStateValue UpdateEntityState(int entityId, string stateName, string state, string quantityExp)
         {
             return UpdateEntityStateEH(entityId, stateName, state, quantityExp, 0);

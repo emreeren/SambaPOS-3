@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure;
+using Samba.Infrastructure.Helpers;
 
 namespace Samba.Services.Tests
 {
@@ -136,6 +137,16 @@ namespace Samba.Services.Tests
             result = ExpressionService.Eval("FF('11,0')");
             const double expected5 = 11;
             Assert.AreEqual(expected5.ToString("#,#0.00"), result);
+        }
+
+        [Test]
+        public void CanGenerateCheckDigit()
+        {
+            var str = "EMRE";
+            var cd = Utility.GenerateCheckDigit(str);
+            str = str + cd;
+            var valid = Utility.ValidateCheckDigit(str);
+            Assert.True(valid);
         }
     }
 }

@@ -1,5 +1,3 @@
-using System;
-using System.Data.Entity;
 using FluentMigrator;
 
 namespace Samba.Persistance.DBMigration
@@ -27,7 +25,7 @@ namespace Samba.Persistance.DBMigration
             Create.Index("IX_TaskTypeId").OnTable("TaskCustomFields").OnColumn("TaskTypeId").Ascending();
 
 
-            Delete.Table("TaskEntityTypes");
+            Delete.Table("TaskTypeEntityTypes");
         }
 
         public override void Down()

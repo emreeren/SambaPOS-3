@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Samba.Infrastructure.Helpers
 {
@@ -105,6 +106,41 @@ namespace Samba.Infrastructure.Helpers
                     return false;
             }
             return false;
+        }
+
+        public static int GenerateCheckDigit(string idWithoutCheckdigit)
+        {
+            const string validChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVYWXZ_";
+            idWithoutCheckdigit = idWithoutCheckdigit.Trim().ToUpper();
+
+            var sum = 0;
+
+            for (var i = 0; i < idWithoutCheckdigit.Length; i++)
+            {
+                var ch = idWithoutCheckdigit[idWithoutCheckdigit.Length - i - 1];
+                if (validChars.IndexOf(ch) == -1)
+                    throw new Exception(ch + " is an invalid character");
+                var digit = ch - 48;
+                int weight;
+                if (i % 2 == 0)
+                {
+                    weight = (2 * digit) - digit / 5 * 9;
+                }
+                else
+                {
+                    weight = digit;
+                }
+                sum += weight;
+            }
+            sum = Math.Abs(sum) + 10;
+            return (10 - (sum % 10)) % 10;
+        }
+
+        public static bool ValidateCheckDigit(string id)
+        {
+            if (id.Length < 2) return false;
+            var cd = Convert.ToInt32(id.Last());
+            return cd == GenerateCheckDigit(id.Remove(id.Length - 1));
         }
 
         public static string RandomString(int length, string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")

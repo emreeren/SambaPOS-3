@@ -35,9 +35,11 @@ namespace Samba.Domain.Models.Automation
                 case Operations.Contains: return left.Contains(right);
                 case Operations.Starts: return left.StartsWith(right);
                 case Operations.Ends: return left.EndsWith(right);
+                case Operations.LengthEquals: return left.Length == Convert.ToInt32(right);
                 case Operations.Matches: return Regex.IsMatch(left, right);
                 case Operations.NotMatches: return !Regex.IsMatch(left, right);
                 case Operations.NotEquals: return left != right;
+                case Operations.MatchesMod10: return Utility.ValidateCheckDigit(left);
                 default: return left == right;
             }
         }
