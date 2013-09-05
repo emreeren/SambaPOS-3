@@ -49,7 +49,7 @@ namespace Samba.Modules.EntityModule.ActionProcessors
                 var entity = _entityService.CreateEntity(entityType.Id, entityName);
                 if (customData.Contains("="))
                 {
-                    foreach (var parts in customData.Split(',').Select(data => data.Split('=')))
+                    foreach (var parts in customData.Split(';').Select(data => data.Split('=')))
                         entity.SetCustomData(parts[0], parts[1]);
                 }
                 if (createAccount)

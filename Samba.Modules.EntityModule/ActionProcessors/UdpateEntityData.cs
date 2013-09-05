@@ -23,11 +23,21 @@ namespace Samba.Modules.EntityModule.ActionProcessors
         public override void Process(ActionData actionData)
         {
             var entityId = actionData.GetDataValueAsInt("EntityId");
+            var entityName = actionData.GetAsString("EntityName");
             var fieldName = actionData.GetAsString("FieldName");
             var value = actionData.GetAsString("Value");
             if (entityId > 0)
             {
                 _entityServiceClient.UpdateEntityData(entityId, fieldName, value);
+            }
+            else if (!string.IsNullOrEmpty(entityName))
+            {
+                var entityTypeName = actionData.GetAsString("EntityTypeName");
+                var entityType = _cacheService.GetEntityTypeByName(entityTypeName);
+                if (entityType != null)
+                {
+                    _entityServiceClient.UpdateEntityData(entityType, entityName, fieldName, value);
+                }
             }
             else
             {
@@ -47,7 +57,7 @@ namespace Samba.Modules.EntityModule.ActionProcessors
 
         protected override object GetDefaultData()
         {
-            return new { EntityTypeName = "", FieldName = "", Value = "" };
+            return new { EntityTypeName = "", EntityName = "", FieldName = "", Value = "" };
         }
 
         protected override string GetActionName()

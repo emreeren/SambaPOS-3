@@ -38,8 +38,21 @@ namespace Samba.Modules.TicketModule.ActionProcessors
                 var tag = actionData.GetAsString("Tag");
                 var orderStateName = actionData.GetAsString("OrderStateName");
                 var orderState = actionData.GetAsString("OrderState");
+
                 var osv = orderState.Contains("=") ? orderState : orderStateName + "=" + orderState;
                 var order = _ticketService.AddOrder(ticket, menuItem.Id, quantity, portionName, osv);
+
+                if (!string.IsNullOrEmpty(actionData.GetAsString("Price")))
+                    order.UpdatePrice(actionData.GetAsDecimal("Price"), "");
+                if (!string.IsNullOrEmpty(actionData.GetAsString("IncreaseInventory")))
+                    order.IncreaseInventory = actionData.GetAsBoolean("IncreaseInventory");
+                if (!string.IsNullOrEmpty(actionData.GetAsString("DecreaseInventory")))
+                    order.DecreaseInventory = actionData.GetAsBoolean("DecreaseInventory");
+                if (!string.IsNullOrEmpty(actionData.GetAsString("Locked")))
+                    order.Locked = actionData.GetAsBoolean("Locked");
+                if (!string.IsNullOrEmpty(actionData.GetAsString("CalculatePrice")))
+                    order.CalculatePrice = actionData.GetAsBoolean("CalculatePrice");
+
                 if (order != null) order.Tag = tag;
                 actionData.DataObject.Order = order;
                 order.PublishEvent(EventTopicNames.OrderAdded);
@@ -48,7 +61,7 @@ namespace Samba.Modules.TicketModule.ActionProcessors
 
         protected override object GetDefaultData()
         {
-            return new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "", OrderStateName = "", OrderState = "" };
+            return new { MenuItemName = "", PortionName = "", Quantity = 0, Tag = "", OrderStateName = "", OrderState = "", Price = 0m, IncreaseInventory = false, DecreaseInventory = true, Locked = false, CalculatePrice = true };
         }
 
         protected override string GetActionName()

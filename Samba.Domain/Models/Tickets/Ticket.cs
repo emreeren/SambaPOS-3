@@ -498,32 +498,10 @@ namespace Samba.Domain.Models.Tickets
         public void MergeOrdersAndUpdateOrderNumbers(int orderNumber)
         {
             LastOrderDate = DateTime.Now;
+
             IList<Order> newOrders = Orders.Where(x => !x.Locked && x.Id == 0).ToList();
 
-            var mergedOrders = newOrders.Where(x => x.Quantity != 1).ToList();
-            var ids = mergedOrders.Select(x => x.MenuItemId).Distinct().ToArray();
-            mergedOrders.AddRange(newOrders.Where(x => ids.Contains(x.MenuItemId) && x.Quantity == 1));
-            foreach (var order in newOrders.Where(x => x.Quantity == 1 && !ids.Contains(x.MenuItemId)))
-            {
-                var ti = order;
-                if (order.OrderTagValues.Count > 0)
-                {
-                    mergedOrders.Add(order);
-                    continue;
-                }
-
-                var item =
-                    mergedOrders.SingleOrDefault(
-                        x =>
-                        x.OrderTagValues.Count == 0 && x.MenuItemId == ti.MenuItemId &&
-                        x.PortionName == ti.PortionName && x.CalculatePrice == ti.CalculatePrice && x.Price == ti.Price);
-                if (item == null) mergedOrders.Add(order);
-                else
-                {
-                    item.Quantity += order.Quantity;
-                    item.ResetSelectedQuantity();
-                }
-            }
+            var mergedOrders = OrderMerger.Merge(newOrders);
 
             foreach (var order in newOrders.Where(order => !mergedOrders.Contains(order)))
             {
@@ -880,8 +858,5 @@ namespace Samba.Domain.Models.Tickets
             }
             return "";
         }
-
-
-
     }
 }

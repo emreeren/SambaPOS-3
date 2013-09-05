@@ -126,6 +126,19 @@ namespace Samba.Persistance.Implementations
             }
         }
 
+        public void UpdateEntityData(EntityType entityType, string entityName, string fieldName, string value)
+        {
+            using (var w = WorkspaceFactory.Create())
+            {
+                var entity = w.Single<Entity>(x => x.Name == entityName && x.EntityTypeId == entityType.Id);
+                if (entity != null)
+                {
+                    entity.SetCustomData(fieldName, value);
+                    w.CommitChanges();
+                }
+            }
+        }
+
         public EntityStateValue UpdateEntityState(int entityId, string stateName, string state, string quantityExp)
         {
             return UpdateEntityStateEH(entityId, stateName, state, quantityExp, 0);

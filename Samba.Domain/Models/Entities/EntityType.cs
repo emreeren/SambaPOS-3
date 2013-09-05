@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -55,8 +56,8 @@ namespace Samba.Domain.Models.Entities
 
             var result = AccountNameTemplate;
             result = result.Replace("[Id]", entity.Id.ToString(CultureInfo.InvariantCulture));
-            result = !string.IsNullOrEmpty(PrimaryFieldName) 
-                ? result.Replace("[" + PrimaryFieldName + "]", entity.Name) 
+            result = !string.IsNullOrEmpty(PrimaryFieldName)
+                ? result.Replace("[" + PrimaryFieldName + "]", entity.Name)
                 : result.Replace("[Name]", entity.Name);
             while (Regex.IsMatch(result, "\\[([^\\]]+)\\]"))
             {
@@ -78,8 +79,15 @@ namespace Samba.Domain.Models.Entities
         public string FormatEntityName(string name)
         {
             return string.IsNullOrEmpty(PrimaryFieldFormat)
-              ? name
-              : Int64.Parse(name).ToString(PrimaryFieldFormat);
+                       ? name
+                       : GetMaskedInput(name, PrimaryFieldFormat);
+        }
+
+        private string GetMaskedInput(string name, string primaryFieldFormat)
+        {
+            var provider = new MaskedTextProvider(primaryFieldFormat, CultureInfo.CurrentCulture);
+            provider.Set(name);
+            return provider.ToDisplayString();
         }
     }
 }

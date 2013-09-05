@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Samba.Domain.Models.Entities;
 using Samba.Persistance;
 using Samba.Services;
 using Samba.Services.Common;
@@ -39,5 +40,9 @@ namespace Samba.Presentation.Services.Implementations.EntityModule
             _entityDao.UpdateEntityData(entityId, fieldName, value);
         }
 
+        public void UpdateEntityData(EntityType entityType, string entityName, string fieldName, string value)
+        {
+            _entityDao.UpdateEntityData(entityType,entityName,fieldName,value);
+        }
     }
 }
