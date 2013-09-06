@@ -53,24 +53,28 @@ namespace Samba.Modules.PosModule
                 _selectedTicket = value;
                 _ticketViewModel.SelectedTicket = value;
                 _menuItemSelectorViewModel.SelectedTicket = value;
+                var screenMenuId = _applicationState.CurrentDepartment.ScreenMenuId;
                 if (value != null)
                 {
                     _accountBalances.SelectedTicket = value;
                     _accountBalances.Refresh();
-                    var screenMenuId = _applicationState.CurrentDepartment.ScreenMenuId;
                     if (screenMenuId == 0)
                     {
                         var template = _cacheService.GetTicketTypeById(SelectedTicket.TicketTypeId);
                         if (template != null)
                             screenMenuId = template.GetScreenMenuId(_applicationState.CurrentTerminal);
                     }
-                    _menuItemSelectorViewModel.UpdateCurrentScreenMenu(screenMenuId);
                 }
+                else
+                {
+                    if (screenMenuId == 0) screenMenuId = _applicationState.CurrentTicketType.ScreenMenuId;
+                }
+                _menuItemSelectorViewModel.UpdateCurrentScreenMenu(screenMenuId);
             }
         }
 
         [ImportingConstructor]
-        public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter, 
+        public PosViewModel(IRegionManager regionManager, IApplicationState applicationState, IApplicationStateSetter applicationStateSetter,
             ITicketService ticketService, ITicketServiceBase ticketServiceBase, IUserService userService, ICacheService cacheService, IMessagingService messagingService,
             TicketListViewModel ticketListViewModel, TicketTagListViewModel ticketTagListViewModel, MenuItemSelectorViewModel menuItemSelectorViewModel,
             MenuItemSelectorView menuItemSelectorView, TicketViewModel ticketViewModel, TicketOrdersViewModel ticketOrdersViewModel,
@@ -346,6 +350,7 @@ namespace Samba.Modules.PosModule
             if (SelectedTicket != null || !_applicationState.GetTicketEntityScreens().Any() || _applicationState.CurrentDepartment.TicketCreationMethod == 1)
             {
                 _applicationStateSetter.SetCurrentApplicationScreen(AppScreens.TicketView);
+                if (SelectedTicket == null) SelectedTicket = null;
                 DisplaySingleTicket();
                 return;
             }

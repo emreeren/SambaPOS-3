@@ -86,8 +86,9 @@ namespace Samba.Modules.AccountModule
             get
             {
                 return _automationCommands ?? (_automationCommands =
-                                                        _selectedAccountScreen.AutmationCommandMaps
-                                                        .Select(x => new AccountScreenAutmationCommandMapViewModel(x, _cacheService)));
+                    _selectedAccountScreen != null
+                    ? _selectedAccountScreen.AutmationCommandMaps.Select(x => new AccountScreenAutmationCommandMapViewModel(x, _cacheService))
+                    : null);
             }
         }
 

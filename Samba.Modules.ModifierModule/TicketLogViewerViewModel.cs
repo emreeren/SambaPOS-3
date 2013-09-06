@@ -27,7 +27,7 @@ namespace Samba.Modules.ModifierModule
             {
                 _selectedTicket = value;
                 RaisePropertyChanged(() => SelectedTicket);
-                if(SelectedTicket != null)
+                if (SelectedTicket != null)
                 {
                     _logs = null;
                     RaisePropertyChanged(() => Logs);
@@ -38,7 +38,7 @@ namespace Samba.Modules.ModifierModule
         private IEnumerable<TicketLogValue> _logs;
         public IEnumerable<TicketLogValue> Logs
         {
-            get { return _logs ?? (_logs = SelectedTicket.GetTicketLogValues()); }
+            get { return _logs ?? (_logs = SelectedTicket != null ? SelectedTicket.GetTicketLogValues() : null); }
             set { _logs = value; RaisePropertyChanged(() => Logs); }
         }
 
