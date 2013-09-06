@@ -45,6 +45,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
             RegisterFunction(TagNames.Date, (x, d) => DateTime.Now.ToShortDateString(), Resources.DayDate);
             RegisterFunction(TagNames.Time, (x, d) => DateTime.Now.ToShortTimeString(), Resources.DayTime);
             RegisterFunction("{SETTING:([^}]+)}", (x, d) => _settingService.ReadSetting(d).StringValue, Resources.SettingValue);
+            RegisterFunction("{RANDOM}", (x, d) => Utility.GetDateBasedUniqueString(), "Date based Random Number");
             RegisterFunction("{RANDOM:([^}]+)}", (x, d) => GenerateRandomNumber(SafeInt(d, 8), false), "Random Number");
             RegisterFunction("{RANDOMC:([^}]+)}", (x, d) => GenerateRandomNumber(SafeInt(d, 8), true), "Random Number with check digit");
 
@@ -173,7 +174,7 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         private string GenerateRandomNumber(int length, bool addCheckDigit)
         {
-            var result = Utility.RandomString(length, "ABCDEFGHIJKLMNOPQRSTUVWZYZ0123456789");
+            var result = Utility.RandomString(length, "ABCDEFGHJKLMNPQRSTUVWZYZ123456789");
             if (addCheckDigit) result = Utility.GenerateCheckDigit(result) + result;
             return result;
         }

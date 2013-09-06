@@ -169,5 +169,12 @@ namespace Samba.Infrastructure.Helpers
                 return result.ToString();
             }
         }
+
+        public static string GetDateBasedUniqueString()
+        {
+            var date = DateTime.Now;
+            return string.Format("{0}{1:00}{2:00}{3:00}{4:00}{5:000}", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Millisecond);
+
+        }
     }
 }
