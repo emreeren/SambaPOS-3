@@ -3,72 +3,153 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Samba.Domain.Models.Accounts;
-using Samba.Domain.Models.Settings;
-using Samba.Localization;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Specification;
 
 namespace Samba.Services.Common
 {
+    public class AccountTransactionSummaryBuilder
+    {
+        private DateTime? _start;
+        private DateTime? _end;
+        private Account _account;
+
+        public static AccountTransactionSummaryBuilder Create()
+        {
+            return new AccountTransactionSummaryBuilder();
+        }
+
+        public AccountTransactionSummaryBuilder WithStartDate(DateTime? start)
+        {
+            if (start.HasValue)
+            {
+                _start = start;
+                return WithEndDate(start);
+            }
+            return this;
+        }
+
+        public AccountTransactionSummaryBuilder WithEndDate(DateTime? end)
+        {
+            if (end.HasValue)
+                _end = end.GetValueOrDefault();
+            return this;
+        }
+
+        public AccountTransactionSummaryBuilder ForAccount(Account account)
+        {
+            _account = account;
+            return this;
+        }
+
+        public AccountTransactionSummary Build()
+        {
+            var result = new AccountTransactionSummary();
+            result.Update(_account, _start, _end);
+            return result;
+        }
+    }
+
     public class AccountTransactionSummary
     {
-        public AccountTransactionSummary(ICacheService cacheService, Account selectedAccount, WorkPeriod currentWorkPeriod)
+        public AccountTransactionSummary()
         {
             Summaries = new List<AccountSummaryData>();
-            Update(cacheService, selectedAccount, currentWorkPeriod);
         }
 
         public IList<AccountDetailData> Transactions { get; set; }
         public IList<AccountSummaryData> Summaries { get; set; }
+        public DateTime? Start { get; set; }
+        public DateTime? End { get; set; }
 
-        private Expression<Func<AccountTransactionValue, bool>> GetCurrentRange(int filterType, Expression<Func<AccountTransactionValue, bool>> activeSpecification, WorkPeriod workPeriod)
+        private Expression<Func<AccountTransactionValue, bool>> GetCurrentRange(DateTime? start, DateTime? end, Expression<Func<AccountTransactionValue, bool>> activeSpecification)
         {
-            //Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod
-            DateTime? date = null;
-
-            if (filterType == 1) date = DateTime.Now.MonthStart();
-            if (filterType == 2) date = DateTime.Now.StartOfWeek();
-            if (filterType == 3) date = workPeriod.StartDate;
-
-            return date.HasValue ? activeSpecification.And(x => x.Date >= date) : activeSpecification;
-        }
-
-        private Expression<Func<AccountTransactionValue, bool>> GetPastRange(int filterType, Expression<Func<AccountTransactionValue, bool>> activeSpecification, WorkPeriod workPeriod)
-        {
-            //Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod
-            DateTime? date = null;
-
-            if (filterType == 1) date = DateTime.Now.MonthStart();
-            if (filterType == 2) date = DateTime.Now.StartOfWeek();
-            if (filterType == 3) date = workPeriod.StartDate;
-
-            return date.HasValue ? activeSpecification.And(x => x.Date < date) : activeSpecification;
-        }
-
-        public void Update(ICacheService cacheService, Account selectedAccount, WorkPeriod currentWorkPeriod)
-        {
-            var accountType = cacheService.GetAccountTypeById(selectedAccount.AccountTypeId);
-            var transactions = Dao.Query(GetCurrentRange(accountType.DefaultFilterType, x => x.AccountId == selectedAccount.Id, currentWorkPeriod)).OrderBy(x => x.Date);
-            Transactions = transactions.Select(x => new AccountDetailData(x, selectedAccount)).ToList();
-            if (accountType.DefaultFilterType > 0)
+            var result = activeSpecification;
+            if (start.HasValue)
             {
-                var pastDebit = Dao.Sum(x => x.Debit, GetPastRange(accountType.DefaultFilterType, x => x.AccountId == selectedAccount.Id, currentWorkPeriod));
-                var pastCredit = Dao.Sum(x => x.Credit, GetPastRange(accountType.DefaultFilterType, x => x.AccountId == selectedAccount.Id, currentWorkPeriod));
-                var pastExchange = Dao.Sum(x => x.Exchange, GetPastRange(accountType.DefaultFilterType, x => x.AccountId == selectedAccount.Id, currentWorkPeriod));
+                var currentStart = start.GetValueOrDefault();
+                result = result.And(x => x.Date >= currentStart);
+                if (end.HasValue)
+                {
+                    var currentEnd = end.GetValueOrDefault();
+                    if (end != start)
+                    {
+                        result = result.And(x => x.Date <= currentEnd);
+                    }
+                }
+            }
+            return result;
+        }
+
+        private Expression<Func<AccountTransactionValue, bool>> GetPastRange(DateTime? start, Expression<Func<AccountTransactionValue, bool>> activeSpecification)
+        {
+            var result = activeSpecification;
+            if (start.HasValue)
+            {
+                var currentStart = start.GetValueOrDefault();
+                result = result.And(x => x.Date < currentStart);
+            }
+            return result;
+        }
+
+        private Expression<Func<AccountTransactionValue, bool>> GetFutureRange(DateTime? end, Expression<Func<AccountTransactionValue, bool>> activeSpecification)
+        {
+            var result = activeSpecification;
+            if (end.HasValue)
+            {
+                var currentEnd = end.GetValueOrDefault();
+                result = result.And(x => x.Date > currentEnd);
+            }
+            return result;
+        }
+
+        public void Update(Account selectedAccount, DateTime? start, DateTime? end)
+        {
+            Start = start;
+            End = end;
+            var transactions = Dao.Query(GetCurrentRange(start, end, x => x.AccountId == selectedAccount.Id)).OrderBy(x => x.Date);
+            Transactions = transactions.Select(x => new AccountDetailData(x, selectedAccount)).ToList();
+            if (start.HasValue)
+            {
+                var pastDebit = Dao.Sum(x => x.Debit, GetPastRange(start, x => x.AccountId == selectedAccount.Id));
+                var pastCredit = Dao.Sum(x => x.Credit, GetPastRange(start, x => x.AccountId == selectedAccount.Id));
+                var pastExchange = Dao.Sum(x => x.Exchange, GetPastRange(start, x => x.AccountId == selectedAccount.Id));
                 if (pastCredit > 0 || pastDebit > 0)
                 {
-                    Summaries.Add(new AccountSummaryData(Resources.Total, Transactions.Sum(x => x.Debit), Transactions.Sum(x => x.Credit)));
+                    Summaries.Add(new AccountSummaryData(Resources.TransactionTotal, Transactions.Sum(x => x.Debit), Transactions.Sum(x => x.Credit)));
                     var detailValue =
                         new AccountDetailData(
                         new AccountTransactionValue
                         {
-                            Name = Resources.PastTransactions,
+                            Date = start.GetValueOrDefault(),
+                            Name = Resources.BalanceBroughtForward,
                             Credit = pastCredit,
                             Debit = pastDebit,
                             Exchange = pastExchange
                         }, selectedAccount) { IsBold = true };
                     Transactions.Insert(0, detailValue);
+                }
+            }
+            if (end.HasValue && end != start)
+            {
+                var futureDebit = Dao.Sum(x => x.Debit, GetFutureRange(end, x => x.AccountId == selectedAccount.Id));
+                var futureCredit = Dao.Sum(x => x.Credit, GetFutureRange(end, x => x.AccountId == selectedAccount.Id));
+                var futureExchange = Dao.Sum(x => x.Exchange, GetFutureRange(end, x => x.AccountId == selectedAccount.Id));
+                if (futureCredit > 0 || futureDebit > 0)
+                {
+                    Summaries.Add(new AccountSummaryData(Resources.DateRangeTotal, Transactions.Sum(x => x.Debit), Transactions.Sum(x => x.Credit)));
+                    var detailValue =
+                        new AccountDetailData(
+                        new AccountTransactionValue
+                        {
+                            Date = end.GetValueOrDefault(),
+                            Name = Resources.BalanceAfterDate,
+                            Credit = futureCredit,
+                            Debit = futureDebit,
+                            Exchange = futureExchange
+                        }, selectedAccount) { IsBold = true };
+                    Transactions.Add(detailValue);
                 }
             }
 

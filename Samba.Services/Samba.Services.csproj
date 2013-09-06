@@ -96,6 +96,7 @@
     <Compile Include="Common\SimpleReport.cs" />
     <Compile Include="Common\TicketStateData.cs" />
     <Compile Include="Common\TicketTagData.cs" />
+    <Compile Include="Common\DateRange.cs" />
     <Compile Include="IAccountService.cs" />
     <Compile Include="IAutomationService.cs" />
     <Compile Include="ICacheService.cs" />

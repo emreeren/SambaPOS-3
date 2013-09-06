@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using Samba.Domain.Models.Accounts;
@@ -45,9 +46,10 @@ namespace Samba.Services.Implementations
             _printerService.PrintReport(report.Document, printer);
         }
 
-        public void PrintAccountTransactions(Account account, WorkPeriod workPeriod, Printer printer)
+        public void PrintAccountTransactions(Account account, WorkPeriod workPeriod, Printer printer, string filter)
         {
-            var summary = _accountService.GetAccountTransactionSummary(account, workPeriod);
+            var range = _accountService.GetDateRange(filter, workPeriod);
+            var summary = _accountService.GetAccountTransactionSummary(account, workPeriod, range.Start, range.End);
 
             var totalBalance = summary.Transactions.Sum(x => x.Debit - x.Credit).ToString(LocalSettings.ReportCurrencyFormat);
 
@@ -62,16 +64,16 @@ namespace Samba.Services.Implementations
 
             report.AddColumnLength("Transactions", "15*", "35*", "15*", "15*", "20*");
             report.AddColumTextAlignment("Transactions", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right, TextAlignment.Right);
-            report.AddTable("Transactions", Resources.Date, Resources.Description, Resources.Credit, Resources.Debit, Resources.Balance);
+            report.AddTable("Transactions", Resources.Date, Resources.Description, Resources.Debit, Resources.Credit, Resources.Balance);
 
             foreach (var ad in summary.Transactions)
             {
-                report.AddRow("Transactions", ad.Date.ToShortDateString(), ad.Name, ad.CreditStr, ad.DebitStr, ad.BalanceStr);
+                report.AddRow("Transactions", ad.Date.ToShortDateString(), ad.Name, ad.DebitStr, ad.CreditStr, ad.BalanceStr);
             }
 
             foreach (var sum in summary.Summaries)
             {
-                report.AddBoldRow("Transactions", "", sum.Caption, sum.Credit, sum.Debit, sum.Balance);
+                report.AddBoldRow("Transactions", "", sum.Caption, sum.Debit, sum.Credit, sum.Balance);
             }
 
             _printerService.PrintReport(report.Document, printer);

@@ -42,12 +42,17 @@ namespace Samba.Localization
 
         public static string ToNextMonthName(this DateTime dateTime)
         {
-            return new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1).ToMonthName();
+            return new DateTime(dateTime.Year, dateTime.Month, 1).AddMonths(1).ToMonthName();
         }
 
         public static DateTime MonthStart(this DateTime dateTime)
         {
-            return new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            return new DateTime(dateTime.Year, dateTime.Month, 1);
+        }
+
+        public static DateTime MonthEnd(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, DateTime.DaysInMonth(dateTime.Year, dateTime.Month));
         }
 
         public static int WeekOfYear(this DateTime dateTime)
@@ -92,6 +97,17 @@ namespace Samba.Localization
             }
 
             return dt.AddDays(-1 * diff).Date;
+        }
+
+        public static DateTime StartOfPastWeek(this DateTime dt)
+        {
+            var startOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+            int diff = dt.DayOfWeek - startOfWeek;
+            if (diff < 0)
+            {
+                diff += 7;
+            }
+            return dt.AddDays(-1 * diff).Date.AddDays(-7);
         }
 
     }

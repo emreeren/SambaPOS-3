@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Services.Common;
@@ -22,6 +23,7 @@ namespace Samba.Services
         void CreateBatchAccountTransactionDocument(string documentName);
         AccountTransactionDocument CreateTransactionDocument(Account account, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts);
         AccountTransactionDocument GetAccountTransactionDocumentById(int documentId);
-        AccountTransactionSummary GetAccountTransactionSummary(Account selectedAccount, WorkPeriod currentWorkPeriod);
+        AccountTransactionSummary GetAccountTransactionSummary(Account selectedAccount, WorkPeriod currentWorkPeriod, DateTime? start = null, DateTime? end = null);
+        DateRange GetDateRange(string rangeName,WorkPeriod workPeriod);
     }
 }

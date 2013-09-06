@@ -11,6 +11,6 @@ namespace Samba.Services
     public interface IReportService
     {
         void PrintAccountScreen(AccountScreen accountScreen, WorkPeriod workperiod, Printer printer);
-        void PrintAccountTransactions(Account account, WorkPeriod workPeriod, Printer printer);
+        void PrintAccountTransactions(Account account, WorkPeriod workPeriod, Printer printer, string filter);
     }
 }

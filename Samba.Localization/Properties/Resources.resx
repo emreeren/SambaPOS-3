@@ -3484,4 +3484,19 @@ Error Message:
   <data name="UpdateEntityData" xml:space="preserve">
     <value>Update Entity Data</value>
   </data>
+  <data name="BalanceBroughtForward" xml:space="preserve">
+    <value>Balance Brought Forward</value>
+  </data>
+  <data name="BalanceAfterDate" xml:space="preserve">
+    <value>Balance after date</value>
+  </data>
+  <data name="AccountTransactionsFilter" xml:space="preserve">
+    <value>Account Transactions Filter</value>
+  </data>
+  <data name="TransactionTotal" xml:space="preserve">
+    <value>Transaction Total</value>
+  </data>
+  <data name="DateRangeTotal" xml:space="preserve">
+    <value>Date Range Total</value>
+  </data>
 </root>

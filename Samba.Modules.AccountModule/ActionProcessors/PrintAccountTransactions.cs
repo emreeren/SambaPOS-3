@@ -37,16 +37,16 @@ namespace Samba.Modules.AccountModule.ActionProcessors
                     account = _accountService.GetAccountByName(accountName);
                 }
             }
-            
+
             if (account != null)
             {
-                _reportServiceClient.PrintAccountTransactions(account);
+                _reportServiceClient.PrintAccountTransactions(account, actionData.GetAsString("AccountTransactionsFilter"));
             }
         }
 
         protected override object GetDefaultData()
         {
-            return new { AccountId = "", AccountName = "" };
+            return new { AccountId = "", AccountName = "", AccountTransactionsFilter = "" };
         }
 
         protected override string GetActionName()

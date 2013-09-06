@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using Samba.Domain.Models.Accounts;
 using Samba.Services;
 
@@ -22,9 +23,9 @@ namespace Samba.Presentation.Services.Implementations
             _reportService.PrintAccountScreen(accountScreen, _applicationState.CurrentWorkPeriod, _applicationState.GetReportPrinter());
         }
 
-        public void PrintAccountTransactions(Account account)
+        public void PrintAccountTransactions(Account account, string filter)
         {
-            _reportService.PrintAccountTransactions(account, _applicationState.CurrentWorkPeriod, _applicationState.GetReportPrinter());
+            _reportService.PrintAccountTransactions(account, _applicationState.CurrentWorkPeriod, _applicationState.GetReportPrinter(), filter);
         }
     }
 }

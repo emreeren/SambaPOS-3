@@ -214,6 +214,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Transactions Filter.
+        /// </summary>
+        public static string AccountTransactionsFilter {
+            get {
+                return ResourceManager.GetString("AccountTransactionsFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Transaction Type.
         /// </summary>
         public static string AccountTransactionType {
@@ -751,6 +760,24 @@ namespace Samba.Localization.Properties {
         public static string Balance {
             get {
                 return ResourceManager.GetString("Balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balance after date.
+        /// </summary>
+        public static string BalanceAfterDate {
+            get {
+                return ResourceManager.GetString("BalanceAfterDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balance Brought Forward.
+        /// </summary>
+        public static string BalanceBroughtForward {
+            get {
+                return ResourceManager.GetString("BalanceBroughtForward", resourceCulture);
             }
         }
         
@@ -1940,6 +1967,15 @@ namespace Samba.Localization.Properties {
         public static string DateRangeIsNotActiveWorkPeriod {
             get {
                 return ResourceManager.GetString("DateRangeIsNotActiveWorkPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date Range Total.
+        /// </summary>
+        public static string DateRangeTotal {
+            get {
+                return ResourceManager.GetString("DateRangeTotal", resourceCulture);
             }
         }
         
@@ -8557,6 +8593,15 @@ namespace Samba.Localization.Properties {
         public static string TransactionsEmptyError {
             get {
                 return ResourceManager.GetString("TransactionsEmptyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Total.
+        /// </summary>
+        public static string TransactionTotal {
+            get {
+                return ResourceManager.GetString("TransactionTotal", resourceCulture);
             }
         }
         

@@ -89,7 +89,7 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterParameterSources();
         }
 
-        public IDictionary<string,Type> GetCustomRuleConstraintNames(string eventName)
+        public IDictionary<string, Type> GetCustomRuleConstraintNames(string eventName)
         {
             return _ruleActionTypeRegistry.GetCustomRuleConstraintNames(eventName);
         }
@@ -171,6 +171,7 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterParameterSource("PrinterName", () => Dao.Distinct<Printer>(x => x.Name));
             RegisterParameterSource("WidgetName", () => Dao.Distinct<Widget>(x => x.Name));
             RegisterParameterSource("AccountScreenName", () => Dao.Distinct<AccountScreen>(x => x.Name));
+            RegisterParameterSource("AccountTransactionsFilter", () => new[] { Resources.Default, Resources.ThisMonth, Resources.PastMonth, Resources.ThisWeek, Resources.PastWeek, Resources.WorkPeriod });
         }
     }
 }

@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
+using Samba.Localization;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Presentation.Common;
@@ -26,6 +28,11 @@ namespace Samba.Modules.AccountModule
 
         private OperationRequest<AccountData> _currentOperationRequest;
 
+        public ICaptionCommand RefreshCommand { get; set; }
+        public ICaptionCommand CloseAccountScreenCommand { get; set; }
+        public ICaptionCommand DisplayTicketCommand { get; set; }
+        public ICaptionCommand PrintAccountCommand { get; set; }
+
         [ImportingConstructor]
         public AccountDetailsViewModel(IApplicationState applicationState, IAccountService accountService,
             ICacheService cacheService, IReportService reportService)
@@ -37,10 +44,63 @@ namespace Samba.Modules.AccountModule
             CloseAccountScreenCommand = new CaptionCommand<string>(Resources.Close, OnCloseAccountScreen);
             DisplayTicketCommand = new CaptionCommand<string>(Resources.FindTicket.Replace(" ", "\r"), OnDisplayTicket);
             PrintAccountCommand = new CaptionCommand<string>(Resources.Print, OnPrintAccount);
+            RefreshCommand = new CaptionCommand<string>(Resources.Refresh, OnRefreshCommand);
             AccountDetails = new ObservableCollection<AccountDetailData>();
             DocumentTypes = new ObservableCollection<DocumentTypeButtonViewModel>();
             AccountSummaries = new ObservableCollection<AccountSummaryData>();
             EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<AccountData>>>().Subscribe(OnDisplayAccountTransactions);
+        }
+
+        private DateTime? _start;
+        public DateTime? Start
+        {
+            get { return _start; }
+            set { _start = value; RaisePropertyChanged(() => StartDateString); }
+        }
+
+        private DateTime? _end;
+        public DateTime? End
+        {
+            get { return _end; }
+            set { _end = value; RaisePropertyChanged(() => EndDateString); }
+        }
+
+        public string StartDateString { get { return Start.HasValue ? Start.GetValueOrDefault().ToString("dd MM yyyy") : ""; } set { SetStartDate(value); } }
+        public string EndDateString { get { return End.HasValue ? End.GetValueOrDefault().ToString("dd MM yyyy") : ""; } set { SetEndDate(value); } }
+
+        private void SetStartDate(string value)
+        {
+            Start = StrToDate(value);
+            if (!Start.HasValue) End = Start;
+        }
+
+        private void SetEndDate(string value)
+        {
+            End = StrToDate(value);
+            if (Start.HasValue && End == Start.GetValueOrDefault())
+            {
+                End = Start.GetValueOrDefault().AddDays(1).AddSeconds(-1);
+            }
+            if (End.HasValue && End < Start) End = null;
+        }
+
+        private static DateTime? StrToDate(string value)
+        {
+            if (string.IsNullOrEmpty(value.Trim())) return null;
+            var vals = value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => Convert.ToInt32(x)).ToList();
+            if (vals.Count == 1) vals.Add(DateTime.Now.Month);
+            if (vals.Count == 2) vals.Add(DateTime.Now.Year);
+
+            if (vals[2] < 1) { vals[2] = DateTime.Now.Year; }
+            if (vals[2] < 1000) { vals[2] += 2000; }
+
+            if (vals[1] < 1) { vals[1] = 1; }
+            if (vals[1] > 12) { vals[1] = 12; }
+
+            var dim = DateTime.DaysInMonth(vals[0], vals[1]);
+            if (vals[0] < 1) { vals[0] = 1; }
+            if (vals[0] > dim) { vals[0] = dim; }
+            return new DateTime(vals[2], vals[1], vals[0]);
         }
 
         public AccountType SelectedAccountType { get; set; }
@@ -58,8 +118,8 @@ namespace Samba.Modules.AccountModule
                     SelectedAccountType = _cacheService.GetAccountTypeById(value.AccountTypeId);
                 }
                 RaisePropertyChanged(() => SelectedAccount);
-                FilterType = FilterTypes[SelectedAccountType.DefaultFilterType];
                 UpdateTemplates();
+                FilterType = Resources.Default;
             }
         }
 
@@ -67,7 +127,7 @@ namespace Samba.Modules.AccountModule
         public ObservableCollection<AccountDetailData> AccountDetails { get; set; }
         public ObservableCollection<AccountSummaryData> AccountSummaries { get; set; }
 
-        public string[] FilterTypes { get { return new[] { Resources.All, Resources.Month, Resources.Week, Resources.WorkPeriod }; } }
+        public string[] FilterTypes { get { return new[] { Resources.Default, Resources.All, Resources.ThisMonth, Resources.PastMonth, Resources.ThisWeek, Resources.PastWeek, Resources.WorkPeriod }; } }
 
         private string _filterType;
         public string FilterType
@@ -76,15 +136,14 @@ namespace Samba.Modules.AccountModule
             set
             {
                 _filterType = value;
+                Start = null;
+                End = null;
                 DisplayTransactions();
+                RaisePropertyChanged(() => FilterType);
             }
         }
 
         public string TotalBalance { get { return AccountDetails.Sum(x => x.Debit - x.Credit).ToString(LocalSettings.ReportCurrencyFormat); } }
-
-        public ICaptionCommand CloseAccountScreenCommand { get; set; }
-        public ICaptionCommand DisplayTicketCommand { get; set; }
-        public ICaptionCommand PrintAccountCommand { get; set; }
 
         private void UpdateTemplates()
         {
@@ -99,7 +158,16 @@ namespace Samba.Modules.AccountModule
 
         private void DisplayTransactions()
         {
-            var transactionData = _accountService.GetAccountTransactionSummary(SelectedAccount, _applicationState.CurrentWorkPeriod);
+            if (FilterType != Resources.Default)
+            {
+                var dateRange = _accountService.GetDateRange(FilterType, _applicationState.CurrentWorkPeriod);
+                Start = dateRange.Start;
+                End = dateRange.End;
+            }
+
+            var transactionData = _accountService.GetAccountTransactionSummary(SelectedAccount, _applicationState.CurrentWorkPeriod, Start, End);
+            Start = transactionData.Start;
+            End = transactionData.End;
 
             AccountDetails.Clear();
             AccountDetails.AddRange(transactionData.Transactions);
@@ -118,6 +186,11 @@ namespace Samba.Modules.AccountModule
                     _currentOperationRequest = obj.Value;
                 SelectedAccount = account;
             }
+        }
+
+        private void OnRefreshCommand(string obj)
+        {
+            DisplayTransactions();
         }
 
         private void OnCloseAccountScreen(string obj)
@@ -148,7 +221,7 @@ namespace Samba.Modules.AccountModule
 
         private void OnPrintAccount(string obj)
         {
-            _reportService.PrintAccountTransactions(SelectedAccount, _applicationState.CurrentWorkPeriod, _applicationState.GetReportPrinter());
+            _reportService.PrintAccountTransactions(SelectedAccount, _applicationState.CurrentWorkPeriod, _applicationState.GetReportPrinter(), FilterType);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace Samba.Presentation.Services
     public interface IReportServiceClient
     {
         void PrintAccountScreen(AccountScreen accountScreen);
-        void PrintAccountTransactions(Account account);
+        void PrintAccountTransactions(Account account,string filter);
     }
 }

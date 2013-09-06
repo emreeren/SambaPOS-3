@@ -41,9 +41,34 @@ namespace Samba.Services.Implementations.AccountModule
             return _accountDao.GetAccountTransactionDocumentById(documentId);
         }
 
-        public AccountTransactionSummary GetAccountTransactionSummary(Account selectedAccount, WorkPeriod currentWorkPeriod)
+        public AccountTransactionSummary GetAccountTransactionSummary(Account selectedAccount, WorkPeriod currentWorkPeriod, DateTime? start = null, DateTime? end = null)
         {
-            return new AccountTransactionSummary(_cacheService, selectedAccount, currentWorkPeriod);
+            if (!start.HasValue)
+            {
+                var accountType = _cacheService.GetAccountTypeById(selectedAccount.AccountTypeId);
+                if (accountType != null)
+                {
+                    if (accountType.DefaultFilterType == 1) start = DateTime.Now.MonthStart();
+                    if (accountType.DefaultFilterType == 2) start = DateTime.Now.StartOfWeek();
+                    if (accountType.DefaultFilterType == 3) start = currentWorkPeriod.StartDate;
+                }
+            }
+            return
+                    AccountTransactionSummaryBuilder.Create()
+                                                    .ForAccount(selectedAccount)
+                                                    .WithStartDate(start)
+                                                    .WithEndDate(end)
+                                                    .Build();
+        }
+
+        public DateRange GetDateRange(string rangeName, WorkPeriod workPeriod)
+        {
+            if (rangeName == Resources.ThisMonth) return new DateRange(DateTime.Now.MonthStart(), null);
+            if (rangeName == Resources.PastMonth) return new DateRange(DateTime.Now.AddMonths(-1).MonthStart(), DateTime.Now.AddMonths(-1).MonthEnd());
+            if (rangeName == Resources.ThisWeek) return new DateRange(DateTime.Now.StartOfWeek(), null);
+            if (rangeName == Resources.PastWeek) return new DateRange(DateTime.Now.StartOfPastWeek(), DateTime.Now.StartOfWeek().AddDays(7));
+            if (rangeName == Resources.WorkPeriod) return new DateRange(workPeriod.StartDate, null);
+            return new DateRange(null, null);
         }
 
         public decimal GetAccountBalance(int accountId)
