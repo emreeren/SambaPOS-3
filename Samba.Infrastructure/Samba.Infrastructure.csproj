@@ -96,6 +96,7 @@
     <Compile Include="Cron\ICronEntry.cs" />
     <Compile Include="Cron\MinutesCronEntry.cs" />
     <Compile Include="Cron\MonthsCronEntry.cs" />
+    <Compile Include="Helpers\DateFuncParser.cs" />
     <Compile Include="Helpers\QuantityFuncParser.cs" />
     <Compile Include="IMessageListener.cs" />
     <Compile Include="IStringCompareable.cs" />

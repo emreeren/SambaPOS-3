@@ -11,6 +11,128 @@ namespace Samba.Domain.Tests
     class EntityTest
     {
         [Test]
+        public void CanUpdateEntityDateData()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", DateTime.Today.ToShortDateString());
+            Assert.AreEqual(DateTime.Today.ToShortDateString(), entity.GetCustomData("Birthday"));
+        }
+
+        [Test]
+        public void CanUpdateEntityDateDataWithTodayTag()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today");
+            Assert.AreEqual(DateTime.Today.ToShortDateString(), entity.GetCustomData("Birthday"));
+        }
+
+        [Test]
+        public void CanUpdateEntityDateDataWithTodayTagAndInc()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today+2");
+            Assert.AreEqual(DateTime.Today.AddDays(2).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }
+
+        [Test]
+        public void CanUpdateEntityDateDataWithTodayTagAndInc2()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today+30");
+            Assert.AreEqual(DateTime.Today.AddDays(30).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }
+
+        [Test]
+        public void CanHandleEntityDateFunctionError()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today+");
+            Assert.AreEqual(DateTime.Today.AddDays(1).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }     
+        
+        [Test]
+        public void CanHandleEntityDateFunctionError1()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today + 1");
+            Assert.AreEqual(DateTime.Today.AddDays(1).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }       
+        
+        [Test]
+        public void CanHandleEntityDateFunctionError2()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today + ");
+            Assert.AreEqual(DateTime.Today.AddDays(1).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }
+        
+        [Test]
+        public void CanHandleEntityDateFunctionError3()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today + 1 ");
+            Assert.AreEqual(DateTime.Today.AddDays(1).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }       
+        
+        [Test]
+        public void CanHandleEntityDateFunctionError4()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today + a ");
+            Assert.AreEqual("Today + a ", entity.GetCustomData("Birthday"));
+        }
+        
+        [Test]
+        public void CanHandleEntityDateFunctionError5()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "To day + a ");
+            Assert.AreEqual("To day + a ", entity.GetCustomData("Birthday"));
+        }       
+        
+        [Test]
+        public void CanHandleEntityDateFunctionError6()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "+A");
+            Assert.AreEqual("+A", entity.GetCustomData("Birthday"));
+        }      
+        
+        [Test]
+        public void CanHandleEntityDateFunctionError7()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "+ A ");
+            Assert.AreEqual("+ A ", entity.GetCustomData("Birthday"));
+        }
+
+        [Test]
+        public void CanUpdateEntityDateDataWithTodayTagAndDec()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today-2");
+            Assert.AreEqual(DateTime.Today.AddDays(-2).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }
+
+        [Test]
+        public void CanUpdateEntityDateDataWithTodayTagAndInc3()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today");
+            entity.SetCustomData("Birthday", "+2");
+            Assert.AreEqual(DateTime.Today.AddDays(2).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }
+
+        [Test]
+        public void CanUpdateEntityDateDataWithTodayTagAndDec2()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "Today");
+            entity.SetCustomData("Birthday", "-2");
+            Assert.AreEqual(DateTime.Today.AddDays(-2).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }
+
+        [Test]
         public void CanUpdateEntityCustomData()
         {
             var entity = new Entity();
@@ -59,7 +181,7 @@ namespace Samba.Domain.Tests
             var entity = new Entity();
             entity.SetCustomData("Name", "Ahmet");
             entity.SetCustomData("Name", "+1");
-            Assert.AreEqual("1", entity.GetCustomData("Name"));
+            Assert.AreEqual("+1", entity.GetCustomData("Name"));
         }
 
 

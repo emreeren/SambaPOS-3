@@ -16,6 +16,7 @@ namespace Samba.Domain.Models.Entities
         public bool IsWideString { get { return FieldType == 1; } }
         public bool IsNumber { get { return FieldType == 2; } }
         public bool IsQuery { get { return FieldType == 3; } }
+        public bool IsDate { get { return FieldType == 4; } }
 
         private IEnumerable<string> _values;
         public IEnumerable<string> Values { get { return _values ?? (_values = GetValues()); } }

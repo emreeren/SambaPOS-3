@@ -413,6 +413,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to After.
+        /// </summary>
+        public static string After {
+            get {
+                return ResourceManager.GetString("After", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -868,6 +877,15 @@ namespace Samba.Localization.Properties {
         public static string BatchPriceList {
             get {
                 return ResourceManager.GetString("BatchPriceList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Before.
+        /// </summary>
+        public static string Before {
+            get {
+                return ResourceManager.GetString("Before", resourceCulture);
             }
         }
         
@@ -3926,6 +3944,15 @@ namespace Samba.Localization.Properties {
         public static string InvoicePrinter {
             get {
                 return ResourceManager.GetString("InvoicePrinter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Not Null.
+        /// </summary>
+        public static string IsNotNull {
+            get {
+                return ResourceManager.GetString("IsNotNull", resourceCulture);
             }
         }
         

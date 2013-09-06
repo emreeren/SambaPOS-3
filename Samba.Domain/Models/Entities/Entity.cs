@@ -48,6 +48,7 @@ namespace Samba.Domain.Models.Entities
         public void SetCustomData(string fieldName, string value)
         {
             value = QuantityFuncParser.Parse(value, GetCustomData(fieldName));
+            value = DateFuncParser.Parse(value, GetCustomData(fieldName));
             var list = JsonHelper.Deserialize<List<CustomDataValue>>(CustomData);
             if (list.All(x => x.Name != fieldName))
                 list.Add(new CustomDataValue { Name = fieldName });

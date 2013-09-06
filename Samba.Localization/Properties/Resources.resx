@@ -3499,4 +3499,13 @@ Error Message:
   <data name="DateRangeTotal" xml:space="preserve">
     <value>Date Range Total</value>
   </data>
+  <data name="After" xml:space="preserve">
+    <value>After</value>
+  </data>
+  <data name="Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
+  <data name="IsNotNull" xml:space="preserve">
+    <value>Is Not Null</value>
+  </data>
 </root>

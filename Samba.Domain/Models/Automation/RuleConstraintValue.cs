@@ -31,7 +31,8 @@ namespace Samba.Domain.Models.Automation
         {
             switch (operation)
             {
-                case Operations.IsNull: return string.IsNullOrEmpty(left);
+                case Operations.IsNull: return string.IsNullOrWhiteSpace(left);
+                case Operations.IsNotNull: return !string.IsNullOrWhiteSpace(left);
                 case Operations.Contains: return left.Contains(right);
                 case Operations.Starts: return left.StartsWith(right);
                 case Operations.Ends: return left.EndsWith(right);
@@ -40,8 +41,19 @@ namespace Samba.Domain.Models.Automation
                 case Operations.NotMatches: return !Regex.IsMatch(left, right);
                 case Operations.NotEquals: return left != right;
                 case Operations.MatchesMod10: return Utility.ValidateCheckDigit(left);
+                case Operations.After: return CompareDates(left, right, (l, r) => l > r);
+                case Operations.Before: return CompareDates(left, right, (l, r) => l < r);
                 default: return left == right;
             }
+        }
+
+        private static bool CompareDates(string date1, string date2, Func<DateTime, DateTime, bool> comparation)
+        {
+            DateTime realDate1;
+            if (!DateTime.TryParse(date1, out realDate1)) return false;
+            DateTime realDate2;
+            if (!DateTime.TryParse(date2, out realDate2)) return false;
+            return comparation(realDate1, realDate2);
         }
 
         private bool CompareNumeric(object left, object right, string operation)

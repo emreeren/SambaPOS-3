@@ -26,6 +26,17 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Key="dateTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="EntityLabel" Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{Binding Name}"/>
+                <DatePicker Margin="0,0,0,4" Grid.Column="1" MinWidth="100" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate x:Key="wideTextTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -67,7 +78,8 @@
             WideTextTemplate="{StaticResource wideTextTemplate}"
             MaskedTemplate="{StaticResource maskedTemplate}"
             NumberTemplate="{StaticResource numberTemplate}"                                                          
-            ComboBoxTemplate="{StaticResource comboBoxTemplate}"                                                          
+            ComboBoxTemplate="{StaticResource comboBoxTemplate}"  
+            DateTemplate="{StaticResource dateTemplate}"
         />
     </UserControl.Resources>
     <StackPanel>

@@ -167,7 +167,7 @@ namespace Samba.Modules.AccountModule
 
             var transactionData = _accountService.GetAccountTransactionSummary(SelectedAccount, _applicationState.CurrentWorkPeriod, Start, End);
             Start = transactionData.Start;
-            End = transactionData.End;
+            End = transactionData.End != transactionData.Start ? transactionData.End : null;
 
             AccountDetails.Clear();
             AccountDetails.AddRange(transactionData.Transactions);

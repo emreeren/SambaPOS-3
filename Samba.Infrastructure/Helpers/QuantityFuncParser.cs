@@ -14,7 +14,7 @@ namespace Samba.Infrastructure.Helpers
         {
             if (!IsFunc(quantityFunc)) return quantityFunc;
             int quantity;
-            int.TryParse(currentQuantity, out quantity);
+            if(!int.TryParse(currentQuantity, out quantity) && !string.IsNullOrEmpty(currentQuantity)) return quantityFunc;
             return Parse(quantityFunc, quantity).ToString();
         }
 

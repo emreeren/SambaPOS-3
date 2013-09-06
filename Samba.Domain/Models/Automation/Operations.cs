@@ -3,6 +3,7 @@
     public static class Operations
     {
         public const string IsNull = "IsNull";
+        public const string IsNotNull = "IsNotNull";
         public const string Equal = "Equal";
         public const string NotEquals = "NotEquals";
         public const string Greater = "Greater";
@@ -14,8 +15,10 @@
         public const string Matches = "Matches";
         public const string NotMatches = "NotMatches";
         public const string MatchesMod10 = "MatchesMod10";
+        public const string After = "After";
+        public const string Before = "Before";
 
-        public static string[] StringOperations = new[] { Equal, NotEquals, IsNull, Starts, Ends, Contains, LengthEquals, Matches, NotMatches, MatchesMod10 };
+        public static string[] StringOperations = new[] { Equal, NotEquals, IsNull, IsNotNull, Starts, Ends, Contains, LengthEquals, Matches, NotMatches, MatchesMod10, After, Before };
         public static string[] NumericOperations = new[] { Equal, NotEquals, Greater, Less };
 
     }
