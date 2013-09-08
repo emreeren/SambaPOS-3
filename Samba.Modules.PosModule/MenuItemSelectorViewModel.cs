@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
@@ -151,7 +150,7 @@ namespace Samba.Modules.PosModule
         private bool _filtered;
         private void FilterMenuItems(string numeratorValue)
         {
-            if (!string.IsNullOrEmpty(numeratorValue) && Char.IsLower(numeratorValue[0]))
+            if (!string.IsNullOrEmpty(numeratorValue) && Char.IsLower(numeratorValue[0]) && MenuItems != null)
             {
                 _filtered = true;
                 SubCategories.Clear();
