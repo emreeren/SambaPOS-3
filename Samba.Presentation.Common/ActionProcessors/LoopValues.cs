@@ -1,4 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using System.Globalization;
+using Samba.Domain.Models.Entities;
+using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
@@ -38,9 +41,9 @@ namespace Samba.Presentation.Common.ActionProcessors
 
                     if (end > 0)
                     {
-                        for (int i = start; i < end; i++)
+                        for (var i = start; i < end; i++)
                         {
-                            _applicationState.NotifyEvent(RuleEventNames.ValueLooped, new { Name = name, Value = i.ToString() });
+                            _applicationState.NotifyEvent(RuleEventNames.ValueLooped, GenerateDataObject(actionData, name, i.ToString(CultureInfo.InvariantCulture)));
                         }
                     }
                 }
@@ -48,10 +51,22 @@ namespace Samba.Presentation.Common.ActionProcessors
                 {
                     foreach (var value in values.Split(','))
                     {
-                        _applicationState.NotifyEvent(RuleEventNames.ValueLooped, new { Name = name, Value = value });
+                        _applicationState.NotifyEvent(RuleEventNames.ValueLooped, GenerateDataObject(actionData, name, value));
                     }
                 }
             }
+        }
+
+        private object GenerateDataObject(ActionData actionData, string name, string value)
+        {
+            return new
+                    {
+                        Ticket = actionData.GetDataValue<Ticket>("Ticket"),
+                        Order = actionData.GetDataValue<Order>("Order"),
+                        Entity = actionData.GetDataValue<Entity>("Entity"),
+                        Name = name,
+                        Value = value
+                    };
         }
 
         protected override object GetDefaultData()
