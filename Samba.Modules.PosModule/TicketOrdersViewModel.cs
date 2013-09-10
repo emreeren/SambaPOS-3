@@ -215,7 +215,7 @@ namespace Samba.Modules.PosModule
                 Ticket = selectedTicket,
                 Order = order,
                 AutomationCommandName = automationCommand,
-                Value = automationCommandValue ?? ""
+                CommandValue = automationCommandValue ?? ""
             });
         }
     }

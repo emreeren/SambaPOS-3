@@ -258,7 +258,7 @@ namespace Samba.Modules.PosModule
                                                               Ticket = SelectedTicket,
                                                               Order = selectedOrder,
                                                               AutomationCommandName = automationCommand.Name,
-                                                              Value = selectedValue
+                                                              CommandValue = selectedValue
                                                           });
                     }
                 }
@@ -269,7 +269,7 @@ namespace Samba.Modules.PosModule
                                                       {
                                                           Ticket = SelectedTicket,
                                                           AutomationCommandName = automationCommand.Name,
-                                                          Value = selectedValue
+                                                          CommandValue = selectedValue
                                                       });
                 }
 
@@ -291,7 +291,7 @@ namespace Samba.Modules.PosModule
 
         private void OnAutomationCommandValueSelected(EventParameters<AutomationCommandValueData> obj)
         {
-            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Value.AutomationCommand.Name, obj.Value.Value });
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Value.AutomationCommand.Name, CommandValue=obj.Value.Value });
             _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
             ClearSelectedItems();
             ClearSelection = true;

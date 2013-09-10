@@ -18,6 +18,7 @@
         public const string After = "After";
         public const string Before = "Before";
 
+        public static string[] AllOperations = new[] { Equal, NotEquals, Greater, Less, IsNull, IsNotNull, Starts, Ends, Contains, LengthEquals, Matches, NotMatches, MatchesMod10, After, Before };
         public static string[] StringOperations = new[] { Equal, NotEquals, IsNull, IsNotNull, Starts, Ends, Contains, LengthEquals, Matches, NotMatches, MatchesMod10, After, Before };
         public static string[] NumericOperations = new[] { Equal, NotEquals, Greater, Less };
 

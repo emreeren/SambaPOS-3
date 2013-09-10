@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Globalization;
+using System.IO;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
@@ -47,6 +48,13 @@ namespace Samba.Presentation.Common.ActionProcessors
                         }
                     }
                 }
+                else if (values.Contains(":") && File.Exists(values))
+                {
+                    foreach (var value in File.ReadAllLines(values))
+                    {
+                        _applicationState.NotifyEvent(RuleEventNames.ValueLooped, GenerateDataObject(actionData, name, value));
+                    }
+                }
                 else
                 {
                     foreach (var value in values.Split(','))
@@ -59,14 +67,17 @@ namespace Samba.Presentation.Common.ActionProcessors
 
         private object GenerateDataObject(ActionData actionData, string name, string value)
         {
-            return new
-                    {
-                        Ticket = actionData.GetDataValue<Ticket>("Ticket"),
-                        Order = actionData.GetDataValue<Order>("Order"),
-                        Entity = actionData.GetDataValue<Entity>("Entity"),
-                        Name = name,
-                        Value = value
-                    };
+            actionData.DataObject.Name = name;
+            actionData.DataObject.LoopValue = value;
+            return actionData.DataObject;
+            //return new
+            //        {
+            //            Ticket = actionData.GetDataValue<Ticket>("Ticket"),
+            //            Order = actionData.GetDataValue<Order>("Order"),
+            //            Entity = actionData.GetDataValue<Entity>("Entity"),
+            //            Name = name,
+            //            LoopValue = value
+            //        };
         }
 
         protected override object GetDefaultData()

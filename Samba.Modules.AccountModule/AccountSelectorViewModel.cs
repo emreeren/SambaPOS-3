@@ -152,7 +152,7 @@ namespace Samba.Modules.AccountModule
             _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new
             {
                 obj.AutomationCommandName,
-                Value = value
+                CommandValue = value
             });
         }
 

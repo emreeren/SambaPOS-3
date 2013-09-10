@@ -152,7 +152,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 {
                     var ticketType = _cacheService.GetTicketTypeById(ticket.TicketTypeId);
 
-                    if (ticket.Orders.FirstOrDefault(x => !x.Locked) != null)
+                    if (ticket.Orders.Any(x => x.OrderNumber == 0))
                     {
                         var number = _settingService.GetNextNumber(ticketType.OrderNumerator.Id);
                         ticket.MergeOrdersAndUpdateOrderNumbers(number);
@@ -542,6 +542,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                                                        StateName = stateName,
                                                        State = state,
                                                        StateValue = stateValue,
+                                                       PreviousState = currentState
                                                    });
             }
         }

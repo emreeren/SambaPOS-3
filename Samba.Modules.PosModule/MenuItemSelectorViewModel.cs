@@ -254,7 +254,7 @@ namespace Samba.Modules.PosModule
                 data.PublishEvent(EventTopicNames.ScreenMenuItemDataSelected);
             }
             else
-                _applicationState.NotifyEvent(RuleEventNames.NumberpadValueEntered, new { Ticket = SelectedTicket, Value = insertedData });
+                _applicationState.NotifyEvent(RuleEventNames.NumberpadValueEntered, new { Ticket = SelectedTicket, NumberpadValue = insertedData });
         }
 
         private void OnMenuItemCommandExecute(ScreenMenuItem screenMenuItem)

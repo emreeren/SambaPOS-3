@@ -11,6 +11,7 @@ namespace Samba.Infrastructure
     {
         public static dynamic ToDynamic(this object value)
         {
+            if (value is ExpandoObject) return value;
             IDictionary<string, object> expando = new ExpandoObject();
 
             if(value != null)

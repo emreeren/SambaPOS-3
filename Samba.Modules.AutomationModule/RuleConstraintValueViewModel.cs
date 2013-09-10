@@ -82,7 +82,9 @@ namespace Samba.Modules.AutomationModule
         private IEnumerable<RuleConstraintOperation> GetRuleConstraintOperations()
         {
             var entry = RuleConstraintNames.FirstOrDefault(x => x.Name == Left);
-            if (entry == null || !Utility.IsNumericType(entry.Type))
+            if (entry == null)
+                return Operations.AllOperations.Select(x => new RuleConstraintOperation(x));
+            if (!Utility.IsNumericType(entry.Type))
                 return Operations.StringOperations.Select(x => new RuleConstraintOperation(x));
             return Operations.NumericOperations.Select(x => new RuleConstraintOperation(x));
         }

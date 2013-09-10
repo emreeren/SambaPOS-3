@@ -22,10 +22,9 @@ namespace Samba.Presentation.Common.ActionProcessors
             var text = actionData.GetAsString("Text");
             try
             {
-                if (!File.Exists(filePath))
-                {
-                    File.Create(filePath);
-                }
+                var dir = Path.GetDirectoryName(filePath);
+                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
                 File.AppendAllText(filePath, text + Environment.NewLine);
             }
             catch (Exception e)

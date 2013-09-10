@@ -385,6 +385,10 @@ namespace Samba.Modules.PosModule
             _regionManager.RequestNavigate(RegionNames.PosMainRegion, new Uri("TicketView", UriKind.Relative));
             _accountBalances.RefreshAsync(() => _ticketViewModel.RefreshSelectedTicketTitle());
             _ticketViewModel.RefreshSelectedItems();
+            if (SelectedTicket != null)
+            {
+                SelectedTicket.ExecuteEvents((ticket, eventName) => ticket.PublishEvent(eventName));
+            }
         }
 
         private bool ShouldDisplayTicketTagList(Ticket ticket)

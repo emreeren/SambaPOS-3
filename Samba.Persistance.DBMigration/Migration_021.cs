@@ -26,6 +26,16 @@ namespace Samba.Persistance.DBMigration
 
 
             Delete.Table("TaskTypeEntityTypes");
+
+            Execute.Sql(@"
+UPDATE AppActions 
+SET Parameter = CAST(REPLACE(CAST(Parameter as NVarchar(4000)),'""Key"":""Value""','""Key"":""FieldValue""') AS NText)
+WHERE ActionType = 'UpdateEntityData'");       
+    
+            Execute.Sql(@"
+Update ActionContainers 
+set ParameterValues = CAST(REPLACE(CAST(ParameterValues as NVarchar(4000)),'[:Value]','[:CommandValue]') AS NText)
+where AppRuleId in (select id from AppRules where EventName = 'AutomationCommandExecuted')");
         }
 
         public override void Down()

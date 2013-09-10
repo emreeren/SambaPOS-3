@@ -179,6 +179,7 @@ namespace Samba.Modules.AutomationModule
 
         private void UpdateCustomRuleConstraints()
         {
+            if (string.IsNullOrEmpty(Model.EventName)) return;
             var customRuleConstraintNames = _automationService.GetCustomRuleConstraintNames(Model.EventName).Select(x => new RuleConstraintName(x)).ToList();
             _ruleConstraintValues.Clear();
             _ruleConstraintValues.AddRange(Model.GetRuleConstraintValues()

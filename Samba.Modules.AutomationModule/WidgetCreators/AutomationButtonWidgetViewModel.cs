@@ -29,11 +29,11 @@ namespace Samba.Modules.AutomationModule.WidgetCreators
         private void OnItemClicked(AutomationButtonWidgetViewModel obj)
         {
             _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
-                new 
+                new
                     {
                         Ticket = Ticket.Empty,
                         AutomationCommandName = obj.Settings.CommandName,
-                        obj.Settings.Value
+                        CommandValue = obj.Settings.Value
                     });
         }
 

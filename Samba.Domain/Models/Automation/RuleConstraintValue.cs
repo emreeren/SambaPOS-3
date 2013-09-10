@@ -43,6 +43,8 @@ namespace Samba.Domain.Models.Automation
                 case Operations.MatchesMod10: return Utility.ValidateCheckDigit(left);
                 case Operations.After: return CompareDates(left, right, (l, r) => l > r);
                 case Operations.Before: return CompareDates(left, right, (l, r) => l < r);
+                case Operations.Greater: return CompareNumeric(left, right, Operations.Greater);
+                case Operations.Less: return CompareNumeric(left, right, Operations.Less);
                 default: return left == right;
             }
         }
@@ -65,8 +67,8 @@ namespace Samba.Domain.Models.Automation
 
             switch (operation)
             {
-                case Operations.Greater: return n1 < n2;
-                case Operations.Less: return n1 > n2;
+                case Operations.Greater: return n1 > n2;
+                case Operations.Less: return n1 < n2;
                 case Operations.NotEquals: return n1 != n2;
                 default: return n1 == n2;
             }

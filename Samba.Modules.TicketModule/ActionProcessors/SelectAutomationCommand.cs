@@ -18,7 +18,7 @@ namespace Samba.Modules.TicketModule.ActionProcessors
             var ticket = actionData.GetDataValue<Ticket>("Ticket");
             if (ticket != null)
             {
-                ticket.PublishEvent(EventTopicNames.SelectAutomationCommand);
+                ticket.EnqueueEvent(EventTopicNames.SelectAutomationCommand);
             }
         }
 

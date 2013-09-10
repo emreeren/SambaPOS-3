@@ -25,7 +25,7 @@ namespace Samba.Modules.EntityModule.ActionProcessors
             var entityId = actionData.GetDataValueAsInt("EntityId");
             var entityName = actionData.GetAsString("EntityName");
             var fieldName = actionData.GetAsString("FieldName");
-            var value = actionData.GetAsString("Value");
+            var value = actionData.GetAsString("FieldValue");
             if (entityId > 0)
             {
                 _entityServiceClient.UpdateEntityData(entityId, fieldName, value);
@@ -57,7 +57,7 @@ namespace Samba.Modules.EntityModule.ActionProcessors
 
         protected override object GetDefaultData()
         {
-            return new { EntityTypeName = "", EntityName = "", FieldName = "", Value = "" };
+            return new { EntityTypeName = "", EntityName = "", FieldName = "", FieldValue = "" };
         }
 
         protected override string GetActionName()

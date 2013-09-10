@@ -82,7 +82,7 @@ namespace Samba.Modules.TicketModule.Widgets.TicketLister
                     {
                         Ticket = Ticket.Empty,
                         AutomationCommandName = Settings.CommandName,
-                        Value = val
+                        CommandValue = val
                     });
             }
         }

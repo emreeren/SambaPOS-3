@@ -487,7 +487,7 @@ namespace Samba.Domain.Models.Tickets
         public bool CanCancelSelectedOrders(IEnumerable<Order> selectedOrders)
         {
             var so = selectedOrders.ToList();
-            return so.Count != 0 && !so.Any(x => x.Id > 0 || !Orders.Contains(x));
+            return so.Count != 0 && so.All(x=>!x.Locked) && !so.Any(x => x.Id > 0 || !Orders.Contains(x));
         }
 
         public IEnumerable<Order> GetUnlockedOrders()
@@ -508,7 +508,7 @@ namespace Samba.Domain.Models.Tickets
                 RemoveOrder(order);
             }
 
-            foreach (var item in Orders.Where(x => !x.Locked).Where(order => order.OrderNumber == 0))
+            foreach (var item in Orders.Where(order => order.OrderNumber == 0))
             {
                 item.OrderNumber = orderNumber;
             }
@@ -857,6 +857,34 @@ namespace Samba.Domain.Models.Tickets
                 return new TimeSpan(DateTime.Now.Ticks - sv.LastUpdateTime.Ticks).TotalMinutes.ToString("#");
             }
             return "";
+        }
+
+        public void EnqueueEvent(string eventName)
+        {
+            EventQueue.Add(eventName);
+        }
+
+        public void ExecuteEvents(Action<Ticket, string> action)
+        {
+            EventQueue.ExecuteEvents(this, action);
+        }
+    }
+
+    public static class EventQueue
+    {
+        private static readonly IList<string> Events = new List<string>();
+        public static void Add(string eventName)
+        {
+            Events.Add(eventName);
+        }
+
+        public static void ExecuteEvents(Ticket ticket, Action<Ticket, string> action)
+        {
+            foreach (var eventName in Events)
+            {
+                action(ticket, eventName);
+            }
+            Events.Clear();
         }
     }
 }

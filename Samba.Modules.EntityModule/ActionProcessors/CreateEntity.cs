@@ -60,6 +60,7 @@ namespace Samba.Modules.EntityModule.ActionProcessors
                     actionData.DataObject.AccountName = accountName;
                 }
                 _entityService.SaveEntity(entity);
+                actionData.DataObject.Entity = entity;
                 actionData.DataObject.EntityName = entity.Name;
                 actionData.DataObject.EntityId = entity.Id;
             }

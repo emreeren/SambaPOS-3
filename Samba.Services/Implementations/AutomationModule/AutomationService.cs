@@ -97,7 +97,7 @@ namespace Samba.Services.Implementations.AutomationModule
         private void RegisterRules()
         {
             RegisterEvent(RuleEventNames.ApplicationScreenChanged, Resources.ApplicationScreenChanged, new { PreviousScreen = "", CurrentScreen = "" });
-            RegisterEvent(RuleEventNames.AutomationCommandExecuted, Resources.AutomationCommandExecuted, new { AutomationCommandName = "", Value = "" });
+            RegisterEvent(RuleEventNames.AutomationCommandExecuted, Resources.AutomationCommandExecuted, new { AutomationCommandName = "", CommandValue = "" });
             RegisterEvent(RuleEventNames.TriggerExecuted, Resources.TriggerExecuted, new { TriggerName = "" });
             RegisterEvent(RuleEventNames.UserLoggedIn, Resources.UserLogin, new { UserName = "", RoleName = "" });
             RegisterEvent(RuleEventNames.UserLoggedOut, Resources.UserLogout, new { UserName = "", RoleName = "" });
@@ -123,7 +123,7 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterEvent(RuleEventNames.OrderCancelled, Resources.OrderCancelled, new { MenuItemName = "", Quantity = 0m });
             RegisterEvent(RuleEventNames.OrderTagged, Resources.OrderTagged, new { OrderTagName = "", OrderTagValue = "" });
             RegisterEvent(RuleEventNames.OrderUntagged, Resources.OrderUntagged, new { OrderTagName = "", OrderTagValue = "" });
-            RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "" });
+            RegisterEvent(RuleEventNames.OrderStateUpdated, Resources.OrderStateUpdated, new { StateName = "", State = "", StateValue = "", PreviousState = "" });
             RegisterEvent(RuleEventNames.EntitySelected, Resources.EntitySelected, new { EntityTypeName = "", EntityName = "", EntityCustomData = "", IsTicketSelected = false });
             RegisterEvent(RuleEventNames.EntityUpdated, Resources.EntityUpdated, new { EntityTypeName = "", OpenTicketCount = 0 });
             RegisterEvent(RuleEventNames.EntityStateUpdated, Resources.EntityStateUpdated, new { EntityTypeName = "", StateName = "", State = "", Quantity = 0m });
@@ -132,8 +132,13 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterEvent(RuleEventNames.MessageReceived, Resources.MessageReceived, new { Command = "" });
             RegisterEvent(RuleEventNames.DeviceEventGenerated, Resources.DeviceEventGenerated, new { DeviceName = "", EventName = "", EventData = "" });
             RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted, new { Arguments = "" });
-            RegisterEvent(RuleEventNames.ValueLooped, Resources.ValueLooped, new { Name = "", Value = "" });
-            RegisterEvent(RuleEventNames.NumberpadValueEntered, Resources.NumberpadValueEntered, new { Value = "" });
+            RegisterEvent(RuleEventNames.ValueLooped, Resources.ValueLooped, new { Name = "", LoopValue = "" });
+            RegisterEvent(RuleEventNames.NumberpadValueEntered, Resources.NumberpadValueEntered, new { NumberpadValue = "" });
+
+            //Breaking changes 
+            //NumberpadValueEntered > Value > NumberpadValue
+            //AutomationCommandExecuted > Value > CommandValue
+            //
         }
 
         private void RegisterParameterSources()
