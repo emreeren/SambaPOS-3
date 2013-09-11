@@ -858,33 +858,5 @@ namespace Samba.Domain.Models.Tickets
             }
             return "";
         }
-
-        public void EnqueueEvent(string eventName)
-        {
-            EventQueue.Add(eventName);
-        }
-
-        public void ExecuteEvents(Action<Ticket, string> action)
-        {
-            EventQueue.ExecuteEvents(this, action);
-        }
-    }
-
-    public static class EventQueue
-    {
-        private static readonly IList<string> Events = new List<string>();
-        public static void Add(string eventName)
-        {
-            Events.Add(eventName);
-        }
-
-        public static void ExecuteEvents(Ticket ticket, Action<Ticket, string> action)
-        {
-            foreach (var eventName in Events)
-            {
-                action(ticket, eventName);
-            }
-            Events.Clear();
-        }
     }
 }

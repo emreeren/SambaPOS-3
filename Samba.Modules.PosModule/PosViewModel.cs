@@ -387,7 +387,7 @@ namespace Samba.Modules.PosModule
             _ticketViewModel.RefreshSelectedItems();
             if (SelectedTicket != null)
             {
-                SelectedTicket.ExecuteEvents((ticket, eventName) => ticket.PublishEvent(eventName));
+                CommonEventPublisher.ExecuteEvents(SelectedTicket);
             }
         }
 

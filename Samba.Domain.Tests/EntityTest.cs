@@ -109,6 +109,16 @@ namespace Samba.Domain.Tests
             var entity = new Entity();
             entity.SetCustomData("Birthday", "Today-2");
             Assert.AreEqual(DateTime.Today.AddDays(-2).ToShortDateString(), entity.GetCustomData("Birthday"));
+        }        
+        
+        [Test]
+        public void CanUpdateEntityDateDataWithDayNumber()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Birthday", "+3");
+            Assert.AreEqual("3", entity.GetCustomData("Birthday"));
+            entity.SetCustomData("Birthday", "+4");
+            Assert.AreEqual("7", entity.GetCustomData("Birthday"));
         }
 
         [Test]
@@ -161,6 +171,16 @@ namespace Samba.Domain.Tests
             entity.SetCustomData("Age", "13");
             entity.SetCustomData("Age", "-1");
             Assert.AreEqual("12", entity.GetCustomData("Age"));
+        }        
+        
+        
+        [Test]
+        public void CanIncNullCustomData()
+        {
+            var entity = new Entity();
+            entity.SetCustomData("Age", null);
+            entity.SetCustomData("Age", "+2");
+            Assert.AreEqual("2", entity.GetCustomData("Age"));
         }
 
         [Test]

@@ -25,7 +25,7 @@ namespace Samba.Infrastructure.Helpers
             var operation = quantityFunc[0];
             if ("+-".All(x => x != operation)) return false;
             var value = quantityFunc.Substring(1);
-            return value.All(x => ContainsChar("124567890", x));
+            return value.All(x => ContainsChar("1234567890", x));
         }
 
         private static bool ContainsChar(string set, char value)

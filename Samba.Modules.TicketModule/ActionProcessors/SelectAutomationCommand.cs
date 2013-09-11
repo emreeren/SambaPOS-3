@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
+using Samba.Presentation.Common;
 using Samba.Presentation.Services.Common;
 using Samba.Services.Common;
 
@@ -18,7 +19,7 @@ namespace Samba.Modules.TicketModule.ActionProcessors
             var ticket = actionData.GetDataValue<Ticket>("Ticket");
             if (ticket != null)
             {
-                ticket.EnqueueEvent(EventTopicNames.SelectAutomationCommand);
+                CommonEventPublisher.EnqueueTicketEvent(EventTopicNames.SelectAutomationCommand);
             }
         }
 

@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using Samba.Domain.Models.Tickets;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Services.Common;
 
@@ -6,6 +9,22 @@ namespace Samba.Presentation.Common
 {
     public static class CommonEventPublisher
     {
+        private static readonly IList<string> Events = new List<string>();
+
+        public static void EnqueueTicketEvent(string eventName)
+        {
+            Events.Add(eventName);
+        }
+
+        public static void ExecuteEvents(Ticket ticket)
+        {
+            foreach (var eventName in Events)
+            {
+                ticket.PublishEvent(eventName);
+            }
+            Events.Clear();
+        }
+
         public static void PublishViewAddedEvent(VisibleViewModelBase view)
         {
             view.PublishEvent(EventTopicNames.ViewAdded, true);

@@ -9,8 +9,8 @@ namespace Samba.Infrastructure.Helpers
 
         public static string Parse(string expression, string currentValue)
         {
-            var result = expression;
-            var correctedExpression = expression.ToLower().Trim();
+            var result = expression??"";
+            var correctedExpression = result.ToLower().Trim();
             if (correctedExpression.ToLower() == "today") result = DateTime.Today.ToShortDateString();
             else if (correctedExpression.ToLower().StartsWith("today")) result = ParseDateExpression(correctedExpression);
             else if (correctedExpression.IndexOfAny(Operators) > -1) result = ExecuteDateExpression(correctedExpression, currentValue);
