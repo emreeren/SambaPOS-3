@@ -9,7 +9,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Render;
-using Samba.Infrastructure.Settings;
 using Zen.Barcode;
 
 namespace Samba.Services.Implementations.PrinterModule.Tools
@@ -77,6 +76,21 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
             WriteData(AsciiControlChars.Escape + "B" + times + duration);
         }
 
+        public void EnableCenter()
+        {
+            WriteData(AsciiControlChars.Escape + "a" + (char)1);
+        }
+
+        public void EnableLeft()
+        {
+            WriteData(AsciiControlChars.Escape + "a" + (char)0);
+        }
+
+        public void EnableRight()
+        {
+            WriteData(AsciiControlChars.Escape + "a" + (char)2);
+        }
+
         public void EnableBold()
         {
             WriteData(AsciiControlChars.Escape + "G" + (char)1);
@@ -107,55 +121,7 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
         {
             int h = height + (width * 16);
             WriteData(AsciiControlChars.GroupSeparator + "!" + (char)h);
-
-            if (alignment != LineAlignment.Justify)
-                WriteData(AsciiControlChars.Escape + "a" + (char)((int)alignment));
-            else
-            {
-                WriteData(AsciiControlChars.Escape + "a" + (char)0);
-                line = AlignLine(_maxChars, width, line, alignment);
-            }
-
             WriteData(line + (char)0xA);
-        }
-
-        private static string AlignLine(int maxWidth, int width, string line, LineAlignment alignment)
-        {
-            maxWidth = maxWidth / (width + 1);
-
-            switch (alignment)
-            {
-                case LineAlignment.Right:
-                    return line.PadLeft(maxWidth, ' ');
-                case LineAlignment.Center:
-                    return line.PadLeft(((maxWidth + line.Length) / 2), ' ');
-                case LineAlignment.Justify:
-                    return JustifyText(maxWidth, line);
-                default:
-                    return line;
-            }
-        }
-
-        private static string JustifyText(int maxWidth, string line)
-        {
-            string[] parts = line.Split('|');
-
-            if (parts.Length == 2)
-            {
-                var line1Length = maxWidth - parts[1].Length;
-                while (parts[0].Length > line1Length && parts[0].Contains("  "))
-                {
-                    parts[0] = parts[0].Replace("  ", " ");
-                }
-                if (parts[0].Length + parts[1].Length > maxWidth)
-                {
-                    var p1 = parts[1].PadLeft(maxWidth);
-                    return parts[0] + "\r" + p1;
-                }
-                return parts[0].PadRight(maxWidth - parts[1].Length) + parts[1];
-            }
-
-            return line;
         }
 
         public void PrintWindow(string line)
@@ -176,7 +142,7 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
 
         public void PrintFullLine(char lineChar)
         {
-            WriteLine(lineChar.ToString().PadLeft(_maxChars, lineChar));
+            WriteLine(lineChar.ToString(CultureInfo.InvariantCulture).PadLeft(_maxChars, lineChar));
         }
 
         public void PrintCenteredLabel(string label, bool expandLabel)
@@ -233,29 +199,48 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
         {
             if (File.Exists(fileName))
             {
-                byte[] data = GetDocument(fileName);
-                WriteData(data);
+                var space = GetSpace(fileName);
+                fileName = fileName.TrimStart();
+                PrintBitmap((Bitmap)Image.FromFile(fileName), space);
             }
         }
 
-        public void PrintBitmap(Bitmap bitmap)
+        public void PrintBitmap(Bitmap bitmap, int space)
         {
-            byte[] data = GetDocument(bitmap);
+            byte[] data = GetDocument(bitmap, space);
             WriteData(data);
         }
 
-        public void PrintQrCode(string qrCodeData)
+        public void PrintQrCode(string qrCodeData, int size, int ec)
         {
-            var fileName = LocalSettings.DocumentPath + "\\qr.bmp";
-            var qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
+            if (string.IsNullOrWhiteSpace(qrCodeData)) return;
+
+            var space = GetSpace(qrCodeData);
+            qrCodeData = qrCodeData.TrimStart();
+
+            if (size == 0) size = 5;
+            var qrEncoder = new QrEncoder((ErrorCorrectionLevel)ec);
             var qrCode = qrEncoder.Encode(qrCodeData);
 
-            var renderer = new GraphicsRenderer(new FixedModuleSize(5, QuietZoneModules.Two), Brushes.Black, Brushes.White);
-            using (var stream = new FileStream(fileName, FileMode.Create))
+            var renderer = new GraphicsRenderer(new FixedModuleSize(size, QuietZoneModules.Zero), Brushes.Black, Brushes.White);
+            using (var stream = new MemoryStream())
             {
                 renderer.WriteToStream(qrCode.Matrix, ImageFormat.Bmp, stream);
+                PrintBitmap((Bitmap)Image.FromStream(stream), space);
             }
-            PrintBitmap(fileName);
+        }
+
+        private int GetSpace(string qrCodeData)
+        {
+            var result = 0;
+            if (qrCodeData.StartsWith(""))
+            {
+                while (result < qrCodeData.Length && qrCodeData[result] == ' ')
+                {
+                    result++;
+                }
+            }
+            return result;
         }
 
         public void PrintBarCode(string barcode, int start, int end)
@@ -269,17 +254,11 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
             if (bcType == "11") barcodeDraw = BarcodeDrawFactory.Code11WithoutChecksum;
             if (bcType == "93") barcodeDraw = BarcodeDrawFactory.Code93WithChecksum;
 
-            using (var img = barcodeDraw.Draw(barcode, 80, 1))
+            var space = GetSpace(barcode);
+            barcode = barcode.TrimStart();
+            using (var img = barcodeDraw.Draw(barcode, 80, 2))
             {
-                PrintBitmap(new Bitmap(img));
-            }
-        }
-
-        private static BitmapData GetBitmapData(string bmpFileName)
-        {
-            using (var bitmap = (Bitmap)Image.FromFile(bmpFileName))
-            {
-                return ConvertBitmapData(bitmap);
+                PrintBitmap(new Bitmap(img), space);
             }
         }
 
@@ -309,23 +288,17 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
                        };
         }
 
-        private static void RenderLogo(BinaryWriter bw, string fileName)
-        {
-            var data = GetBitmapData(fileName);
-            RenderBitmap(bw, data);
-        }
-
-        private static void RenderLogo(BinaryWriter bw, Bitmap bitmap)
+        private static void RenderLogo(BinaryWriter bw, Bitmap bitmap, int space)
         {
             var data = ConvertBitmapData(bitmap);
-            RenderBitmap(bw, data);
+            RenderBitmap(bw, data, space);
         }
 
-        private static void RenderBitmap(BinaryWriter bw, BitmapData data)
+        private static void RenderBitmap(BinaryWriter bw, BitmapData data, int space)
         {
             var dots = data.Dots;
             var width = BitConverter.GetBytes(data.Width);
-
+            
             bw.Write(AsciiControlChars.Escape);
             bw.Write('3');
             bw.Write((byte)24);
@@ -334,6 +307,8 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
 
             while (offset < data.Height)
             {
+                bw.Write("".PadLeft(space));
+                
                 bw.Write(AsciiControlChars.Escape);
                 bw.Write('*'); // bit-image mode
                 bw.Write((byte)33); // 24-dot double-density
@@ -369,7 +344,7 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
             bw.Write((byte)30);
         }
 
-        private static byte[] GetDocument(string fileName)
+        private static byte[] GetDocument(Bitmap bitmap, int space)
         {
             MemoryStream ms = null;
             try
@@ -378,32 +353,9 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
                 using (var bw = new BinaryWriter(ms))
                 {
                     ms = null;
-                    bw.Write(AsciiControlChars.Escape);
-                    bw.Write('@');
-                    RenderLogo(bw, fileName);
-                    bw.Flush();
-                    return ((MemoryStream)bw.BaseStream).ToArray();
-                }
-            }
-            finally
-            {
-                if (ms != null)
-                    ms.Dispose();
-            }
-        }
-
-        private static byte[] GetDocument(Bitmap bitmap)
-        {
-            MemoryStream ms = null;
-            try
-            {
-                ms = new MemoryStream();
-                using (var bw = new BinaryWriter(ms))
-                {
-                    ms = null;
-                    bw.Write(AsciiControlChars.Escape);
-                    bw.Write('@');
-                    RenderLogo(bw, bitmap);
+                    //bw.Write(AsciiControlChars.Escape);
+                    //bw.Write('@');
+                    RenderLogo(bw, bitmap, space);
                     bw.Flush();
                     return ((MemoryStream)bw.BaseStream).ToArray();
                 }
@@ -418,7 +370,7 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
         public void OpenCashDrawer()
         {
             // http://social.msdn.microsoft.com/forums/en-US/netfxbcl/thread/35575dd8-7593-4fe6-9b57-64ad6b5f7ae6/
-            WriteData(((char)27 + (char)112 + (char)0 + (char)25 + (char)250).ToString());
+            WriteData(((char)27 + (char)112 + (char)0 + (char)25 + (char)250).ToString(CultureInfo.InvariantCulture));
         }
 
         public void ExecCommand(string command)

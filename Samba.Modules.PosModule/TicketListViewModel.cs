@@ -24,13 +24,16 @@ namespace Samba.Modules.PosModule
         private readonly ITicketService _ticketService;
         private readonly ITicketServiceBase _ticketServiceBase;
         private readonly IApplicationState _applicationState;
+        private readonly IUserService _userService;
 
         [ImportingConstructor]
-        public TicketListViewModel(ITicketService ticketService, ITicketServiceBase ticketServiceBase, IApplicationState applicationState)
+        public TicketListViewModel(ITicketService ticketService, ITicketServiceBase ticketServiceBase,
+            IApplicationState applicationState, IUserService userService)
         {
             _ticketService = ticketService;
             _ticketServiceBase = ticketServiceBase;
             _applicationState = applicationState;
+            _userService = userService;
             _tickets = new List<TicketButtonViewModel>();
             AddTicketCommand = new CaptionCommand<string>(string.Format(Resources.Add_f, Resources.Ticket).Replace(" ", "\r"), OnAddTicket, CanAddTicket);
             MergeTicketsCommand = new CaptionCommand<string>(Resources.MergeTickets.Replace(" ", "\r"), OnMergeTickets, CanMergeTickets);
@@ -123,7 +126,7 @@ namespace Samba.Modules.PosModule
 
         private bool CanMergeTickets(string arg)
         {
-            return SelectedItemsCount > 1;
+            return SelectedItemsCount > 1 && _userService.IsUserPermittedFor(PermissionNames.MergeTickets);
         }
 
         private void OnCloseCommand(string obj)

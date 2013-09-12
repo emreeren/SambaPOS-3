@@ -41,12 +41,18 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
                 printer.WriteLine(data, line.FontHeight, line.FontWidth, LineAlignment.Left);
             else if (line.Tag.TagName == "eb")
                 printer.EnableBold();
-            else if (line.Tag.TagName == ("db"))
+            else if (line.Tag.TagName == "db")
                 printer.DisableBold();
+            else if (line.Tag.TagName == "ec")
+                printer.EnableCenter();
+            else if (line.Tag.TagName == "el")
+                printer.EnableLeft();
+            else if (line.Tag.TagName == "er")
+                printer.EnableRight();
             else if (line.Tag.TagName == "bmp")
                 printer.PrintBitmap(RemoveTag(data));
             else if (line.Tag.TagName == "qr")
-                printer.PrintQrCode(RemoveTag(data));
+                printer.PrintQrCode(RemoveTag(data), line.FontHeight, line.FontWidth);
             else if (line.Tag.TagName == "bar")
                 printer.PrintBarCode(RemoveTag(data), line.FontHeight, line.FontWidth);
             else if (line.Tag.TagName == "cut")

@@ -75,8 +75,7 @@ namespace Samba.Modules.EntityModule
 
         public void UpdateButtonColor()
         {
-            IsEnabled = Model.EntityId != 0 || !_isTicketSelected;
-            if (_isTicketSelected && !_userPermittedToMerge) IsEnabled = false;
+            IsEnabled = true;
             ButtonColor = EntityState != null ? _cacheService.GetStateColor(EntityState) : "Gainsboro";
         }
 

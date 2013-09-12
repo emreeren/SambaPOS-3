@@ -60,7 +60,7 @@ namespace Samba.Modules.EntityModule
         public Entity Model { get; set; }
         public EntityType EntityType { get; set; }
         public string PrimaryFieldName { get { return GetPrimaryFieldName(); } }
-        public string PrimaryFieldFormat { get { return EntityType.PrimaryFieldFormat; } }
+        public string PrimaryFieldFormat { get { return EntityType != null ? EntityType.PrimaryFieldFormat : ""; } }
 
         public bool IsTextBoxVisible { get { return EntityType != null && string.IsNullOrWhiteSpace(EntityType.PrimaryFieldFormat); } }
         public bool IsMaskedTextBoxVisible { get { return !IsTextBoxVisible; } }

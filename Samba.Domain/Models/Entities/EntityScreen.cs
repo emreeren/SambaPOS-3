@@ -57,6 +57,7 @@ namespace Samba.Domain.Models.Entities
             BackgroundColor = "Transparent";
             PageCount = 1;
             ButtonHeight = 0;
+            FontSize = 50;
         }
 
         public int ItemCountPerPage
