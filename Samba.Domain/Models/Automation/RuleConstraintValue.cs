@@ -20,7 +20,7 @@ namespace Samba.Domain.Models.Automation
 
         public bool Satisfies(object dataObject)
         {
-            var left = GetData(dataObject, Left);
+            var left = GetData(dataObject, Left)??"";
             var type = GetDataType(dataObject, Left);
             return Utility.IsNumericType(type)
                        ? CompareNumeric(left, Right, Operation)
@@ -92,7 +92,9 @@ namespace Samba.Domain.Models.Automation
         {
             if (ContainsData(dataObject, propertyName))
             {
-                return ((IDictionary<string, object>)dataObject)[propertyName].GetType();
+                var value = ((IDictionary<string, object>)dataObject)[propertyName];
+                if (value != null)
+                    return value.GetType();
             }
             return typeof(string);
         }

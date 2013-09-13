@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Entities;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Messaging;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -12,6 +13,7 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.EntityModule
 {
@@ -59,6 +61,8 @@ namespace Samba.Modules.EntityModule
                 });
         }
 
+        public string AutomationCommandName { get; set; }
+
         public string StateFilter { get; set; }
 
         public void RefreshEntityScreenItems()
@@ -91,6 +95,19 @@ namespace Samba.Modules.EntityModule
 
         private void OnSelectEntityExecuted(EntityScreenItemViewModel obj)
         {
+            if (!string.IsNullOrWhiteSpace(AutomationCommandName))
+            {
+                _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
+                                              new
+                                                  {
+                                                      Ticket = Ticket.Empty,
+                                                      EntityId = obj.Model.EntityId,
+                                                      EntityTypeId = SelectedEntityScreen.EntityTypeId,
+                                                      AutomationCommandName = AutomationCommandName,
+                                                      CommandValue = obj.Model.EntityState
+                                                  });
+                return;
+            }
             if (obj.Model.EntityId > 0 && obj.Model.ItemId == 0)
                 _currentOperationRequest.Publish(_cacheService.GetEntityById(obj.Model.EntityId));
             else if (obj.Model.ItemId > 0)

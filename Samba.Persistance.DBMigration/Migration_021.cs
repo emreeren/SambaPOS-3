@@ -30,12 +30,23 @@ namespace Samba.Persistance.DBMigration
             Execute.Sql(@"
 UPDATE AppActions 
 SET Parameter = CAST(REPLACE(CAST(Parameter as NVarchar(4000)),'""Key"":""Value""','""Key"":""FieldValue""') AS NText)
-WHERE ActionType = 'UpdateEntityData'");       
-    
+WHERE ActionType = 'UpdateEntityData'");
+
             Execute.Sql(@"
 Update ActionContainers 
 set ParameterValues = CAST(REPLACE(CAST(ParameterValues as NVarchar(4000)),'[:Value]','[:CommandValue]') AS NText)
-where AppRuleId in (select id from AppRules where EventName = 'AutomationCommandExecuted')");
+where AppRuleId in (select Id from AppRules where EventName = 'AutomationCommandExecuted')");
+
+
+            Execute.Sql(@"
+Update ActionContainers 
+set ParameterValues = CAST(REPLACE(CAST(ParameterValues as NVarchar(4000)),'[:Value]','[:LoopValue]') AS NText)
+where AppRuleId in (select Id from AppRules where EventName = 'ValueLooped')");
+            
+            Execute.Sql(@"
+Update ActionContainers 
+set ParameterValues = CAST(REPLACE(CAST(ParameterValues as NVarchar(4000)),'[:Value]','[:NumberpadValue]') AS NText)
+where AppRuleId in (select Id from AppRules where EventName = 'NumberpadValueEntered')");
         }
 
         public override void Down()

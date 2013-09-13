@@ -164,6 +164,13 @@ namespace Samba.Modules.AutomationModule
             base.OnSave(value);
         }
 
+        public override void OnShown()
+        {
+            _ruleConstraintValues = new ObservableCollection<RuleConstraintValueViewModel>();
+            UpdateCustomRuleConstraints();
+            base.OnShown();
+        }
+
         protected override void Initialize()
         {
             MapController = new MapController<AppRuleMap, AbstractMapViewModel<AppRuleMap>>(Model.AppRuleMaps, Workspace);

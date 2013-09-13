@@ -26,7 +26,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         private void FocusFirstEditor()
         {
             var c = ExtensionServices.GetVisualChild<TextBox>(CustomEditors);
-            c.BackgroundFocus();
+            if(c!=null) c.BackgroundFocus();
         }
 
         private void TaskEditorView_OnLoaded(object sender, RoutedEventArgs e)

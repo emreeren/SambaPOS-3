@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Helpers;
+using Samba.Persistance;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
@@ -17,14 +18,26 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
     {
         private readonly IApplicationState _applicationState;
         private readonly ICacheService _cacheService;
+        private readonly IAutomationDao _automationDao;
 
         public EntityGridWidgetViewModel(Widget model, IApplicationState applicationState,
-            IEntityService entityService, IUserService userService, ICacheService cacheService)
+            IEntityService entityService, IUserService userService, ICacheService cacheService, IAutomationDao automationDao)
             : base(model, applicationState)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
+            _automationDao = automationDao;
             ResourceSelectorViewModel = new EntitySelectorViewModel(applicationState, entityService, userService, cacheService);
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<WidgetEventData>>().Subscribe(
+                x =>
+                {
+                    if (x.Value.WidgetName == Name)
+                    {
+                        Settings.StateFilterName = x.Value.Value;
+                        Refresh();
+                    }
+                });
         }
 
         readonly OperationRequest<Entity> _request = new OperationRequest<Entity>(null, EventTopicNames.EntitySelected);
@@ -44,6 +57,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
         {
             _entityScreen = null;
             Settings.StateFilterNameValue.UpdateValues(_cacheService.GetStates(0).Select(x => x.Name));
+            Settings.AutomationCommandNameValue.UpdateValues(_automationDao.GetAutomationCommandNames());
         }
 
         private EntityScreen _entityScreen;
@@ -77,6 +91,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
                                   : EntityScreen.StateFilter;
             if (stateFilter == "*") stateFilter = "";
             ResourceSelectorViewModel.Refresh(EntityScreen, stateFilter, _request);
+            ResourceSelectorViewModel.AutomationCommandName = Settings.AutomationCommandName;
         }
     }
 }

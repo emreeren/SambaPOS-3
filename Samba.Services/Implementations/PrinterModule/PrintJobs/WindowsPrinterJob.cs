@@ -34,7 +34,7 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
 
             var q = PrinterInfo.GetPrinter(Printer.ShareName);
             var pd = new PrintDialog { PrintQueue = q };
-            if (q != null || pd.PrintQueue.FullName == Printer.ShareName || Printer.ShareName.ToLower() == "default" || pd.ShowDialog().GetValueOrDefault(false))
+            if (q != null || pd.PrintQueue.FullName == Printer.ShareName || Printer.ShareName.ToLower() == "default" || Printer.ShareName.Contains("/") || pd.ShowDialog().GetValueOrDefault(false))
             {
                 document.Background = Brushes.Transparent;
                 document.FontFamily = new FontFamily(LocalSettings.PrintFontFamily);

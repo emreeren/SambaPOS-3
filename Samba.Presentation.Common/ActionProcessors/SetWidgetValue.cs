@@ -16,8 +16,8 @@ namespace Samba.Presentation.Common.ActionProcessors
         public override void Process(ActionData actionData)
         {
             var widgetName = actionData.GetAsString("WidgetName");
-            var value = actionData.GetAsString("Value");
-            if (!string.IsNullOrEmpty(widgetName) && !string.IsNullOrEmpty(value))
+            var value = actionData.GetAsString("Value") ?? "";
+            if (!string.IsNullOrEmpty(widgetName))
             {
                 var data = new WidgetEventData { WidgetName = widgetName, Value = value };
                 data.PublishEvent(EventTopicNames.SetWidgetValue);

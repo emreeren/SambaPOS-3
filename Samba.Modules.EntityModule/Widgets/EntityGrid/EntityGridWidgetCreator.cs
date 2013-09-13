@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
+using Samba.Persistance;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Services;
@@ -18,13 +19,15 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
         private readonly IEntityService _entityService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
+        private readonly IAutomationDao _automationDao;
 
         [ImportingConstructor]
-        public EntityGridWidgetCreator(IEntityService entityService, IUserService userService, ICacheService cacheService)
+        public EntityGridWidgetCreator(IEntityService entityService, IUserService userService, ICacheService cacheService, IAutomationDao automationDao)
         {
             _entityService = entityService;
             _userService = userService;
             _cacheService = cacheService;
+            _automationDao = automationDao;
         }
 
         public string GetCreatorName()
@@ -49,7 +52,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
                 {
                     entityScreenItemViewModel.IsEnabled = false;
                 }
-                
+
             }
 
             var ret = new EntitySelectorView(viewModel.ResourceSelectorViewModel) { DataContext = viewModel.ResourceSelectorViewModel, ContextMenu = contextMenu, Tag = widget };
@@ -75,7 +78,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new EntityGridWidgetViewModel(widget, applicationState, _entityService, _userService, _cacheService);
+            return new EntityGridWidgetViewModel(widget, applicationState, _entityService, _userService, _cacheService, _automationDao);
         }
     }
 }

@@ -238,8 +238,8 @@ namespace Samba.Modules.PosModule
 
         private void OnExecuteAutomationCommand(CommandContainerButton obj)
         {
-            obj.NextValue();
             ExecuteAutomationCommand(obj.CommandContainer.AutomationCommand, obj.SelectedValue);
+            obj.NextValue();
         }
 
         private void ExecuteAutomationCommand(AutomationCommand automationCommand, string selectedValue)
@@ -248,34 +248,7 @@ namespace Samba.Modules.PosModule
                 automationCommand.PublishEvent(EventTopicNames.SelectAutomationCommandValue);
             else
             {
-                if (SelectedOrders.Any())
-                {
-                    foreach (var selectedOrder in SelectedOrders.ToList())
-                    {
-                        _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
-                                                      new
-                                                          {
-                                                              Ticket = SelectedTicket,
-                                                              Order = selectedOrder,
-                                                              AutomationCommandName = automationCommand.Name,
-                                                              CommandValue = selectedValue
-                                                          });
-                    }
-                }
-                else
-                {
-                    _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
-                                                  new
-                                                      {
-                                                          Ticket = SelectedTicket,
-                                                          AutomationCommandName = automationCommand.Name,
-                                                          CommandValue = selectedValue
-                                                      });
-                }
-
-                _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
-                ClearSelectedItems();
-                ClearSelection = true;
+                ExecuteAutomationCommand(automationCommand.Name, selectedValue);
                 RefreshVisuals();
             }
         }
@@ -291,11 +264,39 @@ namespace Samba.Modules.PosModule
 
         private void OnAutomationCommandValueSelected(EventParameters<AutomationCommandValueData> obj)
         {
-            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, new { Ticket = SelectedTicket, AutomationCommandName = obj.Value.AutomationCommand.Name, CommandValue=obj.Value.Value });
+            ExecuteAutomationCommand(obj.Value.AutomationCommand.Name, obj.Value.Value);
+            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
+        }
+
+        private void ExecuteAutomationCommand(string automationCommandName, string automationCommandValue)
+        {
+            if (SelectedOrders.Any())
+            {
+                foreach (var selectedOrder in SelectedOrders.ToList())
+                {
+                    _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
+                                                  new
+                                                      {
+                                                          Ticket = SelectedTicket,
+                                                          Order = selectedOrder,
+                                                          AutomationCommandName = automationCommandName,
+                                                          CommandValue = automationCommandValue
+                                                      });
+                }
+            }
+            else
+            {
+                _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
+                                              new
+                                                  {
+                                                      Ticket = SelectedTicket,
+                                                      AutomationCommandName = automationCommandName,
+                                                      CommandValue = automationCommandValue
+                                                  });
+            }
             _ticketOrdersViewModel.SelectedTicket = SelectedTicket;
             ClearSelectedItems();
             ClearSelection = true;
-            EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
         }
 
         private void OnDepartmentChanged(EventParameters<Department> obj)

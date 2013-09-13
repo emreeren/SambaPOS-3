@@ -21,21 +21,21 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,3,3">
-                                <TextBlock Text="{Binding Name}"/>
+                                <Label Content="{Binding Name}"/>
                                 <TextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <DockPanel></DockPanel>
+                            <DockPanel MinWidth="50"></DockPanel>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
                 <TextBox Grid.Row="1" Grid.RowSpan="2" MinLines="1" Margin="0,0,3,0" TextWrapping="WrapWithOverflow" AutoWordSelection="True" Grid.Column="0" 
                      Text="{Binding NewTask,UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-                    IsDefault="True" MinWidth="50" Grid.Column="1" Command="{Binding AddTaskCommand}" 
+                    IsDefault="True" MinWidth="50" Grid.Column="1" Grid.Row="1" Command="{Binding AddTaskCommand}" 
                     Content="{Binding AddTaskCommand.Caption}"/>
             </Grid>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
