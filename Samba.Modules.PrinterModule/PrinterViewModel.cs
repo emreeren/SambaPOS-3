@@ -28,7 +28,7 @@ namespace Samba.Modules.PrinterModule
 
         public ICaptionCommand EditCustomPrinterSettingsCommand { get; set; }
 
-        public IList<string> PrinterTypes { get { return new[] { Resources.TicketPrinter, Resources.Text, Resources.Html, Resources.PortPrinter, Resources.DemoPrinter, Resources.WindowsPrinter, "Custom Printer" }; } }
+        public IList<string> PrinterTypes { get { return new[] { Resources.TicketPrinter, Resources.Text, Resources.Html, Resources.PortPrinter, Resources.DemoPrinter, Resources.WindowsPrinter, Resources.CustomPrinter ,Resources.RawPrinter}; } }
 
         public string ShareName
         {

@@ -487,7 +487,7 @@ namespace Samba.Domain.Models.Tickets
         public bool CanCancelSelectedOrders(IEnumerable<Order> selectedOrders)
         {
             var so = selectedOrders.ToList();
-            return so.Count != 0 && so.All(x=>!x.Locked) && !so.Any(x => x.Id > 0 || !Orders.Contains(x));
+            return so.Count != 0 && so.All(x => !x.Locked) && !so.Any(x => x.Id > 0 || !Orders.Contains(x));
         }
 
         public IEnumerable<Order> GetUnlockedOrders()
@@ -581,9 +581,9 @@ namespace Samba.Domain.Models.Tickets
             _ticketStateValues = null;
         }
 
-        public string GetStateData()
+        public string GetStateData(Func<TicketStateValue, bool> canDisplayState)
         {
-            return string.Join("\r", TicketStateValues.Where(x => !string.IsNullOrEmpty(x.State)).Select(x => string.Format("{0}{1}: {2} {3}", x.Quantity > 0 ? string.Format("{0} ", x.Quantity.ToString(CultureInfo.CurrentCulture)) : "", x.StateName, x.State, !string.IsNullOrEmpty(x.StateValue) ? string.Format("[{0}]", x.StateValue) : "")));
+            return string.Join("\r", TicketStateValues.Where(canDisplayState).Where(x => !string.IsNullOrEmpty(x.State)).Select(x => string.Format("{0}{1}: {2} {3}", x.Quantity > 0 ? string.Format("{0} ", x.Quantity.ToString(CultureInfo.CurrentCulture)) : "", x.StateName, x.State, !string.IsNullOrEmpty(x.StateValue) ? string.Format("[{0}]", x.StateValue) : "")));
         }
 
         public string GetTagValue(string tagName)

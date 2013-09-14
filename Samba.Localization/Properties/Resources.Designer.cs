@@ -1944,6 +1944,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom Printer.
+        /// </summary>
+        public static string CustomPrinter {
+            get {
+                return ResourceManager.GetString("CustomPrinter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         public static string Dashboard {
@@ -5331,6 +5340,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order Count.
+        /// </summary>
+        public static string OrderCount {
+            get {
+                return ResourceManager.GetString("OrderCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order Grouping.
         /// </summary>
         public static string OrderGrouping {
@@ -6333,6 +6351,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Raw Printer.
+        /// </summary>
+        public static string RawPrinter {
+            get {
+                return ResourceManager.GetString("RawPrinter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Receipt.
         /// </summary>
         public static string Receipt {
@@ -7130,6 +7157,33 @@ namespace Samba.Localization.Properties {
         public static string ShowMessage {
             get {
                 return ResourceManager.GetString("ShowMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show on End of Day Report.
+        /// </summary>
+        public static string ShowOnEndOfDayReport {
+            get {
+                return ResourceManager.GetString("ShowOnEndOfDayReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show on Product Report.
+        /// </summary>
+        public static string ShowOnProductReport {
+            get {
+                return ResourceManager.GetString("ShowOnProductReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show on Ticket.
+        /// </summary>
+        public static string ShowOnTicket {
+            get {
+                return ResourceManager.GetString("ShowOnTicket", resourceCulture);
             }
         }
         

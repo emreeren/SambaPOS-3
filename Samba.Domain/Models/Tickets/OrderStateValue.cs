@@ -21,6 +21,8 @@ namespace Samba.Domain.Models.Tickets
         public string OrderKey { get; set; }
         [DataMember(Name = "D", IsRequired = false, EmitDefaultValue = false)]
         public DateTime LastUpdateTime { get; set; }
+        [DataMember(Name = "U", IsRequired = false, EmitDefaultValue = false)]
+        public int UserId { get; set; }
 
         private static OrderStateValue _default;
         public static OrderStateValue Default

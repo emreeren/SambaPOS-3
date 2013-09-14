@@ -10,14 +10,16 @@ using Samba.Localization;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Presentation.Services.Common;
+using Samba.Services;
 
 namespace Samba.Modules.PosModule
 {
     public class OrderViewModel : ObservableObject
     {
-        public OrderViewModel(Order model)
+        public OrderViewModel(Order model, ICacheService cacheService)
         {
             _model = model;
+            _cacheService = cacheService;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             UpdateItemColor();
@@ -31,6 +33,7 @@ namespace Samba.Modules.PosModule
         }
 
         private readonly Order _model;
+        private readonly ICacheService _cacheService;
         public Order Model { get { return _model; } }
 
         public decimal Quantity
@@ -66,7 +69,7 @@ namespace Samba.Modules.PosModule
 
         public bool IsStateVisible { get { return !String.IsNullOrEmpty(State); } }
 
-        public string State { get { return Model.GetStateDesc(); } }
+        public string State { get { return Model.GetStateDesc(x => _cacheService.CanShowStateOnTicket(x.StateName, x.State)); } }
 
         public decimal SelectedQuantity { get { return Model.SelectedQuantity; } }
 
@@ -197,7 +200,7 @@ namespace Samba.Modules.PosModule
         {
             Selected = !Selected;
             if (!Selected) ResetSelectedQuantity();
-            this.PublishEvent(EventTopicNames.SelectedOrdersChanged,true);
+            this.PublishEvent(EventTopicNames.SelectedOrdersChanged, true);
         }
 
         public void UpdateItemColor()

@@ -14,10 +14,12 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 {
     public class EndDayReportViewModel : ReportViewModelBase
     {
-        public EndDayReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService, ISettingService settingService)
+        private readonly ICacheService _cacheService;
+
+        public EndDayReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService, ISettingService settingService, ICacheService cacheService)
             : base(userService, applicationState, logService, settingService)
         {
-
+            _cacheService = cacheService;
         }
 
         protected override void CreateFilterGroups()
@@ -37,8 +39,8 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             CreateTicketTypeInfo(report, ReportContext.Tickets.Where(x => x.TotalAmount >= 0), Resources.Sales);
             var refundTickets = ReportContext.Tickets.Where(x => x.TotalAmount < 0).ToList();
-            if (refundTickets.Any())
-                CreateTicketTypeInfo(report, refundTickets, "Returns");
+            if (refundTickets.Any()) CreateTicketTypeInfo(report, refundTickets, "Returns");
+
             //---------------
 
             var incomeCalculator = ReportContext.GetIncomeCalculator();
@@ -65,8 +67,8 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     report.AddRow("İadeTablosu", paymentName, refundCalculator.GetPercent(paymentName),
                                   refundCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
 
-                report.AddRow("İadeTablosu", "TOTAL REFUND", "",
-                              refundCalculator.TotalAmount.ToString(ReportContext.CurrencyFormat));
+                report.AddRow("İadeTablosu", "TOTAL REFUND", "", 
+                    refundCalculator.TotalAmount.ToString(ReportContext.CurrencyFormat));
             }
 
             //---------------
@@ -96,21 +98,25 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
 
             if (ticketGropus.Count() > 1)
             {
-                foreach (var TicketTypeInfo in ticketGropus)
+                foreach (var ticketTypeInfo in ticketGropus)
                 {
-                    report.AddRow("Bilgi", TicketTypeInfo.TicketTypeName, TicketTypeInfo.TicketCount.ToString());
+                    report.AddRow("Bilgi", ticketTypeInfo.TicketTypeName, ticketTypeInfo.TicketCount.ToString());
                 }
             }
 
+            report.AddBoldRow("Bilgi", Resources.Orders, "");
+
+            var orderCount = ReportContext.Tickets.Sum(x => x.Orders.Count);
+
+            report.AddRow("Bilgi", Resources.OrderCount, orderCount.ToString());
+
             var orderStates = ReportContext.Tickets
-                               .SelectMany(x => x.Orders)
-                               .SelectMany(x => x.GetOrderStateValues()).Distinct().ToList();
+                   .SelectMany(x => x.Orders)
+                   .SelectMany(x => x.GetOrderStateValues()).Distinct().ToList();
 
             if (orderStates.Any())
             {
-                report.AddBoldRow("Bilgi", Resources.Orders, "");
-
-                foreach (var orderStateValue in orderStates)
+                foreach (var orderStateValue in orderStates.Where(x => _cacheService.CanShowStateOnEndOfDayReport(x.StateName, x.State)).OrderBy(x => x.OrderKey).ThenBy(x => x.StateValue))
                 {
                     var value = orderStateValue;
                     var items = ReportContext.Tickets.SelectMany(x => x.Orders).Where(x => x.IsInState(value.StateName, value.State, value.StateValue)).ToList();
@@ -123,10 +129,11 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             var ticketStates = ReportContext.Tickets
                 .SelectMany(x => x.GetTicketStateValues()).Distinct().ToList();
 
+            report.AddBoldRow("Bilgi", Resources.Tickets, "");
+
             if (ticketStates.Any())
             {
-                report.AddBoldRow("Bilgi", Resources.Tickets, "");
-                foreach (var ticketStateValue in ticketStates)
+                foreach (var ticketStateValue in ticketStates.Where(x => _cacheService.CanShowStateOnEndOfDayReport(x.StateName, x.State)))
                 {
                     TicketStateValue value = ticketStateValue;
                     var items = ReportContext.Tickets.Where(x => x.IsInState(value.StateName, value.State)).ToList();
@@ -306,7 +313,6 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
             {
                 foreach (var userInfo in uInfo)
                 {
-
                     var userIncomeCalculator = ReportContext.GetIncomeCalculatorByUser(userInfo.UserId);
 
                     report.AddColumnLength(userInfo.UserName + Resources.Incomes, "40*", "Auto", "35*");
@@ -317,25 +323,6 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                         report.AddRow(userInfo.UserName + Resources.Incomes, paymentName, userIncomeCalculator.GetPercent(paymentName), userIncomeCalculator.GetAmount(paymentName).ToString(ReportContext.CurrencyFormat));
 
                     report.AddRow(userInfo.UserName + Resources.Incomes, Resources.TotalIncome.ToUpper(), "", userIncomeCalculator.TotalAmount.ToString(ReportContext.CurrencyFormat));
-
-
-
-                    //    var info = userInfo;
-                    //    var uPayments = ReportContext.Tickets
-                    //        .SelectMany(x => x.Payments)
-                    //        .Where(x => x.UserId == info.UserId)
-                    //        .GroupBy(x => new { x.PaymentTypeId })
-                    //        .Select(x => new TenderedAmount { PaymentName = x.Key.PaymentType, Amount = x.Sum(y => y.Amount) });
-
-                    //    report.AddColumnLength(userInfo.UserName + Resources.Incomes, "40*", "Auto", "35*");
-                    //    report.AddColumTextAlignment(userInfo.UserName + Resources.Incomes, TextAlignment.Left, TextAlignment.Right, TextAlignment.Right);
-                    //    report.AddTable(userInfo.UserName + Resources.Incomes, string.Format(Resources.ReceivedBy_f, userInfo.UserName), "", "");
-                    //    report.AddRow(userInfo.UserName + Resources.Incomes, Resources.Cash, GetPercent(0, uPayments), GetAmount(0, uPayments).ToString(ReportContext.CurrencyFormat));
-                    //    report.AddRow(userInfo.UserName + Resources.Incomes, Resources.CreditCard, GetPercent(1, uPayments), GetAmount(1, uPayments).ToString(ReportContext.CurrencyFormat));
-                    //    report.AddRow(userInfo.UserName + Resources.Incomes, Resources.Voucher, GetPercent(2, uPayments), GetAmount(2, uPayments).ToString(ReportContext.CurrencyFormat));
-                    //    report.AddRow(userInfo.UserName + Resources.Incomes, Resources.AccountBalance, GetPercent(3, uPayments), GetAmount(3, uPayments).ToString(ReportContext.CurrencyFormat));
-                    //    report.AddRow(userInfo.UserName + Resources.Incomes, Resources.Total, "", uPayments.Sum(x => x.Amount).ToString(ReportContext.CurrencyFormat));
-                    //}
                 }
             }
 

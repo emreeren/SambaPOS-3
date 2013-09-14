@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Samba.Domain.Builders;
-using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Tickets;
 
 namespace Samba.Domain.Tests
@@ -94,7 +89,7 @@ namespace Samba.Domain.Tests
             var ticket = TicketBuilder.Create(TicketType.Default, Department.Default)
                                       .AddOrder().ForMenuItem(kola).Do(2)
                                       .Build();
-            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "");
+            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "", 0);
             ticket.MergeOrdersAndUpdateOrderNumbers(1);
             Assert.AreEqual(2, ticket.Orders.Count);
         }
@@ -106,14 +101,14 @@ namespace Samba.Domain.Tests
             var ticket = TicketBuilder.Create(TicketType.Default, Department.Default)
                                       .AddOrder().ForMenuItem(kola).Do(2)
                                       .Build();
-            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "");
-            ticket.Orders[1].SetStateValue("Status", 1, "New", 1, "");
-            ticket.Orders[0].SetStateValue("State", 1, "2", 1, "");
-            ticket.Orders[1].SetStateValue("State", 1, "3", 1, "");
+            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "", 0);
+            ticket.Orders[1].SetStateValue("Status", 1, "New", 1, "", 0);
+            ticket.Orders[0].SetStateValue("State", 1, "2", 1, "", 0);
+            ticket.Orders[1].SetStateValue("State", 1, "3", 1, "", 0);
             ticket.MergeOrdersAndUpdateOrderNumbers(1);
             Assert.AreEqual(2, ticket.Orders.Count);
-        }       
-        
+        }
+
         [Test]
         public void MergeOrders_DifferentOrderStates_ShouldMerge()
         {
@@ -121,10 +116,10 @@ namespace Samba.Domain.Tests
             var ticket = TicketBuilder.Create(TicketType.Default, Department.Default)
                                       .AddOrder().ForMenuItem(kola).Do(2)
                                       .Build();
-            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "");
-            ticket.Orders[1].SetStateValue("Status", 1, "New", 1, "");
-            ticket.Orders[0].SetStateValue("State", 1, "2", 1, "");
-            ticket.Orders[1].SetStateValue("State", 1, "2", 1, "");
+            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "", 0);
+            ticket.Orders[1].SetStateValue("Status", 1, "New", 1, "", 0);
+            ticket.Orders[0].SetStateValue("State", 1, "2", 1, "", 0);
+            ticket.Orders[1].SetStateValue("State", 1, "2", 1, "", 0);
             ticket.MergeOrdersAndUpdateOrderNumbers(1);
             Assert.AreEqual(1, ticket.Orders.Count);
         }
@@ -136,8 +131,8 @@ namespace Samba.Domain.Tests
             var ticket = TicketBuilder.Create(TicketType.Default, Department.Default)
                                       .AddOrder().ForMenuItem(kola).Do(2)
                                       .Build();
-            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "");
-            ticket.Orders[1].SetStateValue("Status", 1, "New", 1, "");
+            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "", 0);
+            ticket.Orders[1].SetStateValue("Status", 1, "New", 1, "", 0);
             ticket.MergeOrdersAndUpdateOrderNumbers(1);
             Assert.AreEqual(1, ticket.Orders.Count);
         }
@@ -341,8 +336,8 @@ namespace Samba.Domain.Tests
                                       .AddOrder().ForMenuItem(kola).Do()
                                       .AddOrder().ForMenuItem(kola).Do()
                                       .Build();
-            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "");
-            ticket.Orders[1].SetStateValue("Status", 1, "New", 1, "");
+            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "", 0);
+            ticket.Orders[1].SetStateValue("Status", 1, "New", 1, "", 0);
             var equals = OrderMerger.CanMergeOrders(ticket.Orders[0], ticket.Orders[1]);
             Assert.True(equals);
         }
@@ -355,8 +350,8 @@ namespace Samba.Domain.Tests
                                       .AddOrder().ForMenuItem(kola).Do()
                                       .AddOrder().ForMenuItem(kola).Do()
                                       .Build();
-            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "");
-            ticket.Orders[1].SetStateValue("Status", 1, "Submitted", 1, "");
+            ticket.Orders[0].SetStateValue("Status", 1, "New", 1, "", 0);
+            ticket.Orders[1].SetStateValue("Status", 1, "Submitted", 1, "", 0);
             var equals = OrderMerger.CanMergeOrders(ticket.Orders[0], ticket.Orders[1]);
             Assert.False(equals);
         }

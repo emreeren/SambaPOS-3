@@ -26,6 +26,9 @@ namespace Samba.Modules.SettingsModule
         public string Color { get { return Model.Color; } set { Model.Color = value; } }
         public string StateType { get { return StateTypes[Model.StateType]; } set { Model.StateType = StateTypes.ToList().IndexOf(value); } }
         public string GroupName { get { return Model.GroupName; } set { Model.GroupName = value; } }
+        public bool ShowOnEndOfDayReport { get { return Model.ShowOnEndOfDayReport; } set { Model.ShowOnEndOfDayReport = value; } }
+        public bool ShowOnProductReport { get { return Model.ShowOnProductReport; } set { Model.ShowOnProductReport = value; } }
+        public bool ShowOnTicket { get { return Model.ShowOnTicket; } set { Model.ShowOnTicket = value; } }
 
         public override Type GetViewType()
         {

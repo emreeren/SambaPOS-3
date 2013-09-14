@@ -79,7 +79,7 @@ namespace Samba.Services.Implementations.EntityModule
 
         public List<Entity> SearchEntities(EntityType selectedEntityType, string searchString, string stateFilter)
         {
-            if (searchString.Contains(":"))
+            if (searchString.Contains(":") && !searchString.EndsWith(":"))
             {
                 var parts = searchString.Split(new[] { ':' }, 2);
                 return _entityDao.FindEntities(selectedEntityType, parts[0], parts[1], stateFilter);

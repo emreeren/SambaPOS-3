@@ -608,6 +608,21 @@ namespace Samba.Services.Implementations
             return States.Any(x => x.Name == state) ? States.Single(x => x.Name == state).Color : "Gainsboro";
         }
 
+        public bool CanShowStateOnTicket(string stateName, string state)
+        {
+            return States.Any(x => (x.Name == state || x.GroupName == stateName) && x.ShowOnTicket);
+        }
+
+        public bool CanShowStateOnProductReport(string stateName, string state)
+        {
+            return States.Any(x => (x.Name == state || x.GroupName == stateName) && x.ShowOnProductReport);
+        }
+
+        public bool CanShowStateOnEndOfDayReport(string stateName, string state)
+        {
+            return States.Any(x => (x.Name == state || x.GroupName == stateName) && x.ShowOnEndOfDayReport);
+        }
+
         public IEnumerable<EntityType> GetEntityTypesByTicketType(int ticketTypeId)
         {
             return TicketTypes.Single(x => x.Id == ticketTypeId)

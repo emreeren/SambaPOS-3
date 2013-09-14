@@ -17,6 +17,9 @@
             <Label Content="{LocText Color,Suffix=':'}"/>
             <PropertyEditorLibrary:ColorPicker2 HorizontalAlignment="Left" MinWidth="150"
                          SelectedColor="{Binding Color}" />
+            <CheckBox Margin="0,10,0,0" Content="{LocText ShowOnEndOfDayReport}" IsChecked="{Binding ShowOnEndOfDayReport}"></CheckBox>
+            <CheckBox Content="{LocText ShowOnProductReport}" IsChecked="{Binding ShowOnProductReport}"></CheckBox>
+            <CheckBox Content="{LocText ShowOnTicket}" IsChecked="{Binding ShowOnTicket}"></CheckBox>
             <Button HorizontalAlignment="Left" Margin="0,10" MinWidth="70" Content="{Binding SaveCommand.Caption}"
                  Command="{Binding SaveCommand}" />
             <Label Content="{Binding Error}" Foreground="Red" />

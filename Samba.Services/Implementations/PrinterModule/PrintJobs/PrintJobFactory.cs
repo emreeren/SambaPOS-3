@@ -17,7 +17,9 @@ namespace Samba.Services.Implementations.PrinterModule.PrintJobs
             if (printer.IsWindowsPrinter)
                 return new WindowsPrinterJob(printer);
             if (printer.IsCustomPrinter)
-                return new CustomPrinterJob(printer, printerService);
+                return new CustomPrinterJob(printer, printerService);          
+            if (printer.IsRawPrinter)
+                return new RawPrinterJob(printer);
             return new SlipPrinterJob(printer);
         }
     }

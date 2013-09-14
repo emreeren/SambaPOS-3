@@ -41,8 +41,8 @@ namespace Samba.Modules.BasicReports
         {
             return new List<ReportViewModelBase>
                           {
-                              new EndDayReportViewModel(UserService,ApplicationState,LogService,SettingService),
-                              new ProductReportViewModel(UserService,ApplicationState,LogService,SettingService),
+                              new EndDayReportViewModel(UserService,ApplicationState,LogService,SettingService,CacheService),
+                              new ProductReportViewModel(UserService,ApplicationState,LogService,SettingService,CacheService),
                               new LiabilityReportViewModel(UserService,ApplicationState,LogService,SettingService),
                               new ReceivableReportViewModel(UserService,ApplicationState,LogService,SettingService),
                               new InternalAccountsViewModel(UserService,ApplicationState,LogService,SettingService),

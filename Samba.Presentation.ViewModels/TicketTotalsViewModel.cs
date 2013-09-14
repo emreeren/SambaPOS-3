@@ -116,7 +116,7 @@ namespace Samba.Presentation.ViewModels
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
 
                 if (string.IsNullOrEmpty(selectedTicketTitle)) selectedTicketTitle = string.Format(Resources.New_f, Resources.Ticket);
-                var state = Model.GetStateData();
+                var state = Model.GetStateData(x => _cacheService.CanShowStateOnTicket(x.StateName, x.State));
                 if (!string.IsNullOrEmpty(state)) selectedTicketTitle += Environment.NewLine + state;
                 return selectedTicketTitle;
             }
@@ -127,7 +127,7 @@ namespace Samba.Presentation.ViewModels
             get
             {
                 var result = TitleWithAccountBalances;
-                var state = Model.GetStateData();
+                var state = Model.GetStateData(x => _cacheService.CanShowStateOnTicket(x.StateName, x.State));
                 if (!string.IsNullOrEmpty(state)) result += Environment.NewLine + state;
                 return result;
             }
@@ -175,7 +175,7 @@ namespace Samba.Presentation.ViewModels
 
         public void Refresh()
         {
-           RefreshAll("");
+            RefreshAll("");
             //ThreadPool.QueueUserWorkItem(RefreshAll, string.Empty);
         }
 

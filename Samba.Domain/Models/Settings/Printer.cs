@@ -22,6 +22,7 @@ namespace Samba.Domain.Models.Settings
         public bool IsDemoPrinter { get { return PrinterType == 4; } }
         public bool IsWindowsPrinter { get { return PrinterType == 5; } }
         public bool IsCustomPrinter { get { return PrinterType == 6; } }
+        public bool IsRawPrinter { get { return PrinterType == 7; } }
 
         public Printer()
         {

@@ -6,7 +6,6 @@ using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
-using Samba.Persistance.Data;
 using Samba.Services.Common;
 
 namespace Samba.Presentation.Services.Common.DataGeneration
@@ -191,6 +190,12 @@ namespace Samba.Presentation.Services.Common.DataGeneration
 
             var billRequestedState = new State { Name = Resources.BillRequested, Color = "Maroon", GroupName = "Status" };
             workspace.Add(billRequestedState);
+
+            var giftStatus = new State { Name = Resources.Gift, GroupName = "GStatus", ShowOnEndOfDayReport = true, ShowOnProductReport = true, ShowOnTicket = true };
+            workspace.Add(giftStatus);
+
+            var status = new State { Name = Resources.Status, GroupName = "Status", ShowOnEndOfDayReport = true, ShowOnProductReport = false, ShowOnTicket = true };
+            workspace.Add(status);
 
             var updateOrderAction = new AppAction
                                         {

@@ -273,7 +273,7 @@ namespace Samba.Domain.Models.Tickets
             return OrderStateValues.SingleOrDefault(x => x.StateName == groupName) ?? OrderStateValue.Default;
         }
 
-        public void SetStateValue(string groupName, int groupOrder, string state, int stateOrder, string stateValue)
+        public void SetStateValue(string groupName, int groupOrder, string state, int stateOrder, string stateValue, int userId)
         {
             var sv = OrderStateValues.SingleOrDefault(x => x.StateName == groupName);
             if (sv == null)
@@ -286,6 +286,7 @@ namespace Samba.Domain.Models.Tickets
                 sv.State = state;
                 sv.StateValue = stateValue;
             }
+            sv.UserId = userId;
             sv.LastUpdateTime = DateTime.Now;
             sv.OrderKey = groupOrder.ToString("000") + stateOrder.ToString("000");
 
@@ -296,10 +297,10 @@ namespace Samba.Domain.Models.Tickets
             _orderStateValues = null;
         }
 
-        public string GetStateDesc()
+        public string GetStateDesc(Func<OrderStateValue, bool> filter)
         {
             var result = string.Join(", ",
-                           OrderStateValues.OrderBy(x => x.OrderKey).Where(x => !string.IsNullOrEmpty(x.State)).Select(
+                           OrderStateValues.Where(filter).OrderBy(x => x.OrderKey).Where(x => !string.IsNullOrEmpty(x.State)).Select(
                                x =>
                                string.Format("{0}{1}", x.State.Trim(),
                                              !string.IsNullOrEmpty(x.StateValue)

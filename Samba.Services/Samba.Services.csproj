@@ -147,8 +147,10 @@
     <Compile Include="Implementations\PrinterModule\ObjectFormatters\EntityFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\IDocumentFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\PrintJobs\CustomPrinterJob.cs" />
+    <Compile Include="Implementations\PrinterModule\PrintJobs\RawPrinterJob.cs" />
     <Compile Include="Implementations\PrinterModule\TicketPrintTaskBuilder.cs" />
     <Compile Include="Implementations\PrinterModule\TicketPrintTask.cs" />
+    <Compile Include="Implementations\PrinterModule\Tools\RawPrinterHelper.cs" />
     <Compile Include="Implementations\PrinterModule\ValueChangers\AccountTransactionDocumentValueChanger.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\AbstractLineFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\Formatters\BoxFormatter.cs" />

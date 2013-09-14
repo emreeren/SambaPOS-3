@@ -87,9 +87,8 @@ namespace Samba.Persistance.Implementations
             {
                 var result =
                     w.Query<Entity>(
-                        x =>
-                        x.EntityTypeId == templateId &&
-                        (x.CustomData.Contains(searchString) || x.Name.ToLower().Contains(searchValue))).Take(250).ToList();
+                        x => x.EntityTypeId == templateId &&
+                        (x.CustomData.Contains(searchString) || x.Name.Contains(searchString) || x.Name.ToLower().Contains(searchValue))).Take(250).ToList();
 
                 if (entityType != null)
                     result = result.Where(x => entityType.GetMatchingFields(x, searchString).Any(y => !y.Hidden) || x.Name.ToLower().Contains(searchValue)).ToList();

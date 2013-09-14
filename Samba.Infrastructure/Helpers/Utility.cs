@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Samba.Infrastructure.Helpers
 {
@@ -47,12 +46,12 @@ namespace Samba.Infrastructure.Helpers
             }
 
             string amount = String.IsNullOrEmpty(actualValue) ? "0" :
-                Convert.ToDecimal(actualValue).ToString(fmt);
+                Convert.ToDouble(actualValue).ToString(fmt);
             if (amount.Contains(dc))
                 amount = amount.Substring(0, amount.Length - 1);
 
-            amnt = Convert.ToDecimal(amount + typedValue);
-            return (amnt).ToString(rfmt);
+            var dbl = Convert.ToDouble(amount + typedValue);
+            return (dbl).ToString(rfmt);
         }
 
         public static bool IsValidFile(string fileName)

@@ -76,6 +76,9 @@ namespace Samba.Services
         int GetEntityTypeIdByEntityName(string entityName);
         IEnumerable<State> GetStates(int stateType);
         string GetStateColor(string entityState);
+        bool CanShowStateOnTicket(string stateName, string state);
+        bool CanShowStateOnProductReport(string stateName,string state);
+        bool CanShowStateOnEndOfDayReport(string stateName, string state);
         IEnumerable<EntityType> GetEntityTypesByTicketType(int ticketTypeId);
         IEnumerable<Entity> GetEntities(int entityTypeId, string stateData);
         Entity GetEntityByName(string entityTypeName, string entityName);

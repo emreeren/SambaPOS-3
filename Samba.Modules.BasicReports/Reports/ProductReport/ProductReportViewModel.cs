@@ -13,9 +13,12 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
 {
     public class ProductReportViewModel : ReportViewModelBase
     {
-        public ProductReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService, ISettingService settingService)
+        private readonly ICacheService _cacheService;
+
+        public ProductReportViewModel(IUserService userService, IApplicationState applicationState, ILogService logService, ISettingService settingService, ICacheService cacheService)
             : base(userService, applicationState, logService, settingService)
         {
+            _cacheService = cacheService;
         }
 
         protected override FlowDocument GetReport()
@@ -166,6 +169,35 @@ namespace Samba.Modules.BasicReports.Reports.ProductReport
                     report.AddRow("ÖzelliklerTablosu", property.Name, property.Quantity.ToString(LocalSettings.ReportQuantityFormat), property.Amount.ToString(LocalSettings.ReportCurrencyFormat));
                 }
             }
+
+            report.AddColumTextAlignment("OrderStates", TextAlignment.Left, TextAlignment.Left, TextAlignment.Right);
+            report.AddColumnLength("OrderStates", "4*", "3*", "3*");
+            report.AddTable("OrderStates", Resources.GeneralInformation, "", "");
+
+            var orderStates = ReportContext.Tickets
+                   .SelectMany(x => x.Orders)
+                   .SelectMany(x => x.GetOrderStateValues()).Distinct().ToList();
+
+            if (orderStates.Any())
+            {
+                report.AddBoldRow("OrderStates", Resources.Orders, "", "");
+
+                foreach (var orderStateValue in orderStates.Where(x => _cacheService.CanShowStateOnProductReport(x.StateName, x.State)).OrderBy(x => x.OrderKey).ThenBy(x => x.StateValue))
+                {
+                    var value = orderStateValue;
+                    var items = ReportContext.Tickets.SelectMany(x => x.Orders).Where(x => x.IsInState(value.StateName, value.State, value.StateValue)).ToList();
+                    var amount = items.Sum(x => x.GetValue());
+                    var count = items.Count();
+                    report.AddBoldRow("OrderStates", string.Format("{0} {1} ({2})", orderStateValue.State, orderStateValue.StateValue, count), "", amount.ToString(ReportContext.CurrencyFormat));
+                    foreach (var order in items.GroupBy(x => new { x.MenuItemName, x.GetStateValue(value.StateName).UserId }))
+                    {
+                        report.AddRow("OrderStates",
+                            order.Sum(x => x.Quantity).ToString(LocalSettings.QuantityFormat) + " x " + order.Key.MenuItemName,
+                            UserService.GetUserName(order.Key.UserId), order.Sum(x => x.GetValue()).ToString(ReportContext.CurrencyFormat));
+                    }
+                }
+            }
+
             return report.Document;
         }
 

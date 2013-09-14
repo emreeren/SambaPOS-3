@@ -365,7 +365,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 State = state,
                 StateValue = stateValue,
                 Quantity = quantity,
-                TicketState = ticket.GetStateData()
+                TicketState = ticket.GetStateData(x => true)
             });
         }
 
@@ -533,7 +533,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
             foreach (var order in so)
             {
                 if (order.IsInState(stateName, state) && (string.IsNullOrEmpty(stateValue) || order.IsAnyStateValue(stateValue))) continue;
-                order.SetStateValue(stateName, groupOrder, state, stateOrder, stateValue);
+                order.SetStateValue(stateName, groupOrder, state, stateOrder, stateValue, _applicationState.CurrentLoggedInUser.Id);
                 _applicationState.NotifyEvent(RuleEventNames.OrderStateUpdated,
                                                new
                                                    {
@@ -661,7 +661,7 @@ namespace Samba.Presentation.Services.Implementations.TicketModule
                 {
                     return;
                 }
-                order.SetStateValue(gn, 99 + i, sv, 99 + i, "");
+                order.SetStateValue(gn, 99 + i, sv, 99 + i, "", _applicationState.CurrentLoggedInUser.Id);
                 i++;
             }
         }

@@ -64,7 +64,7 @@ namespace Samba.Modules.PosModule
             {
                 _selectedTicket = value;
                 _orders.Clear();
-                _orders.AddRange(_selectedTicket.Orders.Select(x => new OrderViewModel(x)).OrderBy(x => x.Model.CreatedDateTime.Ticks).ThenBy(x => x.OrderNumber).ThenBy(x => x.OrderKey).ThenBy(x => x.Model.Id));
+                _orders.AddRange(_selectedTicket.Orders.Select(x => new OrderViewModel(x, _cacheService)).OrderBy(x => x.Model.CreatedDateTime.Ticks).ThenBy(x => x.OrderNumber).ThenBy(x => x.OrderKey).ThenBy(x => x.Model.Id));
                 RaisePropertyChanged(() => SelectedTicket);
                 Refresh();
             }
@@ -76,7 +76,7 @@ namespace Samba.Modules.PosModule
             ClearSelectedOrders();
             SelectedTicket.CancelOrders(selectedOrders);
             Orders.Clear();
-            Orders.AddRange(SelectedTicket.Orders.Select(x => new OrderViewModel(x)));
+            Orders.AddRange(SelectedTicket.Orders.Select(x => new OrderViewModel(x, _cacheService)));
         }
 
         public void ClearSelectedOrders()
@@ -113,7 +113,7 @@ namespace Samba.Modules.PosModule
 
         private OrderViewModel Add(Order ti)
         {
-            var result = new OrderViewModel(ti);
+            var result = new OrderViewModel(ti, _cacheService);
             Orders.Add(result);
             return result;
         }
