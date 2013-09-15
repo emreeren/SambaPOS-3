@@ -8,6 +8,7 @@ using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Services;
 using Samba.Services;
 
 namespace Samba.Presentation.ViewModels
@@ -17,12 +18,15 @@ namespace Samba.Presentation.ViewModels
     {
         private readonly ICacheService _cacheService;
         private readonly AccountBalances _accountBalances;
+        private readonly IApplicationState _applicationState;
 
         [ImportingConstructor]
-        public TicketTotalsViewModel(ICacheService cacheService, AccountBalances accountBalances)
+        public TicketTotalsViewModel(ICacheService cacheService, AccountBalances accountBalances,
+            IApplicationState applicationState)
         {
             _cacheService = cacheService;
             _accountBalances = accountBalances;
+            _applicationState = applicationState;
             ResetCache();
             _model = Ticket.Empty;
         }
@@ -116,7 +120,7 @@ namespace Samba.Presentation.ViewModels
                 var selectedTicketTitle = sb.ToString().Trim(new[] { '\r', '\n' });
 
                 if (string.IsNullOrEmpty(selectedTicketTitle)) selectedTicketTitle = string.Format(Resources.New_f, Resources.Ticket);
-                var state = Model.GetStateData(x => _cacheService.CanShowStateOnTicket(x.StateName, x.State));
+                var state = Model.GetStateData(x => _applicationState.CurrentLoggedInUser.UserRole.IsAdmin || _cacheService.CanShowStateOnTicket(x.StateName, x.State));
                 if (!string.IsNullOrEmpty(state)) selectedTicketTitle += Environment.NewLine + state;
                 return selectedTicketTitle;
             }
@@ -127,7 +131,7 @@ namespace Samba.Presentation.ViewModels
             get
             {
                 var result = TitleWithAccountBalances;
-                var state = Model.GetStateData(x => _cacheService.CanShowStateOnTicket(x.StateName, x.State));
+                var state = Model.GetStateData(x =>_applicationState.CurrentLoggedInUser.UserRole.IsAdmin || _cacheService.CanShowStateOnTicket(x.StateName, x.State));
                 if (!string.IsNullOrEmpty(state)) result += Environment.NewLine + state;
                 return result;
             }

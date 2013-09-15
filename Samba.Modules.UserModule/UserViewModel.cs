@@ -66,7 +66,7 @@ namespace Samba.Modules.UserModule
     {
         public UserValidator()
         {
-            RuleFor(x => x.PinCode).Length(4, 10);
+            RuleFor(x => x.PinCode).Length(4, 20);
             RuleFor(x => x.UserRole).NotNull();
         }
     }

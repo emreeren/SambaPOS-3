@@ -14,6 +14,9 @@ namespace Samba.Persistance.DBMigration
 
             Execute.Sql("Insert into States (Name,GroupName,StateType,ShowOnEndOfDayReport,ShowOnProductReport,ShowOnTicket) values ('" + Resources.Gift + "','GStatus',2,1,1,1)");
             Execute.Sql("Insert into States (Name,GroupName,StateType,ShowOnEndOfDayReport,ShowOnProductReport,ShowOnTicket) values ('" + Resources.Status + "','Status',2,1,0,1)");
+
+            Create.Column("SearchValueReplacePattern").OnTable("EntityScreens").AsString(256).Nullable();
+
         }
 
         public override void Down()

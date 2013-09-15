@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>Auto valg</value>
+  </data>
+  <data name="AdminPasswordHint" xml:space="preserve">
+    <value>Administrator PIN: 1234
+Ændring af PIN vil skjule dette hint</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Bestyre</value>
+  </data>
+  <data name="TransacitonUnitMultiplier" xml:space="preserve">
+    <value>Transaktion enhed multiplikator</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="Portion" xml:space="preserve">
+    <value>Portion</value>
+  </data>
+  <data name="DepartmentType" xml:space="preserve">
+    <value>Afdelingstype</value>
+  </data>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>Nulstil konto</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>Afdelinger</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Produkt</value>
+  </data>
+  <data name="Liability" xml:space="preserve">
+    <value>Ansvar</value>
+  </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>Vælg {0}</value>
+  </data>
+  <data name="CantSave" xml:space="preserve">
+    <value>Kan ikke gemme</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="StartOfDay" xml:space="preserve">
+    <value>Start af vagt</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Mængde</value>
+  </data>
+  <data name="DocumentNo" xml:space="preserve">
+    <value>Dokument nummer</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Udgift</value>
+  </data>
+  <data name="Edit_f" xml:space="preserve">
+    <value>Redigér {0}</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>Fælles</value>
+  </data>
+  <data name="ImagePath" xml:space="preserve">
+    <value>Billede-sti</value>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>Total salg</value>
+  </data>
+  <data name="InStock" xml:space="preserve">
+    <value>På lager</value>
+  </data>
+  <data name="DeleteItemConfirmation_f" xml:space="preserve">
+    <value>Slet {0} [{1}] ?</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Produkter</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Luk</value>
+  </data>
+  <data name="EditModel_f" xml:space="preserve">
+    <value>Rediger {0} ({1})</value>
+  </data>
+  <data name="CheckDBVersion" xml:space="preserve">
+    <value>Check database version</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Slet</value>
+  </data>
+  <data name="EndOfDayRecords" xml:space="preserve">
+    <value>Dagsopgørelser</value>
+  </data>
+  <data name="ProductList" xml:space="preserve">
+    <value>Produkt liste</value>
+  </data>
+  <data name="ExpenseTransactions" xml:space="preserve">
+    <value>Udgift Transaktioner</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Advarsel</value>
+  </data>
+  <data name="CalculateCost" xml:space="preserve">
+    <value>Beregn omkostninger</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="SellAmount" xml:space="preserve">
+    <value>Antal solgt</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Produktnavn</value>
+  </data>
+  <data name="FastMenu" xml:space="preserve">
+    <value>Hurtig menu</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Luk</value>
+  </data>
+  <data name="AddModel_f" xml:space="preserve">
+    <value>Tilføjer ny {0}</value>
+  </data>
+  <data name="InventoryItem" xml:space="preserve">
+    <value>Lager enhed</value>
+  </data>
+  <data name="Calling" xml:space="preserve">
+    <value>Ringer</value>
+  </data>
+  <data name="InventoryItems" xml:space="preserve">
+    <value>Lager enheder</value>
+  </data>
+  <data name="TransactionUnit" xml:space="preserve">
+    <value>Transaktion enhed</value>
+  </data>
+  <data name="EndOfDayRecord" xml:space="preserve">
+    <value>Dagsopgørelser</value>
+  </data>
+  <data name="IncomeTransactions" xml:space="preserve">
+    <value>Indkomst transaktioner</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Bekræftigelse</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>Bon</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Indkomst</value>
+  </data>
+  <data name="CallerIdDriverError" xml:space="preserve">
+    <value>For at vise opkalds-ID, kræver det installerede hardware drivers.</value>
+  </data>
+  <data name="PortionPrices" xml:space="preserve">
+    <value>Portions priser</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beskrivelse</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>Totalt</value>
+  </data>
+  <data name="BaseUnit" xml:space="preserve">
+    <value>Baseenheden</value>
+  </data>
+  <data name="List_f" xml:space="preserve">
+    <value>{0} Liste</value>
+  </data>
+  <data name="EmptyNameError" xml:space="preserve">
+    <value>Lad ikke {0}  navn være tom.</value>
+  </data>
+  <data name="Costs" xml:space="preserve">
+    <value>Udgifter</value>
+  </data>
+  <data name="LastOrder" xml:space="preserve">
+    <value>Sidste ordre</value>
+  </data>
+  <data name="SingleSelection" xml:space="preserve">
+    <value>Enkel valg</value>
+  </data>
+  <data name="Voucher" xml:space="preserve">
+    <value>Rabatkupon</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>Kredit kort</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Kontant</value>
+  </data>
+  <data name="ButtonColor" xml:space="preserve">
+    <value>Knap farve</value>
+  </data>
+  <data name="Add_f" xml:space="preserve">
+    <value>Tilføj {0}</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Linje</value>
+  </data>
+  <data name="ButtonHeight" xml:space="preserve">
+    <value>Knappe højde</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>Menu indstillinger</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Pris</value>
+  </data>
+  <data name="TicketNumber_f" xml:space="preserve">
+    <value>Bonnummer: {0}</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Enheds pris</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="Receiveable" xml:space="preserve">
+    <value>Tilgodehavende</value>
+  </data>
+  <data name="SqlHint" xml:space="preserve">
+    <value>Klik her for information omkring arbejde med SQL databaser</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>Afdelingsnavn</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>Stregkode</value>
+  </data>
+  <data name="GroupCode" xml:space="preserve">
+    <value>Gruppe kode</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Antal</value>
+  </data>
+  <data name="Recipes" xml:space="preserve">
+    <value>Opskrifter</value>
+  </data>
+  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
+    <value>Kan ikke slette tidligere dagsopgørelser</value>
+  </data>
+  <data name="Clone_f" xml:space="preserve">
+    <value>Duplikér {0}</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Overskrift</value>
+  </data>
+  <data name="Keyboard" xml:space="preserve">
+    <value>Tastatur</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Farve</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Indstillinger</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>Opskrift</value>
+  </data>
+  <data name="Gift" xml:space="preserve">
+    <value>Gave</value>
+  </data>
+  <data name="ColumnCount" xml:space="preserve">
+    <value>Række antal</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Dato</value>
+  </data>
+  <data name="MenuList" xml:space="preserve">
+    <value>Menu liste</value>
+  </data>
+  <data name="LastOrderStatus" xml:space="preserve">
+    <value>Sidste ordre status</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>Lager</value>
+  </data>
+  <data name="LastOrderDate" xml:space="preserve">
+    <value>Sidste ordre dato</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Gem</value>
+  </data>
+  <data name="Purchase" xml:space="preserve">
+    <value>Køb</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Afdeling</value>
+  </data>
+  <data name="POSMenu" xml:space="preserve">
+    <value>POS Menu</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuller</value>
+  </data>
+  <data name="EnterPin" xml:space="preserve">
+    <value>Indtast pin</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Enhed</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Kategori navn</value>
+  </data>
+  <data name="Delete_f" xml:space="preserve">
+    <value>Slet {0}</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Vælg</value>
+  </data>
+</root>

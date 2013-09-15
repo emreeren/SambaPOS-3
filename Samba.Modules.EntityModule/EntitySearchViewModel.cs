@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Timers;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -94,6 +95,12 @@ namespace Samba.Modules.EntityModule
                 if (value != _searchString)
                 {
                     _searchString = value;
+                    if (_applicationState.SelectedEntityScreen != null && !string.IsNullOrEmpty(_applicationState.SelectedEntityScreen.SearchValueReplacePattern))
+                    {
+                        _searchString = Regex.Replace(_searchString,
+                                                      _applicationState.SelectedEntityScreen.SearchValueReplacePattern,
+                                                      (match) => match.Groups[1].Value);
+                    }
                     RaisePropertyChanged(() => SearchString);
                     ResetTimer();
                 }
@@ -406,12 +413,19 @@ namespace Samba.Modules.EntityModule
 
         public void SelectFullMatch()
         {
+            if (_updateTimer.Enabled)
+            {
+                _updateTimer.Stop();
+                UpdateFoundEntities();
+            }
             if (FoundEntities.Count > 1 && FoundEntities.Any(x => x.Name == SearchString))
             {
                 var f = FoundEntities.First(x => x.Name == SearchString);
                 FoundEntities.Clear();
                 FoundEntities.Add(f);
             }
+            if (SelectEntityCommand.CanExecute(""))
+                SelectEntityCommand.Execute("");
         }
     }
 }

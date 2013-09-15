@@ -613,6 +613,9 @@ Bericht:
   <data name="LastOrderStatus" xml:space="preserve">
     <value>Laatste Bestelling Status</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentatie</value>
+  </data>
   <data name="Thirty" xml:space="preserve">
     <value>Dertig</value>
   </data>
@@ -999,6 +1002,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="Phone" xml:space="preserve">
     <value>Telefoon</value>
   </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Totaal aantal</value>
+  </data>
   <data name="Permissions" xml:space="preserve">
     <value>Machtigingen</value>
   </data>
@@ -1091,6 +1097,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="GroupFooter" xml:space="preserve">
     <value>Groepsvoettekst</value>
+  </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Transactie printer</value>
   </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Totale Kosten</value>
@@ -1194,6 +1203,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>Bon veranderd. Uw laatste wijzigingen niet opgeslagen.</value>
   </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>Details weergeven</value>
+  </data>
   <data name="UserRole" xml:space="preserve">
     <value>Gebruikersrol</value>
   </data>
@@ -1211,6 +1223,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="SellerWarehouses" xml:space="preserve">
     <value>Verkoper magazijnen</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Laden</value>
   </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Factuur Printer</value>
@@ -1361,6 +1376,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="Thirteen" xml:space="preserve">
     <value>Dertien</value>
+  </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Verberg rekeningen met een balans van nul</value>
   </data>
   <data name="MonWedFri" xml:space="preserve">
     <value>Ma, wo, vr</value>
@@ -1724,6 +1742,9 @@ Veranderen van PIN zal deze hint verbergen</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Website</value>
+  </data>
+  <data name="After" xml:space="preserve">
+    <value>Na</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Verwijder limit</value>
@@ -2308,6 +2329,9 @@ Foutbericht:
   <data name="AccountTransaction" xml:space="preserve">
     <value>Rekeningtransactie</value>
   </data>
+  <data name="Development" xml:space="preserve">
+    <value>Ontwikkeling</value>
+  </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Maa tot vrij</value>
   </data>
@@ -2516,6 +2540,9 @@ Bon</value>
   <data name="WindowsPrinter" xml:space="preserve">
     <value>Windows-Printer</value>
   </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Forum</value>
+  </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Bon Opmerking</value>
   </data>
@@ -2638,6 +2665,9 @@ Bon</value>
   </data>
   <data name="Consumption" xml:space="preserve">
     <value>Consumptie</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Huidige template verwijderen en {0} laden?</value>
   </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Om de maand</value>
@@ -2909,6 +2939,9 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
   </data>
   <data name="StateType" xml:space="preserve">
     <value>Status type</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>Als boomstructuur weergeven</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>

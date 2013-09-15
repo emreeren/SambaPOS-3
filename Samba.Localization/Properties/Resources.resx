@@ -3526,4 +3526,10 @@ Error Message:
   <data name="ShowOnTicket" xml:space="preserve">
     <value>Show on Ticket</value>
   </data>
+  <data name="AddLineToTextFile" xml:space="preserve">
+    <value>Add Line to Text File</value>
+  </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Search Value Replace Pattern</value>
+  </data>
 </root>

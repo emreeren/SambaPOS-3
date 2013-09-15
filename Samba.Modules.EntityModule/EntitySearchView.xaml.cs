@@ -53,8 +53,6 @@ namespace Samba.Modules.EntityModule
             {
                 e.Handled = true;
                 ViewModel.SelectFullMatch();
-                if (ViewModel.SelectEntityCommand.CanExecute(""))
-                    ViewModel.SelectEntityCommand.Execute("");
             }
             else if (e.Key == Key.Down)
             {

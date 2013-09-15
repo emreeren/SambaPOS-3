@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AdminPasswordHint" xml:space="preserve">
+    <value>Admin KODY 1234
+Kodyňyzy üýgetseňiz bu hat görünmeýär</value>
+  </data>
+  <data name="Delete_f" xml:space="preserve">
+    <value>{0} Öçür</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Harytlar</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Çykyş</value>
+  </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>{0} Saýla</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Çykyş</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Düşündiriş</value>
+  </data>
+  <data name="BaseUnit" xml:space="preserve">
+    <value>Esasy ölçeg</value>
+  </data>
+  <data name="IncomeTransactions" xml:space="preserve">
+    <value>Girdeji işleri</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Senesi</value>
+  </data>
+  <data name="EditModel_f" xml:space="preserve">
+    <value>{0} ({1}) üýtgedilýär</value>
+  </data>
+  <data name="Recipes" xml:space="preserve">
+    <value>Reseptler</value>
+  </data>
+  <data name="CalculateCost" xml:space="preserve">
+    <value>Bahany hasapla</value>
+  </data>
+  <data name="CantSave" xml:space="preserve">
+    <value>Ýatda saklamak başartmady</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Jemi</value>
+  </data>
+  <data name="EndOfDayRecords" xml:space="preserve">
+    <value>Günüň soňunyň işleri</value>
+  </data>
+  <data name="Keyboard" xml:space="preserve">
+    <value>Klawiatura</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Nagt töleg</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Arassala</value>
+  </data>
+  <data name="List_f" xml:space="preserve">
+    <value>{0} Sanaw</value>
+  </data>
+  <data name="Clone_f" xml:space="preserve">
+    <value>{0} Ýene biri</value>
+  </data>
+  <data name="AddModel_f" xml:space="preserve">
+    <value>{0} täze goşulýar</value>
+  </data>
+  <data name="InventoryItems" xml:space="preserve">
+    <value>Ambardaky zatlar</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Sazlaýyşlar</value>
+  </data>
+  <data name="ExpenseTransactions" xml:space="preserve">
+    <value>Çykdajy işleri</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Bellik</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>Umumy jemi</value>
+  </data>
+  <data name="Edit_f" xml:space="preserve">
+    <value>{0} Üýtget</value>
+  </data>
+  <data name="SqlHint" xml:space="preserve">
+    <value>SQL binýatlary bilen işlemek hakda maglumat üçin basyň</value>
+  </data>
+  <data name="CheckDBVersion" xml:space="preserve">
+    <value>Binýadyň wersiýasyny barlaň</value>
+  </data>
+  <data name="CostPrediction" xml:space="preserve">
+    <value>Çaklanylýan baha</value>
+  </data>
+  <data name="TransacitonUnitMultiplier" xml:space="preserve">
+    <value>Iş ölçeginiň köpeldijisi</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Saýla</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Giriş</value>
+  </data>
+  <data name="StartOfDay" xml:space="preserve">
+    <value>Iş wagtynyň başy</value>
+  </data>
+  <data name="TransactionUnit" xml:space="preserve">
+    <value>Iş ölçegi</value>
+  </data>
+  <data name="LastOrder" xml:space="preserve">
+    <value>Soňky zakaz</value>
+  </data>
+  <data name="EmptyNameError" xml:space="preserve">
+    <value>{0} ady boş bolmaly däl</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Üns beriň</value>
+  </data>
+  <data name="CallerIdDriverError" xml:space="preserve">
+    <value>Jaň edýäniň maglumatlaryny görmek üçin apparadyň draýweri bolmaly.</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Goýbolsyn</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Maglumat</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Baha</value>
+  </data>
+  <data name="Add_f" xml:space="preserve">
+    <value>{0} Goş</value>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>Jemi satyşlar</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>Bilet</value>
+  </data>
+  <data name="EnterPin" xml:space="preserve">
+    <value>Kodyňyzy giriň</value>
+  </data>
+  <data name="GroupCode" xml:space="preserve">
+    <value>Toparyň kody</value>
+  </data>
+  <data name="LastOrderStatus" xml:space="preserve">
+    <value>Soňky zakazyň statusy (ýagdaýy)</value>
+  </data>
+  <data name="EndOfDayRecord" xml:space="preserve">
+    <value>Günüň soňunyň işi</value>
+  </data>
+  <data name="TicketNumber_f" xml:space="preserve">
+    <value>Bilet No : {0}</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Salgy (adres)</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>Umumy</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Ýatda sakla</value>
+  </data>
+  <data name="LastOrderDate" xml:space="preserve">
+    <value>Soňky zakazyň senesi</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>Kredit Kartasy</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Mukdar</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Girdeji</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="Calling" xml:space="preserve">
+    <value>Jaň edýär</value>
+  </data>
+  <data name="DeleteItemConfirmation_f" xml:space="preserve">
+    <value>{0} [{1}] öçürilsinmi?</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Tassyklama</value>
+  </data>
+  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
+    <value>Günüň soňundan soňky işleri öçürmek bolmaýar</value>
+  </data>
+</root>

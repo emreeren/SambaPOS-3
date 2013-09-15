@@ -170,7 +170,10 @@ Source: src\nl\Samba.Localization.resources.dll; DestDir: {app}\nl\; Flags: igno
 Source: src\he\Samba.Localization.resources.dll; DestDir: {app}\he\; Flags: ignoreversion
 Source: src\fr\Samba.Localization.resources.dll; DestDir: {app}\fr\; Flags: ignoreversion
 Source: src\ru-RU\Samba.Localization.resources.dll; DestDir: {app}\ru-RU\; Flags: ignoreversion
-
+Source: src\da\Samba.Localization.resources.dll; DestDir: {app}\da\; Flags: ignoreversion
+Source: src\fa\Samba.Localization.resources.dll; DestDir: {app}\fa\; Flags: ignoreversion
+Source: src\tk-TM\Samba.Localization.resources.dll; DestDir: {app}\tk-TM\; Flags: ignoreversion
+                                                              
 [Components]
 Name: pos; Description: Samba POS; Types: full compact custom; Flags: fixed
 Name: terminal; Description: {cm:handheld_terminal_app}; Languages: ; Types: full

@@ -313,6 +313,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Line to Text File.
+        /// </summary>
+        public static string AddLineToTextFile {
+            get {
+                return ResourceManager.GetString("AddLineToTextFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adding New {0}.
         /// </summary>
         public static string AddModel_f {
@@ -6860,6 +6869,15 @@ namespace Samba.Localization.Properties {
         public static string SearchString {
             get {
                 return ResourceManager.GetString("SearchString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Value Replace Pattern.
+        /// </summary>
+        public static string SearchValueReplacePattern {
+            get {
+                return ResourceManager.GetString("SearchValueReplacePattern", resourceCulture);
             }
         }
         

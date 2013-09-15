@@ -9,6 +9,7 @@ using Samba.Infrastructure.Settings;
 using Samba.Localization;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
+using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
 
@@ -16,10 +17,11 @@ namespace Samba.Modules.PosModule
 {
     public class OrderViewModel : ObservableObject
     {
-        public OrderViewModel(Order model, ICacheService cacheService)
+        public OrderViewModel(Order model, ICacheService cacheService, IApplicationState applicationState)
         {
             _model = model;
             _cacheService = cacheService;
+            _applicationState = applicationState;
             ResetSelectedQuantity();
             ItemSelectedCommand = new DelegateCommand<OrderViewModel>(OnItemSelected);
             UpdateItemColor();
@@ -34,6 +36,7 @@ namespace Samba.Modules.PosModule
 
         private readonly Order _model;
         private readonly ICacheService _cacheService;
+        private readonly IApplicationState _applicationState;
         public Order Model { get { return _model; } }
 
         public decimal Quantity
@@ -69,7 +72,7 @@ namespace Samba.Modules.PosModule
 
         public bool IsStateVisible { get { return !String.IsNullOrEmpty(State); } }
 
-        public string State { get { return Model.GetStateDesc(x => _cacheService.CanShowStateOnTicket(x.StateName, x.State)); } }
+        public string State { get { return Model.GetStateDesc(x => _applicationState.CurrentLoggedInUser.UserRole.IsAdmin || _cacheService.CanShowStateOnTicket(x.StateName, x.State)); } }
 
         public decimal SelectedQuantity { get { return Model.SelectedQuantity; } }
 

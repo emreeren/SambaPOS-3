@@ -220,7 +220,6 @@ html
             {
                 if (!CanReadVersionFromFile()) return DateTime.Now;
 
-                //2013-06-19 1415
                 var reg = new Regex(@"(\d\d\d\d)-(\d\d)-(\d\d) (\d\d)(\d\d)");
                 var match = reg.Match(GetVersionDat("VersionTime"));
 
@@ -236,7 +235,7 @@ html
         public static string AppName { get { return "SambaPOS3"; } }
 
         private static IList<string> _supportedLanguages;
-        public static IList<string> SupportedLanguages { get { return _supportedLanguages ?? (_supportedLanguages = new[] { "en", "tr", "it", "pt-BR", "hr", "ar", "hu", "es", "id", "el", "zh-CN", "de", "sq", "cs", "nl", "he", "fr", "ru-RU" }); } }
+        public static IList<string> SupportedLanguages { get { return _supportedLanguages ?? (_supportedLanguages = new[] { "en", "tr", "it", "pt-BR", "hr", "ar", "hu", "es", "id", "el", "zh-CN", "de", "sq", "cs", "nl", "he", "fr", "ru-RU", "da", "fa", "tk-TM" }); } }
 
         public static long CurrentDbVersion { get; set; }
 

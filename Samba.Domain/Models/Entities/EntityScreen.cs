@@ -20,6 +20,7 @@ namespace Samba.Domain.Models.Entities
         public string DisplayState { get; set; }
         public string StateFilter { get; set; }
         public bool AskTicketType { get; set; }
+        public string SearchValueReplacePattern { get; set; }
 
         private IList<EntityScreenMap> _entityScreenMaps;
         public virtual IList<EntityScreenMap> EntityScreenMaps

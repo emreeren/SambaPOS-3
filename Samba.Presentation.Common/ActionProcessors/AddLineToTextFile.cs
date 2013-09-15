@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using Samba.Localization.Properties;
 using Samba.Services;
 using Samba.Services.Common;
 
@@ -40,7 +41,7 @@ namespace Samba.Presentation.Common.ActionProcessors
 
         protected override string GetActionName()
         {
-            return "Add Line to Text File";
+            return Resources.AddLineToTextFile;
         }
 
         protected override string GetActionKey()
