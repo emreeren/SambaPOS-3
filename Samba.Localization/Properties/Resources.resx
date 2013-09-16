@@ -3535,4 +3535,10 @@ Error Message:
   <data name="ModifyVariable" xml:space="preserve">
     <value>Modify Variable</value>
   </data>
+  <data name="BatchEntityEditor" xml:space="preserve">
+    <value>Batch Entity Editor</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
 </root>

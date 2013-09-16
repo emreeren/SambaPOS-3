@@ -71,6 +71,10 @@
       <DependentUpon>EntityEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EntityEditorViewModel.cs" />
+    <Compile Include="BatchEntityEditorView.xaml.cs">
+      <DependentUpon>BatchEntityEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchEntityEditorViewModel.cs" />
     <Compile Include="EntityModule.cs" />
     <Compile Include="EntityScreenItemViewModel.cs" />
     <Compile Include="EntityScreenView.xaml.cs">
@@ -133,6 +137,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BatchEntityEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EntityScreenView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -169,6 +177,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lib\DataGridFilterLibrary\DataGridFilterLibrary.csproj">
+      <Project>{512fd53f-9ad1-46a1-a961-9fabdfad50c5}</Project>
+      <Name>DataGridFilterLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lib\FastButton\FastButton.csproj">
       <Project>{7519CB8C-3C25-4F74-8946-93ECB7450C31}</Project>
       <Name>FastButton</Name>

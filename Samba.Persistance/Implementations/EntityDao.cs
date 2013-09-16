@@ -138,6 +138,11 @@ namespace Samba.Persistance.Implementations
             }
         }
 
+        public Entity GetEntityByName(string entityName, int entityTypeId)
+        {
+            return Dao.Single<Entity>(x => x.Name == entityName && x.EntityTypeId == entityTypeId);
+        }
+
         public EntityStateValue UpdateEntityState(int entityId, string stateName, string state, string quantityExp)
         {
             return UpdateEntityStateEH(entityId, stateName, state, quantityExp, 0);

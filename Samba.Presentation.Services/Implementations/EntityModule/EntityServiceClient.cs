@@ -42,7 +42,16 @@ namespace Samba.Presentation.Services.Implementations.EntityModule
 
         public void UpdateEntityData(EntityType entityType, string entityName, string fieldName, string value)
         {
-            _entityDao.UpdateEntityData(entityType,entityName,fieldName,value);
+            _entityDao.UpdateEntityData(entityType, entityName, fieldName, value);
+        }
+
+        public void UpdateEntityState(string entityName, int entityTypeId, string stateName, string state, string quantityExp)
+        {
+            var entity = _entityDao.GetEntityByName(entityName, entityTypeId);
+            if (entity != null)
+            {
+                UpdateEntityState(entity.Id, entity.EntityTypeId, stateName, state, quantityExp);
+            }
         }
     }
 }

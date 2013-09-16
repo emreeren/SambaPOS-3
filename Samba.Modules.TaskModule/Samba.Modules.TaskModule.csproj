@@ -40,6 +40,10 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PropertyTools, Version=2012.4.14.1, Culture=neutral, PublicKeyToken=ea0c9f2b460934d0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Samba.Presentation\bin\Release\PropertyTools.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -58,6 +62,7 @@
       <DependentUpon>TaskTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaskTypeViewModel.cs" />
+    <Compile Include="Widgets\TaskEditor\TaskCommand.cs" />
     <Compile Include="Widgets\TaskEditor\TaskCustomFieldEditorModel.cs" />
     <Compile Include="Widgets\TaskEditor\TaskEditorWidgetSettings.cs" />
     <Compile Include="Widgets\TaskEditor\TaskViewModel.cs" />

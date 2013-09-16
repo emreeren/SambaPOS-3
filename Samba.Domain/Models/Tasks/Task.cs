@@ -21,19 +21,8 @@ namespace Samba.Domain.Models.Tasks
         public string Content { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
         public string CustomData { get; set; }
-
-        private bool _completed;
-        public bool Completed
-        {
-            get { return _completed; }
-            set
-            {
-                _completed = value;
-                EndDate = Completed ? DateTime.Now : StartDate;
-            }
-        }
+        public bool Completed { get; set; }
 
         private IList<TaskToken> _taskTokens;
         public virtual IList<TaskToken> TaskTokens
@@ -65,6 +54,12 @@ namespace Samba.Domain.Models.Tasks
         {
             var field = TaskCustomDataValues.FirstOrDefault(x => x.FieldName == fieldName);
             return field != null ? field.Value : "";
+        }
+
+        public void SetCompleted(bool completed)
+        {
+            Completed = completed;
+            EndDate = completed ? DateTime.Now : StartDate;
         }
     }
 

@@ -28,7 +28,7 @@ namespace Samba.Modules.EntityModule.ActionProcessors
 
         protected override object GetDefaultData()
         {
-            return new { EntityTypeName = "", EntityStateName = "", CurrentState = "", EntityState = "", QuantityExp = "" };
+            return new { EntityTypeName = "", EntityName = "", EntityStateName = "", CurrentState = "", EntityState = "", QuantityExp = "" };
         }
 
         protected override string GetActionName()
@@ -48,9 +48,21 @@ namespace Samba.Modules.EntityModule.ActionProcessors
             var stateName = actionData.GetAsString("EntityStateName");
             var state = actionData.GetAsString("EntityState");
             var quantityExp = actionData.GetAsString("QuantityExp");
+            var entityName = actionData.GetAsString("EntityName");
             if (state != null)
             {
-                if (entityId > 0 && entityTypeId > 0)
+                if (!string.IsNullOrWhiteSpace(entityName))
+                {
+                    if (entityTypeId == 0)
+                    {
+                        var entityTypeName = actionData.GetAsString("EntityTypeName");
+                        var entityType = _cacheService.GetEntityTypeByName(entityTypeName);
+                        if (entityType != null)
+                            entityTypeId = entityType.Id;
+                    }
+                    _entityServiceClient.UpdateEntityState(entityName, entityTypeId, stateName, state, quantityExp);
+                }
+                else if (entityId > 0 && entityTypeId > 0)
                 {
                     _entityServiceClient.UpdateEntityState(entityId, entityTypeId, stateName, state, quantityExp);
                 }

@@ -881,6 +881,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Batch Entity Editor.
+        /// </summary>
+        public static string BatchEntityEditor {
+            get {
+                return ResourceManager.GetString("BatchEntityEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price List Editor.
         /// </summary>
         public static string BatchPriceList {
@@ -6770,6 +6779,15 @@ namespace Samba.Localization.Properties {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Changes.
+        /// </summary>
+        public static string SaveChanges {
+            get {
+                return ResourceManager.GetString("SaveChanges", resourceCulture);
             }
         }
         

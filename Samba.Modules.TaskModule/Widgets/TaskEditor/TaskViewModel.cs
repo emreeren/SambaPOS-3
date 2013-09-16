@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Practices.Prism.Commands;
 using Samba.Domain.Models.Tasks;
 using Samba.Infrastructure.Messaging;
 using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
-using Samba.Presentation.Common.Widgets;
 using Samba.Services;
 
 namespace Samba.Modules.TaskModule.Widgets.TaskEditor
@@ -13,31 +13,21 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
     public class TaskViewModel : ObservableObject
     {
         private readonly TaskType _taskType;
-        private readonly IDiagram _widget;
+        private readonly TaskEditorViewModel _widget;
         private readonly IMessagingService _messagingService;
 
         public ICaptionCommand ToggleCompletedCommand { get; set; }
+        public DelegateCommand<string> ExecuteCommand { get; set; }
 
         public Task Model { get; set; }
-        public TaskViewModel(Task model, TaskType taskType, IDiagram widget, IMessagingService messagingService)
+        public TaskViewModel(Task model, TaskType taskType, TaskEditorViewModel widget, IMessagingService messagingService)
         {
             _taskType = taskType;
             _widget = widget;
             _messagingService = messagingService;
             Model = model;
             ToggleCompletedCommand = new CaptionCommand<string>("¨", OnToggleCompleted);
-        }
-
-        private void OnToggleCompleted(string obj)
-        {
-            IsCompleted = !IsCompleted;
-        }
-
-        public void Persist()
-        {
-            Model.LastUpdateTime = DateTime.Now;
-            _widget.Refresh();
-            _messagingService.SendMessage(Messages.WidgetRefreshMessage, _widget.CreatorName);
+            ExecuteCommand = new DelegateCommand<string>(OnCommandExecute);
         }
 
         public string IsCompletedCaption { get { return IsCompleted ? "þ" : "¨"; } }
@@ -46,7 +36,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
             get { return Model.Completed; }
             set
             {
-                Model.Completed = value;
+                Model.SetCompleted(value);
                 Persist();
                 RaisePropertyChanged(() => IsCompleted);
                 RaisePropertyChanged(() => IsCompletedCaption);
@@ -73,6 +63,9 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
             get { return _tokens ?? (_tokens = CreateTokens()); }
         }
 
+        private IEnumerable<string> _taskCommands;
+        public IEnumerable<string> TaskCommands { get { return _taskCommands ?? (_taskCommands = _widget.GetTaskCommandNames()); } }
+
         private IEnumerable<TaskTokenViewModel> CreateTokens()
         {
             return Content.Split(',').Select(CreateTaskTokenViewModel);
@@ -83,6 +76,26 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
             return Model.TaskTokens.Any(x => x.Value == part)
                 ? new TaskTokenViewModel(Model.TaskTokens.First(x => x.Value == part))
                 : new TaskTokenViewModel(new TaskToken { Caption = part.Trim() });
+        }
+
+        private void OnCommandExecute(string obj)
+        {
+            _widget.ExecuteTaskCommand(Model, obj);
+        }
+
+        private void OnToggleCompleted(string obj)
+        {
+            IsCompleted = !IsCompleted;
+            if (IsCompleted)
+                _widget.ExecuteTaskCompletedCommands(Model);
+            else _widget.ExecuteTaskCreateCommands(Model);
+        }
+
+        public void Persist()
+        {
+            Model.LastUpdateTime = DateTime.Now;
+            _widget.Refresh();
+            _messagingService.SendMessage(Messages.WidgetRefreshMessage, _widget.CreatorName);
         }
     }
 

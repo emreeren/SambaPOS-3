@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tasks;
+using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Helpers;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -12,11 +13,13 @@ using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 {
     public class TaskEditorViewModel : WidgetViewModel
     {
+        private readonly IApplicationState _applicationState;
         private readonly ITaskService _taskService;
         private readonly ICacheService _cacheService;
         private readonly IMessagingService _messagingService;
@@ -33,6 +36,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
             ICacheService cacheService, IMessagingService messagingService)
             : base(widget, applicationState)
         {
+            _applicationState = applicationState;
             _taskService = taskService;
             _cacheService = cacheService;
             _messagingService = messagingService;
@@ -54,6 +58,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         }
 
         private TaskType _taskType;
+        [Browsable(false)]
         public TaskType TaskType
         {
             get { return _taskType ?? (_taskType = _cacheService.GetTaskTypeByName(Settings.TaskTypeName)); }
@@ -79,23 +84,58 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 
         private void OnAddTask(string obj)
         {
-            if (!string.IsNullOrEmpty(NewTask) || CustomFields.Any(x => !string.IsNullOrEmpty(x.Value)))
+            if (!string.IsNullOrWhiteSpace(NewTask) || CustomFields.Any(x => !string.IsNullOrWhiteSpace(x.Value)))
             {
                 if (TaskTypeId == 0)
                 {
                     NewTask = "Can't add a task. Update Task Type from widget settings";
                     return;
                 }
-                var task = _taskService.AddNewTask(TaskTypeId, NewTask,CustomFields.ToDictionary(x=>x.Name,x=>x.Value));
+                var task = _taskService.AddNewTask(TaskTypeId, NewTask, CustomFields.ToDictionary(x => x.Name, x => x.Value));
                 foreach (var customField in CustomFields)
                 {
                     customField.Value = "";
                 }
                 var wm = new TaskViewModel(task, TaskType, this, _messagingService);
                 wm.Persist();
+                ExecuteTaskCreateCommands(task);
                 NewTask = "";
                 OnTaskAdded();
             }
+        }
+
+        public void ExecuteTaskCompletedCommands(Task task)
+        {
+            ExecuteCommands(Settings.TaskCompleteCommandList, task);
+        }
+
+        public void ExecuteTaskCreateCommands(Task task)
+        {
+            ExecuteCommands(Settings.TaskCreateCommandList, task);
+        }
+
+        public void ExecuteTaskCommand(Task task, string commandName)
+        {
+            var command = Settings.TaskCommandList.FirstOrDefault(x => x.DisplayName == commandName);
+            if (command != null) ExecuteCommand(task, command);
+        }
+
+        private void ExecuteCommands(IEnumerable<TaskCommand> commands, Task task)
+        {
+            foreach (var command in commands)
+            {
+                ExecuteCommand(task, command);
+            }
+        }
+
+        private void ExecuteCommand(Task task, TaskCommand command)
+        {
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
+                                          new
+                                              {
+                                                  AutomationCommandName = command.CommandName,
+                                                  CommandValue = command.GetCommandValue(task)
+                                              });
         }
 
         protected override object CreateSettingsObject()
@@ -123,11 +163,17 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
                     delegate
                     {
                         Tasks.Clear();
-                        Tasks.AddRange(tasks.OrderByDescending(x => x.Id).Select(x => new TaskViewModel(x, TaskType, this, _messagingService)));
+                        var sortedTasks = tasks.OrderBy(x => x.Completed).ThenByDescending(x => x.EndDate.Ticks);
+                        Tasks.AddRange(sortedTasks.Select(x => new TaskViewModel(x, TaskType, this, _messagingService)));
                     };
 
                 worker.RunWorkerAsync();
             }
+        }
+
+        public IEnumerable<string> GetTaskCommandNames()
+        {
+            return Settings.TaskCommandList.Select(x => x.DisplayName);
         }
     }
 }

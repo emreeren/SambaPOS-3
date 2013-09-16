@@ -31,6 +31,7 @@ namespace Samba.Modules.EntityModule
             AddDashboardCommand<EntityCollectionViewModelBase<EntityTypeViewModel, EntityType>>(Resources.EntityType.ToPlural(), Resources.Entities, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<EntityViewModel, Entity>>(Resources.Entity.ToPlural(), Resources.Entities, 40);
             AddDashboardCommand<EntityCollectionViewModelBase<EntityScreenViewModel, EntityScreen>>(Resources.EntityScreen.ToPlural(), Resources.Entities, 41);
+            AddDashboardCommand<BatchEntityEditorViewModel>(Resources.BatchEntityEditor, Resources.Entities, 40);
         }
 
         protected override void OnInitialization()
