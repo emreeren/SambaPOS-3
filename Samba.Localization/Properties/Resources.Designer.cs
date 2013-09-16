@@ -4737,6 +4737,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Modify Variable.
+        /// </summary>
+        public static string ModifyVariable {
+            get {
+                return ResourceManager.GetString("ModifyVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Month.
         /// </summary>
         public static string Month {

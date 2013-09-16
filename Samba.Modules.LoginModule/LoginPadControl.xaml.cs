@@ -35,7 +35,7 @@ namespace Samba.Modules.LoginModule
         {
             if (_pinValue == EmptyString)
                 PinValue = "";
-            return _pinValue.Length < 9;
+            return _pinValue.Length < 19;
         }
 
         public void UpdatePinValue(string value)

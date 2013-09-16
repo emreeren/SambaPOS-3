@@ -21,6 +21,14 @@ namespace Samba.Services.Common
             return ((IDictionary<string, object>)DataObject)[dataName].ToString();
         }
 
+        public void SetDataValue(string propertyName, string value)
+        {
+            if (!((IDictionary<string, object>)DataObject).ContainsKey(propertyName))
+                ((IDictionary<string, object>)DataObject).Add(propertyName, value);
+            else
+                ((IDictionary<string, object>)DataObject)[propertyName] = value;
+        }
+
         public int GetDataValueAsInt(string dataName)
         {
             int result;

@@ -3532,4 +3532,7 @@ Error Message:
   <data name="SearchValueReplacePattern" xml:space="preserve">
     <value>Search Value Replace Pattern</value>
   </data>
+  <data name="ModifyVariable" xml:space="preserve">
+    <value>Modify Variable</value>
+  </data>
 </root>

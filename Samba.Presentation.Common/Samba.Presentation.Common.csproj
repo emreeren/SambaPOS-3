@@ -106,6 +106,7 @@
     <Compile Include="ActionProcessors\AddLineToTextFile.cs" />
     <Compile Include="ActionProcessors\Helper.cs" />
     <Compile Include="ActionProcessors\LoopValues.cs" />
+    <Compile Include="ActionProcessors\ModifyVariable.cs" />
     <Compile Include="ActionProcessors\RefreshCache.cs" />
     <Compile Include="ActionProcessors\SendEmail.cs" />
     <Compile Include="ActionProcessors\SetActiveTicketType.cs" />
