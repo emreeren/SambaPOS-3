@@ -217,8 +217,12 @@ namespace Samba.Services.Implementations.PrinterModule.Tools
 
             var space = GetSpace(qrCodeData);
             qrCodeData = qrCodeData.TrimStart();
+            
+            if (size == 0) size = 6;
+            else size = (size * 2) + 1;
 
-            if (size == 0) size = 5;
+            if (ec > 0) ec--;
+
             var qrEncoder = new QrEncoder((ErrorCorrectionLevel)ec);
             var qrCode = qrEncoder.Encode(qrCodeData);
 

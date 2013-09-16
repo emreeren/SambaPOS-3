@@ -27,7 +27,7 @@ namespace Samba.Presentation.Common.ActionProcessors
                 else if (string.IsNullOrEmpty(find) && !string.IsNullOrEmpty(replace))
                     value = replace;
                 else if (!string.IsNullOrEmpty(find) && replace != null && Regex.IsMatch(value, find))
-                    value = Regex.Replace(variableName, find, replace);
+                    value = Regex.Replace(value, find, replace);
                 else if (!string.IsNullOrEmpty(find) && replace != null)
                     value = value.Replace(find, replace);
                 actionData.SetDataValue(variableName, value);
