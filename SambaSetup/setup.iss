@@ -150,6 +150,7 @@ Source: src\Gma.QrCodeNet.Encoding.Net35.dll; DestDir: {app}; Flags: ignoreversi
 Source: src\ICSharpCode.AvalonEdit.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\FluentScript.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\Stateless.dll; DestDir: {app}; Flags: ignoreversion
+Source: src\Zen.Barcode.Core.dll; DestDir: {app}; Flags: ignoreversion
 Source: src\migrate.txt; DestDir: {userappdata}\Ozgu Tech\SambaPOS3; Flags: ignoreversion
 Source: C:\Windows\Fonts\lucon.ttf; DestDir: {fonts}; Flags: onlyifdoesntexist uninsneveruninstall; FontInstall: Lucida Console
 Source: src\Samba.Localization.dll; DestDir: {app}; Flags: ignoreversion

@@ -253,6 +253,7 @@ copy "$(TargetDir)Omu.ValueInjecter.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)ICSharpCode.AvalonEdit.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)FluentMigrator.dll" "$(SolutionDir)SambaSetup\src"
 copy "$(TargetDir)FluentMigrator.Runner.dll" "$(SolutionDir)SambaSetup\src"
+copy "$(TargetDir)Zen.Barcode.Core.dll" "$(SolutionDir)SambaSetup\src"
 
 :End</PostBuildEvent>
   </PropertyGroup>
