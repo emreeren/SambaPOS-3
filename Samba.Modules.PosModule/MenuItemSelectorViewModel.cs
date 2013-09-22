@@ -51,7 +51,7 @@ namespace Samba.Modules.PosModule
         {
             get
             {
-                return SelectedCategory == null || SubCategories.Count == 1
+                return SelectedCategory == null || SubCategories.Count == 1 || _selectedCategory.SubButtonRows < 2
                     ? 1 : SelectedCategory.SubButtonRows;
             }
         }

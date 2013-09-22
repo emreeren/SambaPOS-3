@@ -20,7 +20,7 @@ namespace Samba.Modules.MenuModule
         [LocalizedDisplayName(ResourceStrings.Product)]
         public string MenuItemDisplayString
         {
-            get { return Name; }
+            get { return !string.IsNullOrEmpty( Name) ? Name.Replace("\\r"," "):""; }
         }
 
         [LocalizedDisplayName(ResourceStrings.SortOrder)]

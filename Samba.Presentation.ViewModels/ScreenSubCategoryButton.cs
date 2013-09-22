@@ -12,7 +12,7 @@ namespace Samba.Presentation.ViewModels
 
         private string GetCaption()
         {
-            return (BackButton ? "< " : "") + Name.Split(',').Last().Trim();
+            return (BackButton ? "< " : "") + Name.Split(',').Last().Trim().Replace("\\r", "\r");
         }
 
         public ICommand Command { get; set; }
