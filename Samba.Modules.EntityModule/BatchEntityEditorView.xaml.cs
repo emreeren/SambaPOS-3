@@ -29,7 +29,7 @@ namespace Samba.Modules.EntityModule
             var grid = sender as DataGrid;
             if (grid == null) return;
 
-            grid.Columns.Where(x => x.Header!=null && x.Header.ToString() != Samba.Localization.Properties.Resources.Name).ToList().ForEach(x => grid.Columns.Remove(x));
+            grid.Columns.Where(x => x.DisplayIndex > 1).ToList().ForEach(x => grid.Columns.Remove(x));
 
             var i = 0;
             var d = DataContext as BatchEntityEditorViewModel;

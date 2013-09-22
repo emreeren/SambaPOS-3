@@ -253,6 +253,9 @@
   <data name="WorkPeriodReport" xml:space="preserve">
     <value>Gün Sonu Raporu</value>
   </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Değişiklikleri Kaydet</value>
+  </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Eklemek istediğiniz kategorileri giriniz.</value>
   </data>
@@ -1250,6 +1253,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>Hareketler boş olmamalı</value>
   </data>
+  <data name="BatchEntityEditor" xml:space="preserve">
+    <value>Toplu Varlık Düzenleyici</value>
+  </data>
   <data name="GroupFooter" xml:space="preserve">
     <value>Grup Alt Bölümü</value>
   </data>
@@ -1323,7 +1329,7 @@ Gizlemek için pin kodunu değiştirin</value>
     <value>Adisyon Sayısı</value>
   </data>
   <data name="DefaultAmount" xml:space="preserve">
-    <value>Varsayılan Miktar</value>
+    <value>Varsayılan Tutar</value>
   </data>
   <data name="StartClientNow" xml:space="preserve">
     <value>İstemciyi Şimdi Başlat</value>
@@ -1339,6 +1345,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="AutomationCommandExecuted" xml:space="preserve">
     <value>Otomasyon Komutu Çalıştırıldı</value>
+  </data>
+  <data name="ShowOnEndOfDayReport" xml:space="preserve">
+    <value>GünSonu Raporuna Göster</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Kilitlenmemiş adisyon satırlarını taşıyabilir</value>
@@ -1434,7 +1443,7 @@ Gizlemek için pin kodunu değiştirin</value>
     <value>Önceki şablon tutarından oranla</value>
   </data>
   <data name="SellAmount" xml:space="preserve">
-    <value>Satış Miktarı</value>
+    <value>Satış Tutarı</value>
   </data>
   <data name="Increase" xml:space="preserve">
     <value>Arttır</value>
@@ -1503,6 +1512,9 @@ Gizlemek için pin kodunu değiştirin</value>
   <data name="Text" xml:space="preserve">
     <value>Text</value>
   </data>
+  <data name="AddLineToTextFile" xml:space="preserve">
+    <value>Text Dosyaya Satır Ekle</value>
+  </data>
   <data name="Ten" xml:space="preserve">
     <value>On</value>
   </data>
@@ -1526,6 +1538,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Thirteen" xml:space="preserve">
     <value>Onüç</value>
+  </data>
+  <data name="ModifyVariable" xml:space="preserve">
+    <value>Değişken Düzenleyici</value>
   </data>
   <data name="HideAccountsWithZeroBalance" xml:space="preserve">
     <value>Sıfır Bakiyeli Hesapları Gizle</value>
@@ -1745,6 +1760,9 @@ Gizlemek için pin kodunu değiştirin</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Onbeş</value>
+  </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Arama Değeri Desen D</value>
   </data>
   <data name="UpdateTicketStatus" xml:space="preserve">
     <value>Belge Durumunu Değiştir</value>
@@ -2239,6 +2257,9 @@ Hata Mesajı:
   <data name="Clone_f" xml:space="preserve">
     <value>{0} Kopyası Oluştur</value>
   </data>
+  <data name="OrderCount" xml:space="preserve">
+    <value>Sipariş Sayısı</value>
+  </data>
   <data name="Order" xml:space="preserve">
     <value>Sipariş</value>
   </data>
@@ -2298,6 +2319,9 @@ Hata Mesajı:
   </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Satır Karakter Sayısı</value>
+  </data>
+  <data name="RawPrinter" xml:space="preserve">
+    <value>RAW Yazıcı</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Güncelleme Şekli</value>
@@ -2636,6 +2660,9 @@ Kapat</value>
   <data name="TimeRounding" xml:space="preserve">
     <value>Süre Yuvarlama</value>
   </data>
+  <data name="ShowOnTicket" xml:space="preserve">
+    <value>Belgede Göster</value>
+  </data>
   <data name="Paid" xml:space="preserve">
     <value>Ödendi</value>
   </data>
@@ -2692,6 +2719,9 @@ Kapat</value>
   </data>
   <data name="Automation" xml:space="preserve">
     <value>Otomasyon</value>
+  </data>
+  <data name="CustomPrinter" xml:space="preserve">
+    <value>Özelleştirilebilir Yazıcı</value>
   </data>
   <data name="Trigger" xml:space="preserve">
     <value>Tetikleyici</value>
@@ -3028,7 +3058,7 @@ Açık adisyon varken gün sonu yapılamaz.</value>
     <value>Tek Seçim</value>
   </data>
   <data name="DecreaseAmount" xml:space="preserve">
-    <value>Miktarı Düşür</value>
+    <value>Tutarı Azalt</value>
   </data>
   <data name="PinCode" xml:space="preserve">
     <value>Pin Kodu</value>
@@ -3293,6 +3323,9 @@ Açık adisyon varken gün sonu yapılamaz.</value>
   </data>
   <data name="ExecuteScript" xml:space="preserve">
     <value>Script Çalıştır</value>
+  </data>
+  <data name="ShowOnProductReport" xml:space="preserve">
+    <value>Ürün Raporunda Göster</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>KDV Toplamı</value>

@@ -139,6 +139,6 @@ Error Message:
     <value>Connected</value>
   </data>
   <data name="MessageServerError" xml:space="preserve">
-    <value>Message Server Error</value>
+    <value>Message Server not Connected</value>
   </data>
 </root>

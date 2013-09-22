@@ -253,6 +253,9 @@
   <data name="WorkPeriodReport" xml:space="preserve">
     <value>Rapporto Periodo di Lavoro</value>
   </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Salva Modifiche</value>
+  </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Inserisci categorie che si desidera aggiungere</value>
   </data>
@@ -1248,6 +1251,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>Le operazioni non deve essere vuoto</value>
   </data>
+  <data name="BatchEntityEditor" xml:space="preserve">
+    <value>Entità Editor in Gruppo</value>
+  </data>
   <data name="GroupFooter" xml:space="preserve">
     <value>Piè di Pagina Gruppo</value>
   </data>
@@ -1503,6 +1509,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="Text" xml:space="preserve">
     <value>Testo</value>
   </data>
+  <data name="AddLineToTextFile" xml:space="preserve">
+    <value>Aggiungere una Riga al File di Testo</value>
+  </data>
   <data name="Ten" xml:space="preserve">
     <value>Dieci</value>
   </data>
@@ -1526,6 +1535,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="Thirteen" xml:space="preserve">
     <value>Tredici</value>
+  </data>
+  <data name="ModifyVariable" xml:space="preserve">
+    <value>Modifica Vabiabile</value>
   </data>
   <data name="HideAccountsWithZeroBalance" xml:space="preserve">
     <value>Nascondere gli Account con Saldo Zero</value>
@@ -2639,6 +2651,9 @@ Ticket</value>
   <data name="TimeRounding" xml:space="preserve">
     <value>Arrotondamento Tempo</value>
   </data>
+  <data name="ShowOnTicket" xml:space="preserve">
+    <value>Visualizza sul Ticket</value>
+  </data>
   <data name="Paid" xml:space="preserve">
     <value>Pagato</value>
   </data>
@@ -2695,6 +2710,9 @@ Ticket</value>
   </data>
   <data name="Automation" xml:space="preserve">
     <value>Automazione</value>
+  </data>
+  <data name="CustomPrinter" xml:space="preserve">
+    <value>Stampante Personalizzata</value>
   </data>
   <data name="Trigger" xml:space="preserve">
     <value>Attivo</value>
