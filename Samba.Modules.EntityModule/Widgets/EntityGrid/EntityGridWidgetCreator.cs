@@ -20,14 +20,17 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
         private readonly IAutomationDao _automationDao;
+        private readonly IPrinterService _printerService;
 
         [ImportingConstructor]
-        public EntityGridWidgetCreator(IEntityService entityService, IUserService userService, ICacheService cacheService, IAutomationDao automationDao)
+        public EntityGridWidgetCreator(IEntityService entityService, IUserService userService, ICacheService cacheService, 
+            IAutomationDao automationDao,IPrinterService printerService)
         {
             _entityService = entityService;
             _userService = userService;
             _cacheService = cacheService;
             _automationDao = automationDao;
+            _printerService = printerService;
         }
 
         public string GetCreatorName()
@@ -78,7 +81,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
 
         public IDiagram CreateWidgetViewModel(Widget widget, IApplicationState applicationState)
         {
-            return new EntityGridWidgetViewModel(widget, applicationState, _entityService, _userService, _cacheService, _automationDao);
+            return new EntityGridWidgetViewModel(widget, applicationState,_printerService, _entityService, _userService, _cacheService, _automationDao);
         }
     }
 }

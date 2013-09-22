@@ -34,16 +34,18 @@ namespace Samba.Modules.EntityModule
         private readonly IEntityService _entityService;
         private readonly IUserService _userService;
         private readonly ICacheService _cacheService;
+        private readonly IPrinterService _printerService;
         private OperationRequest<Entity> _currentOperationRequest;
 
         [ImportingConstructor]
         public EntitySelectorViewModel(IApplicationState applicationState, IEntityService entityService,
-            IUserService userService, ICacheService cacheService)
+            IUserService userService, ICacheService cacheService, IPrinterService printerService)
         {
             _applicationState = applicationState;
             _entityService = entityService;
             _userService = userService;
             _cacheService = cacheService;
+            _printerService = printerService;
 
             EntitySelectionCommand = new DelegateCommand<EntityScreenItemViewModel>(OnSelectEntityExecuted);
             IncPageNumberCommand = new CaptionCommand<string>(Resources.NextPage + " >>", OnIncPageNumber, CanIncPageNumber);
@@ -62,6 +64,7 @@ namespace Samba.Modules.EntityModule
         }
 
         public string AutomationCommandName { get; set; }
+        public string AutomationCommandValue { get; set; }
 
         public string StateFilter { get; set; }
 
@@ -97,6 +100,17 @@ namespace Samba.Modules.EntityModule
         {
             if (!string.IsNullOrWhiteSpace(AutomationCommandName))
             {
+                var commandValue = obj.Model.EntityState;
+                if (!string.IsNullOrWhiteSpace(AutomationCommandValue))
+                {
+                    commandValue = AutomationCommandValue;
+                    if (commandValue.Contains("{"))
+                    {
+                        var entity = _cacheService.GetEntityById(obj.Model.EntityId);
+                        commandValue = _printerService.ExecuteFunctions(commandValue, entity);
+                    }
+                }
+
                 _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
                                               new
                                                   {
@@ -104,7 +118,7 @@ namespace Samba.Modules.EntityModule
                                                       EntityId = obj.Model.EntityId,
                                                       EntityTypeId = SelectedEntityScreen.EntityTypeId,
                                                       AutomationCommandName = AutomationCommandName,
-                                                      CommandValue = obj.Model.EntityState
+                                                      CommandValue = commandValue
                                                   });
                 return;
             }

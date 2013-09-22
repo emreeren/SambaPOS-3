@@ -527,6 +527,7 @@ namespace Samba.Domain.Models.Tickets
 
         public string GetStateMinuteStr(string state)
         {
+
             var sv = GetStateValue(state);
             if (sv != null)
             {

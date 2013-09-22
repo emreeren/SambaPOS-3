@@ -20,14 +20,14 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
         private readonly ICacheService _cacheService;
         private readonly IAutomationDao _automationDao;
 
-        public EntityGridWidgetViewModel(Widget model, IApplicationState applicationState,
+        public EntityGridWidgetViewModel(Widget model, IApplicationState applicationState, IPrinterService printerService,
             IEntityService entityService, IUserService userService, ICacheService cacheService, IAutomationDao automationDao)
             : base(model, applicationState)
         {
             _applicationState = applicationState;
             _cacheService = cacheService;
             _automationDao = automationDao;
-            ResourceSelectorViewModel = new EntitySelectorViewModel(applicationState, entityService, userService, cacheService);
+            ResourceSelectorViewModel = new EntitySelectorViewModel(applicationState, entityService, userService, cacheService, printerService);
 
             EventServiceFactory.EventService.GetEvent<GenericEvent<WidgetEventData>>().Subscribe(
                 x =>
@@ -92,6 +92,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
             if (stateFilter == "*") stateFilter = "";
             ResourceSelectorViewModel.Refresh(EntityScreen, stateFilter, _request);
             ResourceSelectorViewModel.AutomationCommandName = Settings.AutomationCommandName;
+            ResourceSelectorViewModel.AutomationCommandValue = Settings.CommandValue;
         }
     }
 }

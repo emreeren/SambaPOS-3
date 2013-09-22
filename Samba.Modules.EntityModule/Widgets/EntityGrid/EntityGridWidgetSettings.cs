@@ -29,5 +29,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntityGrid
         {
             get { return _automationCommandNameValue??(_automationCommandNameValue=new NameWithValue()); }
         }
+
+        public string CommandValue { get; set; }
     }
 }
