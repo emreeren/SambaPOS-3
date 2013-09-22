@@ -101,7 +101,10 @@ namespace Samba.Modules.MenuModule
             get { return Model.SubMenuTag; }
             set
             {
-                Model.SubMenuTag = value.Trim(new[] { ' ', '\b' }); RaisePropertyChanged(() => Tag);
+                Model.SubMenuTag = value == null 
+                    ? "" 
+                    : value.Trim(new[] { ' ', '\b' });
+                RaisePropertyChanged(() => Tag);
             }
         }
 
