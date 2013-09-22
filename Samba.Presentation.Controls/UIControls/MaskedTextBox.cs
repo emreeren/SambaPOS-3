@@ -128,7 +128,7 @@ namespace Samba.Presentation.Controls.UIControls
 
         private void MaskedTextBoxLoaded(object sender, RoutedEventArgs e)
         {
-         
+            RefreshProvider();
         }
 
         private void RefreshProvider()
