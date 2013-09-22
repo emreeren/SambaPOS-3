@@ -26,7 +26,7 @@ namespace Samba.Services.Implementations.TicketModule
 
         private IEnumerable<string> CreateFilterTypes()
         {
-            var result = new List<string> { Resources.OnlyOpenTickets, Resources.AllTickets };
+            var result = new List<string> { Resources.OnlyOpenTickets, Resources.AllTickets, Resources.TicketNumber, Resources.TicketNote };
             _cacheService.GetEntityTypes().Select(x => x.EntityName).ToList().ForEach(result.Add);
             return result;
         }
@@ -53,6 +53,14 @@ namespace Samba.Services.Implementations.TicketModule
                     result = x => !x.IsClosed && x.Orders.Any(y => y.MenuItemName.ToLower().Contains(fv));
                 }
                 else result = x => !x.IsClosed;
+            else if (FilterType == Resources.TicketNumber)
+            {
+                result = x => x.TicketNumber != null && x.TicketNumber.ToLower() == fv;
+            }
+            else if (FilterType == Resources.TicketNote)
+            {
+                result = x => x.Note != null && x.Note.Contains(FilterValue);
+            }
             else
             {
                 var tid = 0;

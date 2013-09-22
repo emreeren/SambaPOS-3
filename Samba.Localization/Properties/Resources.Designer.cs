@@ -8116,7 +8116,7 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TicketNumber.
+        ///   Looks up a localized string similar to Ticket Number.
         /// </summary>
         public static string TicketNumber {
             get {

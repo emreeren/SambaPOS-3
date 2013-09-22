@@ -748,7 +748,7 @@ Changing PIN will hide this hint</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="TicketNumber" xml:space="preserve">
-    <value>TicketNumber</value>
+    <value>Ticket Number</value>
     <comment>Paragraph content</comment>
   </data>
   <data name="OptionalTicketTag" xml:space="preserve">
