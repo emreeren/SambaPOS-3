@@ -348,7 +348,7 @@ namespace Samba.Domain.Models.Tickets
         public decimal CalculateTax(decimal plainSum, decimal preTaxServices)
         {
             var result = Orders.Where(x => x.CalculatePrice).Sum(x => x.GetTotalTaxAmount(TaxIncluded, plainSum, preTaxServices));
-            return result;
+            return decimal.Round(result, LocalSettings.Decimals);
         }
 
         private decimal CalculateServices(IEnumerable<Calculation> calculations, decimal sum)

@@ -48,7 +48,10 @@ namespace Samba.Domain.Models.Tickets
                 else
                     result = (price * TaxRate) / (100 + totalRate);
             }
-            else if (TaxRate > 0) result = (price * TaxRate) / 100;
+            else if (TaxRate > 0)
+            {
+                result = (price * TaxRate) / 100;
+            }
             else result = 0;
             return result;
         }

@@ -9,5 +9,10 @@ namespace Samba.Domain.Models.Menus
         [StringLength(10)]
         public string PriceTag { get; set; }
         public decimal Price { get; set; }
+
+        public string GetTrimmedPriceTag()
+        {
+            return string.IsNullOrWhiteSpace(PriceTag) ? null : PriceTag;
+        }
     }
 }

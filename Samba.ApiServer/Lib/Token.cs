@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Settings;
-using Samba.Persistance.Data;
 
 namespace Samba.ApiServer.Lib
 {

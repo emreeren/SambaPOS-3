@@ -82,8 +82,8 @@ namespace Samba.Domain.Tests
                                              .Build();
 
             var localTax = TaxTemplateBuilder.Create("Local Tax").WithRate(3)
-                                             .AddTaxTemplateMap(new TaxTemplateMap {MenuItemId = Cola.Id})
-                                             .AddTaxTemplateMap(new TaxTemplateMap {MenuItemId = Beer.Id})
+                                             .AddTaxTemplateMap(new TaxTemplateMap { MenuItemId = Cola.Id })
+                                             .AddTaxTemplateMap(new TaxTemplateMap { MenuItemId = Beer.Id })
                                              .WithAccountTransactionType(localTaxTransactionType)
                                              .WithRounding(2)
                                              .Build();
@@ -329,6 +329,20 @@ namespace Samba.Domain.Tests
                 .Build();
             Assert.AreEqual(0, ticket.GetTaxTotal());
             Assert.AreEqual(0, ticket.TransactionDocument.AccountTransactions.Sum(x => x.Amount));
+        }
+
+        [Test]
+        public void CanCalculateSampleCase2()
+        {
+            var tax5 = TaxTemplateBuilder.Create("%5 Tax").WithRate(5)
+                                         .CreateAccountTransactionType().WithId(3).Do()
+                                         .WithRounding(0)
+                                         .Build();
+            var ticket = TicketBuilder.Create(TicketType, Department.Default).TaxExcluded()
+                    .AddOrderFor(Product).WithTaxTemplate(tax5).WithPrice(8.95m).WithQuantity(1).Do()
+                .Build();
+
+            Assert.AreEqual(9.40m, ticket.GetSum());
         }
 
         [Test]

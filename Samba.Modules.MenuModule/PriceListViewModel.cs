@@ -43,7 +43,7 @@ namespace Samba.Modules.MenuModule
             RaisePropertyChanged(() => Items);
         }
 
-        public IEnumerable<string> PriceTags { get { return Items.SelectMany(x => x.Model.Prices.Select(y => y.PriceTag)).Distinct(); } }
+        public IEnumerable<string> PriceTags { get { return Items.SelectMany(x => x.Model.Prices.Select(y => y.GetTrimmedPriceTag())).Distinct(); } }
 
         private ObservableCollection<PriceViewModel> CreateItems()
         {

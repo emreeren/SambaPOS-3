@@ -138,7 +138,7 @@ namespace Samba.Infrastructure.Helpers
         public static bool ValidateCheckDigit(string id)
         {
             if (id.Length < 2) return false;
-            var cd = Convert.ToInt32(id.Last());
+            var cd = Convert.ToInt32(id.Last().ToString());
             return cd == GenerateCheckDigit(id.Remove(id.Length - 1));
         }
 

@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Web.Http;
 using Samba.ApiServer.Lib;
 using Samba.ApiServer.Responses;
-using Samba.Domain.Models.Users;
-using Samba.Infrastructure.Settings;
 using Samba.Persistance;
 
 namespace Samba.ApiServer.Controllers
