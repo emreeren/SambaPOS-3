@@ -1,4 +1,6 @@
-﻿namespace Samba.Services.Implementations.PrinterModule.Formatters
+﻿using System.Globalization;
+
+namespace Samba.Services.Implementations.PrinterModule.Formatters
 {
     public abstract class AbstractLineFormatter : ILineFormatter
     {
@@ -37,6 +39,37 @@
             }
             result += label[label.Length - 1];
             return " " + result.Trim() + " ";
+        }
+
+        protected static int GetLength(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str)) return 0;
+            return new StringInfo(str).LengthInTextElements;
+        }
+
+        protected static string SubStr(string str, int length)
+        {
+            return new StringInfo(str).SubstringByTextElements(0, length);
+        }
+
+        protected static string ExpandStrRight(string str, int lenght)
+        {
+            str = str.Trim();
+            while (GetLength(str) < lenght)
+                str = str + " ";
+            return str;
+        }
+        protected static string ExpandStrLeft(string str, int lenght)
+        {
+            str = str.Trim();
+            while (GetLength(str) < lenght)
+                str = " " + str;
+            return str;
+        }
+
+        protected string GetStrAt(string str, int index)
+        {
+            return new StringInfo(str).SubstringByTextElements(index, 1);
         }
 
         public abstract string GetFormattedLine();

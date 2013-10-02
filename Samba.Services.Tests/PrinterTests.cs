@@ -9,6 +9,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Settings;
 using Samba.Persistance.Data;
+using Samba.Services.Implementations.PrinterModule.Formatters;
 using Samba.Services.Implementations.PrinterModule.PrintJobs;
 
 namespace Samba.Services.Tests
@@ -112,6 +113,95 @@ Pizza          10.00";
         {
             var textpj = new TextPrinterJob(new Printer());
             Assert.Throws<InvalidOperationException>(() => textpj.DoPrint(new FlowDocument(new Paragraph(new Run("text")))));
+        }
+
+        [Test]
+        public void CanCalculateLength()
+        {
+            var str = "ไม่เอาเห็ด";
+            var length = new StringInfo(str).LengthInTextElements;
+            Assert.AreEqual(8, length);
+
+            str = "123456";
+            length = new StringInfo(str).LengthInTextElements;
+            Assert.AreEqual(6, length);
+
+            str = "âl'a";
+            length = new StringInfo(str).LengthInTextElements;
+            Assert.AreEqual(4, length);
+        }
+
+        [Test]
+        public void UnicodeText_CanJustify_TextLengthHandled()
+        {
+            var str = "<j>ไม่เอาเห็ด|1";
+            var formatter = new JustifyAlignFormatter(str, 12, false, 0);
+            var r = formatter.GetFormattedLine();
+
+            Assert.AreEqual("ไม่เอาเห็ด   1", r);
+        }
+
+        [Test]
+        public void UnicodeText_CanJustifyMultipleParts_TextLengthHandled()
+        {
+            var str = "<j>ไม่เอาเห็ด|Blah|2";
+            var formatter = new JustifyAlignFormatter(str, 20, false, 0);
+            var r = formatter.GetFormattedLine();
+            Assert.AreEqual("ไม่เอาเห็ด       Blah2", r);
+        }       
+        
+        [Test]
+        public void UnicodeText_CanJustifyMultipleParts_TextLengthHandled2()
+        {
+            var str = "<j>ไม่เอาเห็ด|Blah|  2";
+            var formatter = new JustifyAlignFormatter(str, 22, false, 0);
+            var r = formatter.GetFormattedLine();
+            Assert.AreEqual("ไม่เอาเห็ด       Blah  2", r);
+        }
+        
+        [Test]
+        public void UnicodeText_CanJustifyMultipleParts_TextLengthHandled3()
+        {
+            var str = "<j>ไม่เอาเห็ด| Blah |   2";
+            var formatter = new JustifyAlignFormatter(str, 24, false, 0);
+            var r = formatter.GetFormattedLine();
+            Assert.AreEqual("ไม่เอาเห็ด        Blah   2", r);
+        }        
+        
+        [Test]
+        public void UnicodeText_CanJustifyMultipleParts_TextLengthHandled4()
+        {
+            var str = "<j>ไม่เอาเห็ด|Blah| 2";
+            var formatter = new JustifyAlignFormatter(str, 24, false, 0);
+            var r = formatter.GetFormattedLine();
+            Assert.AreEqual("ไม่เอาเห็ด          Blah 2", r);
+        }
+        
+        [Test]
+        public void UnicodeText_CanJustifyMultipleParts_TextLengthHandled5()
+        {
+            var str = "<j>ไม่เอาเห็ด|Blah| 2";
+            var formatter = new JustifyAlignFormatter(str, 15, false, 0);
+            var r = formatter.GetFormattedLine();
+            Assert.AreEqual("ไม่เอาเห็ด Blah 2", r);
+        }
+
+        [Test]
+        public void UnicodeText_CanJustifyMultipleParts_TextLengthHandled6()
+        {
+            var str = "<j>ไม่เอาเห็ด| Blah| 2";
+            var formatter = new JustifyAlignFormatter(str, 14, false, 0);
+            var r = formatter.GetFormattedLine();
+            Assert.AreEqual("ไม่เอาเห็ Blah 2", r);
+        }      
+        
+        [Test]
+        public void UnicodeText_CanJustifyMultipleParts_TextLengthHandled7()
+        {
+            var str = "<j>ไม่เอาเห็ด| Blah| 2";
+            var formatter = new JustifyAlignFormatter(str, 12, false, 0);
+            var r = formatter.GetFormattedLine();
+            Assert.AreEqual("ไม่เอา Blah 2", r);
         }
 
         private static Ticket PrepareTestTicket()

@@ -27,10 +27,10 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
             var parts = documnentLine.Split('|');
             if (columnWidths == null || columnWidths.Count() != parts.Length)
                 columnWidths = new int[parts.Count()];
-            for (int i = 0; i < parts.Length; i++)
+            for (int i = 0; i < parts.Count(); i++)
             {
-                if (columnWidths[i] < parts[i].Length)
-                    columnWidths[i] = parts[i].Length;
+                if (columnWidths[i] < GetLength(parts[i]))
+                    columnWidths[i] = GetLength(parts[i]);
             }
             return columnWidths;
         }
@@ -49,11 +49,11 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
             for (var i = parts.Length - 1; i > 0; i--)
             {
                 var l = columnWidths[i]; //columnWidths != null ? columnWidths[i] : parts[i].Length;
-                parts[i] = parts[i].Trim().PadLeft(l);
+                parts[i] = ExpandStrLeft(parts[i], l);
                 text = parts[i] + text;
             }
 
-            if (parts[0].Length > maxWidth)
+            if (GetLength(parts[0]) > maxWidth)
                 parts[0] = parts[0].Substring(0, maxWidth);
 
             if (canBreak && parts[0].Length + text.Length > maxWidth)
@@ -61,7 +61,12 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
                 return parts[0] + "\r" + text.PadLeft(maxWidth);
             }
 
-            return Merge(maxWidth, parts[0].PadRight(maxWidth - text.Length).Substring(0, maxWidth - text.Length), text);
+            return Merge(maxWidth, FixStr(parts[0], maxWidth - GetLength(text)), text);
+        }
+
+        private static string FixStr(string str, int lenght)
+        {
+            return SubStr(ExpandStrRight(str, lenght), lenght);
         }
 
         protected virtual string[] Split(string line)
@@ -107,10 +112,15 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
         public double ActualLength(string str)
         {
             double lenTotal = 0;
-            var n = str.Length;
+            var n = GetLength(str);
             for (var i = 0; i < n; i++)
             {
-                var strWord = str.Substring(i, 1);
+                var strWord = GetStrAt(str, i);
+                if (strWord.Length > 1)
+                {
+                    lenTotal++;
+                    continue;
+                }
                 int asc = Convert.ToChar(strWord);
                 if (asc == 9)
                 {
