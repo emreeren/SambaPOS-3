@@ -238,17 +238,17 @@ namespace Samba.Modules.PosModule
 
         private void OnExecuteAutomationCommand(CommandContainerButton obj)
         {
-            ExecuteAutomationCommand(obj.CommandContainer.AutomationCommand, obj.SelectedValue);
+            ExecuteAutomationCommand(obj.CommandContainer.AutomationCommand, obj.SelectedValue, obj.GetNextValue());
             obj.NextValue();
         }
 
-        private void ExecuteAutomationCommand(AutomationCommand automationCommand, string selectedValue)
+        private void ExecuteAutomationCommand(AutomationCommand automationCommand, string selectedValue, string nextValue)
         {
             if (!string.IsNullOrEmpty(automationCommand.Values) && !automationCommand.ToggleValues)
                 automationCommand.PublishEvent(EventTopicNames.SelectAutomationCommandValue);
             else
             {
-                ExecuteAutomationCommand(automationCommand.Name, selectedValue);
+                ExecuteAutomationCommand(automationCommand.Name, selectedValue, nextValue);
                 RefreshVisuals();
             }
         }
@@ -258,17 +258,17 @@ namespace Samba.Modules.PosModule
             if (obj.Topic == EventTopicNames.HandlerRequested)
             {
                 EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
-                ExecuteAutomationCommand(obj.Value.AutomationCommand, "");
+                ExecuteAutomationCommand(obj.Value.AutomationCommand, "", "");
             }
         }
 
         private void OnAutomationCommandValueSelected(EventParameters<AutomationCommandValueData> obj)
         {
-            ExecuteAutomationCommand(obj.Value.AutomationCommand.Name, obj.Value.Value);
+            ExecuteAutomationCommand(obj.Value.AutomationCommand.Name, obj.Value.Value, "");
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.RefreshSelectedTicket);
         }
 
-        private void ExecuteAutomationCommand(string automationCommandName, string automationCommandValue)
+        private void ExecuteAutomationCommand(string automationCommandName, string automationCommandValue, string nextCommandValue)
         {
             if (SelectedOrders.Any())
             {
@@ -280,7 +280,8 @@ namespace Samba.Modules.PosModule
                                                           Ticket = SelectedTicket,
                                                           Order = selectedOrder,
                                                           AutomationCommandName = automationCommandName,
-                                                          CommandValue = automationCommandValue
+                                                          CommandValue = automationCommandValue,
+                                                          NextCommandValue = nextCommandValue
                                                       });
                 }
             }
@@ -291,7 +292,8 @@ namespace Samba.Modules.PosModule
                                                   {
                                                       Ticket = SelectedTicket,
                                                       AutomationCommandName = automationCommandName,
-                                                      CommandValue = automationCommandValue
+                                                      CommandValue = automationCommandValue,
+                                                      NextCommandValue = nextCommandValue
                                                   });
             }
             _ticketOrdersViewModel.SelectedTicket = SelectedTicket;

@@ -53,9 +53,14 @@ namespace Samba.Modules.PosModule
         {
             if (Values.Count > 1 && _commandContainer.AutomationCommand.ToggleValues)
             {
-                SelectedValue = Values[(Values.IndexOf(SelectedValue) + 1) % Values.Count];
+                SelectedValue = GetNextValue();
             }
             RaisePropertyChanged(() => Display);
+        }
+
+        internal string GetNextValue()
+        {
+            return Values[(Values.IndexOf(SelectedValue) + 1) % Values.Count];
         }
     }
 }
