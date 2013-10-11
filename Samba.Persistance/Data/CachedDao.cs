@@ -5,6 +5,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Omu.ValueInjecter;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Injection;
+using Samba.Infrastructure.Data.Validation;
 
 namespace Samba.Persistance.Data
 {

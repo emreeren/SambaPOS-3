@@ -1,7 +1,7 @@
 ﻿using System;
 using Samba.Localization.Properties;
 
-namespace Samba.Infrastructure.Data
+namespace Samba.Infrastructure.Data.Validation
 {
     public abstract class SpecificationValidator<T> where T : class
     {

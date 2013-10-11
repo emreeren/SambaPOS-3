@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Validation;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 

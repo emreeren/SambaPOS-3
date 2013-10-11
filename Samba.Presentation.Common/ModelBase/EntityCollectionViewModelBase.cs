@@ -10,6 +10,7 @@ using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.ServiceLocation;
 using Samba.Infrastructure.Data;
 using Samba.Infrastructure.Data.Serializer;
+using Samba.Infrastructure.Data.Validation;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
@@ -260,7 +261,7 @@ namespace Samba.Presentation.Common.ModelBase
         {
             var duplicate = ObjectCloner.EntityClone(SelectedItem.Model);
             duplicate.Id = 0;
-            IdFixer.FixEntityIdNumber(duplicate, x => 0);
+            EntityIdFixer.FixEntityIdNumber(duplicate, x => 0);
             duplicate.Name = "_" + duplicate.Name;
             VisibleViewModelBase wm = InternalCreateNewViewModel(duplicate);
             if (wm != null) OpenViewModels.Add(wm as EntityViewModelBase<TModel>);

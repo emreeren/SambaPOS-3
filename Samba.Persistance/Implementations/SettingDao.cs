@@ -4,6 +4,7 @@ using System.Data.Entity.Infrastructure;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Validation;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 

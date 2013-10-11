@@ -117,6 +117,7 @@
     <Compile Include="ElementSpy.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="ModelBase\EntityCollectionSortManager.cs" />
+    <Compile Include="ModelBase\EntityIdFixer.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RegionService.cs" />
     <Compile Include="Widgets\WidgetEventData.cs" />

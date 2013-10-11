@@ -9,4 +9,17 @@ namespace Samba.Infrastructure.Data
 
         void Initialize();
     }
+
+    public abstract class AbstractMap : ValueClass, IAbstractMapModel
+    {
+        public int TerminalId { get; set; }
+        public int DepartmentId { get; set; }
+        public int UserRoleId { get; set; }
+        public int TicketTypeId { get; set; }
+
+        public virtual void Initialize()
+        {
+            // Override for default values;
+        }
+    }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Omu.ValueInjecter;
 using Samba.Domain.Models.Tasks;
-using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Injection;
 using Samba.Persistance;
 using Samba.Persistance.Data;
 

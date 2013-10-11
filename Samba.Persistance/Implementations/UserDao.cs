@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using Samba.Domain.Models.Tickets;
 using Samba.Domain.Models.Users;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Validation;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 

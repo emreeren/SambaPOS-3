@@ -11,6 +11,7 @@ using Samba.Domain.Models.Menus;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Injection;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Presentation.Common.Commands;

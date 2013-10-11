@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Omu.ValueInjecter;
 
-namespace Samba.Infrastructure.Data
+namespace Samba.Infrastructure.Data.Injection
 {
     public class CloneInjection : ConventionInjection
     {
@@ -29,7 +28,7 @@ namespace Samba.Infrastructure.Data
                 for (int index = 0; index < arr.Length; index++)
                 {
                     var a = arr.GetValue(index);
-                    if (a.GetType().IsValueType || a.GetType() == typeof(string)) continue;
+                    if (a.GetType().IsValueType || a is string) continue;
                     clone.SetValue(Activator.CreateInstance(a.GetType()).InjectFrom<CloneInjection>(a), index);
                 }
                 return clone;

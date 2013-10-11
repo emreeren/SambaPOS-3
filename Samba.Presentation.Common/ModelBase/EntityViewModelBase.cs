@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using FluentValidation;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Validation;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services.Common;

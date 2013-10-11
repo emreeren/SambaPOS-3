@@ -7,6 +7,7 @@ using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Validation;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 using Samba.Persistance.Specification;

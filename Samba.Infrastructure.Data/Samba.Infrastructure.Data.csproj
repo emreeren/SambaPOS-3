@@ -80,12 +80,14 @@
     <Compile Include="BinarySerializer\IStorage.cs" />
     <Compile Include="BinarySerializer\SerializationUnits.cs" />
     <Compile Include="BinarySerializer\SilverlightSerializer.cs" />
-    <Compile Include="CloneInjection.cs" />
-    <Compile Include="DictionaryByType.cs" />
-    <Compile Include="EntityInjection.cs" />
+    <Compile Include="IEntityClass.cs" />
+    <Compile Include="Injection\CloneInjection.cs" />
+    <Compile Include="CollectionIdUpdater.cs" />
+    <Compile Include="IValueClass.cs" />
+    <Compile Include="Validation\DictionaryByType.cs" />
+    <Compile Include="Injection\EntityInjection.cs" />
     <Compile Include="IAbstractMapModel.cs" />
     <Compile Include="ICacheable.cs" />
-    <Compile Include="IEntity.cs" />
     <Compile Include="IEntityCreator.cs" />
     <Compile Include="IOrderable.cs" />
     <Compile Include="IReadOnlyWorkspace.cs" />
@@ -99,14 +101,14 @@
     <Compile Include="Serializer\XmlSerializationHelpers.cs" />
     <Compile Include="Serializer\XmlSerializationTag.cs" />
     <Compile Include="Serializer\XmlSerializerHelper.cs" />
-    <Compile Include="SpecificationValidator.cs" />
+    <Compile Include="Validation\SpecificationValidator.cs" />
     <Compile Include="SQL\CommonDbContext.cs" />
     <Compile Include="SQL\EFWorkspace.cs" />
     <Compile Include="SQL\ReadOnlyEFWorkspace.cs" />
     <Compile Include="Text\DataStorage.cs" />
-    <Compile Include="IdFixer.cs" />
+    <Compile Include="Text\IdFixer.cs" />
     <Compile Include="Text\TextFileWorkspace.cs" />
-    <Compile Include="ValidatorRegistry.cs" />
+    <Compile Include="Validation\ValidatorRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Samba.Infrastructure\Samba.Infrastructure.csproj">

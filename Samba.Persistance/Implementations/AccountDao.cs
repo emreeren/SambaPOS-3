@@ -7,6 +7,7 @@ using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Validation;
 using Samba.Localization.Properties;
 using Samba.Persistance.Common;
 using Samba.Persistance.Data;

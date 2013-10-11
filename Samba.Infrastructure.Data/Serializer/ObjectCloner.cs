@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 using Omu.ValueInjecter;
+using Samba.Infrastructure.Data.Injection;
 
 namespace Samba.Infrastructure.Data.Serializer
 {

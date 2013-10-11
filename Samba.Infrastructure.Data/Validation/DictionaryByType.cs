@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Samba.Infrastructure.Data
+namespace Samba.Infrastructure.Data.Validation
 {
     public class DictionaryByType
     {

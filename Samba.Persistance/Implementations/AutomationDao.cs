@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Samba.Domain.Models.Automation;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Validation;
 using Samba.Localization.Properties;
 using Samba.Persistance.Data;
 

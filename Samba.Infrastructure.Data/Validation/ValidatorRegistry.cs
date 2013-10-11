@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Samba.Infrastructure.Data
+namespace Samba.Infrastructure.Data.Validation
 {
     public static class ValidatorRegistry
     {

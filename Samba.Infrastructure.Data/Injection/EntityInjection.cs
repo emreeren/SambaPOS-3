@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Omu.ValueInjecter;
 
-namespace Samba.Infrastructure.Data
+namespace Samba.Infrastructure.Data.Injection
 {
     public class EntityInjection : ConventionInjection
     {

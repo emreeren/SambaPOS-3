@@ -6,6 +6,7 @@ using System.Linq;
 using Omu.ValueInjecter;
 using Samba.Domain.Models.Accounts;
 using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Injection;
 using Samba.Localization.Properties;
 using Samba.Persistance;
 using Samba.Presentation.Common.Commands;

@@ -1,4 +1,5 @@
 ﻿using Samba.Infrastructure.Data;
+using Samba.Infrastructure.Data.Validation;
 
 namespace Samba.Persistance.Specification
 {
