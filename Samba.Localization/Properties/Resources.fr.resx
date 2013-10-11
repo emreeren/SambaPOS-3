@@ -442,9 +442,6 @@
   <data name="OrderTag" xml:space="preserve">
     <value>Trier par Balise</value>
   </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>Nom du Rôle</value>
-  </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>Aucun mouvement de coût dans cette période.</value>
   </data>
@@ -693,9 +690,6 @@ La modification du code PIN permet de masquer cette astuce</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Une fois par jour</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Mode Création</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Remise totale</value>
   </data>
@@ -926,6 +920,9 @@ La modification du code PIN permet de masquer cette astuce</value>
   </data>
   <data name="Terminal" xml:space="preserve">
     <value>Terminal</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>ticket modifié. Vos dernières modifications non pas étés enregistrées.</value>
@@ -1666,8 +1663,8 @@ Continuer sans ajouter de détails?</value>
   <data name="TicketRemainingAmount" xml:space="preserve">
     <value>Montant restant Ticket</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
+  <data name="RoleName" xml:space="preserve">
+    <value>Nom du Rôle</value>
   </data>
   <data name="FileName" xml:space="preserve">
     <value>Nom du fichier</value>
@@ -2190,8 +2187,8 @@ Impossible de mettre fin à la période de travail alors que des tickets sont en
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Texte rédigé valeur totale</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>Numéro de ticket</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Mode Création</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Chaque minute</value>

@@ -541,9 +541,6 @@
   <data name="OrderTag" xml:space="preserve">
     <value>Тег заказа</value>
   </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>Имя роли</value>
-  </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>Реализации за данную смену отсутствуют</value>
   </data>
@@ -848,9 +845,6 @@
   </data>
   <data name="OnceADay" xml:space="preserve">
     <value>Раз в день</value>
-  </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Режим конструктора</value>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Скидка Всего</value>
@@ -1166,6 +1160,9 @@
   </data>
   <data name="Terminal" xml:space="preserve">
     <value>Терминал</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>ОК</value>
   </data>
   <data name="Rule_f" xml:space="preserve">
     <value>Правило {0}</value>
@@ -2206,8 +2203,8 @@
   <data name="TicketRemainingAmount" xml:space="preserve">
     <value>Сумма отложенных Чеков</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>ОК</value>
+  <data name="RoleName" xml:space="preserve">
+    <value>Имя роли</value>
   </data>
   <data name="FileName" xml:space="preserve">
     <value>Имя файла</value>
@@ -2897,8 +2894,8 @@
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Прописью итого</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>Номер Чека</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Режим конструктора</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Каждую минуту</value>

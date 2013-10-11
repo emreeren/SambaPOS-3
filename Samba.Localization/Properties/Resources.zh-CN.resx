@@ -474,9 +474,6 @@
   <data name="OrderState" xml:space="preserve">
     <value>订单状态</value>
   </data>
-  <data name="RemoveOrderTag" xml:space="preserve">
-    <value>去除订单标签</value>
-  </data>
   <data name="DeleteErrorAdminUser" xml:space="preserve">
     <value>无法删除管理员。</value>
   </data>
@@ -488,10 +485,6 @@
   </data>
   <data name="OrderTag" xml:space="preserve">
     <value>订单标签</value>
-  </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>
-劫色名称</value>
   </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>在此工作期间无成本交易。</value>
@@ -768,8 +761,8 @@
   <data name="OnceADay" xml:space="preserve">
     <value>一天一次</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>设计模式</value>
+  <data name="RemoveOrderTag" xml:space="preserve">
+    <value>去除订单标签</value>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>折扣总计</value>
@@ -1037,6 +1030,9 @@
   </data>
   <data name="Terminal" xml:space="preserve">
     <value>终端</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="Rule_f" xml:space="preserve">
     <value>{0}规则</value>
@@ -1915,8 +1911,9 @@
   <data name="TicketRemainingAmount" xml:space="preserve">
     <value>未付金额</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
+  <data name="RoleName" xml:space="preserve">
+    <value>
+劫色名称</value>
   </data>
   <data name="FileName" xml:space="preserve">
     <value>文件名称</value>
@@ -2515,8 +2512,8 @@
   <data name="ProductProperties" xml:space="preserve">
     <value>产品属性</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>票据号码</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>设计模式</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>每分钟</value>

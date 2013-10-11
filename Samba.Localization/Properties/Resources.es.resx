@@ -897,9 +897,6 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Una vez al día</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Modo de diseño</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Descuento total</value>
   </data>
@@ -3133,8 +3130,8 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Valor total escrito en letras</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>NumeroRecibo</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Modo de diseño</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Cada minuto</value>

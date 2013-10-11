@@ -906,9 +906,6 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Einmal am Tag</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Design-Modus</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Rabatt gesamt</value>
   </data>
@@ -3169,8 +3166,8 @@ Die Arbeitszeit kann nicht beendet werden.</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Gesamtbetrag als Text geschrieben</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>Belegnummer</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Design-Modus</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Jede Minute</value>

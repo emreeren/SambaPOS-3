@@ -3295,7 +3295,7 @@ Açık adisyon varken gün sonu yapılamaz.</value>
     <value>Yazıyla genel toplam</value>
   </data>
   <data name="TicketNumber" xml:space="preserve">
-    <value>Adisyon Numarası</value>
+    <value>Belge Numarası</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Her dakika</value>

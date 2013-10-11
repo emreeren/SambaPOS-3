@@ -493,9 +493,6 @@
   <data name="ResetAccount" xml:space="preserve">
     <value>Limpar Conta</value>
   </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>Nome da Função</value>
-  </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>Não há transações dos custos neste período de trabalho.</value>
   </data>
@@ -777,9 +774,6 @@ Alterar PIN vai esconder essa dica </value>
   <data name="OnceADay" xml:space="preserve">
     <value>Uma vez por dia</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Modo de Design</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Total de desconto</value>
   </data>
@@ -966,6 +960,9 @@ Alterar PIN vai esconder essa dica </value>
   <data name="Million" xml:space="preserve">
     <value>Milhão</value>
   </data>
+  <data name="MenuItemName" xml:space="preserve">
+    <value>Nome do item de menu</value>
+  </data>
   <data name="Eighty" xml:space="preserve">
     <value>Oitenta</value>
   </data>
@@ -1064,6 +1061,9 @@ Alterar PIN vai esconder essa dica </value>
   </data>
   <data name="Terminal" xml:space="preserve">
     <value>Terminal</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="MaxQuantity" xml:space="preserve">
     <value>Máx. Quantidade</value>
@@ -1957,8 +1957,8 @@ Continuar sem acrescentar detalhes? </value>
   <data name="TicketRemainingAmount" xml:space="preserve">
     <value>Valor do Ticket Restante</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
+  <data name="RoleName" xml:space="preserve">
+    <value>Nome da Função</value>
   </data>
   <data name="FileName" xml:space="preserve">
     <value>Nome do arquivo</value>
@@ -2007,9 +2007,6 @@ Continuar sem acrescentar detalhes? </value>
   </data>
   <data name="NumeratorValue" xml:space="preserve">
     <value>Valor do numerador</value>
-  </data>
-  <data name="AccountTransaction" xml:space="preserve">
-    <value>Transação de Conta</value>
   </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Seg sex através</value>
@@ -2165,8 +2162,8 @@ Ticket </value>
   <data name="InStock" xml:space="preserve">
     <value>Em estoque</value>
   </data>
-  <data name="MenuItemName" xml:space="preserve">
-    <value>Nome do item de menu</value>
+  <data name="AccountTransaction" xml:space="preserve">
+    <value>Transação de Conta</value>
   </data>
   <data name="SearchString" xml:space="preserve">
     <value>Procurar Texto</value>
@@ -2586,8 +2583,8 @@ Não é possível acabar com período de trabalho, porque tem tickets abertos </
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Texto escrito valor total</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>Número do ticket</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Modo de Design</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>A cada minuto</value>

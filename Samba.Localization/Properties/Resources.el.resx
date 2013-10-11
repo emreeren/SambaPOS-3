@@ -436,9 +436,6 @@
   <data name="ResetAccount" xml:space="preserve">
     <value>Επαναφορά λογαριασμού</value>
   </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>Όνομα Ρόλος</value>
-  </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>Δεν υπάρχουν συναλλαγές κόστος σε αυτή την περίοδο εργασίας.</value>
   </data>
@@ -674,9 +671,6 @@
   </data>
   <data name="OnceADay" xml:space="preserve">
     <value>Μία φορά την ημέρα</value>
-  </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Κατάσταση σχεδίασης</value>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Σύνολο Έκπτωση</value>
@@ -923,6 +917,9 @@
   </data>
   <data name="Terminal" xml:space="preserve">
     <value>Τερματικό</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>ΟΚ</value>
   </data>
   <data name="MaxQuantity" xml:space="preserve">
     <value>Ποσότητα</value>
@@ -1688,8 +1685,8 @@
   <data name="TicketRemainingAmount" xml:space="preserve">
     <value>Υπόλοιπο ποσό αγοράς εισιτηρίων</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>ΟΚ</value>
+  <data name="RoleName" xml:space="preserve">
+    <value>Όνομα Ρόλος</value>
   </data>
   <data name="FileName" xml:space="preserve">
     <value>Όνομα αρχείου</value>
@@ -2199,8 +2196,8 @@
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Κείμενο γραμμένο συνολική αξία</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>TicketNumber</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Κατάσταση σχεδίασης</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Κάθε λεπτό</value>

@@ -777,9 +777,6 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Jednom dnevno</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Uređivački mod</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Total popusta</value>
   </data>
@@ -2590,8 +2587,8 @@ Can't end Work Period while tickets open</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Text written total value</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>Broj kartice</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Uređivački mod</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Svaku minutu</value>

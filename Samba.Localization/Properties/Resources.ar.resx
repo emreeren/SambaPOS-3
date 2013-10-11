@@ -859,9 +859,6 @@
   <data name="OnceADay" xml:space="preserve">
     <value>مرة في اليوم</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>نمط التصميم</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>مجموع التخفيض</value>
   </data>
@@ -2964,8 +2961,8 @@
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>نص مكتوب القيمة الإجمالية</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>رقم التذكرة</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>نمط التصميم</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>كل دقيقة</value>

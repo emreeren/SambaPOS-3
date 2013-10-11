@@ -514,9 +514,6 @@
   <data name="OrderTag" xml:space="preserve">
     <value>Štítek Objednávky</value>
   </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>Název role</value>
-  </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>Neexistují žádné transakční náklady v této pracovní době.</value>
   </data>
@@ -812,9 +809,6 @@ Změnou PIN zmizí tato hláška.</value>
   </data>
   <data name="OnceADay" xml:space="preserve">
     <value>Jednou za den</value>
-  </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Režim návrhu</value>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Celková sleva</value>
@@ -1127,6 +1121,9 @@ Změnou PIN zmizí tato hláška.</value>
   </data>
   <data name="Terminal" xml:space="preserve">
     <value>Terminál</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="BeforeTicketClosing" xml:space="preserve">
     <value>Před Zavřením Účtenky</value>
@@ -2080,8 +2077,8 @@ Pokračovat bez přidání podrobnosti?</value>
   <data name="TicketRemainingAmount" xml:space="preserve">
     <value>Částka na zbývajících účtech</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>OK</value>
+  <data name="RoleName" xml:space="preserve">
+    <value>Název role</value>
   </data>
   <data name="FileName" xml:space="preserve">
     <value>Název souboru</value>
@@ -2736,8 +2733,8 @@ Nelze ukončit pracovní dobu, pokud jsou otevřené účty.</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Text psaný k celkové hodnotě</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>Číslo účtu</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Režim návrhu</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Každou minutu</value>

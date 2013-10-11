@@ -942,9 +942,6 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Sehari sekali</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Mode Desain</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Total Diskon</value>
   </data>
@@ -3267,8 +3264,8 @@ Periode Kerja tidak dapat diakhiri karena masih ada Tiket yang terbuka</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Nilai Total Terbilang dalam kata-kata</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>NomorTiket</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Mode Desain</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Setiap menit</value>

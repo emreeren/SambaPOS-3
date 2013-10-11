@@ -867,9 +867,6 @@ Veranderen van PIN zal deze hint verbergen</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Keer per dag</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Ontwerpmodus</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Korting Totaal</value>
   </data>
@@ -2985,8 +2982,8 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Tekst geschreven totale waarde</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>Bonnummer</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Ontwerpmodus</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Elke minuut</value>

@@ -135,6 +135,9 @@
   <data name="DisplayTicket" xml:space="preserve">
     <value>Blokk megjelenítése</value>
   </data>
+  <data name="Matches" xml:space="preserve">
+    <value>Egyezés</value>
+  </data>
   <data name="Print" xml:space="preserve">
     <value>Nyomtat</value>
   </data>
@@ -160,6 +163,9 @@
   <data name="Currency" xml:space="preserve">
     <value>Pénznem</value>
   </data>
+  <data name="NumberpadValueEntered" xml:space="preserve">
+    <value>Numerikus tábla Érték megadva</value>
+  </data>
   <data name="ButtonColor" xml:space="preserve">
     <value>Gomb színe</value>
   </data>
@@ -171,6 +177,9 @@
   </data>
   <data name="TagValue" xml:space="preserve">
     <value>Címke érték</value>
+  </data>
+  <data name="Date_f" xml:space="preserve">
+    <value>{0} Dátum</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>KÖR</value>
@@ -205,17 +214,26 @@
   <data name="UserRoleList" xml:space="preserve">
     <value>Szerepkör-lista</value>
   </data>
+  <data name="UpdateOrderGiftState" xml:space="preserve">
+    <value>Frissítsd az Ajándék rendelés állapotát</value>
+  </data>
   <data name="ClearFilter" xml:space="preserve">
     <value>Szűrő törlése</value>
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
     <value>Árlista módosítása</value>
   </data>
+  <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
+    <value>Konyhai rendelés Nyomtatás végrehajtás</value>
+  </data>
   <data name="Warehouse" xml:space="preserve">
     <value>Raktár</value>
   </data>
   <data name="CustomerReceiptTemplate" xml:space="preserve">
     <value>Vásárlói nyugta sablon</value>
+  </data>
+  <data name="MatchesAny" xml:space="preserve">
+    <value>Bármilyen egyezés</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Összes bevétel</value>
@@ -283,6 +301,9 @@
   <data name="Account" xml:space="preserve">
     <value>Számla</value>
   </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>Az eszköz feladat létrehozva </value>
+  </data>
   <data name="Liability" xml:space="preserve">
     <value>Szállítók (kötelezettségek)</value>
   </data>
@@ -331,6 +352,9 @@
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Tulajdonság csoportnév</value>
   </data>
+  <data name="PrintAccountTransactions" xml:space="preserve">
+    <value>Fiók Tranzakciók nyomtatása</value>
+  </data>
   <data name="AddModel_f" xml:space="preserve">
     <value>Új {0} hozzáadása</value>
   </data>
@@ -367,6 +391,9 @@
   <data name="Every3Hours" xml:space="preserve">
     <value>3 óránként</value>
   </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Parancs Paraméter</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Cím</value>
   </data>
@@ -381,6 +408,9 @@
   </data>
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Konyhai nyomtató</value>
+  </data>
+  <data name="InventoryCalculationError" xml:space="preserve">
+    <value>Leltár számítási hibát generált. Ellenőrizze a recepteket.</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Beállítások</value>
@@ -406,6 +436,9 @@
   <data name="Recipe" xml:space="preserve">
     <value>Recept</value>
   </data>
+  <data name="Website" xml:space="preserve">
+    <value>Web oldal</value>
+  </data>
   <data name="CurrentCost" xml:space="preserve">
     <value>Jelenlegi költség</value>
   </data>
@@ -415,11 +448,17 @@
   <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
     <value>Megjelenítheti más felhasználók blokkjait</value>
   </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>Fizetési lehetőség</value>
+  </data>
   <data name="AccountNameTemplate" xml:space="preserve">
     <value>Számlanév-sablon</value>
   </data>
   <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
     <value>Adósablononkénti összesítő sorok</value>
+  </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Elválasztott nyomtatás mennyiséggel</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Mégse</value>
@@ -441,6 +480,9 @@
   </data>
   <data name="CustomerTickets" xml:space="preserve">
     <value>Vevői Blokkok</value>
+  </data>
+  <data name="SelectAutomationCommand" xml:space="preserve">
+    <value>Automatizálási parancs kiválasztása</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Termék időzítő</value>
@@ -469,11 +511,17 @@
   <data name="OnceAMonth" xml:space="preserve">
     <value>Havonta egyszer</value>
   </data>
+  <data name="QuantitySeparators" xml:space="preserve">
+    <value>Mennyiségi Elválasztó </value>
+  </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Egységár</value>
   </data>
   <data name="UiLanguage" xml:space="preserve">
     <value>UI nyelv</value>
+  </data>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Megrendelés Mozgatás</value>
   </data>
   <data name="Action" xml:space="preserve">
     <value>Művelet</value>
@@ -519,6 +567,12 @@
   </data>
   <data name="ProductList" xml:space="preserve">
     <value>Termék lista</value>
+  </data>
+  <data name="MatchesMod10" xml:space="preserve">
+    <value>Egyezés Mod 10</value>
+  </data>
+  <data name="DisplayOnCommandSelector" xml:space="preserve">
+    <value>Mutasd a parancs választóban</value>
   </data>
   <data name="AlphanumericButtonValues" xml:space="preserve">
     <value>Alfanumerikus gomb értékek</value>
@@ -609,6 +663,9 @@
   </data>
   <data name="LastOrderStatus" xml:space="preserve">
     <value>Utolsó rendelés státusza</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Dokumentáció</value>
   </data>
   <data name="Thirty" xml:space="preserve">
     <value>Harminc</value>
@@ -740,11 +797,17 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
   <data name="Credit" xml:space="preserve">
     <value>Hitel</value>
   </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Hozzáfűzés feltérképezetlen elemekhez</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>Vissza</value>
   </data>
   <data name="OrderNumerator" xml:space="preserve">
     <value>Rendelési számláló</value>
+  </data>
+  <data name="Time_f" xml:space="preserve">
+    <value>{0} Idő</value>
   </data>
   <data name="IncreaseInventory" xml:space="preserve">
     <value>Árukészlet növelése</value>
@@ -800,6 +863,9 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
   <data name="Warehouses" xml:space="preserve">
     <value>Raktárak</value>
   </data>
+  <data name="MatchesAll" xml:space="preserve">
+    <value>Mind egyezik</value>
+  </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Ingyen címkék mentése</value>
   </data>
@@ -811,6 +877,9 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
   </data>
   <data name="CanRemoveTicketTag" xml:space="preserve">
     <value>Blokk-címkét eltávolíthat</value>
+  </data>
+  <data name="SubButtonColorDef" xml:space="preserve">
+    <value>Rész Gomb Színe</value>
   </data>
   <data name="CashTransactions" xml:space="preserve">
     <value>Készpénzes tranzakciók</value>
@@ -839,6 +908,9 @@ Indul: {1} nap {2} óra {3} perc múlva.</value>
   <data name="TransactionMultiplierError" xml:space="preserve">
     <value>A tranzakció szorzó nem lehet nulla</value>
   </data>
+  <data name="AccountBalanceDisplayFormat" xml:space="preserve">
+    <value>Számlaegyenleg Látható Formátuma</value>
+  </data>
   <data name="Costs" xml:space="preserve">
     <value>Költségek</value>
   </data>
@@ -860,9 +932,6 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="OnceADay" xml:space="preserve">
     <value>Naponta egyszer</value>
-  </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Tervező mód</value>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Kedvezmény összesen</value>
@@ -900,6 +969,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="CategoryProperties" xml:space="preserve">
     <value>Kategória tulajdonságai</value>
   </data>
+  <data name="ToggleCalculation" xml:space="preserve">
+    <value>Váltási kalkuláció</value>
+  </data>
   <data name="LineItemPrice" xml:space="preserve">
     <value># sor: Elem ár</value>
   </data>
@@ -911,6 +983,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="Rule_f" xml:space="preserve">
     <value> {0} Szabály</value>
+  </data>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Blokk kifizetés</value>
   </data>
   <data name="PrinterOptions" xml:space="preserve">
     <value>Nyomtató beállítások</value>
@@ -933,6 +1008,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="Categories" xml:space="preserve">
     <value>Kategóriák</value>
   </data>
+  <data name="NotMatches" xml:space="preserve">
+    <value>Nincs Egyezés</value>
+  </data>
   <data name="SettlePermissions" xml:space="preserve">
     <value>Fizettetési engedélyek</value>
   </data>
@@ -948,6 +1026,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="Numeric" xml:space="preserve">
     <value>Numerikus</value>
   </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Jelenlegi Terminál beállítása</value>
+  </data>
   <data name="SubTags" xml:space="preserve">
     <value>Al-címkék</value>
   </data>
@@ -962,6 +1043,12 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Terméknév</value>
+  </data>
+  <data name="SettledBy_f" xml:space="preserve">
+    <value>Elrendezés {0}</value>
+  </data>
+  <data name="CantComplateOperationError" xml:space="preserve">
+    <value>Nem tudja befejezni a műveletet, mert a hiba keletkezett . Ellenőrizze error log fájlt a részletekért.</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
     <value>NE FELEJTSE EL LEZÁRNI A MŰSZAKOT</value>
@@ -984,6 +1071,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="Product" xml:space="preserve">
     <value>Termék</value>
   </data>
+  <data name="PrimaryFieldFormat" xml:space="preserve">
+    <value>Elsődleges mező formátuma</value>
+  </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
     <value>A kijelölt elemek törlése</value>
   </data>
@@ -998,6 +1088,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="QuantityTotal" xml:space="preserve">
     <value>Teljes mennyiség</value>
+  </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Hiányzó Receptek</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Engedélyek</value>
@@ -1037,6 +1130,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="NoTransactionsFoundFor_f" xml:space="preserve">
     <value>Nincs tranzakció ehhez: {0}</value>
+  </data>
+  <data name="PrimaryFieldName" xml:space="preserve">
+    <value>Elsődleges mező neve</value>
   </data>
   <data name="CanChangeDepartment" xml:space="preserve">
     <value>Részleget változtathat</value>
@@ -1104,6 +1200,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="UnlocksOrder" xml:space="preserve">
     <value>Rendelés feloldáas</value>
   </data>
+  <data name="PrintAccountScreen" xml:space="preserve">
+    <value>Fiók Nézet nyomtatás</value>
+  </data>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Kedvezmény hozzáadása a Blokkhoz</value>
   </data>
@@ -1125,6 +1224,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>{0} nem törölhető, mert egy {1} használja</value>
   </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Tartalmazza</value>
+  </data>
   <data name="BeforeTicketClosing" xml:space="preserve">
     <value>Blokk zárását megelőzően</value>
   </data>
@@ -1140,11 +1242,17 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="Duration" xml:space="preserve">
     <value>Időtartam</value>
   </data>
+  <data name="UpdateAvailableEntityColor" xml:space="preserve">
+    <value>Frissítsd az Elérhető Egység színét</value>
+  </data>
   <data name="Minute" xml:space="preserve">
     <value>Perc</value>
   </data>
   <data name="OptionalTicketTag" xml:space="preserve">
     <value>Választható Blokk Címke</value>
+  </data>
+  <data name="NotMatchesAll" xml:space="preserve">
+    <value>Semmivel Sem egyezik</value>
   </data>
   <data name="TicketCount" xml:space="preserve">
     <value>Blokk-számláló</value>
@@ -1206,6 +1314,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>Számláló magassága</value>
   </data>
+  <data name="Service" xml:space="preserve">
+    <value>Szervíz</value>
+  </data>
   <data name="Receiveable" xml:space="preserve">
     <value>Vevők (követelések)</value>
   </data>
@@ -1223,6 +1334,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="New" xml:space="preserve">
     <value>Új</value>
+  </data>
+  <data name="ExecuteRuleIf" xml:space="preserve">
+    <value>Végrehajtja a szabályt, ha</value>
   </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Blokk zárolása</value>
@@ -1274,6 +1388,12 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="ReleaseLock" xml:space="preserve">
     <value>Zár feloldása</value>
+  </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>Felhasználó adatai</value>
+  </data>
+  <data name="SetWidgetValue" xml:space="preserve">
+    <value>Állítsa be Widget Értékét</value>
   </data>
   <data name="Sales" xml:space="preserve">
     <value>Eladás</value>
@@ -1359,6 +1479,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="ButtonHeight" xml:space="preserve">
     <value>Gomb magasság</value>
   </data>
+  <data name="UpdateEntityData" xml:space="preserve">
+    <value>Egység adat frissítés</value>
+  </data>
   <data name="Cash" xml:space="preserve">
     <value>Készpénz</value>
   </data>
@@ -1377,8 +1500,14 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Rendelések nyomtatása a konyhai nyomtatóra</value>
   </data>
+  <data name="AccountTransactionAddedToTicket" xml:space="preserve">
+    <value>Számla Tranzakció Hozzáadva a Blokkhoz</value>
+  </data>
   <data name="Noon" xml:space="preserve">
     <value>délben</value>
+  </data>
+  <data name="Greater" xml:space="preserve">
+    <value>Nagyobb</value>
   </data>
   <data name="Sixteen" xml:space="preserve">
     <value>Tizenhat</value>
@@ -1391,6 +1520,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="GroupCode" xml:space="preserve">
     <value>Csoport kód</value>
+  </data>
+  <data name="Less" xml:space="preserve">
+    <value>Kisebb</value>
   </data>
   <data name="Tickets" xml:space="preserve">
     <value>Blokkok</value>
@@ -1424,6 +1556,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="DisplayAtPaymentScreen" xml:space="preserve">
     <value>Megjelenítés a fizetés képernyőn</value>
+  </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>Nyomtat {0}</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Figyelmeztetés</value>
@@ -1482,6 +1617,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="From" xml:space="preserve">
     <value>Feladó:</value>
   </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Sorrend váltás Megrendelés</value>
+  </data>
   <data name="One" xml:space="preserve">
     <value>Egy</value>
   </data>
@@ -1518,6 +1656,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Blokk nyomtató</value>
   </data>
+  <data name="IndividualOrdersByQuantity" xml:space="preserve">
+    <value>Egyedi megrendeléseket mennyiséggel</value>
+  </data>
   <data name="Amount" xml:space="preserve">
     <value>Összeg</value>
   </data>
@@ -1548,6 +1689,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="PageCount" xml:space="preserve">
     <value>Oldal számláló</value>
   </data>
+  <data name="MenuItemGroupCode" xml:space="preserve">
+    <value>Menü Tételek Csoport Kódja</value>
+  </data>
   <data name="Two" xml:space="preserve">
     <value>Két</value>
   </data>
@@ -1568,6 +1712,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Belép</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>Nem Egyenlő</value>
   </data>
   <data name="FastMenu" xml:space="preserve">
     <value>Gyors étlap</value>
@@ -1628,6 +1775,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="DayOperations" xml:space="preserve">
     <value>Műszakok</value>
+  </data>
+  <data name="ModifyOrder" xml:space="preserve">
+    <value>Rendelés Módosítása </value>
   </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Egyedi Blokk Azonosító</value>
@@ -1758,11 +1908,20 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   <data name="RateOrAmount" xml:space="preserve">
     <value>Százalék vagy összeg</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Elérhető</value>
+  </data>
   <data name="Parameters" xml:space="preserve">
     <value>Paraméterek</value>
   </data>
+  <data name="Wiki" xml:space="preserve">
+    <value>Wiki</value>
+  </data>
   <data name="Transaction" xml:space="preserve">
     <value>Tranzakció</value>
+  </data>
+  <data name="StartProcess" xml:space="preserve">
+    <value>Folyamat indítása</value>
   </data>
   <data name="EntityType" xml:space="preserve">
     <value>Egység típusa</value>
@@ -1891,8 +2050,14 @@ Hibaüzenet:
   <data name="Departments" xml:space="preserve">
     <value>Részlegek</value>
   </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Szükséges Receptek</value>
+  </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Nyomtató megosztási neve / port neve</value>
+  </data>
+  <data name="LengthEquals" xml:space="preserve">
+    <value>hosszú egyenlő</value>
   </data>
   <data name="OrderStateUpdated" xml:space="preserve">
     <value>Rendelési állapot frissítve</value>
@@ -1930,6 +2095,9 @@ Hibaüzenet:
   <data name="FontSize" xml:space="preserve">
     <value>Betűméret</value>
   </data>
+  <data name="BillRequested" xml:space="preserve">
+    <value>Számla Megkövetelés</value>
+  </data>
   <data name="ImagePath" xml:space="preserve">
     <value>Kép útvonal</value>
   </data>
@@ -1953,6 +2121,9 @@ Hibaüzenet:
   </data>
   <data name="AutoRefreshInterval" xml:space="preserve">
     <value>Automatikus frissítési időköz</value>
+  </data>
+  <data name="UpdateMovedEntityColor" xml:space="preserve">
+    <value>Frissítsd az Áthelyezett Egység színét</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Igen</value>
@@ -1983,6 +2154,9 @@ Hibaüzenet:
   </data>
   <data name="ExecutePowershellScript" xml:space="preserve">
     <value>Futtatni a Powershell parancsfájlt</value>
+  </data>
+  <data name="Ends" xml:space="preserve">
+    <value>Befejeződik</value>
   </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>Blokk száma: {0}</value>
@@ -2050,6 +2224,9 @@ Hibaüzenet:
   <data name="NewProperty" xml:space="preserve">
     <value>Új tulajdonság</value>
   </data>
+  <data name="OrderCancelled" xml:space="preserve">
+    <value>Megrendelés törölve</value>
+  </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Egy sorban megjelenő karakterek száma</value>
   </data>
@@ -2091,6 +2268,9 @@ Hibaüzenet:
   </data>
   <data name="TicketNumerator" xml:space="preserve">
     <value>Blokk számláló</value>
+  </data>
+  <data name="Update_f" xml:space="preserve">
+    <value>Frissít {0}</value>
   </data>
   <data name="Eighteen" xml:space="preserve">
     <value>Tizennyolc</value>
@@ -2209,6 +2389,9 @@ Hibaüzenet:
   <data name="EntityScreens" xml:space="preserve">
     <value>Egység képernyők</value>
   </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Rendelés Állapota</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
@@ -2296,6 +2479,9 @@ Hibaüzenet:
   <data name="AccountTransaction" xml:space="preserve">
     <value>Számla tranzakció</value>
   </data>
+  <data name="Development" xml:space="preserve">
+    <value>Fejlesztés</value>
+  </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Hétfőtől péntekig</value>
   </data>
@@ -2317,6 +2503,9 @@ Hibaüzenet:
   <data name="Every15Minutes" xml:space="preserve">
     <value>15 percenként</value>
   </data>
+  <data name="TicketPaymentCheck" xml:space="preserve">
+    <value>Blokk Kifizetés Ellenőrzés</value>
+  </data>
   <data name="LastOrderDuration" xml:space="preserve">
     <value>Utolsó rendelés óta eltelt idő</value>
   </data>
@@ -2337,6 +2526,9 @@ Hibaüzenet:
   </data>
   <data name="Excluded" xml:space="preserve">
     <value>Kizárva</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Kérdés</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Előző</value>
@@ -2398,6 +2590,9 @@ Hibaüzenet:
   <data name="CategoryProducts" xml:space="preserve">
     <value>Kategória termékei</value>
   </data>
+  <data name="DisplayTicketLog" xml:space="preserve">
+    <value>Blokk Log Mutatása</value>
+  </data>
   <data name="LinesGroupedByGroupCode" xml:space="preserve">
     <value>Sorok csoportosítása a Csoport-kód alapján</value>
   </data>
@@ -2437,14 +2632,29 @@ Hibaüzenet:
   <data name="AutoRounding" xml:space="preserve">
     <value>Auto-kerekítés</value>
   </data>
+  <data name="LoadLastOrder" xml:space="preserve">
+    <value>Utolsó rendelés betöltése</value>
+  </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Teljes munkaidő: {0:0} óra {1:0} perc</value>
+  </data>
+  <data name="UpdateNewOrderEntityColor" xml:space="preserve">
+    <value> Frissítsd az Új rendelés Egység színét</value>
+  </data>
+  <data name="AddTicketLog" xml:space="preserve">
+    <value>Blokk Log hozzáadása</value>
   </data>
   <data name="CostReport" xml:space="preserve">
     <value>Költség-jelentés</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Esemény neve</value>
+  </data>
+  <data name="NewOrderAddingRule" xml:space="preserve">
+    <value>Új Rendelés Hozzáadási Szabály</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Egyenlő</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Karaktertábla kódja</value>
@@ -2505,6 +2715,9 @@ Hibaüzenet:
   </data>
   <data name="WindowsPrinter" xml:space="preserve">
     <value>A Windows-nyomtató</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Fórum</value>
   </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Blokk megjegyzés</value>
@@ -2587,6 +2800,9 @@ Hibaüzenet:
   <data name="TicketsMerged" xml:space="preserve">
     <value>Blokkok egyesítve</value>
   </data>
+  <data name="NewTicketCreatingRule" xml:space="preserve">
+    <value>Új blokk Készítési szabály</value>
+  </data>
   <data name="SortType" xml:space="preserve">
     <value>Rendezés típusa</value>
   </data>
@@ -2602,6 +2818,9 @@ Hibaüzenet:
   <data name="ExecutePrintJob" xml:space="preserve">
     <value>Nyomtatási feladat végrehajtása</value>
   </data>
+  <data name="NotMatchesAny" xml:space="preserve">
+    <value>Nem egyezik egyik sem</value>
+  </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Számítás módja</value>
   </data>
@@ -2616,6 +2835,9 @@ Hibaüzenet:
   </data>
   <data name="Month" xml:space="preserve">
     <value>Hónap</value>
+  </data>
+  <data name="Starts" xml:space="preserve">
+    <value>Kezdődik</value>
   </data>
   <data name="TicketEntityChanged" xml:space="preserve">
     <value>Blokk Egység megváltoztatva</value>
@@ -2637,6 +2859,9 @@ Hibaüzenet:
   </data>
   <data name="StateController" xml:space="preserve">
     <value>Állapot vezérlő</value>
+  </data>
+  <data name="ValueLooped" xml:space="preserve">
+    <value>Érték Kapcsolva</value>
   </data>
   <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
     <value>Jegy címkék nevének egyedinek kell lennie</value>
@@ -2664,6 +2889,9 @@ Hibaüzenet:
   </data>
   <data name="OrderUntagged" xml:space="preserve">
     <value>Rendelés Cimkétlenítve</value>
+  </data>
+  <data name="SubButtonRows" xml:space="preserve">
+    <value>Rész Gomb sor</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Üzenet</value>
@@ -2732,6 +2960,9 @@ Amíg nyitott blokk van, nem lehet műszakot zárni!</value>
   <data name="PinCode" xml:space="preserve">
     <value>Pin kód</value>
   </data>
+  <data name="ExecutePrintBillJob" xml:space="preserve">
+    <value>Számla Nyomtatás végrehajtás</value>
+  </data>
   <data name="DiscountPercentSign" xml:space="preserve">
     <value>Kedvezmény%</value>
   </data>
@@ -2774,6 +3005,9 @@ Amíg nyitott blokk van, nem lehet műszakot zárni!</value>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>A múltbéli zárás adatok nem törölhetőek</value>
   </data>
+  <data name="LoopValues" xml:space="preserve">
+    <value>Kapcsolati Érték</value>
+  </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Régi Blokkokat megjeleníthet</value>
   </data>
@@ -2785,6 +3019,9 @@ Amíg nyitott blokk van, nem lehet műszakot zárni!</value>
   </data>
   <data name="Ninety" xml:space="preserve">
     <value>Kilencven</value>
+  </data>
+  <data name="DisplayUnderTicketRow2" xml:space="preserve">
+    <value>Mutasd a blokk alatt a 2. sort</value>
   </data>
   <data name="DefaultTargetAccount" xml:space="preserve">
     <value>Alapértelmezett célszámla</value>
@@ -2906,6 +3143,9 @@ Amíg nyitott blokk van, nem lehet műszakot zárni!</value>
   <data name="DisplayAsTree" xml:space="preserve">
     <value>Megjelenítés "fa" alakban</value>
   </data>
+  <data name="Find_f" xml:space="preserve">
+    <value>Keresés {0}</value>
+  </data>
   <data name="Tags" xml:space="preserve">
     <value>Címkék</value>
   </data>
@@ -2948,8 +3188,8 @@ Amíg nyitott blokk van, nem lehet műszakot zárni!</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Végösszeg betűvel</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>BlokkSzám</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Tervező mód</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Minden perc</value>

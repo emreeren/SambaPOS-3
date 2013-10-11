@@ -945,9 +945,6 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Una volta al giorno</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Modalità di progettazione</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Sconto Totale</value>
   </data>
@@ -3285,8 +3282,8 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Testo scritto valore totale</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>TicketNumber</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Modalità di progettazione</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Ogni minuto</value>

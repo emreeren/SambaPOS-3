@@ -424,9 +424,6 @@
   <data name="OrderTag" xml:space="preserve">
     <value>Porosia e Etiketes</value>
   </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>Emri Roli</value>
-  </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>Nuk ka kosto të transaksioneve në këtë periudhë pune.</value>
   </data>
@@ -663,9 +660,6 @@ Ndryshimi i PIN-it do të fsheh këtë informacion</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Një herë në ditë</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Mode dizajn</value>
-  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Total Discount</value>
   </data>
@@ -890,6 +884,9 @@ Ndryshimi i PIN-it do të fsheh këtë informacion</value>
   </data>
   <data name="Terminal" xml:space="preserve">
     <value>Terminal</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>Në rregull</value>
   </data>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>Bileta ndryshuar. Ndryshimet e tua e fundit nuk ruhen.</value>
@@ -1609,8 +1606,8 @@ Vazhdoni pa shtuar detaje?</value>
   <data name="TicketRemainingAmount" xml:space="preserve">
     <value>Shuma e mbetur Ticket</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>Në rregull</value>
+  <data name="RoleName" xml:space="preserve">
+    <value>Emri Roli</value>
   </data>
   <data name="FileName" xml:space="preserve">
     <value>File Name</value>
@@ -2106,8 +2103,8 @@ Nuk mund të përfundojë Periudha e punës, ndërsa bileta e hapur</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Vlera e shkruar tekstin e përgjithshme</value>
   </data>
-  <data name="TicketNumber" xml:space="preserve">
-    <value>TicketNumber</value>
+  <data name="EditMode" xml:space="preserve">
+    <value>Mode dizajn</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Çdo minutë</value>
