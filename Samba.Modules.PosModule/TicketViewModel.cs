@@ -459,6 +459,8 @@ namespace Samba.Modules.PosModule
             SelectedTicket.UnLock();
             _ticketOrdersViewModel.Refresh();
             _allAutomationCommands = null;
+            _entityButtons = null;
+            RaisePropertyChanged(() => EntityButtons);
             RefreshVisuals();
         }
 
