@@ -3541,4 +3541,7 @@ Error Message:
   <data name="SaveChanges" xml:space="preserve">
     <value>Save Changes</value>
   </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parameter [{0}] should not start or end with space.</value>
+  </data>
 </root>

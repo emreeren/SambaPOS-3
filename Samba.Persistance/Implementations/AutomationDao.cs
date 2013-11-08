@@ -16,6 +16,7 @@ namespace Samba.Persistance.Implementations
         public AutomationDao()
         {
             ValidatorRegistry.RegisterDeleteValidator<AppAction>(x => Dao.Exists<ActionContainer>(y => y.AppActionId == x.Id), Resources.Action, Resources.Rule);
+            ValidatorRegistry.RegisterSaveValidator(new AppActionSaveValidator());
         }
 
         public Dictionary<string, string> GetScripts()
@@ -31,6 +32,22 @@ namespace Samba.Persistance.Implementations
         public IEnumerable<string> GetAutomationCommandNames()
         {
             return Dao.Distinct<AutomationCommand>(x => x.Name);
+        }
+    }
+
+    internal class AppActionSaveValidator : SpecificationValidator<AppAction>
+    {
+        public override string GetErrorMessage(AppAction model)
+        {
+            if (model.Parameters.Values
+                .Where(x => x != null)
+                .Where(x => !string.IsNullOrEmpty(x.Trim()))
+                .Any(x => x.EndsWith(" ") || x.StartsWith(" ")))
+            {
+                var pair = model.Parameters.First(x => x.Value.EndsWith(" ") || x.Value.StartsWith(" "));
+                return string.Format(Resources.ParameterNameContainsSpaceError_f, pair.Key);
+            }
+            return "";
         }
     }
 }
