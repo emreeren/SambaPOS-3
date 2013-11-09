@@ -497,7 +497,7 @@
     <value>#Line: Nama Item</value>
   </data>
   <data name="LastOrder" xml:space="preserve">
-    <value>Terakhir Order</value>
+    <value>Order Terakhir</value>
   </data>
   <data name="RefreshCache" xml:space="preserve">
     <value>Refresh Cache</value>
@@ -545,7 +545,7 @@ Pesan:
     <value>Hapus Kategori Terpilih?</value>
   </data>
   <data name="EndOfDayRecords" xml:space="preserve">
-    <value>Rekaman Hari Terakhir</value>
+    <value>Rekapan Tutup Buku</value>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Nama User</value>
@@ -596,7 +596,7 @@ Pesan:
     <value>Hanya untuk Tiket Terdahulu</value>
   </data>
   <data name="ResetAccount" xml:space="preserve">
-    <value>Setel ulang Akun</value>
+    <value>Reset Akun</value>
   </data>
   <data name="OrderTag" xml:space="preserve">
     <value>Label Pesanan</value>
@@ -921,7 +921,7 @@ Akan Terlihat setelah {1} hari, {2} jam, {3} menit</value>
     <value>Format Display Akun Saldo</value>
   </data>
   <data name="Costs" xml:space="preserve">
-    <value>Biaya</value>
+    <value>Biaya-biaya</value>
   </data>
   <data name="Expenses" xml:space="preserve">
     <value>Pengeluaran</value>
@@ -1006,7 +1006,7 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
     <value>Menghitung Harga</value>
   </data>
   <data name="DepartmentType" xml:space="preserve">
-    <value>Tipe Departemen</value>
+    <value>Jenis Departemen</value>
   </data>
   <data name="ApplicationStarted" xml:space="preserve">
     <value>Aplikasi Dimulai</value>
@@ -1147,7 +1147,7 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
     <value>Bisa Mengubah Departemen</value>
   </data>
   <data name="EndOfDayRecord" xml:space="preserve">
-    <value>Rekam Hari Terakhir</value>
+    <value>Rekap Tutup Buku</value>
   </data>
   <data name="SortCategories" xml:space="preserve">
     <value>Urutkan Kategori</value>
@@ -2093,7 +2093,7 @@ Pesan Error:
     <value>Tag Numerik</value>
   </data>
   <data name="Management" xml:space="preserve">
-    <value>Kelola</value>
+    <value>Pengaturan</value>
   </data>
   <data name="CustomFields" xml:space="preserve">
     <value>Custom Fields</value>
@@ -3076,7 +3076,7 @@ Periode Kerja tidak dapat diakhiri karena masih ada Tiket yang terbuka</value>
     <value>Urutkan Order</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
-    <value>Tidak dapat menghapus rekaman hari terakhir</value>
+    <value>Tidak dapat menghapus rekapan tutup buku</value>
   </data>
   <data name="LoopValues" xml:space="preserve">
     <value>Nilai Pengulangan</value>
@@ -3106,7 +3106,7 @@ Periode Kerja tidak dapat diakhiri karena masih ada Tiket yang terbuka</value>
     <value>Daftar</value>
   </data>
   <data name="DeleteItemConfirmation_f" xml:space="preserve">
-    <value>Hapus {0} [{1}]?</value>
+    <value>Hapus {0} [{1}] ?</value>
   </data>
   <data name="CornerRadius" xml:space="preserve">
     <value>Corner Radius</value>

@@ -491,7 +491,7 @@
     <value>Удалить выбранные категории?</value>
   </data>
   <data name="EndOfDayRecords" xml:space="preserve">
-    <value>Отчеты закрытия смены</value>
+    <value>Отчеты за смены</value>
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Пользователь</value>
@@ -937,7 +937,7 @@
     <value>Спросить перед созданием чека</value>
   </data>
   <data name="ProductName" xml:space="preserve">
-    <value>Наименование блюда</value>
+    <value>Название блюда</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
     <value>НЕ ЗАБУДЬТЕ ЗАКРЫТЬ СМЕНУ!!!!!</value>
@@ -1024,7 +1024,7 @@
     <value>Может изменить Точку продаж</value>
   </data>
   <data name="EndOfDayRecord" xml:space="preserve">
-    <value>Отчет закрытия смены</value>
+    <value>Отчет за смену</value>
   </data>
   <data name="SortCategories" xml:space="preserve">
     <value>Сортировать по категориям</value>
@@ -1393,7 +1393,7 @@
     <value>Разрешение по навигации</value>
   </data>
   <data name="BaseUnit" xml:space="preserve">
-    <value>Наименование</value>
+    <value>Базовая единица</value>
   </data>
   <data name="CsvBuilder" xml:space="preserve">
     <value>CSV-построитель</value>
@@ -1865,7 +1865,7 @@
     <value>Чек открыт</value>
   </data>
   <data name="Unit" xml:space="preserve">
-    <value>Наименование</value>
+    <value>Единица</value>
   </data>
   <data name="Balance" xml:space="preserve">
     <value>Баланс</value>
@@ -2018,7 +2018,7 @@
     <value>Заказ отменен</value>
   </data>
   <data name="LineCharacterCount" xml:space="preserve">
-    <value>Номер в графе символов</value>
+    <value>Кол-во символов в строке</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Обновить тип</value>
@@ -2030,7 +2030,7 @@
     <value>Общий</value>
   </data>
   <data name="InventoryItem" xml:space="preserve">
-    <value>Наименование ингридиента</value>
+    <value>Ингредиент</value>
   </data>
   <data name="AccountsLiability" xml:space="preserve">
     <value>Задолженность по счету клиента</value>
@@ -2493,7 +2493,7 @@
     <value>Проверьте версию БД</value>
   </data>
   <data name="InventoryItemName" xml:space="preserve">
-    <value>Наименование ингридиента</value>
+    <value>Наизвание ингридиента</value>
   </data>
   <data name="CashPermissions" xml:space="preserve">
     <value>Наличные</value>

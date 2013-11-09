@@ -76,7 +76,8 @@ namespace Samba.Services.Implementations.PrinterModule.ValueChangers
 
         private static string GetPlural(decimal number)
         {
-            return number == 1 ? "" : Resources.PluralCurrencySuffix;
+            var suffix = Resources.PluralCurrencySuffix ?? ".";
+            return number == 1 ? "" : suffix.Replace(".", "");
         }
 
         public static string IntegerToWritten(int n)

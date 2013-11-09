@@ -40,8 +40,7 @@ namespace Samba.Persistance.Implementations
         public override string GetErrorMessage(AppAction model)
         {
             if (model.Parameters.Values
-                .Where(x => x != null)
-                .Where(x => !string.IsNullOrEmpty(x.Trim()))
+                .Where(x => !string.IsNullOrWhiteSpace(x))
                 .Any(x => x.EndsWith(" ") || x.StartsWith(" ")))
             {
                 var pair = model.Parameters.First(x => x.Value.EndsWith(" ") || x.Value.StartsWith(" "));

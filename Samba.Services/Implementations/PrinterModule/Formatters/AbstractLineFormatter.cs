@@ -43,7 +43,7 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
 
         protected static int GetLength(string str)
         {
-            if (string.IsNullOrWhiteSpace(str)) return 0;
+            if (string.IsNullOrEmpty(str)) return 0;
             return new StringInfo(str).LengthInTextElements;
         }
 

@@ -945,6 +945,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Una volta al giorno</value>
   </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Modalità di progettazione</value>
+  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Sconto Totale</value>
   </data>
@@ -1340,6 +1343,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="AutomationCommandExecuted" xml:space="preserve">
     <value>Comando Automazione Eseguito</value>
+  </data>
+  <data name="ShowOnEndOfDayReport" xml:space="preserve">
+    <value>Visualizza Rapporto Giorno Fine Lavoro</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Può Muovere linee di ticket Bloccate</value>
@@ -1754,6 +1760,9 @@ Modificando il codice PIN si nasconderà questo suggerimento</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Quindici</value>
+  </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Cerca Valore del Modello da Sostituire</value>
   </data>
   <data name="UpdateTicketStatus" xml:space="preserve">
     <value>Aggiornare lo Stato del Ticket</value>
@@ -2248,6 +2257,9 @@ Messaggio di errore:
   <data name="Clone_f" xml:space="preserve">
     <value>Copia {0}</value>
   </data>
+  <data name="OrderCount" xml:space="preserve">
+    <value>Conteggio Ordine</value>
+  </data>
   <data name="Order" xml:space="preserve">
     <value>Ordine</value>
   </data>
@@ -2307,6 +2319,9 @@ Messaggio di errore:
   </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Linea Caratteri</value>
+  </data>
+  <data name="RawPrinter" xml:space="preserve">
+    <value>Stampante Cruda</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Tipo di aggiornamento</value>
@@ -3282,8 +3297,8 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Testo scritto valore totale</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Modalità di progettazione</value>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Numero Ticket</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Ogni minuto</value>
@@ -3311,6 +3326,9 @@ Non può finire il periodo di lavoro mentre ci sono Ticket aperti.</value>
   </data>
   <data name="ExecuteScript" xml:space="preserve">
     <value>Eseguire Script</value>
+  </data>
+  <data name="ShowOnProductReport" xml:space="preserve">
+    <value>Visualizza Rapporto di Prodotto</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>Totale IVA</value>

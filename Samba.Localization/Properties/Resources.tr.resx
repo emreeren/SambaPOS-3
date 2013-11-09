@@ -2605,6 +2605,9 @@ Hata Mesajı:
   <data name="DisplayPaymentScreen" xml:space="preserve">
     <value>Ödeme Ekranını Görüntüle</value>
   </data>
+  <data name="PluralCurrencySuffix" xml:space="preserve">
+    <value> .</value>
+  </data>
   <data name="CommonSettings" xml:space="preserve">
     <value>Genel ayarlar</value>
   </data>
