@@ -26,7 +26,8 @@ namespace Samba.Localization
 
         public static string PluralizeInt(string keyword, int value)
         {
-            if (value > 1) return keyword + Resources.PluralCurrencySuffix;
+            var suffix = Resources.PluralCurrencySuffix ?? ".";
+            if (value > 1) return keyword + suffix.Replace(".", "");
             return keyword;
         }
 

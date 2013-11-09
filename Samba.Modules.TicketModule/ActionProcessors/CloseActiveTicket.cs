@@ -37,10 +37,11 @@ namespace Samba.Modules.TicketModule.ActionProcessors
                     var ot = _ticketService.GetMandantoryOrderTagGroup(order);
                     if (ot != null)
                     {
+                        var suffix = Resources.PluralCurrencySuffix ?? ".";
                         InteractionService.UserIntraction.GiveFeedback(
                             string.Format("Select at least {0} {1} tag{2} for {3}",
                                           ot.MinSelectedItems, ot.Name,
-                                          ot.MinSelectedItems == 1 ? "" : Resources.PluralCurrencySuffix,
+                                          ot.MinSelectedItems == 1 ? "" : suffix.Replace(".", ""),
                                           order.MenuItemName));
                         return false;
                     }
