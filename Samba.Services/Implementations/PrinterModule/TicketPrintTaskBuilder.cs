@@ -165,10 +165,16 @@ namespace Samba.Services.Implementations.PrinterModule
             }
             var printer = PrinterById(map.PrinterId);
             var prinerTemplate = PrinterTemplateById(map.PrinterTemplateId);
-            if (printer == null || string.IsNullOrEmpty(printer.ShareName) || prinerTemplate == null) return null;
-            if (!printer.IsCustomPrinter && !lns.Any()) return null;
+            if (ShouldSkipPrint(printer, lns, prinerTemplate)) return null;
             var ticketLines = _ticketFormatter.GetFormattedTicket(ticket, lns, prinerTemplate);
             return new TicketPrintTask { Lines = ticketLines, Printer = printer };
+        }
+
+        private static bool ShouldSkipPrint(Printer printer, IEnumerable<Order> lns, PrinterTemplate prinerTemplate)
+        {
+            if (printer == null || string.IsNullOrEmpty(printer.ShareName) || prinerTemplate == null) return true;
+            if (printer.IsCustomPrinter) return true;
+            return !lns.Any() && prinerTemplate.Template.Contains("{ORDERS}");
         }
 
         private PrinterMap GetPrinterMapForItem(IEnumerable<PrinterMap> printerMaps, int menuItemId)

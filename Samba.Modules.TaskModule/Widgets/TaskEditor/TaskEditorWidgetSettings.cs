@@ -43,7 +43,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
 
         private static IEnumerable<TaskCommand> GetTaskCommands(string taskCreateCommands)
         {
-            var lines = taskCreateCommands.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = (taskCreateCommands??"").Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             return lines.Where(x=>!string.IsNullOrWhiteSpace(x)).Select(x => new TaskCommand(x));
         }
     }

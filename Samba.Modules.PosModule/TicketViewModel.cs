@@ -36,7 +36,6 @@ namespace Samba.Modules.PosModule
         public CaptionCommand<string> PrintTicketCommand { get; set; }
         public CaptionCommand<string> PrintInvoiceCommand { get; set; }
         public CaptionCommand<string> MoveOrdersCommand { get; set; }
-
         public ICaptionCommand IncQuantityCommand { get; set; }
         public ICaptionCommand DecQuantityCommand { get; set; }
         public ICaptionCommand IncSelectionQuantityCommand { get; set; }

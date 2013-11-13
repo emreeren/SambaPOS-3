@@ -37,6 +37,8 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
                 value = Regex.Match(value, "\\[(.*)\\]").Groups[1].Value;
                 value = task.GetCustomDataValue(value);
             }
+            if (string.IsNullOrEmpty(value))
+                value = task.Content;
             return value;
         }
     }
