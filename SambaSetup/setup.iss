@@ -29,11 +29,11 @@ tr.sample_data=Örnek Veri
 tr.handheld_terminal_app=El terminali uygulamasý
 tr.ce_install_sp3_required=Compact SQL 4.0 çalýþtýrmak için Service Pack 3 gerektiðinden kurulum listesinden kaldýrýldý. Program TXT dosya veritabaný üzerinden çalýþacak.
 
-#define Version "3.0.30"
-#define FileVersion "3030"
-#define DbVersion "22"
+#define Version "3.0.31"
+#define FileVersion "3031"
+#define DbVersion "23"
 
-#define VersionInfo "3.0.30 BETA"
+#define VersionInfo "3.0.31 BETA"
 #define VersionTime GetDateTimeString('yyyy-mm-dd hhnn', '-', ':');
 
 [Setup]
