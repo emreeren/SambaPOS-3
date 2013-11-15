@@ -48,6 +48,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountTests.cs" />
     <Compile Include="EntityTests.cs" />
     <Compile Include="ExpressionTests.cs" />
     <Compile Include="MefBootstrapper.cs" />

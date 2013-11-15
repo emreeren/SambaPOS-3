@@ -31,6 +31,9 @@
                       ItemsSource="{Binding TargetAccounts}"
                       SelectedValue="{Binding DefaultTargetAccountId}" 
                       SelectedValuePath="Id"/>
+            <Label HorizontalAlignment="Left" Content="{LocText Currency,Suffix=':'}" />
+            <ComboBox IsEditable="True" HorizontalAlignment="Left" MinWidth="150" ItemsSource="{Binding ForeignCurrencies}"
+                        SelectedItem="{Binding ForeignCurrency}" DisplayMemberPath="Name" />
         </StackPanel>
 
         <StackPanel Grid.Row="2">

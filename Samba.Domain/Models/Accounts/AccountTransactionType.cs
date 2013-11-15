@@ -16,6 +16,7 @@ namespace Samba.Domain.Models.Accounts
         public int TargetAccountTypeId { get; set; }
         public int DefaultSourceAccountId { get; set; }
         public int DefaultTargetAccountId { get; set; }
+        public int ForeignCurrencyId { get; set; }
 
         public bool CanMakeAccountTransaction(Account selectedAccount)
         {

@@ -75,8 +75,6 @@ namespace Samba.Infrastructure.Data.Text
                 _storage.Delete<T>(idf.Id);
         }
 
-
-
         public T Last<T>() where T : class,IValueClass
         {
             return _storage.GetItems<T>().LastOrDefault();
@@ -116,6 +114,21 @@ namespace Samba.Infrastructure.Data.Text
         public void Add<T>(T item) where T : class
         {
             _storage.Add(item);
+            AddSubItems(item);
+        }
+
+        private void AddSubItems<T>(T item)
+        {
+            var collections = item.GetType().GetProperties()
+                .Where(x => x.PropertyType.IsGenericType && x.PropertyType.GetInterfaces().Contains(typeof(IEnumerable)));
+            foreach (var collectionType in collections.Where(x=>x.PropertyType.GetGenericArguments()[0].GetInterfaces().Any(y=>y == typeof(IValueClass)) ))
+            {
+                var collection = collectionType.GetValue(item, null) as IEnumerable;
+                foreach (var collectionItem in collection)
+                {
+                    Add(collectionItem);
+                }
+            }
         }
 
         public void Update<T>(T item) where T : class

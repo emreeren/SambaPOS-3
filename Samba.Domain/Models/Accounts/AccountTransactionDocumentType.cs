@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Samba.Domain.Models.Settings;
 using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Accounts
@@ -58,13 +59,15 @@ namespace Samba.Domain.Models.Accounts
             get { return Name; }
         }
 
-        public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount, decimal exchangeRate, IList<Account> accounts)
+        public AccountTransactionDocument CreateDocument(Account account, string description, decimal amount, decimal exchangeRate, IList<AccountData> accounts, IList<ForeignCurrency> currencies)
         {
             var result = new AccountTransactionDocument { Name = Name, DocumentTypeId = Id };
             foreach (var accountTransactionType in TransactionTypes)
             {
                 var transaction = AccountTransaction.Create(accountTransactionType);
-                transaction.UpdateAmount(amount, exchangeRate);
+                var amountRate = GetExchangeRate(accountTransactionType.ForeignCurrencyId, currencies);
+                amount = amount * amountRate;
+                transaction.UpdateAmount(amount, exchangeRate, accounts);
                 transaction.UpdateAccount(MasterAccountTypeId, account.Id);
                 if (accounts != null && accounts.Count > 0)
                 {
@@ -72,14 +75,14 @@ namespace Samba.Domain.Models.Accounts
                         transaction.SourceTransactionValue.AccountId == 0)
                     {
                         var ac = accounts.FirstOrDefault(x => x.AccountTypeId == transaction.SourceAccountTypeId);
-                        if (ac != null) transaction.SetSourceAccount(ac.AccountTypeId, ac.Id);
+                        if (ac != null) transaction.SetSourceAccount(ac.AccountTypeId, ac.AccountId);
                     }
 
                     if (transaction.TargetAccountTypeId != MasterAccountTypeId &&
                         transaction.TargetTransactionValue.AccountId == 0)
                     {
                         var ac = accounts.FirstOrDefault(x => x.AccountTypeId == transaction.TargetAccountTypeId);
-                        if (ac != null) transaction.SetTargetAccount(ac.AccountTypeId, ac.Id);
+                        if (ac != null) transaction.SetTargetAccount(ac.AccountTypeId, ac.AccountId);
                     }
                 }
                 if (!string.IsNullOrEmpty(description))
@@ -89,6 +92,13 @@ namespace Samba.Domain.Models.Accounts
                 result.AccountTransactions.Add(transaction);
             }
             return result;
+        }
+
+        private decimal GetExchangeRate(int foreignCurrencyId, IEnumerable<ForeignCurrency> currencies)
+        {
+            if (foreignCurrencyId == 0) return 1;
+            var fc = currencies.FirstOrDefault(x => x.Id == foreignCurrencyId);
+            return fc != null ? fc.ExchangeRate : 1;
         }
 
         public void AddAccountTransactionDocumentTypeMap()

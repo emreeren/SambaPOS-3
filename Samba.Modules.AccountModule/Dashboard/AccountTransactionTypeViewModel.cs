@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using FluentValidation;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.ModelBase;
 
@@ -15,6 +16,24 @@ namespace Samba.Modules.AccountModule.Dashboard
         private IEnumerable<AccountType> _accountTypes;
         public IEnumerable<AccountType> AccountTypes { get { return _accountTypes ?? (_accountTypes = Workspace.All<AccountType>()); } }
 
+        private IEnumerable<ForeignCurrency> _foreignCurrencies;
+        public IEnumerable<ForeignCurrency> ForeignCurrencies
+        {
+            get { return _foreignCurrencies ?? (_foreignCurrencies = Workspace.All<ForeignCurrency>().ToList()); }
+        }
+
+        public ForeignCurrency ForeignCurrency
+        {
+            get
+            {
+                return ForeignCurrencies.SingleOrDefault(x => x.Id == Model.ForeignCurrencyId);
+            }
+            set
+            {
+                Model.ForeignCurrencyId = value != null ? value.Id : 0;
+                RaisePropertyChanged(() => ForeignCurrency);
+            }
+        }
         public AccountType SourceAccountType
         {
             get { return AccountTypes.SingleOrDefault(x => x.Id == Model.SourceAccountTypeId); }

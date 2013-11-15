@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Settings;
@@ -32,8 +33,9 @@ namespace Samba.Services.Implementations.AccountModule
 
         public AccountTransactionDocument CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, IEnumerable<Account> accounts)
         {
-            var exchangeRate = GetExchangeRate(selectedAccount, documentType.ExchangeTemplate);
-            return _accountDao.CreateTransactionDocument(selectedAccount, documentType, description, amount, exchangeRate, accounts);
+            var exchangeRate = GetExchangeRate(selectedAccount.ForeignCurrencyId, documentType.ExchangeTemplate);
+            var accountData = accounts.Select(x => new AccountData(x) { ExchangeRate = GetExchangeRate(x.ForeignCurrencyId, documentType.ExchangeTemplate) });
+            return _accountDao.CreateTransactionDocument(selectedAccount, documentType, description, amount, exchangeRate, accountData, _cacheService.GetForeignCurrencies());
         }
 
         public AccountTransactionDocument GetAccountTransactionDocumentById(int documentId)
@@ -128,7 +130,7 @@ namespace Samba.Services.Implementations.AccountModule
                 }
                 else if (da == string.Format("[{0}]", "BalanceEx"))
                 {
-                    var er = GetExchangeRate(account, documentType.ExchangeTemplate);
+                    var er = GetExchangeRate(account.ForeignCurrencyId, documentType.ExchangeTemplate);
                     result = er != 1
                         ? Math.Abs(GetAccountExchangeBalance(account.Id) * er)
                         : Math.Abs(GetAccountBalance(account.Id));
@@ -223,16 +225,16 @@ namespace Samba.Services.Implementations.AccountModule
             }
         }
 
-        public decimal GetExchangeRate(Account account, string template)
+        public decimal GetExchangeRate(int foreignCurrencyId, string template)
         {
-            if (account.ForeignCurrencyId == 0) return 1;
+            if (foreignCurrencyId == 0) return 1;
             if (!string.IsNullOrWhiteSpace(template))
             {
                 decimal d;
                 decimal.TryParse(template, out d);
                 return d;
             }
-            return _cacheService.GetCurrencyById(account.ForeignCurrencyId).ExchangeRate;
+            return _cacheService.GetCurrencyById(foreignCurrencyId).ExchangeRate;
         }
     }
 }

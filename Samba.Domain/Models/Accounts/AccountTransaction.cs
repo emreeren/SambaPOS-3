@@ -190,7 +190,7 @@ namespace Samba.Domain.Models.Accounts
             transaction.IsReversed = true;
         }
 
-        public void UpdateAmount(decimal amount, decimal exchangeRate)
+        public void UpdateAmount(decimal amount, decimal exchangeRate, IList<AccountData> accounts = null)
         {
             if (amount < 0 && CanReverse())
                 Reverse();
@@ -202,6 +202,16 @@ namespace Samba.Domain.Models.Accounts
             Amount = Math.Abs(amount);
             Amount = Decimal.Round(Amount, 2, MidpointRounding.AwayFromZero);
             ExchangeRate = exchangeRate;
+            if (accounts != null)
+            {
+                var sourceAccount = accounts.FirstOrDefault(x => x.AccountId == SourceTransactionValue.AccountId);
+                if (sourceAccount != null)
+                    SourceTransactionValue.UpdateExchange(sourceAccount.ExchangeRate);
+
+                var targetAccount = accounts.FirstOrDefault(x => x.AccountId == TargetTransactionValue.AccountId);
+                if (targetAccount != null)
+                    TargetTransactionValue.UpdateExchange(targetAccount.ExchangeRate);
+            }
         }
 
         private bool CanReverse()

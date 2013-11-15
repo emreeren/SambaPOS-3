@@ -89,7 +89,7 @@ namespace Samba.Infrastructure.Data.Text
         {
             var list = GetDataList(o.GetType());
 
-            var idt = o as IEntityClass;
+            var idt = o as IValueClass;
 
             if (idt != null)
             {

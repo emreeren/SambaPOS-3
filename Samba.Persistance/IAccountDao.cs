@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Samba.Domain.Models;
 using Samba.Domain.Models.Accounts;
+using Samba.Domain.Models.Settings;
 using Samba.Persistance.Common;
 
 namespace Samba.Persistance
@@ -16,7 +18,7 @@ namespace Samba.Persistance
         Dictionary<Account, BalanceValue> GetAccountBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
         Dictionary<AccountType, BalanceValue> GetAccountTypeBalances(IList<int> accountTypeIds, Expression<Func<AccountTransactionValue, bool>> filter);
         string GetEntityCustomDataByAccountId(int accountId);
-        AccountTransactionDocument CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, decimal exchangeRate, IEnumerable<Account> accounts);
+        AccountTransactionDocument CreateTransactionDocument(Account selectedAccount, AccountTransactionDocumentType documentType, string description, decimal amount, decimal exchangeRate, IEnumerable<AccountData> accounts, IEnumerable<ForeignCurrency> currencies);
         Account GetAccountById(int accountId);
         Account GetAccountByName(string accountName);
         bool GetIsAccountNameExists(string accountName);
