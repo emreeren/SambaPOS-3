@@ -9,6 +9,7 @@ namespace Samba.Services
     public interface IAccountService
     {
         decimal GetAccountBalance(int accountId);
+        decimal GetAccountExchangeBalance(int accountId);
         IEnumerable<AccountScreenRow> GetAccountScreenRows(AccountScreen accountScreen, WorkPeriod currentWorkPeriod);
         string GetDescription(AccountTransactionDocumentType documentType, Account account);
         decimal GetDefaultAmount(AccountTransactionDocumentType documentType, Account account);

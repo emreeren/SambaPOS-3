@@ -112,9 +112,9 @@ namespace Samba.Services.Common
             Transactions = transactions.Select(x => new AccountDetailData(x, selectedAccount)).ToList();
             if (start.HasValue)
             {
-                var pastDebit = Dao.Sum(x => x.Debit, GetPastRange(start, x => x.AccountId == selectedAccount.Id));
-                var pastCredit = Dao.Sum(x => x.Credit, GetPastRange(start, x => x.AccountId == selectedAccount.Id));
-                var pastExchange = Dao.Sum(x => x.Exchange, GetPastRange(start, x => x.AccountId == selectedAccount.Id));
+                var pastDebit = GetPastDebit(selectedAccount, start);
+                var pastCredit = GetPastCredit(selectedAccount, start);
+                var pastExchange = GetPastExchange(selectedAccount, start);
                 if (pastCredit > 0 || pastDebit > 0)
                 {
                     Summaries.Add(new AccountSummaryData(Resources.TransactionTotal, Transactions.Sum(x => x.Debit), Transactions.Sum(x => x.Credit)));
@@ -133,9 +133,9 @@ namespace Samba.Services.Common
             }
             if (end.HasValue && end != start)
             {
-                var futureDebit = Dao.Sum(x => x.Debit, GetFutureRange(end, x => x.AccountId == selectedAccount.Id));
-                var futureCredit = Dao.Sum(x => x.Credit, GetFutureRange(end, x => x.AccountId == selectedAccount.Id));
-                var futureExchange = Dao.Sum(x => x.Exchange, GetFutureRange(end, x => x.AccountId == selectedAccount.Id));
+                var futureDebit = GetFutureDebit(selectedAccount, end);
+                var futureCredit = GetFutureCredit(selectedAccount, end);
+                var futureExchange = GetFutureExchange(selectedAccount, end);
                 if (futureCredit > 0 || futureDebit > 0)
                 {
                     Summaries.Add(new AccountSummaryData(Resources.DateRangeTotal, Transactions.Sum(x => x.Debit), Transactions.Sum(x => x.Credit)));
@@ -160,6 +160,46 @@ namespace Samba.Services.Common
                 Transactions[i].Balance = (Transactions[i].Debit - Transactions[i].Credit);
                 if (i > 0) (Transactions[i].Balance) += (Transactions[i - 1].Balance);
             }
+        }
+
+        private decimal GetFutureExchange(Account selectedAccount, DateTime? end)
+        {
+            if (selectedAccount.ForeignCurrencyId > 0) return 0;
+            return Dao.Sum(x => x.Exchange, GetFutureRange(end, x => x.AccountId == selectedAccount.Id));
+        }
+
+        private decimal GetFutureCredit(Account selectedAccount, DateTime? end)
+        {
+            if (selectedAccount.ForeignCurrencyId > 0)
+                return Math.Abs(Dao.Sum(x => x.Exchange, GetFutureRange(end, x => x.AccountId == selectedAccount.Id && x.Debit == 0)));
+            return Dao.Sum(x => x.Credit, GetFutureRange(end, x => x.AccountId == selectedAccount.Id));
+        }
+
+        private decimal GetFutureDebit(Account selectedAccount, DateTime? end)
+        {
+            if (selectedAccount.ForeignCurrencyId > 0)
+                return Math.Abs(Dao.Sum(x => x.Exchange, GetFutureRange(end, x => x.AccountId == selectedAccount.Id && x.Credit == 0)));
+            return Dao.Sum(x => x.Debit, GetFutureRange(end, x => x.AccountId == selectedAccount.Id));
+        }
+
+        private decimal GetPastExchange(Account selectedAccount, DateTime? start)
+        {
+            if (selectedAccount.ForeignCurrencyId > 0) return 0;
+            return Dao.Sum(x => x.Exchange, GetPastRange(start, x => x.AccountId == selectedAccount.Id));
+        }
+
+        private decimal GetPastCredit(Account selectedAccount, DateTime? start)
+        {
+            if (selectedAccount.ForeignCurrencyId > 0)
+                return Math.Abs(Dao.Sum(x => x.Exchange, GetPastRange(start, x => x.AccountId == selectedAccount.Id && x.Debit == 0)));
+            return Dao.Sum(x => x.Credit, GetPastRange(start, x => x.AccountId == selectedAccount.Id));
+        }
+
+        private decimal GetPastDebit(Account selectedAccount, DateTime? start)
+        {
+            if (selectedAccount.ForeignCurrencyId > 0)
+                return Math.Abs(Dao.Sum(x => x.Exchange, GetPastRange(start, x => x.AccountId == selectedAccount.Id && x.Credit == 0)));
+            return Dao.Sum(x => x.Debit, GetPastRange(start, x => x.AccountId == selectedAccount.Id));
         }
     }
 }

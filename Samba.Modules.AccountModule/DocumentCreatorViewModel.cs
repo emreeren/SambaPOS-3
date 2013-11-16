@@ -65,8 +65,17 @@ namespace Samba.Modules.AccountModule
         {
             get
             {
-                return SelectedAccount == null ? "" : string.Format("{0} {1}: {2}", SelectedAccount.Name, Resources.Balance, _accountService.GetAccountBalance(SelectedAccount.Id).ToString(LocalSettings.ReportCurrencyFormat));
+                return SelectedAccount == null ? "" : string.Format("{0} {1}: {2}", SelectedAccount.Name, Resources.Balance, GetAccountBalance());
             }
+        }
+
+        private string GetAccountBalance()
+        {
+            if (SelectedAccount.ForeignCurrencyId > 0)
+                return
+                    _accountService.GetAccountExchangeBalance(SelectedAccount.Id)
+                        .ToString(LocalSettings.ReportCurrencyFormat);
+            return _accountService.GetAccountBalance(SelectedAccount.Id).ToString(LocalSettings.ReportCurrencyFormat);
         }
 
         public Account SelectedAccount { get; set; }
