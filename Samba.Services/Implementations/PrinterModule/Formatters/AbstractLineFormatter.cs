@@ -54,14 +54,14 @@ namespace Samba.Services.Implementations.PrinterModule.Formatters
 
         protected static string ExpandStrRight(string str, int lenght)
         {
-            str = str.Trim();
+            str = str.TrimEnd();
             while (GetLength(str) < lenght)
                 str = str + " ";
             return str;
         }
         protected static string ExpandStrLeft(string str, int lenght)
         {
-            str = str.Trim();
+            str = str.TrimStart();
             while (GetLength(str) < lenght)
                 str = " " + str;
             return str;

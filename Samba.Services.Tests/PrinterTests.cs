@@ -142,6 +142,15 @@ Pizza          10.00";
         }
 
         [Test]
+        public void Justification_CanKeepTrailingBlank_TrailingBlanksShouldKeep()
+        {
+            var str = "<j>   *Test|1";
+            var formatter = new JustifyAlignFormatter(str, 15, false, 0);
+            var r = formatter.GetFormattedLine();
+            Assert.AreEqual("   *Test      1", r);
+        }
+
+        [Test]
         public void UnicodeText_CanJustifyMultipleParts_TextLengthHandled()
         {
             var str = "<j>ไม่เอาเห็ด|Blah|2";
@@ -165,7 +174,7 @@ Pizza          10.00";
             var str = "<j>ไม่เอาเห็ด| Blah |   2";
             var formatter = new JustifyAlignFormatter(str, 24, false, 0);
             var r = formatter.GetFormattedLine();
-            Assert.AreEqual("ไม่เอาเห็ด        Blah   2", r);
+            Assert.AreEqual("ไม่เอาเห็ด       Blah    2", r);
         }        
         
         [Test]
