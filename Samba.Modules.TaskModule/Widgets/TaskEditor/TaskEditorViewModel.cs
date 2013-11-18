@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tasks;
@@ -117,25 +118,23 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         public void ExecuteTaskCommand(Task task, string commandName)
         {
             var command = Settings.TaskCommandList.FirstOrDefault(x => x.DisplayName == commandName);
-            if (command != null) ExecuteCommand(task, command);
+            if (command != null) ExecuteCommand(task, command, new ExpandoObject());
         }
 
         private void ExecuteCommands(IEnumerable<TaskCommand> commands, Task task)
         {
+            var dataObject = new ExpandoObject();
             foreach (var command in commands)
             {
-                ExecuteCommand(task, command);
+                ExecuteCommand(task, command, dataObject);
             }
         }
 
-        private void ExecuteCommand(Task task, TaskCommand command)
+        private void ExecuteCommand(Task task, TaskCommand command, dynamic dataObject)
         {
-            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted,
-                                          new
-                                              {
-                                                  AutomationCommandName = command.CommandName,
-                                                  CommandValue = command.GetCommandValue(task)
-                                              });
+            dataObject.AutomationCommandName = command.CommandName;
+            dataObject.CommandValue = command.GetCommandValue(task);
+            _applicationState.NotifyEvent(RuleEventNames.AutomationCommandExecuted, dataObject);
         }
 
         protected override object CreateSettingsObject()

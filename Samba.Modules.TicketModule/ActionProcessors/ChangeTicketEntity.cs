@@ -37,6 +37,7 @@ namespace Samba.Modules.TicketModule.ActionProcessors
             if ((ticket == null || ticket == Ticket.Empty) && actionData.GetAsBoolean("CanCreateTicket") && !_applicationState.IsLocked)
             {
                 ticket = _ticketService.OpenTicket(0);
+                actionData.DataObject.Ticket = ticket;
                 ticket.PublishEvent(EventTopicNames.SetSelectedTicket);
             }
 
