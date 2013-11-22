@@ -229,6 +229,9 @@
   <data name="WorkPeriodReport" xml:space="preserve">
     <value>Отчет по смене</value>
   </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Сохранить изменения</value>
+  </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Введите категории которые  вы хотите добавить</value>
   </data>
@@ -2019,6 +2022,9 @@
   </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Кол-во символов в строке</value>
+  </data>
+  <data name="RawPrinter" xml:space="preserve">
+    <value>Принтер RAW</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Обновить тип</value>

@@ -436,6 +436,9 @@
   <data name="LineItemPriceCents" xml:space="preserve">
     <value># Linea: Articolo Prezzo  Centesimi</value>
   </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parametro [{0}] non deve iniziare o finire con lo spazio.</value>
+  </data>
   <data name="UserLogin" xml:space="preserve">
     <value>Login Utente</value>
   </data>
