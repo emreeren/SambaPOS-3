@@ -6,7 +6,6 @@ using System.Dynamic;
 using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tasks;
-using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Helpers;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
@@ -66,6 +65,7 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         }
 
         private IEnumerable<TaskCustomFieldEditorModel> _customFields;
+        [Browsable(false)]
         public IEnumerable<TaskCustomFieldEditorModel> CustomFields
         {
             get { return _customFields ?? (_customFields = TaskType != null ? TaskType.TaskCustomFields.Select(x => new TaskCustomFieldEditorModel(x)).ToList() : null); }
@@ -92,13 +92,16 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
                     NewTask = "Can't add a task. Update Task Type from widget settings";
                     return;
                 }
-                var task = _taskService.AddNewTask(TaskTypeId, NewTask, CustomFields.ToDictionary(x => x.Name, x => x.Value));
+                var task = _taskService.AddNewTask(TaskTypeId, NewTask, CustomFields.ToDictionary(x => x.Name, x => x.Value), !Settings.DontCreateTaskHistory);
                 foreach (var customField in CustomFields)
                 {
                     customField.Value = "";
                 }
-                var wm = new TaskViewModel(task, TaskType, this, _messagingService);
-                wm.Persist();
+                if (!Settings.DontCreateTaskHistory)
+                {
+                    var wm = new TaskViewModel(task, TaskType, this, _messagingService);
+                    wm.Persist();
+                }
                 ExecuteTaskCreateCommands(task);
                 NewTask = "";
                 OnTaskAdded();

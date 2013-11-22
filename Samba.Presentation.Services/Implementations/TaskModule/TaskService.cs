@@ -30,7 +30,7 @@ namespace Samba.Presentation.Services.Implementations.TaskModule
             _taskCache = new TaskCache();
         }
 
-        public Task AddNewTask(int taskTypeId, string taskContent, Dictionary<string, string> customFields)
+        public Task AddNewTask(int taskTypeId, string taskContent, Dictionary<string, string> customFields, bool saveTask)
         {
             if (taskTypeId == 0) return null;
             var task = new Task { Content = taskContent, TaskTypeId = taskTypeId };
@@ -44,7 +44,7 @@ namespace Samba.Presentation.Services.Implementations.TaskModule
             {
                 task.UpdateCustomDataValue(customField.Key, customField.Value);
             }
-            SaveTask(task);
+            if (saveTask) SaveTask(task);
             return task;
         }
 

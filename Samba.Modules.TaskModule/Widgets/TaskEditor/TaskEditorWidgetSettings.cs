@@ -32,6 +32,8 @@ namespace Samba.Modules.TaskModule.Widgets.TaskEditor
         [Height(80)]
         public string TaskCommands { get; set; }
 
+        public bool DontCreateTaskHistory { get; set; }
+
         [Browsable(false)]
         internal IEnumerable<TaskCommand> TaskCreateCommandList { get { return GetTaskCommands(TaskCreateCommands); } }
 
