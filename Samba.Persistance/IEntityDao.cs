@@ -15,5 +15,6 @@ namespace Samba.Persistance
         void UpdateEntityData(int entityId, string fieldName, string value);
         void UpdateEntityData(EntityType entityType, string entityName, string fieldName, string value);
         Entity GetEntityByName(string entityName, int entityTypeId);
+        EntityType GetEntityTypeById(int entityTypeId);
     }
 }

@@ -25,6 +25,8 @@
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding Name}" />
                     <Label Content="{LocText EntityName,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding EntityName}" />
+                    <Label Content="{LocText DisplayFormat,Suffix=':'}"/>
+                    <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding DisplayFormat}" />
                     <Label Content="{LocText PrimaryFieldName,Suffix=':'}"/>
                     <TextBox HorizontalAlignment="Left" MinWidth="200" Text="{Binding PrimaryFieldName}" />
                     <Label Content="{LocText PrimaryFieldFormat,Suffix=':'}"/>

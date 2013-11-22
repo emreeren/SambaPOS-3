@@ -8,6 +8,7 @@ using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
 using Samba.Infrastructure.Data;
 using Samba.Localization.Properties;
+using Samba.Persistance;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
 using Samba.Presentation.Common.Services;
@@ -17,8 +18,12 @@ namespace Samba.Modules.EntityModule
     [Export, PartCreationPolicy(CreationPolicy.NonShared)]
     public class EntityScreenViewModel : EntityViewModelBaseWithMap<EntityScreen, EntityScreenMap, AbstractMapViewModel<EntityScreenMap>>
     {
-        public EntityScreenViewModel()
+        private readonly IEntityDao _entityDao;
+
+        [ImportingConstructor]
+        public EntityScreenViewModel(IEntityDao entityDao)
         {
+            _entityDao = entityDao;
             SelectScreenItemsCommand = new CaptionCommand<string>(string.Format(Resources.Select_f, Resources.Entity), OnSelectScreenItems, CanSelectScreenItems);
         }
 
@@ -71,13 +76,14 @@ namespace Samba.Modules.EntityModule
 
         private void OnSelectScreenItems(string obj)
         {
+            var entityType = _entityDao.GetEntityTypeById(EntityTypeId.GetValueOrDefault(0));
             var items = Model.ScreenItems.ToList();
 
             IList<IOrderable> values = new List<IOrderable>(Workspace
                 .All<Entity>(x => x.EntityTypeId == EntityTypeId)
                 .Where(x => items.FirstOrDefault(y => y.EntityId == x.Id) == null)
                 .OrderBy(x => x.Name)
-                .Select(x => new EntityScreenItem { EntityId = x.Id, Name = x.Name }));
+                .Select(x => new EntityScreenItem(entityType, x)));
 
             IList<IOrderable> selectedValues = new List<IOrderable>(items);
             IList<IOrderable> choosenValues =

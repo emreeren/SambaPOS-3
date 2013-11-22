@@ -23,14 +23,11 @@ namespace Samba.Domain.Models.Entities
             get { return Name; }
         }
 
-        public EntityScreenItem(int itemId)
-            : this()
+        public EntityScreenItem(EntityType entityType, Entity entity, string entityState = null)
         {
-            _itemId = itemId;
-        }
-
-        public EntityScreenItem()
-        {
+            EntityId = entity.Id;
+            Name = entityType.GetFormattedDisplayName(entity);
+            EntityState = entityState;
             LastUpdateTime = DateTime.Now;
             _itemId = 0;
         }

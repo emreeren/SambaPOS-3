@@ -17,6 +17,7 @@ namespace Samba.Domain.Models.Entities
         public string AccountNameTemplate { get; set; }
         public string PrimaryFieldName { get; set; }
         public string PrimaryFieldFormat { get; set; }
+        public string DisplayFormat { get; set; }
         public string AccountBalanceDisplayFormat { get; set; }
 
         private IList<EntityCustomField> _entityCustomFields;
@@ -52,9 +53,19 @@ namespace Samba.Domain.Models.Entities
 
         public string GenerateAccountName(Entity entity)
         {
-            if (string.IsNullOrEmpty(entity.Name)) return "";
+            return FormatText(entity, AccountNameTemplate);
+        }
 
-            var result = AccountNameTemplate;
+        public string GetFormattedDisplayName(Entity entity)
+        {
+            if (string.IsNullOrEmpty(DisplayFormat)) return entity.Name;
+            return FormatText(entity,DisplayFormat);
+        }
+
+        private string FormatText(Entity entity,string format)
+        {
+            if (string.IsNullOrEmpty(entity.Name)) return "";
+            var result = format;
             result = result.Replace("[Id]", entity.Id.ToString(CultureInfo.InvariantCulture));
             result = !string.IsNullOrEmpty(PrimaryFieldName)
                 ? result.Replace("[" + PrimaryFieldName + "]", entity.Name)

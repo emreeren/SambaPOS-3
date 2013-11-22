@@ -431,7 +431,7 @@ namespace Samba.Presentation.Services.Common.DataGeneration
             foreach (var resource in items)
             {
                 resource.EntityTypeId = tableTemplate.Id;
-                screen.AddScreenItem(new EntityScreenItem { Name = resource.Name, EntityId = resource.Id });
+                screen.AddScreenItem(new EntityScreenItem(tableTemplate,resource));
                 var state = new EntityStateValue { EntityId = resource.Id };
                 state.SetStateValue("Status", Resources.Available, "");
                 _workspace.Add(state);

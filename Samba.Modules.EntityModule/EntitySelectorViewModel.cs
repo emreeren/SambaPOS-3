@@ -148,7 +148,8 @@ namespace Samba.Modules.EntityModule
             if (entityScreen.ScreenItems.Count > 0)
                 return _entityService.GetCurrentEntityScreenItems(entityScreen, CurrentPageNo, stateFilter).OrderBy(x => x.SortOrder).ToList();
             return
-                _entityService.GetEntitiesByState(stateFilter, entityScreen.EntityTypeId).Select(x => new EntityScreenItem { EntityId = x.Id, Name = x.Name, EntityState = stateFilter }).ToList();
+                _entityService.GetEntitiesByState(stateFilter, entityScreen.EntityTypeId)
+                .Select(x => new EntityScreenItem(_cacheService.GetEntityTypeById(entityScreen.EntityTypeId), x, stateFilter)).ToList();
         }
 
         private void UpdateEntityButtons(ICollection<EntityScreenItem> entityData)
