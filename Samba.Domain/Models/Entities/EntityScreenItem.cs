@@ -24,10 +24,15 @@ namespace Samba.Domain.Models.Entities
         }
 
         public EntityScreenItem(EntityType entityType, Entity entity, string entityState = null)
+            : this()
         {
             EntityId = entity.Id;
-            Name = entityType.GetFormattedDisplayName(entity);
+            Name = entityType.GetFormattedDisplayName(entity.Name, entity);
             EntityState = entityState;
+        }
+
+        public EntityScreenItem()
+        {
             LastUpdateTime = DateTime.Now;
             _itemId = 0;
         }

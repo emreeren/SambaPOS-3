@@ -8,7 +8,7 @@ using Samba.Infrastructure.Helpers;
 
 namespace Samba.Domain.Models.Entities
 {
-    public class Entity : EntityClass, ICacheable
+    public class Entity : EntityClass, ICacheable, ICustomDataProvider
     {
         public int EntityTypeId { get; set; }
         public DateTime LastUpdateTime { get; set; }

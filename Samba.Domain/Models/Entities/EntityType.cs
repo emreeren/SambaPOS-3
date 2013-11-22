@@ -53,23 +53,11 @@ namespace Samba.Domain.Models.Entities
 
         public string GenerateAccountName(Entity entity)
         {
-            return FormatText(entity, AccountNameTemplate);
-        }
-
-        public string GetFormattedDisplayName(Entity entity)
-        {
-            if (string.IsNullOrEmpty(DisplayFormat)) return entity.Name;
-            return FormatText(entity,DisplayFormat);
-        }
-
-        private string FormatText(Entity entity,string format)
-        {
             if (string.IsNullOrEmpty(entity.Name)) return "";
-            var result = format;
+            var result = AccountNameTemplate;
             result = result.Replace("[Id]", entity.Id.ToString(CultureInfo.InvariantCulture));
-            result = !string.IsNullOrEmpty(PrimaryFieldName)
-                ? result.Replace("[" + PrimaryFieldName + "]", entity.Name)
-                : result.Replace("[Name]", entity.Name);
+            if (!string.IsNullOrEmpty(PrimaryFieldName))
+                result = result.Replace("[" + PrimaryFieldName + "]", entity.Name);
             while (Regex.IsMatch(result, "\\[([^\\]]+)\\]"))
             {
                 var match = Regex.Match(result, "\\[([^\\]]+)\\]");
@@ -78,7 +66,27 @@ namespace Samba.Domain.Models.Entities
                 if (string.IsNullOrEmpty(data)) return "";
                 result = result.Replace(match.Groups[0].Value, entity.GetCustomData(propName));
             }
+            result = result.Replace("[Name]", entity.Name);
+            return result;
+        }
 
+        public string GetFormattedDisplayName(string entityName, ICustomDataProvider provider)
+        {
+            if (string.IsNullOrEmpty(DisplayFormat)) return entityName;
+            if (string.IsNullOrEmpty(entityName)) return "";
+            var result = DisplayFormat;
+            var name = FormatEntityName(entityName);
+            if (!string.IsNullOrEmpty(PrimaryFieldName))
+                result = result.Replace(string.Format("[{0}]", PrimaryFieldName), name);
+            while (Regex.IsMatch(result, "\\[([^\\]]+)\\]"))
+            {
+                var match = Regex.Match(result, "\\[([^\\]]+)\\]");
+                var propName = match.Groups[1].Value;
+                var data = provider.GetCustomData(propName);
+                if (string.IsNullOrEmpty(data)) data = "";
+                result = result.Replace(match.Groups[0].Value, data);
+            }
+            result = result.Replace("[Name]", name);
             return result;
         }
 

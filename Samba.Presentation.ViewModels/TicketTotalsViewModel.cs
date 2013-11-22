@@ -131,7 +131,7 @@ namespace Samba.Presentation.ViewModels
             get
             {
                 var result = TitleWithAccountBalances;
-                var state = Model.GetStateData(x =>_applicationState.CurrentLoggedInUser.UserRole.IsAdmin || _cacheService.CanShowStateOnTicket(x.StateName, x.State));
+                var state = Model.GetStateData(x => _applicationState.CurrentLoggedInUser.UserRole.IsAdmin || _cacheService.CanShowStateOnTicket(x.StateName, x.State));
                 if (!string.IsNullOrEmpty(state)) result += Environment.NewLine + state;
                 return result;
             }
@@ -147,7 +147,7 @@ namespace Samba.Presentation.ViewModels
                 foreach (var ticketEntity in Model.TicketEntities)
                 {
                     var entityType = _cacheService.GetEntityTypeById(ticketEntity.EntityTypeId);
-                    var entityName = entityType.FormatEntityName(ticketEntity.EntityName);
+                    var entityName = entityType.GetFormattedDisplayName(ticketEntity.EntityName, ticketEntity);
                     if (ticketEntity.AccountId > 0)
                     {
                         var balance = _accountBalances.GetAccountBalance(ticketEntity.AccountId);

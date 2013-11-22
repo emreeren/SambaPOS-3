@@ -38,7 +38,7 @@ namespace Samba.Modules.EntityModule
             }
         }
 
-        public string Name { get { return FormatEntityName(Model); } }
+        public string Name { get { return Model.Name; } }
 
         private string _buttonColor;
         public string ButtonColor
@@ -77,12 +77,6 @@ namespace Samba.Modules.EntityModule
         {
             IsEnabled = true;
             ButtonColor = EntityState != null ? _cacheService.GetStateColor(EntityState) : "Gainsboro";
-        }
-
-        private string FormatEntityName(EntityScreenItem model)
-        {
-            var et = _cacheService.GetEntityTypeById(_screen.EntityTypeId);
-            return et != null ? et.FormatEntityName(model.Name) : "";
         }
     }
 }

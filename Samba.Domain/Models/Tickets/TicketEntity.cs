@@ -7,7 +7,7 @@ using Samba.Infrastructure.Data;
 
 namespace Samba.Domain.Models.Tickets
 {
-    public class TicketEntity : ValueClass
+    public class TicketEntity : ValueClass, ICustomDataProvider
     {
         public int EntityTypeId { get; set; }
         public int EntityId { get; set; }
@@ -42,7 +42,7 @@ namespace Samba.Domain.Models.Tickets
         public bool HasCustomData(string fieldName)
         {
             var pattern = string.Format("\"Name\":\"{0}\",\"Value\":\"([^\"]+)\"", fieldName);
-            return EntityCustomData!=null && Regex.IsMatch(EntityCustomData, pattern);
+            return EntityCustomData != null && Regex.IsMatch(EntityCustomData, pattern);
         }
     }
 }

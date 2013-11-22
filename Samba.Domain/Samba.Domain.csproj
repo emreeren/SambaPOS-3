@@ -94,6 +94,7 @@
     <Compile Include="Models\Automation\RuleConstraintValue.cs" />
     <Compile Include="Models\Automation\Script.cs" />
     <Compile Include="Models\Entities\CustomDataValue.cs" />
+    <Compile Include="ICustomDataProvider.cs" />
     <Compile Include="Models\Inventory\InventoryTransactionDocumentType.cs" />
     <Compile Include="Models\Inventory\InventoryTransactionType.cs" />
     <Compile Include="Models\Inventory\Warehouse.cs" />
