@@ -12,7 +12,7 @@ using Samba.Localization.Properties;
 namespace Samba.Services.Implementations.PrinterModule
 {
     [Export]
-    class TicketPrintTaskBuilder
+    public class TicketPrintTaskBuilder
     {
         private readonly ILogService _logService;
         private readonly ICacheService _cacheService;

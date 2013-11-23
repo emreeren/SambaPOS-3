@@ -2,7 +2,7 @@
 
 namespace Samba.Services.Implementations.PrinterModule
 {
-    internal class TicketPrintTask
+    public class TicketPrintTask
     {
         public Printer Printer { get; set; }
         public string[] Lines { get; set; }

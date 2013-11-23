@@ -7,7 +7,6 @@ using System.Windows.Documents;
 using System.Windows.Threading;
 using Samba.Domain.Models.Settings;
 using Samba.Domain.Models.Tickets;
-using Samba.Infrastructure.Data.Serializer;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Services.Common;
@@ -45,21 +44,6 @@ namespace Samba.Services.Implementations.PrinterModule
         [ImportMany]
         public IEnumerable<ICustomPrinter> CustomPrinters { get; set; }
 
-        public IEnumerable<Printer> Printers
-        {
-            get { return _cacheService.GetPrinters(); }
-        }
-
-        protected IEnumerable<PrinterTemplate> PrinterTemplates
-        {
-            get { return _cacheService.GetPrinterTemplates(); }
-        }
-
-        public Printer PrinterById(int id)
-        {
-            return Printers.Single(x => x.Id == id);
-        }
-
         public IEnumerable<string> GetPrinterNames()
         {
             return PrinterInfo.GetPrinterNames();
@@ -77,38 +61,14 @@ namespace Samba.Services.Implementations.PrinterModule
 
         public void PrintTicket(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector, bool highPriority)
         {
-            if (highPriority)
-                PrintInstant(ticket, printJob, orderSelector);
-            else PrintAsync(ticket, printJob, orderSelector);
-        }
-
-        private void PrintAsync(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
-        {
-            var clonedTicket = ObjectCloner.Clone2(ticket);
-
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
-                new Action(
-                    delegate
-                    {
-                        LocalSettings.UpdateThreadLanguage();
-                        PrintInstant(clonedTicket, printJob, orderSelector);
-                    }));
-        }
-
-        private void PrintInstant(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
-        {
-            try
-            {
-                var tasks = _ticketPrintTaskBuilder.GetPrintTasksForTicket(ticket, printJob, orderSelector);
-                foreach (var ticketPrintTask in tasks.Where(x => x != null && x.Printer != null && x.Lines != null))
-                {
-                    PrintJobFactory.CreatePrintJob(ticketPrintTask.Printer, this).DoPrint(ticketPrintTask.Lines);
-                }
-            }
-            catch (Exception e)
-            {
-                _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
-            }
+            TicketPrinter.For(ticket)
+                .WithPrinterService(this)
+                .WithLogService(_logService)
+                .WithTaskBuilder(_ticketPrintTaskBuilder)
+                .WithPrintJob(printJob)
+                .WithOrderSelector(orderSelector)
+                .IsHighPriority(highPriority)
+                .Print();
         }
 
         public void PrintObject(object item, Printer printer, PrinterTemplate printerTemplate)
@@ -119,50 +79,28 @@ namespace Samba.Services.Implementations.PrinterModule
                 var lines = formatter.GetFormattedDocument(item, printerTemplate);
                 if (lines != null)
                 {
-                    Print(printer, lines);
+                    AsyncPrintTask.Exec(false, () => PrintJobFactory.CreatePrintJob(printer, this).DoPrint(lines), _logService);
                 }
             }
         }
 
         public void PrintReport(FlowDocument document, Printer printer)
         {
-            if (printer == null || string.IsNullOrEmpty(printer.ShareName)) return;
-            Print(printer, document);
+            ReportPrinter.For(document)
+                .WithPrinterService(this)
+                .WithLogService(_logService)
+                .WithPrinter(printer)
+                .Print();
         }
 
         public void ExecutePrintJob(PrintJob printJob, bool highPriority)
         {
-            if (highPriority) InternalExecutePrintJob(printJob);
-            else
-            {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
-                        new Action(
-                            delegate
-                            {
-                                try
-                                {
-                                    LocalSettings.UpdateThreadLanguage();
-                                    InternalExecutePrintJob(printJob);
-                                }
-                                catch (Exception e)
-                                {
-                                    _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
-                                }
-                            }));
-            }
-
-        }
-
-        public void InternalExecutePrintJob(PrintJob printJob)
-        {
-            if (printJob.PrinterMaps.Count > 0)
-            {
-                var printerMap = printJob.PrinterMaps[0];
-                var printerTemplate = PrinterTemplates.Single(x => x.Id == printerMap.PrinterTemplateId);
-                var content = printerTemplate.Template.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                var printer = PrinterById(printerMap.PrinterId);
-                Print(printer, content);
-            }
+            PrintJobExecutor.For(printJob)
+                .WithPrinterService(this)
+                .WithLogSerivce(_logService)
+                .WithCacheService(_cacheService)
+                .IsHighPriority(highPriority)
+                .Execute();
         }
 
         public IDictionary<string, string> GetTagDescriptions()
@@ -191,42 +129,6 @@ namespace Samba.Services.Implementations.PrinterModule
         {
             var printer = GetCustomPrinter(customPrinterName);
             return printer != null ? printer.GetSettingsObject(customPrinterData) : "";
-        }
-
-        private void Print(Printer printer, FlowDocument document)
-        {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
-                new Action(
-                    delegate
-                    {
-                        try
-                        {
-                            LocalSettings.UpdateThreadLanguage();
-                            PrintJobFactory.CreatePrintJob(printer, this).DoPrint(document);
-                        }
-                        catch (Exception e)
-                        {
-                            _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
-                        }
-                    }));
-        }
-
-        private void Print(Printer printer, string[] document)
-        {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
-                new Action(
-                    delegate
-                    {
-                        try
-                        {
-                            LocalSettings.UpdateThreadLanguage();
-                            PrintJobFactory.CreatePrintJob(printer, this).DoPrint(document);
-                        }
-                        catch (Exception e)
-                        {
-                            _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
-                        }
-                    }));
         }
     }
 }
