@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Windows;
+using System.Windows.Threading;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services.Common;

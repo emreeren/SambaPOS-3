@@ -31,7 +31,6 @@ namespace Samba.Services.Implementations.PrinterModule.CustomPrinters
             if (settings == null) return;
             if (!string.IsNullOrEmpty(settings.FileName))
             {
-                if (!File.Exists(settings.FileName)) File.Create(settings.FileName);
                 File.WriteAllText(settings.FileName, document, Encoding.GetEncoding(printer.CodePage));
             }
         }

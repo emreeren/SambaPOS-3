@@ -141,6 +141,7 @@
     <Compile Include="Implementations\MenuModule\MenuService.cs" />
     <Compile Include="Implementations\MenuModule\PriceListService.cs" />
     <Compile Include="Implementations\Messaging\MessagingService.cs" />
+    <Compile Include="Implementations\PrinterModule\CustomPrinters\SettingPrinter.cs" />
     <Compile Include="Implementations\PrinterModule\ObjectFormatters\AccountTransactionDocumentFormatter.cs" />
     <Compile Include="Implementations\PrinterModule\CustomPrinters\SaveToFilePrinter.cs" />
     <Compile Include="Implementations\PrinterModule\CustomPrinters\UrlPrinter.cs" />

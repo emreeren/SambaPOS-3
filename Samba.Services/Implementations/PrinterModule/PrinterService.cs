@@ -75,11 +75,11 @@ namespace Samba.Services.Implementations.PrinterModule
             return CustomPrinters.FirstOrDefault(x => x.Name == customPrinterName);
         }
 
-        public void PrintTicket(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
+        public void PrintTicket(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector, DispatcherPriority priority)
         {
-          var clonedTicket= ObjectCloner.Clone2(ticket);
+            var clonedTicket = ObjectCloner.Clone2(ticket);
 
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+            Application.Current.Dispatcher.BeginInvoke(priority,
                     new Action(
                         delegate
                         {
@@ -89,7 +89,7 @@ namespace Samba.Services.Implementations.PrinterModule
                                 var tasks = _ticketPrintTaskBuilder.GetPrintTasksForTicket(clonedTicket, printJob, orderSelector);
                                 foreach (var ticketPrintTask in tasks.Where(x => x != null && x.Printer != null && x.Lines != null))
                                 {
-                                    Print(ticketPrintTask.Printer, ticketPrintTask.Lines);
+                                    Print(ticketPrintTask.Printer, ticketPrintTask.Lines, priority);
                                 }
                             }
                             catch (Exception e)
@@ -118,9 +118,9 @@ namespace Samba.Services.Implementations.PrinterModule
             Print(printer, document);
         }
 
-        public void ExecutePrintJob(PrintJob printJob)
+        public void ExecutePrintJob(PrintJob printJob, DispatcherPriority priority)
         {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+            Application.Current.Dispatcher.BeginInvoke(priority,
                 new Action(
                     delegate
                     {
@@ -194,9 +194,9 @@ namespace Samba.Services.Implementations.PrinterModule
                     }));
         }
 
-        private void Print(Printer printer, string[] document)
+        private void Print(Printer printer, string[] document, DispatcherPriority priority = DispatcherPriority.ApplicationIdle)
         {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+            Application.Current.Dispatcher.BeginInvoke(priority,
                 new Action(
                     delegate
                     {

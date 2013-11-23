@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Samba.Domain.Models.Settings;
 using Samba.Services.Common;
 
@@ -13,7 +14,11 @@ namespace Samba.Services.Implementations.SettingsModule
             _programSetting = programSetting;
         }
 
-        public string StringValue { get { return _programSetting.Value; } set { _programSetting.Value = value; } }
+        public string StringValue
+        {
+            get { return _programSetting.Value; }
+            set { _programSetting.Value = value; }
+        }
 
         public DateTime DateTimeValue
         {

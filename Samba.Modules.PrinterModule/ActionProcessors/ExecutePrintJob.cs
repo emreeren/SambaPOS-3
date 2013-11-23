@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq.Expressions;
+using System.Windows.Threading;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Persistance.Specification;
@@ -39,6 +40,8 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                 {
                     var copies = actionData.GetAsInteger("Copies");
                     var printTicket = actionData.GetAsBoolean("PrintTicket", true);
+                    var prioritySetting = actionData.GetAsBoolean("HighPriority");
+                    var priority = prioritySetting ? DispatcherPriority.Normal : DispatcherPriority.ApplicationIdle;
                     if (ticket != null && printTicket)
                     {
                         var orderTagName = actionData.GetAsString("OrderTagName");
@@ -46,6 +49,7 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                         var orderStateName = actionData.GetAsString("OrderStateName");
                         var orderState = actionData.GetAsString("OrderState");
                         var orderStateValue = actionData.GetAsString("OrderStateValue");
+
                         Expression<Func<Order, bool>> expression = ex => true;
                         if (!string.IsNullOrWhiteSpace(orderTagName))
                         {
@@ -59,11 +63,11 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                                 expression = expression.And(ex => ex.IsAnyStateValue(orderStateValue));
                         }
                         _ticketService.UpdateTicketNumber(ticket, _applicationState.CurrentTicketType.TicketNumerator);
-                        ExecuteByCopies(copies, () => _printerService.PrintTicket(ticket, j, expression.Compile()));
+                        ExecuteByCopies(copies, () => _printerService.PrintTicket(ticket, j, expression.Compile(), priority));
                     }
                     else
                     {
-                        ExecuteByCopies(copies, () => _printerService.ExecutePrintJob(j));
+                        ExecuteByCopies(copies, () => _printerService.ExecutePrintJob(j, priority));
                     }
                 }
             }
@@ -88,6 +92,7 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                     {
                         PrintJobName = "",
                         PrintTicket = true,
+                        HighPriority = false,
                         OrderStateName = "",
                         OrderState = "",
                         OrderStateValue = "",

@@ -173,8 +173,8 @@ namespace Samba.Services.Implementations.PrinterModule
         private static bool ShouldSkipPrint(Printer printer, IEnumerable<Order> lns, PrinterTemplate prinerTemplate)
         {
             if (printer == null || string.IsNullOrEmpty(printer.ShareName) || prinerTemplate == null) return true;
-            if (printer.IsCustomPrinter) return true;
-            return !lns.Any() && prinerTemplate.Template.Contains("{ORDERS}");
+            if (printer.IsCustomPrinter) return false;
+            return (!lns.Any() && prinerTemplate.Template.Contains("{ORDERS}"));
         }
 
         private PrinterMap GetPrinterMapForItem(IEnumerable<PrinterMap> printerMaps, int menuItemId)
