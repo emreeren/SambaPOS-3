@@ -75,28 +75,40 @@ namespace Samba.Services.Implementations.PrinterModule
             return CustomPrinters.FirstOrDefault(x => x.Name == customPrinterName);
         }
 
-        public void PrintTicket(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector, DispatcherPriority priority)
+        public void PrintTicket(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector, bool highPriority)
+        {
+            if (highPriority)
+                PrintInstant(ticket, printJob, orderSelector);
+            else PrintAsync(ticket, printJob, orderSelector);
+        }
+
+        private void PrintAsync(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
         {
             var clonedTicket = ObjectCloner.Clone2(ticket);
 
-            Application.Current.Dispatcher.BeginInvoke(priority,
-                    new Action(
-                        delegate
-                        {
-                            try
-                            {
-                                LocalSettings.UpdateThreadLanguage();
-                                var tasks = _ticketPrintTaskBuilder.GetPrintTasksForTicket(clonedTicket, printJob, orderSelector);
-                                foreach (var ticketPrintTask in tasks.Where(x => x != null && x.Printer != null && x.Lines != null))
-                                {
-                                    Print(ticketPrintTask.Printer, ticketPrintTask.Lines, priority);
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
-                            }
-                        }));
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+                new Action(
+                    delegate
+                    {
+                        LocalSettings.UpdateThreadLanguage();
+                        PrintInstant(clonedTicket, printJob, orderSelector);
+                    }));
+        }
+
+        private void PrintInstant(Ticket ticket, PrintJob printJob, Func<Order, bool> orderSelector)
+        {
+            try
+            {
+                var tasks = _ticketPrintTaskBuilder.GetPrintTasksForTicket(ticket, printJob, orderSelector);
+                foreach (var ticketPrintTask in tasks.Where(x => x != null && x.Printer != null && x.Lines != null))
+                {
+                    PrintJobFactory.CreatePrintJob(ticketPrintTask.Printer, this).DoPrint(ticketPrintTask.Lines);
+                }
+            }
+            catch (Exception e)
+            {
+                _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
+            }
         }
 
         public void PrintObject(object item, Printer printer, PrinterTemplate printerTemplate)
@@ -118,22 +130,27 @@ namespace Samba.Services.Implementations.PrinterModule
             Print(printer, document);
         }
 
-        public void ExecutePrintJob(PrintJob printJob, DispatcherPriority priority)
+        public void ExecutePrintJob(PrintJob printJob, bool highPriority)
         {
-            Application.Current.Dispatcher.BeginInvoke(priority,
-                new Action(
-                    delegate
-                    {
-                        try
-                        {
-                            LocalSettings.UpdateThreadLanguage();
-                            InternalExecutePrintJob(printJob);
-                        }
-                        catch (Exception e)
-                        {
-                            _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
-                        }
-                    }));
+            if (highPriority) InternalExecutePrintJob(printJob);
+            else
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+                        new Action(
+                            delegate
+                            {
+                                try
+                                {
+                                    LocalSettings.UpdateThreadLanguage();
+                                    InternalExecutePrintJob(printJob);
+                                }
+                                catch (Exception e)
+                                {
+                                    _logService.LogError(e, Resources.PrintErrorMessage + e.Message);
+                                }
+                            }));
+            }
+
         }
 
         public void InternalExecutePrintJob(PrintJob printJob)
@@ -194,9 +211,9 @@ namespace Samba.Services.Implementations.PrinterModule
                     }));
         }
 
-        private void Print(Printer printer, string[] document, DispatcherPriority priority = DispatcherPriority.ApplicationIdle)
+        private void Print(Printer printer, string[] document)
         {
-            Application.Current.Dispatcher.BeginInvoke(priority,
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
                 new Action(
                     delegate
                     {

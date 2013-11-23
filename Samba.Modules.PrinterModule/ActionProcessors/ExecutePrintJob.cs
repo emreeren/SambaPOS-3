@@ -40,8 +40,7 @@ namespace Samba.Modules.PrinterModule.ActionProcessors
                 {
                     var copies = actionData.GetAsInteger("Copies");
                     var printTicket = actionData.GetAsBoolean("PrintTicket", true);
-                    var prioritySetting = actionData.GetAsBoolean("HighPriority");
-                    var priority = prioritySetting ? DispatcherPriority.Normal : DispatcherPriority.ApplicationIdle;
+                    var priority = actionData.GetAsBoolean("HighPriority");
                     if (ticket != null && printTicket)
                     {
                         var orderTagName = actionData.GetAsString("OrderTagName");

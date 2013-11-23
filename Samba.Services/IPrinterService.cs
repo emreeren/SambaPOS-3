@@ -13,10 +13,10 @@ namespace Samba.Services
         IEnumerable<string> GetPrinterNames();
         IEnumerable<string> GetCustomPrinterNames();
         ICustomPrinter GetCustomPrinter(string customPrinterName);
-        void PrintTicket(Ticket ticket, PrintJob printer, Func<Order, bool> orderSelector,DispatcherPriority priority);
+        void PrintTicket(Ticket ticket, PrintJob printer, Func<Order, bool> orderSelector, bool highPriority);
         void PrintObject(object item, Printer printer, PrinterTemplate printerTemplate);
         void PrintReport(FlowDocument document, Printer printer);
-        void ExecutePrintJob(PrintJob printJob, DispatcherPriority priority);
+        void ExecutePrintJob(PrintJob printJob, bool highPriority);
         IDictionary<string, string> GetTagDescriptions();
         void ResetCache();
         string GetPrintingContent(Ticket ticket, string format, int width);
