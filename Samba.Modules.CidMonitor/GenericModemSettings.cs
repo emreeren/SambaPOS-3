@@ -4,5 +4,6 @@
     {
         public string PortName { get; set; }
         public string MatchPattern { get; set; }
+        public string TerminateString { get; set; }
     }
 }

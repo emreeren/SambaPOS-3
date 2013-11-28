@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO.Ports;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;
@@ -59,9 +58,15 @@ namespace Samba.Modules.CidMonitor
         protected override void DoFinalize()
         {
             _port.DataReceived -= port_DataReceived;
-            _port.Close();
-            _port.Dispose();
-            _port = null;
+            try
+            {
+                _port.Close();
+            }
+            finally
+            {
+                _port.Dispose();
+                _port = null;
+            }
         }
 
         protected override AbstractCidSettings GetSettings()
@@ -74,9 +79,16 @@ namespace Samba.Modules.CidMonitor
             return !string.IsNullOrEmpty(Settings.MatchPattern) ? Settings.MatchPattern : "L.: .{10}([0-9]+)";
         }
 
+        private string GetTerminateString()
+        {
+            return !string.IsNullOrEmpty(Settings.TerminateString) ? Settings.TerminateString : null;
+        }
+
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            var data = _port.ReadTo("\r");
+            var data = !string.IsNullOrEmpty(GetTerminateString())
+                ? _port.ReadTo(GetTerminateString())
+                : _port.ReadTo("\r");
             var number = Regex.Match(data, GetMatchPattern()).Groups[1].Value;
             ProcessPhoneNumber(number);
         }
