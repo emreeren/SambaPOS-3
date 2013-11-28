@@ -31,9 +31,7 @@ namespace Samba.Presentation.Controls.Interaction
             var helper = new WindowInteropHelper(this);
             const int gwlExstyle = -20;
             const int wsExNoactivate = 0x08000000;
-            const int wsExToolWindow = 0x00000080;
             NativeWin32.SetWindowLong(helper.Handle, gwlExstyle, (IntPtr)(wsExNoactivate | wsExNoactivate));
-
         }
     }
 }

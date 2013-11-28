@@ -133,10 +133,15 @@ namespace Samba.Modules.PaymentModule
             var returningAmount = _returningAmountViewModel.GetReturningAmount(tenderedAmount, paymentDueAmount, changeTemplate);
 
             var paidAmount = (changeTemplate == null) ? tenderedAmount - returningAmount : tenderedAmount;
+
+            var paymentAmount = paymentDueAmount > paidAmount
+                    ? paymentDueAmount - paidAmount
+                    : _paymentEditor.GetRemainingAmount();
+
             _orderSelectorViewModel.UpdateSelectedTicketPaidItems();
             _paymentEditor.UpdateTicketPayment(paymentType, changeTemplate, paymentDueAmount, paidAmount, tenderedAmount);
             _numberPadViewModel.LastTenderedAmount = (paidAmount / _paymentEditor.ExchangeRate).ToString(LocalSettings.ReportCurrencyFormat);
-            _tenderedValueViewModel.UpdatePaymentAmount(_paymentEditor.GetRemainingAmount());
+            _tenderedValueViewModel.UpdatePaymentAmount(paymentAmount);
 
             if (returningAmount == 0 && _paymentEditor.GetRemainingAmount() == 0)
             {
@@ -148,7 +153,8 @@ namespace Samba.Modules.PaymentModule
                 {
                     _returningAmountViewModel.PublishEvent(EventTopicNames.Activate);
                 }
-                _orderSelectorViewModel.PersistSelectedItems();
+                if (paymentDueAmount <= paidAmount)
+                    _orderSelectorViewModel.PersistSelectedItems();
                 _numberPadViewModel.ResetValues();
                 RaisePropertyChanged(() => SelectedTicketTitle);
             }
