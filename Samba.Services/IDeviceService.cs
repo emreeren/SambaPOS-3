@@ -8,7 +8,10 @@ namespace Samba.Services
 {
     public interface IDeviceService
     {
+        IEnumerable<string> GetDeviceNames(DeviceType deviceType);
         IEnumerable<string> GetDeviceNames();
-        void InitializeDevices();
+        void InitializeDevice(string deviceName);
+        void FinalizeDevices();
+        IDevice GetDeviceByName(string deviceName);
     }
 }

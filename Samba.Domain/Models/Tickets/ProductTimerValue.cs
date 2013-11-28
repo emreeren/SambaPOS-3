@@ -36,8 +36,9 @@ namespace Samba.Domain.Models.Tickets
         public decimal GetTime()
         {
             var time = GetTimePeriod();
-            if (time < MinTime) time = MinTime;
-            if (TimeRounding > 0 && TimeRounding != time)
+            if (time < MinTime)
+                time = MinTime;
+            else if (TimeRounding > 0 && TimeRounding != time)
                 time = (Math.Truncate(time / TimeRounding) + 1) * TimeRounding;
             return time;
         }

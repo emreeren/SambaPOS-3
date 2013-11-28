@@ -42,6 +42,7 @@
         public const string CreateEntity = "CreateEntity";
         public const string SetWidgetValue = "SetWidgetValue";
         public const string PrintEntity = "PrintEntity";
+        public const string StopActiveTimers = "StopActiveTimers";
     }
 
     public static class EventTopicNames

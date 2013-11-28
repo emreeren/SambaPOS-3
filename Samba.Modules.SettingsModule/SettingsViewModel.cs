@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
+using FluentValidation.Results;
 using Samba.Infrastructure.Settings;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Common.ModelBase;
+using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services.Common;
 using Samba.Services;
+using Samba.Services.Common;
 
 namespace Samba.Modules.SettingsModule
 {
@@ -17,16 +20,19 @@ namespace Samba.Modules.SettingsModule
     {
         private readonly ISettingService _settingService;
         private readonly IMessagingService _messagingService;
+        private readonly IDeviceService _deviceService;
 
         [ImportingConstructor]
-        public SettingsViewModel(ISettingService settingService, IMessagingService messagingService)
+        public SettingsViewModel(ISettingService settingService, IMessagingService messagingService, IDeviceService deviceService)
         {
             _settingService = settingService;
             _messagingService = messagingService;
+            _deviceService = deviceService;
             SaveSettingsCommand = new CaptionCommand<string>(Resources.Save, OnSaveSettings);
             StartMessagingServerCommand = new CaptionCommand<string>(Resources.StartClientNow, OnStartMessagingServer, CanStartMessagingServer);
             DisplayCommonAppPathCommand = new CaptionCommand<string>(Resources.DisplayAppPath, OnDisplayAppPath);
             DisplayUserAppPathCommand = new CaptionCommand<string>(Resources.DisplayUserPath, OnDisplayUserPath);
+            EditCallerIdDeviceSettingsCommand = new CaptionCommand<string>(Resources.Settings, OnEditCallerIdDeviceSettings);
         }
 
         public void OnDisplayUserPath(string obj)
@@ -54,6 +60,16 @@ namespace Samba.Modules.SettingsModule
         private void OnSaveSettings(string obj)
         {
             LocalSettings.SaveSettings();
+            _deviceService.FinalizeDevices();
+            if (!string.IsNullOrEmpty(CallerIdDeviceName))
+            {
+                var device = _deviceService.GetDeviceByName(CallerIdDeviceName);
+                if (device != null)
+                {
+                    device.SaveSettings();
+                    _deviceService.InitializeDevice(CallerIdDeviceName);
+                }
+            }
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.LocalSettingsChanged);
             ((VisibleViewModelBase)this).PublishEvent(EventTopicNames.ViewClosed);
         }
@@ -62,6 +78,7 @@ namespace Samba.Modules.SettingsModule
         public ICaptionCommand StartMessagingServerCommand { get; set; }
         public ICaptionCommand DisplayCommonAppPathCommand { get; set; }
         public ICaptionCommand DisplayUserAppPathCommand { get; set; }
+        public ICaptionCommand EditCallerIdDeviceSettingsCommand { get; set; }
 
         public string TerminalName
         {
@@ -91,6 +108,12 @@ namespace Samba.Modules.SettingsModule
         {
             get { return LocalSettings.StartMessagingClient; }
             set { LocalSettings.StartMessagingClient = value; }
+        }
+
+        public string CallerIdDeviceName
+        {
+            get { return LocalSettings.CallerIdDeviceName; }
+            set { LocalSettings.CallerIdDeviceName = value; RaisePropertyChanged(() => CanEditDeviceSettings); }
         }
 
         public string WindowScale
@@ -146,6 +169,19 @@ namespace Samba.Modules.SettingsModule
             {
                 return _supportedLanguages ?? (_supportedLanguages =
                     LocalSettings.SupportedLanguages.Select(CultureInfo.GetCultureInfo).ToList().OrderBy(x => x.NativeName));
+            }
+        }
+
+        public IEnumerable<string> CallerIdDeviceNames { get { return _deviceService.GetDeviceNames(DeviceType.CallerId); } }
+
+        public bool CanEditDeviceSettings { get { return !string.IsNullOrEmpty(CallerIdDeviceName); } }
+
+        public void OnEditCallerIdDeviceSettings(string arg)
+        {
+            var device = _deviceService.GetDeviceByName(CallerIdDeviceName);
+            if (device != null)
+            {
+                InteractionService.UserIntraction.EditProperties(device.GetSettingsObject());
             }
         }
 

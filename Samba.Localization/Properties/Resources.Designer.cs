@@ -1043,6 +1043,15 @@ namespace Samba.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caller Id Device.
+        /// </summary>
+        public static string CallerIdDevice {
+            get {
+                return ResourceManager.GetString("CallerIdDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To be able to display Caller-ID you should install hardware driver..
         /// </summary>
         public static string CallerIdDriverError {
@@ -7535,6 +7544,15 @@ namespace Samba.Localization.Properties {
         public static string Status {
             get {
                 return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop Product Timers.
+        /// </summary>
+        public static string StopProductTimers {
+            get {
+                return ResourceManager.GetString("StopProductTimers", resourceCulture);
             }
         }
         

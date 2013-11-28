@@ -99,6 +99,7 @@
     <Compile Include="ActionProcessors\MoveTaggedOrders.cs" />
     <Compile Include="ActionProcessors\PayTicket.cs" />
     <Compile Include="ActionProcessors\SelectAutomationCommand.cs" />
+    <Compile Include="ActionProcessors\StopActiveTimers.cs" />
     <Compile Include="ActionProcessors\UnlockTicket.cs" />
     <Compile Include="ActionProcessors\UntagOrder.cs" />
     <Compile Include="ActionProcessors\Helper.cs" />

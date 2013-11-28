@@ -127,9 +127,14 @@ namespace Samba.Presentation
             }
 
             ServiceLocator.Current.GetInstance<ITriggerService>().UpdateCronObjects();
-            ServiceLocator.Current.GetInstance<IDeviceService>().InitializeDevices();
+
             InteractionService.UserIntraction.ToggleSplashScreen();
             EntityCollectionSortManager.Load(LocalSettings.DocumentPath + "\\CollectionSort.txt");
+            
+            if (!string.IsNullOrEmpty(LocalSettings.CallerIdDeviceName))
+            {
+                ServiceLocator.Current.GetInstance<IDeviceService>().InitializeDevice(LocalSettings.CallerIdDeviceName);                
+            }
 
             Application.Current.MainWindow.Show();
             EventServiceFactory.EventService.PublishEvent(EventTopicNames.ShellInitialized);

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Samba.Services.Common;
 
 namespace Samba.Services.Implementations
@@ -13,14 +11,29 @@ namespace Samba.Services.Implementations
         [ImportMany]
         public IEnumerable<IDevice> Devices { get; set; }
 
+        public IEnumerable<string> GetDeviceNames(DeviceType deviceType)
+        {
+            return Devices.Where(x => x.DeviceType == deviceType).Select(x => x.Name);
+        }
         public IEnumerable<string> GetDeviceNames()
         {
             return Devices.Select(x => x.Name);
         }
 
-        public void InitializeDevices()
+        public void InitializeDevice(string deviceName)
         {
-            Devices.ToList().ForEach(x => x.Initialize());
+            if (Devices.Any(x => x.Name == deviceName))
+                Devices.Single(x => x.Name == deviceName).InitializeDevice();
+        }
+
+        public void FinalizeDevices()
+        {
+            Devices.ToList().ForEach(x => x.FinalizeDevice());
+        }
+
+        public IDevice GetDeviceByName(string deviceName)
+        {
+            return Devices.FirstOrDefault(x => x.Name == deviceName);
         }
     }
 }

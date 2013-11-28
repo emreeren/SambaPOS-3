@@ -3544,4 +3544,10 @@ Error Message:
   <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
     <value>Parameter [{0}] should not start or end with space.</value>
   </data>
+  <data name="StopProductTimers" xml:space="preserve">
+    <value>Stop Product Timers</value>
+  </data>
+  <data name="CallerIdDevice" xml:space="preserve">
+    <value>Caller Id Device</value>
+  </data>
 </root>

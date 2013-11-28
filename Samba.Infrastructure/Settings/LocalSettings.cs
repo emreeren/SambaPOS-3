@@ -26,6 +26,7 @@ namespace Samba.Infrastructure.Settings
         public int DefaultRecordLimit { get; set; }
         public double WindowScale { get; set; }
         public bool AllowMultipleClients { get; set; }
+        public string CallerIdDeviceName { get; set; }
         public string ApiHost { get; set; }
         public string ApiPort { get; set; }
         public TimeSpan TokenLifeTime { get; set; }
@@ -191,6 +192,12 @@ html
             set { _settingsObject.WindowScale = value; }
         }
 
+        public static string CallerIdDeviceName
+        {
+            get { return _settingsObject.CallerIdDeviceName; }
+            set { _settingsObject.CallerIdDeviceName = value; }
+        }
+
         public static string AppPath { get; set; }
         public static string DocumentPath { get { return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + AppName; } }
 
@@ -250,6 +257,7 @@ html
                 return "TX";
             }
         }
+
 
         private static Dictionary<string, string> _versionData;
         private static readonly string VersionDataFilePath = DataPath + @"\version.dat";
