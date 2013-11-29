@@ -50,7 +50,7 @@ namespace Samba.Modules.CidMonitor
             }
             catch (Exception e)
             {
-                InteractionService.UserIntraction.DisplayPopup("Generic Modem Error", e.Message);
+                InteractionService.UserIntraction.DisplayPopup("Comet CID Error", e.Message);
                 return false;
             }
 
