@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO.Ports;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Samba.Presentation.Common.Services;
 using Samba.Presentation.Services;

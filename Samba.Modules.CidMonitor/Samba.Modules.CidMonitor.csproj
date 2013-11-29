@@ -67,6 +67,7 @@
     <Compile Include="AbstractCidSettings.cs" />
     <Compile Include="CidEasyDevice.cs" />
     <Compile Include="CidMonitor.cs" />
+    <Compile Include="CometDevice.cs" />
     <Compile Include="GenericModemDevice.cs" />
     <Compile Include="HuginCallerIdDevice.cs" />
     <Compile Include="FrmMain.cs">
