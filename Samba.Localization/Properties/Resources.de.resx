@@ -135,6 +135,9 @@
   <data name="DisplayTicket" xml:space="preserve">
     <value>Beleg anzeigen</value>
   </data>
+  <data name="Matches" xml:space="preserve">
+    <value>Matches</value>
+  </data>
   <data name="Print" xml:space="preserve">
     <value>Drucken</value>
   </data>
@@ -174,6 +177,9 @@
   </data>
   <data name="TagValue" xml:space="preserve">
     <value>Tag Wert</value>
+  </data>
+  <data name="Date_f" xml:space="preserve">
+    <value>{0} Date</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Runden</value>
@@ -226,6 +232,9 @@
   <data name="CustomerReceiptTemplate" xml:space="preserve">
     <value>Kunden Beleg Vorlage</value>
   </data>
+  <data name="MatchesAny" xml:space="preserve">
+    <value>Matches Any</value>
+  </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Gesamteinnahmen</value>
   </data>
@@ -243,6 +252,9 @@
   </data>
   <data name="WorkPeriodReport" xml:space="preserve">
     <value>Arbeitszeitbericht</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
   </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Geben Sie Warengruppen ein, die Sie hinzufügen möchten,</value>
@@ -394,6 +406,9 @@
   <data name="Calculation" xml:space="preserve">
     <value>Berechnung</value>
   </data>
+  <data name="BalanceBroughtForward" xml:space="preserve">
+    <value>Balance Brought Forward</value>
+  </data>
   <data name="Selection_f" xml:space="preserve">
     <value>{0} Auswahl</value>
   </data>
@@ -420,6 +435,9 @@
   </data>
   <data name="LineItemPriceCents" xml:space="preserve">
     <value># Line: Artikelpreis Cents</value>
+  </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parameter [{0}] should not start or end with space.</value>
   </data>
   <data name="UserLogin" xml:space="preserve">
     <value>User Login</value>
@@ -471,6 +489,9 @@
   </data>
   <data name="CustomerTickets" xml:space="preserve">
     <value>Kundenbelege</value>
+  </data>
+  <data name="SelectAutomationCommand" xml:space="preserve">
+    <value>Select Automation Command</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Produkt-Zeitgeber</value>
@@ -555,6 +576,12 @@ Meldung:
   </data>
   <data name="ProductList" xml:space="preserve">
     <value>Produktliste</value>
+  </data>
+  <data name="MatchesMod10" xml:space="preserve">
+    <value>Matches Mod10</value>
+  </data>
+  <data name="DisplayOnCommandSelector" xml:space="preserve">
+    <value>Display on Command Selector</value>
   </data>
   <data name="AlphanumericButtonValues" xml:space="preserve">
     <value>Alphanumerische Button-Werte</value>
@@ -755,6 +782,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="ChangeTicketEntity" xml:space="preserve">
     <value>Belegeinheit verändern</value>
   </data>
+  <data name="AccountTransactionsFilter" xml:space="preserve">
+    <value>Account Transactions Filter</value>
+  </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Kann Berichtdatenfilter wechseln</value>
   </data>
@@ -787,6 +817,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="OrderNumerator" xml:space="preserve">
     <value>Bestellungs-Zähler</value>
+  </data>
+  <data name="Time_f" xml:space="preserve">
+    <value>{0} Time</value>
   </data>
   <data name="IncreaseInventory" xml:space="preserve">
     <value>Bestand erhöhen</value>
@@ -824,6 +857,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Table" xml:space="preserve">
     <value>Tisch</value>
   </data>
+  <data name="BalanceAfterDate" xml:space="preserve">
+    <value>Balance after date</value>
+  </data>
   <data name="SelectPrintJob" xml:space="preserve">
     <value>Wählen Sie einen Druckauftrag</value>
   </data>
@@ -842,6 +878,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Warehouses" xml:space="preserve">
     <value>Lagerräume</value>
   </data>
+  <data name="MatchesAll" xml:space="preserve">
+    <value>Matches All</value>
+  </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Freie Tags speichern</value>
   </data>
@@ -853,6 +892,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="CanRemoveTicketTag" xml:space="preserve">
     <value>Kann Beleg-Tag entfernen</value>
+  </data>
+  <data name="SubButtonColorDef" xml:space="preserve">
+    <value>Sub Button Colors</value>
   </data>
   <data name="CashTransactions" xml:space="preserve">
     <value>Bar-Transaktionen</value>
@@ -905,6 +947,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="OnceADay" xml:space="preserve">
     <value>Einmal am Tag</value>
+  </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Design-Modus</value>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Rabatt gesamt</value>
@@ -981,6 +1026,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Categories" xml:space="preserve">
     <value>Gruppen</value>
   </data>
+  <data name="NotMatches" xml:space="preserve">
+    <value>Not Matches</value>
+  </data>
   <data name="SettlePermissions" xml:space="preserve">
     <value>Kassier-Berechtigungen</value>
   </data>
@@ -1013,6 +1061,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Produktname</value>
+  </data>
+  <data name="SettledBy_f" xml:space="preserve">
+    <value>Settled by {0}</value>
   </data>
   <data name="CantComplateOperationError" xml:space="preserve">
     <value>Konnte die Operation wegen eines Fehlers nicht abschließen. Überprüfe die Fehlerlogdateien für Details.</value>
@@ -1203,6 +1254,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>Transaktionen dürfen nicht leer sein</value>
   </data>
+  <data name="BatchEntityEditor" xml:space="preserve">
+    <value>Batch Entity Editor</value>
+  </data>
   <data name="GroupFooter" xml:space="preserve">
     <value>Gruppen-Fußzeile</value>
   </data>
@@ -1242,6 +1296,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>Kann nicht löschen, weil dieses {0} wird von {1} benutzt.</value>
   </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
   <data name="BeforeTicketClosing" xml:space="preserve">
     <value>Vor schließen des Beleges</value>
   </data>
@@ -1266,6 +1323,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="OptionalTicketTag" xml:space="preserve">
     <value>Optionaler Beleg-Tag</value>
   </data>
+  <data name="NotMatchesAll" xml:space="preserve">
+    <value>Not Matches All</value>
+  </data>
   <data name="TicketCount" xml:space="preserve">
     <value>Beleganzahl</value>
   </data>
@@ -1286,6 +1346,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="AutomationCommandExecuted" xml:space="preserve">
     <value>Automatisierungs-Kommando ausgeführt</value>
+  </data>
+  <data name="ShowOnEndOfDayReport" xml:space="preserve">
+    <value>Show on End of Day Report</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Kann entsperrte Belege umbuchen</value>
@@ -1346,6 +1409,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="New" xml:space="preserve">
     <value>Neu</value>
+  </data>
+  <data name="ExecuteRuleIf" xml:space="preserve">
+    <value>Execute rule if</value>
   </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Beleg sperren</value>
@@ -1459,6 +1525,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Text" xml:space="preserve">
     <value>Text</value>
   </data>
+  <data name="AddLineToTextFile" xml:space="preserve">
+    <value>Add Line to Text File</value>
+  </data>
   <data name="Ten" xml:space="preserve">
     <value>Zehn</value>
   </data>
@@ -1483,6 +1552,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Thirteen" xml:space="preserve">
     <value>Dreizehn</value>
   </data>
+  <data name="ModifyVariable" xml:space="preserve">
+    <value>Modify Variable</value>
+  </data>
   <data name="HideAccountsWithZeroBalance" xml:space="preserve">
     <value>Blende Konten mit Null-Summen aus</value>
   </data>
@@ -1497,6 +1569,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="ButtonHeight" xml:space="preserve">
     <value>Button Höhe</value>
+  </data>
+  <data name="UpdateEntityData" xml:space="preserve">
+    <value>Update Entity Data</value>
   </data>
   <data name="Cash" xml:space="preserve">
     <value>Bar</value>
@@ -1522,6 +1597,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Noon" xml:space="preserve">
     <value>Mittag</value>
   </data>
+  <data name="Greater" xml:space="preserve">
+    <value>Greater</value>
+  </data>
   <data name="Sixteen" xml:space="preserve">
     <value>Sechzehn</value>
   </data>
@@ -1533,6 +1611,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="GroupCode" xml:space="preserve">
     <value>Warengruppe</value>
+  </data>
+  <data name="Less" xml:space="preserve">
+    <value>Less</value>
   </data>
   <data name="Tickets" xml:space="preserve">
     <value>Belege</value>
@@ -1693,11 +1774,17 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   <data name="Fifteen" xml:space="preserve">
     <value>Fünfzehn</value>
   </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Search Value Replace Pattern</value>
+  </data>
   <data name="UpdateTicketStatus" xml:space="preserve">
     <value>Belegstatus aktualisieren</value>
   </data>
   <data name="PageCount" xml:space="preserve">
     <value>Seitenanzahl</value>
+  </data>
+  <data name="MenuItemGroupCode" xml:space="preserve">
+    <value>Menu Item Group Code</value>
   </data>
   <data name="Two" xml:space="preserve">
     <value>Zwei</value>
@@ -1719,6 +1806,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>Not Equals</value>
   </data>
   <data name="FastMenu" xml:space="preserve">
     <value>Schnell-Menü</value>
@@ -1863,6 +1953,9 @@ Trigger ausführen nach {1} Tage, {2} Stunden, {3} Minuten</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Internetauftritt</value>
+  </data>
+  <data name="After" xml:space="preserve">
+    <value>After</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Begrenzung entfernen</value>
@@ -2060,6 +2153,9 @@ Fehlernachricht:
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Name des freigegebenen Druckers / Port Name</value>
   </data>
+  <data name="LengthEquals" xml:space="preserve">
+    <value>Length Equals</value>
+  </data>
   <data name="OrderStateUpdated" xml:space="preserve">
     <value>Bestellstatus aktualisiert</value>
   </data>
@@ -2156,6 +2252,9 @@ Fehlernachricht:
   <data name="ExecutePowershellScript" xml:space="preserve">
     <value>Powershell Script ausführen</value>
   </data>
+  <data name="Ends" xml:space="preserve">
+    <value>Ends</value>
+  </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>Beleg-Nummer: {0}</value>
   </data>
@@ -2170,6 +2269,9 @@ Fehlernachricht:
   </data>
   <data name="Clone_f" xml:space="preserve">
     <value>{0} duplizieren</value>
+  </data>
+  <data name="OrderCount" xml:space="preserve">
+    <value>Order Count</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Auftrag</value>
@@ -2198,6 +2300,9 @@ Fehlernachricht:
   <data name="EveryOtherDay" xml:space="preserve">
     <value>Jeden zweiten Tag</value>
   </data>
+  <data name="DateRangeTotal" xml:space="preserve">
+    <value>Date Range Total</value>
+  </data>
   <data name="SortCategoryProducts" xml:space="preserve">
     <value>Sortieren der Artikel in den Warengruppen</value>
   </data>
@@ -2222,8 +2327,14 @@ Fehlernachricht:
   <data name="NewProperty" xml:space="preserve">
     <value>Neuer Modifier</value>
   </data>
+  <data name="OrderCancelled" xml:space="preserve">
+    <value>Order Cancelled</value>
+  </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Line-Character Count</value>
+  </data>
+  <data name="RawPrinter" xml:space="preserve">
+    <value>Raw Printer</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Typ aktualisieren</value>
@@ -2565,6 +2676,9 @@ schliessen</value>
   <data name="TimeRounding" xml:space="preserve">
     <value>Zeitrundung</value>
   </data>
+  <data name="ShowOnTicket" xml:space="preserve">
+    <value>Show on Ticket</value>
+  </data>
   <data name="Paid" xml:space="preserve">
     <value>Bezahlt</value>
   </data>
@@ -2622,11 +2736,17 @@ schliessen</value>
   <data name="Automation" xml:space="preserve">
     <value>Automatisierung</value>
   </data>
+  <data name="CustomPrinter" xml:space="preserve">
+    <value>Custom Printer</value>
+  </data>
   <data name="Trigger" xml:space="preserve">
     <value>Trigger</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
     <value>Automatische Rundung</value>
+  </data>
+  <data name="LoadLastOrder" xml:space="preserve">
+    <value>Load Last Order</value>
   </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Arbeitszeit gesamt: {0:0} Stunden {1:0} Minuten</value>
@@ -2645,6 +2765,9 @@ schliessen</value>
   </data>
   <data name="NewOrderAddingRule" xml:space="preserve">
     <value>Neue Bestellung-Hinzufügen Regel</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Equals</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Zeichensatz</value>
@@ -2748,6 +2871,9 @@ schliessen</value>
   <data name="TaskType" xml:space="preserve">
     <value>Aufgabentyp</value>
   </data>
+  <data name="TransactionTotal" xml:space="preserve">
+    <value>Transaction Total</value>
+  </data>
   <data name="Calling" xml:space="preserve">
     <value>Anrufen</value>
   </data>
@@ -2808,6 +2934,9 @@ schliessen</value>
   <data name="ExecutePrintJob" xml:space="preserve">
     <value>Druckauftrag ausführen</value>
   </data>
+  <data name="NotMatchesAny" xml:space="preserve">
+    <value>Not Matches Any</value>
+  </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Kalkulationstyp</value>
   </data>
@@ -2820,8 +2949,14 @@ schliessen</value>
   <data name="Expression" xml:space="preserve">
     <value>Ausdruck</value>
   </data>
+  <data name="Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
   <data name="Month" xml:space="preserve">
     <value>Monat</value>
+  </data>
+  <data name="Starts" xml:space="preserve">
+    <value>Starts</value>
   </data>
   <data name="TicketEntityChanged" xml:space="preserve">
     <value>Belegeinheit verändert</value>
@@ -2873,6 +3008,9 @@ schliessen</value>
   </data>
   <data name="OrderUntagged" xml:space="preserve">
     <value>Bestellung abgewählt</value>
+  </data>
+  <data name="SubButtonRows" xml:space="preserve">
+    <value>Sub Button Rows</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Nachricht</value>
@@ -3001,6 +3139,9 @@ Die Arbeitszeit kann nicht beendet werden.</value>
   <data name="Ninety" xml:space="preserve">
     <value>Neunzig</value>
   </data>
+  <data name="DisplayUnderTicketRow2" xml:space="preserve">
+    <value>Display Under Ticket Row 2</value>
+  </data>
   <data name="DefaultTargetAccount" xml:space="preserve">
     <value>Standard Zielkonto</value>
   </data>
@@ -3039,6 +3180,9 @@ Die Arbeitszeit kann nicht beendet werden.</value>
   </data>
   <data name="DepartmentName" xml:space="preserve">
     <value>Name der Abteilung</value>
+  </data>
+  <data name="IsNotNull" xml:space="preserve">
+    <value>Is Not Null</value>
   </data>
   <data name="ForeignCurrency" xml:space="preserve">
     <value>Ausländische Währung</value>
@@ -3166,8 +3310,8 @@ Die Arbeitszeit kann nicht beendet werden.</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Gesamtbetrag als Text geschrieben</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Design-Modus</value>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Ticket Number</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Jede Minute</value>
@@ -3195,6 +3339,9 @@ Die Arbeitszeit kann nicht beendet werden.</value>
   </data>
   <data name="ExecuteScript" xml:space="preserve">
     <value>Script ausführen</value>
+  </data>
+  <data name="ShowOnProductReport" xml:space="preserve">
+    <value>Show on Product Report</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>MwSt. Summe</value>

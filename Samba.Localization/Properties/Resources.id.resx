@@ -253,6 +253,9 @@
   <data name="WorkPeriodReport" xml:space="preserve">
     <value>Laporan Periode Kerja</value>
   </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Masukkan Kategori yang ingin Anda Tambahkan</value>
   </data>
@@ -432,6 +435,9 @@
   </data>
   <data name="LineItemPriceCents" xml:space="preserve">
     <value>#Line: Harga Item Dalam Ratusan Rupiah</value>
+  </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parameter [{0}] should not start or end with space.</value>
   </data>
   <data name="UserLogin" xml:space="preserve">
     <value>User Login</value>
@@ -942,6 +948,9 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Sehari sekali</value>
   </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Mode Desain</value>
+  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Total Diskon</value>
   </data>
@@ -1245,6 +1254,9 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>Transaksi jangan dibiarkan kosong</value>
   </data>
+  <data name="BatchEntityEditor" xml:space="preserve">
+    <value>Batch Entity Editor</value>
+  </data>
   <data name="GroupFooter" xml:space="preserve">
     <value>Group Footer</value>
   </data>
@@ -1334,6 +1346,9 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   </data>
   <data name="AutomationCommandExecuted" xml:space="preserve">
     <value>Perintah Otomatisasi Dijalankan</value>
+  </data>
+  <data name="ShowOnEndOfDayReport" xml:space="preserve">
+    <value>Show on End of Day Report</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Bisa Pindahkan Tiket yang belum terkunci</value>
@@ -1500,6 +1515,9 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   <data name="Text" xml:space="preserve">
     <value>Teks</value>
   </data>
+  <data name="AddLineToTextFile" xml:space="preserve">
+    <value>Add Line to Text File</value>
+  </data>
   <data name="Ten" xml:space="preserve">
     <value>Sepuluh</value>
   </data>
@@ -1523,6 +1541,9 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   </data>
   <data name="Thirteen" xml:space="preserve">
     <value>Tiga belas</value>
+  </data>
+  <data name="ModifyVariable" xml:space="preserve">
+    <value>Modify Variable</value>
   </data>
   <data name="HideAccountsWithZeroBalance" xml:space="preserve">
     <value>Sembunyikan Akun dengan Saldo Nol</value>
@@ -1742,6 +1763,9 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Lima belas</value>
+  </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Search Value Replace Pattern</value>
   </data>
   <data name="UpdateTicketStatus" xml:space="preserve">
     <value>Perbaharui Status Tiket</value>
@@ -2236,6 +2260,9 @@ Pesan Error:
   <data name="Clone_f" xml:space="preserve">
     <value>Duplikat {0}</value>
   </data>
+  <data name="OrderCount" xml:space="preserve">
+    <value>Order Count</value>
+  </data>
   <data name="Order" xml:space="preserve">
     <value>Pesanan</value>
   </data>
@@ -2295,6 +2322,9 @@ Pesan Error:
   </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Jumlah Baris Karakter</value>
+  </data>
+  <data name="RawPrinter" xml:space="preserve">
+    <value>Raw Printer</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Jenis Pembaharuan</value>
@@ -2636,6 +2666,9 @@ Tiket</value>
   <data name="TimeRounding" xml:space="preserve">
     <value>Pembulatan Waktu</value>
   </data>
+  <data name="ShowOnTicket" xml:space="preserve">
+    <value>Show on Ticket</value>
+  </data>
   <data name="Paid" xml:space="preserve">
     <value>Lunas</value>
   </data>
@@ -2692,6 +2725,9 @@ Tiket</value>
   </data>
   <data name="Automation" xml:space="preserve">
     <value>Otomatisasi</value>
+  </data>
+  <data name="CustomPrinter" xml:space="preserve">
+    <value>Custom Printer</value>
   </data>
   <data name="Trigger" xml:space="preserve">
     <value>Trigger</value>
@@ -3264,8 +3300,8 @@ Periode Kerja tidak dapat diakhiri karena masih ada Tiket yang terbuka</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Nilai Total Terbilang dalam kata-kata</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Mode Desain</value>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Ticket Number</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Setiap menit</value>
@@ -3293,6 +3329,9 @@ Periode Kerja tidak dapat diakhiri karena masih ada Tiket yang terbuka</value>
   </data>
   <data name="ExecuteScript" xml:space="preserve">
     <value>Menjalankan Script</value>
+  </data>
+  <data name="ShowOnProductReport" xml:space="preserve">
+    <value>Show on Product Report</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>Total Pajak</value>

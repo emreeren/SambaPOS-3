@@ -2528,7 +2528,7 @@ Messaggio di errore:
     <value>Gruppo di prodotti</value>
   </data>
   <data name="ChangeTotal" xml:space="preserve">
-    <value>Variazione Totale</value>
+    <value>Totale Resto</value>
   </data>
   <data name="StopTimer" xml:space="preserve">
     <value>Stop Tempo</value>
@@ -2588,7 +2588,7 @@ Messaggio di errore:
     <value>Rapporto non contiene quantità di avvio</value>
   </data>
   <data name="ChangeAmount_f" xml:space="preserve">
-    <value>Variazione: {0}</value>
+    <value>Resto: {0}</value>
   </data>
   <data name="Color" xml:space="preserve">
     <value>Colore</value>

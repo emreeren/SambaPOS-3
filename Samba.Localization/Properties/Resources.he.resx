@@ -117,1212 +117,3232 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CustomerAccount" xml:space="preserve">
-    <value>חשבון לקוח</value>
+  <data name="AccountBalance" xml:space="preserve">
+    <value>Account Balance</value>
   </data>
-  <data name="Purchase" xml:space="preserve">
-    <value>רכישה</value>
+  <data name="FixedAmount" xml:space="preserve">
+    <value>Fixed amount</value>
   </data>
-  <data name="KitchenPrinter" xml:space="preserve">
-    <value>מדפסת מטבח</value>
-  </data>
-  <data name="Product" xml:space="preserve">
-    <value>מוצר</value>
-  </data>
-  <data name="PinCode" xml:space="preserve">
-    <value>קוד אישי</value>
-  </data>
-  <data name="ItemSales" xml:space="preserve">
-    <value>מכירות לפי פריט</value>
-  </data>
-  <data name="ResetAccount" xml:space="preserve">
-    <value>איפוס חשבון</value>
-  </data>
-  <data name="TicketOpeningTime" xml:space="preserve">
-    <value>פתיחת כרטיס</value>
-  </data>
-  <data name="SortCategoryProducts" xml:space="preserve">
-    <value>מיון מוצרים בקטגוריה</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>הגדרות</value>
+  <data name="Entity" xml:space="preserve">
+    <value>ישות</value>
   </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>כותרת הכפתור</value>
   </data>
-  <data name="EntityName" xml:space="preserve">
-    <value>שם ישות</value>
+  <data name="POS" xml:space="preserve">
+    <value>POS עמדת מכירה</value>
   </data>
-  <data name="LocalSettings" xml:space="preserve">
-    <value>הגדרות מקומיות</value>
+  <data name="DisplayTicket" xml:space="preserve">
+    <value>הצגת כרטיס</value>
   </data>
-  <data name="InventoryItemName" xml:space="preserve">
-    <value>שם פריט מלאי</value>
+  <data name="Matches" xml:space="preserve">
+    <value>Matches</value>
   </data>
-  <data name="Costs" xml:space="preserve">
-    <value>עלויות</value>
+  <data name="Print" xml:space="preserve">
+    <value>הדפסה</value>
+  </data>
+  <data name="TotalWorkTimeDays_f" xml:space="preserve">
+    <value>Total Work Time:
+{0:0} days {1:0} hours {2:0} minutes</value>
+  </data>
+  <data name="Settle" xml:space="preserve">
+    <value>סגירת חשבון</value>
+  </data>
+  <data name="BeforeWorkPeriodEnds" xml:space="preserve">
+    <value>Before Work Period Ends</value>
+  </data>
+  <data name="Add_f" xml:space="preserve">
+    <value>הוספת: {0}</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>קטגוריה</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>הנחה</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>מטבע</value>
+  </data>
+  <data name="NumberpadValueEntered" xml:space="preserve">
+    <value>Numberpad Value Entered</value>
+  </data>
+  <data name="ButtonColor" xml:space="preserve">
+    <value>צבע כפתור</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>מותאם אישית</value>
+  </data>
+  <data name="EveryMonth" xml:space="preserve">
+    <value>Every month</value>
+  </data>
+  <data name="TagValue" xml:space="preserve">
+    <value>Tag Value</value>
+  </data>
+  <data name="Date_f" xml:space="preserve">
+    <value>{0} Date</value>
+  </data>
+  <data name="Round" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="PropertyEditor" xml:space="preserve">
+    <value>עורך מאפיינים</value>
+  </data>
+  <data name="AccountType" xml:space="preserve">
+    <value>Account Type</value>
+  </data>
+  <data name="Script" xml:space="preserve">
+    <value>Script</value>
+  </data>
+  <data name="DocumentType" xml:space="preserve">
+    <value>סוג מסמך</value>
+  </data>
+  <data name="CashStatus" xml:space="preserve">
+    <value>Cash Status</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>מלאי</value>
+  </data>
+  <data name="LineItemTotalAndQuantity" xml:space="preserve">
+    <value>#שורה: סה"כ x כמות פריט</value>
+  </data>
+  <data name="StartWorkPeriod" xml:space="preserve">
+    <value>תחילת משמרת עבודה</value>
+  </data>
+  <data name="Fourteen" xml:space="preserve">
+    <value>Fourteen</value>
+  </data>
+  <data name="UserRoleList" xml:space="preserve">
+    <value>Role List</value>
+  </data>
+  <data name="UpdateOrderGiftState" xml:space="preserve">
+    <value>Update Order Gift State</value>
+  </data>
+  <data name="ClearFilter" xml:space="preserve">
+    <value>Clear filter</value>
+  </data>
+  <data name="UpdatePriceTag" xml:space="preserve">
+    <value>Change Price List</value>
+  </data>
+  <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
+    <value>Execute Kitchen Orders Print Job</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>מחסן</value>
+  </data>
+  <data name="CustomerReceiptTemplate" xml:space="preserve">
+    <value>Customer Receipt Template</value>
+  </data>
+  <data name="MatchesAny" xml:space="preserve">
+    <value>Matches Any</value>
+  </data>
+  <data name="TotalIncome" xml:space="preserve">
+    <value>Total Income</value>
+  </data>
+  <data name="Entities" xml:space="preserve">
+    <value>Entities</value>
+  </data>
+  <data name="AccountDetails" xml:space="preserve">
+    <value>Account Details</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>בחר</value>
+  </data>
+  <data name="CIDSettings" xml:space="preserve">
+    <value>CID Settings</value>
+  </data>
+  <data name="WorkPeriodReport" xml:space="preserve">
+    <value>דוח משמרת עבודה</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="AddCategoryHint" xml:space="preserve">
+    <value>הזן הקטגוריות שברצונך להוסיף</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>מידע</value>
+  </data>
+  <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
+    <value>נא להתחיל משמרת עבודה בכדי לאפשר גישה POS</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Rules</value>
+  </data>
+  <data name="TicketWithBrackets" xml:space="preserve">
+    <value>[כרטיס]</value>
+  </data>
+  <data name="Numerator" xml:space="preserve">
+    <value>מחולל מספרים</value>
+  </data>
+  <data name="EditModel_f" xml:space="preserve">
+    <value>עריכה: {0} ({1})</value>
+  </data>
+  <data name="Every6Hours" xml:space="preserve">
+    <value>Every 6 hours</value>
+  </data>
+  <data name="TriggerExecuted" xml:space="preserve">
+    <value>Trigger Executed</value>
+  </data>
+  <data name="MinSelectedItems" xml:space="preserve">
+    <value>Min Selected Items</value>
+  </data>
+  <data name="MenuProperties" xml:space="preserve">
+    <value>אפשרויות תפריט</value>
+  </data>
+  <data name="CustomConstraint" xml:space="preserve">
+    <value>Custom Constraint</value>
+  </data>
+  <data name="Dollar" xml:space="preserve">
+    <value>Dollar</value>
+  </data>
+  <data name="BatchPriceList" xml:space="preserve">
+    <value>עורך רשימת מחירים</value>
+  </data>
+  <data name="Numerators" xml:space="preserve">
+    <value>מחוללי מספרים</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>חשבון</value>
+  </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>Device Event Generated</value>
+  </data>
+  <data name="Liability" xml:space="preserve">
+    <value>Liability</value>
+  </data>
+  <data name="UpdateTicketState" xml:space="preserve">
+    <value>עדכון סטטוס כרטיס</value>
+  </data>
+  <data name="Nineteen" xml:space="preserve">
+    <value>Nineteen</value>
+  </data>
+  <data name="List_f" xml:space="preserve">
+    <value>{0} רשימת</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>Tax Included</value>
+  </data>
+  <data name="EveryOtherHour" xml:space="preserve">
+    <value>Every other hour</value>
+  </data>
+  <data name="DiscountsTotal" xml:space="preserve">
+    <value>סה"כ הנחות</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="AveragePrice_ab" xml:space="preserve">
+    <value>Avg.Price</value>
+  </data>
+  <data name="EnterPin" xml:space="preserve">
+    <value>הכנס קוד אישי</value>
+  </data>
+  <data name="ExpenseTransactions" xml:space="preserve">
+    <value>עסקאות הוצאה</value>
+  </data>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>עסקת רכישה</value>
+  </data>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>בחירה אוטומטית</value>
+  </data>
+  <data name="TemplateName" xml:space="preserve">
+    <value>שם תבנית</value>
+  </data>
+  <data name="PropertyGroupName" xml:space="preserve">
+    <value>שם מאפייני קבוצה</value>
+  </data>
+  <data name="PrintAccountTransactions" xml:space="preserve">
+    <value>Print Account Transactions</value>
+  </data>
+  <data name="AddModel_f" xml:space="preserve">
+    <value>הוספת חדש: {0}</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>משתמשים</value>
+  </data>
+  <data name="GetPayment" xml:space="preserve">
+    <value>סגירת חשבון</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Payment_f" xml:space="preserve">
+    <value>{0} Payment</value>
+  </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>Ticket Duration</value>
+  </data>
+  <data name="StateFilter" xml:space="preserve">
+    <value>סינון סטטוס</value>
+  </data>
+  <data name="SubTotal" xml:space="preserve">
+    <value>Sub Total</value>
+  </data>
+  <data name="CanUpdateExtraModifiers" xml:space="preserve">
+    <value>Can Update Extra Modifiers</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>מידע כללי</value>
+  </data>
+  <data name="ReportName" xml:space="preserve">
+    <value>שם דוח</value>
+  </data>
+  <data name="Every3Hours" xml:space="preserve">
+    <value>Every 3 hours</value>
+  </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Command Parameter</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="CashContent" xml:space="preserve">
+    <value>Cash Content</value>
+  </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Calculation</value>
+  </data>
+  <data name="BalanceBroughtForward" xml:space="preserve">
+    <value>Balance Brought Forward</value>
+  </data>
+  <data name="Selection_f" xml:space="preserve">
+    <value>{0} Selection</value>
+  </data>
+  <data name="KitchenPrinter" xml:space="preserve">
+    <value>מדפסת מטבח</value>
+  </data>
+  <data name="InventoryCalculationError" xml:space="preserve">
+    <value>Inventory calculation generated an error. Check your recipes.</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>הגדרות</value>
+  </data>
+  <data name="ErrorInExpression" xml:space="preserve">
+    <value>Error in Expression</value>
+  </data>
+  <data name="NewOrder" xml:space="preserve">
+    <value>הזמנה חדשה</value>
+  </data>
+  <data name="PriceDuration" xml:space="preserve">
+    <value>Price Duration</value>
+  </data>
+  <data name="Multiple" xml:space="preserve">
+    <value>Multiple</value>
+  </data>
+  <data name="LineItemPriceCents" xml:space="preserve">
+    <value>#שורה: מחיר הפריט באגורות</value>
+  </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parameter [{0}] should not start or end with space.</value>
+  </data>
+  <data name="UserLogin" xml:space="preserve">
+    <value>כניסת משתמש</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>קבלה</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="CurrentCost" xml:space="preserve">
+    <value>עלות שוטפת</value>
+  </data>
+  <data name="VoidOrders" xml:space="preserve">
+    <value>Void Orders</value>
+  </data>
+  <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
+    <value>באפשרותך להציג כרטיסים של מלצרים אחרים</value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>Change Payment</value>
+  </data>
+  <data name="AccountNameTemplate" xml:space="preserve">
+    <value>Account Name Template</value>
+  </data>
+  <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
+    <value>Totals grouped by Tax template</value>
+  </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Separated prints by quantity</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>ביטול</value>
+  </data>
+  <data name="ApplicationScreenChanged" xml:space="preserve">
+    <value>Application Screen Changed</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>מאפיין</value>
+  </data>
+  <data name="PaymentScreenValues" xml:space="preserve">
+    <value>ערכים במסך התשלום</value>
+  </data>
+  <data name="DataConnection" xml:space="preserve">
+    <value>Data Connection String</value>
+  </data>
+  <data name="DisplayOpenTickets" xml:space="preserve">
+    <value>הצגת כרטיסים פתוחים</value>
+  </data>
+  <data name="CustomerTickets" xml:space="preserve">
+    <value>כרטיסי לקוח</value>
+  </data>
+  <data name="SelectAutomationCommand" xml:space="preserve">
+    <value>Select Automation Command</value>
+  </data>
+  <data name="ProductTimer" xml:space="preserve">
+    <value>שעון העצר של מוצר</value>
+  </data>
+  <data name="MenuName" xml:space="preserve">
+    <value>שם תפריט</value>
+  </data>
+  <data name="LineItemName" xml:space="preserve">
+    <value>#שורה: שם פריט</value>
+  </data>
+  <data name="LastOrder" xml:space="preserve">
+    <value>הזמנה אחרונה</value>
+  </data>
+  <data name="RefreshCache" xml:space="preserve">
+    <value>Refresh Cache</value>
+  </data>
+  <data name="TotalsGroupedByCalculationType" xml:space="preserve">
+    <value>Totals grouped by Calculation Type</value>
+  </data>
+  <data name="Cancel_f" xml:space="preserve">
+    <value>ביטול: {0}</value>
+  </data>
+  <data name="NumeratorFormat" xml:space="preserve">
+    <value>תבנית מספר</value>
+  </data>
+  <data name="OnceAMonth" xml:space="preserve">
+    <value>Once a month</value>
+  </data>
+  <data name="QuantitySeparators" xml:space="preserve">
+    <value>Quantity Separators</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>מחיר יחידה</value>
+  </data>
+  <data name="UiLanguage" xml:space="preserve">
+    <value>UI Language</value>
+  </data>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Order Moving</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="ErrorLogMessage" xml:space="preserve">
+    <value>There is a problem.
+
+Message:
+</value>
+  </data>
+  <data name="OrderLine" xml:space="preserve">
+    <value>שורת הזמנה</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>ברקוד</value>
+  </data>
+  <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
+    <value>מחק קטגוריה נבחרת?</value>
+  </data>
+  <data name="EndOfDayRecords" xml:space="preserve">
+    <value>רשומות סוף יום</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>שם משתמש</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>חשבונות</value>
+  </data>
+  <data name="WorkPeriod" xml:space="preserve">
+    <value>Work Period</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>מחיר</value>
+  </data>
+  <data name="LineItemTotal" xml:space="preserve">
+    <value>#שורה: סה"כ פריט</value>
+  </data>
+  <data name="MenuList" xml:space="preserve">
+    <value>רשימת תפריטים</value>
+  </data>
+  <data name="ProductList" xml:space="preserve">
+    <value>רשימת מוצרים</value>
+  </data>
+  <data name="MatchesMod10" xml:space="preserve">
+    <value>Matches Mod10</value>
+  </data>
+  <data name="DisplayOnCommandSelector" xml:space="preserve">
+    <value>Display on Command Selector</value>
+  </data>
+  <data name="AlphanumericButtonValues" xml:space="preserve">
+    <value>כפתור ערכים אלפאנומריים</value>
+  </data>
+  <data name="DescriptionTemplate" xml:space="preserve">
+    <value>Description Template</value>
+  </data>
+  <data name="TotalSales" xml:space="preserve">
+    <value>סה"כ מכירות</value>
+  </data>
+  <data name="OrderState" xml:space="preserve">
+    <value>סטטוס הזמנה</value>
+  </data>
+  <data name="DeleteErrorAdminUser" xml:space="preserve">
+    <value>לא ניתן למחוק משתמש Admin.</value>
+  </data>
+  <data name="UseAtOldTickets" xml:space="preserve">
+    <value>רק עבור כרטיסים ישנים</value>
+  </data>
+  <data name="ResetAccount" xml:space="preserve">
+    <value>איפוס חשבון</value>
+  </data>
+  <data name="OrderTag" xml:space="preserve">
+    <value>Order Tag</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Role Name</value>
+  </data>
+  <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
+    <value>There are no cost transactions in this work period.</value>
+  </data>
+  <data name="MenuItem" xml:space="preserve">
+    <value>מוצר</value>
+  </data>
+  <data name="ThereIsAnotherRecipeFor_f" xml:space="preserve">
+    <value>There is another recipe for {0}</value>
+  </data>
+  <data name="OneThousand" xml:space="preserve">
+    <value>One Thousand</value>
+  </data>
+  <data name="PrinterTemplate" xml:space="preserve">
+    <value>תבנית מדפסת</value>
+  </data>
+  <data name="InventoryItems" xml:space="preserve">
+    <value>פריטי מלאי</value>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>Single</value>
+  </data>
+  <data name="CalculationSelector" xml:space="preserve">
+    <value>Calculation Selector</value>
+  </data>
+  <data name="PredictedInventory" xml:space="preserve">
+    <value>חיזוי מלאי</value>
   </data>
   <data name="EndWorkPeriod" xml:space="preserve">
     <value>סיום משמרת עבודה</value>
   </data>
-  <data name="Address" xml:space="preserve">
-    <value>כתובת</value>
-  </data>
   <data name="ProductProperties" xml:space="preserve">
     <value>מאפייני מוצר</value>
   </data>
-  <data name="DepartmentName" xml:space="preserve">
-    <value>שם מחלקה</value>
+  <data name="TransactionType" xml:space="preserve">
+    <value>סוג עסקה</value>
   </data>
-  <data name="Delete_f" xml:space="preserve">
-    <value>מחיקת: {0}</value>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
   </data>
-  <data name="MenuItemGroup" xml:space="preserve">
-    <value>קבוצת מוצרים</value>
+  <data name="Move" xml:space="preserve">
+    <value>Move</value>
   </data>
-  <data name="DisplayDetails" xml:space="preserve">
-    <value>הצגת פרטים</value>
+  <data name="Create_f" xml:space="preserve">
+    <value>Create {0}</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Rate</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
+  </data>
+  <data name="FindProduct" xml:space="preserve">
+    <value>חיפוש מוצר</value>
+  </data>
+  <data name="Every5Minutes" xml:space="preserve">
+    <value>Every 5 minutes</value>
+  </data>
+  <data name="Rule" xml:space="preserve">
+    <value>Rule</value>
+  </data>
+  <data name="LastOrderStatus" xml:space="preserve">
+    <value>מצב הזמנה אחרון</value>
+  </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="Thirty" xml:space="preserve">
+    <value>Thirty</value>
+  </data>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>Entity Screen Item</value>
+  </data>
+  <data name="Incomes_f" xml:space="preserve">
+    <value>{0} Incomes</value>
+  </data>
+  <data name="TicketCreationMethod" xml:space="preserve">
+    <value>Ticket Creation Method</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="OrderTagPrice" xml:space="preserve">
+    <value>Order Tag Price</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>תאריך</value>
+  </data>
+  <data name="Tables" xml:space="preserve">
+    <value>שולחנות</value>
+  </data>
+  <data name="CustomerAccount" xml:space="preserve">
+    <value>חשבון לקוח</value>
+  </data>
+  <data name="TicketStateUpdated" xml:space="preserve">
+    <value>סטטוס כרטיס עודכן</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>מחיקה</value>
+  </data>
+  <data name="Sort_f" xml:space="preserve">
+    <value>מיון: {0}</value>
+  </data>
+  <data name="NoAction" xml:space="preserve">
+    <value>No Action</value>
+  </data>
+  <data name="PropertyGroup" xml:space="preserve">
+    <value>קבוצת מאפיינים</value>
+  </data>
+  <data name="PrintReport" xml:space="preserve">
+    <value>הדפסת דוח</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Error Message</value>
+  </data>
+  <data name="OrderAddedToTicket" xml:space="preserve">
+    <value>Order Added to Ticket</value>
+  </data>
+  <data name="TwelveAmMidnight" xml:space="preserve">
+    <value>12 a.m. midnight</value>
+  </data>
+  <data name="GeneralPrintErrorMessage" xml:space="preserve">
+    <value>There is a problem while printing: Print Map is null</value>
+  </data>
+  <data name="NewTicket" xml:space="preserve">
+    <value>כרטיס חדש</value>
+  </data>
+  <data name="UserSales" xml:space="preserve">
+    <value>מכירות לפי משתמש</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ExpressionValid" xml:space="preserve">
+    <value>Expression Valid</value>
+  </data>
+  <data name="WeightBarcodeItemIdLength" xml:space="preserve">
+    <value>Weight Barcode Item Id Length</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Send Email</value>
+  </data>
+  <data name="PurchaseTransactionType" xml:space="preserve">
+    <value>Purchase Transaction Type</value>
+  </data>
+  <data name="EveryWeekday" xml:space="preserve">
+    <value>Every weekday</value>
+  </data>
+  <data name="RateFromTicketAmount" xml:space="preserve">
+    <value>Rate from ticket amount</value>
+  </data>
+  <data name="OrderTagged" xml:space="preserve">
+    <value>Order Tagged</value>
+  </data>
+  <data name="DayTime" xml:space="preserve">
+    <value>Time of Day</value>
+  </data>
+  <data name="TriggerTestResultMessage_f" xml:space="preserve">
+    <value>Next Trigger:{0}
+Will Trigger after {1} days, {2} hours, {3} minutes</value>
+  </data>
+  <data name="WeightBarcodeItemIdFormat" xml:space="preserve">
+    <value>Weight Barcode Item Id Format</value>
+  </data>
+  <data name="Angle" xml:space="preserve">
+    <value>Angle</value>
+  </data>
+  <data name="OnlyNewLines" xml:space="preserve">
+    <value>רק שורות חדשות</value>
+  </data>
+  <data name="ChangeTicketEntity" xml:space="preserve">
+    <value>Change Ticket Entity</value>
+  </data>
+  <data name="AccountTransactionsFilter" xml:space="preserve">
+    <value>Account Transactions Filter</value>
+  </data>
+  <data name="CanChangeReportFilter" xml:space="preserve">
+    <value>ניתן לשנות סינון תאריך של דוח</value>
+  </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Tagging Type</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>משתמש</value>
+  </data>
+  <data name="Eleven" xml:space="preserve">
+    <value>Eleven</value>
+  </data>
+  <data name="BatchCreate" xml:space="preserve">
+    <value>Batch Create</value>
+  </data>
+  <data name="CanOpenDashboard" xml:space="preserve">
+    <value>ניתן לפתוח את מסך הניהול</value>
+  </data>
+  <data name="LastOrderDate" xml:space="preserve">
+    <value>תאריך הזמנה אחרונה</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Append Unmapped Items</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="OrderNumerator" xml:space="preserve">
+    <value>מחולל מספרי הזמנה</value>
+  </data>
+  <data name="Time_f" xml:space="preserve">
+    <value>{0} Time</value>
+  </data>
+  <data name="IncreaseInventory" xml:space="preserve">
+    <value>Increase Inventory</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>שם קטגוריה</value>
+  </data>
+  <data name="SatAndSun" xml:space="preserve">
+    <value>Sat and Sun</value>
+  </data>
+  <data name="LinesGroupedByBarcode" xml:space="preserve">
+    <value>שורות מקובצות לפי ברקוד</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>This Week</value>
+  </data>
+  <data name="PrintContent" xml:space="preserve">
+    <value>Printing Content</value>
+  </data>
+  <data name="TicketCommand" xml:space="preserve">
+    <value>Ticket Command</value>
+  </data>
+  <data name="PastWeek" xml:space="preserve">
+    <value>Past Week</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>Entity Updated</value>
+  </data>
+  <data name="Customer_f" xml:space="preserve">
+    <value>Customer {0}</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>שולחן</value>
+  </data>
+  <data name="BalanceAfterDate" xml:space="preserve">
+    <value>Balance after date</value>
+  </data>
+  <data name="SelectPrintJob" xml:space="preserve">
+    <value>Select Print Job</value>
+  </data>
+  <data name="CallerIdDriverError" xml:space="preserve">
+    <value>כדי להיות מסוגל להציג זיהוי המתקשר - עליך להתקין מנהל התקן של חומרה.</value>
+  </data>
+  <data name="CanOpenNavigation" xml:space="preserve">
+    <value>Can Enter Navigation Screen</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="TotalAmount_f" xml:space="preserve">
+    <value>{0} Total Amount:</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>מחסנים</value>
+  </data>
+  <data name="MatchesAll" xml:space="preserve">
+    <value>Matches All</value>
+  </data>
+  <data name="SaveFreeTags" xml:space="preserve">
+    <value>Save Free Tags</value>
+  </data>
+  <data name="OrderTagGroups" xml:space="preserve">
+    <value>Order Tag Groups</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>כתובת</value>
+  </data>
+  <data name="CanRemoveTicketTag" xml:space="preserve">
+    <value>באפשרותך להסיר תג של כרטיס</value>
+  </data>
+  <data name="SubButtonColorDef" xml:space="preserve">
+    <value>Sub Button Colors</value>
+  </data>
+  <data name="CashTransactions" xml:space="preserve">
+    <value>עסקאות במזומן</value>
+  </data>
+  <data name="RoundTicketTotal" xml:space="preserve">
+    <value>Round Ticket Total</value>
+  </data>
+  <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
+    <value>Can't delete because there should be at least one terminal.</value>
+  </data>
+  <data name="UpdateProgramSetting" xml:space="preserve">
+    <value>עדכון הגדרות התוכנה</value>
+  </data>
+  <data name="TicketState" xml:space="preserve">
+    <value>סטטוס כרטיס</value>
+  </data>
+  <data name="OrderTagGroup" xml:space="preserve">
+    <value>Order Tag Group</value>
+  </data>
+  <data name="SambaMarket" xml:space="preserve">
+    <value>חנות Samba</value>
+  </data>
+  <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
+    <value>Date range is not in active work period</value>
+  </data>
+  <data name="TransactionMultiplierError" xml:space="preserve">
+    <value>Transaction multiplier should not be zero</value>
+  </data>
+  <data name="AccountBalanceDisplayFormat" xml:space="preserve">
+    <value>Account Balance Display Format</value>
+  </data>
+  <data name="Costs" xml:space="preserve">
+    <value>עלויות</value>
+  </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>Expenses</value>
+  </data>
+  <data name="CanStartEndOfDay" xml:space="preserve">
+    <value>Can Start End of Day</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Payment Type</value>
+  </data>
+  <data name="LineCount" xml:space="preserve">
+    <value>ספירת שורות</value>
   </data>
   <data name="AdminPasswordHint" xml:space="preserve">
     <value>קוד אישי של מנהל: 1234
 שינוי הקוד יעלים הודעה זו</value>
   </data>
-  <data name="Cost" xml:space="preserve">
-    <value>עלות</value>
-  </data>
-  <data name="OnlyOpenTickets" xml:space="preserve">
-    <value>כרטיסים פתוחים בלבד</value>
-  </data>
-  <data name="InventoryConsumption" xml:space="preserve">
-    <value>צריכת מלאי</value>
-  </data>
-  <data name="DetailedReport" xml:space="preserve">
-    <value>דוח מפורט</value>
-  </data>
-  <data name="Edit_f" xml:space="preserve">
-    <value>עריכה: {0}</value>
-  </data>
-  <data name="EntityTypes" xml:space="preserve">
-    <value>סוגי ישויות</value>
-  </data>
-  <data name="ProductTag" xml:space="preserve">
-    <value>תג מוצר</value>
-  </data>
-  <data name="CanDisplayReports" xml:space="preserve">
-    <value>ניתן להציג דוחות</value>
-  </data>
-  <data name="StartProcess" xml:space="preserve">
-    <value>להתחיל תהליך</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>תאור</value>
-  </data>
-  <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
-    <value>בחר משימות ההדפסה שברצונך להוסיף {0} מסוף</value>
-  </data>
-  <data name="UpdateMergedTicketsState" xml:space="preserve">
-    <value>עדכון סטטוס כרטיסים ממוזגים</value>
-  </data>
-  <data name="CustomerTickets" xml:space="preserve">
-    <value>כרטיסי לקוח</value>
-  </data>
-  <data name="Clear" xml:space="preserve">
-    <value>נקה</value>
-  </data>
-  <data name="StartWorkPeriodToEnablePos" xml:space="preserve">
-    <value>נא להתחיל משמרת עבודה בכדי לאפשר גישה POS</value>
-  </data>
-  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
-    <value>מחק מיפוי נבחר?</value>
-  </data>
-  <data name="UserRole" xml:space="preserve">
-    <value>תפקידי משתמש</value>
-  </data>
-  <data name="CanReleaseTicketLock" xml:space="preserve">
-    <value>באפשרותך להסיר נעילת כרטיס</value>
-  </data>
-  <data name="Multiplier" xml:space="preserve">
-    <value>מכפיל</value>
-  </data>
-  <data name="CanChangeReportFilter" xml:space="preserve">
-    <value>ניתן לשנות סינון תאריך של דוח</value>
-  </data>
-  <data name="UserName" xml:space="preserve">
-    <value>שם משתמש</value>
-  </data>
-  <data name="InventoryItems" xml:space="preserve">
-    <value>פריטי מלאי</value>
-  </data>
-  <data name="Terminals" xml:space="preserve">
-    <value>מסופים</value>
-  </data>
-  <data name="General" xml:space="preserve">
-    <value>כללי</value>
-  </data>
-  <data name="CanDisplayOldTickets" xml:space="preserve">
-    <value>ניתן להציג כרטיסים ישנים</value>
-  </data>
-  <data name="NewOrders" xml:space="preserve">
-    <value>הזמנות חדשות</value>
-  </data>
-  <data name="UserSales" xml:space="preserve">
-    <value>מכירות לפי משתמש</value>
-  </data>
-  <data name="Receiveable" xml:space="preserve">
-    <value>ממתין לתשלום</value>
-  </data>
-  <data name="TicketWithBrackets" xml:space="preserve">
-    <value>[כרטיס]</value>
-  </data>
-  <data name="LineItemName" xml:space="preserve">
-    <value>#שורה: שם פריט</value>
-  </data>
-  <data name="Common" xml:space="preserve">
-    <value>משותף</value>
-  </data>
-  <data name="Sales" xml:space="preserve">
-    <value>מכירות</value>
-  </data>
-  <data name="PredictedInventory" xml:space="preserve">
-    <value>חיזוי מלאי</value>
-  </data>
-  <data name="FixedCost" xml:space="preserve">
-    <value>עלות קבועה</value>
-  </data>
-  <data name="CallerIdDriverError" xml:space="preserve">
-    <value>כדי להיות מסוגל להציג זיהוי המתקשר - עליך להתקין מנהל התקן של חומרה.</value>
-  </data>
-  <data name="Select" xml:space="preserve">
-    <value>בחר</value>
-  </data>
-  <data name="SalesIncome" xml:space="preserve">
-    <value>הכנסה ממכירות</value>
-  </data>
-  <data name="DisplayPaymentScreen" xml:space="preserve">
-    <value>הצגת מסך התשלום</value>
-  </data>
-  <data name="AllTickets" xml:space="preserve">
-    <value>כל הכרטיסים</value>
-  </data>
-  <data name="PropertyGroupName" xml:space="preserve">
-    <value>שם מאפייני קבוצה</value>
-  </data>
-  <data name="NumeratorFormat" xml:space="preserve">
-    <value>תבנית מספר</value>
-  </data>
-  <data name="AutomationCommand" xml:space="preserve">
-    <value>פקודת אוטומציה</value>
-  </data>
-  <data name="LastOrder" xml:space="preserve">
-    <value>הזמנה אחרונה</value>
-  </data>
-  <data name="UpdateProgramSetting" xml:space="preserve">
-    <value>עדכון הגדרות התוכנה</value>
-  </data>
-  <data name="SelectionRequired" xml:space="preserve">
-    <value>חובה לבחור</value>
-  </data>
-  <data name="PrintBill" xml:space="preserve">
-    <value>הדפסת חשבון</value>
-  </data>
-  <data name="CashReport" xml:space="preserve">
-    <value>דו"ח עסקאות במזומן</value>
-  </data>
-  <data name="GeneralInformation" xml:space="preserve">
-    <value>מידע כללי</value>
-  </data>
-  <data name="LinesGroupedByGroupCode" xml:space="preserve">
-    <value>שורות מקובצות לפי קוד קבוצה</value>
-  </data>
-  <data name="AddModel_f" xml:space="preserve">
-    <value>הוספת חדש: {0}</value>
-  </data>
-  <data name="ForeignCurrency" xml:space="preserve">
-    <value>מטבע חוץ</value>
-  </data>
-  <data name="Print" xml:space="preserve">
-    <value>הדפסה</value>
-  </data>
-  <data name="LineItemTotal" xml:space="preserve">
-    <value>#שורה: סה"כ פריט</value>
-  </data>
-  <data name="TicketCount" xml:space="preserve">
-    <value>ספירת כרטיסים</value>
-  </data>
-  <data name="SortOrder" xml:space="preserve">
-    <value>מיון הזמנה</value>
-  </data>
-  <data name="ExportSalesData" xml:space="preserve">
-    <value>ייצוא נתוני מכירות</value>
-  </data>
-  <data name="BatchCreteProducts" xml:space="preserve">
-    <value>אצווה ליצירת מוצרים</value>
-  </data>
-  <data name="PortionPrices" xml:space="preserve">
-    <value>מחירי מנה</value>
-  </data>
-  <data name="PrinterTemplate" xml:space="preserve">
-    <value>תבנית מדפסת</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>שמירה</value>
-  </data>
-  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
-    <value>הדפסת הזמנות למדפסת מטבח</value>
-  </data>
-  <data name="Sort_f" xml:space="preserve">
-    <value>מיון: {0}</value>
-  </data>
-  <data name="AskBeforeCreatingTicket" xml:space="preserve">
-    <value>לשאול לפני יצירת כרטיס</value>
-  </data>
-  <data name="TicketOptions" xml:space="preserve">
-    <value>הגדרות כרטיס</value>
-  </data>
-  <data name="Cent" xml:space="preserve">
-    <value>טומוגרפיה ממוחשבת</value>
-  </data>
-  <data name="InternetBrowser" xml:space="preserve">
-    <value>דפדפן אינטרנט</value>
-  </data>
-  <data name="Unit" xml:space="preserve">
-    <value>יחידה</value>
-  </data>
-  <data name="Terminal" xml:space="preserve">
-    <value>מסוף</value>
-  </data>
-  <data name="Printer" xml:space="preserve">
-    <value>מדפסת</value>
-  </data>
-  <data name="UpdateEntityState" xml:space="preserve">
-    <value>עדכון סטטוס הישות</value>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>מנהל</value>
-  </data>
-  <data name="PageCount" xml:space="preserve">
-    <value>ספירת עמוד</value>
-  </data>
-  <data name="UnitPrice" xml:space="preserve">
-    <value>מחיר יחידה</value>
-  </data>
-  <data name="TicketsMerged" xml:space="preserve">
-    <value>כרטיסים ממוזגים</value>
-  </data>
-  <data name="Voucher" xml:space="preserve">
-    <value>שובר</value>
-  </data>
-  <data name="PrinterName" xml:space="preserve">
-    <value>שם מדפסת</value>
-  </data>
-  <data name="Clone_f" xml:space="preserve">
-    <value>שכפול: {0}</value>
-  </data>
-  <data name="LockTicket" xml:space="preserve">
-    <value>נעילת כרטיס</value>
-  </data>
-  <data name="CategoryProducts" xml:space="preserve">
-    <value>קטגורית מוצרים</value>
-  </data>
-  <data name="LinesGroupedByTag" xml:space="preserve">
-    <value>שורות מקובצות לפי תג</value>
-  </data>
-  <data name="BeforeTicketClosing" xml:space="preserve">
-    <value>לפני סגירת כרטיס</value>
-  </data>
-  <data name="LinePriceTag" xml:space="preserve">
-    <value>#שורה: תג מחיר</value>
-  </data>
-  <data name="FastMenu" xml:space="preserve">
-    <value>תפריט מהיר</value>
-  </data>
-  <data name="MenuCategories" xml:space="preserve">
-    <value>קטגוריות תפריט</value>
-  </data>
-  <data name="Accounts" xml:space="preserve">
-    <value>חשבונות</value>
-  </data>
-  <data name="UseAtOldTickets" xml:space="preserve">
-    <value>רק עבור כרטיסים ישנים</value>
-  </data>
-  <data name="AutoLogout" xml:space="preserve">
-    <value>יציאה אוטומטית מהמערכת</value>
-  </data>
-  <data name="TicketCreated" xml:space="preserve">
-    <value>כרטיס נוצר</value>
-  </data>
-  <data name="Select_f" xml:space="preserve">
-    <value>בחר: {0}</value>
-  </data>
-  <data name="Color" xml:space="preserve">
-    <value>צבע</value>
-  </data>
-  <data name="Departments" xml:space="preserve">
-    <value>מחלקות</value>
-  </data>
-  <data name="ProductName" xml:space="preserve">
-    <value>שם מוצר</value>
-  </data>
-  <data name="POSMenu" xml:space="preserve">
-    <value>תפריט עמדת מכירה</value>
-  </data>
-  <data name="TransactionType" xml:space="preserve">
-    <value>סוג עסקה</value>
-  </data>
-  <data name="AllCategories" xml:space="preserve">
-    <value>כל הקטגוריות</value>
-  </data>
-  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
-    <value>כדי להוסיף הנחות, הקלד תעריף ולחץ על כפתור הנחה. כדי להסיר הנחה לחץ על כפתור הנחה ללא הקלדת ערך.</value>
-  </data>
-  <data name="StateDefinition" xml:space="preserve">
-    <value>הגדרת סטטוס</value>
-  </data>
-  <data name="OrderState" xml:space="preserve">
-    <value>סטטוס הזמנה</value>
-  </data>
-  <data name="MenuItem" xml:space="preserve">
-    <value>מוצר</value>
-  </data>
-  <data name="APortionShouldSelected" xml:space="preserve">
-    <value>מנה צריכה להיות מסומנת</value>
-  </data>
-  <data name="NumeratorProperties" xml:space="preserve">
-    <value>מאפייני לוח מקשי מספרים</value>
-  </data>
-  <data name="DemoPrinter" xml:space="preserve">
-    <value>מדפסת דמי (notepad)</value>
-  </data>
-  <data name="Paid" xml:space="preserve">
-    <value>שולם</value>
-  </data>
-  <data name="Management" xml:space="preserve">
-    <value>ניהול</value>
-  </data>
-  <data name="MenuProperties" xml:space="preserve">
-    <value>אפשרויות תפריט</value>
-  </data>
-  <data name="ProductTimer" xml:space="preserve">
-    <value>שעון העצר של מוצר</value>
-  </data>
-  <data name="DefaultProperties" xml:space="preserve">
-    <value>מאפייני ברירת מחדל</value>
-  </data>
-  <data name="ImagePath" xml:space="preserve">
-    <value>נתיב התמונה</value>
-  </data>
-  <data name="Incomes" xml:space="preserve">
-    <value>הכנסות</value>
-  </data>
-  <data name="GetPayment" xml:space="preserve">
-    <value>סגירת חשבון</value>
-  </data>
-  <data name="PrinterOptions" xml:space="preserve">
-    <value>הגדרות מדפסת</value>
-  </data>
-  <data name="OnlyNewLines" xml:space="preserve">
-    <value>רק שורות חדשות</value>
-  </data>
-  <data name="Note" xml:space="preserve">
-    <value>הערה</value>
-  </data>
-  <data name="BatchCreateInfo_f" xml:space="preserve">
-    <value>ניצור {0} עבור כל שורה שהזנת כאן.</value>
-  </data>
-  <data name="Warning" xml:space="preserve">
-    <value>אזהרה</value>
-  </data>
-  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
-    <value>נא לא לשכוח לסיים משמרת עבודה!</value>
-  </data>
-  <data name="CantSave" xml:space="preserve">
-    <value>אין אפשרות לשמור</value>
-  </data>
-  <data name="TicketTotal" xml:space="preserve">
-    <value>סה"כ כרטיס</value>
-  </data>
-  <data name="ButtonHeight" xml:space="preserve">
-    <value>גובה כפתור</value>
-  </data>
-  <data name="TicketNote" xml:space="preserve">
-    <value>הערות כרטיס</value>
-  </data>
-  <data name="Exit" xml:space="preserve">
-    <value>יציאה</value>
-  </data>
-  <data name="CurrentInventory" xml:space="preserve">
-    <value>מלאי שוטף</value>
-  </data>
-  <data name="StateController" xml:space="preserve">
-    <value>בקרת סטטוס</value>
-  </data>
-  <data name="TotalSales" xml:space="preserve">
-    <value>סה"כ מכירות</value>
-  </data>
-  <data name="Reports" xml:space="preserve">
-    <value>דוחות</value>
-  </data>
-  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
-    <value>צור שורה לכל מוצר עם תבנית של [שם מוצר] [מחיר]. התחל שמות של קטגוריות עם #</value>
-  </data>
-  <data name="InternalAccounts" xml:space="preserve">
-    <value>חשבונות פנימיים</value>
-  </data>
-  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
-    <value>אין אפשרות למחוק רשומות סוף יום ישנות</value>
+  <data name="OnceADay" xml:space="preserve">
+    <value>Once a day</value>
+  </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Design Mode</value>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>סה"כ הנחה</value>
   </data>
-  <data name="State" xml:space="preserve">
-    <value>סטטוס</value>
-  </data>
-  <data name="OrderStateGroup" xml:space="preserve">
-    <value>קבוצת סטטוס הזמנה</value>
-  </data>
-  <data name="All Tables" xml:space="preserve">
-    <value>כל השולחנות</value>
-  </data>
-  <data name="AddCategoryHint" xml:space="preserve">
-    <value>הזן הקטגוריות שברצונך להוסיף</value>
-  </data>
   <data name="Today" xml:space="preserve">
     <value>היום</value>
   </data>
-  <data name="POS" xml:space="preserve">
-    <value>POS עמדת מכירה</value>
+  <data name="BalancedAccounts" xml:space="preserve">
+    <value>חשבונות מאוזנים</value>
   </data>
-  <data name="Menu" xml:space="preserve">
-    <value>תפריט</value>
+  <data name="FreeTagging" xml:space="preserve">
+    <value>Free Tagging</value>
   </data>
-  <data name="PrinterType" xml:space="preserve">
-    <value>סוג מדפסת</value>
+  <data name="Customers" xml:space="preserve">
+    <value>לקוחות</value>
   </data>
-  <data name="Html" xml:space="preserve">
-    <value>HTML</value>
-  </data>
-  <data name="OrderStateValue" xml:space="preserve">
-    <value>ערך סטטוס הזמנה</value>
-  </data>
-  <data name="MenuList" xml:space="preserve">
-    <value>רשימת תפריטים</value>
-  </data>
-  <data name="InventoryReport" xml:space="preserve">
-    <value>דוח מלאי</value>
-  </data>
-  <data name="Customer" xml:space="preserve">
-    <value>לקוח</value>
-  </data>
-  <data name="LoadTicket" xml:space="preserve">
-    <value>טעינת כרטיס</value>
-  </data>
-  <data name="Numerator" xml:space="preserve">
-    <value>מחולל מספרים</value>
-  </data>
-  <data name="CloseTicket" xml:space="preserve">
-    <value>סגור כרטיס</value>
-  </data>
-  <data name="WindowScale" xml:space="preserve">
-    <value>גודל חלון</value>
-  </data>
-  <data name="GeneralSettings" xml:space="preserve">
-    <value>הגדרות כלליות</value>
-  </data>
-  <data name="CategoryName" xml:space="preserve">
-    <value>שם קטגוריה</value>
-  </data>
-  <data name="TicketClosing" xml:space="preserve">
-    <value>סגירת כרטיס</value>
-  </data>
-  <data name="CheckDBVersion" xml:space="preserve">
-    <value>נא לבדוק גרסת מסד נתונים</value>
-  </data>
-  <data name="AddProductsToCategoryHint_f" xml:space="preserve">
-    <value>בחר מוצרים עבור קטגוריה: {0}</value>
-  </data>
-  <data name="POSView" xml:space="preserve">
-    <value>תצוגת עמדת מכירה</value>
-  </data>
-  <data name="OrderLine" xml:space="preserve">
-    <value>שורת הזמנה</value>
-  </data>
-  <data name="List_f" xml:space="preserve">
-    <value>{0} רשימת</value>
-  </data>
-  <data name="New" xml:space="preserve">
-    <value>חדש</value>
-  </data>
-  <data name="Properties" xml:space="preserve">
-    <value>מאפיינים</value>
-  </data>
-  <data name="LocalWarehouse" xml:space="preserve">
-    <value>מחסן מקומי</value>
-  </data>
-  <data name="DisplayUserPath" xml:space="preserve">
-    <value>הצג נתיב של המשתמש</value>
-  </data>
-  <data name="Gift" xml:space="preserve">
-    <value>מתנה</value>
-  </data>
-  <data name="LocalWarehouses" xml:space="preserve">
-    <value>מחסנים מקומיים</value>
-  </data>
-  <data name="NumeratorType" xml:space="preserve">
-    <value>סוג לוח מקשי מספרים</value>
-  </data>
-  <data name="WarehouseType" xml:space="preserve">
-    <value>סוג מחסן</value>
-  </data>
-  <data name="NewTicket" xml:space="preserve">
-    <value>כרטיס חדש</value>
-  </data>
-  <data name="EnterPin" xml:space="preserve">
-    <value>הכנס קוד אישי</value>
-  </data>
-  <data name="SellAmount" xml:space="preserve">
-    <value>כמות נמכר</value>
-  </data>
-  <data name="LineCount" xml:space="preserve">
-    <value>ספירת שורות</value>
-  </data>
-  <data name="TicketState" xml:space="preserve">
-    <value>סטטוס כרטיס</value>
-  </data>
-  <data name="AutoSelectProductsQuestion" xml:space="preserve">
-    <value>בחירה אוטומטית של מוצרים לקטגוריות חדשות?</value>
-  </data>
-  <data name="LineOrderNumber" xml:space="preserve">
-    <value>#שורה: מספר הזמנה</value>
-  </data>
-  <data name="Portion" xml:space="preserve">
-    <value>מנה</value>
-  </data>
-  <data name="ProductList" xml:space="preserve">
-    <value>רשימת מוצרים</value>
-  </data>
-  <data name="LineItemTotalWithoutGifts" xml:space="preserve">
-    <value>#שורה: סה"כ מוצרים (ללא מתנות)</value>
-  </data>
-  <data name="CalculateCost" xml:space="preserve">
-    <value>לחשב עלות</value>
-  </data>
-  <data name="OrderNumerator" xml:space="preserve">
-    <value>מחולל מספרי הזמנה</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>משתמש</value>
-  </data>
-  <data name="NewOrder" xml:space="preserve">
-    <value>הזמנה חדשה</value>
-  </data>
-  <data name="FindProduct" xml:space="preserve">
-    <value>חיפוש מוצר</value>
-  </data>
-  <data name="CostPrediction" xml:space="preserve">
-    <value>צפי עלות</value>
-  </data>
-  <data name="MarkTicketAsClosed" xml:space="preserve">
-    <value>סמן כרטיס כסגור</value>
-  </data>
-  <data name="Mapping_f" xml:space="preserve">
-    <value>{0} מיפוי</value>
-  </data>
-  <data name="PaymentScreenValues" xml:space="preserve">
-    <value>ערכים במסך התשלום</value>
-  </data>
-  <data name="Account" xml:space="preserve">
-    <value>חשבון</value>
-  </data>
-  <data name="Barcode" xml:space="preserve">
-    <value>ברקוד</value>
-  </data>
-  <data name="SortCategories" xml:space="preserve">
-    <value>מיון קטגוריות</value>
-  </data>
-  <data name="Mappings" xml:space="preserve">
-    <value>מיפויים</value>
-  </data>
-  <data name="EntityType" xml:space="preserve">
-    <value>סוג ישות</value>
-  </data>
-  <data name="WindowsPrinter" xml:space="preserve">
-    <value>מדפסת Windows</value>
-  </data>
-  <data name="InventoryItem" xml:space="preserve">
-    <value>פריט מלאי</value>
-  </data>
-  <data name="PaymentTotal" xml:space="preserve">
-    <value>סה"כ לתשלום</value>
-  </data>
-  <data name="DisplayAppPath" xml:space="preserve">
-    <value>הצג נתיב של התוכנה</value>
-  </data>
-  <data name="EntityScreen" xml:space="preserve">
-    <value>מסך ישות</value>
+  <data name="TicketTag" xml:space="preserve">
+    <value>Ticket Tag</value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>תצוגה</value>
   </data>
-  <data name="SaveReportToFile" xml:space="preserve">
-    <value>שמירת דוח לקובץ</value>
-  </data>
-  <data name="Recipe" xml:space="preserve">
-    <value>קבלה</value>
-  </data>
-  <data name="UpdateTicketState" xml:space="preserve">
-    <value>עדכון סטטוס כרטיס</value>
-  </data>
-  <data name="EditModel_f" xml:space="preserve">
-    <value>עריכה: {0} ({1})</value>
-  </data>
-  <data name="UserLogout" xml:space="preserve">
-    <value>יציאת משתמש מהמערכת</value>
-  </data>
-  <data name="AddTicketDiscount" xml:space="preserve">
-    <value>הוספת כרטיס הנחה</value>
-  </data>
-  <data name="EmptyNameError" xml:space="preserve">
-    <value>נא לא להשאיר שם {0} ריק.</value>
-  </data>
-  <data name="Calling" xml:space="preserve">
-    <value>מתקשר</value>
-  </data>
-  <data name="PropertyEditor" xml:space="preserve">
-    <value>עורך מאפיינים</value>
-  </data>
-  <data name="Custom" xml:space="preserve">
-    <value>מותאם אישית</value>
-  </data>
-  <data name="TerminalView" xml:space="preserve">
-    <value>תצוגת מסוף</value>
+  <data name="Handler" xml:space="preserve">
+    <value>Handler</value>
   </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
     <value>ניתן להעביר פריטים</value>
   </data>
-  <data name="WrapText" xml:space="preserve">
-    <value>גלישת טקסט</value>
+  <data name="FixedCost" xml:space="preserve">
+    <value>עלות קבועה</value>
   </data>
-  <data name="Warehouses" xml:space="preserve">
-    <value>מחסנים</value>
+  <data name="Amount_f" xml:space="preserve">
+    <value>{0} Amount</value>
   </data>
-  <data name="InventoryPurchaseReport" xml:space="preserve">
-    <value>דוח רכישות מלאי</value>
+  <data name="CategoryProperties" xml:space="preserve">
+    <value>אפשרויות קטגוריה</value>
   </data>
-  <data name="SambaMarket" xml:space="preserve">
-    <value>חנות Samba</value>
+  <data name="ToggleCalculation" xml:space="preserve">
+    <value>Toggle Calculation</value>
   </data>
-  <data name="SqlHint" xml:space="preserve">
-    <value>לחץ כאן למידע על עבודה עם מסדי נתונים SQL</value>
+  <data name="LineItemPrice" xml:space="preserve">
+    <value>#שורה: מחיר פריט</value>
   </data>
-  <data name="AlphanumericButtonValues" xml:space="preserve">
-    <value>כפתור ערכים אלפאנומריים</value>
+  <data name="StartingWorkPeriodCompleted" xml:space="preserve">
+    <value>Work Period Started.</value>
   </data>
-  <data name="LineCharacterCount" xml:space="preserve">
-    <value>שורת ספירת תווים</value>
+  <data name="CommandType" xml:space="preserve">
+    <value>Command Type</value>
   </data>
-  <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
-    <value>באפשרותך להציג כרטיסים של מלצרים אחרים</value>
+  <data name="Rule_f" xml:space="preserve">
+    <value>{0} Rule</value>
   </data>
-  <data name="DeleteErrorAdminUser" xml:space="preserve">
-    <value>לא ניתן למחוק משתמש Admin.</value>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Pay Ticket</value>
   </data>
-  <data name="StateFilter" xml:space="preserve">
-    <value>סינון סטטוס</value>
+  <data name="PrinterOptions" xml:space="preserve">
+    <value>הגדרות מדפסת</value>
   </data>
-  <data name="Automation" xml:space="preserve">
-    <value>אוטומציה</value>
+  <data name="Incomes" xml:space="preserve">
+    <value>הכנסות</value>
   </data>
-  <data name="Tickets" xml:space="preserve">
-    <value>כרטיסים</value>
+  <data name="CalculatePrice" xml:space="preserve">
+    <value>Calculate Price</value>
   </data>
-  <data name="Manual" xml:space="preserve">
-    <value>ידני</value>
+  <data name="DepartmentType" xml:space="preserve">
+    <value>סוג מחלקה</value>
   </data>
-  <data name="Income" xml:space="preserve">
-    <value>הכנסה</value>
+  <data name="ApplicationStarted" xml:space="preserve">
+    <value>Application Started</value>
   </data>
-  <data name="SambaNetwork" xml:space="preserve">
-    <value>רשת Samba</value>
-  </data>
-  <data name="Settle" xml:space="preserve">
-    <value>סגירת חשבון</value>
-  </data>
-  <data name="Tables" xml:space="preserve">
-    <value>שולחנות</value>
+  <data name="CloseTicket" xml:space="preserve">
+    <value>סגור כרטיס</value>
   </data>
   <data name="Categories" xml:space="preserve">
     <value>קטגוריות</value>
   </data>
-  <data name="Portions" xml:space="preserve">
-    <value>מנות</value>
+  <data name="NotMatches" xml:space="preserve">
+    <value>Not Matches</value>
   </data>
-  <data name="TicketTemplate" xml:space="preserve">
-    <value>תבנית כרטיס</value>
+  <data name="SettlePermissions" xml:space="preserve">
+    <value>Payment Permissions</value>
   </data>
-  <data name="ExecutePrintBillJob" xml:space="preserve">
-    <value>בצע משימת הדפסת חשבון</value>
+  <data name="Receivables" xml:space="preserve">
+    <value>ממתינים לתשלום</value>
+  </data>
+  <data name="Zero" xml:space="preserve">
+    <value>Zero</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>Numeric</value>
+  </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Set Current Terminal</value>
+  </data>
+  <data name="SubTags" xml:space="preserve">
+    <value>Sub Tags</value>
+  </data>
+  <data name="GroupTag" xml:space="preserve">
+    <value>Group Tag</value>
+  </data>
+  <data name="TicketOptions" xml:space="preserve">
+    <value>הגדרות כרטיס</value>
+  </data>
+  <data name="AskBeforeCreatingTicket" xml:space="preserve">
+    <value>לשאול לפני יצירת כרטיס</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>שם מוצר</value>
+  </data>
+  <data name="SettledBy_f" xml:space="preserve">
+    <value>Settled by {0}</value>
+  </data>
+  <data name="CantComplateOperationError" xml:space="preserve">
+    <value>Can't complete operation because of an error. Check error log file for details.</value>
+  </data>
+  <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
+    <value>נא לא לשכוח לסיים משמרת עבודה!</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>הערה</value>
+  </data>
+  <data name="GeneralSettings" xml:space="preserve">
+    <value>הגדרות כלליות</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>נקה</value>
+  </data>
+  <data name="DisplayAppPath" xml:space="preserve">
+    <value>הצג נתיב של התוכנה</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>New Tag</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>מוצר</value>
+  </data>
+  <data name="PrimaryFieldFormat" xml:space="preserve">
+    <value>Primary Field Format</value>
+  </data>
+  <data name="DeleteSelectedItems" xml:space="preserve">
+    <value>Delete Selected Items</value>
+  </data>
+  <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
+    <value>כשבוחרים "תיוג מספרי" - כל התגים צריך להכיל ערכים מספריים.</value>
+  </data>
+  <data name="MarkTicketAsClosed" xml:space="preserve">
+    <value>סמן כרטיס כסגור</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Quantity Total</value>
+  </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Missing Recipes</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="Accounts_f" xml:space="preserve">
+    <value>{0} Accounts</value>
+  </data>
+  <data name="BatchCreateProductsDialogHint" xml:space="preserve">
+    <value>צור שורה לכל מוצר עם תבנית של [שם מוצר] [מחיר]. התחל שמות של קטגוריות עם #</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>מאפיינים</value>
+  </data>
+  <data name="TwiceADay" xml:space="preserve">
+    <value>Twice a day</value>
+  </data>
+  <data name="DefaultTerminal" xml:space="preserve">
+    <value>מסוף ברירת המחדל</value>
+  </data>
+  <data name="InventoryGroup" xml:space="preserve">
+    <value>Inventory Group</value>
+  </data>
+  <data name="Drawer" xml:space="preserve">
+    <value>Cash Drawer</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="InternetBrowser" xml:space="preserve">
+    <value>דפדפן אינטרנט</value>
+  </data>
+  <data name="MoveTaggedOrders" xml:space="preserve">
+    <value>Move Tagged Orders</value>
+  </data>
+  <data name="Sixty" xml:space="preserve">
+    <value>Sixty</value>
+  </data>
+  <data name="NoTransactionsFoundFor_f" xml:space="preserve">
+    <value>No transactions for {0}</value>
+  </data>
+  <data name="PrimaryFieldName" xml:space="preserve">
+    <value>Primary Field Name</value>
+  </data>
+  <data name="CanChangeDepartment" xml:space="preserve">
+    <value>באפשרותך לשנות מחלקה</value>
+  </data>
+  <data name="EndOfDayRecord" xml:space="preserve">
+    <value>רשומת סוף יום</value>
+  </data>
+  <data name="SortCategories" xml:space="preserve">
+    <value>מיון קטגוריות</value>
+  </data>
+  <data name="TicketTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
+-- General layout
+&lt;T&gt;TICKET
+&lt;L00&gt;Date:{TICKET DATE}
+&lt;L00&gt;Time:{TIME}
+{ENTITIES}
+&lt;L00&gt;Ticket No:{TICKET NO}
+&lt;F&gt;-
+{ORDERS}
+&lt;F&gt;=
+&lt;EB&gt;
+{DISCOUNTS}
+&lt;J10&gt;Total Gift:|{ORDER STATE TOTAL:Gift}
+&lt;J10&gt;Total:|{TICKET TOTAL}
+{PAYMENTS}
+&lt;DB&gt;
+&lt;F&gt;=
+&lt;C10&gt;T H A N K Y O U
+ 
+[DISCOUNTS]
+&lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
+ 
+[PAYMENTS]
+&lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT}
+ 
+[ORDERS]
+-- Default format for orders
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+ 
+[ORDERS:Gift]
+-- Format for gifted orders
+&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
+{ORDER TAGS}
+ 
+[ORDERS:Void]
+-- Nothing will print for void lines
+ 
+[ORDER TAGS]
+-- Format for order tags
+&lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
+ 
+[ENTITIES:Table]
+-- Table entity format
+&lt;L00&gt;Table: {ENTITY NAME}
+ 
+[ENTITIES:Customer]
+-- Customer entity format
+&lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
+  </data>
+  <data name="ChangePrice" xml:space="preserve">
+    <value>Change Price</value>
+  </data>
+  <data name="UpdateOrder" xml:space="preserve">
+    <value>Update Order</value>
+  </data>
+  <data name="StartAmount" xml:space="preserve">
+    <value>Start Amounts</value>
+  </data>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>סוגי ישויות</value>
+  </data>
+  <data name="TicketOpeningTime" xml:space="preserve">
+    <value>פתיחת כרטיס</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="TaxTemplate" xml:space="preserve">
+    <value>Tax Template</value>
+  </data>
+  <data name="Million" xml:space="preserve">
+    <value>Million</value>
+  </data>
+  <data name="Eighty" xml:space="preserve">
+    <value>Eighty</value>
+  </data>
+  <data name="ItemProperties" xml:space="preserve">
+    <value>Extra Item Properties</value>
+  </data>
+  <data name="Period_f" xml:space="preserve">
+    <value>Period: {0}</value>
+  </data>
+  <data name="Change_f" xml:space="preserve">
+    <value>Change {0}</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>סכום כולל</value>
+  </data>
+  <data name="TransactionsEmptyError" xml:space="preserve">
+    <value>Transactions should not be empty</value>
+  </data>
+  <data name="BatchEntityEditor" xml:space="preserve">
+    <value>Batch Entity Editor</value>
+  </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>Group Footer</value>
+  </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Transaction Printer</value>
+  </data>
+  <data name="TotalExpense" xml:space="preserve">
+    <value>Total Expense</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="UnlocksOrder" xml:space="preserve">
+    <value>Unlocks Order</value>
+  </data>
+  <data name="PrintAccountScreen" xml:space="preserve">
+    <value>Print Account Screen</value>
+  </data>
+  <data name="AddTicketDiscount" xml:space="preserve">
+    <value>הוספת כרטיס הנחה</value>
+  </data>
+  <data name="SaveErrorMultipleDefaultTerminals" xml:space="preserve">
+    <value>Don't create more than one default terminal</value>
+  </data>
+  <data name="WorkPeriodEnded" xml:space="preserve">
+    <value>משמרת עבודה הסתיימה</value>
+  </data>
+  <data name="UndefinedWithBrackets" xml:space="preserve">
+    <value>[Undefined]</value>
+  </data>
+  <data name="LineItemTotalWithoutGifts" xml:space="preserve">
+    <value>#שורה: סה"כ מוצרים (ללא מתנות)</value>
+  </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>מחסנים מקומיים</value>
+  </data>
+  <data name="DeleteErrorUsedBy_f" xml:space="preserve">
+    <value>Can't delete because this {0} used by a {1}</value>
+  </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
+  <data name="BeforeTicketClosing" xml:space="preserve">
+    <value>לפני סגירת כרטיס</value>
+  </data>
+  <data name="Decrease" xml:space="preserve">
+    <value>Decrease</value>
+  </data>
+  <data name="LineItemQuantity" xml:space="preserve">
+    <value>#שורה: כמות פריט</value>
+  </data>
+  <data name="ExchangeRate" xml:space="preserve">
+    <value>Exchange Rate</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="UpdateAvailableEntityColor" xml:space="preserve">
+    <value>Update Available Entity Color</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>Minute</value>
+  </data>
+  <data name="OptionalTicketTag" xml:space="preserve">
+    <value>Optional Ticket Tag</value>
+  </data>
+  <data name="NotMatchesAll" xml:space="preserve">
+    <value>Not Matches All</value>
+  </data>
+  <data name="TicketCount" xml:space="preserve">
+    <value>ספירת כרטיסים</value>
+  </data>
+  <data name="DefaultAmount" xml:space="preserve">
+    <value>Default Amount</value>
+  </data>
+  <data name="StartClientNow" xml:space="preserve">
+    <value>Start Client Now</value>
+  </data>
+  <data name="RemoveOrderTag" xml:space="preserve">
+    <value>Remove OrderTag</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
+    <value>Ticket moved to {0}. Your latest changes not saved.</value>
+  </data>
+  <data name="AutomationCommandExecuted" xml:space="preserve">
+    <value>Automation Command Exeucted</value>
+  </data>
+  <data name="ShowOnEndOfDayReport" xml:space="preserve">
+    <value>Show on End of Day Report</value>
+  </data>
+  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
+    <value>ניתן להזיז שורות של כרטיסים לא נעולים</value>
+  </data>
+  <data name="TaxRate" xml:space="preserve">
+    <value>Tax Rate</value>
+  </data>
+  <data name="PaymentScreenSettings" xml:space="preserve">
+    <value>הגדרות מסך התשלום</value>
+  </data>
+  <data name="Hundred" xml:space="preserve">
+    <value>Hundred</value>
+  </data>
+  <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
+    <value>There is another Price Definition with {0} tag</value>
+  </data>
+  <data name="PrintJob" xml:space="preserve">
+    <value>משימת הדפסה</value>
+  </data>
+  <data name="Terminal" xml:space="preserve">
+    <value>מסוף</value>
+  </data>
+  <data name="MaxQuantity" xml:space="preserve">
+    <value>Max Quantity</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="TicketChangedRetryLastOperation" xml:space="preserve">
+    <value>Ticket changed. Your latest changes not saved.</value>
+  </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>הצגת פרטים</value>
+  </data>
+  <data name="UserRole" xml:space="preserve">
+    <value>תפקידי משתמש</value>
+  </data>
+  <data name="NumeratorHeight" xml:space="preserve">
+    <value>Numberpad Height</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="Receiveable" xml:space="preserve">
+    <value>ממתין לתשלום</value>
   </data>
   <data name="New_f" xml:space="preserve">
     <value>חדש: {0}</value>
   </data>
-  <data name="TicketType" xml:space="preserve">
-    <value>סוג כרטיס</value>
+  <data name="SellerWarehouses" xml:space="preserve">
+    <value>Seller Warehouses</value>
   </data>
-  <data name="Discount" xml:space="preserve">
-    <value>הנחה</value>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
   </data>
-  <data name="TransacitonUnitMultiplier" xml:space="preserve">
-    <value>מכפיל יחידת עסקה</value>
+  <data name="InvoicePrinter" xml:space="preserve">
+    <value>מדפסת חשבונית</value>
   </data>
-  <data name="PropertyGroup" xml:space="preserve">
-    <value>קבוצת מאפיינים</value>
+  <data name="New" xml:space="preserve">
+    <value>חדש</value>
   </data>
-  <data name="Information" xml:space="preserve">
-    <value>מידע</value>
+  <data name="ExecuteRuleIf" xml:space="preserve">
+    <value>Execute rule if</value>
   </data>
-  <data name="StartWorkPeriod" xml:space="preserve">
-    <value>תחילת משמרת עבודה</value>
+  <data name="LockTicket" xml:space="preserve">
+    <value>נעילת כרטיס</value>
   </data>
-  <data name="DiscountPercentage" xml:space="preserve">
-    <value>אחוז הנחה</value>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Order Moved</value>
+  </data>
+  <data name="WorkPeriodStartTime" xml:space="preserve">
+    <value>שעת משמרת עבודה: {0}</value>
+  </data>
+  <data name="RuleName" xml:space="preserve">
+    <value>Rule Name</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>שמירה</value>
+  </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>Ticket Moved Rule</value>
+  </data>
+  <data name="CanCreateAccount" xml:space="preserve">
+    <value>Can Create Account</value>
+  </data>
+  <data name="RateFromPreviousTemplate" xml:space="preserve">
+    <value>Rate from previous template amount</value>
+  </data>
+  <data name="SellAmount" xml:space="preserve">
+    <value>כמות נמכר</value>
+  </data>
+  <data name="Increase" xml:space="preserve">
+    <value>Increase</value>
+  </data>
+  <data name="BatchCreteProducts" xml:space="preserve">
+    <value>אצווה ליצירת מוצרים</value>
+  </data>
+  <data name="LinesGroupedByTag" xml:space="preserve">
+    <value>שורות מקובצות לפי תג</value>
+  </data>
+  <data name="CostPrediction" xml:space="preserve">
+    <value>צפי עלות</value>
+  </data>
+  <data name="PleaseEnterABriefExplanationOf" xml:space="preserve">
+    <value>Please enter a brief explanation of events leading up to this exception</value>
+  </data>
+  <data name="ReleaseLock" xml:space="preserve">
+    <value>Release Lock</value>
+  </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>User Information</value>
+  </data>
+  <data name="SetWidgetValue" xml:space="preserve">
+    <value>Set Widget Value</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>מכירות</value>
+  </data>
+  <data name="EntityButton" xml:space="preserve">
+    <value>Entity Button</value>
+  </data>
+  <data name="KitchenTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
+&lt;T&gt;TICKET
+&lt;L00&gt;Date:{TICKET DATE}
+&lt;L00&gt;Time:{TIME}
+&lt;L00&gt;Location No:{LOCATION}
+&lt;L00&gt;Ticket No:{TICKET NO}
+&lt;F&gt;-
+{ORDERS}
+
+[ORDERS]
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+
+[ORDERS:GIFT]
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+
+[ORDERS:VOID]
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+
+[ORDER TAGS]
+-- Format for order tags
+&lt;L00&gt;     * {ORDER TAG NAME}
+</value>
+  </data>
+  <data name="TicketPaidTotal" xml:space="preserve">
+    <value>Paid Ticket Amount</value>
+  </data>
+  <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
+    <value>There is already a {0} with that name.</value>
+  </data>
+  <data name="TicketTimeDisplay_f" xml:space="preserve">
+    <value>{0} ({1} min.)</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="AddLineToTextFile" xml:space="preserve">
+    <value>Add Line to Text File</value>
+  </data>
+  <data name="Ten" xml:space="preserve">
+    <value>Ten</value>
+  </data>
+  <data name="SalesIncome" xml:space="preserve">
+    <value>הכנסה ממכירות</value>
+  </data>
+  <data name="AutoStartMessageClient" xml:space="preserve">
+    <value>Auto Start Message Client</value>
+  </data>
+  <data name="MaxItems" xml:space="preserve">
+    <value>Max Items</value>
+  </data>
+  <data name="Every3Months" xml:space="preserve">
+    <value>Every 3 months</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Ending" xml:space="preserve">
+    <value>Ending</value>
+  </data>
+  <data name="Thirteen" xml:space="preserve">
+    <value>Thirteen</value>
+  </data>
+  <data name="ModifyVariable" xml:space="preserve">
+    <value>Modify Variable</value>
+  </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Hide Accounts With Zero Balance</value>
+  </data>
+  <data name="MonWedFri" xml:space="preserve">
+    <value>Mon, Wed, Fri</value>
   </data>
   <data name="StartOfDay" xml:space="preserve">
     <value>תחילת עבודה</value>
   </data>
-  <data name="CanOpenDashboard" xml:space="preserve">
-    <value>ניתן לפתוח את מסך הניהול</value>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
   </data>
-  <data name="PortPrinter" xml:space="preserve">
-    <value>יציאת מדפסת</value>
+  <data name="ButtonHeight" xml:space="preserve">
+    <value>גובה כפתור</value>
   </data>
-  <data name="PrintReport" xml:space="preserve">
-    <value>הדפסת דוח</value>
+  <data name="UpdateEntityData" xml:space="preserve">
+    <value>Update Entity Data</value>
   </data>
-  <data name="CantDelete_f" xml:space="preserve">
-    <value>לא ניתן למחוק {0}</value>
+  <data name="Cash" xml:space="preserve">
+    <value>מזומן</value>
+  </data>
+  <data name="Sale" xml:space="preserve">
+    <value>מכירה</value>
+  </data>
+  <data name="Purchase" xml:space="preserve">
+    <value>רכישה</value>
+  </data>
+  <data name="SelectItemsFor_f" xml:space="preserve">
+    <value>Select {0} for using with {1} {2}</value>
+  </data>
+  <data name="TicketCreated" xml:space="preserve">
+    <value>כרטיס נוצר</value>
+  </data>
+  <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
+    <value>הדפסת הזמנות למדפסת מטבח</value>
+  </data>
+  <data name="AccountTransactionAddedToTicket" xml:space="preserve">
+    <value>Account Transaction Added to Ticket</value>
+  </data>
+  <data name="Noon" xml:space="preserve">
+    <value>noon</value>
+  </data>
+  <data name="Greater" xml:space="preserve">
+    <value>Greater</value>
+  </data>
+  <data name="Sixteen" xml:space="preserve">
+    <value>Sixteen</value>
+  </data>
+  <data name="Every30Minutes" xml:space="preserve">
+    <value>Every 30 Minutes</value>
+  </data>
+  <data name="AutomationCommand" xml:space="preserve">
+    <value>פקודת אוטומציה</value>
+  </data>
+  <data name="GroupCode" xml:space="preserve">
+    <value>קוד קבוצה</value>
+  </data>
+  <data name="Less" xml:space="preserve">
+    <value>Less</value>
+  </data>
+  <data name="Tickets" xml:space="preserve">
+    <value>כרטיסים</value>
+  </data>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>Entity State Updated</value>
+  </data>
+  <data name="NextPage" xml:space="preserve">
+    <value>Next Page</value>
+  </data>
+  <data name="NavigationPermissions" xml:space="preserve">
+    <value>Navigation Permissions</value>
+  </data>
+  <data name="BaseUnit" xml:space="preserve">
+    <value>יחידת בסיס</value>
+  </data>
+  <data name="CsvBuilder" xml:space="preserve">
+    <value>CSV Builder</value>
+  </data>
+  <data name="OrderTagName" xml:space="preserve">
+    <value>Order Tag Name</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>סוג מחסן</value>
+  </data>
+  <data name="ExecuteActionsIf" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="Multiplier" xml:space="preserve">
+    <value>מכפיל</value>
+  </data>
+  <data name="DisplayAtPaymentScreen" xml:space="preserve">
+    <value>להציג במסך התשלום</value>
+  </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>Print {0}</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>אזהרה</value>
+  </data>
+  <data name="Keyboard" xml:space="preserve">
+    <value>מקלדת</value>
+  </data>
+  <data name="AutoSelectProductsQuestion" xml:space="preserve">
+    <value>בחירה אוטומטית של מוצרים לקטגוריות חדשות?</value>
+  </data>
+  <data name="Fifty" xml:space="preserve">
+    <value>Fifty</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>רענון</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>הכנסה</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Setting Value</value>
+  </data>
+  <data name="ChangeSortOrderHint" xml:space="preserve">
+    <value>Change sort order by dragging items</value>
+  </data>
+  <data name="CanMergeTickets" xml:space="preserve">
+    <value>ניתן למזג כרטיסים</value>
+  </data>
+  <data name="InventoryReport" xml:space="preserve">
+    <value>דוח מלאי</value>
+  </data>
+  <data name="ExportSalesData" xml:space="preserve">
+    <value>ייצוא נתוני מכירות</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>אתמול</value>
+  </data>
+  <data name="APortionShouldSelected" xml:space="preserve">
+    <value>מנה צריכה להיות מסומנת</value>
   </data>
   <data name="MergeTickets" xml:space="preserve">
     <value>מיזוג כרטיסים</value>
   </data>
-  <data name="LastOrderDate" xml:space="preserve">
-    <value>תאריך הזמנה אחרונה</value>
+  <data name="UntagOrder" xml:space="preserve">
+    <value>Untag Order</value>
   </data>
-  <data name="Cancel_f" xml:space="preserve">
-    <value>ביטול: {0}</value>
+  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
+    <value>כדי להוסיף הנחות, הקלד תעריף ולחץ על כפתור הנחה. כדי להסיר הנחה לחץ על כפתור הנחה ללא הקלדת ערך.</value>
   </data>
-  <data name="UnlockTicket" xml:space="preserve">
-    <value>ביטול נעילת כרטיס</value>
+  <data name="Submitted" xml:space="preserve">
+    <value>Submitted</value>
   </data>
-  <data name="BalancedAccounts" xml:space="preserve">
-    <value>חשבונות מאוזנים</value>
+  <data name="Account_f" xml:space="preserve">
+    <value>Account: {0}</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From:</value>
+  </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Change Sort Order</value>
+  </data>
+  <data name="One" xml:space="preserve">
+    <value>One</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>הוספה</value>
+  </data>
+  <data name="Billion" xml:space="preserve">
+    <value>Billion</value>
+  </data>
+  <data name="GroupKey" xml:space="preserve">
+    <value>Group Key</value>
+  </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>Use Plain Sum</value>
+  </data>
+  <data name="TriggerName" xml:space="preserve">
+    <value>Trigger Name</value>
+  </data>
+  <data name="ScreenItem" xml:space="preserve">
+    <value>Screen Item</value>
+  </data>
+  <data name="LineOrderNumber" xml:space="preserve">
+    <value>#שורה: מספר הזמנה</value>
+  </data>
+  <data name="UpdateOrderState" xml:space="preserve">
+    <value>עדכון סטטוס הזמנה</value>
+  </data>
+  <data name="ViewMode" xml:space="preserve">
+    <value>View Mode</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Taxable Amount</value>
+  </data>
+  <data name="TicketPrinter" xml:space="preserve">
+    <value>מדפסת כרטיסים</value>
+  </data>
+  <data name="IndividualOrdersByQuantity" xml:space="preserve">
+    <value>Individual orders by quantity</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>כמות</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="AddProductsToCategoryHint_f" xml:space="preserve">
+    <value>בחר מוצרים עבור קטגוריה: {0}</value>
+  </data>
+  <data name="CantDelete_f" xml:space="preserve">
+    <value>לא ניתן למחוק {0}</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="DefaultSourceAccount" xml:space="preserve">
+    <value>Default Source Account</value>
+  </data>
+  <data name="AddOrder" xml:space="preserve">
+    <value>Add Order</value>
+  </data>
+  <data name="Fifteen" xml:space="preserve">
+    <value>Fifteen</value>
+  </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Search Value Replace Pattern</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Update Ticket Status</value>
+  </data>
+  <data name="PageCount" xml:space="preserve">
+    <value>ספירת עמוד</value>
+  </data>
+  <data name="MenuItemGroupCode" xml:space="preserve">
+    <value>Menu Item Group Code</value>
+  </data>
+  <data name="Two" xml:space="preserve">
+    <value>Two</value>
+  </data>
+  <data name="TranactionsZeroQuantityError" xml:space="preserve">
+    <value>Transactions contains zero quantity items</value>
+  </data>
+  <data name="TagOrder" xml:space="preserve">
+    <value>Tag Order</value>
+  </data>
+  <data name="IncomeTransactions" xml:space="preserve">
+    <value>עסקאות הכנסה</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>אישור</value>
+  </data>
+  <data name="DisplayTicketList" xml:space="preserve">
+    <value>הצגת רשימת כרטיסים</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>כניסה</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>Not Equals</value>
+  </data>
+  <data name="FastMenu" xml:space="preserve">
+    <value>תפריט מהיר</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>מחלקה</value>
+  </data>
+  <data name="PastMonth" xml:space="preserve">
+    <value>Past Month</value>
+  </data>
+  <data name="LastPaymentTime" xml:space="preserve">
+    <value>Last Payment</value>
+  </data>
+  <data name="WhenTagSelected" xml:space="preserve">
+    <value>When Tagged</value>
+  </data>
+  <data name="DetailedReport" xml:space="preserve">
+    <value>דוח מפורט</value>
+  </data>
+  <data name="TransactionDocument" xml:space="preserve">
+    <value>מסמך העסקה</value>
+  </data>
+  <data name="DefaultOrderTag" xml:space="preserve">
+    <value>Default Order Tag</value>
+  </data>
+  <data name="SambaPOSReporter" xml:space="preserve">
+    <value>SambaPOS Reporter</value>
+  </data>
+  <data name="AccountScreen" xml:space="preserve">
+    <value>Account Screen</value>
+  </data>
+  <data name="ExtraModifiers" xml:space="preserve">
+    <value>Extra Modifiers</value>
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value>Previous Page</value>
+  </data>
+  <data name="Printer" xml:space="preserve">
+    <value>מדפסת</value>
+  </data>
+  <data name="AccountsReceivable" xml:space="preserve">
+    <value>חשבונות שממתינים לתשלום</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>תאור</value>
+  </data>
+  <data name="As_f" xml:space="preserve">
+    <value>As of {0}</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To:</value>
+  </data>
+  <data name="TransacitonUnitMultiplier" xml:space="preserve">
+    <value>מכפיל יחידת עסקה</value>
+  </data>
+  <data name="Five" xml:space="preserve">
+    <value>Five</value>
+  </data>
+  <data name="DayOperations" xml:space="preserve">
+    <value>משמרות עבודה</value>
+  </data>
+  <data name="ModifyOrder" xml:space="preserve">
+    <value>Modify Order</value>
+  </data>
+  <data name="UniqueTicketId" xml:space="preserve">
+    <value>Unique Ticket Id</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="SetActiveTicketType" xml:space="preserve">
+    <value>Set Active Ticket Type</value>
+  </data>
+  <data name="All Tables" xml:space="preserve">
+    <value>כל השולחנות</value>
+  </data>
+  <data name="DeleteErrorAccountTypeAssignedtoAccounts" xml:space="preserve">
+    <value>Can't delete because this template assigned to accounts</value>
+  </data>
+  <data name="CustomFieldName" xml:space="preserve">
+    <value>Custom Field Name</value>
+  </data>
+  <data name="Every12Hours" xml:space="preserve">
+    <value>Every 12 hours</value>
+  </data>
+  <data name="InternalAccounts" xml:space="preserve">
+    <value>חשבונות פנימיים</value>
+  </data>
+  <data name="TaxFree" xml:space="preserve">
+    <value>Tax Free</value>
+  </data>
+  <data name="POSView" xml:space="preserve">
+    <value>תצוגת עמדת מכירה</value>
+  </data>
+  <data name="CantCompleteOperationWhenThereIsZeroPricedProduct" xml:space="preserve">
+    <value>Can't complete this operation while zero priced orders exists.</value>
+  </data>
+  <data name="DeleteErrorLastUser" xml:space="preserve">
+    <value>לא ניתן למחוק את חשבון המשתמש האחרון</value>
+  </data>
+  <data name="ReportPermissions" xml:space="preserve">
+    <value>Reporting Permissions</value>
+  </data>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>Mapped Account</value>
+  </data>
+  <data name="WeightBarcodes" xml:space="preserve">
+    <value>Weight Barcodes</value>
+  </data>
+  <data name="AccountMap" xml:space="preserve">
+    <value>Account Map</value>
+  </data>
+  <data name="GroupTotal" xml:space="preserve">
+    <value>Group Total</value>
+  </data>
+  <data name="ClickLinksToExportData" xml:space="preserve">
+    <value>Select date range, refresh report and click related link to export data.</value>
+  </data>
+  <data name="BatchCreate_f" xml:space="preserve">
+    <value>Batch Create {0}</value>
+  </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Ticket Moving</value>
+  </data>
+  <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
+    <value>מחק מיפוי נבחר?</value>
+  </data>
+  <data name="WhenTagNotSelected" xml:space="preserve">
+    <value>When Untagged</value>
+  </data>
+  <data name="ActionType" xml:space="preserve">
+    <value>Action Type</value>
+  </data>
+  <data name="WeightBarcodeQuantityLength" xml:space="preserve">
+    <value>Weight Barcode Quantity Length</value>
+  </data>
+  <data name="AllLines" xml:space="preserve">
+    <value>כל השורות</value>
+  </data>
+  <data name="SaveReportToFile" xml:space="preserve">
+    <value>שמירת דוח לקובץ</value>
+  </data>
+  <data name="SambaPosWebsite" xml:space="preserve">
+    <value>אתר SambaPOS</value>
+  </data>
+  <data name="After" xml:space="preserve">
+    <value>After</value>
+  </data>
+  <data name="RemoveLimit" xml:space="preserve">
+    <value>Remove Limit</value>
+  </data>
+  <data name="AverageCost" xml:space="preserve">
+    <value>Average Cost</value>
+  </data>
+  <data name="UpdateTicketCalculation" xml:space="preserve">
+    <value>Update Ticket Calculation</value>
+  </data>
+  <data name="SettingName" xml:space="preserve">
+    <value>Setting Name</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Background Image</value>
+  </data>
+  <data name="QuantitiesByItemGroup" xml:space="preserve">
+    <value>Quantities by Item Group</value>
+  </data>
+  <data name="TotalAmountDivTag_f" xml:space="preserve">
+    <value>Total Amount / {0}:</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="AllDiscountsRemoved" xml:space="preserve">
+    <value>All discounts removed because calculated total discount amount is greater than ticket amount.</value>
+  </data>
+  <data name="AlwaysExcludeTax" xml:space="preserve">
+    <value>Always Exclude Tax</value>
+  </data>
+  <data name="PriceDefinitonName" xml:space="preserve">
+    <value>Price Definiton Name</value>
+  </data>
+  <data name="TipsTotal" xml:space="preserve">
+    <value>Tips Total</value>
+  </data>
+  <data name="OrderGrouping" xml:space="preserve">
+    <value>קיבוץ הזמנות</value>
+  </data>
+  <data name="Default_f" xml:space="preserve">
+    <value>Default {0}</value>
+  </data>
+  <data name="POSMenu" xml:space="preserve">
+    <value>תפריט עמדת מכירה</value>
+  </data>
+  <data name="RateOrAmount" xml:space="preserve">
+    <value>Rate or Amount</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="Wiki" xml:space="preserve">
+    <value>Wiki</value>
+  </data>
+  <data name="Transaction" xml:space="preserve">
+    <value>עסקה</value>
+  </data>
+  <data name="StartProcess" xml:space="preserve">
+    <value>להתחיל תהליך</value>
+  </data>
+  <data name="EntityType" xml:space="preserve">
+    <value>סוג ישות</value>
+  </data>
+  <data name="EveryOtherMinute" xml:space="preserve">
+    <value>Every Other Minute</value>
+  </data>
+  <data name="DefaultProperties" xml:space="preserve">
+    <value>מאפייני ברירת מחדל</value>
+  </data>
+  <data name="BatchCreateInfo_f" xml:space="preserve">
+    <value>ניצור {0} עבור כל שורה שהזנת כאן.</value>
+  </data>
+  <data name="No_f" xml:space="preserve">
+    <value>No {0}</value>
+  </data>
+  <data name="ItemSales" xml:space="preserve">
+    <value>מכירות לפי פריט</value>
+  </data>
+  <data name="WorkPeriodEndsMessage" xml:space="preserve">
+    <value>Work Period ends.
+Visit Reports section and create Work Period Reports</value>
+  </data>
+  <data name="PrintAccountTransactionDocument" xml:space="preserve">
+    <value>Print Account Transaction Document</value>
+  </data>
+  <data name="WorkPeriodStartDate_f" xml:space="preserve">
+    <value>תאריך משמרת עבודה: {0}</value>
+  </data>
+  <data name="Rounding" xml:space="preserve">
+    <value>Rounding</value>
+  </data>
+  <data name="OrderStateValue" xml:space="preserve">
+    <value>ערך סטטוס הזמנה</value>
+  </data>
+  <data name="SqlHint" xml:space="preserve">
+    <value>לחץ כאן למידע על עבודה עם מסדי נתונים SQL</value>
+  </data>
+  <data name="UserList" xml:space="preserve">
+    <value>רשימת משתמשים</value>
+  </data>
+  <data name="WrapText" xml:space="preserve">
+    <value>גלישת טקסט</value>
+  </data>
+  <data name="IfNegativeDiscountValue_f" xml:space="preserve">
+    <value>&lt;J&gt;Rounding:|{0}</value>
+  </data>
+  <data name="OpenTicketButtonDuration" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="AllTickets" xml:space="preserve">
+    <value>כל הכרטיסים</value>
+  </data>
+  <data name="Terminals" xml:space="preserve">
+    <value>מסופים</value>
+  </data>
+  <data name="Selected" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="Divide" xml:space="preserve">
+    <value>Divide</value>
+  </data>
+  <data name="Target_f" xml:space="preserve">
+    <value>Target {0}</value>
+  </data>
+  <data name="ErrorReportWithoutFeedback" xml:space="preserve">
+    <value>You are sending error report without your feedback.
+Please give some details about how it happend.
+
+Continue without adding details?</value>
+  </data>
+  <data name="SortCategoriesDialogHint_f" xml:space="preserve">
+    <value>Drag {0} menu categories to change order.</value>
+  </data>
+  <data name="InventoryConsumption" xml:space="preserve">
+    <value>צריכת מלאי</value>
+  </data>
+  <data name="Weekday" xml:space="preserve">
+    <value>Weekday</value>
+  </data>
+  <data name="PM" xml:space="preserve">
+    <value>p.m.</value>
+  </data>
+  <data name="Totals" xml:space="preserve">
+    <value>Totals</value>
+  </data>
+  <data name="PrintErrorMessage" xml:space="preserve">
+    <value>There is a problem while printing. Check printer and printer template settings.
+
+Error Message:
+</value>
+  </data>
+  <data name="CanNavigate_f" xml:space="preserve">
+    <value>Can Navigate {0}</value>
+  </data>
+  <data name="Six" xml:space="preserve">
+    <value>Six</value>
+  </data>
+  <data name="OneHundred" xml:space="preserve">
+    <value>One Hundred</value>
+  </data>
+  <data name="Alphanumeric" xml:space="preserve">
+    <value>Alphanumeric</value>
+  </data>
+  <data name="NumericTags" xml:space="preserve">
+    <value>Numeric Tags</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>ניהול</value>
+  </data>
+  <data name="CustomFields" xml:space="preserve">
+    <value>Custom Fields</value>
+  </data>
+  <data name="AM" xml:space="preserve">
+    <value>a.m.</value>
+  </data>
+  <data name="TopOfTheHour" xml:space="preserve">
+    <value>Top of the hour</value>
+  </data>
+  <data name="FirstAndFifteenth" xml:space="preserve">
+    <value>1st and 15th</value>
+  </data>
+  <data name="AccountTransactionDocument" xml:space="preserve">
+    <value>Account Transaction Document</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>מחלקות</value>
+  </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Required Recipes</value>
+  </data>
+  <data name="ShareNameAndPortName" xml:space="preserve">
+    <value>Printer Share Name / Port Name</value>
+  </data>
+  <data name="LengthEquals" xml:space="preserve">
+    <value>Length Equals</value>
+  </data>
+  <data name="OrderStateUpdated" xml:space="preserve">
+    <value>סטטוס הזמנה עודכן</value>
+  </data>
+  <data name="TicketOpened" xml:space="preserve">
+    <value>Ticket Opened</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>יחידה</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="Edit_f" xml:space="preserve">
+    <value>עריכה: {0}</value>
+  </data>
+  <data name="Restaurant" xml:space="preserve">
+    <value>Restaurant</value>
+  </data>
+  <data name="OrderTagValue" xml:space="preserve">
+    <value>Order Tag Value</value>
+  </data>
+  <data name="Total_f" xml:space="preserve">
+    <value>{0} Total</value>
+  </data>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>מסך ישות</value>
+  </data>
+  <data name="DemoPrinter" xml:space="preserve">
+    <value>מדפסת דמי (notepad)</value>
+  </data>
+  <data name="ChoosePaymentsForTicketTemplate_f" xml:space="preserve">
+    <value>Select Payment Types for using at {0} template.</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Font Size</value>
+  </data>
+  <data name="BillRequested" xml:space="preserve">
+    <value>Bill Requested</value>
+  </data>
+  <data name="ImagePath" xml:space="preserve">
+    <value>נתיב התמונה</value>
+  </data>
+  <data name="Selected_f" xml:space="preserve">
+    <value>Selected {0}</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>סטטוס</value>
+  </data>
+  <data name="ItemSalesReport" xml:space="preserve">
+    <value>דוח מכירות מוצרים</value>
+  </data>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>מחסן מקומי</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>דוחות</value>
+  </data>
+  <data name="Script_f" xml:space="preserve">
+    <value>{0} Script</value>
+  </data>
+  <data name="AutoRefreshInterval" xml:space="preserve">
+    <value>Auto Refresh Interval</value>
+  </data>
+  <data name="UpdateMovedEntityColor" xml:space="preserve">
+    <value>Update Moved Entity Color</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="PortionPrices" xml:space="preserve">
+    <value>מחירי מנה</value>
+  </data>
+  <data name="Name_f" xml:space="preserve">
+    <value>{0} Name</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>יציאה מהמערכת</value>
+  </data>
+  <data name="LastLinesByPrinterLineCount" xml:space="preserve">
+    <value>Last Lines by Printer Line Count</value>
+  </data>
+  <data name="CurrencySymbol" xml:space="preserve">
+    <value>סמל מטבע</value>
+  </data>
+  <data name="TagCantBeEmpty_f" xml:space="preserve">
+    <value>Can't leave {0} empty</value>
+  </data>
+  <data name="AccountTransactionDocumentCreated" xml:space="preserve">
+    <value>Account Transaction Document Created</value>
+  </data>
+  <data name="ExecutePowershellScript" xml:space="preserve">
+    <value>Execute Powershell Script</value>
+  </data>
+  <data name="Ends" xml:space="preserve">
+    <value>Ends</value>
+  </data>
+  <data name="TicketNumber_f" xml:space="preserve">
+    <value>מספר כרטיס: {0}</value>
+  </data>
+  <data name="AccountTransactionType" xml:space="preserve">
+    <value>Account Transaction Type</value>
+  </data>
+  <data name="RowCount" xml:space="preserve">
+    <value>Row Count</value>
+  </data>
+  <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
+    <value>Ticket paid. Your latest changes not saved.</value>
+  </data>
+  <data name="Clone_f" xml:space="preserve">
+    <value>שכפול: {0}</value>
+  </data>
+  <data name="OrderCount" xml:space="preserve">
+    <value>Order Count</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="AutoLogout" xml:space="preserve">
+    <value>יציאה אוטומטית מהמערכת</value>
+  </data>
+  <data name="QuarterTil" xml:space="preserve">
+    <value>Quarter til</value>
+  </data>
+  <data name="TransactionUnit" xml:space="preserve">
+    <value>יחידת עסקה</value>
+  </data>
+  <data name="MinTime" xml:space="preserve">
+    <value>Min Time</value>
+  </data>
+  <data name="Task" xml:space="preserve">
+    <value>Task</value>
+  </data>
+  <data name="CustomField" xml:space="preserve">
+    <value>Custom Field</value>
+  </data>
+  <data name="FilterType" xml:space="preserve">
+    <value>Filter Type</value>
+  </data>
+  <data name="EveryOtherDay" xml:space="preserve">
+    <value>Every other day</value>
+  </data>
+  <data name="DateRangeTotal" xml:space="preserve">
+    <value>Date Range Total</value>
+  </data>
+  <data name="SortCategoryProducts" xml:space="preserve">
+    <value>מיון מוצרים בקטגוריה</value>
+  </data>
+  <data name="LinePriceTag" xml:space="preserve">
+    <value>#שורה: תג מחיר</value>
+  </data>
+  <data name="MessageServerName" xml:space="preserve">
+    <value>Message Server Name</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="CalculateCost" xml:space="preserve">
+    <value>לחשב עלות</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="NewProperty" xml:space="preserve">
+    <value>New Property</value>
+  </data>
+  <data name="OrderCancelled" xml:space="preserve">
+    <value>Order Cancelled</value>
+  </data>
+  <data name="LineCharacterCount" xml:space="preserve">
+    <value>שורת ספירת תווים</value>
+  </data>
+  <data name="RawPrinter" xml:space="preserve">
+    <value>Raw Printer</value>
+  </data>
+  <data name="UpdateType" xml:space="preserve">
+    <value>Update Type</value>
+  </data>
+  <data name="AddTagPriceToOrderPrice" xml:space="preserve">
+    <value>Add Tag Price To Order Price</value>
+  </data>
+  <data name="OnceAnHour" xml:space="preserve">
+    <value>Once an hour</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>משותף</value>
+  </data>
+  <data name="InventoryItem" xml:space="preserve">
+    <value>פריט מלאי</value>
+  </data>
+  <data name="AccountsLiability" xml:space="preserve">
+    <value>Accounts Liability</value>
+  </data>
+  <data name="DisplayPopup" xml:space="preserve">
+    <value>הצגת חלון קופץ</value>
+  </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Ticket Moved</value>
+  </data>
+  <data name="DocumentNo" xml:space="preserve">
+    <value>מס' מסמך</value>
+  </data>
+  <data name="State_f" xml:space="preserve">
+    <value>סטטוס {0}</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>מוצרים</value>
+  </data>
+  <data name="Forty" xml:space="preserve">
+    <value>Forty</value>
+  </data>
+  <data name="TicketNumerator" xml:space="preserve">
+    <value>מחולל מספרי כרטיס</value>
+  </data>
+  <data name="Update_f" xml:space="preserve">
+    <value>Update {0}</value>
+  </data>
+  <data name="Eighteen" xml:space="preserve">
+    <value>Eighteen</value>
+  </data>
+  <data name="This_f" xml:space="preserve">
+    <value>This {0}</value>
+  </data>
+  <data name="OrderTagQuantity" xml:space="preserve">
+    <value>Order Tag Quantity</value>
+  </data>
+  <data name="LastPaidOrders" xml:space="preserve">
+    <value>Last Paid Orders</value>
+  </data>
+  <data name="FindTicket" xml:space="preserve">
+    <value>חיפוש כרטיס</value>
+  </data>
+  <data name="TicketTipTotalAmount" xml:space="preserve">
+    <value>Total ticket tip amount</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="Unpaid" xml:space="preserve">
+    <value>Unpaid</value>
+  </data>
+  <data name="Market" xml:space="preserve">
+    <value>Market</value>
+  </data>
+  <data name="TotalTaxableAmount" xml:space="preserve">
+    <value>Total Taxable Amount</value>
+  </data>
+  <data name="SubButtonHeight" xml:space="preserve">
+    <value>Sub Button Height</value>
+  </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>חיפוש ישות</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>This Month</value>
+  </data>
+  <data name="MultipleSelection" xml:space="preserve">
+    <value>בחירה מרובה</value>
+  </data>
+  <data name="UpdateTicketTag" xml:space="preserve">
+    <value>Update Ticket Tag</value>
+  </data>
+  <data name="DecreaseInventory" xml:space="preserve">
+    <value>Decrease Inventory</value>
+  </data>
+  <data name="TuesAndThurs" xml:space="preserve">
+    <value>Tues, Thurs</value>
+  </data>
+  <data name="Twelve" xml:space="preserve">
+    <value>Twelve</value>
+  </data>
+  <data name="TicketTagGroup" xml:space="preserve">
+    <value>Tag Group</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="CanNavigateCash" xml:space="preserve">
+    <value>Can Enter Cash Screen</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>תפריט</value>
+  </data>
+  <data name="PrintJobList" xml:space="preserve">
+    <value>Print Job List</value>
+  </data>
+  <data name="FooterTemplate" xml:space="preserve">
+    <value>Footer Template</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Tag Name</value>
+  </data>
+  <data name="RuleAction" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>תבנית</value>
+  </data>
+  <data name="TicketTotal" xml:space="preserve">
+    <value>סה"כ כרטיס</value>
+  </data>
+  <data name="QuarterPast" xml:space="preserve">
+    <value>Quarter past</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>ידני</value>
+  </data>
+  <data name="MessageServerPort" xml:space="preserve">
+    <value>Message Server Port</value>
+  </data>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>עדכון סטטוס הישות</value>
+  </data>
+  <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
+    <value>SambaPOS encountered an unexpected problem. Problem details logged to trace.log file</value>
+  </data>
+  <data name="CantSave" xml:space="preserve">
+    <value>אין אפשרות לשמור</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>סה"כ</value>
+  </data>
+  <data name="SubMenuTags" xml:space="preserve">
+    <value>Sub Menu Tags</value>
+  </data>
+  <data name="CalculationMethod" xml:space="preserve">
+    <value>Calculation Method</value>
+  </data>
+  <data name="PaymentProcessed" xml:space="preserve">
+    <value>Payment Processed</value>
+  </data>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>מסכי ישויות</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Order Status</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>מנהל</value>
+  </data>
+  <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
+    <value>There are no purchase transactions in date range.</value>
+  </data>
+  <data name="OnlyOpenTickets" xml:space="preserve">
+    <value>כרטיסים פתוחים בלבד</value>
+  </data>
+  <data name="TicketPaidChangesNotSaved" xml:space="preserve">
+    <value>Ticket Paid. Your latest changes not saved.</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="UserLogout" xml:space="preserve">
+    <value>יציאת משתמש מהמערכת</value>
+  </data>
+  <data name="CanDisplayReports" xml:space="preserve">
+    <value>ניתן להציג דוחות</value>
+  </data>
+  <data name="TicketRemainingAmount" xml:space="preserve">
+    <value>Remaining Ticket Amount</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>File Name</value>
+  </data>
+  <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
+    <value>לא ניתן לשמור כי יש שורות עם שדות ריקים של מוצרי מלאי או כמות 0</value>
+  </data>
+  <data name="TicketPermissions" xml:space="preserve">
+    <value>הרשאות בון</value>
+  </data>
+  <data name="MenuItemGroup" xml:space="preserve">
+    <value>קבוצת מוצרים</value>
+  </data>
+  <data name="ChangeTotal" xml:space="preserve">
+    <value>Change Total</value>
+  </data>
+  <data name="StopTimer" xml:space="preserve">
+    <value>Stop Timer</value>
+  </data>
+  <data name="Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="NewOrders" xml:space="preserve">
+    <value>הזמנות חדשות</value>
+  </data>
+  <data name="SalesByItemGroup" xml:space="preserve">
+    <value>מכירות לפי קבוצות מוצרים</value>
+  </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>Source {0}</value>
+  </data>
+  <data name="Select_f" xml:space="preserve">
+    <value>בחר: {0}</value>
+  </data>
+  <data name="PriceDurationType" xml:space="preserve">
+    <value>Price Duration Type</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>Empty</value>
+  </data>
+  <data name="TicketTagSelected" xml:space="preserve">
+    <value>Ticket Tag Selected</value>
+  </data>
+  <data name="ExpressionBuilder" xml:space="preserve">
+    <value>Expression Builder</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background Color</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="NumeratorValue" xml:space="preserve">
+    <value>ערך לוח מקשי מספרים</value>
+  </data>
+  <data name="Beginning" xml:space="preserve">
+    <value>Beginning</value>
+  </data>
+  <data name="AccountTransaction" xml:space="preserve">
+    <value>Account Transaction</value>
+  </data>
+  <data name="Development" xml:space="preserve">
+    <value>Development</value>
+  </data>
+  <data name="MonThruFri" xml:space="preserve">
+    <value>Mon thru Fri</value>
+  </data>
+  <data name="LocalSettings" xml:space="preserve">
+    <value>הגדרות מקומיות</value>
+  </data>
+  <data name="ReportDoesNotContainsCashState" xml:space="preserve">
+    <value>Report does not contain Start Amounts</value>
+  </data>
+  <data name="ChangeAmount_f" xml:space="preserve">
+    <value>Change Due: {0}</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>צבע</value>
+  </data>
+  <data name="NumeratorProperties" xml:space="preserve">
+    <value>מאפייני לוח מקשי מספרים</value>
+  </data>
+  <data name="Every15Minutes" xml:space="preserve">
+    <value>Every 15 Minutes</value>
+  </data>
+  <data name="TicketPaymentCheck" xml:space="preserve">
+    <value>Ticket Payment Check</value>
+  </data>
+  <data name="LastOrderDuration" xml:space="preserve">
+    <value>Last Order Duration</value>
+  </data>
+  <data name="DisplayPaymentScreen" xml:space="preserve">
+    <value>הצגת מסך התשלום</value>
+  </data>
+  <data name="PluralCurrencySuffix" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="CommonSettings" xml:space="preserve">
+    <value>Common Settings</value>
+  </data>
+  <data name="TicketTotalChanged" xml:space="preserve">
+    <value>Ticket Total Changed</value>
+  </data>
+  <data name="OnceAWeek" xml:space="preserve">
+    <value>Once a week</value>
+  </data>
+  <data name="Excluded" xml:space="preserve">
+    <value>Excluded</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Question</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="WeightBarcodePefix" xml:space="preserve">
+    <value>Weight Barcode Prefix</value>
+  </data>
+  <data name="MessageReceived" xml:space="preserve">
+    <value>Message Received</value>
   </data>
   <data name="CloseTicket_r" xml:space="preserve">
     <value>סגור
 כרטיס</value>
   </data>
-  <data name="OrderStateUpdated" xml:space="preserve">
-    <value>סטטוס הזמנה עודכן</value>
+  <data name="TicketTemplate" xml:space="preserve">
+    <value>תבנית כרטיס</value>
   </data>
-  <data name="CategoryProperties" xml:space="preserve">
-    <value>אפשרויות קטגוריה</value>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Create Account</value>
   </data>
-  <data name="DisplayState" xml:space="preserve">
-    <value>הצגת סטטוס</value>
+  <data name="OnceAYear" xml:space="preserve">
+    <value>Once a year</value>
   </data>
-  <data name="LineItemPriceCents" xml:space="preserve">
-    <value>#שורה: מחיר הפריט באגורות</value>
+  <data name="BroadcastMessage" xml:space="preserve">
+    <value>Broadcast Message</value>
   </data>
-  <data name="PrintJob" xml:space="preserve">
-    <value>משימת הדפסה</value>
+  <data name="AllCategories" xml:space="preserve">
+    <value>כל הקטגוריות</value>
   </data>
-  <data name="ProgramSettings" xml:space="preserve">
-    <value>הגדרות תוכנה</value>
+  <data name="General" xml:space="preserve">
+    <value>כללי</value>
   </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>רענון</value>
+  <data name="InventoryTransactionType" xml:space="preserve">
+    <value>Inventory Transaction Type</value>
   </data>
-  <data name="NumeratorValue" xml:space="preserve">
-    <value>ערך לוח מקשי מספרים</value>
+  <data name="SlipReportPrinter" xml:space="preserve">
+    <value>Slip Report Printer</value>
   </data>
-  <data name="SearchEntity" xml:space="preserve">
-    <value>חיפוש ישות</value>
+  <data name="TimeRounding" xml:space="preserve">
+    <value>Time Rounding</value>
   </data>
-  <data name="IncomeTransactions" xml:space="preserve">
-    <value>עסקאות הכנסה</value>
+  <data name="ShowOnTicket" xml:space="preserve">
+    <value>Show on Ticket</value>
   </data>
-  <data name="DisplayAtPaymentScreen" xml:space="preserve">
-    <value>להציג במסך התשלום</value>
+  <data name="Paid" xml:space="preserve">
+    <value>שולם</value>
   </data>
-  <data name="Entity" xml:space="preserve">
-    <value>ישות</value>
+  <data name="ChangeAmountUpdated" xml:space="preserve">
+    <value>Change Amount Updated</value>
   </data>
-  <data name="DisplayTicketList" xml:space="preserve">
-    <value>הצגת רשימת כרטיסים</value>
+  <data name="TaxAmount" xml:space="preserve">
+    <value>Tax Amount</value>
   </data>
-  <data name="DisplayTicket" xml:space="preserve">
-    <value>הצגת כרטיס</value>
+  <data name="TicketClosing" xml:space="preserve">
+    <value>סגירת כרטיס</value>
   </data>
-  <data name="Void" xml:space="preserve">
-    <value>מחיקה</value>
+  <data name="MappedAccounts" xml:space="preserve">
+    <value>Mapped Accounts</value>
   </data>
-  <data name="AutoSelect" xml:space="preserve">
-    <value>בחירה אוטומטית</value>
+  <data name="Cost" xml:space="preserve">
+    <value>עלות</value>
   </data>
-  <data name="Amount" xml:space="preserve">
-    <value>כמות</value>
+  <data name="CategoryProducts" xml:space="preserve">
+    <value>קטגורית מוצרים</value>
   </data>
-  <data name="MainMenu" xml:space="preserve">
-    <value>תפריט ראשי</value>
+  <data name="DisplayTicketLog" xml:space="preserve">
+    <value>Display Ticket Log</value>
   </data>
-  <data name="Category" xml:space="preserve">
-    <value>קטגוריה</value>
+  <data name="LinesGroupedByGroupCode" xml:space="preserve">
+    <value>שורות מקובצות לפי קוד קבוצה</value>
   </data>
-  <data name="Sale" xml:space="preserve">
-    <value>מכירה</value>
+  <data name="PriceDefinition" xml:space="preserve">
+    <value>Price Definition</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>יציאה מהמערכת</value>
+  <data name="ShowMessage" xml:space="preserve">
+    <value>Show Message</value>
   </data>
-  <data name="Template" xml:space="preserve">
-    <value>תבנית</value>
-  </data>
-  <data name="Numerators" xml:space="preserve">
-    <value>מחוללי מספרים</value>
-  </data>
-  <data name="Inventory" xml:space="preserve">
-    <value>מלאי</value>
-  </data>
-  <data name="OrderGrouping" xml:space="preserve">
-    <value>קיבוץ הזמנות</value>
-  </data>
-  <data name="Cash" xml:space="preserve">
-    <value>מזומן</value>
-  </data>
-  <data name="BaseUnit" xml:space="preserve">
-    <value>יחידת בסיס</value>
-  </data>
-  <data name="BatchPriceList" xml:space="preserve">
-    <value>עורך רשימת מחירים</value>
-  </data>
-  <data name="Price" xml:space="preserve">
-    <value>מחיר</value>
-  </data>
-  <data name="ColumnCount" xml:space="preserve">
-    <value>ספירת עמודות</value>
-  </data>
-  <data name="DisplayOpenTickets" xml:space="preserve">
-    <value>הצגת כרטיסים פתוחים</value>
-  </data>
-  <data name="Keyboard" xml:space="preserve">
-    <value>מקלדת</value>
-  </data>
-  <data name="MergeLines" xml:space="preserve">
-    <value>מיזוג שורות</value>
-  </data>
-  <data name="PurchaseTransaction" xml:space="preserve">
-    <value>עסקת רכישה</value>
-  </data>
-  <data name="DeleteSelectedCategoryQuestion" xml:space="preserve">
-    <value>מחק קטגוריה נבחרת?</value>
-  </data>
-  <data name="Confirmation" xml:space="preserve">
-    <value>אישור</value>
-  </data>
-  <data name="EndOfDayRecords" xml:space="preserve">
-    <value>רשומות סוף יום</value>
-  </data>
-  <data name="CanMergeTickets" xml:space="preserve">
-    <value>ניתן למזג כרטיסים</value>
-  </data>
-  <data name="BatchCreateDocuments" xml:space="preserve">
-    <value>אצווה ליצירת מסמכים</value>
-  </data>
-  <data name="Department" xml:space="preserve">
-    <value>מחלקה</value>
-  </data>
-  <data name="Warehouse" xml:space="preserve">
-    <value>מחסן</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>סגור</value>
-  </data>
-  <data name="Yesterday" xml:space="preserve">
-    <value>אתמול</value>
-  </data>
-  <data name="DisplayAllValues" xml:space="preserve">
-    <value>הצגת כל הערכים</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
-  <data name="FindTicket" xml:space="preserve">
-    <value>חיפוש כרטיס</value>
-  </data>
-  <data name="UserList" xml:space="preserve">
-    <value>רשימת משתמשים</value>
-  </data>
-  <data name="Add_f" xml:space="preserve">
-    <value>הוספת: {0}</value>
-  </data>
-  <data name="EndOfDayRecord" xml:space="preserve">
-    <value>רשומת סוף יום</value>
-  </data>
-  <data name="ExpenseTransactions" xml:space="preserve">
-    <value>עסקאות הוצאה</value>
-  </data>
-  <data name="ProgramLanguage" xml:space="preserve">
-    <value>שפת התוכנה</value>
-  </data>
-  <data name="ItemSalesReport" xml:space="preserve">
-    <value>דוח מכירות מוצרים</value>
-  </data>
-  <data name="UserLogin" xml:space="preserve">
-    <value>כניסת משתמש</value>
-  </data>
-  <data name="Customers" xml:space="preserve">
-    <value>לקוחות</value>
-  </data>
-  <data name="TicketStateUpdated" xml:space="preserve">
-    <value>סטטוס כרטיס עודכן</value>
-  </data>
-  <data name="ReportPrinter" xml:space="preserve">
-    <value>מדפסת דוחות</value>
+  <data name="UserRoleName" xml:space="preserve">
+    <value>Role Name</value>
   </data>
   <data name="Line" xml:space="preserve">
     <value>שורה</value>
   </data>
-  <data name="StateType" xml:space="preserve">
-    <value>סוג סטטוס</value>
+  <data name="ClientServerConnectionHelpUrlString" xml:space="preserve">
+    <value>http://www.sambapos.com/en/content/client-server-baglantisi-nasil-yapilir</value>
   </data>
-  <data name="EntityScreens" xml:space="preserve">
-    <value>מסכי ישויות</value>
+  <data name="Nine" xml:space="preserve">
+    <value>Nine</value>
   </data>
-  <data name="LastOrderStatus" xml:space="preserve">
-    <value>מצב הזמנה אחרון</value>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
   </data>
-  <data name="LineItemQuantity" xml:space="preserve">
-    <value>#שורה: כמות פריט</value>
+  <data name="CanExecute" xml:space="preserve">
+    <value>Can Execute</value>
   </data>
-  <data name="PaymentScreenSettings" xml:space="preserve">
-    <value>הגדרות מסך התשלום</value>
+  <data name="CustomCommand" xml:space="preserve">
+    <value>CustomCommand</value>
   </data>
-  <data name="WorkPeriodEnded" xml:space="preserve">
-    <value>משמרת עבודה הסתיימה</value>
+  <data name="Automation" xml:space="preserve">
+    <value>אוטומציה</value>
   </data>
-  <data name="ButtonColor" xml:space="preserve">
-    <value>צבע כפתור</value>
+  <data name="CustomPrinter" xml:space="preserve">
+    <value>Custom Printer</value>
   </data>
-  <data name="DocumentType" xml:space="preserve">
-    <value>סוג מסמך</value>
+  <data name="Trigger" xml:space="preserve">
+    <value>Trigger</value>
   </data>
-  <data name="DisplayFormat" xml:space="preserve">
-    <value>הצגת תבנית</value>
+  <data name="AutoRounding" xml:space="preserve">
+    <value>Auto Rounding</value>
   </data>
-  <data name="CurrencySymbol" xml:space="preserve">
-    <value>סמל מטבע</value>
+  <data name="LoadLastOrder" xml:space="preserve">
+    <value>Load Last Order</value>
+  </data>
+  <data name="TotalWorkTimeHours_f" xml:space="preserve">
+    <value>Total Work Time: {0:0} hours {1:0} minutes</value>
+  </data>
+  <data name="UpdateNewOrderEntityColor" xml:space="preserve">
+    <value>Update New Order Entity Color</value>
+  </data>
+  <data name="AddTicketLog" xml:space="preserve">
+    <value>Add Ticket Log</value>
   </data>
   <data name="CostReport" xml:space="preserve">
     <value>דוח עלויות</value>
   </data>
-  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
-    <value>קוד אישי זה בשימוש ע"י חשבון משתמש אחר</value>
+  <data name="EventName" xml:space="preserve">
+    <value>Event Name</value>
   </data>
-  <data name="InStock" xml:space="preserve">
-    <value>במלאי</value>
+  <data name="NewOrderAddingRule" xml:space="preserve">
+    <value>New Order Adding Rule</value>
   </data>
-  <data name="GrandTotal" xml:space="preserve">
-    <value>סכום כולל</value>
+  <data name="Equal" xml:space="preserve">
+    <value>Equals</value>
   </data>
-  <data name="WorkPeriodReport" xml:space="preserve">
-    <value>דוח משמרת עבודה</value>
-  </data>
-  <data name="TransactionUnit" xml:space="preserve">
-    <value>יחידת עסקה</value>
-  </data>
-  <data name="TransactionDocument" xml:space="preserve">
-    <value>מסמך העסקה</value>
-  </data>
-  <data name="PortionName" xml:space="preserve">
-    <value>שם מנה</value>
-  </data>
-  <data name="DeleteItemConfirmation_f" xml:space="preserve">
-    <value>האם למחוק את {0} [{1}]?</value>
-  </data>
-  <data name="GroupCode" xml:space="preserve">
-    <value>קוד קבוצה</value>
-  </data>
-  <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
-    <value>ניתן להזיז שורות של כרטיסים לא נעולים</value>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>כמות</value>
-  </data>
-  <data name="Property" xml:space="preserve">
-    <value>מאפיין</value>
-  </data>
-  <data name="DisplayUnderTicket" xml:space="preserve">
-    <value>להציג תחת כרטיס</value>
-  </data>
-  <data name="TicketNumerator" xml:space="preserve">
-    <value>מחולל מספרי כרטיס</value>
-  </data>
-  <data name="DeleteErrorLastUser" xml:space="preserve">
-    <value>לא ניתן למחוק את חשבון המשתמש האחרון</value>
-  </data>
-  <data name="TemplateName" xml:space="preserve">
-    <value>שם תבנית</value>
-  </data>
-  <data name="UpdateOrderState" xml:space="preserve">
-    <value>עדכון סטטוס הזמנה</value>
-  </data>
-  <data name="CanChangeDepartment" xml:space="preserve">
-    <value>באפשרותך לשנות מחלקה</value>
-  </data>
-  <data name="CreditCard" xml:space="preserve">
-    <value>כרטיס אשראי</value>
-  </data>
-  <data name="Ticket" xml:space="preserve">
-    <value>כרטיס</value>
-  </data>
-  <data name="MenuName" xml:space="preserve">
-    <value>שם תפריט</value>
-  </data>
-  <data name="AccountsReceivable" xml:space="preserve">
-    <value>חשבונות שממתינים לתשלום</value>
-  </data>
-  <data name="DayOperations" xml:space="preserve">
-    <value>משמרות עבודה</value>
+  <data name="CharacterSet" xml:space="preserve">
+    <value>Character Set</value>
   </data>
   <data name="Recipes" xml:space="preserve">
     <value>מתכונים</value>
   </data>
-  <data name="CashTransactions" xml:space="preserve">
-    <value>עסקאות במזומן</value>
+  <data name="PrintBill" xml:space="preserve">
+    <value>הדפסת חשבון</value>
   </data>
-  <data name="State_f" xml:space="preserve">
-    <value>סטטוס {0}</value>
+  <data name="Portion" xml:space="preserve">
+    <value>מנה</value>
   </data>
-  <data name="PrintMapping" xml:space="preserve">
-    <value>מיפוי הדפסה</value>
+  <data name="ProgramSettings" xml:space="preserve">
+    <value>הגדרות תוכנה</value>
   </data>
-  <data name="Table" xml:space="preserve">
-    <value>שולחן</value>
+  <data name="Receipt" xml:space="preserve">
+    <value>Receipt</value>
   </data>
-  <data name="DiscountPercentSign" xml:space="preserve">
-    <value>% הנחה</value>
+  <data name="InStock" xml:space="preserve">
+    <value>במלאי</value>
   </data>
-  <data name="SingleSelection" xml:space="preserve">
-    <value>בחירה יחידה</value>
+  <data name="MenuItemName" xml:space="preserve">
+    <value>Menu Item Name</value>
+  </data>
+  <data name="SearchString" xml:space="preserve">
+    <value>Search String</value>
+  </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>עדכון סטטוס כרטיסים ממוזגים</value>
+  </data>
+  <data name="DisplayAllValues" xml:space="preserve">
+    <value>הצגת כל הערכים</value>
+  </data>
+  <data name="CashPayment" xml:space="preserve">
+    <value>Cash Payment</value>
+  </data>
+  <data name="OrderStateGroup" xml:space="preserve">
+    <value>קבוצת סטטוס הזמנה</value>
+  </data>
+  <data name="AskTicketType" xml:space="preserve">
+    <value>Ask Ticket Type</value>
+  </data>
+  <data name="Negative" xml:space="preserve">
+    <value>Negative</value>
+  </data>
+  <data name="LoadTicket" xml:space="preserve">
+    <value>טעינת כרטיס</value>
+  </data>
+  <data name="TicketExplorer" xml:space="preserve">
+    <value>Ticket Explorer</value>
+  </data>
+  <data name="TicketTipTotal" xml:space="preserve">
+    <value>Tip Total</value>
+  </data>
+  <data name="ActionName" xml:space="preserve">
+    <value>Action Name</value>
+  </data>
+  <data name="WindowsPrinter" xml:space="preserve">
+    <value>מדפסת Windows</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Forum</value>
+  </data>
+  <data name="TicketNote" xml:space="preserve">
+    <value>הערות כרטיס</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="CheckDBVersion" xml:space="preserve">
+    <value>נא לבדוק גרסת מסד נתונים</value>
+  </data>
+  <data name="InventoryItemName" xml:space="preserve">
+    <value>שם פריט מלאי</value>
+  </data>
+  <data name="CashPermissions" xml:space="preserve">
+    <value>Cash Permissions</value>
+  </data>
+  <data name="AlphanumericButtons" xml:space="preserve">
+    <value>Alphanumeric Buttons</value>
+  </data>
+  <data name="CreditCardPayment" xml:space="preserve">
+    <value>Credit Card Payment</value>
+  </data>
+  <data name="KitchenOrderTemplate" xml:space="preserve">
+    <value>Kitchen Orders Template</value>
+  </data>
+  <data name="Command" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="Seventy" xml:space="preserve">
+    <value>Seventy</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="ProductTag" xml:space="preserve">
+    <value>תג מוצר</value>
+  </data>
+  <data name="TaskType" xml:space="preserve">
+    <value>Task Type</value>
+  </data>
+  <data name="TransactionTotal" xml:space="preserve">
+    <value>Transaction Total</value>
+  </data>
+  <data name="Calling" xml:space="preserve">
+    <value>מתקשר</value>
+  </data>
+  <data name="PriceTag" xml:space="preserve">
+    <value>Price Tag</value>
+  </data>
+  <data name="EntityName" xml:space="preserve">
+    <value>שם ישות</value>
+  </data>
+  <data name="Included" xml:space="preserve">
+    <value>Included</value>
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>טלפון</value>
   </data>
-  <data name="Add" xml:space="preserve">
-    <value>הוספה</value>
+  <data name="BatchCreateDocuments" xml:space="preserve">
+    <value>אצווה ליצירת מסמכים</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>סה"כ</value>
+  <data name="Customer" xml:space="preserve">
+    <value>לקוח</value>
   </data>
-  <data name="LineItemPrice" xml:space="preserve">
-    <value>#שורה: מחיר פריט</value>
+  <data name="ToggleValues" xml:space="preserve">
+    <value>Toggle Values</value>
   </data>
-  <data name="WorkPeriodStartTime" xml:space="preserve">
-    <value>שעת משמרת עבודה: {0}</value>
+  <data name="DisplayState" xml:space="preserve">
+    <value>הצגת סטטוס</value>
   </data>
-  <data name="ReportName" xml:space="preserve">
-    <value>שם דוח</value>
+  <data name="Automatic" xml:space="preserve">
+    <value>Automatic</value>
   </data>
-  <data name="Currency" xml:space="preserve">
-    <value>מטבע</value>
+  <data name="Transaction_f" xml:space="preserve">
+    <value>{0} Transaction</value>
+  </data>
+  <data name="SalesDivTicket" xml:space="preserve">
+    <value>Sales Total / Ticket</value>
+  </data>
+  <data name="ProgramLanguage" xml:space="preserve">
+    <value>שפת התוכנה</value>
+  </data>
+  <data name="TicketsMerged" xml:space="preserve">
+    <value>כרטיסים ממוזגים</value>
+  </data>
+  <data name="NewTicketCreatingRule" xml:space="preserve">
+    <value>New Ticket Creating Rule</value>
+  </data>
+  <data name="SortType" xml:space="preserve">
+    <value>Sort Type</value>
+  </data>
+  <data name="TransactionUnitError" xml:space="preserve">
+    <value>Transaction Unit should not be empty</value>
+  </data>
+  <data name="PortionName" xml:space="preserve">
+    <value>שם מנה</value>
+  </data>
+  <data name="RateFromTaxIncludedTicketAmount" xml:space="preserve">
+    <value>Rate from Tax included ticket amount</value>
+  </data>
+  <data name="ExecutePrintJob" xml:space="preserve">
+    <value>Execute Print Job</value>
+  </data>
+  <data name="NotMatchesAny" xml:space="preserve">
+    <value>Not Matches Any</value>
+  </data>
+  <data name="CalculationType" xml:space="preserve">
+    <value>Calculation Type</value>
+  </data>
+  <data name="TicketTotal_f" xml:space="preserve">
+    <value>Total {0}:</value>
+  </data>
+  <data name="CanReleaseTicketLock" xml:space="preserve">
+    <value>באפשרותך להסיר נעילת כרטיס</value>
+  </data>
+  <data name="Expression" xml:space="preserve">
+    <value>Expression</value>
+  </data>
+  <data name="Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="Starts" xml:space="preserve">
+    <value>Starts</value>
+  </data>
+  <data name="TicketEntityChanged" xml:space="preserve">
+    <value>Ticket Entity Changed</value>
+  </data>
+  <data name="InventoryPurchaseReport" xml:space="preserve">
+    <value>דוח רכישות מלאי</value>
+  </data>
+  <data name="TerminalView" xml:space="preserve">
+    <value>תצוגת מסוף</value>
+  </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>Consumption</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Delete current template and Load {0}?</value>
+  </data>
+  <data name="EveryOtherMonth" xml:space="preserve">
+    <value>Every other month</value>
+  </data>
+  <data name="StateController" xml:space="preserve">
+    <value>בקרת סטטוס</value>
+  </data>
+  <data name="ValueLooped" xml:space="preserve">
+    <value>Value Looped</value>
+  </data>
+  <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
+    <value>Ticket tag names should be unique</value>
+  </data>
+  <data name="AutoRefresh" xml:space="preserve">
+    <value>Auto Refresh</value>
+  </data>
+  <data name="DayDate" xml:space="preserve">
+    <value>Date of Day</value>
+  </data>
+  <data name="AccountPermissions" xml:space="preserve">
+    <value>Account Permissions</value>
+  </data>
+  <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
+    <value>Total Work Time: {0:0} minutes</value>
+  </data>
+  <data name="DisplaySettings" xml:space="preserve">
+    <value>Display Settings</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>Field Type</value>
+  </data>
+  <data name="SourceAccountTypeDesc" xml:space="preserve">
+    <value>Source Account Type (Debit)</value>
+  </data>
+  <data name="OrderUntagged" xml:space="preserve">
+    <value>Order Untagged</value>
+  </data>
+  <data name="SubButtonRows" xml:space="preserve">
+    <value>Sub Button Rows</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="ChargedAmount" xml:space="preserve">
+    <value>Charged</value>
+  </data>
+  <data name="PrinterType" xml:space="preserve">
+    <value>סוג מדפסת</value>
   </data>
   <data name="PastTransactions" xml:space="preserve">
     <value>עסקאות ישנות</value>
   </data>
-  <data name="DiscountsTotal" xml:space="preserve">
-    <value>סה"כ הנחות</value>
+  <data name="MaxSelectedItems" xml:space="preserve">
+    <value>Max Selected Items</value>
+  </data>
+  <data name="MergeLines" xml:space="preserve">
+    <value>מיזוג שורות</value>
+  </data>
+  <data name="PaymentTotal" xml:space="preserve">
+    <value>סה"כ לתשלום</value>
+  </data>
+  <data name="Delete_f" xml:space="preserve">
+    <value>מחיקת: {0}</value>
+  </data>
+  <data name="IncludeTax" xml:space="preserve">
+    <value>Include Tax</value>
   </data>
   <data name="OpenClose_ab" xml:space="preserve">
     <value>שעה</value>
   </data>
-  <data name="DisplayPopup" xml:space="preserve">
-    <value>הצגת חלון קופץ</value>
+  <data name="Every6Months" xml:space="preserve">
+    <value>Every 6 months</value>
   </data>
-  <data name="TicketPrinter" xml:space="preserve">
-    <value>מדפסת כרטיסים</value>
+  <data name="Seven" xml:space="preserve">
+    <value>Seven</value>
   </data>
-  <data name="SalesByItemGroup" xml:space="preserve">
-    <value>מכירות לפי קבוצות מוצרים</value>
+  <data name="TicketSubTotal" xml:space="preserve">
+    <value>Ticket Sub Total</value>
   </data>
-  <data name="Products" xml:space="preserve">
-    <value>מוצרים</value>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>ביטול נעילת כרטיס</value>
   </data>
-  <data name="LinesGroupedByBarcode" xml:space="preserve">
-    <value>שורות מקובצות לפי ברקוד</value>
+  <data name="SellerWarehouse" xml:space="preserve">
+    <value>Seller Warehouse</value>
   </data>
-  <data name="DocumentNo" xml:space="preserve">
-    <value>מס' מסמך</value>
+  <data name="GiftTotal" xml:space="preserve">
+    <value>Gift Total</value>
   </data>
-  <data name="DepartmentType" xml:space="preserve">
-    <value>סוג מחלקה</value>
+  <data name="EmptyNameError" xml:space="preserve">
+    <value>נא לא להשאיר שם {0} ריק.</value>
   </data>
-  <data name="Users" xml:space="preserve">
-    <value>משתמשים</value>
+  <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
+    <value>There are {0} open tickets.
+Can't end Work Period while tickets open</value>
   </data>
-  <data name="InvoicePrinter" xml:space="preserve">
-    <value>מדפסת חשבונית</value>
+  <data name="HalfPast" xml:space="preserve">
+    <value>Half past</value>
   </data>
-  <data name="Receivables" xml:space="preserve">
-    <value>ממתינים לתשלום</value>
+  <data name="SingleSelection" xml:space="preserve">
+    <value>בחירה יחידה</value>
+  </data>
+  <data name="DecreaseAmount" xml:space="preserve">
+    <value>Decrease Amount</value>
+  </data>
+  <data name="PinCode" xml:space="preserve">
+    <value>קוד אישי</value>
+  </data>
+  <data name="ExecutePrintBillJob" xml:space="preserve">
+    <value>בצע משימת הדפסת חשבון</value>
+  </data>
+  <data name="DiscountPercentSign" xml:space="preserve">
+    <value>% הנחה</value>
+  </data>
+  <data name="WorkPeriodStarted" xml:space="preserve">
+    <value>Work Period Started</value>
+  </data>
+  <data name="SelectPrintJobsForTerminalHint_f" xml:space="preserve">
+    <value>בחר משימות ההדפסה שברצונך להוסיף {0} מסוף</value>
+  </data>
+  <data name="RoundingTotal" xml:space="preserve">
+    <value>Rounding Total</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>כמות</value>
+  </data>
+  <data name="FixedAmountFromTicketTotal" xml:space="preserve">
+    <value>Fixed amount from ticket total</value>
+  </data>
+  <data name="PortPrinter" xml:space="preserve">
+    <value>יציאת מדפסת</value>
+  </data>
+  <data name="ReportPrinter" xml:space="preserve">
+    <value>מדפסת דוחות</value>
+  </data>
+  <data name="PriceDefinitions" xml:space="preserve">
+    <value>Price Definitions</value>
+  </data>
+  <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
+    <value>Drag {0} category products to change order.</value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>מחיקה</value>
+  </data>
+  <data name="Portions" xml:space="preserve">
+    <value>מנות</value>
+  </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>מיון הזמנה</value>
+  </data>
+  <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
+    <value>אין אפשרות למחוק רשומות סוף יום ישנות</value>
+  </data>
+  <data name="LoopValues" xml:space="preserve">
+    <value>Loop Values</value>
+  </data>
+  <data name="CanDisplayOldTickets" xml:space="preserve">
+    <value>ניתן להציג כרטיסים ישנים</value>
+  </data>
+  <data name="Twenty" xml:space="preserve">
+    <value>Twenty</value>
+  </data>
+  <data name="MoveTicketLine" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="Ninety" xml:space="preserve">
+    <value>Ninety</value>
+  </data>
+  <data name="DisplayUnderTicketRow2" xml:space="preserve">
+    <value>Display Under Ticket Row 2</value>
+  </data>
+  <data name="DefaultTargetAccount" xml:space="preserve">
+    <value>Default Target Account</value>
+  </data>
+  <data name="PrinterName" xml:space="preserve">
+    <value>שם מדפסת</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="DeleteItemConfirmation_f" xml:space="preserve">
+    <value>האם למחוק את {0} [{1}]?</value>
+  </data>
+  <data name="CornerRadius" xml:space="preserve">
+    <value>Corner Radius</value>
+  </data>
+  <data name="TwiceAnHour" xml:space="preserve">
+    <value>Twice an hour</value>
+  </data>
+  <data name="EveryHour" xml:space="preserve">
+    <value>Every hour</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>כרטיס</value>
+  </data>
+  <data name="EntitySelected" xml:space="preserve">
+    <value>Entity Selected</value>
+  </data>
+  <data name="EveryDay" xml:space="preserve">
+    <value>Every day</value>
+  </data>
+  <data name="DisplayUnderTicket" xml:space="preserve">
+    <value>להציג תחת כרטיס</value>
+  </data>
+  <data name="ChangePaymentType" xml:space="preserve">
+    <value>Change Payment Type</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>שם מחלקה</value>
+  </data>
+  <data name="IsNotNull" xml:space="preserve">
+    <value>Is Not Null</value>
+  </data>
+  <data name="ForeignCurrency" xml:space="preserve">
+    <value>מטבע חוץ</value>
+  </data>
+  <data name="RuleActions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>סגור</value>
+  </data>
+  <data name="Four" xml:space="preserve">
+    <value>Four</value>
+  </data>
+  <data name="OrderNumber_f" xml:space="preserve">
+    <value>Ord.No: {0:0} - {1}</value>
+  </data>
+  <data name="Every4Hours" xml:space="preserve">
+    <value>Every 4 hours</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="ColumnCount" xml:space="preserve">
+    <value>ספירת עמודות</value>
+  </data>
+  <data name="WindowScale" xml:space="preserve">
+    <value>גודל חלון</value>
+  </data>
+  <data name="DisplayFormat" xml:space="preserve">
+    <value>הצגת תבנית</value>
+  </data>
+  <data name="CreditLimit" xml:space="preserve">
+    <value>Credit Limit</value>
+  </data>
+  <data name="StateDefinition" xml:space="preserve">
+    <value>הגדרת סטטוס</value>
+  </data>
+  <data name="DisplayUserPath" xml:space="preserve">
+    <value>הצג נתיב של המשתמש</value>
+  </data>
+  <data name="Seventeen" xml:space="preserve">
+    <value>Seventeen</value>
+  </data>
+  <data name="AdminRole" xml:space="preserve">
+    <value>Admin Role</value>
+  </data>
+  <data name="Three" xml:space="preserve">
+    <value>Three</value>
+  </data>
+  <data name="SaveErrorThisPinCodeInUse" xml:space="preserve">
+    <value>קוד אישי זה בשימוש ע"י חשבון משתמש אחר</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>כרטיס אשראי</value>
+  </data>
+  <data name="CashReport" xml:space="preserve">
+    <value>דו"ח עסקאות במזומן</value>
+  </data>
+  <data name="ForChangingPriceTypeAPrice" xml:space="preserve">
+    <value>For changing price first type a price from numerator</value>
+  </data>
+  <data name="PrintMapping" xml:space="preserve">
+    <value>מיפוי הדפסה</value>
+  </data>
+  <data name="Mapping_f" xml:space="preserve">
+    <value>{0} מיפוי</value>
+  </data>
+  <data name="Values" xml:space="preserve">
+    <value>Values</value>
+  </data>
+  <data name="Thousand" xml:space="preserve">
+    <value>Thousand</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>תפריט ראשי</value>
+  </data>
+  <data name="StateType" xml:space="preserve">
+    <value>סוג סטטוס</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>Display as Tree</value>
+  </data>
+  <data name="Find_f" xml:space="preserve">
+    <value>Find {0}</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="SelectionRequired" xml:space="preserve">
+    <value>חובה לבחור</value>
+  </data>
+  <data name="Cent" xml:space="preserve">
+    <value>טומוגרפיה ממוחשבת</value>
+  </data>
+  <data name="SambaNetwork" xml:space="preserve">
+    <value>רשת Samba</value>
+  </data>
+  <data name="NumeratorType" xml:space="preserve">
+    <value>סוג לוח מקשי מספרים</value>
+  </data>
+  <data name="OverrideWindowsRegionalSettings" xml:space="preserve">
+    <value>Override Windows Regional Settings</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Add Tag</value>
+  </data>
+  <data name="Eight" xml:space="preserve">
+    <value>Eight</value>
+  </data>
+  <data name="Gift" xml:space="preserve">
+    <value>מתנה</value>
+  </data>
+  <data name="Voucher" xml:space="preserve">
+    <value>שובר</value>
+  </data>
+  <data name="CurrentInventory" xml:space="preserve">
+    <value>מלאי שוטף</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>יציאה</value>
+  </data>
+  <data name="TargetAccountTypeDesc" xml:space="preserve">
+    <value>Target Account Type (Credit)</value>
+  </data>
+  <data name="TextWrittenTotalValue" xml:space="preserve">
+    <value>Text written total value</value>
+  </data>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Ticket Number</value>
+  </data>
+  <data name="EveryMinute" xml:space="preserve">
+    <value>Every minute</value>
+  </data>
+  <data name="Every10Minutes" xml:space="preserve">
+    <value>Every 10 Minutes</value>
+  </data>
+  <data name="MenuCategories" xml:space="preserve">
+    <value>קטגוריות תפריט</value>
+  </data>
+  <data name="TicketType" xml:space="preserve">
+    <value>סוג כרטיס</value>
+  </data>
+  <data name="SelectActions" xml:space="preserve">
+    <value>Select Actions</value>
+  </data>
+  <data name="DiscountPercentage" xml:space="preserve">
+    <value>אחוז הנחה</value>
   </data>
   <data name="Header" xml:space="preserve">
     <value>כותרת</value>
   </data>
-  <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
-    <value>כשבוחרים "תיוג מספרי" - כל התגים צריך להכיל ערכים מספריים.</value>
+  <data name="Mappings" xml:space="preserve">
+    <value>מיפויים</value>
   </data>
-  <data name="MultipleSelection" xml:space="preserve">
-    <value>בחירה מרובה</value>
+  <data name="ExecuteScript" xml:space="preserve">
+    <value>Execute Script</value>
   </data>
-  <data name="TicketNumber_f" xml:space="preserve">
-    <value>מספר כרטיס: {0}</value>
+  <data name="ShowOnProductReport" xml:space="preserve">
+    <value>Show on Product Report</value>
   </data>
-  <data name="WorkPeriodStartDate_f" xml:space="preserve">
-    <value>תאריך משמרת עבודה: {0}</value>
+  <data name="TaxTotal" xml:space="preserve">
+    <value>Tax Total</value>
   </data>
-  <data name="SambaPosWebsite" xml:space="preserve">
-    <value>אתר SambaPOS</value>
+  <data name="Toggle" xml:space="preserve">
+    <value>Toggle</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>מחיקה</value>
+  <data name="DepartmentPermissions" xml:space="preserve">
+    <value>Department Permissions</value>
   </data>
-  <data name="Transaction" xml:space="preserve">
-    <value>עסקה</value>
-  </data>
-  <data name="CurrentCost" xml:space="preserve">
-    <value>עלות שוטפת</value>
-  </data>
-  <data name="CanRemoveTicketTag" xml:space="preserve">
-    <value>באפשרותך להסיר תג של כרטיס</value>
-  </data>
-  <data name="Date" xml:space="preserve">
-    <value>תאריך</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>כניסה</value>
-  </data>
-  <data name="DefaultTerminal" xml:space="preserve">
-    <value>מסוף ברירת המחדל</value>
-  </data>
-  <data name="AllLines" xml:space="preserve">
-    <value>כל השורות</value>
-  </data>
-  <data name="TicketPermissions" xml:space="preserve">
-    <value>הרשאות בון</value>
-  </data>
-  <data name="SaveErrorZeroOrNullInventoryLines" xml:space="preserve">
-    <value>לא ניתן לשמור כי יש שורות עם שדות ריקים של מוצרי מלאי או כמות 0</value>
-  </data>
-  <data name="LineItemTotalAndQuantity" xml:space="preserve">
-    <value>#שורה: סה"כ x כמות פריט</value>
+  <data name="EditingFormat" xml:space="preserve">
+    <value>Editing Format</value>
   </data>
 </root>

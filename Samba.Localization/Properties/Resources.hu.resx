@@ -436,6 +436,9 @@
   <data name="LineItemPriceCents" xml:space="preserve">
     <value># sor: Elem ára centben</value>
   </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parameter [{0}] should not start or end with space.</value>
+  </data>
   <data name="UserLogin" xml:space="preserve">
     <value>Felhasználói bejelentkezés</value>
   </data>
@@ -1760,6 +1763,9 @@ A PIN megváltoztatásával ez az üzenet eltűnik.</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Tizenöt</value>
+  </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Search Value Replace Pattern</value>
   </data>
   <data name="UpdateTicketStatus" xml:space="preserve">
     <value>Blokk állapotának frissítése</value>

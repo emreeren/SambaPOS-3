@@ -123,8 +123,20 @@
   <data name="FixedAmount" xml:space="preserve">
     <value>Κατ 'αποκοπή ποσό</value>
   </data>
+  <data name="Entity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>Header Button</value>
+  </data>
+  <data name="POS" xml:space="preserve">
+    <value>POS</value>
+  </data>
+  <data name="DisplayTicket" xml:space="preserve">
+    <value>Display Ticket</value>
+  </data>
+  <data name="Matches" xml:space="preserve">
+    <value>Matches</value>
   </data>
   <data name="Print" xml:space="preserve">
     <value>Εκτύπωση</value>
@@ -132,6 +144,9 @@
   <data name="TotalWorkTimeDays_f" xml:space="preserve">
     <value>Συνολικός χρόνος εργασίας:
 {0:0} ημέρες {1:0} ώρα: {2:0} λεπτά</value>
+  </data>
+  <data name="Settle" xml:space="preserve">
+    <value>Settle</value>
   </data>
   <data name="BeforeWorkPeriodEnds" xml:space="preserve">
     <value>Πριν τη λήξη εργασίας</value>
@@ -145,6 +160,12 @@
   <data name="Discount" xml:space="preserve">
     <value>Έκπτωση </value>
   </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="NumberpadValueEntered" xml:space="preserve">
+    <value>Numberpad Value Entered</value>
+  </data>
   <data name="ButtonColor" xml:space="preserve">
     <value>Χρώμα Πλήκτρου</value>
   </data>
@@ -157,6 +178,9 @@
   <data name="TagValue" xml:space="preserve">
     <value>Αξία Tag</value>
   </data>
+  <data name="Date_f" xml:space="preserve">
+    <value>{0} Date</value>
+  </data>
   <data name="Round" xml:space="preserve">
     <value>Γύρω</value>
   </data>
@@ -165,6 +189,12 @@
   </data>
   <data name="AccountType" xml:space="preserve">
     <value>Τύπος Λογαριασμού</value>
+  </data>
+  <data name="Script" xml:space="preserve">
+    <value>Script</value>
+  </data>
+  <data name="DocumentType" xml:space="preserve">
+    <value>Document Type</value>
   </data>
   <data name="CashStatus" xml:space="preserve">
     <value>Κατάσταση μετρητών</value>
@@ -184,14 +214,35 @@
   <data name="UserRoleList" xml:space="preserve">
     <value>Λίστα Ρόλος</value>
   </data>
+  <data name="UpdateOrderGiftState" xml:space="preserve">
+    <value>Update Order Gift State</value>
+  </data>
   <data name="ClearFilter" xml:space="preserve">
     <value>Απαλοιφή φίλτρου</value>
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
     <value>Αλλαγή Τιμοκατάλογος</value>
   </data>
+  <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
+    <value>Execute Kitchen Orders Print Job</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Warehouse</value>
+  </data>
+  <data name="CustomerReceiptTemplate" xml:space="preserve">
+    <value>Customer Receipt Template</value>
+  </data>
+  <data name="MatchesAny" xml:space="preserve">
+    <value>Matches Any</value>
+  </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Συνολικά Έσοδα</value>
+  </data>
+  <data name="Entities" xml:space="preserve">
+    <value>Entities</value>
+  </data>
+  <data name="AccountDetails" xml:space="preserve">
+    <value>Account Details</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>Επιλέξτε</value>
@@ -201,6 +252,9 @@
   </data>
   <data name="WorkPeriodReport" xml:space="preserve">
     <value>Εργασία Έκθεση Περιόδου</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
   </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Εισάγετε κατηγορίες που θέλετε να προσθέσετε</value>
@@ -229,8 +283,14 @@
   <data name="TriggerExecuted" xml:space="preserve">
     <value>Εκτελείται Trigger</value>
   </data>
+  <data name="MinSelectedItems" xml:space="preserve">
+    <value>Min Selected Items</value>
+  </data>
   <data name="MenuProperties" xml:space="preserve">
     <value>Ιδιότητες Μενού</value>
+  </data>
+  <data name="CustomConstraint" xml:space="preserve">
+    <value>Custom Constraint</value>
   </data>
   <data name="Dollar" xml:space="preserve">
     <value>Δολάριο</value>
@@ -244,8 +304,14 @@
   <data name="Account" xml:space="preserve">
     <value>Λογαριασμός</value>
   </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>Device Event Generated</value>
+  </data>
   <data name="Liability" xml:space="preserve">
     <value>Ευθύνη</value>
+  </data>
+  <data name="UpdateTicketState" xml:space="preserve">
+    <value>Update Ticket State</value>
   </data>
   <data name="Nineteen" xml:space="preserve">
     <value>Δεκαεννέα</value>
@@ -277,6 +343,9 @@
   <data name="ExpenseTransactions" xml:space="preserve">
     <value>Συναλλαγές Εξόδων</value>
   </data>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>Purchase Transaction</value>
+  </data>
   <data name="AutoSelect" xml:space="preserve">
     <value>Αυτόματη Επιλογή</value>
   </data>
@@ -285,6 +354,9 @@
   </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Όνομα ομάδας ιδιοτήτων</value>
+  </data>
+  <data name="PrintAccountTransactions" xml:space="preserve">
+    <value>Print Account Transactions</value>
   </data>
   <data name="AddModel_f" xml:space="preserve">
     <value>Νέα προσθήκη {0}</value>
@@ -301,6 +373,12 @@
   <data name="Payment_f" xml:space="preserve">
     <value>{0} Πληρωμή</value>
   </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>Ticket Duration</value>
+  </data>
+  <data name="StateFilter" xml:space="preserve">
+    <value>State Filter</value>
+  </data>
   <data name="SubTotal" xml:space="preserve">
     <value>Μερικό Σύνολο</value>
   </data>
@@ -316,20 +394,41 @@
   <data name="Every3Hours" xml:space="preserve">
     <value>Κάθε 3 ώρες</value>
   </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Command Parameter</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Τίτλος</value>
   </data>
   <data name="CashContent" xml:space="preserve">
     <value>Περιεχόμενο μετρητών</value>
   </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Calculation</value>
+  </data>
+  <data name="BalanceBroughtForward" xml:space="preserve">
+    <value>Balance Brought Forward</value>
+  </data>
+  <data name="Selection_f" xml:space="preserve">
+    <value>{0} Selection</value>
+  </data>
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Εκτυπωτής Κουζίνας</value>
+  </data>
+  <data name="InventoryCalculationError" xml:space="preserve">
+    <value>Inventory calculation generated an error. Check your recipes.</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Ρυθμίσεις</value>
   </data>
+  <data name="ErrorInExpression" xml:space="preserve">
+    <value>Σφάλμα κατά την έκφραση</value>
+  </data>
   <data name="NewOrder" xml:space="preserve">
     <value>Νέα παραγγελία</value>
+  </data>
+  <data name="PriceDuration" xml:space="preserve">
+    <value>Price Duration</value>
   </data>
   <data name="Multiple" xml:space="preserve">
     <value>Πολλαπλή Επιλογή</value>
@@ -337,11 +436,17 @@
   <data name="LineItemPriceCents" xml:space="preserve">
     <value># Γραμμή: Item Τιμή Από Cents</value>
   </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parameter [{0}] should not start or end with space.</value>
+  </data>
   <data name="UserLogin" xml:space="preserve">
     <value>Είσοδος Χρήστη</value>
   </data>
   <data name="Recipe" xml:space="preserve">
     <value>Συνταγή</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website</value>
   </data>
   <data name="CurrentCost" xml:space="preserve">
     <value>Τρέχον κόστος</value>
@@ -349,17 +454,47 @@
   <data name="VoidOrders" xml:space="preserve">
     <value>Σειρά ταξινόμησης</value>
   </data>
+  <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
+    <value>Can Display Other Waiters Tickets</value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>Change Payment</value>
+  </data>
+  <data name="AccountNameTemplate" xml:space="preserve">
+    <value>Account Name Template</value>
+  </data>
   <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
     <value>Ομαδοποιημένα Σύνολα απο Πρότυπο Φορολόγησης</value>
+  </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Separated prints by quantity</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
+  <data name="ApplicationScreenChanged" xml:space="preserve">
+    <value>Application Screen Changed</value>
+  </data>
   <data name="Property" xml:space="preserve">
     <value>Ιδιότητα</value>
   </data>
+  <data name="PaymentScreenValues" xml:space="preserve">
+    <value>Payment Screen Values</value>
+  </data>
   <data name="DataConnection" xml:space="preserve">
     <value>Τα δεδομένα συμβολοσειράς σύνδεσης</value>
+  </data>
+  <data name="DisplayOpenTickets" xml:space="preserve">
+    <value>Display Open Tickets</value>
+  </data>
+  <data name="CustomerTickets" xml:space="preserve">
+    <value>Customer Tickets</value>
+  </data>
+  <data name="SelectAutomationCommand" xml:space="preserve">
+    <value>Select Automation Command</value>
+  </data>
+  <data name="ProductTimer" xml:space="preserve">
+    <value>Product Timer</value>
   </data>
   <data name="MenuName" xml:space="preserve">
     <value>Όνομα Καταλόγου</value>
@@ -373,6 +508,9 @@
   <data name="RefreshCache" xml:space="preserve">
     <value>Ανανέωση Cache</value>
   </data>
+  <data name="TotalsGroupedByCalculationType" xml:space="preserve">
+    <value>Totals grouped by Calculation Type</value>
+  </data>
   <data name="Cancel_f" xml:space="preserve">
     <value>Ακύρωση {0}</value>
   </data>
@@ -382,14 +520,29 @@
   <data name="OnceAMonth" xml:space="preserve">
     <value>Μία φορά το μήνα</value>
   </data>
+  <data name="QuantitySeparators" xml:space="preserve">
+    <value>Quantity Separators</value>
+  </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Τιμή Μονάδας</value>
   </data>
   <data name="UiLanguage" xml:space="preserve">
     <value>UI γλώσσας</value>
   </data>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Order Moving</value>
+  </data>
   <data name="Action" xml:space="preserve">
     <value>Δράση</value>
+  </data>
+  <data name="ErrorLogMessage" xml:space="preserve">
+    <value>There is a problem.
+
+Message:
+</value>
+  </data>
+  <data name="OrderLine" xml:space="preserve">
+    <value>Order Line</value>
   </data>
   <data name="Barcode" xml:space="preserve">
     <value>Barcode</value>
@@ -406,8 +559,11 @@
   <data name="Accounts" xml:space="preserve">
     <value>Λογαριασμοί</value>
   </data>
-  <data name="ExecutePrintJob" xml:space="preserve">
-    <value>Εκτέλεση εργασίας εκτύπωσης</value>
+  <data name="WorkPeriod" xml:space="preserve">
+    <value>Work Period</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Τιμή</value>
@@ -421,11 +577,23 @@
   <data name="ProductList" xml:space="preserve">
     <value>Λίστα Προϊόντων</value>
   </data>
+  <data name="MatchesMod10" xml:space="preserve">
+    <value>Matches Mod10</value>
+  </data>
+  <data name="DisplayOnCommandSelector" xml:space="preserve">
+    <value>Display on Command Selector</value>
+  </data>
   <data name="AlphanumericButtonValues" xml:space="preserve">
     <value>Πλήκτρο Αλφαριθμητικών Τιμών</value>
   </data>
+  <data name="DescriptionTemplate" xml:space="preserve">
+    <value>Description Template</value>
+  </data>
   <data name="TotalSales" xml:space="preserve">
     <value>Σύνολο Πωλήσεων</value>
+  </data>
+  <data name="OrderState" xml:space="preserve">
+    <value>Order State</value>
   </data>
   <data name="DeleteErrorAdminUser" xml:space="preserve">
     <value>Δεν είναι δυνατή η διαγραφή χρήστη διαχειριστή.</value>
@@ -435,6 +603,12 @@
   </data>
   <data name="ResetAccount" xml:space="preserve">
     <value>Επαναφορά λογαριασμού</value>
+  </data>
+  <data name="OrderTag" xml:space="preserve">
+    <value>Order Tag</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Όνομα Ρόλος</value>
   </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
     <value>Δεν υπάρχουν συναλλαγές κόστος σε αυτή την περίοδο εργασίας.</value>
@@ -454,11 +628,14 @@
   <data name="InventoryItems" xml:space="preserve">
     <value>Προϊόντα αποθήκης</value>
   </data>
+  <data name="Single" xml:space="preserve">
+    <value>Single</value>
+  </data>
   <data name="CalculationSelector" xml:space="preserve">
     <value>Μέθοδος υπολογισμού</value>
   </data>
-  <data name="AccountScreen" xml:space="preserve">
-    <value>Λογαριασμός</value>
+  <data name="PredictedInventory" xml:space="preserve">
+    <value>Πρόβλεψη Απογραφής</value>
   </data>
   <data name="EndWorkPeriod" xml:space="preserve">
     <value>Τέλος Περίοδος εργασίας</value>
@@ -469,6 +646,9 @@
   <data name="TransactionType" xml:space="preserve">
     <value>Τύπος Συναλλαγής</value>
   </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
   <data name="Move" xml:space="preserve">
     <value>Κίνηση</value>
   </data>
@@ -477,6 +657,9 @@
   </data>
   <data name="Rate" xml:space="preserve">
     <value>Τιμή</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
   </data>
   <data name="FindProduct" xml:space="preserve">
     <value>Εύρεση προϊόντων</value>
@@ -490,23 +673,38 @@
   <data name="LastOrderStatus" xml:space="preserve">
     <value>Τελευταία Κατάσταση Παραγγελίας</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
   <data name="Thirty" xml:space="preserve">
     <value>Τριάντα</value>
+  </data>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>Entity Screen Item</value>
   </data>
   <data name="Incomes_f" xml:space="preserve">
     <value>{0} εισοδήματα</value>
   </data>
+  <data name="TicketCreationMethod" xml:space="preserve">
+    <value>Ticket Creation Method</value>
+  </data>
   <data name="Tag" xml:space="preserve">
     <value>Ετικέτα</value>
   </data>
-  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
-    <value>Για να προσθέσετε εκπτώσεις, πληκτρολογήστε ένα ποσοστό και κάντε κλικ στο κουμπί έκπτωση. Για να αφαιρέσετε το κουμπί έκπτωση έκπτωση κλικ χωρίς να πληκτρολογήσετε μια τιμή.</value>
+  <data name="OrderTagPrice" xml:space="preserve">
+    <value>Order Tag Price</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Ημερομηνία</value>
   </data>
   <data name="Tables" xml:space="preserve">
     <value>Πίνακες</value>
+  </data>
+  <data name="CustomerAccount" xml:space="preserve">
+    <value>Customer Account</value>
+  </data>
+  <data name="TicketStateUpdated" xml:space="preserve">
+    <value>Ticket State Updated</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Διαγραφή</value>
@@ -520,11 +718,20 @@
   <data name="PropertyGroup" xml:space="preserve">
     <value>Ομάδα Ιδιοτήτων</value>
   </data>
+  <data name="PrintReport" xml:space="preserve">
+    <value>Print Report</value>
+  </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>Μήνυμα λάθους</value>
   </data>
+  <data name="OrderAddedToTicket" xml:space="preserve">
+    <value>Order Added to Ticket</value>
+  </data>
   <data name="TwelveAmMidnight" xml:space="preserve">
     <value>12 τα μεσάνυχτα π.μ.</value>
+  </data>
+  <data name="GeneralPrintErrorMessage" xml:space="preserve">
+    <value>There is a problem while printing: Print Map is null</value>
   </data>
   <data name="NewTicket" xml:space="preserve">
     <value>Νέα εισιτηρίων</value>
@@ -544,11 +751,17 @@
   <data name="SendEmail" xml:space="preserve">
     <value>Αποστολή Email</value>
   </data>
+  <data name="PurchaseTransactionType" xml:space="preserve">
+    <value>Purchase Transaction Type</value>
+  </data>
   <data name="EveryWeekday" xml:space="preserve">
     <value>Κάθε ημέρα της εβδομάδας</value>
   </data>
   <data name="RateFromTicketAmount" xml:space="preserve">
     <value>Ποσοστό από το ποσό εισιτήριο</value>
+  </data>
+  <data name="OrderTagged" xml:space="preserve">
+    <value>Order Tagged</value>
   </data>
   <data name="DayTime" xml:space="preserve">
     <value>Ώρα της Ημέρας</value>
@@ -566,8 +779,17 @@
   <data name="OnlyNewLines" xml:space="preserve">
     <value>Μόνο οι  νέες εγγραφές </value>
   </data>
+  <data name="ChangeTicketEntity" xml:space="preserve">
+    <value>Change Ticket Entity</value>
+  </data>
+  <data name="AccountTransactionsFilter" xml:space="preserve">
+    <value>Account Transactions Filter</value>
+  </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Μπορεί να επιλέξει Φίλτρο στην Ημερομηνία</value>
+  </data>
+  <data name="TaggingType" xml:space="preserve">
+    <value>Tagging Type</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Χρήστης</value>
@@ -578,14 +800,29 @@
   <data name="BatchCreate" xml:space="preserve">
     <value>Μαζική Δημιουργία </value>
   </data>
+  <data name="CanOpenDashboard" xml:space="preserve">
+    <value>Can Open Management</value>
+  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Τελευταία ημερομηνία παραγγελίας</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Append Unmapped Items</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Πίσω</value>
   </data>
   <data name="OrderNumerator" xml:space="preserve">
     <value>Αριθμητής Παραγγελία</value>
+  </data>
+  <data name="Time_f" xml:space="preserve">
+    <value>{0} Time</value>
+  </data>
+  <data name="IncreaseInventory" xml:space="preserve">
+    <value>Increase Inventory</value>
   </data>
   <data name="CategoryName" xml:space="preserve">
     <value>Όνομα Κατηγορίας</value>
@@ -602,14 +839,26 @@
   <data name="PrintContent" xml:space="preserve">
     <value>Περιεχόμενο Εκτύπωση</value>
   </data>
+  <data name="TicketCommand" xml:space="preserve">
+    <value>Ticket Command</value>
+  </data>
   <data name="PastWeek" xml:space="preserve">
     <value>Την προηγούμενη εβδομάδα</value>
   </data>
   <data name="Tax" xml:space="preserve">
     <value>ΦΠΑ</value>
   </data>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>Entity Updated</value>
+  </data>
+  <data name="Customer_f" xml:space="preserve">
+    <value>Customer {0}</value>
+  </data>
   <data name="Table" xml:space="preserve">
     <value>Τραπέζι</value>
+  </data>
+  <data name="BalanceAfterDate" xml:space="preserve">
+    <value>Balance after date</value>
   </data>
   <data name="SelectPrintJob" xml:space="preserve">
     <value>Επιλέξτε την εργασία εκτύπωσης</value>
@@ -620,14 +869,23 @@
   <data name="CanOpenNavigation" xml:space="preserve">
     <value>Μπορεί Εισάγετε οθόνη πλοήγησης</value>
   </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
   <data name="TotalAmount_f" xml:space="preserve">
     <value>{0} Συνολικό Ποσό:</value>
   </data>
   <data name="Warehouses" xml:space="preserve">
     <value>Αποθήκες</value>
   </data>
+  <data name="MatchesAll" xml:space="preserve">
+    <value>Matches All</value>
+  </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Αποθήκευση Δωρεάν Ετικέτες</value>
+  </data>
+  <data name="OrderTagGroups" xml:space="preserve">
+    <value>Order Tag Groups</value>
   </data>
   <data name="Address" xml:space="preserve">
     <value>Διεύθυνση</value>
@@ -635,8 +893,14 @@
   <data name="CanRemoveTicketTag" xml:space="preserve">
     <value>Μπορεί Καταργήσει ετικέτας εισιτηρίων</value>
   </data>
+  <data name="SubButtonColorDef" xml:space="preserve">
+    <value>Sub Button Colors</value>
+  </data>
   <data name="CashTransactions" xml:space="preserve">
     <value>Συναλλαγές μετρητών</value>
+  </data>
+  <data name="RoundTicketTotal" xml:space="preserve">
+    <value>Round Ticket Total</value>
   </data>
   <data name="DeleteErrorShouldHaveAtLeastOneTerminal" xml:space="preserve">
     <value>Δεν είναι δυνατή η διαγραφή, επειδή θα πρέπει να υπάρχει τουλάχιστον ένα τερματικό.</value>
@@ -644,11 +908,23 @@
   <data name="UpdateProgramSetting" xml:space="preserve">
     <value>Ενημέρωση Ρύθμιση Πρόγραμμα</value>
   </data>
+  <data name="TicketState" xml:space="preserve">
+    <value>Ticket State</value>
+  </data>
+  <data name="OrderTagGroup" xml:space="preserve">
+    <value>Order Tag Group</value>
+  </data>
   <data name="SambaMarket" xml:space="preserve">
     <value>Samba Market</value>
   </data>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
     <value>Εύρος ημερομηνιών δεν είναι σε ενεργό περίοδο εργασίας</value>
+  </data>
+  <data name="TransactionMultiplierError" xml:space="preserve">
+    <value>Transaction multiplier should not be zero</value>
+  </data>
+  <data name="AccountBalanceDisplayFormat" xml:space="preserve">
+    <value>Account Balance Display Format</value>
   </data>
   <data name="Costs" xml:space="preserve">
     <value>Κόστος</value>
@@ -672,11 +948,17 @@
   <data name="OnceADay" xml:space="preserve">
     <value>Μία φορά την ημέρα</value>
   </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Κατάσταση σχεδίασης</value>
+  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Σύνολο Έκπτωση</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Σήμερα</value>
+  </data>
+  <data name="BalancedAccounts" xml:space="preserve">
+    <value>Balanced Accounts</value>
   </data>
   <data name="FreeTagging" xml:space="preserve">
     <value>Δωρεάν Tagging</value>
@@ -687,14 +969,26 @@
   <data name="TicketTag" xml:space="preserve">
     <value>Tag εισιτηρίων</value>
   </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="Handler" xml:space="preserve">
+    <value>Handler</value>
+  </data>
   <data name="CanMoveTicketLines" xml:space="preserve">
     <value>Μπαρεί να  μετακίνησει προιοντα ?</value>
   </data>
   <data name="FixedCost" xml:space="preserve">
     <value>Σταθερό Κόστος</value>
   </data>
+  <data name="Amount_f" xml:space="preserve">
+    <value>{0} Amount</value>
+  </data>
   <data name="CategoryProperties" xml:space="preserve">
     <value>Ιδιότητες Κατηγορίας</value>
+  </data>
+  <data name="ToggleCalculation" xml:space="preserve">
+    <value>Toggle Calculation</value>
   </data>
   <data name="LineItemPrice" xml:space="preserve">
     <value># Γραμμή: Τιμή Προιόντος</value>
@@ -702,14 +996,29 @@
   <data name="StartingWorkPeriodCompleted" xml:space="preserve">
     <value>Περίοδος έναρξη των εργασιών.</value>
   </data>
+  <data name="CommandType" xml:space="preserve">
+    <value>Command Type</value>
+  </data>
+  <data name="Rule_f" xml:space="preserve">
+    <value>{0} Rule</value>
+  </data>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Pay Ticket</value>
+  </data>
   <data name="PrinterOptions" xml:space="preserve">
     <value>Ρυθμίσεις εκτυπωτή</value>
   </data>
   <data name="Incomes" xml:space="preserve">
     <value>Τα εισοδήματα</value>
   </data>
+  <data name="CalculatePrice" xml:space="preserve">
+    <value>Calculate Price</value>
+  </data>
   <data name="DepartmentType" xml:space="preserve">
     <value>Τύπος Τμήματος</value>
+  </data>
+  <data name="ApplicationStarted" xml:space="preserve">
+    <value>Ξεκίνησε Εφαρμογή</value>
   </data>
   <data name="CloseTicket" xml:space="preserve">
     <value>Κλείσιμο εισιτηρίων</value>
@@ -717,8 +1026,14 @@
   <data name="Categories" xml:space="preserve">
     <value>Κατηγορίες</value>
   </data>
+  <data name="NotMatches" xml:space="preserve">
+    <value>Not Matches</value>
+  </data>
   <data name="SettlePermissions" xml:space="preserve">
     <value>Δικαιώματα Πληρωμής</value>
+  </data>
+  <data name="Receivables" xml:space="preserve">
+    <value>Είσπραξη </value>
   </data>
   <data name="Zero" xml:space="preserve">
     <value>Μηδέν</value>
@@ -729,6 +1044,9 @@
   <data name="Numeric" xml:space="preserve">
     <value>Αριθμητικός</value>
   </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Set Current Terminal</value>
+  </data>
   <data name="SubTags" xml:space="preserve">
     <value>Υπο Ετικέτες</value>
   </data>
@@ -738,8 +1056,17 @@
   <data name="TicketOptions" xml:space="preserve">
     <value>Ρυθμίσεις εισιτηρίων</value>
   </data>
+  <data name="AskBeforeCreatingTicket" xml:space="preserve">
+    <value>Ask Before Creating Ticket</value>
+  </data>
   <data name="ProductName" xml:space="preserve">
     <value>Όνομα προϊόντος</value>
+  </data>
+  <data name="SettledBy_f" xml:space="preserve">
+    <value>Settled by {0}</value>
+  </data>
+  <data name="CantComplateOperationError" xml:space="preserve">
+    <value>Can't complete operation because of an error. Check error log file for details.</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
     <value>ΜΗΝ ΞΕΧΑΣΕΤΕ ΤΕΛΟΣ ΠΕΡΙΟΔΟΥ ΕΡΓΑΣΙΑΣ!</value>
@@ -762,17 +1089,32 @@
   <data name="Product" xml:space="preserve">
     <value>Προϊόν</value>
   </data>
+  <data name="PrimaryFieldFormat" xml:space="preserve">
+    <value>Primary Field Format</value>
+  </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
     <value>Διαγραφή επιλεγμένων προϊόντων;</value>
   </data>
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
     <value>Όταν το "Αριθμητικό Tagging" επιλεγεί όλες οι ετικέτες θα πρέπει να περιέχουν αριθμητικές τιμές.</value>
   </data>
+  <data name="MarkTicketAsClosed" xml:space="preserve">
+    <value>Mark Ticket as Closed</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>Τηλέφωνο</value>
   </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Quantity Total</value>
+  </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Missing Recipes</value>
+  </data>
   <data name="Permissions" xml:space="preserve">
     <value>Δικαιώματα</value>
+  </data>
+  <data name="Accounts_f" xml:space="preserve">
+    <value>{0} Accounts</value>
   </data>
   <data name="BatchCreateProductsDialogHint" xml:space="preserve">
     <value>Δημιουργήστε μια γραμμή για κάθε προϊόν με μορφή [Όνομα προϊόντος] [Τιμή]. Οι κατηγορίες πρέπει να ξεκινούν με το σύμβολο # .</value>
@@ -798,11 +1140,17 @@
   <data name="InternetBrowser" xml:space="preserve">
     <value>Πρόγραμμα περιήγησης στο Internet</value>
   </data>
+  <data name="MoveTaggedOrders" xml:space="preserve">
+    <value>Move Tagged Orders</value>
+  </data>
   <data name="Sixty" xml:space="preserve">
     <value>Εξήντα</value>
   </data>
   <data name="NoTransactionsFoundFor_f" xml:space="preserve">
     <value>Δεν γίνονται πράξεις για {0}</value>
+  </data>
+  <data name="PrimaryFieldName" xml:space="preserve">
+    <value>Primary Field Name</value>
   </data>
   <data name="CanChangeDepartment" xml:space="preserve">
     <value>Δυνατότητα Αλλαγής Τμήματος</value>
@@ -813,6 +1161,57 @@
   <data name="SortCategories" xml:space="preserve">
     <value>Ταξινόμηση Κατηγοριών </value>
   </data>
+  <data name="TicketTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
+-- General layout
+&lt;T&gt;TICKET
+&lt;L00&gt;Date:{TICKET DATE}
+&lt;L00&gt;Time:{TIME}
+{ENTITIES}
+&lt;L00&gt;Ticket No:{TICKET NO}
+&lt;F&gt;-
+{ORDERS}
+&lt;F&gt;=
+&lt;EB&gt;
+{DISCOUNTS}
+&lt;J10&gt;Total Gift:|{ORDER STATE TOTAL:Gift}
+&lt;J10&gt;Total:|{TICKET TOTAL}
+{PAYMENTS}
+&lt;DB&gt;
+&lt;F&gt;=
+&lt;C10&gt;T H A N K Y O U
+ 
+[DISCOUNTS]
+&lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
+ 
+[PAYMENTS]
+&lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT}
+ 
+[ORDERS]
+-- Default format for orders
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+ 
+[ORDERS:Gift]
+-- Format for gifted orders
+&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
+{ORDER TAGS}
+ 
+[ORDERS:Void]
+-- Nothing will print for void lines
+ 
+[ORDER TAGS]
+-- Format for order tags
+&lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
+ 
+[ENTITIES:Table]
+-- Table entity format
+&lt;L00&gt;Table: {ENTITY NAME}
+ 
+[ENTITIES:Customer]
+-- Customer entity format
+&lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
+  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Αλλαγή Τιμής</value>
   </data>
@@ -821,6 +1220,9 @@
   </data>
   <data name="StartAmount" xml:space="preserve">
     <value>Ξεκινήστε Ποσά</value>
+  </data>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>Entity Types</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
     <value>Εγκαίνια εισιτηρίων</value>
@@ -840,20 +1242,38 @@
   <data name="ItemProperties" xml:space="preserve">
     <value>Επιπλέον Ιδιότητες αντικειμένου</value>
   </data>
-  <data name="Receivables" xml:space="preserve">
-    <value>Είσπραξη </value>
+  <data name="Period_f" xml:space="preserve">
+    <value>Period: {0}</value>
+  </data>
+  <data name="Change_f" xml:space="preserve">
+    <value>Change {0}</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
     <value>Γενικό Σύνολο</value>
   </data>
-  <data name="ErrorInExpression" xml:space="preserve">
-    <value>Σφάλμα κατά την έκφραση</value>
+  <data name="TransactionsEmptyError" xml:space="preserve">
+    <value>Transactions should not be empty</value>
+  </data>
+  <data name="BatchEntityEditor" xml:space="preserve">
+    <value>Batch Entity Editor</value>
+  </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>Group Footer</value>
+  </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Transaction Printer</value>
   </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Σύνολο Εξόδων</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Ενημέρωση</value>
+  </data>
+  <data name="UnlocksOrder" xml:space="preserve">
+    <value>Unlocks Order</value>
+  </data>
+  <data name="PrintAccountScreen" xml:space="preserve">
+    <value>Print Account Screen</value>
   </data>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Προσθήκη έκπτωση εισιτηρίων</value>
@@ -870,8 +1290,17 @@
   <data name="LineItemTotalWithoutGifts" xml:space="preserve">
     <value># Γραμμή: Item Σύνολο (Δώρα Εξαιρούνται)</value>
   </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Τοπικές Αποθήκες</value>
+  </data>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>Δεν είναι δυνατή η διαγραφή του  {0}, επειδή χρησιμοποιήστε  από {1}</value>
+  </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
+  <data name="BeforeTicketClosing" xml:space="preserve">
+    <value>Before Ticket Closing</value>
   </data>
   <data name="Decrease" xml:space="preserve">
     <value>Μείωση</value>
@@ -879,23 +1308,38 @@
   <data name="LineItemQuantity" xml:space="preserve">
     <value># Γραμμή: Ποσότητα</value>
   </data>
+  <data name="ExchangeRate" xml:space="preserve">
+    <value>Exchange Rate</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="UpdateAvailableEntityColor" xml:space="preserve">
+    <value>Update Available Entity Color</value>
+  </data>
   <data name="Minute" xml:space="preserve">
     <value>Λεπτό</value>
   </data>
   <data name="OptionalTicketTag" xml:space="preserve">
     <value>Προαιρετική ετικέτα εισιτηρίων</value>
   </data>
+  <data name="NotMatchesAll" xml:space="preserve">
+    <value>Not Matches All</value>
+  </data>
   <data name="TicketCount" xml:space="preserve">
     <value>Count εισιτηρίων</value>
+  </data>
+  <data name="DefaultAmount" xml:space="preserve">
+    <value>Default Amount</value>
   </data>
   <data name="StartClientNow" xml:space="preserve">
     <value>Ξεκινήστε Τώρα πελάτη</value>
   </data>
+  <data name="RemoveOrderTag" xml:space="preserve">
+    <value>Remove OrderTag</value>
+  </data>
   <data name="Day" xml:space="preserve">
     <value>Ημέρα</value>
-  </data>
-  <data name="MoveTicketLine" xml:space="preserve">
-    <value>Κίνηση</value>
   </data>
   <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
     <value>Εισιτήριο μετακόμισε στο {0}. Τελευταίες αλλαγές σας δεν αποθηκεύονται.</value>
@@ -903,8 +1347,17 @@
   <data name="AutomationCommandExecuted" xml:space="preserve">
     <value>Εκτέλεση αυτόματης εντολής</value>
   </data>
+  <data name="ShowOnEndOfDayReport" xml:space="preserve">
+    <value>Show on End of Day Report</value>
+  </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Μπορεί Μετακινήσει κλειδωμένες Γραμμές εισιτηρίων</value>
+  </data>
+  <data name="TaxRate" xml:space="preserve">
+    <value>Tax Rate</value>
+  </data>
+  <data name="PaymentScreenSettings" xml:space="preserve">
+    <value>Payment Screen Settings</value>
   </data>
   <data name="Hundred" xml:space="preserve">
     <value>Εκατό</value>
@@ -918,9 +1371,6 @@
   <data name="Terminal" xml:space="preserve">
     <value>Τερματικό</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>ΟΚ</value>
-  </data>
   <data name="MaxQuantity" xml:space="preserve">
     <value>Ποσότητα</value>
   </data>
@@ -930,11 +1380,17 @@
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>Εισιτηρίων άλλαξε. Τελευταίες αλλαγές σας δεν αποθηκεύονται.</value>
   </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>Display Details</value>
+  </data>
   <data name="UserRole" xml:space="preserve">
     <value>Ρόλος χρήστη</value>
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>Ύψος Αριθμητής</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
   </data>
   <data name="Receiveable" xml:space="preserve">
     <value>Είσπραξη </value>
@@ -945,12 +1401,24 @@
   <data name="SellerWarehouses" xml:space="preserve">
     <value>Αποθήκες Πωλητή</value>
   </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Εκτυπωτής Τιμολόγιων
 </value>
   </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="ExecuteRuleIf" xml:space="preserve">
+    <value>Execute rule if</value>
+  </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Κλείδωμα εισιτηρίων</value>
+  </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Order Moved</value>
   </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
     <value>Ώρα Περίοδος εργασίας: {0}</value>
@@ -967,6 +1435,12 @@
   <data name="Save" xml:space="preserve">
     <value>Αποθήκευση </value>
   </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>Ticket Moved Rule</value>
+  </data>
+  <data name="CanCreateAccount" xml:space="preserve">
+    <value>Μπορεί να δημιουργήσει λογαριασμό </value>
+  </data>
   <data name="RateFromPreviousTemplate" xml:space="preserve">
     <value>Ποσοστό από το ποσό του προηγούμενου προτύπου</value>
   </data>
@@ -975,6 +1449,9 @@
   </data>
   <data name="Increase" xml:space="preserve">
     <value>Αύξηση</value>
+  </data>
+  <data name="BatchCreteProducts" xml:space="preserve">
+    <value>Μαζική Δημιουργία Προϊόντων</value>
   </data>
   <data name="LinesGroupedByTag" xml:space="preserve">
     <value>Γραμμές Ομαδοποιημένα κατά ετικέτα</value>
@@ -988,17 +1465,59 @@
   <data name="ReleaseLock" xml:space="preserve">
     <value>Ξεκλείδωμα</value>
   </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>User Information</value>
+  </data>
+  <data name="SetWidgetValue" xml:space="preserve">
+    <value>Set Widget Value</value>
+  </data>
   <data name="Sales" xml:space="preserve">
     <value>Πωλήσεις</value>
   </data>
+  <data name="EntityButton" xml:space="preserve">
+    <value>Entity Button</value>
+  </data>
+  <data name="KitchenTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
+&lt;T&gt;TICKET
+&lt;L00&gt;Date:{TICKET DATE}
+&lt;L00&gt;Time:{TIME}
+&lt;L00&gt;Location No:{LOCATION}
+&lt;L00&gt;Ticket No:{TICKET NO}
+&lt;F&gt;-
+{ORDERS}
+
+[ORDERS]
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+
+[ORDERS:GIFT]
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+
+[ORDERS:VOID]
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+
+[ORDER TAGS]
+-- Format for order tags
+&lt;L00&gt;     * {ORDER TAG NAME}
+</value>
+  </data>
   <data name="TicketPaidTotal" xml:space="preserve">
     <value>Καταβληθέν ποσό αγοράς εισιτηρίων</value>
+  </data>
+  <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
+    <value>Αυτό το όνομα που χρησιμοποιείται για άλλο {0}.</value>
   </data>
   <data name="TicketTimeDisplay_f" xml:space="preserve">
     <value>{0} ({1} min.)</value>
   </data>
   <data name="Text" xml:space="preserve">
     <value>Κείμενο</value>
+  </data>
+  <data name="AddLineToTextFile" xml:space="preserve">
+    <value>Add Line to Text File</value>
   </data>
   <data name="Ten" xml:space="preserve">
     <value>Δέκα</value>
@@ -1018,8 +1537,17 @@
   <data name="Next" xml:space="preserve">
     <value>Επόμενος</value>
   </data>
+  <data name="Ending" xml:space="preserve">
+    <value>Ending</value>
+  </data>
   <data name="Thirteen" xml:space="preserve">
     <value>Δεκατρία</value>
+  </data>
+  <data name="ModifyVariable" xml:space="preserve">
+    <value>Modify Variable</value>
+  </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Hide Accounts With Zero Balance</value>
   </data>
   <data name="MonWedFri" xml:space="preserve">
     <value>Δευτέρα, Τετάρτη, Παρασκευή</value>
@@ -1033,6 +1561,9 @@
   <data name="ButtonHeight" xml:space="preserve">
     <value>Ύψος Πλήκτρου</value>
   </data>
+  <data name="UpdateEntityData" xml:space="preserve">
+    <value>Update Entity Data</value>
+  </data>
   <data name="Cash" xml:space="preserve">
     <value>Μετρητά</value>
   </data>
@@ -1042,14 +1573,23 @@
   <data name="Purchase" xml:space="preserve">
     <value>Αγορά</value>
   </data>
+  <data name="SelectItemsFor_f" xml:space="preserve">
+    <value>Select {0} for using with {1} {2}</value>
+  </data>
   <data name="TicketCreated" xml:space="preserve">
     <value>Δημιουργήθηκε εισιτηρίων</value>
   </data>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Εκτύπωση Παραγγελίες για εκτυπωτή κουζίνας</value>
   </data>
+  <data name="AccountTransactionAddedToTicket" xml:space="preserve">
+    <value>Account Transaction Added to Ticket</value>
+  </data>
   <data name="Noon" xml:space="preserve">
     <value>μεσημέρι</value>
+  </data>
+  <data name="Greater" xml:space="preserve">
+    <value>Greater</value>
   </data>
   <data name="Sixteen" xml:space="preserve">
     <value>Δεκαέξι</value>
@@ -1057,11 +1597,20 @@
   <data name="Every30Minutes" xml:space="preserve">
     <value>Κάθε 30 λεπτά</value>
   </data>
+  <data name="AutomationCommand" xml:space="preserve">
+    <value>Automation Command</value>
+  </data>
   <data name="GroupCode" xml:space="preserve">
     <value>Κωδικός Ομάδας</value>
   </data>
+  <data name="Less" xml:space="preserve">
+    <value>Less</value>
+  </data>
   <data name="Tickets" xml:space="preserve">
     <value>Εισιτήρια</value>
+  </data>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>Entity State Updated</value>
   </data>
   <data name="NextPage" xml:space="preserve">
     <value>Επόμενη Σελίδα</value>
@@ -1075,14 +1624,23 @@
   <data name="CsvBuilder" xml:space="preserve">
     <value>CSV Builder</value>
   </data>
+  <data name="OrderTagName" xml:space="preserve">
+    <value>Order Tag Name</value>
+  </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>Warehouse Type</value>
+  </data>
   <data name="ExecuteActionsIf" xml:space="preserve">
     <value>Συνθήκες</value>
   </data>
   <data name="Multiplier" xml:space="preserve">
     <value>Πολλαπλασιαστής</value>
   </data>
-  <data name="QuarterTil" xml:space="preserve">
-    <value>Τέταρτο til</value>
+  <data name="DisplayAtPaymentScreen" xml:space="preserve">
+    <value>Display at payment screen</value>
+  </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>Print {0}</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Προειδοποίηση</value>
@@ -1105,6 +1663,9 @@
   <data name="SettingValue" xml:space="preserve">
     <value>Ρύθμιση Αξία</value>
   </data>
+  <data name="ChangeSortOrderHint" xml:space="preserve">
+    <value>Change sort order by dragging items</value>
+  </data>
   <data name="CanMergeTickets" xml:space="preserve">
     <value>Μπορεί Συγχώνευση Εισιτήρια</value>
   </data>
@@ -1123,11 +1684,23 @@
   <data name="MergeTickets" xml:space="preserve">
     <value>Συγχώνευση Εισιτηρίων </value>
   </data>
+  <data name="UntagOrder" xml:space="preserve">
+    <value>Untag Order</value>
+  </data>
+  <data name="EmptyDiscountRateFeedback" xml:space="preserve">
+    <value>Για να προσθέσετε εκπτώσεις, πληκτρολογήστε ένα ποσοστό και κάντε κλικ στο κουμπί έκπτωση. Για να αφαιρέσετε το κουμπί έκπτωση έκπτωση κλικ χωρίς να πληκτρολογήσετε μια τιμή.</value>
+  </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>Καταχωρημένο </value>
+  </data>
   <data name="Account_f" xml:space="preserve">
     <value>Λογαριασμός: {0}</value>
   </data>
   <data name="From" xml:space="preserve">
     <value>Από:</value>
+  </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Change Sort Order</value>
   </data>
   <data name="One" xml:space="preserve">
     <value>Ένας</value>
@@ -1138,14 +1711,35 @@
   <data name="Billion" xml:space="preserve">
     <value>Δισεκατομμύριο</value>
   </data>
+  <data name="GroupKey" xml:space="preserve">
+    <value>Group Key</value>
+  </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>Use Plain Sum</value>
+  </data>
   <data name="TriggerName" xml:space="preserve">
     <value>Όνομα Trigger</value>
+  </data>
+  <data name="ScreenItem" xml:space="preserve">
+    <value>Screen Item</value>
   </data>
   <data name="LineOrderNumber" xml:space="preserve">
     <value># Γραμμή: Αριθμός παραγγελίας</value>
   </data>
+  <data name="UpdateOrderState" xml:space="preserve">
+    <value>Update Order State</value>
+  </data>
+  <data name="ViewMode" xml:space="preserve">
+    <value>View Mode</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Taxable Amount</value>
+  </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Εκτυπωτή εισιτηρίων</value>
+  </data>
+  <data name="IndividualOrdersByQuantity" xml:space="preserve">
+    <value>Individual orders by quantity</value>
   </data>
   <data name="Amount" xml:space="preserve">
     <value>Ποσό</value>
@@ -1159,8 +1753,11 @@
   <data name="CantDelete_f" xml:space="preserve">
     <value>Δεν μπορεί να διαγραφεί το {0} </value>
   </data>
-  <data name="PredictedInventory" xml:space="preserve">
-    <value>Πρόβλεψη Απογραφής</value>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="DefaultSourceAccount" xml:space="preserve">
+    <value>Default Source Account</value>
   </data>
   <data name="AddOrder" xml:space="preserve">
     <value>Νέα παραγγελία</value>
@@ -1168,14 +1765,26 @@
   <data name="Fifteen" xml:space="preserve">
     <value>Δεκαπέντε</value>
   </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Search Value Replace Pattern</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Update Ticket Status</value>
+  </data>
   <data name="PageCount" xml:space="preserve">
     <value>Αρίθμηση Σελίδας</value>
+  </data>
+  <data name="MenuItemGroupCode" xml:space="preserve">
+    <value>Menu Item Group Code</value>
   </data>
   <data name="Two" xml:space="preserve">
     <value>Δυο</value>
   </data>
-  <data name="AutoRefresh" xml:space="preserve">
-    <value>Αυτόματη ανανέωση </value>
+  <data name="TranactionsZeroQuantityError" xml:space="preserve">
+    <value>Transactions contains zero quantity items</value>
+  </data>
+  <data name="TagOrder" xml:space="preserve">
+    <value>Tag Order</value>
   </data>
   <data name="IncomeTransactions" xml:space="preserve">
     <value>Συναλλαγές εσόδων </value>
@@ -1183,11 +1792,14 @@
   <data name="Confirmation" xml:space="preserve">
     <value>Επιβεβαίωση</value>
   </data>
-  <data name="LocalWarehouses" xml:space="preserve">
-    <value>Τοπικές Αποθήκες</value>
+  <data name="DisplayTicketList" xml:space="preserve">
+    <value>Display Ticket List</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Σύνδεση</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>Not Equals</value>
   </data>
   <data name="FastMenu" xml:space="preserve">
     <value>Γρήγορο μενού</value>
@@ -1210,11 +1822,14 @@
   <data name="TransactionDocument" xml:space="preserve">
     <value>Έγγραφο Συναλλαγής</value>
   </data>
-  <data name="BatchCreteProducts" xml:space="preserve">
-    <value>Μαζική Δημιουργία Προϊόντων</value>
+  <data name="DefaultOrderTag" xml:space="preserve">
+    <value>Default Order Tag</value>
   </data>
   <data name="SambaPOSReporter" xml:space="preserve">
     <value>SambaPOS Αναφορές   </value>
+  </data>
+  <data name="AccountScreen" xml:space="preserve">
+    <value>Λογαριασμός</value>
   </data>
   <data name="ExtraModifiers" xml:space="preserve">
     <value>Επιπλέον Τροποποιητές</value>
@@ -1246,20 +1861,35 @@
   <data name="DayOperations" xml:space="preserve">
     <value>Περίοδοι εργασίας</value>
   </data>
+  <data name="ModifyOrder" xml:space="preserve">
+    <value>Modify Order</value>
+  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Μοναδικό αναγνωριστικό εισιτηρίων</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Όχι</value>
   </data>
+  <data name="SetActiveTicketType" xml:space="preserve">
+    <value>Set Active Ticket Type</value>
+  </data>
+  <data name="All Tables" xml:space="preserve">
+    <value>All Tables</value>
+  </data>
   <data name="DeleteErrorAccountTypeAssignedtoAccounts" xml:space="preserve">
     <value>Δεν είναι δυνατή η διαγραφή, επειδή θα πρέπει να υπάρχει σε λογαριασμό.</value>
+  </data>
+  <data name="CustomFieldName" xml:space="preserve">
+    <value>Custom Field Name</value>
   </data>
   <data name="Every12Hours" xml:space="preserve">
     <value>Κάθε 12 ώρες</value>
   </data>
   <data name="InternalAccounts" xml:space="preserve">
     <value>Εσωτερική Λογαριασμοί</value>
+  </data>
+  <data name="TaxFree" xml:space="preserve">
+    <value>Tax Free</value>
   </data>
   <data name="POSView" xml:space="preserve">
     <value>Εμφάνιση POS</value>
@@ -1273,14 +1903,26 @@
   <data name="ReportPermissions" xml:space="preserve">
     <value>Αναφορά Δικαιώματα</value>
   </data>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>Mapped Account</value>
+  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Barcodes Βάρος</value>
+  </data>
+  <data name="AccountMap" xml:space="preserve">
+    <value>Account Map</value>
+  </data>
+  <data name="GroupTotal" xml:space="preserve">
+    <value>Group Total</value>
   </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Επιλέξτε εύρος ημερομηνίας, ανανεώστε την αναφορά και πατήστε τον σχετικό σύνδεσμο για εξαγωγή δεδομένων.</value>
   </data>
   <data name="BatchCreate_f" xml:space="preserve">
     <value>Μαζική Δημιουργία {0}</value>
+  </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Ticket Moving</value>
   </data>
   <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
     <value>Διαγραφή επιλεγμένων Χαρτογράφηση;</value>
@@ -1302,6 +1944,12 @@
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Ιστοσελίδα</value>
+  </data>
+  <data name="After" xml:space="preserve">
+    <value>After</value>
+  </data>
+  <data name="RemoveLimit" xml:space="preserve">
+    <value>Remove Limit</value>
   </data>
   <data name="AverageCost" xml:space="preserve">
     <value>Μέσο κόστος</value>
@@ -1336,26 +1984,44 @@
   <data name="TipsTotal" xml:space="preserve">
     <value>Συμβουλές Σύνολο</value>
   </data>
+  <data name="OrderGrouping" xml:space="preserve">
+    <value>Order Grouping</value>
+  </data>
+  <data name="Default_f" xml:space="preserve">
+    <value>Default {0}</value>
+  </data>
   <data name="POSMenu" xml:space="preserve">
     <value>POS Μενού</value>
   </data>
   <data name="RateOrAmount" xml:space="preserve">
     <value>Ποσοστό ή την ποσότητα</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
   <data name="Parameters" xml:space="preserve">
     <value>Παράμετροι</value>
+  </data>
+  <data name="Wiki" xml:space="preserve">
+    <value>Wiki</value>
   </data>
   <data name="Transaction" xml:space="preserve">
     <value>Συναλλαγή</value>
   </data>
-  <data name="UnlockTicket" xml:space="preserve">
-    <value>ξεκλείδωμα απόδειξεις </value>
+  <data name="StartProcess" xml:space="preserve">
+    <value>Start Process</value>
+  </data>
+  <data name="EntityType" xml:space="preserve">
+    <value>Entity Type</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Κάθε Άλλες λεπτό</value>
   </data>
   <data name="DefaultProperties" xml:space="preserve">
     <value>Αρχικές Ιδιότητες</value>
+  </data>
+  <data name="BatchCreateInfo_f" xml:space="preserve">
+    <value>We'll create {0} for each line you entered here.</value>
   </data>
   <data name="No_f" xml:space="preserve">
     <value>Όχι {0}</value>
@@ -1367,11 +2033,17 @@
     <value>Εργασία άκρα Περιόδου.
 Επισκεφτείτε Εκθέσεις τμήμα και να δημιουργήσουν αναφορές Περίοδος εργασίας</value>
   </data>
+  <data name="PrintAccountTransactionDocument" xml:space="preserve">
+    <value>Print Account Transaction Document</value>
+  </data>
   <data name="WorkPeriodStartDate_f" xml:space="preserve">
     <value>Ημερομηνία Περίοδος εργασίας: {0}</value>
   </data>
   <data name="Rounding" xml:space="preserve">
     <value>Στρογγύλεμα</value>
+  </data>
+  <data name="OrderStateValue" xml:space="preserve">
+    <value>Order State Value</value>
   </data>
   <data name="SqlHint" xml:space="preserve">
     <value>Κάντε κλικ εδώ για πληροφορίες σχετικά με την βάσεις δεδομένων </value>
@@ -1400,6 +2072,9 @@
   <data name="Divide" xml:space="preserve">
     <value>Χωρίστε</value>
   </data>
+  <data name="Target_f" xml:space="preserve">
+    <value>Target {0}</value>
+  </data>
   <data name="ErrorReportWithoutFeedback" xml:space="preserve">
     <value>Μπορείτε να στείλετε την αναφορά σφάλματος, χωρίς τη γνώμη σας.
 Παρακαλείστε να δώσετε κάποιες λεπτομέρειες για το πώς happend.
@@ -1421,6 +2096,15 @@
   <data name="Totals" xml:space="preserve">
     <value>Σύνολα</value>
   </data>
+  <data name="PrintErrorMessage" xml:space="preserve">
+    <value>There is a problem while printing. Check printer and printer template settings.
+
+Error Message:
+</value>
+  </data>
+  <data name="CanNavigate_f" xml:space="preserve">
+    <value>Can Navigate {0}</value>
+  </data>
   <data name="Six" xml:space="preserve">
     <value>Έξι</value>
   </data>
@@ -1436,6 +2120,9 @@
   <data name="Management" xml:space="preserve">
     <value>Διαχείριση</value>
   </data>
+  <data name="CustomFields" xml:space="preserve">
+    <value>Custom Fields</value>
+  </data>
   <data name="AM" xml:space="preserve">
     <value>π.μ.</value>
   </data>
@@ -1445,11 +2132,23 @@
   <data name="FirstAndFifteenth" xml:space="preserve">
     <value>1η και 15η</value>
   </data>
+  <data name="AccountTransactionDocument" xml:space="preserve">
+    <value>Account Transaction Document</value>
+  </data>
   <data name="Departments" xml:space="preserve">
     <value>Τμήματα</value>
   </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Required Recipes</value>
+  </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value> Όνομα / Θήρα Εκτυπωτή?</value>
+  </data>
+  <data name="LengthEquals" xml:space="preserve">
+    <value>Length Equals</value>
+  </data>
+  <data name="OrderStateUpdated" xml:space="preserve">
+    <value>Order State Updated</value>
   </data>
   <data name="TicketOpened" xml:space="preserve">
     <value>Ανοιχτά εισιτήρια </value>
@@ -1466,8 +2165,14 @@
   <data name="Restaurant" xml:space="preserve">
     <value>Εστιατόριο</value>
   </data>
+  <data name="OrderTagValue" xml:space="preserve">
+    <value>Order Tag Value</value>
+  </data>
   <data name="Total_f" xml:space="preserve">
     <value>Σύνολο: {0}</value>
+  </data>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>Entity Screen</value>
   </data>
   <data name="DemoPrinter" xml:space="preserve">
     <value>Εκτυπωτής Demo (σημειωματάριο)</value>
@@ -1478,23 +2183,35 @@
   <data name="FontSize" xml:space="preserve">
     <value>Μέγεθος γραμματοσειράς </value>
   </data>
+  <data name="BillRequested" xml:space="preserve">
+    <value>Bill Requested</value>
+  </data>
   <data name="ImagePath" xml:space="preserve">
     <value>Διαδρομή εικόνας</value>
   </data>
   <data name="Selected_f" xml:space="preserve">
     <value>Επιλεγμένα {0}</value>
   </data>
-  <data name="Submitted" xml:space="preserve">
-    <value>Καταχωρημένο </value>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
   </data>
   <data name="ItemSalesReport" xml:space="preserve">
     <value>Αναφορά αντικειμένου Πωλήσεις</value>
   </data>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Local Warehouse</value>
+  </data>
   <data name="Reports" xml:space="preserve">
     <value>Αναφορές</value>
   </data>
+  <data name="Script_f" xml:space="preserve">
+    <value>{0} Script</value>
+  </data>
   <data name="AutoRefreshInterval" xml:space="preserve">
     <value>Περίοδος Αυτόματης Ανανέωσης</value>
+  </data>
+  <data name="UpdateMovedEntityColor" xml:space="preserve">
+    <value>Update Moved Entity Color</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ναί</value>
@@ -1502,17 +2219,41 @@
   <data name="PortionPrices" xml:space="preserve">
     <value>Τιμές Μερίδων</value>
   </data>
+  <data name="Name_f" xml:space="preserve">
+    <value>{0} Name</value>
+  </data>
   <data name="Hidden" xml:space="preserve">
     <value>Κρυφό</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
   </data>
   <data name="LastLinesByPrinterLineCount" xml:space="preserve">
     <value>Νέες γραμμές από τον Κόμη Line Printer</value>
   </data>
+  <data name="CurrencySymbol" xml:space="preserve">
+    <value>Currency Symbol</value>
+  </data>
   <data name="TagCantBeEmpty_f" xml:space="preserve">
     <value>Δεν μπορεί να εγκαταλείψει {0} άδειο</value>
   </data>
+  <data name="AccountTransactionDocumentCreated" xml:space="preserve">
+    <value>Account Transaction Document Created</value>
+  </data>
+  <data name="ExecutePowershellScript" xml:space="preserve">
+    <value>Execute Powershell Script</value>
+  </data>
+  <data name="Ends" xml:space="preserve">
+    <value>Ends</value>
+  </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>Αριθμός εισιτηρίων: {0}</value>
+  </data>
+  <data name="AccountTransactionType" xml:space="preserve">
+    <value>Account Transaction Type</value>
+  </data>
+  <data name="RowCount" xml:space="preserve">
+    <value>Row Count</value>
   </data>
   <data name="TicketPaidLastChangesNotSaved" xml:space="preserve">
     <value>Εισιτηρίων που καταβάλλονται. Τελευταίες αλλαγές σας δεν αποθηκεύονται.</value>
@@ -1520,20 +2261,38 @@
   <data name="Clone_f" xml:space="preserve">
     <value>Κλώνος {0}</value>
   </data>
+  <data name="OrderCount" xml:space="preserve">
+    <value>Order Count</value>
+  </data>
   <data name="Order" xml:space="preserve">
     <value>Παραγγελία</value>
   </data>
   <data name="AutoLogout" xml:space="preserve">
     <value>Αυτόματη Αποσύνδεση</value>
   </data>
-  <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
-    <value>Αυτό το όνομα που χρησιμοποιείται για άλλο {0}.</value>
+  <data name="QuarterTil" xml:space="preserve">
+    <value>Τέταρτο til</value>
   </data>
   <data name="TransactionUnit" xml:space="preserve">
     <value>Μονάδα Συναλλαγής</value>
   </data>
+  <data name="MinTime" xml:space="preserve">
+    <value>Min Time</value>
+  </data>
+  <data name="Task" xml:space="preserve">
+    <value>Task</value>
+  </data>
+  <data name="CustomField" xml:space="preserve">
+    <value>Custom Field</value>
+  </data>
+  <data name="FilterType" xml:space="preserve">
+    <value>Filter Type</value>
+  </data>
   <data name="EveryOtherDay" xml:space="preserve">
     <value>Κάθε δεύτερη μέρα</value>
+  </data>
+  <data name="DateRangeTotal" xml:space="preserve">
+    <value>Date Range Total</value>
   </data>
   <data name="SortCategoryProducts" xml:space="preserve">
     <value>Ταξινόμηση Προϊόντα Κατηγορίας</value>
@@ -1544,6 +2303,12 @@
   <data name="MessageServerName" xml:space="preserve">
     <value>Όνομα διακομιστή</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="CalculateCost" xml:space="preserve">
     <value>Υπολογίστε το κόστος</value>
   </data>
@@ -1553,11 +2318,20 @@
   <data name="NewProperty" xml:space="preserve">
     <value>Νέα Ακίνητα</value>
   </data>
+  <data name="OrderCancelled" xml:space="preserve">
+    <value>Order Cancelled</value>
+  </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Γραμμή Count χαρακτήρων</value>
   </data>
+  <data name="RawPrinter" xml:space="preserve">
+    <value>Raw Printer</value>
+  </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Ενημέρωση Τύπου</value>
+  </data>
+  <data name="AddTagPriceToOrderPrice" xml:space="preserve">
+    <value>Add Tag Price To Order Price</value>
   </data>
   <data name="OnceAnHour" xml:space="preserve">
     <value>Μόλις μια ώρα</value>
@@ -1574,8 +2348,14 @@
   <data name="DisplayPopup" xml:space="preserve">
     <value>Εμφάνιση Popup</value>
   </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Ticket Moved</value>
+  </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>Αριθμός Εγγράφου</value>
+  </data>
+  <data name="State_f" xml:space="preserve">
+    <value>{0} State</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Προϊόντα</value>
@@ -1586,8 +2366,20 @@
   <data name="TicketNumerator" xml:space="preserve">
     <value>Αριθμητής εισιτηρίων</value>
   </data>
+  <data name="Update_f" xml:space="preserve">
+    <value>Update {0}</value>
+  </data>
   <data name="Eighteen" xml:space="preserve">
     <value>Δεκαοκτώ</value>
+  </data>
+  <data name="This_f" xml:space="preserve">
+    <value>This {0}</value>
+  </data>
+  <data name="OrderTagQuantity" xml:space="preserve">
+    <value>Order Tag Quantity</value>
+  </data>
+  <data name="LastPaidOrders" xml:space="preserve">
+    <value>Last Paid Orders</value>
   </data>
   <data name="FindTicket" xml:space="preserve">
     <value>Βρείτε εισιτηρίων</value>
@@ -1598,8 +2390,20 @@
   <data name="Orders" xml:space="preserve">
     <value>Παραγγελία</value>
   </data>
+  <data name="Unpaid" xml:space="preserve">
+    <value>Unpaid</value>
+  </data>
+  <data name="Market" xml:space="preserve">
+    <value>Market</value>
+  </data>
+  <data name="TotalTaxableAmount" xml:space="preserve">
+    <value>Total Taxable Amount</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Υπο Ύψος Button</value>
+  </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>Search Entity</value>
   </data>
   <data name="ThisMonth" xml:space="preserve">
     <value>Αυτό το μήνα</value>
@@ -1610,11 +2414,17 @@
   <data name="UpdateTicketTag" xml:space="preserve">
     <value>Ενημέρωση Tag εισιτηρίων</value>
   </data>
+  <data name="DecreaseInventory" xml:space="preserve">
+    <value>Decrease Inventory</value>
+  </data>
   <data name="TuesAndThurs" xml:space="preserve">
     <value>Τρίτη, Πέμπτη</value>
   </data>
   <data name="Twelve" xml:space="preserve">
     <value>Δώδεκα</value>
+  </data>
+  <data name="TicketTagGroup" xml:space="preserve">
+    <value>Tag Group</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>Όλα</value>
@@ -1652,6 +2462,9 @@
   <data name="MessageServerPort" xml:space="preserve">
     <value>Πόρτα διακομιστή</value>
   </data>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>Update Entity State</value>
+  </data>
   <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
     <value>SambaPOS αντιμετώπισε ένα απροσδόκητο πρόβλημα. Πρόβλημα λεπτομέρειες καταγράφονται στο αρχείο trace.log</value>
   </data>
@@ -1661,8 +2474,20 @@
   <data name="Total" xml:space="preserve">
     <value>Σύνολο</value>
   </data>
+  <data name="SubMenuTags" xml:space="preserve">
+    <value>Sub Menu Tags</value>
+  </data>
   <data name="CalculationMethod" xml:space="preserve">
     <value>Μέθοδος υπολογισμού</value>
+  </data>
+  <data name="PaymentProcessed" xml:space="preserve">
+    <value>Payment Processed</value>
+  </data>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>Entity Screens</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Order Status</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>Διαχειριστής</value>
@@ -1676,6 +2501,9 @@
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Εισιτήριο που καταβάλλεται. Τελευταίες αλλαγές σας δεν αποθηκεύονται.</value>
   </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Αποσύνδεση Χρήστη</value>
   </data>
@@ -1685,8 +2513,8 @@
   <data name="TicketRemainingAmount" xml:space="preserve">
     <value>Υπόλοιπο ποσό αγοράς εισιτηρίων</value>
   </data>
-  <data name="RoleName" xml:space="preserve">
-    <value>Όνομα Ρόλος</value>
+  <data name="OK" xml:space="preserve">
+    <value>ΟΚ</value>
   </data>
   <data name="FileName" xml:space="preserve">
     <value>Όνομα αρχείου</value>
@@ -1700,17 +2528,29 @@
   <data name="MenuItemGroup" xml:space="preserve">
     <value>Ομάδα Προϊόντων</value>
   </data>
-  <data name="ApplicationStarted" xml:space="preserve">
-    <value>Ξεκίνησε Εφαρμογή</value>
+  <data name="ChangeTotal" xml:space="preserve">
+    <value>Change Total</value>
+  </data>
+  <data name="StopTimer" xml:space="preserve">
+    <value>Stop Timer</value>
   </data>
   <data name="Html" xml:space="preserve">
     <value>HTML</value>
   </data>
+  <data name="NewOrders" xml:space="preserve">
+    <value>New Orders</value>
+  </data>
   <data name="SalesByItemGroup" xml:space="preserve">
     <value>Οι πωλήσεις από τη θέση Ομάδα</value>
   </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>Source {0}</value>
+  </data>
   <data name="Select_f" xml:space="preserve">
     <value>Επιλέξτε  {0}</value>
+  </data>
+  <data name="PriceDurationType" xml:space="preserve">
+    <value>Price Duration Type</value>
   </data>
   <data name="Empty" xml:space="preserve">
     <value>Αδειάστε</value>
@@ -1729,6 +2569,15 @@
   </data>
   <data name="NumeratorValue" xml:space="preserve">
     <value>Τιμή Πληκτρολογίου Αριθμών</value>
+  </data>
+  <data name="Beginning" xml:space="preserve">
+    <value>Beginning</value>
+  </data>
+  <data name="AccountTransaction" xml:space="preserve">
+    <value>Account Transaction</value>
+  </data>
+  <data name="Development" xml:space="preserve">
+    <value>Development</value>
   </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Δευτ. μέσω Παρ.</value>
@@ -1751,6 +2600,15 @@
   <data name="Every15Minutes" xml:space="preserve">
     <value>Κάθε 15 λεπτά</value>
   </data>
+  <data name="TicketPaymentCheck" xml:space="preserve">
+    <value>Ticket Payment Check</value>
+  </data>
+  <data name="LastOrderDuration" xml:space="preserve">
+    <value>Last Order Duration</value>
+  </data>
+  <data name="DisplayPaymentScreen" xml:space="preserve">
+    <value>Display Payment Screen</value>
+  </data>
   <data name="PluralCurrencySuffix" xml:space="preserve">
     <value>s</value>
   </data>
@@ -1765,6 +2623,9 @@
   </data>
   <data name="Excluded" xml:space="preserve">
     <value>Εξαιρούνται</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Question</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Προηγούμενος</value>
@@ -1781,6 +2642,9 @@
   <data name="TicketTemplate" xml:space="preserve">
     <value>Πρότυπο εισιτηρίων</value>
   </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Δημιουργία λογαριασμού</value>
+  </data>
   <data name="OnceAYear" xml:space="preserve">
     <value>Μία φορά το χρόνο</value>
   </data>
@@ -1793,14 +2657,29 @@
   <data name="General" xml:space="preserve">
     <value>Γενικά</value>
   </data>
+  <data name="InventoryTransactionType" xml:space="preserve">
+    <value>Inventory Transaction Type</value>
+  </data>
   <data name="SlipReportPrinter" xml:space="preserve">
     <value>Slip εκτυπωτή Έκθεση</value>
+  </data>
+  <data name="TimeRounding" xml:space="preserve">
+    <value>Time Rounding</value>
+  </data>
+  <data name="ShowOnTicket" xml:space="preserve">
+    <value>Show on Ticket</value>
   </data>
   <data name="Paid" xml:space="preserve">
     <value>Αμειβόμενος</value>
   </data>
   <data name="ChangeAmountUpdated" xml:space="preserve">
     <value>Ποσό ενημερώθηκε Αλλαγή</value>
+  </data>
+  <data name="TaxAmount" xml:space="preserve">
+    <value>Tax Amount</value>
+  </data>
+  <data name="TicketClosing" xml:space="preserve">
+    <value>Ticket Closing</value>
   </data>
   <data name="MappedAccounts" xml:space="preserve">
     <value>Λογαριασμοί</value>
@@ -1810,6 +2689,9 @@
   </data>
   <data name="CategoryProducts" xml:space="preserve">
     <value>Προϊόντα Κατηγορίας</value>
+  </data>
+  <data name="DisplayTicketLog" xml:space="preserve">
+    <value>Display Ticket Log</value>
   </data>
   <data name="LinesGroupedByGroupCode" xml:space="preserve">
     <value>Γραμμές Ομαδοποιημένα κατά Κώδικας Ομάδα</value>
@@ -1835,20 +2717,47 @@
   <data name="Number" xml:space="preserve">
     <value>Αριθμός</value>
   </data>
+  <data name="CanExecute" xml:space="preserve">
+    <value>Can Execute</value>
+  </data>
+  <data name="CustomCommand" xml:space="preserve">
+    <value>CustomCommand</value>
+  </data>
+  <data name="Automation" xml:space="preserve">
+    <value>Automation</value>
+  </data>
+  <data name="CustomPrinter" xml:space="preserve">
+    <value>Custom Printer</value>
+  </data>
   <data name="Trigger" xml:space="preserve">
     <value>Trigger</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
     <value>Στρογγυλοποίηση Auto</value>
   </data>
+  <data name="LoadLastOrder" xml:space="preserve">
+    <value>Load Last Order</value>
+  </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Συνολικός χρόνος εργασίας: {0:0} ώρα: {1:0} λεπτά</value>
+  </data>
+  <data name="UpdateNewOrderEntityColor" xml:space="preserve">
+    <value>Update New Order Entity Color</value>
+  </data>
+  <data name="AddTicketLog" xml:space="preserve">
+    <value>Add Ticket Log</value>
   </data>
   <data name="CostReport" xml:space="preserve">
     <value>Κόστος Έκθεση</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Όνομα συμβάντος</value>
+  </data>
+  <data name="NewOrderAddingRule" xml:space="preserve">
+    <value>New Order Adding Rule</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Equals</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Σύνολο χαρακτήρων</value>
@@ -1865,6 +2774,9 @@
   <data name="ProgramSettings" xml:space="preserve">
     <value>Ρυθμίσεις Προγράμματος</value>
   </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Receipt</value>
+  </data>
   <data name="InStock" xml:space="preserve">
     <value>Σε απόθεμα</value>
   </data>
@@ -1874,11 +2786,29 @@
   <data name="SearchString" xml:space="preserve">
     <value>Αναζήτηση</value>
   </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>Update Merged Tickets State</value>
+  </data>
   <data name="DisplayAllValues" xml:space="preserve">
     <value>Εμφάνιση όλων των τιμών</value>
   </data>
+  <data name="CashPayment" xml:space="preserve">
+    <value>Cash Payment</value>
+  </data>
+  <data name="OrderStateGroup" xml:space="preserve">
+    <value>Order State Group</value>
+  </data>
+  <data name="AskTicketType" xml:space="preserve">
+    <value>Ask Ticket Type</value>
+  </data>
   <data name="Negative" xml:space="preserve">
     <value>Αρνητικός</value>
+  </data>
+  <data name="LoadTicket" xml:space="preserve">
+    <value>Load Ticket</value>
+  </data>
+  <data name="TicketExplorer" xml:space="preserve">
+    <value>Ticket Explorer</value>
   </data>
   <data name="TicketTipTotal" xml:space="preserve">
     <value>Σύνολο Συμβουλή</value>
@@ -1886,8 +2816,17 @@
   <data name="ActionName" xml:space="preserve">
     <value>Όνομα δράσης</value>
   </data>
+  <data name="WindowsPrinter" xml:space="preserve">
+    <value>Windows Printer</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Forum</value>
+  </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Σημείωση εισιτηρίων</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Week</value>
   </data>
   <data name="CheckDBVersion" xml:space="preserve">
     <value>Ελέγξτε την έκδοση της βάσης δεδομένων</value>
@@ -1901,6 +2840,9 @@
   <data name="AlphanumericButtons" xml:space="preserve">
     <value>Αλφαριθμητικά κουμπιά</value>
   </data>
+  <data name="CreditCardPayment" xml:space="preserve">
+    <value>Credit Card Payment</value>
+  </data>
   <data name="KitchenOrderTemplate" xml:space="preserve">
     <value>Κουζίνα Πρότυπο Παραγγελίες</value>
   </data>
@@ -1910,11 +2852,26 @@
   <data name="Seventy" xml:space="preserve">
     <value>Εβδομήντα</value>
   </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="ProductTag" xml:space="preserve">
+    <value>Product Tag</value>
+  </data>
+  <data name="TaskType" xml:space="preserve">
+    <value>Task Type</value>
+  </data>
+  <data name="TransactionTotal" xml:space="preserve">
+    <value>Transaction Total</value>
+  </data>
   <data name="Calling" xml:space="preserve">
     <value>Εισερχόμενη Κλήση</value>
   </data>
   <data name="PriceTag" xml:space="preserve">
     <value>Ετικέτα Τιμής</value>
+  </data>
+  <data name="EntityName" xml:space="preserve">
+    <value>Entity Name</value>
   </data>
   <data name="Included" xml:space="preserve">
     <value>Περιλαμβάνεται</value>
@@ -1922,8 +2879,17 @@
   <data name="PhoneNumber" xml:space="preserve">
     <value>Τηλέφωνο</value>
   </data>
+  <data name="BatchCreateDocuments" xml:space="preserve">
+    <value>Batch Create Documents</value>
+  </data>
   <data name="Customer" xml:space="preserve">
     <value>Πελάτης</value>
+  </data>
+  <data name="ToggleValues" xml:space="preserve">
+    <value>Toggle Values</value>
+  </data>
+  <data name="DisplayState" xml:space="preserve">
+    <value>Display State</value>
   </data>
   <data name="Automatic" xml:space="preserve">
     <value>Αυτόματο</value>
@@ -1937,14 +2903,32 @@
   <data name="ProgramLanguage" xml:space="preserve">
     <value>Πρόγραμμα Γλώσσας</value>
   </data>
+  <data name="TicketsMerged" xml:space="preserve">
+    <value>Tickets Merged</value>
+  </data>
+  <data name="NewTicketCreatingRule" xml:space="preserve">
+    <value>New Ticket Creating Rule</value>
+  </data>
   <data name="SortType" xml:space="preserve">
     <value>Τύπος Ταξινόμηση</value>
+  </data>
+  <data name="TransactionUnitError" xml:space="preserve">
+    <value>Transaction Unit should not be empty</value>
   </data>
   <data name="PortionName" xml:space="preserve">
     <value>Όνομα Μερίδα</value>
   </data>
   <data name="RateFromTaxIncludedTicketAmount" xml:space="preserve">
     <value>Το Ποσοστό ΦΠΑ συμπεριλαμβάνεται στο ποσό </value>
+  </data>
+  <data name="ExecutePrintJob" xml:space="preserve">
+    <value>Εκτέλεση εργασίας εκτύπωσης</value>
+  </data>
+  <data name="NotMatchesAny" xml:space="preserve">
+    <value>Not Matches Any</value>
+  </data>
+  <data name="CalculationType" xml:space="preserve">
+    <value>Calculation Type</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
     <value>Σύνολο {0}:</value>
@@ -1955,8 +2939,17 @@
   <data name="Expression" xml:space="preserve">
     <value>Έκφραση</value>
   </data>
+  <data name="Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
   <data name="Month" xml:space="preserve">
     <value>Μήνας</value>
+  </data>
+  <data name="Starts" xml:space="preserve">
+    <value>Starts</value>
+  </data>
+  <data name="TicketEntityChanged" xml:space="preserve">
+    <value>Ticket Entity Changed</value>
   </data>
   <data name="InventoryPurchaseReport" xml:space="preserve">
     <value>Απογραφή Έκθεση Αγορά</value>
@@ -1964,8 +2957,26 @@
   <data name="TerminalView" xml:space="preserve">
     <value>Προβολή Τερματικού</value>
   </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>Consumption</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Delete current template and Load {0}?</value>
+  </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Κάθε άλλο μήνα</value>
+  </data>
+  <data name="StateController" xml:space="preserve">
+    <value>State Controller</value>
+  </data>
+  <data name="ValueLooped" xml:space="preserve">
+    <value>Value Looped</value>
+  </data>
+  <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
+    <value>Ticket tag names should be unique</value>
+  </data>
+  <data name="AutoRefresh" xml:space="preserve">
+    <value>Αυτόματη ανανέωση </value>
   </data>
   <data name="DayDate" xml:space="preserve">
     <value>Ημερομηνία της Ημέρας</value>
@@ -1976,8 +2987,20 @@
   <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
     <value>Συνολικός χρόνος εργασίας: {0:0} λεπτά</value>
   </data>
+  <data name="DisplaySettings" xml:space="preserve">
+    <value>Display Settings</value>
+  </data>
   <data name="FieldType" xml:space="preserve">
     <value>Είδος Πεδίου</value>
+  </data>
+  <data name="SourceAccountTypeDesc" xml:space="preserve">
+    <value>Source Account Type (Debit)</value>
+  </data>
+  <data name="OrderUntagged" xml:space="preserve">
+    <value>Order Untagged</value>
+  </data>
+  <data name="SubButtonRows" xml:space="preserve">
+    <value>Sub Button Rows</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Μήνυμα</value>
@@ -1988,6 +3011,12 @@
   <data name="PrinterType" xml:space="preserve">
     <value>Τύπος εκτυπωτή</value>
   </data>
+  <data name="PastTransactions" xml:space="preserve">
+    <value>Past Transactions</value>
+  </data>
+  <data name="MaxSelectedItems" xml:space="preserve">
+    <value>Max Selected Items</value>
+  </data>
   <data name="MergeLines" xml:space="preserve">
     <value>Συγχώνευση Γραμμών</value>
   </data>
@@ -1996,6 +3025,9 @@
   </data>
   <data name="Delete_f" xml:space="preserve">
     <value>Διαγραφή {0}</value>
+  </data>
+  <data name="IncludeTax" xml:space="preserve">
+    <value>Include Tax</value>
   </data>
   <data name="OpenClose_ab" xml:space="preserve">
     <value>Op-Cls</value>
@@ -2008,6 +3040,12 @@
   </data>
   <data name="TicketSubTotal" xml:space="preserve">
     <value>Μερικό Σύνολο εισιτηρίων</value>
+  </data>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>ξεκλείδωμα απόδειξεις </value>
+  </data>
+  <data name="SellerWarehouse" xml:space="preserve">
+    <value>Seller Warehouse</value>
   </data>
   <data name="GiftTotal" xml:space="preserve">
     <value>Σύνολο δώρων</value>
@@ -2025,8 +3063,14 @@
   <data name="SingleSelection" xml:space="preserve">
     <value>Μονή Επιλογή</value>
   </data>
+  <data name="DecreaseAmount" xml:space="preserve">
+    <value>Decrease Amount</value>
+  </data>
   <data name="PinCode" xml:space="preserve">
     <value>Κωδικός</value>
+  </data>
+  <data name="ExecutePrintBillJob" xml:space="preserve">
+    <value>Execute Bill Print Job</value>
   </data>
   <data name="DiscountPercentSign" xml:space="preserve">
     <value>% Έκπτωση</value>
@@ -2042,6 +3086,9 @@
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>Ποσότητα</value>
+  </data>
+  <data name="FixedAmountFromTicketTotal" xml:space="preserve">
+    <value>Fixed amount from ticket total</value>
   </data>
   <data name="PortPrinter" xml:space="preserve">
     <value>Θήτα εκυπωτή</value>
@@ -2067,17 +3114,26 @@
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>Δεν μπορείτε να διαγράψετε προηγούμενες εγγραφές.</value>
   </data>
+  <data name="LoopValues" xml:space="preserve">
+    <value>Loop Values</value>
+  </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Μπορεί Εμφάνισει Παλιά Εισιτήρια</value>
   </data>
   <data name="Twenty" xml:space="preserve">
     <value>Είκοσι</value>
   </data>
-  <data name="CanCreateAccount" xml:space="preserve">
-    <value>Μπορεί να δημιουργήσει λογαριασμό </value>
+  <data name="MoveTicketLine" xml:space="preserve">
+    <value>Κίνηση</value>
   </data>
   <data name="Ninety" xml:space="preserve">
     <value>Ενενήντα</value>
+  </data>
+  <data name="DisplayUnderTicketRow2" xml:space="preserve">
+    <value>Display Under Ticket Row 2</value>
+  </data>
+  <data name="DefaultTargetAccount" xml:space="preserve">
+    <value>Default Target Account</value>
   </data>
   <data name="PrinterName" xml:space="preserve">
     <value>Όνομα εκτυπωτή</value>
@@ -2100,11 +3156,26 @@
   <data name="Ticket" xml:space="preserve">
     <value>Εισιτήριο</value>
   </data>
+  <data name="EntitySelected" xml:space="preserve">
+    <value>Entity Selected</value>
+  </data>
   <data name="EveryDay" xml:space="preserve">
     <value>Κάθε μέρα</value>
   </data>
+  <data name="DisplayUnderTicket" xml:space="preserve">
+    <value>Display under ticket</value>
+  </data>
+  <data name="ChangePaymentType" xml:space="preserve">
+    <value>Change Payment Type</value>
+  </data>
   <data name="DepartmentName" xml:space="preserve">
     <value>Όνομα Τμήματος</value>
+  </data>
+  <data name="IsNotNull" xml:space="preserve">
+    <value>Is Not Null</value>
+  </data>
+  <data name="ForeignCurrency" xml:space="preserve">
+    <value>Foreign Currency</value>
   </data>
   <data name="RuleActions" xml:space="preserve">
     <value>Δράσεις</value>
@@ -2121,11 +3192,23 @@
   <data name="Every4Hours" xml:space="preserve">
     <value>Κάθε 4 ώρες</value>
   </data>
+  <data name="Target" xml:space="preserve">
+    <value>Target</value>
+  </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Πλήθος στηλών</value>
   </data>
+  <data name="WindowScale" xml:space="preserve">
+    <value>Window Scale</value>
+  </data>
   <data name="DisplayFormat" xml:space="preserve">
     <value>Διαμόρφωση Οθόνης</value>
+  </data>
+  <data name="CreditLimit" xml:space="preserve">
+    <value>Credit Limit</value>
+  </data>
+  <data name="StateDefinition" xml:space="preserve">
+    <value>State Definition</value>
   </data>
   <data name="DisplayUserPath" xml:space="preserve">
     <value>Εμφάνιση διαδρομής χρήστη</value>
@@ -2154,11 +3237,29 @@
   <data name="PrintMapping" xml:space="preserve">
     <value>Χαρτογράφηση Εκτύπωση</value>
   </data>
+  <data name="Mapping_f" xml:space="preserve">
+    <value>{0} Mapping</value>
+  </data>
+  <data name="Values" xml:space="preserve">
+    <value>Values</value>
+  </data>
   <data name="Thousand" xml:space="preserve">
     <value>Bin</value>
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Κυρίως Μενού</value>
+  </data>
+  <data name="StateType" xml:space="preserve">
+    <value>State Type</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>Display as Tree</value>
+  </data>
+  <data name="Find_f" xml:space="preserve">
+    <value>Find {0}</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
   </data>
   <data name="SelectionRequired" xml:space="preserve">
     <value>Απαιτείται Επιλογή</value>
@@ -2193,11 +3294,14 @@
   <data name="Exit" xml:space="preserve">
     <value>Έξοδος</value>
   </data>
+  <data name="TargetAccountTypeDesc" xml:space="preserve">
+    <value>Target Account Type (Credit)</value>
+  </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Κείμενο γραμμένο συνολική αξία</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Κατάσταση σχεδίασης</value>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Ticket Number</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Κάθε λεπτό</value>
@@ -2220,16 +3324,25 @@
   <data name="Header" xml:space="preserve">
     <value>Κεφαλίδα</value>
   </data>
-  <data name="CreateAccount" xml:space="preserve">
-    <value>Δημιουργία λογαριασμού</value>
+  <data name="Mappings" xml:space="preserve">
+    <value>Mappings</value>
   </data>
   <data name="ExecuteScript" xml:space="preserve">
     <value>Εκτέλεση εργασίας </value>
   </data>
+  <data name="ShowOnProductReport" xml:space="preserve">
+    <value>Show on Product Report</value>
+  </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>Σύνολο Φόρου</value>
   </data>
+  <data name="Toggle" xml:space="preserve">
+    <value>Toggle</value>
+  </data>
   <data name="DepartmentPermissions" xml:space="preserve">
     <value>Δικαιώματα Τμήματος</value>
+  </data>
+  <data name="EditingFormat" xml:space="preserve">
+    <value>Editing Format</value>
   </data>
 </root>

@@ -135,6 +135,9 @@
   <data name="DisplayTicket" xml:space="preserve">
     <value>Mostrar Ticket</value>
   </data>
+  <data name="Matches" xml:space="preserve">
+    <value>Matches</value>
+  </data>
   <data name="Print" xml:space="preserve">
     <value>Imprimir</value>
   </data>
@@ -174,6 +177,9 @@
   </data>
   <data name="TagValue" xml:space="preserve">
     <value>Etiqueta Valor</value>
+  </data>
+  <data name="Date_f" xml:space="preserve">
+    <value>{0} Date</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Redondear</value>
@@ -226,6 +232,9 @@
   <data name="CustomerReceiptTemplate" xml:space="preserve">
     <value>Plantilla de recibo del cliente</value>
   </data>
+  <data name="MatchesAny" xml:space="preserve">
+    <value>Matches Any</value>
+  </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Total de Ingresos</value>
   </data>
@@ -243,6 +252,9 @@
   </data>
   <data name="WorkPeriodReport" xml:space="preserve">
     <value>Informe sobre el Período de trabajo</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
   </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Ingrese las categorías que desee agregar</value>
@@ -394,11 +406,17 @@
   <data name="Calculation" xml:space="preserve">
     <value>Cálculo</value>
   </data>
+  <data name="BalanceBroughtForward" xml:space="preserve">
+    <value>Balance Brought Forward</value>
+  </data>
   <data name="Selection_f" xml:space="preserve">
     <value>{0} Seleccion</value>
   </data>
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Impresora de la Cocina</value>
+  </data>
+  <data name="InventoryCalculationError" xml:space="preserve">
+    <value>Inventory calculation generated an error. Check your recipes.</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Configuración</value>
@@ -417,6 +435,9 @@
   </data>
   <data name="LineItemPriceCents" xml:space="preserve">
     <value># Línea: Precio con Centavos</value>
+  </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parameter [{0}] should not start or end with space.</value>
   </data>
   <data name="UserLogin" xml:space="preserve">
     <value>Inicio de sesión de usuario</value>
@@ -469,6 +490,9 @@
   <data name="CustomerTickets" xml:space="preserve">
     <value>Tickets Cliente</value>
   </data>
+  <data name="SelectAutomationCommand" xml:space="preserve">
+    <value>Select Automation Command</value>
+  </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Temporizador Producto</value>
   </data>
@@ -496,11 +520,17 @@
   <data name="OnceAMonth" xml:space="preserve">
     <value>Una vez al mes</value>
   </data>
+  <data name="QuantitySeparators" xml:space="preserve">
+    <value>Quantity Separators</value>
+  </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Precio unitario</value>
   </data>
   <data name="UiLanguage" xml:space="preserve">
     <value>Idioma de interfaz de usuario</value>
+  </data>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Order Moving</value>
   </data>
   <data name="Action" xml:space="preserve">
     <value>Acción</value>
@@ -546,6 +576,12 @@
   </data>
   <data name="ProductList" xml:space="preserve">
     <value>Lista de productos</value>
+  </data>
+  <data name="MatchesMod10" xml:space="preserve">
+    <value>Matches Mod10</value>
+  </data>
+  <data name="DisplayOnCommandSelector" xml:space="preserve">
+    <value>Display on Command Selector</value>
   </data>
   <data name="AlphanumericButtonValues" xml:space="preserve">
     <value>Valor de botón alfanumérico </value>
@@ -746,6 +782,9 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   <data name="ChangeTicketEntity" xml:space="preserve">
     <value>Cambiar  Ticket de Entidad</value>
   </data>
+  <data name="AccountTransactionsFilter" xml:space="preserve">
+    <value>Account Transactions Filter</value>
+  </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Puede cambiar el filtro del informe Fecha</value>
   </data>
@@ -778,6 +817,9 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   </data>
   <data name="OrderNumerator" xml:space="preserve">
     <value>Numerador de Orden</value>
+  </data>
+  <data name="Time_f" xml:space="preserve">
+    <value>{0} Time</value>
   </data>
   <data name="IncreaseInventory" xml:space="preserve">
     <value>Aumentar Inventario</value>
@@ -815,6 +857,9 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   <data name="Table" xml:space="preserve">
     <value>Mesa</value>
   </data>
+  <data name="BalanceAfterDate" xml:space="preserve">
+    <value>Balance after date</value>
+  </data>
   <data name="SelectPrintJob" xml:space="preserve">
     <value>Seleccione el trabajo de impresión</value>
   </data>
@@ -833,6 +878,9 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   <data name="Warehouses" xml:space="preserve">
     <value>Almacenes</value>
   </data>
+  <data name="MatchesAll" xml:space="preserve">
+    <value>Matches All</value>
+  </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Guardar etiquetas libres</value>
   </data>
@@ -844,6 +892,9 @@ Se activará después de {1} días {2} horas, {3} minutos</value>
   </data>
   <data name="CanRemoveTicketTag" xml:space="preserve">
     <value>Quitar la etiqueta de recibos</value>
+  </data>
+  <data name="SubButtonColorDef" xml:space="preserve">
+    <value>Sub Button Colors</value>
   </data>
   <data name="CashTransactions" xml:space="preserve">
     <value>Transacciones en efectivo</value>
@@ -896,6 +947,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="OnceADay" xml:space="preserve">
     <value>Una vez al día</value>
+  </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Modo de diseño</value>
   </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Descuento total</value>
@@ -972,6 +1026,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Categories" xml:space="preserve">
     <value>Categorías</value>
   </data>
+  <data name="NotMatches" xml:space="preserve">
+    <value>Not Matches</value>
+  </data>
   <data name="SettlePermissions" xml:space="preserve">
     <value>Permisos de pago</value>
   </data>
@@ -1004,6 +1061,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Nombre del producto</value>
+  </data>
+  <data name="SettledBy_f" xml:space="preserve">
+    <value>Settled by {0}</value>
   </data>
   <data name="CantComplateOperationError" xml:space="preserve">
     <value>No se puede completar la operación porque ocurrió un error. Revisé el archivo de log de errores para más detalles.</value>
@@ -1194,6 +1254,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>Operaciones no deben estar vacias</value>
   </data>
+  <data name="BatchEntityEditor" xml:space="preserve">
+    <value>Batch Entity Editor</value>
+  </data>
   <data name="GroupFooter" xml:space="preserve">
     <value>Pie de página de grupo</value>
   </data>
@@ -1233,6 +1296,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>No se puede eliminar porque este {0} esta utilizado por {1}</value>
   </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
   <data name="BeforeTicketClosing" xml:space="preserve">
     <value>Antes del cierre del ticket</value>
   </data>
@@ -1257,6 +1323,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="OptionalTicketTag" xml:space="preserve">
     <value>Etiqueta de recibo opcionales</value>
   </data>
+  <data name="NotMatchesAll" xml:space="preserve">
+    <value>Not Matches All</value>
+  </data>
   <data name="TicketCount" xml:space="preserve">
     <value>Cuenta Recibos</value>
   </data>
@@ -1277,6 +1346,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="AutomationCommandExecuted" xml:space="preserve">
     <value>Automatizacion Comando Ejecutado</value>
+  </data>
+  <data name="ShowOnEndOfDayReport" xml:space="preserve">
+    <value>Show on End of Day Report</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Mover líneas de recibos desbloqueados</value>
@@ -1337,6 +1409,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="New" xml:space="preserve">
     <value>Nuevo</value>
+  </data>
+  <data name="ExecuteRuleIf" xml:space="preserve">
+    <value>Execute rule if</value>
   </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Bloquear recibo</value>
@@ -1440,6 +1515,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Text" xml:space="preserve">
     <value>Texto</value>
   </data>
+  <data name="AddLineToTextFile" xml:space="preserve">
+    <value>Add Line to Text File</value>
+  </data>
   <data name="Ten" xml:space="preserve">
     <value>Diez</value>
   </data>
@@ -1464,6 +1542,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Thirteen" xml:space="preserve">
     <value>Trece</value>
   </data>
+  <data name="ModifyVariable" xml:space="preserve">
+    <value>Modify Variable</value>
+  </data>
   <data name="HideAccountsWithZeroBalance" xml:space="preserve">
     <value>Ocultar cuentas con balance cero</value>
   </data>
@@ -1478,6 +1559,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="ButtonHeight" xml:space="preserve">
     <value>Altura de botón</value>
+  </data>
+  <data name="UpdateEntityData" xml:space="preserve">
+    <value>Update Entity Data</value>
   </data>
   <data name="Cash" xml:space="preserve">
     <value>Efectivo</value>
@@ -1497,8 +1581,14 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Imprimir las órdenes en la impresora de la cocina</value>
   </data>
+  <data name="AccountTransactionAddedToTicket" xml:space="preserve">
+    <value>Account Transaction Added to Ticket</value>
+  </data>
   <data name="Noon" xml:space="preserve">
     <value>mediodía</value>
+  </data>
+  <data name="Greater" xml:space="preserve">
+    <value>Greater</value>
   </data>
   <data name="Sixteen" xml:space="preserve">
     <value>Dieciséis</value>
@@ -1511,6 +1601,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="GroupCode" xml:space="preserve">
     <value>Código de Grupo</value>
+  </data>
+  <data name="Less" xml:space="preserve">
+    <value>Less</value>
   </data>
   <data name="Tickets" xml:space="preserve">
     <value>Recibos</value>
@@ -1605,6 +1698,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="From" xml:space="preserve">
     <value>De:</value>
   </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Change Sort Order</value>
+  </data>
   <data name="One" xml:space="preserve">
     <value>Uno</value>
   </data>
@@ -1668,11 +1764,17 @@ Al cambio de PIN, se oculta este mensaje</value>
   <data name="Fifteen" xml:space="preserve">
     <value>Quince</value>
   </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Search Value Replace Pattern</value>
+  </data>
   <data name="UpdateTicketStatus" xml:space="preserve">
     <value>Actualizar Estado Ticket</value>
   </data>
   <data name="PageCount" xml:space="preserve">
     <value>Número de páginas</value>
+  </data>
+  <data name="MenuItemGroupCode" xml:space="preserve">
+    <value>Menu Item Group Code</value>
   </data>
   <data name="Two" xml:space="preserve">
     <value>Dos</value>
@@ -1694,6 +1796,9 @@ Al cambio de PIN, se oculta este mensaje</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Iniciar</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>Not Equals</value>
   </data>
   <data name="FastMenu" xml:space="preserve">
     <value>Menú rápido</value>
@@ -1839,6 +1944,9 @@ Ajuste el Tipo de Ticket Activo</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Sitio Web</value>
+  </data>
+  <data name="After" xml:space="preserve">
+    <value>After</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Quitar Limite</value>
@@ -2030,8 +2138,14 @@ Seguir sin añadir más detalles?</value>
   <data name="Departments" xml:space="preserve">
     <value>Departamentos</value>
   </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Required Recipes</value>
+  </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Compartir nombre de impresora / Nombre del puerto</value>
+  </data>
+  <data name="LengthEquals" xml:space="preserve">
+    <value>Length Equals</value>
   </data>
   <data name="OrderStateUpdated" xml:space="preserve">
     <value>Estado Pedido Actualizado</value>
@@ -2129,6 +2243,9 @@ Seguir sin añadir más detalles?</value>
   <data name="ExecutePowershellScript" xml:space="preserve">
     <value>Ejecutar Script Powershell</value>
   </data>
+  <data name="Ends" xml:space="preserve">
+    <value>Ends</value>
+  </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>Número de Recibo: {0}</value>
   </data>
@@ -2143,6 +2260,9 @@ Seguir sin añadir más detalles?</value>
   </data>
   <data name="Clone_f" xml:space="preserve">
     <value>Clonar {0}</value>
+  </data>
+  <data name="OrderCount" xml:space="preserve">
+    <value>Order Count</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Pedido</value>
@@ -2171,6 +2291,9 @@ Seguir sin añadir más detalles?</value>
   <data name="EveryOtherDay" xml:space="preserve">
     <value>Día por medio</value>
   </data>
+  <data name="DateRangeTotal" xml:space="preserve">
+    <value>Date Range Total</value>
+  </data>
   <data name="SortCategoryProducts" xml:space="preserve">
     <value>Ordenar Categorías de Productos</value>
   </data>
@@ -2195,8 +2318,14 @@ Seguir sin añadir más detalles?</value>
   <data name="NewProperty" xml:space="preserve">
     <value>Propiedad nueva</value>
   </data>
+  <data name="OrderCancelled" xml:space="preserve">
+    <value>Order Cancelled</value>
+  </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Recuento de caracteres x linea</value>
+  </data>
+  <data name="RawPrinter" xml:space="preserve">
+    <value>Raw Printer</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Tipo de Actualización</value>
@@ -2495,6 +2624,9 @@ Seguir sin añadir más detalles?</value>
   <data name="Excluded" xml:space="preserve">
     <value>Excluido</value>
   </data>
+  <data name="Question" xml:space="preserve">
+    <value>Question</value>
+  </data>
   <data name="Previous" xml:space="preserve">
     <value>Anterior</value>
   </data>
@@ -2535,6 +2667,9 @@ Recibos</value>
   <data name="TimeRounding" xml:space="preserve">
     <value>Tiempo Redondeado</value>
   </data>
+  <data name="ShowOnTicket" xml:space="preserve">
+    <value>Show on Ticket</value>
+  </data>
   <data name="Paid" xml:space="preserve">
     <value>Pagado</value>
   </data>
@@ -2555,6 +2690,9 @@ Recibos</value>
   </data>
   <data name="CategoryProducts" xml:space="preserve">
     <value>Categoría de Productos</value>
+  </data>
+  <data name="DisplayTicketLog" xml:space="preserve">
+    <value>Display Ticket Log</value>
   </data>
   <data name="LinesGroupedByGroupCode" xml:space="preserve">
     <value>Lineas Agrupadas por código de Grupos</value>
@@ -2589,17 +2727,26 @@ Recibos</value>
   <data name="Automation" xml:space="preserve">
     <value>Automatizacion</value>
   </data>
+  <data name="CustomPrinter" xml:space="preserve">
+    <value>Custom Printer</value>
+  </data>
   <data name="Trigger" xml:space="preserve">
     <value>Iniciar</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
     <value>Auto redondeo</value>
   </data>
+  <data name="LoadLastOrder" xml:space="preserve">
+    <value>Load Last Order</value>
+  </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Tiempo total de trabajo: {0:0} hora {0:0} minutos</value>
   </data>
   <data name="UpdateNewOrderEntityColor" xml:space="preserve">
     <value>Actualizar Color de Entidad para Pedidos Nuevos</value>
+  </data>
+  <data name="AddTicketLog" xml:space="preserve">
+    <value>Add Ticket Log</value>
   </data>
   <data name="CostReport" xml:space="preserve">
     <value>Reportes de los costos</value>
@@ -2609,6 +2756,9 @@ Recibos</value>
   </data>
   <data name="NewOrderAddingRule" xml:space="preserve">
     <value>Regla para Añadir Nuevo Pedido</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Equals</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Conjunto de caracteres</value>
@@ -2712,6 +2862,9 @@ Recibos</value>
   <data name="TaskType" xml:space="preserve">
     <value>Tipo Tarea</value>
   </data>
+  <data name="TransactionTotal" xml:space="preserve">
+    <value>Transaction Total</value>
+  </data>
   <data name="Calling" xml:space="preserve">
     <value>Llamando</value>
   </data>
@@ -2772,6 +2925,9 @@ Recibos</value>
   <data name="ExecutePrintJob" xml:space="preserve">
     <value>Ejecutar Trabajo de Impresion</value>
   </data>
+  <data name="NotMatchesAny" xml:space="preserve">
+    <value>Not Matches Any</value>
+  </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Tipo Calculo</value>
   </data>
@@ -2784,8 +2940,14 @@ Recibos</value>
   <data name="Expression" xml:space="preserve">
     <value>Expresión</value>
   </data>
+  <data name="Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
   <data name="Month" xml:space="preserve">
     <value>Mes</value>
+  </data>
+  <data name="Starts" xml:space="preserve">
+    <value>Starts</value>
   </data>
   <data name="TicketEntityChanged" xml:space="preserve">
     <value>Ticket de Entidad Cambiado</value>
@@ -2837,6 +2999,9 @@ Recibos</value>
   </data>
   <data name="OrderUntagged" xml:space="preserve">
     <value>Pedido Desetiquetado</value>
+  </data>
+  <data name="SubButtonRows" xml:space="preserve">
+    <value>Sub Button Rows</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Mensaje</value>
@@ -2965,6 +3130,9 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   <data name="Ninety" xml:space="preserve">
     <value>Noventa</value>
   </data>
+  <data name="DisplayUnderTicketRow2" xml:space="preserve">
+    <value>Display Under Ticket Row 2</value>
+  </data>
   <data name="DefaultTargetAccount" xml:space="preserve">
     <value>Cuenta de destino predeterminada</value>
   </data>
@@ -3003,6 +3171,9 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   </data>
   <data name="DepartmentName" xml:space="preserve">
     <value>Nombre del departamento</value>
+  </data>
+  <data name="IsNotNull" xml:space="preserve">
+    <value>Is Not Null</value>
   </data>
   <data name="ForeignCurrency" xml:space="preserve">
     <value>Moneda Extranjera</value>
@@ -3130,8 +3301,8 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Valor total escrito en letras</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Modo de diseño</value>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Ticket Number</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Cada minuto</value>
@@ -3159,6 +3330,9 @@ No puede terminar Periodo de trabajo mientras haya recibos abiertos</value>
   </data>
   <data name="ExecuteScript" xml:space="preserve">
     <value>Ejecutar Script</value>
+  </data>
+  <data name="ShowOnProductReport" xml:space="preserve">
+    <value>Show on Product Report</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>Total de impuestos</value>

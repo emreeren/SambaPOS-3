@@ -436,6 +436,9 @@
   <data name="LineItemPriceCents" xml:space="preserve">
     <value>#Satır: Kuruş bazında fiyat</value>
   </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parametere [{0}] ile başlamalı veya boşlukla bitmesi gerekir.</value>
+  </data>
   <data name="UserLogin" xml:space="preserve">
     <value>Kullanıcı Girdi</value>
   </data>

@@ -123,11 +123,20 @@
   <data name="FixedAmount" xml:space="preserve">
     <value>Fiksni iznos</value>
   </data>
+  <data name="Entity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
   <data name="ButtonHeader" xml:space="preserve">
     <value>Zaglavlje tipke</value>
   </data>
+  <data name="POS" xml:space="preserve">
+    <value>POS</value>
+  </data>
   <data name="DisplayTicket" xml:space="preserve">
     <value>Prikaži tiket</value>
+  </data>
+  <data name="Matches" xml:space="preserve">
+    <value>Matches</value>
   </data>
   <data name="Print" xml:space="preserve">
     <value>Ispis</value>
@@ -135,6 +144,9 @@
   <data name="TotalWorkTimeDays_f" xml:space="preserve">
     <value>Total Work Time:
 {0:0} days {1:0} hours {2:0} minutes</value>
+  </data>
+  <data name="Settle" xml:space="preserve">
+    <value>Zaključi</value>
   </data>
   <data name="BeforeWorkPeriodEnds" xml:space="preserve">
     <value>Prije kraja radnog vremena</value>
@@ -151,6 +163,9 @@
   <data name="Currency" xml:space="preserve">
     <value>Valuta</value>
   </data>
+  <data name="NumberpadValueEntered" xml:space="preserve">
+    <value>Numberpad Value Entered</value>
+  </data>
   <data name="ButtonColor" xml:space="preserve">
     <value>Boja tipke</value>
   </data>
@@ -162,6 +177,9 @@
   </data>
   <data name="TagValue" xml:space="preserve">
     <value>Tag Value</value>
+  </data>
+  <data name="Date_f" xml:space="preserve">
+    <value>{0} Date</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Zaokruži</value>
@@ -196,14 +214,32 @@
   <data name="UserRoleList" xml:space="preserve">
     <value>Lista grupa ovlasti</value>
   </data>
+  <data name="UpdateOrderGiftState" xml:space="preserve">
+    <value>Update Order Gift State</value>
+  </data>
   <data name="ClearFilter" xml:space="preserve">
     <value>Poništi filter</value>
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
     <value>Promijeni Cjenik</value>
   </data>
+  <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
+    <value>Execute Kitchen Orders Print Job</value>
+  </data>
+  <data name="Warehouse" xml:space="preserve">
+    <value>Warehouse</value>
+  </data>
+  <data name="CustomerReceiptTemplate" xml:space="preserve">
+    <value>Customer Receipt Template</value>
+  </data>
+  <data name="MatchesAny" xml:space="preserve">
+    <value>Matches Any</value>
+  </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Total Income</value>
+  </data>
+  <data name="Entities" xml:space="preserve">
+    <value>Entities</value>
   </data>
   <data name="AccountDetails" xml:space="preserve">
     <value>Detalji računa</value>
@@ -216,6 +252,9 @@
   </data>
   <data name="WorkPeriodReport" xml:space="preserve">
     <value>Izvještaj za radno vrijeme</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
   </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Upišite Kategoriju koju želite dodati</value>
@@ -250,6 +289,9 @@
   <data name="MenuProperties" xml:space="preserve">
     <value>Svojstva izbornika</value>
   </data>
+  <data name="CustomConstraint" xml:space="preserve">
+    <value>Custom Constraint</value>
+  </data>
   <data name="Dollar" xml:space="preserve">
     <value>Dolar</value>
   </data>
@@ -262,8 +304,14 @@
   <data name="Account" xml:space="preserve">
     <value>Račun</value>
   </data>
+  <data name="DeviceEventGenerated" xml:space="preserve">
+    <value>Device Event Generated</value>
+  </data>
   <data name="Liability" xml:space="preserve">
     <value>Liability</value>
+  </data>
+  <data name="UpdateTicketState" xml:space="preserve">
+    <value>Update Ticket State</value>
   </data>
   <data name="Nineteen" xml:space="preserve">
     <value>Devetnaest</value>
@@ -274,8 +322,8 @@
   <data name="Copy" xml:space="preserve">
     <value>Kopiraj</value>
   </data>
-  <data name="AccountScreen" xml:space="preserve">
-    <value>Ekran računa</value>
+  <data name="TaxIncluded" xml:space="preserve">
+    <value>Tax Included</value>
   </data>
   <data name="EveryOtherHour" xml:space="preserve">
     <value>Svaki drugi sat</value>
@@ -295,6 +343,9 @@
   <data name="ExpenseTransactions" xml:space="preserve">
     <value>Transakcije troškova</value>
   </data>
+  <data name="PurchaseTransaction" xml:space="preserve">
+    <value>Purchase Transaction</value>
+  </data>
   <data name="AutoSelect" xml:space="preserve">
     <value>Automatski Selektiraj</value>
   </data>
@@ -303,6 +354,9 @@
   </data>
   <data name="PropertyGroupName" xml:space="preserve">
     <value>Property Group Name</value>
+  </data>
+  <data name="PrintAccountTransactions" xml:space="preserve">
+    <value>Print Account Transactions</value>
   </data>
   <data name="AddModel_f" xml:space="preserve">
     <value>Dodajemo Novi {0}</value>
@@ -318,6 +372,9 @@
   </data>
   <data name="Payment_f" xml:space="preserve">
     <value>{0} Plaćanje</value>
+  </data>
+  <data name="TicketDuration" xml:space="preserve">
+    <value>Ticket Duration</value>
   </data>
   <data name="StateFilter" xml:space="preserve">
     <value>State Filter</value>
@@ -337,17 +394,29 @@
   <data name="Every3Hours" xml:space="preserve">
     <value>Svaka 3 sata</value>
   </data>
+  <data name="CommandParameter" xml:space="preserve">
+    <value>Command Parameter</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Title</value>
   </data>
   <data name="CashContent" xml:space="preserve">
     <value>Sadržaj gotovine</value>
   </data>
+  <data name="Calculation" xml:space="preserve">
+    <value>Calculation</value>
+  </data>
+  <data name="BalanceBroughtForward" xml:space="preserve">
+    <value>Balance Brought Forward</value>
+  </data>
   <data name="Selection_f" xml:space="preserve">
     <value>{0} Odabranih</value>
   </data>
   <data name="KitchenPrinter" xml:space="preserve">
     <value>Pisač u Kuhinji</value>
+  </data>
+  <data name="InventoryCalculationError" xml:space="preserve">
+    <value>Inventory calculation generated an error. Check your recipes.</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Postavke</value>
@@ -367,11 +436,17 @@
   <data name="LineItemPriceCents" xml:space="preserve">
     <value>#Line: Item Price On Cents</value>
   </data>
+  <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
+    <value>Parameter [{0}] should not start or end with space.</value>
+  </data>
   <data name="UserLogin" xml:space="preserve">
     <value>Logiraj korisnika</value>
   </data>
   <data name="Recipe" xml:space="preserve">
     <value>Normativ</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website</value>
   </data>
   <data name="CurrentCost" xml:space="preserve">
     <value>Trenutna cijena</value>
@@ -379,14 +454,26 @@
   <data name="VoidOrders" xml:space="preserve">
     <value>Void Orders</value>
   </data>
+  <data name="CanDisplayOtherWaitersTickets" xml:space="preserve">
+    <value>Can Display Other Waiters Tickets</value>
+  </data>
+  <data name="ChangePayment" xml:space="preserve">
+    <value>Change Payment</value>
+  </data>
   <data name="AccountNameTemplate" xml:space="preserve">
     <value>Predložak imena računa</value>
   </data>
   <data name="TotalsGroupedByTaxTemplate" xml:space="preserve">
     <value>Totals grouped by Tax template</value>
   </data>
+  <data name="SeparatedByQuantity" xml:space="preserve">
+    <value>Separated prints by quantity</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Odustani</value>
+  </data>
+  <data name="ApplicationScreenChanged" xml:space="preserve">
+    <value>Application Screen Changed</value>
   </data>
   <data name="Property" xml:space="preserve">
     <value>Svojstvo</value>
@@ -402,6 +489,9 @@
   </data>
   <data name="CustomerTickets" xml:space="preserve">
     <value>Customer Tickets</value>
+  </data>
+  <data name="SelectAutomationCommand" xml:space="preserve">
+    <value>Select Automation Command</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Programator proizvoda</value>
@@ -421,11 +511,17 @@
   <data name="TotalsGroupedByCalculationType" xml:space="preserve">
     <value>Totals grouped by Calculation Type</value>
   </data>
+  <data name="Cancel_f" xml:space="preserve">
+    <value>Cancel {0}</value>
+  </data>
   <data name="NumeratorFormat" xml:space="preserve">
     <value>Format Broja</value>
   </data>
   <data name="OnceAMonth" xml:space="preserve">
     <value>Jednom mjesečno</value>
+  </data>
+  <data name="QuantitySeparators" xml:space="preserve">
+    <value>Quantity Separators</value>
   </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Unit Price</value>
@@ -433,12 +529,18 @@
   <data name="UiLanguage" xml:space="preserve">
     <value>UI Jezik</value>
   </data>
+  <data name="OrderMoving" xml:space="preserve">
+    <value>Order Moving</value>
+  </data>
   <data name="Action" xml:space="preserve">
     <value>Radnja</value>
   </data>
   <data name="ErrorLogMessage" xml:space="preserve">
     <value>Pojavio se problem.Poruka:
 </value>
+  </data>
+  <data name="OrderLine" xml:space="preserve">
+    <value>Order Line</value>
   </data>
   <data name="Barcode" xml:space="preserve">
     <value>Barkod</value>
@@ -472,6 +574,12 @@
   </data>
   <data name="ProductList" xml:space="preserve">
     <value>Lista proizvoda</value>
+  </data>
+  <data name="MatchesMod10" xml:space="preserve">
+    <value>Matches Mod10</value>
+  </data>
+  <data name="DisplayOnCommandSelector" xml:space="preserve">
+    <value>Display on Command Selector</value>
   </data>
   <data name="AlphanumericButtonValues" xml:space="preserve">
     <value>Alfanumeričke vrijednosti tipki</value>
@@ -563,8 +671,14 @@
   <data name="LastOrderStatus" xml:space="preserve">
     <value>Status zadnje narudžbe</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
   <data name="Thirty" xml:space="preserve">
     <value>Trideset</value>
+  </data>
+  <data name="EntityScreenItem" xml:space="preserve">
+    <value>Entity Screen Item</value>
   </data>
   <data name="Incomes_f" xml:space="preserve">
     <value>{0} Prihodi</value>
@@ -587,6 +701,9 @@
   <data name="CustomerAccount" xml:space="preserve">
     <value>Račun kupca</value>
   </data>
+  <data name="TicketStateUpdated" xml:space="preserve">
+    <value>Ticket State Updated</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Izbriši</value>
   </data>
@@ -598,6 +715,9 @@
   </data>
   <data name="PropertyGroup" xml:space="preserve">
     <value>Grupa svojstva</value>
+  </data>
+  <data name="PrintReport" xml:space="preserve">
+    <value>Print Report</value>
   </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>Poruka Greške</value>
@@ -629,6 +749,9 @@
   <data name="SendEmail" xml:space="preserve">
     <value>Pošalji Email</value>
   </data>
+  <data name="PurchaseTransactionType" xml:space="preserve">
+    <value>Purchase Transaction Type</value>
+  </data>
   <data name="EveryWeekday" xml:space="preserve">
     <value>Svaki tjedan</value>
   </data>
@@ -654,6 +777,12 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="OnlyNewLines" xml:space="preserve">
     <value>Samo nove linije</value>
   </data>
+  <data name="ChangeTicketEntity" xml:space="preserve">
+    <value>Change Ticket Entity</value>
+  </data>
+  <data name="AccountTransactionsFilter" xml:space="preserve">
+    <value>Account Transactions Filter</value>
+  </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Može promijeniti filter ispisa</value>
   </data>
@@ -666,17 +795,29 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Eleven" xml:space="preserve">
     <value>Jedanaest</value>
   </data>
+  <data name="BatchCreate" xml:space="preserve">
+    <value>Batch Create</value>
+  </data>
+  <data name="CanOpenDashboard" xml:space="preserve">
+    <value>Can Open Management</value>
+  </data>
   <data name="LastOrderDate" xml:space="preserve">
     <value>Datum zadnje narudžbe</value>
   </data>
   <data name="Credit" xml:space="preserve">
     <value>Kredit</value>
   </data>
+  <data name="AppendUnmappedItems" xml:space="preserve">
+    <value>Append Unmapped Items</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>Natrag</value>
   </data>
   <data name="OrderNumerator" xml:space="preserve">
     <value>Generator brojeva narudžbi</value>
+  </data>
+  <data name="Time_f" xml:space="preserve">
+    <value>{0} Time</value>
   </data>
   <data name="IncreaseInventory" xml:space="preserve">
     <value>Povećaj zalihu</value>
@@ -705,11 +846,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Tax" xml:space="preserve">
     <value>Porez</value>
   </data>
+  <data name="EntityUpdated" xml:space="preserve">
+    <value>Entity Updated</value>
+  </data>
   <data name="Customer_f" xml:space="preserve">
     <value>Kupac {0}</value>
   </data>
   <data name="Table" xml:space="preserve">
     <value>Stol</value>
+  </data>
+  <data name="BalanceAfterDate" xml:space="preserve">
+    <value>Balance after date</value>
   </data>
   <data name="SelectPrintJob" xml:space="preserve">
     <value>Odaberi posao za ispis</value>
@@ -720,8 +867,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="CanOpenNavigation" xml:space="preserve">
     <value>Može otvoriti navigaciju</value>
   </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
   <data name="TotalAmount_f" xml:space="preserve">
     <value>{0} Total Amount:</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Warehouses</value>
+  </data>
+  <data name="MatchesAll" xml:space="preserve">
+    <value>Matches All</value>
   </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Save Free Tags</value>
@@ -735,6 +891,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="CanRemoveTicketTag" xml:space="preserve">
     <value>Može ukloniti oznaku na kartici</value>
   </data>
+  <data name="SubButtonColorDef" xml:space="preserve">
+    <value>Sub Button Colors</value>
+  </data>
   <data name="CashTransactions" xml:space="preserve">
     <value>Gotovinska transakcija</value>
   </data>
@@ -747,14 +906,23 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="UpdateProgramSetting" xml:space="preserve">
     <value>Promijeni Programske postavke</value>
   </data>
+  <data name="TicketState" xml:space="preserve">
+    <value>Ticket State</value>
+  </data>
   <data name="OrderTagGroup" xml:space="preserve">
     <value>Order Tag Group</value>
+  </data>
+  <data name="SambaMarket" xml:space="preserve">
+    <value>Samba Market</value>
   </data>
   <data name="DateRangeIsNotActiveWorkPeriod" xml:space="preserve">
     <value>Period nije u aktivnom radnom periodu</value>
   </data>
   <data name="TransactionMultiplierError" xml:space="preserve">
     <value>Transaction multiplier should not be zero</value>
+  </data>
+  <data name="AccountBalanceDisplayFormat" xml:space="preserve">
+    <value>Account Balance Display Format</value>
   </data>
   <data name="Costs" xml:space="preserve">
     <value>Costs</value>
@@ -777,6 +945,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="OnceADay" xml:space="preserve">
     <value>Jednom dnevno</value>
   </data>
+  <data name="EditMode" xml:space="preserve">
+    <value>Uređivački mod</value>
+  </data>
   <data name="DiscountTotal" xml:space="preserve">
     <value>Total popusta</value>
   </data>
@@ -795,6 +966,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="TicketTag" xml:space="preserve">
     <value>Ticket Tag</value>
   </data>
+  <data name="Display" xml:space="preserve">
+    <value>Display</value>
+  </data>
   <data name="Handler" xml:space="preserve">
     <value>Držač</value>
   </data>
@@ -804,8 +978,14 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="FixedCost" xml:space="preserve">
     <value>Fiksna cijena</value>
   </data>
+  <data name="Amount_f" xml:space="preserve">
+    <value>{0} Amount</value>
+  </data>
   <data name="CategoryProperties" xml:space="preserve">
     <value>Svojstva kategorije</value>
+  </data>
+  <data name="ToggleCalculation" xml:space="preserve">
+    <value>Toggle Calculation</value>
   </data>
   <data name="LineItemPrice" xml:space="preserve">
     <value>#Line: Item Price</value>
@@ -815,6 +995,12 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="CommandType" xml:space="preserve">
     <value>Tip naredbe</value>
+  </data>
+  <data name="Rule_f" xml:space="preserve">
+    <value>{0} Rule</value>
+  </data>
+  <data name="PayTicket" xml:space="preserve">
+    <value>Pay Ticket</value>
   </data>
   <data name="PrinterOptions" xml:space="preserve">
     <value>Postavke pisača</value>
@@ -837,6 +1023,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Categories" xml:space="preserve">
     <value>Kategorije</value>
   </data>
+  <data name="NotMatches" xml:space="preserve">
+    <value>Not Matches</value>
+  </data>
   <data name="SettlePermissions" xml:space="preserve">
     <value>Dozvole plaćanja</value>
   </data>
@@ -852,6 +1041,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Numeric" xml:space="preserve">
     <value>Numeric</value>
   </data>
+  <data name="SetCurrentTerminal" xml:space="preserve">
+    <value>Set Current Terminal</value>
+  </data>
   <data name="SubTags" xml:space="preserve">
     <value>Sub Tags</value>
   </data>
@@ -861,8 +1053,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="TicketOptions" xml:space="preserve">
     <value>Postavke kartice</value>
   </data>
+  <data name="AskBeforeCreatingTicket" xml:space="preserve">
+    <value>Ask Before Creating Ticket</value>
+  </data>
   <data name="ProductName" xml:space="preserve">
     <value>Ime proizvoda</value>
+  </data>
+  <data name="SettledBy_f" xml:space="preserve">
+    <value>Settled by {0}</value>
+  </data>
+  <data name="CantComplateOperationError" xml:space="preserve">
+    <value>Can't complete operation because of an error. Check error log file for details.</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
     <value>NE ZABORAVITE KRAJ RADNOG VREMENA !</value>
@@ -885,14 +1086,26 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Product" xml:space="preserve">
     <value>Proizvod</value>
   </data>
+  <data name="PrimaryFieldFormat" xml:space="preserve">
+    <value>Primary Field Format</value>
+  </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
     <value>Izbriši odabrano</value>
   </data>
   <data name="NumericTagsShouldBeNumbersErrorMessage" xml:space="preserve">
     <value>When "Numeric Tagging" selected all tags should contain numerical values.</value>
   </data>
+  <data name="MarkTicketAsClosed" xml:space="preserve">
+    <value>Mark Ticket as Closed</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>Telefon</value>
+  </data>
+  <data name="QuantityTotal" xml:space="preserve">
+    <value>Quantity Total</value>
+  </data>
+  <data name="MissingRecipes" xml:space="preserve">
+    <value>Missing Recipes</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Dopuštenja</value>
@@ -933,6 +1146,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="NoTransactionsFoundFor_f" xml:space="preserve">
     <value>No transactions for {0}</value>
   </data>
+  <data name="PrimaryFieldName" xml:space="preserve">
+    <value>Primary Field Name</value>
+  </data>
   <data name="CanChangeDepartment" xml:space="preserve">
     <value>Može promijeniti odjel</value>
   </data>
@@ -942,6 +1158,57 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="SortCategories" xml:space="preserve">
     <value>Složi kategorije</value>
   </data>
+  <data name="TicketTemplateValue" xml:space="preserve">
+    <value>[LAYOUT]
+-- General layout
+&lt;T&gt;TICKET
+&lt;L00&gt;Date:{TICKET DATE}
+&lt;L00&gt;Time:{TIME}
+{ENTITIES}
+&lt;L00&gt;Ticket No:{TICKET NO}
+&lt;F&gt;-
+{ORDERS}
+&lt;F&gt;=
+&lt;EB&gt;
+{DISCOUNTS}
+&lt;J10&gt;Total Gift:|{ORDER STATE TOTAL:Gift}
+&lt;J10&gt;Total:|{TICKET TOTAL}
+{PAYMENTS}
+&lt;DB&gt;
+&lt;F&gt;=
+&lt;C10&gt;T H A N K Y O U
+ 
+[DISCOUNTS]
+&lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
+ 
+[PAYMENTS]
+&lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT}
+ 
+[ORDERS]
+-- Default format for orders
+&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
+{ORDER TAGS}
+ 
+[ORDERS:Gift]
+-- Format for gifted orders
+&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
+{ORDER TAGS}
+ 
+[ORDERS:Void]
+-- Nothing will print for void lines
+ 
+[ORDER TAGS]
+-- Format for order tags
+&lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
+ 
+[ENTITIES:Table]
+-- Table entity format
+&lt;L00&gt;Table: {ENTITY NAME}
+ 
+[ENTITIES:Customer]
+-- Customer entity format
+&lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
+  </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Promijeni cijenu</value>
   </data>
@@ -950,6 +1217,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="StartAmount" xml:space="preserve">
     <value>Početna vrijednost</value>
+  </data>
+  <data name="EntityTypes" xml:space="preserve">
+    <value>Entity Types</value>
   </data>
   <data name="TicketOpeningTime" xml:space="preserve">
     <value>Otvaranje kartice</value>
@@ -969,6 +1239,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="ItemProperties" xml:space="preserve">
     <value>Extra Item Properties</value>
   </data>
+  <data name="Period_f" xml:space="preserve">
+    <value>Period: {0}</value>
+  </data>
   <data name="Change_f" xml:space="preserve">
     <value>Promijeni {0}</value>
   </data>
@@ -978,6 +1251,15 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="TransactionsEmptyError" xml:space="preserve">
     <value>Transactions should not be empty</value>
   </data>
+  <data name="BatchEntityEditor" xml:space="preserve">
+    <value>Batch Entity Editor</value>
+  </data>
+  <data name="GroupFooter" xml:space="preserve">
+    <value>Group Footer</value>
+  </data>
+  <data name="TransactionPrinter" xml:space="preserve">
+    <value>Transaction Printer</value>
+  </data>
   <data name="TotalExpense" xml:space="preserve">
     <value>Total Expense</value>
   </data>
@@ -986,6 +1268,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="UnlocksOrder" xml:space="preserve">
     <value>Unlocks Order</value>
+  </data>
+  <data name="PrintAccountScreen" xml:space="preserve">
+    <value>Print Account Screen</value>
   </data>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Dodaj popust na karticu</value>
@@ -1002,8 +1287,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="LineItemTotalWithoutGifts" xml:space="preserve">
     <value>#Line: Item Total (Gifts Excluded)</value>
   </data>
+  <data name="LocalWarehouses" xml:space="preserve">
+    <value>Local Warehouses</value>
+  </data>
   <data name="DeleteErrorUsedBy_f" xml:space="preserve">
     <value>Can't delete because this {0} used by a {1}</value>
+  </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
+  <data name="BeforeTicketClosing" xml:space="preserve">
+    <value>Before Ticket Closing</value>
   </data>
   <data name="Decrease" xml:space="preserve">
     <value>Smanji</value>
@@ -1017,11 +1311,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Duration" xml:space="preserve">
     <value>Trajanje</value>
   </data>
+  <data name="UpdateAvailableEntityColor" xml:space="preserve">
+    <value>Update Available Entity Color</value>
+  </data>
   <data name="Minute" xml:space="preserve">
     <value>Minuta</value>
   </data>
   <data name="OptionalTicketTag" xml:space="preserve">
     <value>Proizvoljna oznaka tiketa</value>
+  </data>
+  <data name="NotMatchesAll" xml:space="preserve">
+    <value>Not Matches All</value>
   </data>
   <data name="TicketCount" xml:space="preserve">
     <value>Broj kartica</value>
@@ -1044,8 +1344,14 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="AutomationCommandExecuted" xml:space="preserve">
     <value>Naredba Automatizacije Pokrenuta</value>
   </data>
+  <data name="ShowOnEndOfDayReport" xml:space="preserve">
+    <value>Show on End of Day Report</value>
+  </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Može pomaknuti otključane stavke kartice</value>
+  </data>
+  <data name="TaxRate" xml:space="preserve">
+    <value>Tax Rate</value>
   </data>
   <data name="PaymentScreenSettings" xml:space="preserve">
     <value>Payment Screen Settings</value>
@@ -1071,11 +1377,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="TicketChangedRetryLastOperation" xml:space="preserve">
     <value>Kartica promijenjena.Vaše zadnje promjene nisu spremljene.</value>
   </data>
+  <data name="DisplayDetails" xml:space="preserve">
+    <value>Display Details</value>
+  </data>
   <data name="UserRole" xml:space="preserve">
     <value>Grupa ovlasti</value>
   </data>
   <data name="NumeratorHeight" xml:space="preserve">
     <value>Numberpad Height</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
   </data>
   <data name="Receiveable" xml:space="preserve">
     <value>Receiveable</value>
@@ -1083,11 +1395,26 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="New_f" xml:space="preserve">
     <value>Novi {0}</value>
   </data>
+  <data name="SellerWarehouses" xml:space="preserve">
+    <value>Seller Warehouses</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
   <data name="InvoicePrinter" xml:space="preserve">
     <value>Pisač za račune</value>
   </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="ExecuteRuleIf" xml:space="preserve">
+    <value>Execute rule if</value>
+  </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Lock Ticket</value>
+  </data>
+  <data name="OrderMoved" xml:space="preserve">
+    <value>Order Moved</value>
   </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
     <value>Vrijeme početka radnog vremena: {0}</value>
@@ -1098,8 +1425,14 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Hour" xml:space="preserve">
     <value>Sat</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Spremi</value>
+  </data>
+  <data name="TicketMovedRule" xml:space="preserve">
+    <value>Ticket Moved Rule</value>
   </data>
   <data name="CanCreateAccount" xml:space="preserve">
     <value>Može kreirati račun</value>
@@ -1128,8 +1461,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="ReleaseLock" xml:space="preserve">
     <value>Otključaj</value>
   </data>
+  <data name="UserInformation" xml:space="preserve">
+    <value>User Information</value>
+  </data>
+  <data name="SetWidgetValue" xml:space="preserve">
+    <value>Set Widget Value</value>
+  </data>
   <data name="Sales" xml:space="preserve">
     <value>Prodaje</value>
+  </data>
+  <data name="EntityButton" xml:space="preserve">
+    <value>Entity Button</value>
   </data>
   <data name="KitchenTemplateValue" xml:space="preserve">
     <value>[LAYOUT]
@@ -1170,6 +1512,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Text" xml:space="preserve">
     <value>Tekst</value>
   </data>
+  <data name="AddLineToTextFile" xml:space="preserve">
+    <value>Add Line to Text File</value>
+  </data>
   <data name="Ten" xml:space="preserve">
     <value>Deset</value>
   </data>
@@ -1194,6 +1539,12 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Thirteen" xml:space="preserve">
     <value>Trinaest</value>
   </data>
+  <data name="ModifyVariable" xml:space="preserve">
+    <value>Modify Variable</value>
+  </data>
+  <data name="HideAccountsWithZeroBalance" xml:space="preserve">
+    <value>Hide Accounts With Zero Balance</value>
+  </data>
   <data name="MonWedFri" xml:space="preserve">
     <value>Pon, Srij, Petak</value>
   </data>
@@ -1205,6 +1556,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="ButtonHeight" xml:space="preserve">
     <value>Visina tipke</value>
+  </data>
+  <data name="UpdateEntityData" xml:space="preserve">
+    <value>Update Entity Data</value>
   </data>
   <data name="Cash" xml:space="preserve">
     <value>Gotovina</value>
@@ -1224,8 +1578,14 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="PrintOrdersToKitchenPrinter" xml:space="preserve">
     <value>Ispis narudžbi na pisač u kuhinji</value>
   </data>
+  <data name="AccountTransactionAddedToTicket" xml:space="preserve">
+    <value>Account Transaction Added to Ticket</value>
+  </data>
   <data name="Noon" xml:space="preserve">
     <value>podne</value>
+  </data>
+  <data name="Greater" xml:space="preserve">
+    <value>Greater</value>
   </data>
   <data name="Sixteen" xml:space="preserve">
     <value>Šesnaest</value>
@@ -1239,8 +1599,14 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="GroupCode" xml:space="preserve">
     <value>Grupni kod</value>
   </data>
+  <data name="Less" xml:space="preserve">
+    <value>Less</value>
+  </data>
   <data name="Tickets" xml:space="preserve">
     <value>Kartice</value>
+  </data>
+  <data name="EntityStateUpdated" xml:space="preserve">
+    <value>Entity State Updated</value>
   </data>
   <data name="NextPage" xml:space="preserve">
     <value>Sljedeća stranica</value>
@@ -1257,6 +1623,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="OrderTagName" xml:space="preserve">
     <value>#OrderTag: Order Tag Name</value>
   </data>
+  <data name="WarehouseType" xml:space="preserve">
+    <value>Warehouse Type</value>
+  </data>
   <data name="ExecuteActionsIf" xml:space="preserve">
     <value>Uvjet</value>
   </data>
@@ -1265,6 +1634,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="DisplayAtPaymentScreen" xml:space="preserve">
     <value>Prikaži kod ekrana naplate</value>
+  </data>
+  <data name="Print_f" xml:space="preserve">
+    <value>Print {0}</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Upozorenje</value>
@@ -1314,11 +1686,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="EmptyDiscountRateFeedback" xml:space="preserve">
     <value>Da dodate popust upišite iznos i kliknite dugme za popust. Da uklonite popust kliknite dugme za popust bez unosa iznosa.</value>
   </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
   <data name="Account_f" xml:space="preserve">
     <value>Račun: {0}</value>
   </data>
   <data name="From" xml:space="preserve">
     <value>Od:</value>
+  </data>
+  <data name="ChangeSortOrder" xml:space="preserve">
+    <value>Change Sort Order</value>
   </data>
   <data name="One" xml:space="preserve">
     <value>Jedan</value>
@@ -1329,6 +1707,12 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Billion" xml:space="preserve">
     <value>Bilijun</value>
   </data>
+  <data name="GroupKey" xml:space="preserve">
+    <value>Group Key</value>
+  </data>
+  <data name="UsePlainSum" xml:space="preserve">
+    <value>Use Plain Sum</value>
+  </data>
   <data name="TriggerName" xml:space="preserve">
     <value>Trigger Name</value>
   </data>
@@ -1338,14 +1722,26 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="LineOrderNumber" xml:space="preserve">
     <value>#Line: Order Number</value>
   </data>
+  <data name="UpdateOrderState" xml:space="preserve">
+    <value>Update Order State</value>
+  </data>
   <data name="ViewMode" xml:space="preserve">
     <value>View Mode</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Taxable Amount</value>
   </data>
   <data name="TicketPrinter" xml:space="preserve">
     <value>Printer za kartice</value>
   </data>
+  <data name="IndividualOrdersByQuantity" xml:space="preserve">
+    <value>Individual orders by quantity</value>
+  </data>
   <data name="Amount" xml:space="preserve">
     <value>Količina</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Locked</value>
   </data>
   <data name="AddProductsToCategoryHint_f" xml:space="preserve">
     <value>Izaberite Proizvod za {0} kategoriju</value>
@@ -1353,14 +1749,29 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="CantDelete_f" xml:space="preserve">
     <value>Ne može izbrisati {0}</value>
   </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="DefaultSourceAccount" xml:space="preserve">
+    <value>Default Source Account</value>
+  </data>
   <data name="AddOrder" xml:space="preserve">
     <value>Dodaj Narudžbu</value>
   </data>
   <data name="Fifteen" xml:space="preserve">
     <value>Petnaest</value>
   </data>
+  <data name="SearchValueReplacePattern" xml:space="preserve">
+    <value>Search Value Replace Pattern</value>
+  </data>
+  <data name="UpdateTicketStatus" xml:space="preserve">
+    <value>Update Ticket Status</value>
+  </data>
   <data name="PageCount" xml:space="preserve">
     <value>Broj stranica</value>
+  </data>
+  <data name="MenuItemGroupCode" xml:space="preserve">
+    <value>Menu Item Group Code</value>
   </data>
   <data name="Two" xml:space="preserve">
     <value>Dva</value>
@@ -1377,8 +1788,14 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Confirmation" xml:space="preserve">
     <value>Potvrda</value>
   </data>
+  <data name="DisplayTicketList" xml:space="preserve">
+    <value>Display Ticket List</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Ulaz</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>Not Equals</value>
   </data>
   <data name="FastMenu" xml:space="preserve">
     <value>Brzi izbornik</value>
@@ -1406,6 +1823,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="SambaPOSReporter" xml:space="preserve">
     <value>SambaPOS Reporter</value>
+  </data>
+  <data name="AccountScreen" xml:space="preserve">
+    <value>Ekran računa</value>
   </data>
   <data name="ExtraModifiers" xml:space="preserve">
     <value>Dodatni parametri</value>
@@ -1437,11 +1857,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="DayOperations" xml:space="preserve">
     <value>Radno vrijeme</value>
   </data>
+  <data name="ModifyOrder" xml:space="preserve">
+    <value>Modify Order</value>
+  </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Unique Ticket Id</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Ne</value>
+  </data>
+  <data name="SetActiveTicketType" xml:space="preserve">
+    <value>Set Active Ticket Type</value>
   </data>
   <data name="All Tables" xml:space="preserve">
     <value>Svi stolovi</value>
@@ -1458,6 +1884,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="InternalAccounts" xml:space="preserve">
     <value>Interni račun</value>
   </data>
+  <data name="TaxFree" xml:space="preserve">
+    <value>Tax Free</value>
+  </data>
   <data name="POSView" xml:space="preserve">
     <value>POS Pregled</value>
   </data>
@@ -1470,17 +1899,26 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="ReportPermissions" xml:space="preserve">
     <value>Dopuštenja izvještaja</value>
   </data>
+  <data name="MappedAccount" xml:space="preserve">
+    <value>Mapped Account</value>
+  </data>
   <data name="WeightBarcodes" xml:space="preserve">
     <value>Weight Barcodes</value>
   </data>
   <data name="AccountMap" xml:space="preserve">
     <value>Karta računa</value>
   </data>
+  <data name="GroupTotal" xml:space="preserve">
+    <value>Group Total</value>
+  </data>
   <data name="ClickLinksToExportData" xml:space="preserve">
     <value>Odaberite period, osvježite izvještaj i kliknite odgovarajući link za izvoz podataka.</value>
   </data>
   <data name="BatchCreate_f" xml:space="preserve">
     <value>Batch Create {0}</value>
+  </data>
+  <data name="Ticket Moving" xml:space="preserve">
+    <value>Ticket Moving</value>
   </data>
   <data name="DeleteSelectedMappingQuestion" xml:space="preserve">
     <value>Izbriši odabrano mapiranje?</value>
@@ -1502,6 +1940,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   </data>
   <data name="SambaPosWebsite" xml:space="preserve">
     <value>SambaPOS Web stranica</value>
+  </data>
+  <data name="After" xml:space="preserve">
+    <value>After</value>
   </data>
   <data name="RemoveLimit" xml:space="preserve">
     <value>Izbriši ograničenje</value>
@@ -1539,6 +1980,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="TipsTotal" xml:space="preserve">
     <value>Tips Total</value>
   </data>
+  <data name="OrderGrouping" xml:space="preserve">
+    <value>Order Grouping</value>
+  </data>
   <data name="Default_f" xml:space="preserve">
     <value>Predefinirani {0}</value>
   </data>
@@ -1548,14 +1992,23 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="RateOrAmount" xml:space="preserve">
     <value>Rate or Amount</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
   <data name="Parameters" xml:space="preserve">
     <value>Parametri</value>
   </data>
-  <data name="Settle" xml:space="preserve">
-    <value>Zaključi</value>
+  <data name="Wiki" xml:space="preserve">
+    <value>Wiki</value>
   </data>
-  <data name="UnlockTicket" xml:space="preserve">
-    <value>Unlock Ticket</value>
+  <data name="Transaction" xml:space="preserve">
+    <value>Transaction</value>
+  </data>
+  <data name="StartProcess" xml:space="preserve">
+    <value>Start Process</value>
+  </data>
+  <data name="EntityType" xml:space="preserve">
+    <value>Entity Type</value>
   </data>
   <data name="EveryOtherMinute" xml:space="preserve">
     <value>Svaku drugu minutu</value>
@@ -1575,11 +2028,17 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="WorkPeriodEndsMessage" xml:space="preserve">
     <value>Radno vrijeme je završilo.Idite na Izvještaje i kreirajte izvještaj o radnom vremenu.</value>
   </data>
+  <data name="PrintAccountTransactionDocument" xml:space="preserve">
+    <value>Print Account Transaction Document</value>
+  </data>
   <data name="WorkPeriodStartDate_f" xml:space="preserve">
     <value>Dan početka radnog vremena: {0}</value>
   </data>
   <data name="Rounding" xml:space="preserve">
     <value>Zaokruživanje</value>
+  </data>
+  <data name="OrderStateValue" xml:space="preserve">
+    <value>Order State Value</value>
   </data>
   <data name="SqlHint" xml:space="preserve">
     <value>Klikni ovdje za informacije o radu sa SQL bazom</value>
@@ -1608,6 +2067,9 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
   <data name="Divide" xml:space="preserve">
     <value>Podijeli</value>
   </data>
+  <data name="Target_f" xml:space="preserve">
+    <value>Target {0}</value>
+  </data>
   <data name="ErrorReportWithoutFeedback" xml:space="preserve">
     <value>You are sending error report without your feedback.
 Please give some details about how it happend.
@@ -1634,6 +2096,9 @@ Continue without adding details?</value>
 
 Greška:
 </value>
+  </data>
+  <data name="CanNavigate_f" xml:space="preserve">
+    <value>Can Navigate {0}</value>
   </data>
   <data name="Six" xml:space="preserve">
     <value>Šest</value>
@@ -1668,8 +2133,17 @@ Greška:
   <data name="Departments" xml:space="preserve">
     <value>Odjeli</value>
   </data>
+  <data name="RequiredRecipes" xml:space="preserve">
+    <value>Required Recipes</value>
+  </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Printer Share Name / Port Name</value>
+  </data>
+  <data name="LengthEquals" xml:space="preserve">
+    <value>Length Equals</value>
+  </data>
+  <data name="OrderStateUpdated" xml:space="preserve">
+    <value>Order State Updated</value>
   </data>
   <data name="TicketOpened" xml:space="preserve">
     <value>Kartica otvorena</value>
@@ -1686,8 +2160,14 @@ Greška:
   <data name="Restaurant" xml:space="preserve">
     <value>Restaurant</value>
   </data>
+  <data name="OrderTagValue" xml:space="preserve">
+    <value>Order Tag Value</value>
+  </data>
   <data name="Total_f" xml:space="preserve">
     <value>{0} Total</value>
+  </data>
+  <data name="EntityScreen" xml:space="preserve">
+    <value>Entity Screen</value>
   </data>
   <data name="DemoPrinter" xml:space="preserve">
     <value>Demo pisač (notepad)</value>
@@ -1698,14 +2178,23 @@ Greška:
   <data name="FontSize" xml:space="preserve">
     <value>Veličina fonta</value>
   </data>
+  <data name="BillRequested" xml:space="preserve">
+    <value>Bill Requested</value>
+  </data>
   <data name="ImagePath" xml:space="preserve">
     <value>Putanja do slike</value>
   </data>
   <data name="Selected_f" xml:space="preserve">
     <value>Odabrano {0}</value>
   </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
   <data name="ItemSalesReport" xml:space="preserve">
     <value>Item Sales Report</value>
+  </data>
+  <data name="LocalWarehouse" xml:space="preserve">
+    <value>Local Warehouse</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Izvještaji</value>
@@ -1715,6 +2204,9 @@ Greška:
   </data>
   <data name="AutoRefreshInterval" xml:space="preserve">
     <value>Interval Automatskog Osvježavanja</value>
+  </data>
+  <data name="UpdateMovedEntityColor" xml:space="preserve">
+    <value>Update Moved Entity Color</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Da</value>
@@ -1728,6 +2220,9 @@ Greška:
   <data name="Hidden" xml:space="preserve">
     <value>Sakriven</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
   <data name="LastLinesByPrinterLineCount" xml:space="preserve">
     <value>Last Lines by Printer Line Count</value>
   </data>
@@ -1737,8 +2232,14 @@ Greška:
   <data name="TagCantBeEmpty_f" xml:space="preserve">
     <value>Ne možete ostaviti {0} prazne</value>
   </data>
+  <data name="AccountTransactionDocumentCreated" xml:space="preserve">
+    <value>Account Transaction Document Created</value>
+  </data>
   <data name="ExecutePowershellScript" xml:space="preserve">
     <value>Pokreni Powershell skriptu</value>
+  </data>
+  <data name="Ends" xml:space="preserve">
+    <value>Ends</value>
   </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>Kartica broj: {0}</value>
@@ -1754,6 +2255,9 @@ Greška:
   </data>
   <data name="Clone_f" xml:space="preserve">
     <value>Kloniraj {0}</value>
+  </data>
+  <data name="OrderCount" xml:space="preserve">
+    <value>Order Count</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Narudžba</value>
@@ -1782,6 +2286,9 @@ Greška:
   <data name="EveryOtherDay" xml:space="preserve">
     <value>Svaki drugi dan</value>
   </data>
+  <data name="DateRangeTotal" xml:space="preserve">
+    <value>Date Range Total</value>
+  </data>
   <data name="SortCategoryProducts" xml:space="preserve">
     <value>Složi proizvode u kategoriji</value>
   </data>
@@ -1806,8 +2313,14 @@ Greška:
   <data name="NewProperty" xml:space="preserve">
     <value>Novo Svojstvo</value>
   </data>
+  <data name="OrderCancelled" xml:space="preserve">
+    <value>Order Cancelled</value>
+  </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Broj karaktera u liniji</value>
+  </data>
+  <data name="RawPrinter" xml:space="preserve">
+    <value>Raw Printer</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Update Type</value>
@@ -1830,8 +2343,14 @@ Greška:
   <data name="DisplayPopup" xml:space="preserve">
     <value>Prikaži Popup</value>
   </data>
+  <data name="TicketMoved" xml:space="preserve">
+    <value>Ticket Moved</value>
+  </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>Broj Dokumenta</value>
+  </data>
+  <data name="State_f" xml:space="preserve">
+    <value>{0} State</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Proizvodi</value>
@@ -1841,6 +2360,9 @@ Greška:
   </data>
   <data name="TicketNumerator" xml:space="preserve">
     <value>Generator brojeva kartica</value>
+  </data>
+  <data name="Update_f" xml:space="preserve">
+    <value>Update {0}</value>
   </data>
   <data name="Eighteen" xml:space="preserve">
     <value>Osamnaest</value>
@@ -1860,8 +2382,23 @@ Greška:
   <data name="TicketTipTotalAmount" xml:space="preserve">
     <value>Total ticket tip amount</value>
   </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="Unpaid" xml:space="preserve">
+    <value>Unpaid</value>
+  </data>
+  <data name="Market" xml:space="preserve">
+    <value>Market</value>
+  </data>
+  <data name="TotalTaxableAmount" xml:space="preserve">
+    <value>Total Taxable Amount</value>
+  </data>
   <data name="SubButtonHeight" xml:space="preserve">
     <value>Sub Button Height</value>
+  </data>
+  <data name="SearchEntity" xml:space="preserve">
+    <value>Search Entity</value>
   </data>
   <data name="ThisMonth" xml:space="preserve">
     <value>Ovaj mjesec</value>
@@ -1920,6 +2457,9 @@ Greška:
   <data name="MessageServerPort" xml:space="preserve">
     <value>Message Server Port</value>
   </data>
+  <data name="UpdateEntityState" xml:space="preserve">
+    <value>Update Entity State</value>
+  </data>
   <data name="UnhandledExceptionErrorMessage" xml:space="preserve">
     <value>SambaPOS nepredviđena greška. Detalji problema logirani u trace.log datoteku</value>
   </data>
@@ -1938,6 +2478,12 @@ Greška:
   <data name="PaymentProcessed" xml:space="preserve">
     <value>Plaćanje obrađeno</value>
   </data>
+  <data name="EntityScreens" xml:space="preserve">
+    <value>Entity Screens</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Order Status</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
@@ -1949,6 +2495,9 @@ Greška:
   </data>
   <data name="TicketPaidChangesNotSaved" xml:space="preserve">
     <value>Kartica plaćena.Vaše zadnje promjene nisu spremljene.</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
   </data>
   <data name="UserLogout" xml:space="preserve">
     <value>Odlogiraj korisnika</value>
@@ -1983,8 +2532,14 @@ Greška:
   <data name="Html" xml:space="preserve">
     <value>HTML</value>
   </data>
+  <data name="NewOrders" xml:space="preserve">
+    <value>New Orders</value>
+  </data>
   <data name="SalesByItemGroup" xml:space="preserve">
     <value>Sales by Item Group</value>
+  </data>
+  <data name="Source_f" xml:space="preserve">
+    <value>Source {0}</value>
   </data>
   <data name="Select_f" xml:space="preserve">
     <value>Odaberi {0}</value>
@@ -2016,6 +2571,9 @@ Greška:
   <data name="AccountTransaction" xml:space="preserve">
     <value>Account Transaction</value>
   </data>
+  <data name="Development" xml:space="preserve">
+    <value>Development</value>
+  </data>
   <data name="MonThruFri" xml:space="preserve">
     <value>Pon.-Petak</value>
   </data>
@@ -2037,6 +2595,12 @@ Greška:
   <data name="Every15Minutes" xml:space="preserve">
     <value>Svakih 15 minuta</value>
   </data>
+  <data name="TicketPaymentCheck" xml:space="preserve">
+    <value>Ticket Payment Check</value>
+  </data>
+  <data name="LastOrderDuration" xml:space="preserve">
+    <value>Last Order Duration</value>
+  </data>
   <data name="DisplayPaymentScreen" xml:space="preserve">
     <value>Prikaži ekran naplate</value>
   </data>
@@ -2054,6 +2618,9 @@ Greška:
   </data>
   <data name="Excluded" xml:space="preserve">
     <value>Isključen</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Question</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Prethodni</value>
@@ -2085,17 +2652,26 @@ Greška:
   <data name="General" xml:space="preserve">
     <value>Općenit</value>
   </data>
+  <data name="InventoryTransactionType" xml:space="preserve">
+    <value>Inventory Transaction Type</value>
+  </data>
   <data name="SlipReportPrinter" xml:space="preserve">
     <value>Slip Report Printer</value>
   </data>
   <data name="TimeRounding" xml:space="preserve">
     <value>Time Rounding</value>
   </data>
+  <data name="ShowOnTicket" xml:space="preserve">
+    <value>Show on Ticket</value>
+  </data>
   <data name="Paid" xml:space="preserve">
     <value>Plaćeno</value>
   </data>
   <data name="ChangeAmountUpdated" xml:space="preserve">
     <value>Promijenjeni iznos osvježen</value>
+  </data>
+  <data name="TaxAmount" xml:space="preserve">
+    <value>Tax Amount</value>
   </data>
   <data name="TicketClosing" xml:space="preserve">
     <value>Kartica se zatvara</value>
@@ -2108,6 +2684,9 @@ Greška:
   </data>
   <data name="CategoryProducts" xml:space="preserve">
     <value>Proizvodi kategorije</value>
+  </data>
+  <data name="DisplayTicketLog" xml:space="preserve">
+    <value>Display Ticket Log</value>
   </data>
   <data name="LinesGroupedByGroupCode" xml:space="preserve">
     <value>Lines Grouped by Group Code</value>
@@ -2142,20 +2721,38 @@ Greška:
   <data name="Automation" xml:space="preserve">
     <value>Automatizacija</value>
   </data>
+  <data name="CustomPrinter" xml:space="preserve">
+    <value>Custom Printer</value>
+  </data>
   <data name="Trigger" xml:space="preserve">
     <value>Trigger</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
     <value>Automatsko Zaokruživanje</value>
   </data>
+  <data name="LoadLastOrder" xml:space="preserve">
+    <value>Load Last Order</value>
+  </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Total Work Time: {0:0} hours {1:0} minutes</value>
+  </data>
+  <data name="UpdateNewOrderEntityColor" xml:space="preserve">
+    <value>Update New Order Entity Color</value>
+  </data>
+  <data name="AddTicketLog" xml:space="preserve">
+    <value>Add Ticket Log</value>
   </data>
   <data name="CostReport" xml:space="preserve">
     <value>Cost Report</value>
   </data>
   <data name="EventName" xml:space="preserve">
     <value>Ime događaja</value>
+  </data>
+  <data name="NewOrderAddingRule" xml:space="preserve">
+    <value>New Order Adding Rule</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Equals</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Skup znakova</value>
@@ -2172,6 +2769,9 @@ Greška:
   <data name="ProgramSettings" xml:space="preserve">
     <value>Postavke programa</value>
   </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Receipt</value>
+  </data>
   <data name="InStock" xml:space="preserve">
     <value>Na stanju</value>
   </data>
@@ -2180,6 +2780,9 @@ Greška:
   </data>
   <data name="SearchString" xml:space="preserve">
     <value>Podatak za pretragu</value>
+  </data>
+  <data name="UpdateMergedTicketsState" xml:space="preserve">
+    <value>Update Merged Tickets State</value>
   </data>
   <data name="DisplayAllValues" xml:space="preserve">
     <value>Prikaži sve vrijednosti</value>
@@ -2190,8 +2793,17 @@ Greška:
   <data name="OrderStateGroup" xml:space="preserve">
     <value>Order State Group</value>
   </data>
+  <data name="AskTicketType" xml:space="preserve">
+    <value>Ask Ticket Type</value>
+  </data>
   <data name="Negative" xml:space="preserve">
     <value>Negativan</value>
+  </data>
+  <data name="LoadTicket" xml:space="preserve">
+    <value>Load Ticket</value>
+  </data>
+  <data name="TicketExplorer" xml:space="preserve">
+    <value>Ticket Explorer</value>
   </data>
   <data name="TicketTipTotal" xml:space="preserve">
     <value>Tip Total</value>
@@ -2201,6 +2813,9 @@ Greška:
   </data>
   <data name="WindowsPrinter" xml:space="preserve">
     <value>Windows pisač</value>
+  </data>
+  <data name="Forum" xml:space="preserve">
+    <value>Forum</value>
   </data>
   <data name="TicketNote" xml:space="preserve">
     <value>Napomena kartice</value>
@@ -2235,8 +2850,14 @@ Greška:
   <data name="Default" xml:space="preserve">
     <value>Predefinirani</value>
   </data>
+  <data name="ProductTag" xml:space="preserve">
+    <value>Product Tag</value>
+  </data>
   <data name="TaskType" xml:space="preserve">
     <value>Task Type</value>
+  </data>
+  <data name="TransactionTotal" xml:space="preserve">
+    <value>Transaction Total</value>
   </data>
   <data name="Calling" xml:space="preserve">
     <value>Zovem</value>
@@ -2253,11 +2874,17 @@ Greška:
   <data name="PhoneNumber" xml:space="preserve">
     <value>Telefon</value>
   </data>
+  <data name="BatchCreateDocuments" xml:space="preserve">
+    <value>Batch Create Documents</value>
+  </data>
   <data name="Customer" xml:space="preserve">
     <value>Kupac</value>
   </data>
   <data name="ToggleValues" xml:space="preserve">
     <value>Toggle Values</value>
+  </data>
+  <data name="DisplayState" xml:space="preserve">
+    <value>Display State</value>
   </data>
   <data name="Automatic" xml:space="preserve">
     <value>Automatski</value>
@@ -2274,6 +2901,9 @@ Greška:
   <data name="TicketsMerged" xml:space="preserve">
     <value>Kartice spojene</value>
   </data>
+  <data name="NewTicketCreatingRule" xml:space="preserve">
+    <value>New Ticket Creating Rule</value>
+  </data>
   <data name="SortType" xml:space="preserve">
     <value>Tip slaganja</value>
   </data>
@@ -2289,6 +2919,9 @@ Greška:
   <data name="ExecutePrintJob" xml:space="preserve">
     <value>Pokreni ispis</value>
   </data>
+  <data name="NotMatchesAny" xml:space="preserve">
+    <value>Not Matches Any</value>
+  </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Tip računanja</value>
   </data>
@@ -2301,8 +2934,17 @@ Greška:
   <data name="Expression" xml:space="preserve">
     <value>Formula</value>
   </data>
+  <data name="Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
   <data name="Month" xml:space="preserve">
     <value>Mjesec</value>
+  </data>
+  <data name="Starts" xml:space="preserve">
+    <value>Starts</value>
+  </data>
+  <data name="TicketEntityChanged" xml:space="preserve">
+    <value>Ticket Entity Changed</value>
   </data>
   <data name="InventoryPurchaseReport" xml:space="preserve">
     <value>Inventory Purchase Report</value>
@@ -2310,8 +2952,20 @@ Greška:
   <data name="TerminalView" xml:space="preserve">
     <value>Terminal View</value>
   </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>Consumption</value>
+  </data>
+  <data name="ReloadPrinterTemplateConfirmation_f" xml:space="preserve">
+    <value>Delete current template and Load {0}?</value>
+  </data>
   <data name="EveryOtherMonth" xml:space="preserve">
     <value>Svaki drugi mjesec</value>
+  </data>
+  <data name="StateController" xml:space="preserve">
+    <value>State Controller</value>
+  </data>
+  <data name="ValueLooped" xml:space="preserve">
+    <value>Value Looped</value>
   </data>
   <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
     <value>Ticket tag names should be unique</value>
@@ -2334,8 +2988,14 @@ Greška:
   <data name="FieldType" xml:space="preserve">
     <value>Tip polja</value>
   </data>
+  <data name="SourceAccountTypeDesc" xml:space="preserve">
+    <value>Source Account Type (Debit)</value>
+  </data>
   <data name="OrderUntagged" xml:space="preserve">
     <value>Narudžba odznačena</value>
+  </data>
+  <data name="SubButtonRows" xml:space="preserve">
+    <value>Sub Button Rows</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Poruka</value>
@@ -2376,6 +3036,12 @@ Greška:
   <data name="TicketSubTotal" xml:space="preserve">
     <value>Ticket Sub Total</value>
   </data>
+  <data name="UnlockTicket" xml:space="preserve">
+    <value>Unlock Ticket</value>
+  </data>
+  <data name="SellerWarehouse" xml:space="preserve">
+    <value>Seller Warehouse</value>
+  </data>
   <data name="GiftTotal" xml:space="preserve">
     <value>Poklon ukupno</value>
   </data>
@@ -2397,6 +3063,9 @@ Can't end Work Period while tickets open</value>
   </data>
   <data name="PinCode" xml:space="preserve">
     <value>Pin Kod</value>
+  </data>
+  <data name="ExecutePrintBillJob" xml:space="preserve">
+    <value>Execute Bill Print Job</value>
   </data>
   <data name="DiscountPercentSign" xml:space="preserve">
     <value>Popust %</value>
@@ -2440,6 +3109,9 @@ Can't end Work Period while tickets open</value>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>Ne može izbrisati podatke iza radnog vremena</value>
   </data>
+  <data name="LoopValues" xml:space="preserve">
+    <value>Loop Values</value>
+  </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Može prikazati stare kartice</value>
   </data>
@@ -2451,6 +3123,12 @@ Can't end Work Period while tickets open</value>
   </data>
   <data name="Ninety" xml:space="preserve">
     <value>Devedeset</value>
+  </data>
+  <data name="DisplayUnderTicketRow2" xml:space="preserve">
+    <value>Display Under Ticket Row 2</value>
+  </data>
+  <data name="DefaultTargetAccount" xml:space="preserve">
+    <value>Default Target Account</value>
   </data>
   <data name="PrinterName" xml:space="preserve">
     <value>Ime pisača</value>
@@ -2473,6 +3151,9 @@ Can't end Work Period while tickets open</value>
   <data name="Ticket" xml:space="preserve">
     <value>Kartica</value>
   </data>
+  <data name="EntitySelected" xml:space="preserve">
+    <value>Entity Selected</value>
+  </data>
   <data name="EveryDay" xml:space="preserve">
     <value>Svaki dan</value>
   </data>
@@ -2484,6 +3165,9 @@ Can't end Work Period while tickets open</value>
   </data>
   <data name="DepartmentName" xml:space="preserve">
     <value>Ime odjela</value>
+  </data>
+  <data name="IsNotNull" xml:space="preserve">
+    <value>Is Not Null</value>
   </data>
   <data name="ForeignCurrency" xml:space="preserve">
     <value>Strana valuta</value>
@@ -2503,11 +3187,23 @@ Can't end Work Period while tickets open</value>
   <data name="Every4Hours" xml:space="preserve">
     <value>Svaka 4 sata</value>
   </data>
+  <data name="Target" xml:space="preserve">
+    <value>Target</value>
+  </data>
   <data name="ColumnCount" xml:space="preserve">
     <value>Broj stupaca</value>
   </data>
+  <data name="WindowScale" xml:space="preserve">
+    <value>Window Scale</value>
+  </data>
   <data name="DisplayFormat" xml:space="preserve">
     <value>Format prikaza</value>
+  </data>
+  <data name="CreditLimit" xml:space="preserve">
+    <value>Credit Limit</value>
+  </data>
+  <data name="StateDefinition" xml:space="preserve">
+    <value>State Definition</value>
   </data>
   <data name="DisplayUserPath" xml:space="preserve">
     <value>Prikaži putanju do korisnika</value>
@@ -2548,6 +3244,15 @@ Can't end Work Period while tickets open</value>
   <data name="MainMenu" xml:space="preserve">
     <value>Glavni Izbornik</value>
   </data>
+  <data name="StateType" xml:space="preserve">
+    <value>State Type</value>
+  </data>
+  <data name="DisplayAsTree" xml:space="preserve">
+    <value>Display as Tree</value>
+  </data>
+  <data name="Find_f" xml:space="preserve">
+    <value>Find {0}</value>
+  </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>
   </data>
@@ -2584,11 +3289,14 @@ Can't end Work Period while tickets open</value>
   <data name="Exit" xml:space="preserve">
     <value>Izlaz</value>
   </data>
+  <data name="TargetAccountTypeDesc" xml:space="preserve">
+    <value>Target Account Type (Credit)</value>
+  </data>
   <data name="TextWrittenTotalValue" xml:space="preserve">
     <value>Text written total value</value>
   </data>
-  <data name="EditMode" xml:space="preserve">
-    <value>Uređivački mod</value>
+  <data name="TicketNumber" xml:space="preserve">
+    <value>Ticket Number</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Svaku minutu</value>
@@ -2614,8 +3322,17 @@ Can't end Work Period while tickets open</value>
   <data name="Mappings" xml:space="preserve">
     <value>Mappings</value>
   </data>
+  <data name="ExecuteScript" xml:space="preserve">
+    <value>Execute Script</value>
+  </data>
+  <data name="ShowOnProductReport" xml:space="preserve">
+    <value>Show on Product Report</value>
+  </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>Tax Total</value>
+  </data>
+  <data name="Toggle" xml:space="preserve">
+    <value>Toggle</value>
   </data>
   <data name="DepartmentPermissions" xml:space="preserve">
     <value>Ovlasti odjela</value>
