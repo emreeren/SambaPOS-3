@@ -42,8 +42,11 @@ namespace Samba.Modules.CidMonitor
                 _port.DiscardOutBuffer();
                 _port.DiscardInBuffer();
                 _port.RtsEnable = true;
-                _port.WriteLine("AT+VCID=0\r");
-                _port.WriteLine("AT+VCID=1\r");
+                var lines = GetInitializationString().Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    _port.WriteLine(line + "\r");
+                }
                 _port.DataReceived += port_DataReceived;
             }
             catch (Exception e)
@@ -76,12 +79,17 @@ namespace Samba.Modules.CidMonitor
 
         private string GetMatchPattern()
         {
-            return !string.IsNullOrEmpty(Settings.MatchPattern) ? Settings.MatchPattern : @"NMBR = ([0-9]+)";
+            return !string.IsNullOrWhiteSpace(Settings.MatchPattern) ? Settings.MatchPattern : @"NMBR = ([0-9]+)";
         }
 
         private string GetTerminateString()
         {
-            return !string.IsNullOrEmpty(Settings.TerminateString) ? Settings.TerminateString : null;
+            return !string.IsNullOrWhiteSpace(Settings.TerminateString) ? Settings.TerminateString : "";
+        }
+
+        private string GetInitializationString()
+        {
+            return !string.IsNullOrWhiteSpace(Settings.InitializationString) ? Settings.InitializationString : "AT+VCID=0\r\nAT+VCID=1";
         }
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)

@@ -55,9 +55,9 @@ namespace Samba.Modules.CidMonitor
         protected void ProcessPhoneNumber(string phoneNumber)
         {
             phoneNumber = phoneNumber.Trim();
-            if (!string.IsNullOrEmpty(GetSettings().TrimChars))
+            if (!string.IsNullOrEmpty(GetSettings().TrimChars ?? ""))
                 GetSettings().TrimChars.ToList().ForEach(x => phoneNumber = phoneNumber.TrimStart(x));
-            if(string.IsNullOrEmpty(phoneNumber)) return;
+            if (string.IsNullOrEmpty(phoneNumber)) return;
             var thread = new Thread(() => _applicationState.MainDispatcher.Invoke(new Action(() => Process(phoneNumber))));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();

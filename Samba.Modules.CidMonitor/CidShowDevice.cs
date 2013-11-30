@@ -10,14 +10,14 @@ using Samba.Services.Common;
 namespace Samba.Modules.CidMonitor
 {
     [Export(typeof(IDevice))]
-    class CidEasyDevice : AbstractCidDevice
+    class CidShowDevice : AbstractCidDevice
     {
         private FrmMain _frmMain;
         private AbstractCidSettings _settings;
         public AbstractCidSettings Settings { get {return _settings ?? (_settings = LoadSettings<AbstractCidSettings>()); } }
 
         [ImportingConstructor]
-        public CidEasyDevice(IApplicationState applicationState, IEntityService entityService, ICacheService cacheService)
+        public CidShowDevice(IApplicationState applicationState, IEntityService entityService, ICacheService cacheService)
             : base(cacheService, applicationState, entityService)
         {
 
@@ -30,7 +30,7 @@ namespace Samba.Modules.CidMonitor
 
         protected override string GetName()
         {
-            return "CID Easy";
+            return "CID Show";
         }
 
         protected override bool DoInitialize()
@@ -63,11 +63,6 @@ namespace Samba.Modules.CidMonitor
         void axCIDv51_OnCallerID(object sender, ICIDv5Events_OnCallerIDEvent e)
         {
             var pn = e.phoneNumber;
-            pn = pn.TrimStart('+');
-            pn = pn.TrimStart('0');
-            pn = pn.TrimStart('9');
-            pn = pn.TrimStart('0');
-
             ProcessPhoneNumber(pn);
         }
     }

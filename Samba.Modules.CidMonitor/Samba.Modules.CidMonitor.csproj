@@ -50,6 +50,10 @@
       <HintPath>..\Lib\Microsoft.Practices.Prism.MefExtensions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PropertyTools, Version=2012.4.14.1, Culture=neutral, PublicKeyToken=ea0c9f2b460934d0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\PropertyTools.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -65,7 +69,7 @@
   <ItemGroup>
     <Compile Include="AbstractCidDevice.cs" />
     <Compile Include="AbstractCidSettings.cs" />
-    <Compile Include="CidEasyDevice.cs" />
+    <Compile Include="CidShowDevice.cs" />
     <Compile Include="CidMonitor.cs" />
     <Compile Include="CometDevice.cs" />
     <Compile Include="GenericModemDevice.cs" />
