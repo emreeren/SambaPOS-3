@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
 using Samba.Localization.Properties;
 using Samba.Presentation.Common;
 using Samba.Services.Common;
@@ -24,18 +20,19 @@ namespace Samba.Presentation.Controls.ActionProcessors
         {
             if (actionData.Action.ActionType == "DisplayPopup")
             {
+                var name = actionData.GetAsString("Name");
                 var title = actionData.GetAsString("Title");
                 var message = actionData.GetAsString("Message");
                 var color = actionData.GetAsString("Color");
                 color = string.IsNullOrEmpty(color.Trim()) ? "DarkRed" : color;
                 if (!string.IsNullOrEmpty(message.Trim()))
-                    _userInteraction.DisplayPopup(title, message, color);
+                    _userInteraction.DisplayPopup(name, title, message, color);
             }
         }
 
         protected override object GetDefaultData()
         {
-            return new { Title = "", Message = "", Color = "" };
+            return new { Name = "", Title = "", Message = "", Color = "" };
         }
 
         protected override string GetActionName()

@@ -93,16 +93,18 @@ namespace Samba.Modules.CidMonitor
         {
             if (CustomerType != null)
             {
+                var popupName = GetSettings().PopupName;
+                if (string.IsNullOrWhiteSpace(popupName)) popupName = Name;
                 var sr = _entityService.SearchEntities(CustomerType, phoneNumber, "");
                 if (sr.Count == 1)
                 {
                     var entity = sr.First();
-                    InteractionService.UserIntraction.DisplayPopup(entity.Name,
+                    InteractionService.UserIntraction.DisplayPopup(popupName, CustomerType.GetFormattedDisplayName(entity.Name, entity),
                         entity.Name + " " + Resources.Calling + ".\r" +
                         entity.SearchString + "\r", "DarkRed", OnClick, phoneNumber);
                 }
                 else
-                    InteractionService.UserIntraction.DisplayPopup(phoneNumber,
+                    InteractionService.UserIntraction.DisplayPopup(popupName, phoneNumber,
                         phoneNumber + " " + Resources.Calling + "...", "DarkRed",
                         OnClick, phoneNumber);
             }

@@ -15,6 +15,7 @@ using Samba.Presentation.Common;
 using Samba.Presentation.Common.Commands;
 using Samba.Presentation.Services;
 using FlexButton;
+using Samba.Services.Common;
 
 namespace Samba.Presentation.Controls.Interaction
 {
@@ -31,6 +32,7 @@ namespace Samba.Presentation.Controls.Interaction
 
     public class PopupData
     {
+        public string Name { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public Action<object> Action { get; set; }
@@ -59,14 +61,16 @@ namespace Samba.Presentation.Controls.Interaction
 
     public class PopupDataViewModel
     {
+        private readonly IApplicationState _applicationState;
         private readonly IList<PopupData> _popupCache;
         private readonly ObservableCollection<PopupData> _popupList;
         public ObservableCollection<PopupData> PopupList { get { return _popupList; } }
 
         public CaptionCommand<PopupData> ClickButtonCommand { get; set; }
 
-        public PopupDataViewModel()
+        public PopupDataViewModel(IApplicationState applicationState)
         {
+            _applicationState = applicationState;
             _popupCache = new List<PopupData>();
             _popupList = new ObservableCollection<PopupData>();
             ClickButtonCommand = new CaptionCommand<PopupData>("Click", OnButtonClick);
@@ -77,12 +81,16 @@ namespace Samba.Presentation.Controls.Interaction
             if (obj.Action != null)
                 obj.Action(obj.ActionParameter);
             _popupList.Remove(obj);
+            if (obj.Name != "")
+            {
+                _applicationState.NotifyEvent(RuleEventNames.PopupClicked, new { Name = obj.Name, Data = obj.ActionParameter ?? "" });
+            }
             Application.Current.MainWindow.Focus();
         }
 
-        public void Add(string title, string content, string headerColor, Action<object> action, object actionParameter)
+        public void Add(string name, string title, string content, string headerColor, Action<object> action, object actionParameter)
         {
-            _popupCache.Add(new PopupData { Title = title, Content = content, HeaderColor = headerColor, Action = action, ActionParameter = actionParameter });
+            _popupCache.Add(new PopupData { Name = name, Title = title, Content = content, HeaderColor = headerColor, Action = action, ActionParameter = actionParameter });
         }
 
         public void DisplayPopups()
@@ -109,10 +117,10 @@ namespace Samba.Presentation.Controls.Interaction
         private PopupWindow _popupWindow;
 
         [ImportingConstructor]
-        public UserInteraction(IMethodQueue methodQueue)
+        public UserInteraction(IMethodQueue methodQueue, IApplicationState applicationState)
         {
             _methodQueue = methodQueue;
-            _popupDataViewModel = new PopupDataViewModel();
+            _popupDataViewModel = new PopupDataViewModel(applicationState);
         }
 
         public PopupWindow PopupWindow
@@ -265,9 +273,9 @@ namespace Samba.Presentation.Controls.Interaction
             }
         }
 
-        public void DisplayPopup(string title, string content, string headerColor, Action<object> action = null, object actionParameter = null)
+        public void DisplayPopup(string name, string title, string content, string headerColor, Action<object> action = null, object actionParameter = null)
         {
-            _popupDataViewModel.Add(title, content, headerColor, action, actionParameter);
+            _popupDataViewModel.Add(name, title, content, headerColor, action, actionParameter);
             PopupWindow.Show();
             _methodQueue.Queue("DisplayPopups", DisplayPopups);
         }

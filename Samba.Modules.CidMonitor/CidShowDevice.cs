@@ -14,7 +14,7 @@ namespace Samba.Modules.CidMonitor
     {
         private FrmMain _frmMain;
         private AbstractCidSettings _settings;
-        public AbstractCidSettings Settings { get {return _settings ?? (_settings = LoadSettings<AbstractCidSettings>()); } }
+        public AbstractCidSettings Settings { get { return _settings ?? (_settings = LoadSettings<AbstractCidSettings>()); } }
 
         [ImportingConstructor]
         public CidShowDevice(IApplicationState applicationState, IEntityService entityService, ICacheService cacheService)
@@ -44,7 +44,7 @@ namespace Samba.Modules.CidMonitor
             }
             catch (Exception)
             {
-                InteractionService.UserIntraction.DisplayPopup(Resources.Information, Resources.CallerIdDriverError);
+                InteractionService.UserIntraction.DisplayPopup("", Resources.Information, Resources.CallerIdDriverError);
                 return false;
             }
         }

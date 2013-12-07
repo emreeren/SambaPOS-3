@@ -26,7 +26,7 @@ namespace Samba.Presentation.Common
         void HideKeyboard();
         void ToggleKeyboard();
         void ToggleSplashScreen();
-        void DisplayPopup(string title, string content, string headerColor = "DarkRed", Action<object> action = null, object actionParameter = null);
+        void DisplayPopup(string name, string title, string content, string headerColor = "DarkRed", Action<object> action = null, object actionParameter = null);
         void Scale(FrameworkElement control);
     }
 }

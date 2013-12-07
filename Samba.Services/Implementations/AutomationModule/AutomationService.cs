@@ -134,6 +134,7 @@ namespace Samba.Services.Implementations.AutomationModule
             RegisterEvent(RuleEventNames.ApplicationStarted, Resources.ApplicationStarted, new { Arguments = "" });
             RegisterEvent(RuleEventNames.ValueLooped, Resources.ValueLooped, new { Name = "", LoopValue = "" });
             RegisterEvent(RuleEventNames.NumberpadValueEntered, Resources.NumberpadValueEntered, new { NumberpadValue = "" });
+            RegisterEvent(RuleEventNames.PopupClicked, "Popup Clicked", new { Name = "", Data = "" });
 
             //Breaking changes 
             //NumberpadValueEntered > Value > NumberpadValue

@@ -48,7 +48,7 @@ namespace Samba.Modules.CidMonitor
             }
             catch (Exception e)
             {
-                InteractionService.UserIntraction.DisplayPopup("Hugin Caller ID Error", e.Message);
+                InteractionService.UserIntraction.DisplayPopup("", "Hugin Caller ID Error", e.Message);
                 return false;
             }
 

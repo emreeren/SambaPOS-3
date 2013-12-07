@@ -2,7 +2,6 @@
 using System.Linq;
 using Samba.Domain.Models.Entities;
 using Samba.Infrastructure.Helpers;
-using Samba.Presentation.Common;
 using Samba.Presentation.Common.Widgets;
 using Samba.Presentation.Services;
 using Samba.Presentation.Services.Common;
@@ -22,6 +21,7 @@ namespace Samba.Modules.EntityModule.Widgets.EntitySearch
             _applicationState = applicationState;
             _cacheService = cacheService;
             EntitySearchViewModel = new EntitySearchViewModel(applicationState, cacheService, entityService) { IsKeyboardVisible = false };
+            
             EventServiceFactory.EventService.GetEvent<GenericEvent<OperationRequest<Entity>>>().Subscribe(x =>
             {
                 if (x.Topic == EventTopicNames.SelectEntity)
@@ -29,6 +29,16 @@ namespace Samba.Modules.EntityModule.Widgets.EntitySearch
                     _request = x.Value;
                 }
             });
+
+            EventServiceFactory.EventService.GetEvent<GenericEvent<WidgetEventData>>().Subscribe(
+                x =>
+                {
+                    if (x.Value.WidgetName == Name)
+                    {
+                        EntitySearchViewModel.SearchString = x.Value.Value;
+                       
+                    }
+                });
         }
 
         [Browsable(false)]

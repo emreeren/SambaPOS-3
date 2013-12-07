@@ -40,5 +40,6 @@
         public const string AccountTransactionDocumentCreated = "AccountTransactionDocumentCreated";
         public const string AccountTransactionAddedToTicket = "AccountTransactionAddedToTicket";
         public const string NumberpadValueEntered = "NumberpadValueEntered";
+        public const string PopupClicked = "PopupClicked";
     }
 }
