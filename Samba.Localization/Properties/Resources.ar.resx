@@ -267,6 +267,9 @@
   <data name="Rules" xml:space="preserve">
     <value>قواعد</value>
   </data>
+  <data name="CallerIdDevice" xml:space="preserve">
+    <value>Caller Id Device</value>
+  </data>
   <data name="TicketWithBrackets" xml:space="preserve">
     <value>[التذكرة]</value>
   </data>
@@ -2241,6 +2244,9 @@
   </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>رقم التذكرة: {0}</value>
+  </data>
+  <data name="StopProductTimers" xml:space="preserve">
+    <value>Stop Product Timers</value>
   </data>
   <data name="AccountTransactionType" xml:space="preserve">
     <value>نوع عملية الحساب</value>

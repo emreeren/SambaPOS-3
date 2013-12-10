@@ -268,6 +268,9 @@
   <data name="Rules" xml:space="preserve">
     <value>Kurallar</value>
   </data>
+  <data name="CallerIdDevice" xml:space="preserve">
+    <value>Caller ID Cihazları</value>
+  </data>
   <data name="TicketWithBrackets" xml:space="preserve">
     <value>[Adisyon]</value>
   </data>
@@ -2247,6 +2250,9 @@ Hata Mesajı:
   </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>{0} numaralı adisyon</value>
+  </data>
+  <data name="StopProductTimers" xml:space="preserve">
+    <value>Ürün zamanlayıcıyı durdur</value>
   </data>
   <data name="AccountTransactionType" xml:space="preserve">
     <value>Hesap Hareketi Tipi</value>

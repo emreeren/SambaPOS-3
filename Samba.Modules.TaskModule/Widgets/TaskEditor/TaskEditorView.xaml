@@ -32,8 +32,9 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-                <TextBox Grid.Row="1" MinLines="1" Margin="0,0,3,0" TextWrapping="WrapWithOverflow" AutoWordSelection="True" Grid.Column="0" 
-                     Text="{Binding NewTask,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Row="1" MinLines="1" Margin="0,0,3,0" TextWrapping="WrapWithOverflow" 
+                         AutoWordSelection="True" Grid.Column="0" Name ="TextBox"
+                         Text="{Binding NewTask,UpdateSourceTrigger=PropertyChanged}"/>
                 <!--<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
                     IsDefault="True" MinWidth="50" Grid.Column="1" Grid.Row="1" Command="{Binding AddTaskCommand}" 
                     Content="{Binding AddTaskCommand.Caption}"/>-->

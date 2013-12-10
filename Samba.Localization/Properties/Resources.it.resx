@@ -268,6 +268,9 @@
   <data name="Rules" xml:space="preserve">
     <value>Regole</value>
   </data>
+  <data name="CallerIdDevice" xml:space="preserve">
+    <value>Device Id Chiamante</value>
+  </data>
   <data name="TicketWithBrackets" xml:space="preserve">
     <value>[Ticket]</value>
   </data>
@@ -2247,6 +2250,9 @@ Messaggio di errore:
   </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>Ticket Numero: {0}</value>
+  </data>
+  <data name="StopProductTimers" xml:space="preserve">
+    <value>Stop Timet Prodotto</value>
   </data>
   <data name="AccountTransactionType" xml:space="preserve">
     <value>Modello Account Transizione</value>

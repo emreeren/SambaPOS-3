@@ -136,7 +136,7 @@
     <value>Bon weergeven</value>
   </data>
   <data name="Matches" xml:space="preserve">
-    <value>Matches</value>
+    <value>Verglijking</value>
   </data>
   <data name="Print" xml:space="preserve">
     <value>Afdrukken</value>
@@ -164,7 +164,7 @@
     <value>Valuta</value>
   </data>
   <data name="NumberpadValueEntered" xml:space="preserve">
-    <value>Numberpad Value Entered</value>
+    <value>Nummerwaarde</value>
   </data>
   <data name="ButtonColor" xml:space="preserve">
     <value>Kleur van de knoppen</value>
@@ -179,7 +179,7 @@
     <value>Tag Waarde</value>
   </data>
   <data name="Date_f" xml:space="preserve">
-    <value>{0} Date</value>
+    <value>{0} Datum</value>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Afronden</value>
@@ -215,7 +215,7 @@
     <value>Rol Lijst</value>
   </data>
   <data name="UpdateOrderGiftState" xml:space="preserve">
-    <value>Update Order Gift State</value>
+    <value>Update Bon Gift Status</value>
   </data>
   <data name="ClearFilter" xml:space="preserve">
     <value>Filter</value>
@@ -224,16 +224,16 @@
     <value>Wijzig Prijslijst</value>
   </data>
   <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
-    <value>Execute Kitchen Orders Print Job</value>
+    <value>Print Keukenbon Opdracht Uitvoeren</value>
   </data>
   <data name="Warehouse" xml:space="preserve">
     <value>Magazijn</value>
   </data>
   <data name="CustomerReceiptTemplate" xml:space="preserve">
-    <value>Customer Receipt Template</value>
+    <value>Klant Rekening Sjabloon</value>
   </data>
   <data name="MatchesAny" xml:space="preserve">
-    <value>Matches Any</value>
+    <value>Minimaal 1 Komt Overeen</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
     <value>Totaal Inkomen</value>
@@ -254,7 +254,7 @@
     <value>Werkperiode Rapport</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>Save Changes</value>
+    <value>Wijzigingen Opslaan</value>
   </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Voer Categorieën in die u wilt toevoegen</value>
@@ -267,6 +267,9 @@
   </data>
   <data name="Rules" xml:space="preserve">
     <value>Regels</value>
+  </data>
+  <data name="CallerIdDevice" xml:space="preserve">
+    <value>Nummerweergave Aparatuur</value>
   </data>
   <data name="TicketWithBrackets" xml:space="preserve">
     <value>[Bon]</value>
@@ -356,7 +359,7 @@
     <value>Eigenschappengroep naam</value>
   </data>
   <data name="PrintAccountTransactions" xml:space="preserve">
-    <value>Print Account Transactions</value>
+    <value>Rekening Actie Printen</value>
   </data>
   <data name="AddModel_f" xml:space="preserve">
     <value>Toevoegen Nieuwe {0}</value>
@@ -395,7 +398,7 @@
     <value>Om de 3 uur</value>
   </data>
   <data name="CommandParameter" xml:space="preserve">
-    <value>Command Parameter</value>
+    <value>Commando Parameter</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Titel</value>
@@ -407,7 +410,7 @@
     <value>Berekening</value>
   </data>
   <data name="BalanceBroughtForward" xml:space="preserve">
-    <value>Balance Brought Forward</value>
+    <value>Overgedragen Saldo</value>
   </data>
   <data name="Selection_f" xml:space="preserve">
     <value>{0} Selectie</value>
@@ -416,7 +419,7 @@
     <value>Keuken Printer</value>
   </data>
   <data name="InventoryCalculationError" xml:space="preserve">
-    <value>Inventory calculation generated an error. Check your recipes.</value>
+    <value>Een fout opgetreden in voorraad. Controleer uw Rekeningen.</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Instellingen</value>
@@ -437,7 +440,7 @@
     <value># Regel: Artikel Prijs op Centen</value>
   </data>
   <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
-    <value>Parameter [{0}] should not start or end with space.</value>
+    <value>Waarde moet met [{0}] beginnen of met laat leeg.</value>
   </data>
   <data name="UserLogin" xml:space="preserve">
     <value>Gebruiker aanmelden</value>
@@ -467,7 +470,7 @@
     <value>Totalen Gegroepeerd per BTW Sjabloon</value>
   </data>
   <data name="SeparatedByQuantity" xml:space="preserve">
-    <value>Separated prints by quantity</value>
+    <value>Print elke regel op aparte bonnen</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Annuleren</value>
@@ -491,7 +494,7 @@
     <value>Klant Bon</value>
   </data>
   <data name="SelectAutomationCommand" xml:space="preserve">
-    <value>Select Automation Command</value>
+    <value>Selecteer Automatiserings Opdracht</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
     <value>Product Timer</value>
@@ -521,7 +524,7 @@
     <value>Een keer per maand</value>
   </data>
   <data name="QuantitySeparators" xml:space="preserve">
-    <value>Quantity Separators</value>
+    <value>Aantal Afscheiden</value>
   </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>Eenheidsprijs</value>
@@ -530,7 +533,7 @@
     <value>Interface taal</value>
   </data>
   <data name="OrderMoving" xml:space="preserve">
-    <value>Order Moving</value>
+    <value>Bonnen Worden Verplaatst</value>
   </data>
   <data name="Action" xml:space="preserve">
     <value>Actie</value>
@@ -578,10 +581,10 @@ Bericht:
     <value>Product Lijst</value>
   </data>
   <data name="MatchesMod10" xml:space="preserve">
-    <value>Matches Mod10</value>
+    <value>Mod10 Toepasbaar</value>
   </data>
   <data name="DisplayOnCommandSelector" xml:space="preserve">
-    <value>Display on Command Selector</value>
+    <value>Toon Commando Opdract</value>
   </data>
   <data name="AlphanumericButtonValues" xml:space="preserve">
     <value>Alfanumerieke knopwaarden</value>
@@ -783,7 +786,7 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
     <value>Wijzig Bon eenheid</value>
   </data>
   <data name="AccountTransactionsFilter" xml:space="preserve">
-    <value>Account Transactions Filter</value>
+    <value>Rekening Details Filter</value>
   </data>
   <data name="CanChangeReportFilter" xml:space="preserve">
     <value>Kan datumfilter van rapporten wijzigen</value>
@@ -810,7 +813,7 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
     <value>Credit</value>
   </data>
   <data name="AppendUnmappedItems" xml:space="preserve">
-    <value>Append Unmapped Items</value>
+    <value>Laat Ongevonden Producten zien </value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Terug</value>
@@ -819,7 +822,7 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
     <value>BestellingsTeller</value>
   </data>
   <data name="Time_f" xml:space="preserve">
-    <value>{0} Time</value>
+    <value>{0} Tijd</value>
   </data>
   <data name="IncreaseInventory" xml:space="preserve">
     <value>Verhoging van de voorraad</value>
@@ -858,7 +861,7 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
     <value>Tafel</value>
   </data>
   <data name="BalanceAfterDate" xml:space="preserve">
-    <value>Balance after date</value>
+    <value>Saldo Na Datum</value>
   </data>
   <data name="SelectPrintJob" xml:space="preserve">
     <value>Selecteer Printopdracht</value>
@@ -879,7 +882,7 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
     <value>Magazijnen</value>
   </data>
   <data name="MatchesAll" xml:space="preserve">
-    <value>Matches All</value>
+    <value>Alle Komt Overeen</value>
   </data>
   <data name="SaveFreeTags" xml:space="preserve">
     <value>Bewaar gratis tags</value>
@@ -894,7 +897,7 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
     <value>Kan Bon Tag opheffen</value>
   </data>
   <data name="SubButtonColorDef" xml:space="preserve">
-    <value>Sub Button Colors</value>
+    <value>Sub Button Kleuren</value>
   </data>
   <data name="CashTransactions" xml:space="preserve">
     <value>Cash Transacties</value>
@@ -924,7 +927,7 @@ Zal leiden tot na {1} dagen {2} uur, {3} minuten</value>
     <value>Transactie vermenigvuldiger kan niet nul zijn</value>
   </data>
   <data name="AccountBalanceDisplayFormat" xml:space="preserve">
-    <value>Account Balance Display Format</value>
+    <value>Rekeningsaldo Weergave Formaat</value>
   </data>
   <data name="Costs" xml:space="preserve">
     <value>Kosten</value>
@@ -988,7 +991,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Categorie Eigenschappen</value>
   </data>
   <data name="ToggleCalculation" xml:space="preserve">
-    <value>Toggle Calculation</value>
+    <value>Waarde Calculator</value>
   </data>
   <data name="LineItemPrice" xml:space="preserve">
     <value># Regel: Artikel Prijs</value>
@@ -1003,7 +1006,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Regel {0}</value>
   </data>
   <data name="PayTicket" xml:space="preserve">
-    <value>Pay Ticket</value>
+    <value>Betaal Bon</value>
   </data>
   <data name="PrinterOptions" xml:space="preserve">
     <value>Printerinstellingen</value>
@@ -1027,7 +1030,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Categorieën</value>
   </data>
   <data name="NotMatches" xml:space="preserve">
-    <value>Not Matches</value>
+    <value>Geen Overeen</value>
   </data>
   <data name="SettlePermissions" xml:space="preserve">
     <value>Betaling Machtigingen</value>
@@ -1045,7 +1048,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Numeriek</value>
   </data>
   <data name="SetCurrentTerminal" xml:space="preserve">
-    <value>Set Current Terminal</value>
+    <value>Verander Terminal</value>
   </data>
   <data name="SubTags" xml:space="preserve">
     <value>Sub Tags</value>
@@ -1063,10 +1066,10 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Productnaam</value>
   </data>
   <data name="SettledBy_f" xml:space="preserve">
-    <value>Settled by {0}</value>
+    <value>Met {0} Betaald</value>
   </data>
   <data name="CantComplateOperationError" xml:space="preserve">
-    <value>Can't complete operation because of an error. Check error log file for details.</value>
+    <value>Door een fout is het programma gestopt. Voor details kijk in het log bestand</value>
   </data>
   <data name="DontForgetEndingWorkPeriod" xml:space="preserve">
     <value>VERGEET NIET WERKPERIODE TE BEEINDIGEN!</value>
@@ -1090,7 +1093,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Product</value>
   </data>
   <data name="PrimaryFieldFormat" xml:space="preserve">
-    <value>Primary Field Format</value>
+    <value>Hoofd Veldformaat</value>
   </data>
   <data name="DeleteSelectedItems" xml:space="preserve">
     <value>Geselecteerde Items verwijderen</value>
@@ -1108,7 +1111,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Totaal aantal</value>
   </data>
   <data name="MissingRecipes" xml:space="preserve">
-    <value>Missing Recipes</value>
+    <value>Onvolledige Recepten</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Machtigingen</value>
@@ -1150,7 +1153,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Geen transacties voor {0}</value>
   </data>
   <data name="PrimaryFieldName" xml:space="preserve">
-    <value>Primary Field Name</value>
+    <value>Hoofd Veldnaam</value>
   </data>
   <data name="CanChangeDepartment" xml:space="preserve">
     <value>Kan afdeling wijzigen</value>
@@ -1162,55 +1165,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Sorteer Categorieën</value>
   </data>
   <data name="TicketTemplateValue" xml:space="preserve">
-    <value>[LAYOUT]
--- General layout
-&lt;T&gt;TICKET
-&lt;L00&gt;Date:{TICKET DATE}
-&lt;L00&gt;Time:{TIME}
-{ENTITIES}
-&lt;L00&gt;Ticket No:{TICKET NO}
-&lt;F&gt;-
-{ORDERS}
-&lt;F&gt;=
-&lt;EB&gt;
-{DISCOUNTS}
-&lt;J10&gt;Total Gift:|{ORDER STATE TOTAL:Gift}
-&lt;J10&gt;Total:|{TICKET TOTAL}
-{PAYMENTS}
-&lt;DB&gt;
-&lt;F&gt;=
-&lt;C10&gt;T H A N K Y O U
- 
-[DISCOUNTS]
-&lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL}
- 
-[PAYMENTS]
-&lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT}
- 
-[ORDERS]
--- Default format for orders
-&lt;J00&gt;- {QUANTITY} {NAME}|{PRICE}
-{ORDER TAGS}
- 
-[ORDERS:Gift]
--- Format for gifted orders
-&lt;J00&gt;- {QUANTITY} {NAME}|**GIFT**
-{ORDER TAGS}
- 
-[ORDERS:Void]
--- Nothing will print for void lines
- 
-[ORDER TAGS]
--- Format for order tags
-&lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE}
- 
-[ENTITIES:Table]
--- Table entity format
-&lt;L00&gt;Table: {ENTITY NAME}
- 
-[ENTITIES:Customer]
--- Customer entity format
-&lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
+    <value>[LAYOUT] -- General layout &lt;T&gt;Bon&lt;L00&gt;Datum:{TICKET DATE} &lt;L00&gt;Tijd:{TIME} {ENTITIES} &lt;L00&gt;Bon Nr:{TICKET NO} &lt;F&gt;- {ORDERS} &lt;F&gt;= &lt;EB&gt; {DISCOUNTS} &lt;J10&gt;Totaal Gift:|{ORDER STATE TOTAL:Gift} &lt;J10&gt;Totaal:|{TICKET TOTAL} {PAYMENTS} &lt;DB&gt; &lt;F&gt;= &lt;C10&gt;B E D A N K T  E N  T O T Z I E N S [DISCOUNTS] &lt;J00&gt;{CALCULATION NAME} %{CALCULATION AMOUNT}|{CALCULATION TOTAL} [PAYMENTS] &lt;J00&gt;{PAYMENT NAME}|{PAYMENT AMOUNT} [ORDERS] -- Default format for orders &lt;J00&gt;- {QUANTITY} {NAME}|{PRICE} {ORDER TAGS} [ORDERS:Gift] -- Format for gifted orders &lt;J00&gt;- {QUANTITY} {NAME}|**GIFT** {ORDER TAGS} [ORDERS:Retour] -- Nothing will print for void lines [ORDER TAGS] -- Format for order tags &lt;J00&gt; * {ORDER TAG NAME} | {ORDER TAG PRICE} [ENTITIES:Tafel] -- Table entity format &lt;L00&gt;Tafel: {ENTITY NAME} [ENTITIES:Klant] -- Customer entity format &lt;J00&gt;Klanti: {ENTITY NAME} | {ENTITY DATA:Telefon}</value>
   </data>
   <data name="ChangePrice" xml:space="preserve">
     <value>Wijzig Prijs</value>
@@ -1255,7 +1210,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Transacties kunnen niet leeg zijn</value>
   </data>
   <data name="BatchEntityEditor" xml:space="preserve">
-    <value>Batch Entity Editor</value>
+    <value>Cumulatieve Eenheid Editor</value>
   </data>
   <data name="GroupFooter" xml:space="preserve">
     <value>Groepsvoettekst</value>
@@ -1273,7 +1228,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Hiermee ontgrendelt u bestelling</value>
   </data>
   <data name="PrintAccountScreen" xml:space="preserve">
-    <value>Print Account Screen</value>
+    <value>Rekening Lijst Printen</value>
   </data>
   <data name="AddTicketDiscount" xml:space="preserve">
     <value>Voeg Bon Korting toe</value>
@@ -1297,7 +1252,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Kan niet verwijderen, omdat dit {0} wordt bij een {1} gebruikt</value>
   </data>
   <data name="Contains" xml:space="preserve">
-    <value>Contains</value>
+    <value>Inhoud</value>
   </data>
   <data name="BeforeTicketClosing" xml:space="preserve">
     <value>voor Bon sluiting</value>
@@ -1315,7 +1270,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Duur</value>
   </data>
   <data name="UpdateAvailableEntityColor" xml:space="preserve">
-    <value>Update Available Entity Color</value>
+    <value>Status Kleur Huidige Bon Updaten</value>
   </data>
   <data name="Minute" xml:space="preserve">
     <value>Minuut</value>
@@ -1324,7 +1279,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Optioneel Bon Tag</value>
   </data>
   <data name="NotMatchesAll" xml:space="preserve">
-    <value>Not Matches All</value>
+    <value>Geen van Alle Komt Overeen</value>
   </data>
   <data name="TicketCount" xml:space="preserve">
     <value>Aantal bonnen</value>
@@ -1348,7 +1303,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Opdracht Automatisering uitgevoerd</value>
   </data>
   <data name="ShowOnEndOfDayReport" xml:space="preserve">
-    <value>Show on End of Day Report</value>
+    <value>Laat in Dagafsluitings Rapport Zien</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Kan ontgrendelde bonregels verplaatsen</value>
@@ -1411,7 +1366,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Nieuw</value>
   </data>
   <data name="ExecuteRuleIf" xml:space="preserve">
-    <value>Execute rule if</value>
+    <value>Als Actie Wordt Uitgevoerd</value>
   </data>
   <data name="LockTicket" xml:space="preserve">
     <value>Ticket blokkeren</value>
@@ -1465,10 +1420,10 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Blokkering verwijderen</value>
   </data>
   <data name="UserInformation" xml:space="preserve">
-    <value>User Information</value>
+    <value>Gebruiker Informatie</value>
   </data>
   <data name="SetWidgetValue" xml:space="preserve">
-    <value>Set Widget Value</value>
+    <value>Waarde Widget Instellen</value>
   </data>
   <data name="Sales" xml:space="preserve">
     <value>Verkoop</value>
@@ -1540,7 +1495,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Tekst</value>
   </data>
   <data name="AddLineToTextFile" xml:space="preserve">
-    <value>Add Line to Text File</value>
+    <value>Regel Toevoegen Aan TXT Bestand</value>
   </data>
   <data name="Ten" xml:space="preserve">
     <value>Tien</value>
@@ -1567,7 +1522,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Dertien</value>
   </data>
   <data name="ModifyVariable" xml:space="preserve">
-    <value>Modify Variable</value>
+    <value>Variabelen Editor</value>
   </data>
   <data name="HideAccountsWithZeroBalance" xml:space="preserve">
     <value>Verberg rekeningen met een balans van nul</value>
@@ -1585,7 +1540,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Knop Hoogte</value>
   </data>
   <data name="UpdateEntityData" xml:space="preserve">
-    <value>Update Entity Data</value>
+    <value>Update Entiteit Data</value>
   </data>
   <data name="Cash" xml:space="preserve">
     <value>Contant</value>
@@ -1606,13 +1561,13 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Print Bestellingen naar Keukenprinter</value>
   </data>
   <data name="AccountTransactionAddedToTicket" xml:space="preserve">
-    <value>Account Transaction Added to Ticket</value>
+    <value>Rekening Transactie Toegevoegd</value>
   </data>
   <data name="Noon" xml:space="preserve">
     <value>middag</value>
   </data>
   <data name="Greater" xml:space="preserve">
-    <value>Greater</value>
+    <value>Is Groter</value>
   </data>
   <data name="Sixteen" xml:space="preserve">
     <value>Zestien</value>
@@ -1627,7 +1582,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Groep Code</value>
   </data>
   <data name="Less" xml:space="preserve">
-    <value>Less</value>
+    <value>Is Kleiner</value>
   </data>
   <data name="Tickets" xml:space="preserve">
     <value>Bonnen</value>
@@ -1663,7 +1618,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Bij betaling scherm weergeven</value>
   </data>
   <data name="Print_f" xml:space="preserve">
-    <value>Print {0}</value>
+    <value>Printen {0}</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Waarschuwing</value>
@@ -1723,7 +1678,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Van:</value>
   </data>
   <data name="ChangeSortOrder" xml:space="preserve">
-    <value>Change Sort Order</value>
+    <value>Verander Volgorde</value>
   </data>
   <data name="One" xml:space="preserve">
     <value>Een</value>
@@ -1762,7 +1717,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Bonprinter</value>
   </data>
   <data name="IndividualOrdersByQuantity" xml:space="preserve">
-    <value>Individual orders by quantity</value>
+    <value>Print elke regel apart</value>
   </data>
   <data name="Amount" xml:space="preserve">
     <value>Bedrag</value>
@@ -1789,7 +1744,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Vijftien</value>
   </data>
   <data name="SearchValueReplacePattern" xml:space="preserve">
-    <value>Search Value Replace Pattern</value>
+    <value>Zoek Waarde</value>
   </data>
   <data name="UpdateTicketStatus" xml:space="preserve">
     <value>Bon status bijwerken</value>
@@ -1798,7 +1753,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Aantal pagina's</value>
   </data>
   <data name="MenuItemGroupCode" xml:space="preserve">
-    <value>Menu Item Group Code</value>
+    <value>Menu Groep Code</value>
   </data>
   <data name="Two" xml:space="preserve">
     <value>Twee</value>
@@ -1822,7 +1777,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Inloggen</value>
   </data>
   <data name="NotEquals" xml:space="preserve">
-    <value>Not Equals</value>
+    <value>Is Niet Gelijk Aan</value>
   </data>
   <data name="FastMenu" xml:space="preserve">
     <value>Snelmenu</value>
@@ -1885,7 +1840,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Werkperiodes</value>
   </data>
   <data name="ModifyOrder" xml:space="preserve">
-    <value>Modify Order</value>
+    <value>Verander Bestelling</value>
   </data>
   <data name="UniqueTicketId" xml:space="preserve">
     <value>Unieke Bon ID</value>
@@ -2020,7 +1975,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Tarief of bedrag</value>
   </data>
   <data name="Available" xml:space="preserve">
-    <value>Available</value>
+    <value>Beschikbaar</value>
   </data>
   <data name="Parameters" xml:space="preserve">
     <value>Parameters</value>
@@ -2057,7 +2012,7 @@ Veranderen van PIN zal deze hint verbergen</value>
 Bezoek sectie Rapporten en maak werkperiode Rapporten</value>
   </data>
   <data name="PrintAccountTransactionDocument" xml:space="preserve">
-    <value>Print Account Transaction Document</value>
+    <value>Rekening Details Printen</value>
   </data>
   <data name="WorkPeriodStartDate_f" xml:space="preserve">
     <value>Datum van werkperiode: {0}</value>
@@ -2162,13 +2117,13 @@ Foutbericht:
     <value>Afdelingen</value>
   </data>
   <data name="RequiredRecipes" xml:space="preserve">
-    <value>Required Recipes</value>
+    <value>Verplichte Recepten</value>
   </data>
   <data name="ShareNameAndPortName" xml:space="preserve">
     <value>Printer Share-naam / Poort Naam</value>
   </data>
   <data name="LengthEquals" xml:space="preserve">
-    <value>Length Equals</value>
+    <value>Lengte is Gelijk</value>
   </data>
   <data name="OrderStateUpdated" xml:space="preserve">
     <value>Bestellingslabel bijgewerkt</value>
@@ -2207,7 +2162,7 @@ Foutbericht:
     <value>Tekengrootte</value>
   </data>
   <data name="BillRequested" xml:space="preserve">
-    <value>Bill Requested</value>
+    <value>Bon Uitgeprint</value>
   </data>
   <data name="ImagePath" xml:space="preserve">
     <value>Afbeeldingspad</value>
@@ -2234,7 +2189,7 @@ Foutbericht:
     <value>Interval voor automatisch vernieuwen</value>
   </data>
   <data name="UpdateMovedEntityColor" xml:space="preserve">
-    <value>Update Moved Entity Color</value>
+    <value>Status Kleur Verplaatste Bon Updaten</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
@@ -2261,16 +2216,19 @@ Foutbericht:
     <value>Kan {0} niet leeg laten</value>
   </data>
   <data name="AccountTransactionDocumentCreated" xml:space="preserve">
-    <value>Account Transaction Document Created</value>
+    <value>Rekening Details Gecreeerd</value>
   </data>
   <data name="ExecutePowershellScript" xml:space="preserve">
     <value>Powershell Script uitvoeren</value>
   </data>
   <data name="Ends" xml:space="preserve">
-    <value>Ends</value>
+    <value>Einde</value>
   </data>
   <data name="TicketNumber_f" xml:space="preserve">
     <value>Bon Nummer: {0}</value>
+  </data>
+  <data name="StopProductTimers" xml:space="preserve">
+    <value>Stop Product Tijdteller</value>
   </data>
   <data name="AccountTransactionType" xml:space="preserve">
     <value>Rekening Transactietype</value>
@@ -2285,7 +2243,7 @@ Foutbericht:
     <value>Kloon {0}</value>
   </data>
   <data name="OrderCount" xml:space="preserve">
-    <value>Order Count</value>
+    <value>Bestellingen Nummer</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Bestelling</value>
@@ -2315,7 +2273,7 @@ Foutbericht:
     <value>Om de andere dag</value>
   </data>
   <data name="DateRangeTotal" xml:space="preserve">
-    <value>Date Range Total</value>
+    <value>Datum Bereik Totaal</value>
   </data>
   <data name="SortCategoryProducts" xml:space="preserve">
     <value>Sorteer Categorie Producten</value>
@@ -2342,13 +2300,13 @@ Foutbericht:
     <value>Nieuwe eigenschap</value>
   </data>
   <data name="OrderCancelled" xml:space="preserve">
-    <value>Order Cancelled</value>
+    <value>Bon Geannuleerd</value>
   </data>
   <data name="LineCharacterCount" xml:space="preserve">
     <value>Aantal karakters per regel</value>
   </data>
   <data name="RawPrinter" xml:space="preserve">
-    <value>Raw Printer</value>
+    <value>Raw Tekst Printer</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Type update</value>
@@ -2510,7 +2468,7 @@ Foutbericht:
     <value>Eenheid schermen</value>
   </data>
   <data name="OrderStatus" xml:space="preserve">
-    <value>Order Status</value>
+    <value>Bon Status</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
@@ -2624,7 +2582,7 @@ Foutbericht:
     <value>Elke 15 minuten</value>
   </data>
   <data name="TicketPaymentCheck" xml:space="preserve">
-    <value>Ticket Payment Check</value>
+    <value>Kontrole Betaalopdracht</value>
   </data>
   <data name="LastOrderDuration" xml:space="preserve">
     <value>Laatste bestelling duur</value>
@@ -2648,7 +2606,7 @@ Foutbericht:
     <value>Exclusief</value>
   </data>
   <data name="Question" xml:space="preserve">
-    <value>Question</value>
+    <value>Vraag</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Vorige</value>
@@ -2691,7 +2649,7 @@ Bon</value>
     <value>Afronden van tijd</value>
   </data>
   <data name="ShowOnTicket" xml:space="preserve">
-    <value>Show on Ticket</value>
+    <value>Laat zien in Rekening</value>
   </data>
   <data name="Paid" xml:space="preserve">
     <value>Betaald</value>
@@ -2715,7 +2673,7 @@ Bon</value>
     <value>Categorie Producten</value>
   </data>
   <data name="DisplayTicketLog" xml:space="preserve">
-    <value>Display Ticket Log</value>
+    <value>Rekening Details Weergeven</value>
   </data>
   <data name="LinesGroupedByGroupCode" xml:space="preserve">
     <value>Regels Gegroepeerd per groep Code</value>
@@ -2751,7 +2709,7 @@ Bon</value>
     <value>Automatisering</value>
   </data>
   <data name="CustomPrinter" xml:space="preserve">
-    <value>Custom Printer</value>
+    <value>Aanpasbare Printer</value>
   </data>
   <data name="Trigger" xml:space="preserve">
     <value>Trigger</value>
@@ -2760,16 +2718,16 @@ Bon</value>
     <value>Auto afronden</value>
   </data>
   <data name="LoadLastOrder" xml:space="preserve">
-    <value>Load Last Order</value>
+    <value>Laad Laatste Bon</value>
   </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
     <value>Totale werktijd: {0:0} uur {1:0} minuten</value>
   </data>
   <data name="UpdateNewOrderEntityColor" xml:space="preserve">
-    <value>Update New Order Entity Color</value>
+    <value>Status Kleur Nieuwe Bon Updaten</value>
   </data>
   <data name="AddTicketLog" xml:space="preserve">
-    <value>Add Ticket Log</value>
+    <value>Rekening Detail Toevoegen</value>
   </data>
   <data name="CostReport" xml:space="preserve">
     <value>Kosten Rapport</value>
@@ -2778,10 +2736,10 @@ Bon</value>
     <value>Event Naam</value>
   </data>
   <data name="NewOrderAddingRule" xml:space="preserve">
-    <value>New Order Adding Rule</value>
+    <value>Een Nieuwe Bestelling Toevoeg Opdracht</value>
   </data>
   <data name="Equal" xml:space="preserve">
-    <value>Equals</value>
+    <value>Is Gelijk Aan</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
     <value>Tekenset</value>
@@ -2799,7 +2757,7 @@ Bon</value>
     <value>Programma-instellingen</value>
   </data>
   <data name="Receipt" xml:space="preserve">
-    <value>Receipt</value>
+    <value>Rekening</value>
   </data>
   <data name="InStock" xml:space="preserve">
     <value>Op voorraad</value>
@@ -2886,7 +2844,7 @@ Bon</value>
     <value>Taaktype</value>
   </data>
   <data name="TransactionTotal" xml:space="preserve">
-    <value>Transaction Total</value>
+    <value>Transactie Totaal</value>
   </data>
   <data name="Calling" xml:space="preserve">
     <value>Bellen</value>
@@ -2931,7 +2889,7 @@ Bon</value>
     <value>Bonnen samengevoegd</value>
   </data>
   <data name="NewTicketCreatingRule" xml:space="preserve">
-    <value>New Ticket Creating Rule</value>
+    <value>Maak Een Nieuw Rekening Opdracht</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>Sorteer Type</value>
@@ -2949,7 +2907,7 @@ Bon</value>
     <value>Voer Printopdracht uit</value>
   </data>
   <data name="NotMatchesAny" xml:space="preserve">
-    <value>Not Matches Any</value>
+    <value>Geen van Alle Komt Overeen</value>
   </data>
   <data name="CalculationType" xml:space="preserve">
     <value>Soort Berekenen</value>
@@ -2964,13 +2922,13 @@ Bon</value>
     <value>Expressie</value>
   </data>
   <data name="Before" xml:space="preserve">
-    <value>Before</value>
+    <value>Ervoor</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>Maand</value>
   </data>
   <data name="Starts" xml:space="preserve">
-    <value>Starts</value>
+    <value>Start</value>
   </data>
   <data name="TicketEntityChanged" xml:space="preserve">
     <value>Bon eenheid gewijzigd</value>
@@ -2994,7 +2952,7 @@ Bon</value>
     <value>Status Controller</value>
   </data>
   <data name="ValueLooped" xml:space="preserve">
-    <value>Value Looped</value>
+    <value>Verander Waarde Opdracht  </value>
   </data>
   <data name="TagsShouldBeUniqueErrorMessage" xml:space="preserve">
     <value>Bon labelnamen moet uniek zijn</value>
@@ -3024,7 +2982,7 @@ Bon</value>
     <value>Bestelling ongelabeld</value>
   </data>
   <data name="SubButtonRows" xml:space="preserve">
-    <value>Sub Button Rows</value>
+    <value>Sub Button Rijen</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Bericht</value>
@@ -3054,7 +3012,7 @@ Bon</value>
     <value>BTW meeberekenen</value>
   </data>
   <data name="OpenClose_ab" xml:space="preserve">
-    <value>Op-Sl</value>
+    <value>Open - Gesloten</value>
   </data>
   <data name="Every6Months" xml:space="preserve">
     <value>Om de 6 maanden</value>
@@ -3094,7 +3052,7 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
     <value>Pin Code</value>
   </data>
   <data name="ExecutePrintBillJob" xml:space="preserve">
-    <value>Execute Bill Print Job</value>
+    <value>Print Bon Opdracht Uitvoeren</value>
   </data>
   <data name="DiscountPercentSign" xml:space="preserve">
     <value>Korting%</value>
@@ -3139,7 +3097,7 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
     <value>Oude einde-dag gegevens kan niet verwijderen</value>
   </data>
   <data name="LoopValues" xml:space="preserve">
-    <value>Loop Values</value>
+    <value>Veranderde Waarde Toewijzen</value>
   </data>
   <data name="CanDisplayOldTickets" xml:space="preserve">
     <value>Kan oude bonnen weergeven</value>
@@ -3154,7 +3112,7 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
     <value>Negentig</value>
   </data>
   <data name="DisplayUnderTicketRow2" xml:space="preserve">
-    <value>Display Under Ticket Row 2</value>
+    <value>Weergave Onder Ticket Rij 2</value>
   </data>
   <data name="DefaultTargetAccount" xml:space="preserve">
     <value>Standaard rekening doel</value>
@@ -3196,7 +3154,7 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
     <value>Afdelingsnaam</value>
   </data>
   <data name="IsNotNull" xml:space="preserve">
-    <value>Is Not Null</value>
+    <value>Als Het Niet Leeg Is</value>
   </data>
   <data name="ForeignCurrency" xml:space="preserve">
     <value>Vreemde valuta</value>
@@ -3280,7 +3238,7 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
     <value>Als boomstructuur weergeven</value>
   </data>
   <data name="Find_f" xml:space="preserve">
-    <value>Find {0}</value>
+    <value>Zoek {0}</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>
@@ -3325,7 +3283,7 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
     <value>Tekst geschreven totale waarde</value>
   </data>
   <data name="TicketNumber" xml:space="preserve">
-    <value>Ticket Number</value>
+    <value>Bonnummer</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Elke minuut</value>
@@ -3355,7 +3313,7 @@ Kan de werkperiode niet beeindigen zolang er nog bonnen open staan</value>
     <value>Script uitvoeren</value>
   </data>
   <data name="ShowOnProductReport" xml:space="preserve">
-    <value>Show on Product Report</value>
+    <value>Laat in Producten Raporten Zien</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>BTW Totaal</value>
