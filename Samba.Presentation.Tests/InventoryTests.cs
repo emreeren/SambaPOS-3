@@ -159,7 +159,7 @@ namespace Samba.Presentation.Tests
 
             var ti = transaction.Add(testContext.PurchaseTransactionType, testContext.DonerEti, 12, etAlimMiktari, "KG", 1000);
             transaction.TransactionItems.ToList().ForEach(workspace.Add);
-             ticket = TicketBuilder.Create(TicketType.Default, testContext.Department).Build();
+            ticket = TicketBuilder.Create(TicketType.Default, testContext.Department).Build();
 
             workspace.Add(ticket);
             ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
@@ -372,11 +372,33 @@ namespace Samba.Presentation.Tests
             Assert.AreEqual(5, InventoryService.GetInventory(testContext.DonerEti, testContext.LocalWarehouse));
         }
 
+        [Test]
+        public void CanHandleMultipleCostCalculation()
+        {
+            var workspace = PrepareMenu("sd7.txt");
+            var testContext = new WarehouseTestContext();
+            CreateWarehouseTestContext(testContext, workspace);
+            var missingItem = testContext.IskenderRecipe.RecipeItems.Last();
+            testContext.IskenderRecipe.RecipeItems.Remove(missingItem);
+            workspace.CommitChanges();
+
+            var ticket = TicketBuilder.Create(TicketType.Default, testContext.Department).Build();
+            workspace.Add(ticket);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            RestartWorkperiod(workspace);
+
+            testContext.IskenderRecipe.RecipeItems.Add(missingItem);
+            workspace.CommitChanges();
+            ticket = TicketBuilder.Create(TicketType.Default, testContext.Department).Build();
+            workspace.Add(ticket);
+            ticket.AddOrder(AccountTransactionType.Default, testContext.Department, "Emre", testContext.Iskender, null, testContext.Iskender.Portions[0], "", null);
+            RestartWorkperiod(workspace);
+        }
+
         private void RestartWorkperiod(IWorkspace workspace)
         {
             WorkPeriodService.StopWorkPeriod("");
             Thread.Sleep(1);
-            InventoryService.DoWorkPeriodEnd();
             var pc = InventoryService.GetCurrentPeriodicConsumption();
             InventoryService.SavePeriodicConsumption(pc);
             foreach (var warehouseConsumption in pc.WarehouseConsumptions)
@@ -391,8 +413,6 @@ namespace Samba.Presentation.Tests
             }
 
             WorkPeriodService.StartWorkPeriod("");
-            Thread.Sleep(1);
-            InventoryService.DoWorkPeriodStart();
         }
 
         private static void CreateWarehouseTestContext(WarehouseTestContext testContext, IWorkspace workspace)
@@ -402,6 +422,9 @@ namespace Samba.Presentation.Tests
 
             testContext.Iskender = workspace.Single<MenuItem>(x => x.Name == "İskender");
             testContext.Iskender.Portions[0].MenuItemId = testContext.Iskender.Id;
+
+            testContext.Doner = workspace.Single<MenuItem>(x => x.Name == "Ankara Döneri");
+            testContext.Doner.Portions[0].MenuItemId = testContext.Doner.Id;
 
             testContext.DonerEti = new InventoryItem { Name = "Döner Eti", BaseUnit = "GR", GroupCode = "", TransactionUnit = "KG", TransactionUnitMultiplier = 1000 };
             testContext.Yogurt = new InventoryItem { Name = "Yoğurt", BaseUnit = "GR", GroupCode = "", TransactionUnit = "KG", TransactionUnitMultiplier = 1000 };
@@ -425,6 +448,10 @@ namespace Samba.Presentation.Tests
             testContext.IskenderRecipe.RecipeItems.Add(new RecipeItem { InventoryItem = testContext.Pide, Quantity = 2 });
             testContext.IskenderRecipe.RecipeItems.Add(new RecipeItem { InventoryItem = testContext.ZeytinYagi, Quantity = 1 });
             testContext.IskenderRecipe.RecipeItems.Add(new RecipeItem { InventoryItem = testContext.Tuz, Quantity = 10 });
+
+            testContext.DonerRecipe = new Recipe { Name = "Döner Reçetesi", Portion = testContext.Doner.Portions[0] };
+            workspace.Add(testContext.DonerRecipe);
+            testContext.DonerRecipe.RecipeItems.Add(new RecipeItem{InventoryItem=testContext.DonerEti,Quantity = 120});
 
             testContext.LocalWarehouseAccountType = new AccountType { Name = "Local Warehouse Account Type" };
             testContext.SellerWarehouseAccountType = new AccountType { Name = "Seller Warehouse Account Type" };
@@ -581,6 +608,7 @@ namespace Samba.Presentation.Tests
     internal class WarehouseTestContext
     {
         public MenuItem Iskender { get; set; }
+        public MenuItem Doner { get; set; }
         public InventoryItem Tuz { get; set; }
         public InventoryItem ZeytinYagi { get; set; }
         public InventoryItem Pide { get; set; }
@@ -588,6 +616,7 @@ namespace Samba.Presentation.Tests
         public InventoryItem DonerEti { get; set; }
         public InventoryItem Kekik { get; set; }
         public Recipe IskenderRecipe { get; set; }
+        public Recipe DonerRecipe { get; set; }
 
         public AccountType LocalWarehouseAccountType { get; set; }
         public AccountType SellerWarehouseAccountType { get; set; }

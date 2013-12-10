@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Samba.Infrastructure.Data;
 
@@ -52,8 +53,8 @@ namespace Samba.Domain.Models.Inventory
 
         private decimal GetFinalCost(RecipeItem recipeItem)
         {
-            var pci = PeriodicConsumptionItems.Single(x => x.InventoryItemId == recipeItem.InventoryItem.Id);
-            if (pci.GetPredictedConsumption() > 0)
+            var pci = PeriodicConsumptionItems.SingleOrDefault(x => x.InventoryItemId == recipeItem.InventoryItem.Id);
+            if (pci != null && pci.GetPredictedConsumption() > 0)
             {
                 var cost = recipeItem.Quantity * (pci.Cost / pci.UnitMultiplier);
                 cost = (pci.GetConsumption() * cost) / pci.GetPredictedConsumption();
