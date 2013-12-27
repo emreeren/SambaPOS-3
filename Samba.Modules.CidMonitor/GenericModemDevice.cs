@@ -79,7 +79,7 @@ namespace Samba.Modules.CidMonitor
 
         private string GetMatchPattern()
         {
-            return !string.IsNullOrWhiteSpace(Settings.MatchPattern) ? Settings.MatchPattern : @"NMBR = ([0-9]+)";
+            return !string.IsNullOrWhiteSpace(Settings.MatchPattern) ? Settings.MatchPattern : @"NMBR.*=?[^0-9]+([0-9]+)";
         }
 
         private string GetTerminateString()

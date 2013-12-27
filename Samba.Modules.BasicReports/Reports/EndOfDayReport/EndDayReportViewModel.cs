@@ -183,6 +183,9 @@ namespace Samba.Modules.BasicReports.Reports.EndOfDayReport
                     ddiscounts = Math.Abs(ddiscounts);
 
                     report.AddRow(ticketTypeInfo.TicketTypeName + Resources.Incomes, Resources.DiscountsTotal, "", ddiscounts.ToString(ReportContext.CurrencyFormat));
+
+                    report.AddRow(ticketTypeInfo.TicketTypeName + Resources.Incomes, Resources.TaxAmount, "", ticketTypeInfo.Tax.ToString(ReportContext.CurrencyFormat));             
+                
                 }
             }
 
