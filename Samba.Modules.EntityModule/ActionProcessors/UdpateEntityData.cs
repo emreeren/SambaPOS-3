@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Samba.Domain.Models.Entities;
 using Samba.Domain.Models.Tickets;
 using Samba.Localization.Properties;
 using Samba.Presentation.Services;
@@ -53,6 +54,10 @@ namespace Samba.Modules.EntityModule.ActionProcessors
                     }
                 }
             }
+
+            var entity = actionData.GetDataValue<Entity>("Entity");
+            if (entity != null && entity.Id == entityId)
+                entity.SetCustomData(fieldName, value);
         }
 
         protected override object GetDefaultData()
