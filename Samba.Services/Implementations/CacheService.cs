@@ -75,6 +75,7 @@ namespace Samba.Services.Implementations
 
         public MenuItem FindMenuItemByBarcode(string insertedData)
         {
+            if (string.IsNullOrWhiteSpace(insertedData)) return null;
             return MenuItems.SingleOrDefault(x => x.Barcode == insertedData);
         }
 

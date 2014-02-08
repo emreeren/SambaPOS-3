@@ -254,7 +254,7 @@
     <value>Laporan Periode Kerja</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>Save Changes</value>
+    <value>Simpan perubahan</value>
   </data>
   <data name="AddCategoryHint" xml:space="preserve">
     <value>Masukkan Kategori yang ingin Anda Tambahkan</value>
@@ -269,7 +269,7 @@
     <value>Aturan</value>
   </data>
   <data name="CallerIdDevice" xml:space="preserve">
-    <value>Caller Id Device</value>
+    <value>Perangkat Caller ID</value>
   </data>
   <data name="TicketWithBrackets" xml:space="preserve">
     <value>[Tiket]</value>
@@ -440,7 +440,7 @@
     <value>#Line: Harga Item Dalam Ratusan Rupiah</value>
   </data>
   <data name="ParameterNameContainsSpaceError_f" xml:space="preserve">
-    <value>Parameter [{0}] should not start or end with space.</value>
+    <value>Parameter [{0}] seharusnya tidak dimulai atau diakhiri dengan ruang.</value>
   </data>
   <data name="UserLogin" xml:space="preserve">
     <value>User Login</value>
@@ -1351,7 +1351,7 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
     <value>Perintah Otomatisasi Dijalankan</value>
   </data>
   <data name="ShowOnEndOfDayReport" xml:space="preserve">
-    <value>Show on End of Day Report</value>
+    <value>Tampilkan pada laporan tutup buku</value>
   </data>
   <data name="CanMoveUnlockedTicketLines" xml:space="preserve">
     <value>Bisa Pindahkan Tiket yang belum terkunci</value>
@@ -1519,7 +1519,7 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
     <value>Teks</value>
   </data>
   <data name="AddLineToTextFile" xml:space="preserve">
-    <value>Add Line to Text File</value>
+    <value>Masukkan garis pada File Teks</value>
   </data>
   <data name="Ten" xml:space="preserve">
     <value>Sepuluh</value>
@@ -1546,7 +1546,7 @@ Mengubah PIN akan menyembunyikan petunjuk ini</value>
     <value>Tiga belas</value>
   </data>
   <data name="ModifyVariable" xml:space="preserve">
-    <value>Modify Variable</value>
+    <value>ubah variabel</value>
   </data>
   <data name="HideAccountsWithZeroBalance" xml:space="preserve">
     <value>Sembunyikan Akun dengan Saldo Nol</value>
@@ -2252,7 +2252,7 @@ Pesan Error:
     <value>Nomor Tiket: {0}</value>
   </data>
   <data name="StopProductTimers" xml:space="preserve">
-    <value>Stop Product Timers</value>
+    <value>Hentikan Timer Produk</value>
   </data>
   <data name="AccountTransactionType" xml:space="preserve">
     <value>Tipe Akun Transaksi</value>
@@ -2267,7 +2267,7 @@ Pesan Error:
     <value>Duplikat {0}</value>
   </data>
   <data name="OrderCount" xml:space="preserve">
-    <value>Order Count</value>
+    <value>Hitung Pesanan</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Pesanan</value>
@@ -2330,7 +2330,7 @@ Pesan Error:
     <value>Jumlah Baris Karakter</value>
   </data>
   <data name="RawPrinter" xml:space="preserve">
-    <value>Raw Printer</value>
+    <value>Printer Utama</value>
   </data>
   <data name="UpdateType" xml:space="preserve">
     <value>Jenis Pembaharuan</value>
@@ -2673,7 +2673,7 @@ Tiket</value>
     <value>Pembulatan Waktu</value>
   </data>
   <data name="ShowOnTicket" xml:space="preserve">
-    <value>Show on Ticket</value>
+    <value>Tampilkan pada tiket</value>
   </data>
   <data name="Paid" xml:space="preserve">
     <value>Lunas</value>
@@ -2733,7 +2733,7 @@ Tiket</value>
     <value>Otomatisasi</value>
   </data>
   <data name="CustomPrinter" xml:space="preserve">
-    <value>Custom Printer</value>
+    <value>Sesuaikan Printer</value>
   </data>
   <data name="Trigger" xml:space="preserve">
     <value>Trigger</value>
@@ -3307,7 +3307,7 @@ Periode Kerja tidak dapat diakhiri karena masih ada Tiket yang terbuka</value>
     <value>Nilai Total Terbilang dalam kata-kata</value>
   </data>
   <data name="TicketNumber" xml:space="preserve">
-    <value>Ticket Number</value>
+    <value>Nomor Tiket</value>
   </data>
   <data name="EveryMinute" xml:space="preserve">
     <value>Setiap menit</value>
@@ -3337,7 +3337,7 @@ Periode Kerja tidak dapat diakhiri karena masih ada Tiket yang terbuka</value>
     <value>Menjalankan Script</value>
   </data>
   <data name="ShowOnProductReport" xml:space="preserve">
-    <value>Show on Product Report</value>
+    <value>Tampilkan pada laporan produk</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
     <value>Total Pajak</value>

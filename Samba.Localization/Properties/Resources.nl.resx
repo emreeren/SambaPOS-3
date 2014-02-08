@@ -1279,7 +1279,7 @@ Veranderen van PIN zal deze hint verbergen</value>
     <value>Optioneel Bon Tag</value>
   </data>
   <data name="NotMatchesAll" xml:space="preserve">
-    <value>Geen van Alle Komt Overeen</value>
+    <value>Helemaal geen Overeenkomsten</value>
   </data>
   <data name="TicketCount" xml:space="preserve">
     <value>Aantal bonnen</value>
@@ -2108,7 +2108,7 @@ Foutbericht:
     <value>Op het hele uur</value>
   </data>
   <data name="FirstAndFifteenth" xml:space="preserve">
-    <value>1e en 15e</value>
+    <value>1e en 15e van de maand</value>
   </data>
   <data name="AccountTransactionDocument" xml:space="preserve">
     <value>Rekening transactie Document</value>
@@ -2561,7 +2561,7 @@ Foutbericht:
     <value>Ontwikkeling</value>
   </data>
   <data name="MonThruFri" xml:space="preserve">
-    <value>Maa tot vrij</value>
+    <value>Ma tot Vrij</value>
   </data>
   <data name="LocalSettings" xml:space="preserve">
     <value>Lokale Instellingen</value>

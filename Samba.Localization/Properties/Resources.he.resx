@@ -130,7 +130,7 @@
     <value>כותרת הכפתור</value>
   </data>
   <data name="POS" xml:space="preserve">
-    <value>POS עמדת מכירה</value>
+    <value>עמדת מכירה</value>
   </data>
   <data name="DisplayTicket" xml:space="preserve">
     <value>הצגת כרטיס</value>
@@ -142,14 +142,14 @@
     <value>הדפסה</value>
   </data>
   <data name="TotalWorkTimeDays_f" xml:space="preserve">
-    <value>Total Work Time:
-{0:0} days {1:0} hours {2:0} minutes</value>
+    <value>סה"כ משמרת עבודה:
+{0:0} ימים {1:0} שעות {2:0} דקות</value>
   </data>
   <data name="Settle" xml:space="preserve">
     <value>סגירת חשבון</value>
   </data>
   <data name="BeforeWorkPeriodEnds" xml:space="preserve">
-    <value>Before Work Period Ends</value>
+    <value>לפני שמשמרת עבודה מסתיימת</value>
   </data>
   <data name="Add_f" xml:space="preserve">
     <value>הוספת: {0}</value>
@@ -197,7 +197,7 @@
     <value>סוג מסמך</value>
   </data>
   <data name="CashStatus" xml:space="preserve">
-    <value>Cash Status</value>
+    <value>מצב המזומנים</value>
   </data>
   <data name="Inventory" xml:space="preserve">
     <value>מלאי</value>
@@ -212,7 +212,7 @@
     <value>Fourteen</value>
   </data>
   <data name="UserRoleList" xml:space="preserve">
-    <value>Role List</value>
+    <value>רשימת תפקידים</value>
   </data>
   <data name="UpdateOrderGiftState" xml:space="preserve">
     <value>Update Order Gift State</value>
@@ -221,7 +221,7 @@
     <value>Clear filter</value>
   </data>
   <data name="UpdatePriceTag" xml:space="preserve">
-    <value>Change Price List</value>
+    <value>שנה רשימת מחירים</value>
   </data>
   <data name="ExecuteKitchenOrdersPrintJob" xml:space="preserve">
     <value>Execute Kitchen Orders Print Job</value>
@@ -236,7 +236,7 @@
     <value>Matches Any</value>
   </data>
   <data name="TotalIncome" xml:space="preserve">
-    <value>Total Income</value>
+    <value>סה"כ הכנסות</value>
   </data>
   <data name="Entities" xml:space="preserve">
     <value>Entities</value>
@@ -266,7 +266,7 @@
     <value>נא להתחיל משמרת עבודה בכדי לאפשר גישה POS</value>
   </data>
   <data name="Rules" xml:space="preserve">
-    <value>Rules</value>
+    <value>כללים</value>
   </data>
   <data name="CallerIdDevice" xml:space="preserve">
     <value>Caller Id Device</value>
@@ -311,7 +311,7 @@
     <value>Device Event Generated</value>
   </data>
   <data name="Liability" xml:space="preserve">
-    <value>Liability</value>
+    <value>אחריות</value>
   </data>
   <data name="UpdateTicketState" xml:space="preserve">
     <value>עדכון סטטוס כרטיס</value>
@@ -320,13 +320,13 @@
     <value>Nineteen</value>
   </data>
   <data name="List_f" xml:space="preserve">
-    <value>{0} רשימת</value>
+    <value>רשימת: {0}</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Copy</value>
   </data>
   <data name="TaxIncluded" xml:space="preserve">
-    <value>Tax Included</value>
+    <value>כולל מע"מ</value>
   </data>
   <data name="EveryOtherHour" xml:space="preserve">
     <value>Every other hour</value>
@@ -494,10 +494,10 @@
     <value>כרטיסי לקוח</value>
   </data>
   <data name="SelectAutomationCommand" xml:space="preserve">
-    <value>Select Automation Command</value>
+    <value>בחר פקודת אוטומציה</value>
   </data>
   <data name="ProductTimer" xml:space="preserve">
-    <value>שעון העצר של מוצר</value>
+    <value>טיימר של מוצר</value>
   </data>
   <data name="MenuName" xml:space="preserve">
     <value>שם תפריט</value>
@@ -614,7 +614,7 @@ Message:
     <value>Role Name</value>
   </data>
   <data name="ThereAreNoCostTransactionsInThisPeriod" xml:space="preserve">
-    <value>There are no cost transactions in this work period.</value>
+    <value>אין עסקאות של הוצאות במשמרת עבודה זו.</value>
   </data>
   <data name="MenuItem" xml:space="preserve">
     <value>מוצר</value>
@@ -653,7 +653,7 @@ Message:
     <value>Time</value>
   </data>
   <data name="Move" xml:space="preserve">
-    <value>Move</value>
+    <value>העברת</value>
   </data>
   <data name="Create_f" xml:space="preserve">
     <value>Create {0}</value>
@@ -662,7 +662,7 @@ Message:
     <value>Rate</value>
   </data>
   <data name="Debit" xml:space="preserve">
-    <value>Debit</value>
+    <value>חובה</value>
   </data>
   <data name="FindProduct" xml:space="preserve">
     <value>חיפוש מוצר</value>
@@ -671,7 +671,7 @@ Message:
     <value>Every 5 minutes</value>
   </data>
   <data name="Rule" xml:space="preserve">
-    <value>Rule</value>
+    <value>כלל</value>
   </data>
   <data name="LastOrderStatus" xml:space="preserve">
     <value>מצב הזמנה אחרון</value>
@@ -686,13 +686,13 @@ Message:
     <value>Entity Screen Item</value>
   </data>
   <data name="Incomes_f" xml:space="preserve">
-    <value>{0} Incomes</value>
+    <value>{0} הכנסות</value>
   </data>
   <data name="TicketCreationMethod" xml:space="preserve">
     <value>Ticket Creation Method</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Tag</value>
+    <value>תג</value>
   </data>
   <data name="OrderTagPrice" xml:space="preserve">
     <value>Order Tag Price</value>
@@ -767,7 +767,7 @@ Message:
     <value>Order Tagged</value>
   </data>
   <data name="DayTime" xml:space="preserve">
-    <value>Time of Day</value>
+    <value>שעה של יום</value>
   </data>
   <data name="TriggerTestResultMessage_f" xml:space="preserve">
     <value>Next Trigger:{0}
@@ -810,7 +810,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>תאריך הזמנה אחרונה</value>
   </data>
   <data name="Credit" xml:space="preserve">
-    <value>Credit</value>
+    <value>זכות</value>
   </data>
   <data name="AppendUnmappedItems" xml:space="preserve">
     <value>Append Unmapped Items</value>
@@ -837,7 +837,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>שורות מקובצות לפי ברקוד</value>
   </data>
   <data name="ThisWeek" xml:space="preserve">
-    <value>This Week</value>
+    <value>שבוע נוכחי</value>
   </data>
   <data name="PrintContent" xml:space="preserve">
     <value>Printing Content</value>
@@ -846,10 +846,10 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Ticket Command</value>
   </data>
   <data name="PastWeek" xml:space="preserve">
-    <value>Past Week</value>
+    <value>שבוע שעבר</value>
   </data>
   <data name="Tax" xml:space="preserve">
-    <value>Tax</value>
+    <value>מע"מ</value>
   </data>
   <data name="EntityUpdated" xml:space="preserve">
     <value>Entity Updated</value>
@@ -870,13 +870,13 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>כדי להיות מסוגל להציג זיהוי המתקשר - עליך להתקין מנהל התקן של חומרה.</value>
   </data>
   <data name="CanOpenNavigation" xml:space="preserve">
-    <value>Can Enter Navigation Screen</value>
+    <value>יכול להכנס למסך הניווט</value>
   </data>
   <data name="Required" xml:space="preserve">
     <value>Required</value>
   </data>
   <data name="TotalAmount_f" xml:space="preserve">
-    <value>{0} Total Amount:</value>
+    <value>{0} סכום כולל:</value>
   </data>
   <data name="Warehouses" xml:space="preserve">
     <value>מחסנים</value>
@@ -933,7 +933,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>עלויות</value>
   </data>
   <data name="Expenses" xml:space="preserve">
-    <value>Expenses</value>
+    <value>הוצאות</value>
   </data>
   <data name="CanStartEndOfDay" xml:space="preserve">
     <value>Can Start End of Day</value>
@@ -964,13 +964,13 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>חשבונות מאוזנים</value>
   </data>
   <data name="FreeTagging" xml:space="preserve">
-    <value>Free Tagging</value>
+    <value>תיוג חופשי</value>
   </data>
   <data name="Customers" xml:space="preserve">
     <value>לקוחות</value>
   </data>
   <data name="TicketTag" xml:space="preserve">
-    <value>Ticket Tag</value>
+    <value>תג כרטיס</value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>תצוגה</value>
@@ -997,13 +997,13 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>#שורה: מחיר פריט</value>
   </data>
   <data name="StartingWorkPeriodCompleted" xml:space="preserve">
-    <value>Work Period Started.</value>
+    <value>משך עבודה התחיל</value>
   </data>
   <data name="CommandType" xml:space="preserve">
     <value>Command Type</value>
   </data>
   <data name="Rule_f" xml:space="preserve">
-    <value>{0} Rule</value>
+    <value>{0} כלל</value>
   </data>
   <data name="PayTicket" xml:space="preserve">
     <value>Pay Ticket</value>
@@ -1051,7 +1051,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Set Current Terminal</value>
   </data>
   <data name="SubTags" xml:space="preserve">
-    <value>Sub Tags</value>
+    <value>תת תגיות</value>
   </data>
   <data name="GroupTag" xml:space="preserve">
     <value>Group Tag</value>
@@ -1087,7 +1087,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>הצג נתיב של התוכנה</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New Tag</value>
+    <value>תג חדש</value>
   </data>
   <data name="Product" xml:space="preserve">
     <value>מוצר</value>
@@ -1114,7 +1114,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Missing Recipes</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>הרשאות</value>
   </data>
   <data name="Accounts_f" xml:space="preserve">
     <value>{0} Accounts</value>
@@ -1135,7 +1135,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Inventory Group</value>
   </data>
   <data name="Drawer" xml:space="preserve">
-    <value>Cash Drawer</value>
+    <value>מגירת כסף</value>
   </data>
   <data name="Send" xml:space="preserve">
     <value>Send</value>
@@ -1150,7 +1150,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Sixty</value>
   </data>
   <data name="NoTransactionsFoundFor_f" xml:space="preserve">
-    <value>No transactions for {0}</value>
+    <value>אין עסקאות עבור {0}</value>
   </data>
   <data name="PrimaryFieldName" xml:space="preserve">
     <value>Primary Field Name</value>
@@ -1216,13 +1216,13 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
 &lt;J00&gt;Customer: {ENTITY NAME} | {ENTITY DATA:Phone}</value>
   </data>
   <data name="ChangePrice" xml:space="preserve">
-    <value>Change Price</value>
+    <value>שנה מחיר</value>
   </data>
   <data name="UpdateOrder" xml:space="preserve">
     <value>Update Order</value>
   </data>
   <data name="StartAmount" xml:space="preserve">
-    <value>Start Amounts</value>
+    <value>סכומים התחלתיים</value>
   </data>
   <data name="EntityTypes" xml:space="preserve">
     <value>סוגי ישויות</value>
@@ -1234,7 +1234,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Width</value>
   </data>
   <data name="TaxTemplate" xml:space="preserve">
-    <value>Tax Template</value>
+    <value>תבנית מע"מ</value>
   </data>
   <data name="Million" xml:space="preserve">
     <value>Million</value>
@@ -1267,7 +1267,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Transaction Printer</value>
   </data>
   <data name="TotalExpense" xml:space="preserve">
-    <value>Total Expense</value>
+    <value>סה"כ הוצאות</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Update</value>
@@ -1288,7 +1288,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>משמרת עבודה הסתיימה</value>
   </data>
   <data name="UndefinedWithBrackets" xml:space="preserve">
-    <value>[Undefined]</value>
+    <value>[לא מוגדר]</value>
   </data>
   <data name="LineItemTotalWithoutGifts" xml:space="preserve">
     <value>#שורה: סה"כ מוצרים (ללא מתנות)</value>
@@ -1333,7 +1333,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>ספירת כרטיסים</value>
   </data>
   <data name="DefaultAmount" xml:space="preserve">
-    <value>Default Amount</value>
+    <value>סכום ברירת מחדל</value>
   </data>
   <data name="StartClientNow" xml:space="preserve">
     <value>Start Client Now</value>
@@ -1345,10 +1345,10 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Day</value>
   </data>
   <data name="TicketMovedRetryLastOperation_f" xml:space="preserve">
-    <value>Ticket moved to {0}. Your latest changes not saved.</value>
+    <value>כרטיס הועבר ל{0}. השינויים האחרונים לא נשמרו</value>
   </data>
   <data name="AutomationCommandExecuted" xml:space="preserve">
-    <value>Automation Command Exeucted</value>
+    <value>ביצוע פקודת אוטומציה</value>
   </data>
   <data name="ShowOnEndOfDayReport" xml:space="preserve">
     <value>Show on End of Day Report</value>
@@ -1357,7 +1357,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>ניתן להזיז שורות של כרטיסים לא נעולים</value>
   </data>
   <data name="TaxRate" xml:space="preserve">
-    <value>Tax Rate</value>
+    <value>שיעור המע"מ</value>
   </data>
   <data name="PaymentScreenSettings" xml:space="preserve">
     <value>הגדרות מסך התשלום</value>
@@ -1366,7 +1366,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Hundred</value>
   </data>
   <data name="ThereIsAnotherPriceDefinition_f" xml:space="preserve">
-    <value>There is another Price Definition with {0} tag</value>
+    <value>קיימת עוד הגדרת מחיר עם {0} תג</value>
   </data>
   <data name="PrintJob" xml:space="preserve">
     <value>משימת הדפסה</value>
@@ -1420,25 +1420,25 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>נעילת כרטיס</value>
   </data>
   <data name="OrderMoved" xml:space="preserve">
-    <value>Order Moved</value>
+    <value>הזמנה הועברה</value>
   </data>
   <data name="WorkPeriodStartTime" xml:space="preserve">
     <value>שעת משמרת עבודה: {0}</value>
   </data>
   <data name="RuleName" xml:space="preserve">
-    <value>Rule Name</value>
+    <value>שם כלל</value>
   </data>
   <data name="Hour" xml:space="preserve">
     <value>Hour</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>מצב</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>שמירה</value>
   </data>
   <data name="TicketMovedRule" xml:space="preserve">
-    <value>Ticket Moved Rule</value>
+    <value>כלל העברת כרטיס</value>
   </data>
   <data name="CanCreateAccount" xml:space="preserve">
     <value>Can Create Account</value>
@@ -1447,7 +1447,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Rate from previous template amount</value>
   </data>
   <data name="SellAmount" xml:space="preserve">
-    <value>כמות נמכר</value>
+    <value>סכום נמכר</value>
   </data>
   <data name="Increase" xml:space="preserve">
     <value>Increase</value>
@@ -1465,7 +1465,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Please enter a brief explanation of events leading up to this exception</value>
   </data>
   <data name="ReleaseLock" xml:space="preserve">
-    <value>Release Lock</value>
+    <value>שחרור נעילה</value>
   </data>
   <data name="UserInformation" xml:space="preserve">
     <value>User Information</value>
@@ -1507,16 +1507,16 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
 </value>
   </data>
   <data name="TicketPaidTotal" xml:space="preserve">
-    <value>Paid Ticket Amount</value>
+    <value>סכום כרטיס ששולם</value>
   </data>
   <data name="SaveErrorDuplicateItemName_f" xml:space="preserve">
     <value>There is already a {0} with that name.</value>
   </data>
   <data name="TicketTimeDisplay_f" xml:space="preserve">
-    <value>{0} ({1} min.)</value>
+    <value>{0} ({1} דקות)</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value>Text</value>
+    <value>טקסט</value>
   </data>
   <data name="AddLineToTextFile" xml:space="preserve">
     <value>Add Line to Text File</value>
@@ -1558,7 +1558,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>תחילת עבודה</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Details</value>
+    <value>פרטים</value>
   </data>
   <data name="ButtonHeight" xml:space="preserve">
     <value>גובה כפתור</value>
@@ -1615,7 +1615,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Entity State Updated</value>
   </data>
   <data name="NextPage" xml:space="preserve">
-    <value>Next Page</value>
+    <value>דף הבא</value>
   </data>
   <data name="NavigationPermissions" xml:space="preserve">
     <value>Navigation Permissions</value>
@@ -1666,7 +1666,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Setting Value</value>
   </data>
   <data name="ChangeSortOrderHint" xml:space="preserve">
-    <value>Change sort order by dragging items</value>
+    <value>שנה סדר המיון על-ידי גרירת פריטים</value>
   </data>
   <data name="CanMergeTickets" xml:space="preserve">
     <value>ניתן למזג כרטיסים</value>
@@ -1693,16 +1693,16 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>כדי להוסיף הנחות, הקלד תעריף ולחץ על כפתור הנחה. כדי להסיר הנחה לחץ על כפתור הנחה ללא הקלדת ערך.</value>
   </data>
   <data name="Submitted" xml:space="preserve">
-    <value>Submitted</value>
+    <value>התווסף</value>
   </data>
   <data name="Account_f" xml:space="preserve">
-    <value>Account: {0}</value>
+    <value>חשבון: {0}</value>
   </data>
   <data name="From" xml:space="preserve">
     <value>From:</value>
   </data>
   <data name="ChangeSortOrder" xml:space="preserve">
-    <value>Change Sort Order</value>
+    <value>שנה סדר המיון</value>
   </data>
   <data name="One" xml:space="preserve">
     <value>One</value>
@@ -1744,7 +1744,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Individual orders by quantity</value>
   </data>
   <data name="Amount" xml:space="preserve">
-    <value>כמות</value>
+    <value>סכום</value>
   </data>
   <data name="Locked" xml:space="preserve">
     <value>Locked</value>
@@ -1771,7 +1771,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Search Value Replace Pattern</value>
   </data>
   <data name="UpdateTicketStatus" xml:space="preserve">
-    <value>Update Ticket Status</value>
+    <value>עדכן מצב הכרטיס</value>
   </data>
   <data name="PageCount" xml:space="preserve">
     <value>ספירת עמוד</value>
@@ -1795,7 +1795,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>אישור</value>
   </data>
   <data name="DisplayTicketList" xml:space="preserve">
-    <value>הצגת רשימת כרטיסים</value>
+    <value>הצג רשימת כרטיסים</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>כניסה</value>
@@ -1810,13 +1810,13 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>מחלקה</value>
   </data>
   <data name="PastMonth" xml:space="preserve">
-    <value>Past Month</value>
+    <value>חודש שעבר</value>
   </data>
   <data name="LastPaymentTime" xml:space="preserve">
-    <value>Last Payment</value>
+    <value>התשלום האחרון</value>
   </data>
   <data name="WhenTagSelected" xml:space="preserve">
-    <value>When Tagged</value>
+    <value>כאשר מתויג</value>
   </data>
   <data name="DetailedReport" xml:space="preserve">
     <value>דוח מפורט</value>
@@ -1837,7 +1837,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Extra Modifiers</value>
   </data>
   <data name="PreviousPage" xml:space="preserve">
-    <value>Previous Page</value>
+    <value>הדף הקודם</value>
   </data>
   <data name="Printer" xml:space="preserve">
     <value>מדפסת</value>
@@ -1867,10 +1867,10 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Modify Order</value>
   </data>
   <data name="UniqueTicketId" xml:space="preserve">
-    <value>Unique Ticket Id</value>
+    <value>מזהה כרטיס ייחודי</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>לא</value>
   </data>
   <data name="SetActiveTicketType" xml:space="preserve">
     <value>Set Active Ticket Type</value>
@@ -1891,7 +1891,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>חשבונות פנימיים</value>
   </data>
   <data name="TaxFree" xml:space="preserve">
-    <value>Tax Free</value>
+    <value>פטור ממע"מ</value>
   </data>
   <data name="POSView" xml:space="preserve">
     <value>תצוגת עמדת מכירה</value>
@@ -1930,7 +1930,7 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>מחק מיפוי נבחר?</value>
   </data>
   <data name="WhenTagNotSelected" xml:space="preserve">
-    <value>When Untagged</value>
+    <value>כאשר לא מתוייג</value>
   </data>
   <data name="ActionType" xml:space="preserve">
     <value>Action Type</value>
@@ -1963,22 +1963,22 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>Setting Name</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background Image</value>
+    <value>תמונת רקע</value>
   </data>
   <data name="QuantitiesByItemGroup" xml:space="preserve">
-    <value>Quantities by Item Group</value>
+    <value>כמויות לפי קבוצת פריטים</value>
   </data>
   <data name="TotalAmountDivTag_f" xml:space="preserve">
-    <value>Total Amount / {0}:</value>
+    <value>סכום כולל / {0}:</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
   <data name="AllDiscountsRemoved" xml:space="preserve">
-    <value>All discounts removed because calculated total discount amount is greater than ticket amount.</value>
+    <value>כל ההנחות הוסרו בגלל שחישוב הסך הכולל של ההנחות הינו יותר גדול מסכום הכרטיס</value>
   </data>
   <data name="AlwaysExcludeTax" xml:space="preserve">
-    <value>Always Exclude Tax</value>
+    <value>תמיד לא לכלול מע"מ</value>
   </data>
   <data name="PriceDefinitonName" xml:space="preserve">
     <value>Price Definiton Name</value>
@@ -2032,8 +2032,8 @@ Will Trigger after {1} days, {2} hours, {3} minutes</value>
     <value>מכירות לפי פריט</value>
   </data>
   <data name="WorkPeriodEndsMessage" xml:space="preserve">
-    <value>Work Period ends.
-Visit Reports section and create Work Period Reports</value>
+    <value>משמרת עבודה הסתיימה.
+בקר במסך הדוחות על מנת ליצור דוחות משמרת עבודה</value>
   </data>
   <data name="PrintAccountTransactionDocument" xml:space="preserve">
     <value>Print Account Transaction Document</value>
@@ -2084,7 +2084,7 @@ Please give some details about how it happend.
 Continue without adding details?</value>
   </data>
   <data name="SortCategoriesDialogHint_f" xml:space="preserve">
-    <value>Drag {0} menu categories to change order.</value>
+    <value>גרור {0} קטגורית מוצרים כדי לשנות סדר.</value>
   </data>
   <data name="InventoryConsumption" xml:space="preserve">
     <value>צריכת מלאי</value>
@@ -2117,7 +2117,7 @@ Error Message:
     <value>Alphanumeric</value>
   </data>
   <data name="NumericTags" xml:space="preserve">
-    <value>Numeric Tags</value>
+    <value>תגיות מספריות</value>
   </data>
   <data name="Management" xml:space="preserve">
     <value>ניהול</value>
@@ -2171,7 +2171,7 @@ Error Message:
     <value>Order Tag Value</value>
   </data>
   <data name="Total_f" xml:space="preserve">
-    <value>{0} Total</value>
+    <value>{0} סה"כ</value>
   </data>
   <data name="EntityScreen" xml:space="preserve">
     <value>מסך ישות</value>
@@ -2216,7 +2216,7 @@ Error Message:
     <value>Update Moved Entity Color</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>כן</value>
   </data>
   <data name="PortionPrices" xml:space="preserve">
     <value>מחירי מנה</value>
@@ -2252,7 +2252,7 @@ Error Message:
     <value>מספר כרטיס: {0}</value>
   </data>
   <data name="StopProductTimers" xml:space="preserve">
-    <value>Stop Product Timers</value>
+    <value>עצור טיימרים של מוצר</value>
   </data>
   <data name="AccountTransactionType" xml:space="preserve">
     <value>Account Transaction Type</value>
@@ -2267,7 +2267,7 @@ Error Message:
     <value>שכפול: {0}</value>
   </data>
   <data name="OrderCount" xml:space="preserve">
-    <value>Order Count</value>
+    <value>מס' הזמנות</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Order</value>
@@ -2285,7 +2285,7 @@ Error Message:
     <value>Min Time</value>
   </data>
   <data name="Task" xml:space="preserve">
-    <value>Task</value>
+    <value>משימה</value>
   </data>
   <data name="CustomField" xml:space="preserve">
     <value>Custom Field</value>
@@ -2354,7 +2354,7 @@ Error Message:
     <value>הצגת חלון קופץ</value>
   </data>
   <data name="TicketMoved" xml:space="preserve">
-    <value>Ticket Moved</value>
+    <value>כרטיס הועבר</value>
   </data>
   <data name="DocumentNo" xml:space="preserve">
     <value>מס' מסמך</value>
@@ -2411,7 +2411,7 @@ Error Message:
     <value>חיפוש ישות</value>
   </data>
   <data name="ThisMonth" xml:space="preserve">
-    <value>This Month</value>
+    <value>חודש נוכחי</value>
   </data>
   <data name="MultipleSelection" xml:space="preserve">
     <value>בחירה מרובה</value>
@@ -2429,25 +2429,25 @@ Error Message:
     <value>Twelve</value>
   </data>
   <data name="TicketTagGroup" xml:space="preserve">
-    <value>Tag Group</value>
+    <value>תג קבוצה</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
   <data name="CanNavigateCash" xml:space="preserve">
-    <value>Can Enter Cash Screen</value>
+    <value>יכול להכנס למסך התשלומים</value>
   </data>
   <data name="Menu" xml:space="preserve">
     <value>תפריט</value>
   </data>
   <data name="PrintJobList" xml:space="preserve">
-    <value>Print Job List</value>
+    <value>רשימת משימות הדפסה</value>
   </data>
   <data name="FooterTemplate" xml:space="preserve">
     <value>Footer Template</value>
   </data>
   <data name="TagName" xml:space="preserve">
-    <value>Tag Name</value>
+    <value>שם תג</value>
   </data>
   <data name="RuleAction" xml:space="preserve">
     <value>Action</value>
@@ -2492,13 +2492,13 @@ Error Message:
     <value>מסכי ישויות</value>
   </data>
   <data name="OrderStatus" xml:space="preserve">
-    <value>Order Status</value>
+    <value>מצב ההזמנה</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>מנהל</value>
   </data>
   <data name="NoPurchaseTransactionInCurrentDateRange" xml:space="preserve">
-    <value>There are no purchase transactions in date range.</value>
+    <value>אין עסקאות רכישה בטווח התאריכים.</value>
   </data>
   <data name="OnlyOpenTickets" xml:space="preserve">
     <value>כרטיסים פתוחים בלבד</value>
@@ -2516,7 +2516,7 @@ Error Message:
     <value>ניתן להציג דוחות</value>
   </data>
   <data name="TicketRemainingAmount" xml:space="preserve">
-    <value>Remaining Ticket Amount</value>
+    <value>סכום נותר בכרטיס</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -2537,7 +2537,7 @@ Error Message:
     <value>Change Total</value>
   </data>
   <data name="StopTimer" xml:space="preserve">
-    <value>Stop Timer</value>
+    <value>עצור טיימר</value>
   </data>
   <data name="Html" xml:space="preserve">
     <value>HTML</value>
@@ -2567,7 +2567,7 @@ Error Message:
     <value>Expression Builder</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background Color</value>
+    <value>צבע רקע</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Open</value>
@@ -2591,10 +2591,10 @@ Error Message:
     <value>הגדרות מקומיות</value>
   </data>
   <data name="ReportDoesNotContainsCashState" xml:space="preserve">
-    <value>Report does not contain Start Amounts</value>
+    <value>דוח לא כולל סכומים התחלתיים</value>
   </data>
   <data name="ChangeAmount_f" xml:space="preserve">
-    <value>Change Due: {0}</value>
+    <value>עודף ללקוח: {0}</value>
   </data>
   <data name="Color" xml:space="preserve">
     <value>צבע</value>
@@ -2682,7 +2682,7 @@ Error Message:
     <value>Change Amount Updated</value>
   </data>
   <data name="TaxAmount" xml:space="preserve">
-    <value>Tax Amount</value>
+    <value>סכום מע"מ</value>
   </data>
   <data name="TicketClosing" xml:space="preserve">
     <value>סגירת כרטיס</value>
@@ -2703,13 +2703,13 @@ Error Message:
     <value>שורות מקובצות לפי קוד קבוצה</value>
   </data>
   <data name="PriceDefinition" xml:space="preserve">
-    <value>Price Definition</value>
+    <value>הגדרת מחיר</value>
   </data>
   <data name="ShowMessage" xml:space="preserve">
     <value>Show Message</value>
   </data>
   <data name="UserRoleName" xml:space="preserve">
-    <value>Role Name</value>
+    <value>שם תפקיד</value>
   </data>
   <data name="Line" xml:space="preserve">
     <value>שורה</value>
@@ -2739,13 +2739,13 @@ Error Message:
     <value>Trigger</value>
   </data>
   <data name="AutoRounding" xml:space="preserve">
-    <value>Auto Rounding</value>
+    <value>עיגול אוטומטי</value>
   </data>
   <data name="LoadLastOrder" xml:space="preserve">
     <value>Load Last Order</value>
   </data>
   <data name="TotalWorkTimeHours_f" xml:space="preserve">
-    <value>Total Work Time: {0:0} hours {1:0} minutes</value>
+    <value>סה"כ משמרת עבודה: {0:0} שעות {1:0} דקות</value>
   </data>
   <data name="UpdateNewOrderEntityColor" xml:space="preserve">
     <value>Update New Order Entity Color</value>
@@ -2766,7 +2766,7 @@ Error Message:
     <value>Equals</value>
   </data>
   <data name="CharacterSet" xml:space="preserve">
-    <value>Character Set</value>
+    <value>ערכת תווים</value>
   </data>
   <data name="Recipes" xml:space="preserve">
     <value>מתכונים</value>
@@ -2835,7 +2835,7 @@ Error Message:
     <value>Week</value>
   </data>
   <data name="CheckDBVersion" xml:space="preserve">
-    <value>נא לבדוק גרסת מסד נתונים</value>
+    <value>בדוק גרסת מסד נתונים</value>
   </data>
   <data name="InventoryItemName" xml:space="preserve">
     <value>שם פריט מלאי</value>
@@ -2865,7 +2865,7 @@ Error Message:
     <value>תג מוצר</value>
   </data>
   <data name="TaskType" xml:space="preserve">
-    <value>Task Type</value>
+    <value>סוג משימה</value>
   </data>
   <data name="TransactionTotal" xml:space="preserve">
     <value>Transaction Total</value>
@@ -2904,7 +2904,7 @@ Error Message:
     <value>{0} Transaction</value>
   </data>
   <data name="SalesDivTicket" xml:space="preserve">
-    <value>Sales Total / Ticket</value>
+    <value>סה"כ מכירות \ כרטיסים</value>
   </data>
   <data name="ProgramLanguage" xml:space="preserve">
     <value>שפת התוכנה</value>
@@ -2913,7 +2913,7 @@ Error Message:
     <value>כרטיסים ממוזגים</value>
   </data>
   <data name="NewTicketCreatingRule" xml:space="preserve">
-    <value>New Ticket Creating Rule</value>
+    <value>כלל יצירת כרטיס חדש</value>
   </data>
   <data name="SortType" xml:space="preserve">
     <value>Sort Type</value>
@@ -2937,7 +2937,7 @@ Error Message:
     <value>Calculation Type</value>
   </data>
   <data name="TicketTotal_f" xml:space="preserve">
-    <value>Total {0}:</value>
+    <value>סה"כ {0}:</value>
   </data>
   <data name="CanReleaseTicketLock" xml:space="preserve">
     <value>באפשרותך להסיר נעילת כרטיס</value>
@@ -2985,13 +2985,13 @@ Error Message:
     <value>Auto Refresh</value>
   </data>
   <data name="DayDate" xml:space="preserve">
-    <value>Date of Day</value>
+    <value>תאריך של יום</value>
   </data>
   <data name="AccountPermissions" xml:space="preserve">
     <value>Account Permissions</value>
   </data>
   <data name="TotalWorkTimeMinutes_f" xml:space="preserve">
-    <value>Total Work Time: {0:0} minutes</value>
+    <value>סה"כ משמרת עבודה: {0:0} דקות</value>
   </data>
   <data name="DisplaySettings" xml:space="preserve">
     <value>Display Settings</value>
@@ -3012,7 +3012,7 @@ Error Message:
     <value>Message</value>
   </data>
   <data name="ChargedAmount" xml:space="preserve">
-    <value>Charged</value>
+    <value>חוייב</value>
   </data>
   <data name="PrinterType" xml:space="preserve">
     <value>סוג מדפסת</value>
@@ -3033,7 +3033,7 @@ Error Message:
     <value>מחיקת: {0}</value>
   </data>
   <data name="IncludeTax" xml:space="preserve">
-    <value>Include Tax</value>
+    <value>כלול מע"מ</value>
   </data>
   <data name="OpenClose_ab" xml:space="preserve">
     <value>שעה</value>
@@ -3054,14 +3054,14 @@ Error Message:
     <value>Seller Warehouse</value>
   </data>
   <data name="GiftTotal" xml:space="preserve">
-    <value>Gift Total</value>
+    <value>סה"כ מתנות</value>
   </data>
   <data name="EmptyNameError" xml:space="preserve">
     <value>נא לא להשאיר שם {0} ריק.</value>
   </data>
   <data name="ThereAreOpenTicketsWarning_f" xml:space="preserve">
-    <value>There are {0} open tickets.
-Can't end Work Period while tickets open</value>
+    <value>ישנם עדיין {0} כרטיסים פתוחים.
+אין אפשרות לסיים משמרת עבודה כאשר יש עדיין כרטיסים פתוחים</value>
   </data>
   <data name="HalfPast" xml:space="preserve">
     <value>Half past</value>
@@ -3103,10 +3103,10 @@ Can't end Work Period while tickets open</value>
     <value>מדפסת דוחות</value>
   </data>
   <data name="PriceDefinitions" xml:space="preserve">
-    <value>Price Definitions</value>
+    <value>הגדרות מחיר</value>
   </data>
   <data name="SortCategoryProductsDialogHint_f" xml:space="preserve">
-    <value>Drag {0} category products to change order.</value>
+    <value>גרור {0} קטגורית מוצרים כדי לשנות סדר.</value>
   </data>
   <data name="Void" xml:space="preserve">
     <value>מחיקה</value>
@@ -3115,7 +3115,7 @@ Can't end Work Period while tickets open</value>
     <value>מנות</value>
   </data>
   <data name="SortOrder" xml:space="preserve">
-    <value>מיון הזמנה</value>
+    <value>מיון סדר</value>
   </data>
   <data name="CantDeletePastEndOfDayRecords" xml:space="preserve">
     <value>אין אפשרות למחוק רשומות סוף יום ישנות</value>
@@ -3130,7 +3130,7 @@ Can't end Work Period while tickets open</value>
     <value>Twenty</value>
   </data>
   <data name="MoveTicketLine" xml:space="preserve">
-    <value>Move</value>
+    <value>העברת</value>
   </data>
   <data name="Ninety" xml:space="preserve">
     <value>Ninety</value>
@@ -3145,7 +3145,7 @@ Can't end Work Period while tickets open</value>
     <value>שם מדפסת</value>
   </data>
   <data name="List" xml:space="preserve">
-    <value>List</value>
+    <value>רשימה</value>
   </data>
   <data name="DeleteItemConfirmation_f" xml:space="preserve">
     <value>האם למחוק את {0} [{1}]?</value>
@@ -3340,7 +3340,7 @@ Can't end Work Period while tickets open</value>
     <value>Show on Product Report</value>
   </data>
   <data name="TaxTotal" xml:space="preserve">
-    <value>Tax Total</value>
+    <value>סה"כ מע"מ</value>
   </data>
   <data name="Toggle" xml:space="preserve">
     <value>Toggle</value>
