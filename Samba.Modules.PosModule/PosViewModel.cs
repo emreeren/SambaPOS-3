@@ -188,7 +188,6 @@ namespace Samba.Modules.PosModule
         {
             if (eventParameters.Topic == EventTopicNames.EntitySelected)
             {
-                FireEntitySelectedRule(eventParameters.Value.SelectedItem);
                 if (SelectedTicket != null)
                 {
                     _ticketService.UpdateEntity(SelectedTicket, eventParameters.Value.SelectedItem);
@@ -237,6 +236,7 @@ namespace Samba.Modules.PosModule
                     }
                     EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView);
                 }
+                FireEntitySelectedRule(eventParameters.Value.SelectedItem);
             }
         }
 
@@ -255,6 +255,7 @@ namespace Samba.Modules.PosModule
                             EntityCustomData = entity.CustomData,
                             IsTicketSelected = SelectedTicket != null
                         });
+                    EventServiceFactory.EventService.PublishEvent(EventTopicNames.ActivatePosView); //Refreshes the view of the ticket => refactor this to a "RefreshTicketView"-Action
                 }
             }
         }
