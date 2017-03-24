@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using Samba.Domain.Models.Accounts;
 using Samba.Domain.Models.Automation;
 using Samba.Domain.Models.Entities;
@@ -17,7 +18,7 @@ namespace Samba.Persistance.Data
     public class DataContext : CommonDbContext
     {
         public DataContext(bool disableProxy)
-            : base(LocalSettings.AppName)
+            : base(new SqlConnectionStringBuilder(LocalSettings.ConnectionString).InitialCatalog)
         {
             if (disableProxy)
                 ObjContext().ContextOptions.ProxyCreationEnabled = false;
@@ -111,6 +112,20 @@ namespace Samba.Persistance.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            string schemaName = LocalSettings.DatabaseSchema;
+
+            ConfigurePropertiesForModelEntities(modelBuilder, schemaName);
+
+            if (!string.IsNullOrWhiteSpace(schemaName))
+            {
+                ConfigureTableAndSchemaForModelEntities(modelBuilder, schemaName);
+            }
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        protected virtual void ConfigurePropertiesForModelEntities(DbModelBuilder modelBuilder, string schemaName)
+        {
             modelBuilder.Entity<Script>().Property(x => x.Code).IsMaxLength();
             modelBuilder.Entity<Entity>().Property(x => x.CustomData).IsMaxLength();
             modelBuilder.Entity<Ticket>().Property(x => x.TicketTags).IsMaxLength();
@@ -131,8 +146,16 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<ScreenMenuCategory>().Property(x => x.SubButtonColorDef).IsMaxLength();
             modelBuilder.Entity<Task>().Property(x => x.CustomData).IsMaxLength();
 
-            modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
-            modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();
+            if (!string.IsNullOrWhiteSpace(schemaName))
+            {
+                modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany().Map(m => { m.ToTable("CalculationSelectorCalculationTypes", schemaName); });
+                modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany().Map(m => { m.ToTable("AccountTransactionDocumentTypeAccountTransactionTypes", schemaName); });
+            }
+            else
+            {
+                modelBuilder.Entity<CalculationSelector>().HasMany(x => x.CalculationTypes).WithMany();
+                modelBuilder.Entity<AccountTransactionDocumentType>().HasMany(x => x.TransactionTypes).WithMany();
+            }
 
             modelBuilder.Entity<WarehouseConsumption>().HasKey(p => new { p.Id, p.PeriodicConsumptionId });
             modelBuilder.Entity<WarehouseConsumption>().Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
@@ -285,7 +308,106 @@ namespace Samba.Persistance.Data
             modelBuilder.Entity<ProductTimerValue>().Property(x => x.TimeRounding).HasPrecision(precision, scale);
 
             modelBuilder.Entity<Numerator>().Property(x => x.LastUpdateTime).IsConcurrencyToken().HasColumnType("timestamp");
-            base.OnModelCreating(modelBuilder);
+        }
+
+        protected virtual void ConfigureTableAndSchemaForModelEntities(DbModelBuilder modelBuilder, string schemaName)
+        {
+            //// Note: this version of EF doesn't support changing the schema
+            //// in a single place and it must be specified for every entity
+
+            modelBuilder.Entity<MenuItem>().ToTable("MenuItems", schemaName);
+            modelBuilder.Entity<MenuItemPortion>().ToTable("MenuItemPortions", schemaName);
+            modelBuilder.Entity<ScreenMenuCategory>().ToTable("ScreenMenuCategories", schemaName);
+            modelBuilder.Entity<ScreenMenuItem>().ToTable("ScreenMenuItems", schemaName);
+            modelBuilder.Entity<TicketType>().ToTable("TicketTypes", schemaName);
+            modelBuilder.Entity<Department>().ToTable("Departments", schemaName);
+            modelBuilder.Entity<User>().ToTable("Users", schemaName);
+            modelBuilder.Entity<UserRole>().ToTable("UserRoles", schemaName);
+            modelBuilder.Entity<Terminal>().ToTable("Terminals", schemaName);
+            modelBuilder.Entity<Printer>().ToTable("Printers", schemaName);
+            modelBuilder.Entity<PrintJob>().ToTable("PrintJobs", schemaName);
+            modelBuilder.Entity<ProgramSettingValue>().ToTable("ProgramSettingValues", schemaName);
+            modelBuilder.Entity<PrinterMap>().ToTable("PrinterMaps", schemaName);
+            modelBuilder.Entity<PrinterTemplate>().ToTable("PrinterTemplates", schemaName);
+            modelBuilder.Entity<Numerator>().ToTable("Numerators", schemaName);
+            modelBuilder.Entity<WorkPeriod>().ToTable("WorkPeriods", schemaName);
+            modelBuilder.Entity<PaidItem>().ToTable("PaidItems", schemaName);
+            modelBuilder.Entity<Ticket>().ToTable("Tickets", schemaName);
+            modelBuilder.Entity<TicketEntity>().ToTable("TicketEntities", schemaName);
+            modelBuilder.Entity<Order>().ToTable("Orders", schemaName);
+            modelBuilder.Entity<OrderTag>().ToTable("OrderTags", schemaName);
+            modelBuilder.Entity<OrderTagGroup>().ToTable("OrderTagGroups", schemaName);
+            modelBuilder.Entity<OrderTagMap>().ToTable("OrderTagMaps", schemaName);
+            modelBuilder.Entity<ProductTimer>().ToTable("ProductTimers", schemaName);
+            modelBuilder.Entity<ProdcutTimerMap>().ToTable("ProdcutTimerMaps", schemaName);
+            modelBuilder.Entity<ProductTimerValue>().ToTable("ProductTimerValues", schemaName);
+            modelBuilder.Entity<ScreenMenu>().ToTable("ScreenMenus", schemaName);
+            modelBuilder.Entity<Permission>().ToTable("Permissions", schemaName);
+            modelBuilder.Entity<WarehouseType>().ToTable("WarehouseTypes", schemaName);
+            modelBuilder.Entity<Warehouse>().ToTable("Warehouses", schemaName);
+            modelBuilder.Entity<InventoryItem>().ToTable("InventoryItems", schemaName);
+            modelBuilder.Entity<Recipe>().ToTable("Recipes", schemaName);
+            modelBuilder.Entity<RecipeItem>().ToTable("RecipeItems", schemaName);
+            modelBuilder.Entity<InventoryTransactionType>().ToTable("InventoryTransactionTypes", schemaName);
+            modelBuilder.Entity<InventoryTransactionDocumentType>().ToTable("InventoryTransactionDocumentTypes", schemaName);
+            modelBuilder.Entity<InventoryTransactionDocument>().ToTable("InventoryTransactionsDocuments", schemaName);
+            modelBuilder.Entity<InventoryTransaction>().ToTable("InventoryTransactions", schemaName);
+            modelBuilder.Entity<PeriodicConsumption>().ToTable("PeriodicConsumptions", schemaName);
+            modelBuilder.Entity<WarehouseConsumption>().ToTable("WarehouseConsumptions", schemaName);
+            modelBuilder.Entity<PeriodicConsumptionItem>().ToTable("PeriodicConsumptionItems", schemaName);
+            modelBuilder.Entity<CostItem>().ToTable("CostItems", schemaName);
+            modelBuilder.Entity<TicketTag>().ToTable("TicketTags", schemaName);
+            modelBuilder.Entity<TicketTagGroup>().ToTable("TicketTagGroups", schemaName);
+            modelBuilder.Entity<TicketTagMap>().ToTable("TicketTagMaps", schemaName);
+            modelBuilder.Entity<AppAction>().ToTable("AppActions", schemaName);
+            modelBuilder.Entity<ActionContainer>().ToTable("ActionContainers", schemaName);
+            modelBuilder.Entity<AppRule>().ToTable("AppRules", schemaName);
+            modelBuilder.Entity<AppRuleMap>().ToTable("AppRuleMaps", schemaName);
+            modelBuilder.Entity<Trigger>().ToTable("Triggers", schemaName);
+            modelBuilder.Entity<AutomationCommand>().ToTable("AutomationCommands", schemaName);
+            modelBuilder.Entity<AutomationCommandMap>().ToTable("AutomationCommandMaps", schemaName);
+            modelBuilder.Entity<MenuItemPriceDefinition>().ToTable("MenuItemPriceDefinitions", schemaName);
+            modelBuilder.Entity<MenuItemPrice>().ToTable("MenuItemPrices", schemaName);
+            modelBuilder.Entity<MenuAssignment>().ToTable("MenuAssignments", schemaName);
+            modelBuilder.Entity<TaxTemplate>().ToTable("TaxTemplates", schemaName);
+            modelBuilder.Entity<TaxTemplateMap>().ToTable("TaxTemplateMaps", schemaName);
+            modelBuilder.Entity<CalculationType>().ToTable("CalculationTypes", schemaName);
+            modelBuilder.Entity<CalculationSelector>().ToTable("CalculationSelectors", schemaName);
+            modelBuilder.Entity<CalculationSelectorMap>().ToTable("CalculationSelectorMaps", schemaName);
+            modelBuilder.Entity<Calculation>().ToTable("Calculations", schemaName);
+            modelBuilder.Entity<ForeignCurrency>().ToTable("ForeignCurrencies", schemaName);
+            modelBuilder.Entity<PaymentType>().ToTable("PaymentTypes", schemaName);
+            modelBuilder.Entity<PaymentTypeMap>().ToTable("PaymentTypeMaps", schemaName);
+            modelBuilder.Entity<Payment>().ToTable("Payments", schemaName);
+            modelBuilder.Entity<ChangePayment>().ToTable("ChangePayments", schemaName);
+            modelBuilder.Entity<ChangePaymentType>().ToTable("ChangePaymentTypes", schemaName);
+            modelBuilder.Entity<ChangePaymentTypeMap>().ToTable("ChangePaymentTypeMaps", schemaName);
+            modelBuilder.Entity<Account>().ToTable("Accounts", schemaName);
+            modelBuilder.Entity<AccountType>().ToTable("AccountTypes", schemaName);
+            modelBuilder.Entity<AccountScreen>().ToTable("AccountScreens", schemaName);
+            modelBuilder.Entity<AccountScreenValue>().ToTable("AccountScreenValues", schemaName);
+            modelBuilder.Entity<AccountTransaction>().ToTable("AccountTransactions", schemaName);
+            modelBuilder.Entity<AccountTransactionValue>().ToTable("AccountTransactionValues", schemaName);
+            modelBuilder.Entity<AccountTransactionType>().ToTable("AccountTransactionTypes", schemaName);
+            modelBuilder.Entity<AccountTransactionDocumentTypeMap>().ToTable("AccountTransactionDocumentTypeMaps", schemaName);
+            modelBuilder.Entity<AccountTransactionDocumentAccountMap>().ToTable("AccountTransactionDocumentAccountMaps", schemaName);
+            modelBuilder.Entity<AccountTransactionDocument>().ToTable("AccountTransactionDocuments", schemaName);
+            modelBuilder.Entity<AccountTransactionDocumentType>().ToTable("AccountTransactionDocumentTypes", schemaName);
+            modelBuilder.Entity<Entity>().ToTable("Entities", schemaName);
+            modelBuilder.Entity<EntityType>().ToTable("EntityTypes", schemaName);
+            modelBuilder.Entity<EntityTypeAssignment>().ToTable("EntityTypeAssignments", schemaName);
+            modelBuilder.Entity<EntityCustomField>().ToTable("EntityCustomFields", schemaName);
+            modelBuilder.Entity<EntityScreenItem>().ToTable("EntityScreenItems", schemaName);
+            modelBuilder.Entity<EntityScreen>().ToTable("EntityScreens", schemaName);
+            modelBuilder.Entity<EntityScreenMap>().ToTable("EntityScreenMaps", schemaName);
+            modelBuilder.Entity<Widget>().ToTable("Widgets", schemaName);
+            modelBuilder.Entity<State>().ToTable("States", schemaName);
+            modelBuilder.Entity<EntityStateValue>().ToTable("EntityStateValues", schemaName);
+            modelBuilder.Entity<Script>().ToTable("Scripts", schemaName);
+            modelBuilder.Entity<Task>().ToTable("Tasks", schemaName);
+            modelBuilder.Entity<TaskCustomField>().ToTable("TaskCustomFields", schemaName);
+            modelBuilder.Entity<TaskToken>().ToTable("TaskResources", schemaName);
+            modelBuilder.Entity<TaskType>().ToTable("TaskTypes", schemaName);
         }
     }
 }
