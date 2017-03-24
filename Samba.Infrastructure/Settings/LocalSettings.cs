@@ -17,6 +17,7 @@ namespace Samba.Infrastructure.Settings
         public string MessagingServerName { get; set; }
         public string TerminalName { get; set; }
         public string ConnectionString { get; set; }
+        public string DatabaseSchema { get; set; }
         public bool StartMessagingClient { get; set; }
         public string LogoPath { get; set; }
         public string DefaultHtmlReportHeader { get; set; }
@@ -104,6 +105,12 @@ html
         {
             get { return _settingsObject.ConnectionString; }
             set { _settingsObject.ConnectionString = value; }
+        }
+
+        public static string DatabaseSchema
+        {
+            get { return _settingsObject.DatabaseSchema; }
+            set { _settingsObject.DatabaseSchema = value; }
         }
 
         public static bool StartMessagingClient
