@@ -1,4 +1,4 @@
-#SambaPOS Touch Screen POS Software
+# SambaPOS Touch Screen POS Software
 
 More Information
 http://emreeren.github.com/SambaPOS-3/
